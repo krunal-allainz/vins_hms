@@ -5,31 +5,17 @@
   			<div class="col-md-6">
   				<h1>Counselling Form</h1>
   			</div>
-  			<div class="col-md-6">
-  				<div class="text-right">
-  					DOC NO. F/IPD/63 <br>
-  					REV. No. 0.1 <br>
-  					WEF 10-04-2017
-  				</div>
-  			</div>
   		</div>
   	</div>
   	<hr>
   	<form>
-      <div class="row form-group">
-        <div class="col-md-8">
-          <div class="col-md-6">
-            <label>IPD : </label>
-          </div>
-          <div class="col-md-4">
-            <input class="form-control" name="ipd_id" type="text" id="ipd_id" v-model="ipd_id" v-validate="'required|numeric'"/>
-            <span class="help is-danger" v-show="errors.has('ipd_id')">
-              Numeric values only.
-            </span>
-          </div>
+      <div class="row">
+        <div class="col-md-6">
         </div>
-        <div class="col-md-4">
-  				<addressograph></addressograph>
+        <div class="col-md-6">
+  				<div class="text-right">
+            <addressograph></addressograph>  
+          </div>
   			</div>
       </div>
   		<div class="table-responsive">
@@ -49,9 +35,9 @@
 
   						<td>{{n}}</td>
 
-  						<td><input class="form-control ls-datepicker" type="text" id = "'date_'+n" :name="'date_'+n" v-model="counsellingFormData.counselling[n].date" /></td>
-  						<td><input class="form-control ls-timepicker" type="text" id = "'tim e_'+n" :name="'time_'+n" v-model="counsellingFormData.counselling[n].time" /></td>
-  						<td><input class="form-control" type="text" :name="'counsellor_'+n" v-model="counsellingFormData.counselling[n].counsellor" /></td> 
+  						<td><input class="form-control " type="date" id = "'date_'+n" :name="'date_'+n" v-model="counsellingFormData.counselling[n].date" /></td>
+  						<td><input class="form-control " type="time" id = "'tim e_'+n" :name="'time_'+n" v-model="counsellingFormData.counselling[n].time" /></td>
+  						<td><input class="form-control" type="text" :name="'counsellor_'+n" v-model="counsellingFormData.counselling[n].counsellor" /></td>
   						<td><input class="form-control" type="text" :name="'relatives_name_'+n" v-model="counsellingFormData.counselling[n].relatives_name" /></td>
   						<td><input class="form-control" type="text" :name="'remarks_'+n" v-model="counsellingFormData.counselling[n].remarks" /></td>
   					</tr>
@@ -129,9 +115,9 @@
 			 },
 
        mounted() {
-          if(this.ipd_id == 0){
+          // if(this.ipd_id == 0){
             $('#delete_modal').modal('show');
-          }
+          // }
           $('.ls-timepicker').timepicker({
             format: 'hh-mm',
                      'autoclose': true

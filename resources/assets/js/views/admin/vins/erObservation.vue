@@ -3,38 +3,21 @@
 	<div class="page-header">
 		<div class="row">
 			<div class="col-md-6">
-			<h1>ER Observation</h1>
-			</div>
-			<div class="col-md-6">
-				<div class="text-right">
-					DOC NO. FMT/HIC/09 <br>
-					REV. No. 0.1 <br>
-					WEF 10-10-2015
-				</div>
+				<h1>ER Observation</h1>
 			</div>
 		</div>
 	</div>
-
 	<hr>
 
-	<form action="" method="post">
+	<form method="post">
 
-		<div class="row form-group">
-			<div class="col-md-8">
-				<div class="row">
-					<div class="col-md-6">
-						<label for="">IPD No.</label>
-					</div>
-					<div class="col-md-6">
-						<input type="text" class="form-control" name="ipd_no" value="" v-model="ipd_id" v-validate="'required|numeric'">
-						<span class="help is-danger" v-show="errors.has('ipd_no')">
-							Numeric Field is required
-						</span>
-					</div>
-				</div>
+		<div class="row">
+			<div class="col-md-6">
 			</div>
-			<div class="col-md-4">
-				<addressograph></addressograph>
+			<div class="col-md-6">
+				<div class="text-right">
+					<addressograph></addressograph>	
+				</div>
 			</div>
 		</div>
 		<div class="row form-group">
@@ -44,7 +27,7 @@
 						<label for="date">Date : </label>
 					</div>
 					<div class="col-md-6">
-						<input class="form-control ls-datepicker"  id = "date" type="text" name="date" value="" />
+						<input class="form-control"  id = "date" type="date" name="date" value="" />
 					</div>
 				</div>
 			</div>
@@ -100,7 +83,7 @@
 					<tr>
 						<th>Time </th>
 						<th v-for="ti in 3">
-							<input class="form-control ls-timepicker" type="text" :name="'time_'+ti" id = "" value="'time_'+ti" v-model="erObservationData.vitals.time[ti]" v-validate="'required'">
+							<input class="form-control" type="time" :name="'time_'+ti" id = "" value="'time_'+ti" v-model="erObservationData.vitals.time[ti]" v-validate="'required'">
 							<span class="help is-danger" v-show="errors.has('time_'+ti)">
 								Field is required
 							</span>
@@ -188,10 +171,10 @@
 							<input type="text" :name="'quantity_'+m" class="form-control" value=" " v-model="erObservationData.iv[m].quantity">
 					 </td>
 						<td>
-							<input type="text" :name="'start_time_'+m" id = "'start_time_'+m" class="form-control ls-timepicker" value=" " v-model="erObservationData.iv[m].start_time">
+							<input type="time" :name="'start_time_'+m" id = "'start_time_'+m" class="form-control" value=" " v-model="erObservationData.iv[m].start_time">
 					</td>
 						<td>
-							<input type="text" :name="'end_time_'+m" id = "'end_time_'+m" class="form-control ls-timepicker" value=" " v-model="erObservationData.iv[m].end_time">
+							<input type="time" :name="'end_time_'+m" id = "'end_time_'+m" class="form-control" value=" " v-model="erObservationData.iv[m].end_time">
 					</td>
 						<td>
 							<input type="text" :name="'remarks_'+m" class="form-control" value=" " v-model="erObservationData.iv[m].remarks">
@@ -232,7 +215,7 @@
 							<input type="text" :name="'administration_by_'+n"  class="form-control" id = "'administration_by_'+n"  value=" " v-model="erObservationData.medication_administration[n].administration_by">
 						</td>
 						<td>
-							<input type="text" :name="'medication_time_'+n" id = "'medication_time_'+n" class="form-control ls-timepicker" value=" " v-model="erObservationData.medication_administration[n].medication_time">
+							<input type="time" :name="'medication_time_'+n" id = "'medication_time_'+n" class="form-control" value=" " v-model="erObservationData.medication_administration[n].medication_time">
 						</td>
 				  </tr>
 				</tbody>
@@ -271,6 +254,7 @@
 			<button class="btn btn-success" type="button" @click="saveerObservation()">Submit</button>
 		</div>
 	</form>
+	  <select-patient-modal @confirmed="deleteConfirmed()"></select-patient-modal>
 </div>
 </body>
 </template>
@@ -278,6 +262,8 @@
 <script >
 	import User from '../../../api/users.js';
 	import addressograph from './addressograph.vue';
+	 import SelectPatientModal from '../../../components/SelectPatientModal.vue';
+	
     export default {
         data() {
             return {
@@ -412,6 +398,7 @@
 
 				components: {
 					 addressograph,
+					 SelectPatientModal
 			 },
 
 			 mounted() {
@@ -420,6 +407,8 @@
          'autoclose': true
 
 			 });
+           $('#delete_modal').modal('show');
+
 				 $('.ls-timepicker').timepicker({
 						 format:'hh:mm',
 						 'autoclose': true
