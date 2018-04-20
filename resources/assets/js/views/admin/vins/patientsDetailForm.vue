@@ -67,9 +67,11 @@
 						<label class="control-label" for="sex">Gender: </label>
 					</div>
 					<div class="col-md-6">
-						<select class="form-control ls-select2" id="sex" name="sex" v-model="patientData.gender" >
-							<option value="M">Male</option>
+
+						<select class="form-control " id="sex" name="sex" v-model="patientData.gender" >
+							<option value="M" >Male</option>
 							<option value="F">Female</option>
+
 						</select>
 						<!--span class="help is-danger" v-show="errors.has('sex')">
 		                	Field is required
