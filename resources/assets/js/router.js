@@ -94,9 +94,8 @@ import NewUser from './views/admin/vins/newUser.vue'
 import UserList from './views/admin/vins/UserList.vue'
 import vascularExamination from './views/admin/vins/vascularExamination.vue'
 import neuroExamination from './views/admin/vins/neuroExamination.vue'
-// simport changePwd from './views/emails/ChangePwd.vue'
-
 import investigations from './components/investigations.vue'
+
 
 Vue.use(VueRouter)
 
@@ -473,16 +472,12 @@ const routes = [
                 component: neuroExamination,
                 name: 'neuroExamination'
             },
-            // {
-            //     path: '/changePwd',
-            //     component: changePwd,
-            //     name: 'changePwd'
-            // },
             {
                 path: '/laboratory',
                 component: laboratory,
                 name: 'laboratory'
             },
+
             {
                 path: '/investigations',
                 component: investigations,
@@ -494,32 +489,10 @@ const routes = [
                 component: UserList,
                 meta: { requiresAuth: true },
                 name: 'UserList'
-            },
-
-
-
-            // {
-            //     path: '/schedule_results/:tournamentslug',
-            //     component: FrontSchedule,
-            //     name: 'front_schedule'
-            // },
-
-        ]
+            }
+            ]
     },
 
-   /* {
-        path: '/', component: LayoutHorizontal,
-        meta: { requiresAuth: true },
-        children: [
-            {
-                path: '/',
-                component: Welcome,
-                name: 'welcome'
-            },
-        ]
-    },*/
-
-    // Admin Backend Routes For Tournaments
     {
         path: '/admin', component: LayoutLogin,
         meta: { requiresAuth: true },
@@ -556,21 +529,21 @@ const router = new VueRouter({
     linkActiveClass: 'active'
 })
 
-router.beforeEach((to, from, next) => {
+// router.beforeEach((to, from, next) => {
 
-    // If the next route is requires user to be Logged IN
-    if (to.matched.some(m => m.meta.requiresAuth)){
+//     // If the next route is requires user to be Logged IN
+//     if (to.matched.some(m => m.meta.requiresAuth)){
 
-        return AuthService.check().then(authenticated => {
-            if(!authenticated){
-                return next({ path : '/login'})
-            }
+//         return AuthService.check().then(authenticated => {
+//             if(!authenticated){
+//                 return next({ path : '/login'})
+//             }
 
-            return next()
-        })
-    }
+//             return next()
+//         })
+//     }
 
-    return next()
-});
+//     return next()
+// });
 
 export default router

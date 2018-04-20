@@ -55,7 +55,7 @@ class PatientsDetailFormController extends Controller
         if($data['case'] == 'new') {
            $patientD =  PatientDetailsForm::get()->last();
            $lastPatientId=$patientD->id;
-           $newPatNo = sprintf("%03d",++$lastPatientId);
+           $newPatNo = sprintf("%04d",++$lastPatientId);
            $insertedPatientId=$uhid.$year.$newPatNo;
 
             $patientData = PatientDetailsForm::create([
