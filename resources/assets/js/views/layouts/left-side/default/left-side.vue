@@ -17,6 +17,9 @@
                     <vmenu-item link="/patients_detail_form" icon="ti-layout">
                         &nbsp; Patients Detail Form
                     </vmenu-item>
+                    <vmenu-item link="/patients_receipt_form" icon="ti-layout">
+                        &nbsp; Patients Receipt Form
+                    </vmenu-item>
 
                 </vmenu>
                 <!-- / .navigation -->
