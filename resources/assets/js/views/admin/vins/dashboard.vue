@@ -12,6 +12,12 @@
 					@click="GetSelectComponent('NewUser')" />
 				</div>
 			</div>
+			<div class="col-md-4">
+				<div class="text-right">
+					<input  type="button" class="btn btn-default" name="userList" value="User Details"
+					@click="GetSelectComponent('UserList')" />
+				</div>
+			</div>
 
 		</div>
 	</div>

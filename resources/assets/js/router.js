@@ -86,18 +86,21 @@ import informationForm from './views/admin/vins/informationForm.vue'
 import investigationSheet from './views/admin/vins/investigationSheet.vue'
 import intraoperativeEventManagement from './views/admin/vins/intraoperativeEventManagement.vue'
 import infusionTherapyChart from './views/admin/vins/infusionTherapyChart.vue'
-// import doctorsInitialAssessment from './views/admin/vins/doctorsInitialAssessment.vue'
+import doctorsInitialAssessment from './views/admin/vins/doctorsInitialAssessment.vue'
 import centralLineBundleChecklist from './views/admin/vins/centralLineBundleChecklist.vue'
 import MARFlowSheet from './views/admin/vins/MARFlowSheet.vue'
 import opdForm from './views/admin/vins/opd_form.vue'
 import laboratory from './views/admin/vins/laboratory.vue'
-import NewUser from './views/admin/vins/newUser'
-
+import NewUser from './views/admin/vins/newUser.vue'
 import vascularExamination from './views/admin/vins/vascularExamination.vue'
 import neuroExamination from './views/admin/vins/neuroExamination.vue'
+
 //import changePwd from './views/emails/ChangePwd.vue'
 
+import UserList from './views/admin/vins/userList.vue'
+
 import investigations from './components/investigations.vue'
+
 
 Vue.use(VueRouter)
 
@@ -134,6 +137,7 @@ const routes = [
             {
                 path: '/opd_form',
                 component: opdForm,
+                meta: { requiresAuth: true },
                 name: 'opd_form'
             },
                        // {
@@ -480,47 +484,34 @@ const routes = [
                 component: neuroExamination,
                 name: 'neuroExamination'
             },
+
             // {
             //     path: '/changePwd',
             //     component: changePwd,
             //     name: 'changePwd'
             // },
+
             {
                 path: '/laboratory',
                 component: laboratory,
                 name: 'laboratory'
             },
+
             {
                 path: '/investigations',
                 component: investigations,
                 name: 'investigations'
 
             },
-
-
-
-            // {
-            //     path: '/schedule_results/:tournamentslug',
-            //     component: FrontSchedule,
-            //     name: 'front_schedule'
-            // },
-
-        ]
+            {
+                path: '/UserList',
+                component: UserList,
+                meta: { requiresAuth: true },
+                name: 'UserList'
+            }
+            ]
     },
 
-   /* {
-        path: '/', component: LayoutHorizontal,
-        meta: { requiresAuth: true },
-        children: [
-            {
-                path: '/',
-                component: Welcome,
-                name: 'welcome'
-            },
-        ]
-    },*/
-
-    // Admin Backend Routes For Tournaments
     {
         path: '/admin', component: LayoutLogin,
         meta: { requiresAuth: true },
@@ -557,21 +548,21 @@ const router = new VueRouter({
     linkActiveClass: 'active'
 })
 
-// router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => {
 
-//     // If the next route is requires user to be Logged IN
-//     if (to.matched.some(m => m.meta.requiresAuth)){
+    // If the next route is requires user to be Logged IN
+    if (to.matched.some(m => m.meta.requiresAuth)){
 
-//         return AuthService.check().then(authenticated => {
-//             if(!authenticated){
-//                 return next({ path : '/login'})
-//             }
+        return AuthService.check().then(authenticated => {
+            if(!authenticated){
+                return next({ path : '/login'})
+            }
 
-//             return next()
-//         })
-//     }
+            return next()
+        })
+    }
 
-//     return next()
-// });
+    return next()
+});
 
 export default router
