@@ -2,10 +2,10 @@
 <div class="nav_profile">
     <div class="media profile-left">
         <a class="float-left profile-thumb" href="javascript:void(0)">
-            <img :src="this.$store.state.user.picture" class="rounded-circle" alt="User Image">
+            <img  alt="User Image">
         </a>
         <div class="content-profile">
-            <h4 class="media-heading user_name_max" v-text="this.$store.state.user.name"></h4>
+            <h4 class="media-heading user_name_max"></h4>
             <ul class="icon-list">
                 <li>
                     <router-link to="/users_list" title="user" exact>

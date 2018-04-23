@@ -67,6 +67,7 @@
 						<label class="control-label" for="sex">Gender: </label>
 					</div>
 					<div class="col-md-6">
+
 						<select class="form-control " id="sex" name="sex" v-model="patientData.gender" >
 							<option value="M" >Male</option>
 							<option value="F">Female</option>
@@ -135,7 +136,6 @@
 			      <label class="control-label" for="consulting_dr">Consulting Dr..: </label>
 					</div>
 					<div class="col-md-6">
-
 						<!-- <input type="text" name=""> -->
 			      	<select class="form-control ls-select2"  id="consulting_dr" name="consulting_dr"  v-model="patientData.consulting_dr">
 

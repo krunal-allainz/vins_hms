@@ -26,18 +26,11 @@ class UserRepository {
     public function getUserDetailsByID($userID) {
         return User::find($userID);
     }
-    public function getUserDetails($data)
+    public function getUserDetails()
     {
-        // dd($data);
-       $email = $data['userData']['email'];
-        $user = User:: join('role_user', 'users.id', '=', 'role_user.user_id')
-                ->join('roles', 'roles.id', '=', 'role_user.role_id')
-                ->where('users.email',trim($email))
-                ->select("users.*", "roles.name as role_name","roles.slug as role_slug",
-                  DB::raw('CONCAT("'.$this->userImagePath.'", users.user_image) AS user_image')
-                  )
-                ->get();
-        return $user;
+        $data = DB::table('users')->get();
+        // dd($data->toArray());
+        return $data;
     }
 
     public function getUsersByRegisterType($data)
