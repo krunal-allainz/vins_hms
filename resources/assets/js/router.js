@@ -93,7 +93,7 @@ import laboratory from './views/admin/vins/laboratory.vue'
 import NewUser from './views/admin/vins/newUser.vue'
 import vascularExamination from './views/admin/vins/vascularExamination.vue'
 import neuroExamination from './views/admin/vins/neuroExamination.vue'
-
+import UserList from './views/admin/vins/userList.vue'
 import investigations from './components/investigations.vue'
 
 
