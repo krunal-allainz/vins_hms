@@ -136,9 +136,10 @@ class UserController extends BaseController
 
     public function getUserDetailsByID(Request $request)
     {
-        // dd($request->all());
         return $this->userRepoObj->getUserDetailsByID($request->all()['userId']);
-
     }
-
+    public function getUserDetails()
+    {
+        return $this->userRepoObj->getUserDetails();
+    }
 }

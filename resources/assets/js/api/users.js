@@ -208,9 +208,15 @@ export default {
   createUser(userData) {
       return api.post('user/create',{'userData':userData})
 
+
   },
   getPatientOPDDetail(patientId) {
     return api.post('patient/OPDDetails/'+patientId)
+
+  },
+  saveOpdData(opdData) {
+      return api.post('opd/saveData',{'opdData':opdData})
+
   }
 
 
