@@ -1,6 +1,6 @@
 import api from './siteconfig'
 
-export default {
+export default { 
   getUserDetails(userData) {
   	return api.post('user/getDetails',{'userId':userData})
   },
@@ -190,7 +190,7 @@ export default {
   saveMARFlowSheet(MARFlowSheet) {
     return api.post('MARFlowSheet/create',{'MARFlowSheet': MARFlowSheet})
   },
-  getpatientDetail(ipdId) {
+  getpatientDetail(ipdId) { 
     return api.post('patient/getDetails/'+ipdId)
   },
   saveCentralLineBundleChecklist(CentralLineBundleChecklistData) {
@@ -208,6 +208,9 @@ export default {
   createUser(userData) {
       return api.post('user/create',{'userData':userData})
 
+  },
+  getPatientOPDDetail(patientId) {
+    return api.post('patient/OPDDetails/'+patientId)
   }
 
 

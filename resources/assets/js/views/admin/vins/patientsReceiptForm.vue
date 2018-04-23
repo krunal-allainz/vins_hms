@@ -18,10 +18,8 @@
     	   		<div class="col-md-6">
 	          		<select  class="form-control ls-select2" v-validate="'required'" id = "patient" name="patient" value="" v-model="patientData.patient"   v-on:change="myFunction()">
 	            		 <option :value="patient.id" v-for="patient in patientData.patient_option">{{patient.text}}</option>
-
-
 	          		</select>	
-
+         							
 	          		<span class="help is-danger" v-show="errors.has('patient_list')">
 	            		Field is required
 	          		</span>
@@ -33,12 +31,13 @@
 			          <label for="date">OPD CASE NO:</label>
 			        </div>
 			        <div class="col-md-6">
-			       <!--   <select  class="form-control ls-select2" type = "text" v-validate="'required'" id = "case_no" name="case_no" value=""  v-model="patientData.case_no">
-			          
+			         <select  class="form-control ls-select2" type = "text" v-validate="'required'" id = "case_no" name="case_no" value=""  v-model="patientData.case_detail">
+			           <option :value="case_no.id" v-for="case_no in patientData.case_detail">{{case_no.text}}</option>
 			          </select>
-			          <span class="help is-danger" v-show="errors.has('gender')">
+			          <span class="help is-danger" v-show="errors.has('case_no')">
 			            Field is required
-			          </span>-->
+			          </span>
+			        
 			        </div>
 			     </div>
 	          	<div class="col-md-6">
@@ -46,7 +45,7 @@
 			          <label for="date">Gender:</label>
 			        </div>
 			        <div class="col-md-6">
-			         
+			       
 			        </div>
 			     </div>
 
@@ -71,6 +70,9 @@
 	import User from '../../../api/users.js';
 	
 	let list=[];
+	let opdDetail=[];
+	let patient_data_detail=[];
+
 	 export default {
         data() {
             return {
@@ -78,18 +80,17 @@
                 'footer' : 'footer',
                 'currentYear': new Date().getFullYear(),
                 'patientData' : {
-
                 	'gender': '',
                 	'case_no': '',
                 	'reference_dr': '',
                 	'patient':'',
-                	'patient_option':list
-
-                	,
-                	'case': ''
+                	'patient_option':list,
+                	'case_detail': opdDetail,
+                	'select_patient_detail':patient_data_detail,
                 }
             }
         },
+
         mounted(){
        
           $('.ls-select2').select2({
@@ -118,15 +119,61 @@
 
           });
            $('.ls-select2').on("select2:select", function (e) { 
-  			let pid = $(this).val();
-  			console.log(pid);
-  			 User.getpatientDetail(pid).then(
-  			 	(response) => {
-		    	let patien_data ;
-		      	patien_data = response.data;
-		      	console.log(patien_data);
-		      	}
+  			let patientId = $(this).val();
+  			 User.getPatientOPDDetail(patientId).then(
+  			 	(response) => { 
+  			 		if(response.data.code == 200){
+  			 			if(response.data.data.length != 0){
+  			 				$.each(response.data.data,function(key,value){
+  			 					let opdId = value.id;
+  			 					let opdNumber =  value.id;
+  			 					opdDetail.push({
+  			 							text :opdNumber,
+  			 							id :opdId,
+  			 					});
+  			 				});
+
+  			 		}
+  			 	}
+  			 		
+		      	},
+			    (error) => {
+			    },
   			 );
+
+  			/*User.getpatientDetail(patientId).then(
+  				(response) => { 
+  					if(response.data.code == 200){
+  					
+  					$.each(response.data.data,function(index,data){console.log(data);
+	  					let name = data.patient_details.first_name +' '+data.patient_details.last_name;
+							let pid  = data.patient_details.id ;
+							let address  = data.patient_details.address ;
+							let caseType  = data.patient_details.case_type ;
+							let consulatant  = data.patient_details.consultant ;
+							let gender  = data.patient_details.gender ;
+							let mob  = data.patient_details.mob_no ;
+							let phone  = data.patient_details.phone ;
+							let references  = data.patient_details.references ;
+							let uhid_no  = data.patient_details.uhid_no ;
+			      			patient_data_detail.push({text:name,
+			      					   id:pid,
+			      					   add:address,
+			      					   case_type:caseType,
+			      					   consult:consulatant,
+			      					   gender:gender,
+			      					   mob:mob,
+			      					   phone:phone,
+			      					   references:references,
+			      					   uhid_no:uhid_no
+			      					  });
+			      		});
+  					console.log(patient_data_detail);
+  					}
+  				},
+			    (error) => {
+			    },
+  			 );*/
 		});
 
           User.getAllPatientName().then(
