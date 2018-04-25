@@ -534,9 +534,3 @@ Others -->
     </div>
 	</div>
 </template>
-
-<script>
-$( function() {
-  $( "#accordion" ).accordion();
-} );
-</script>

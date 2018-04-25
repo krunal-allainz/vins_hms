@@ -13,6 +13,7 @@
         "laravel/framework": "5.5.*",
         "maatwebsite/excel": "^2.1",
         "spatie/laravel-medialibrary": "6.0.0",
+        "google/cloud-speech": "^0.12.3",
         "tymon/jwt-auth": "0.5.*"
     },
     "require-dev": {
