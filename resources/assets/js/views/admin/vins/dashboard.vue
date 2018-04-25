@@ -67,6 +67,7 @@
 		<div class="col-md-4 top-buffer">
 			<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('patients_detail_form')">Patients Details Form</a>
 		</div>
+		
 		<div class="col-md-4 top-buffer">
 			<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('information_form')" > Information Form </a>
 		</div>

@@ -37,6 +37,7 @@ import Welcome from './views/admin/vins/Welcome.vue'
 import Dashboard from './views/admin/vins/dashboard.vue'
 import Home from './components/home.vue'
 import patientsDetailForm from './views/admin/vins/patientsDetailForm.vue'
+import patientsReceiptForm from './views/admin/vins/patientsReceiptForm.vue'
 import adverseDrugReaction from './views/admin/vins/adversedrugreaction.vue'
 import appointmentBook from './views/admin/vins/appointmentBook.vue'
 import bloodSugarMonitoringChart from './views/admin/vins/bloodSugarMonitoringChart.vue'
@@ -93,7 +94,11 @@ import laboratory from './views/admin/vins/laboratory.vue'
 import NewUser from './views/admin/vins/newUser.vue'
 import vascularExamination from './views/admin/vins/vascularExamination.vue'
 import neuroExamination from './views/admin/vins/neuroExamination.vue'
+
+//import changePwd from './views/emails/ChangePwd.vue'
+
 import UserList from './views/admin/vins/userList.vue'
+
 import investigations from './components/investigations.vue'
 
 
@@ -145,6 +150,12 @@ const routes = [
                 component: patientsDetailForm,
                 meta: { requiresAuth: true },
                 name: 'patients_detail_form'
+            },
+            {
+                path: '/patients_receipt_form',
+                component: patientsReceiptForm,
+                meta: { requiresAuth: true },
+                name: 'patients_receipt_form'
             },
             {
                 path: '/adverseDrugReaction',
@@ -473,6 +484,12 @@ const routes = [
                 component: neuroExamination,
                 name: 'neuroExamination'
             },
+
+            // {
+            //     path: '/changePwd',
+            //     component: changePwd,
+            //     name: 'changePwd'
+            // },
 
             {
                 path: '/laboratory',
