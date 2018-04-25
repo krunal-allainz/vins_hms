@@ -152,9 +152,9 @@
       <div class="col-md-6">
           <div class="col-md-12">
             <label for="history">History type:</label>
-            <button type="button" class="btn btn-submit" @click="setHistoryType('text')">Text</button>
-            <button type="button" class="btn btn-warning" @click="setHistoryType('scrabble')">Scrabble</button>
-            <button type="button" class="btn btn-danger" @click="setHistoryType('speech')">Speech</button>
+            <button type="button" class="btn btn-submit" @click="setHistoryType('present','text')">Text</button>
+            <button type="button" class="btn btn-warning" @click="setHistoryType('present','scrabble')">Scrabble</button>
+            <button type="button" class="btn btn-danger" @click="setHistoryType('present','speech')">Speech</button>
           </div>
 
       </div>
@@ -176,16 +176,36 @@
           </div>
       </div>
     </div>
-    <div class="row form-group">
+
+        <div class="row form-group">
       <div class="col-md-6">
-        <div class="col-md-6">
-          <label for="past_history">Past History:</label>
-        </div>
-        <div class="col-md-6">
-          <textarea name="past_history" id="past_history" class="form-control"  v-model="opdData.past_history"></textarea>   
-        </div>
+          <div class="col-md-12">
+            <label for="history">Past History type:</label>
+            <button type="button" class="btn btn-submit" @click="setHistoryType('past','text')">Text</button>
+            <button type="button" class="btn btn-warning" @click="setHistoryType('past','scrabble')">Scrabble</button>
+            <button type="button" class="btn btn-danger" @click="setHistoryType('past','speech')">Speech</button>
+          </div>
+
       </div>
     </div>
+    <div class="row form-group">
+      <div class="col-md-6">
+          <div class="col-md-6">
+            <label for="history">Past History:</label>
+          </div>
+          <div class="col-md-12" v-show="opdData.pastHistoryType == 'text'">
+            <textarea name="history"  id="history" class="form-control"  v-model="opdData.past_history" cols=""></textarea> 
+          </div>
+          <div class="col-md-12" v-show="opdData.pastHistoryType == 'scrabble'">
+            <div id="signature-pad1" class="signature-pad">
+              <div class="signature-pad--body">
+                <canvas class="can-img" id="past_history_scrabble" height="200px" width="500px" ></canvas> 
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+
 
     <div class="row form-group">
         <div class="col-md-6">
@@ -238,7 +258,7 @@
                 </select>
             </div>
             <div class="col-md-6" v-if="opdData.cross == 'internal'">
-                <select class="form-control ls-select2" name="internal" v-model="opdData.cross_type_int">
+                <select class="form-control ls-select2" name="cross_type_int" v-model="opdData.cross_type_int">
                         <option value="doctor1">doctor1</option>
                         <option value="doctor2">doctor2></option>
                         <option value="doctor3">doctor3></option>
@@ -247,7 +267,7 @@
                 </select>
             </div>
             <div class="col-md-6" v-if="opdData.cross == 'external'">
-                <input type="text" name="external" id="cross" class="form-control" v-model="opdData.cross_type_int">
+                <input type="text" name="external" id="cross" class="form-control" v-model="opdData.cross_type_ext">
           </div>
           <div class="col-md-6" v-if="opdData.referral == 'radiology'">
             <select class="form-control ls-select2" name="radiology" id="radiology">
@@ -275,7 +295,7 @@
 </div>
       <div class="row form-group">
           <div class="col-md-6">
-              <button type="button" class="btn btn-primary btn-submit text-right" @click="saveInformation()">Next</button>
+              <button type="button" class="btn btn-primary btn-submit text-right " @click="saveInformation()">Next</button>
           </div>
       </div>
   </form>
@@ -309,12 +329,14 @@
                 'history':'',
                 'historyType': 'scrabble',
                 'past_history':'',
+                'pastHistoryType': 'scrabble',
+
                 'prescription':'',
                 'advise':'',
                 'referral':'',
                 'cross':'',
                 'cross_type_int':'',
-                'cross_type_extt':'',
+                'cross_type_ext':'',
                 'radiology':'',
                 'laboratory':''
               }
@@ -362,7 +384,7 @@
              } 
              else {
                 setTimeout(function(){
-                $('#createPatientDetail').modal('show');  
+                  $('#createPatientDetail').modal('show');  
              },500)
             }
             
@@ -374,9 +396,13 @@
         },2000)
         },
         methods: {
-          setHistoryType(type){
+          setHistoryType(res,type){
             var vm =this;
-            vm.opdData.historyType = type;
+            if(res == 'present'){
+              vm.opdData.historyType = type;
+            } else {
+              vm.opdData.pastHistoryType = type;
+            }
 
           },
           resizeCanvas(canvas) {
@@ -408,17 +434,19 @@
             // // });
             
             // window.onresize = vm.resizeCanvas(canvas);
-            // vm.resizeCanvas(canvas);
+            // vm.  (canvas);
+
             var opdData = this.opdData;
             if (vm.signaturePad.isEmpty()) {
                 alert("Please provide a signature first.");
               } else {
                 var dataURL = vm.signaturePad.toDataURL();
                 console.log(dataURL);
-                vm.download(dataURL, "signature.png");
+                var opdDataRes = {'data':opdData,'imgData':dataURL};
+                // vm.download(dataURL, "signature.png");
               }
-            User.saveOpdData(this.opdData).then((response) => {
-                        console.log(response);
+            User.saveOpdData(opdDataRes).then((response) => {
+                        // console.log(response);
                          // this.$router.push({'name':'dashboard'});
                     })
           },
@@ -440,20 +468,24 @@
           examinationChangeImage() {
             var vm =this;
             // savePNGButton.addEventListener("click", function (event) {
-             var wrapper = document.getElementById("signature-pad");
+            var wrapper = document.getElementById("signature-pad");
+            var wrapper1 = document.getElementById("signature-pad1");
             var canvas = document.getElementById("history_scrabble");
-             vm.signaturePad = new SignaturePad(canvas, {
+            var canvas1 = document.getElementById("past_history_scrabble");
+            vm.signaturePad = new SignaturePad(canvas, {
               backgroundColor: 'rgb(255, 255, 255)',
             });
-            
+            vm.signaturePad1 = new SignaturePad(canvas1, {
+              backgroundColor: 'rgb(255, 255, 255)',
+            });
             window.onresize = vm.resizeCanvas;
-            vm.resizeCanvas();
+            vm.resizeCanvas(canvas);
+            vm.resizeCanvas(canvas1);
             
               // if (signaturePad.isEmpty()) {
               //   alert("Please provide a signature first.");
-              // } else {
-              //   var dataURL = signaturePad.toDataURL();
-              //   console.log(dataURL);
+              // } else {resizeCanvas
+              //   console.log(dataURL);resizeCanvas
               //   // download(dataURL, "signature.png");
               // }
             // });

@@ -95,7 +95,7 @@ import NewUser from './views/admin/vins/newUser'
 import vascularExamination from './views/admin/vins/vascularExamination.vue'
 import neuroExamination from './views/admin/vins/neuroExamination.vue'
 
-import changePwd from './views/emails/ChangePwd.vue'
+// import changePwd from './views/emails/ChangePwd.vue'
 import investigations from './components/investigations.vue'
 
 
