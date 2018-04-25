@@ -14,6 +14,6 @@ class opdController extends Controller
      */
     public function saveData(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
     }
 }
