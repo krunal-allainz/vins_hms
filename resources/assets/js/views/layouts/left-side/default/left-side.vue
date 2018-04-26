@@ -23,6 +23,9 @@
                     <vmenu-item link="/patients_receipt_form" icon="ti-layout">
                         &nbsp; Patients Receipt Form
                     </vmenu-item>
+                    <vmenu-item link="/provisional_diagnosis" icon="ti-layout">
+                        &nbsp; Provisional Diagnosis Form
+                    </vmenu-item>
 
                 </vmenu>
                 <!-- / .navigation -->

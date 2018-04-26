@@ -12,7 +12,7 @@
       <div class="row form-group">
         <div class="col-md-6">
           <div class="col-md-6 ">
-            <label for="date">Case type:</label>
+            <label for="case_type">Case type:</label>
           </div>
           <div class="col-md-6">
             <select  class="form-control ls-select2" type = "text" v-validate="'required'" id = "case_type" name="case_type" value="" v-model="opdData.case_type">
@@ -39,10 +39,7 @@
             </span>
           </div>
         </div>
-
       </div>
-
-
       <div class="row form-group">
         <div class="col-md-6">
           <div class="col-md-6">
@@ -50,7 +47,6 @@
           </div>
           <div class="col-md-6">
             <input type="text" name="weight" id="weight" class="form-control"  v-model="opdData.weight">
-
             <span class="help is-danger" v-show="errors.has('weight')">
               Field is required
             </span>
@@ -62,13 +58,11 @@
           </div>
           <div class="col-md-6">
             <input type="text" name="height" id="height" class="form-control" placeholder="In cms"  v-model="opdData.height">
-
             <span class="help is-danger" v-show="errors.has('height')">
               Field is required
             </span>
           </div>
         </div>
-
         <div class="col-md-2">
             <div class="col-md-6">
               <label for="date">BMI:</label>
@@ -78,9 +72,7 @@
             </div>
           </div>
       </div>
-
       <hr>
-
       <div class="row form-group">
         <div class="col-md-6">
           <div class="col-md-6">
@@ -386,6 +378,9 @@
           $('.ls-select2').on("select2:select", function (e) { 
             if(this.id == 'referral'){
               vm.opdData.referral=$(this).val();
+            }
+            else if(this.id == 'radiology'){
+              vm.opdData.radiology=$(this).val();
             }
             else if(this.id == 'laboratory'){
               vm.opdData.laboratory=$(this).val();
