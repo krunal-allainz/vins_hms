@@ -40,7 +40,6 @@
             </span>
           </div>
         </div>
-
       </div>
 
 
@@ -427,11 +426,13 @@
             },
           saveInformation() {
             var vm =this;
-            //   var wrapper = document.getElementById("signature-pad");
+            vm.frmStep = 'step2';
+            return false;
+            // var wrapper = document.getElementById("signature-pad");
             // var canvas = document.getElementById("history_scrabble");
-            // // var signaturePad = new SignaturePad(canvas, {
-            // //   backgroundColor: 'rgb(255, 255, 255)',
-            // // });
+            // var signaturePad = new SignaturePad(canvas, {
+            //   backgroundColor: 'rgb(255, 255, 255)',
+            // });
             
             // window.onresize = vm.resizeCanvas(canvas);
             // vm.  (canvas);
@@ -482,7 +483,7 @@
             vm.resizeCanvas(canvas);
             vm.resizeCanvas(canvas1);
             
-              // if (signaturePad.isEmpty()) {
+              // if (signaturePad1.isEmpty()) {
               //   alert("Please provide a signature first.");
               // } else {resizeCanvas
               //   console.log(dataURL);resizeCanvas
