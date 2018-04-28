@@ -81,7 +81,7 @@
     <div class="row form-group">
       <div class="col-md-6">
         <div class="col-md-6">
-          <label for="plantars" class="control-label">Plantars : </label>
+          <label for="plantars" class="control-label">Plantars: </label>
         </div>
         <div class="col-md-6">
 					<input class="form-control" type="text" id="plantars" name="plantars" value="" v-model="neuroExaminationData.plantars" v-validate="'required'"/>
@@ -161,9 +161,9 @@
       </div>
     </div>
 
-    <div class="row form-group">
+    <!-- <div class="row form-group">
       <button class=" btn btn-success" type="button" @click="saveNeuroExamination()">Submit</button>
-    </div>
+    </div> -->
   </form>
 
   <select-patient-modal @confirmed="deleteConfirmed()"></select-patient-modal>

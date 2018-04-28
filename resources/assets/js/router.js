@@ -37,7 +37,6 @@ import Welcome from './views/admin/vins/Welcome.vue'
 import Dashboard from './views/admin/vins/dashboard.vue'
 import Home from './components/home.vue'
 import patientsDetailForm from './views/admin/vins/patientsDetailForm.vue'
-import patientsReceiptForm from './views/admin/vins/patientsReceiptForm.vue'
 import adverseDrugReaction from './views/admin/vins/adversedrugreaction.vue'
 import appointmentBook from './views/admin/vins/appointmentBook.vue'
 import bloodSugarMonitoringChart from './views/admin/vins/bloodSugarMonitoringChart.vue'
@@ -86,18 +85,17 @@ import informationForm from './views/admin/vins/informationForm.vue'
 import investigationSheet from './views/admin/vins/investigationSheet.vue'
 import intraoperativeEventManagement from './views/admin/vins/intraoperativeEventManagement.vue'
 import infusionTherapyChart from './views/admin/vins/infusionTherapyChart.vue'
-import doctorsInitialAssessment from './views/admin/vins/doctorsInitialAssessment.vue'
+// import doctorsInitialAssessment from './views/admin/vins/doctorsInitialAssessment.vue'
 import centralLineBundleChecklist from './views/admin/vins/centralLineBundleChecklist.vue'
 import MARFlowSheet from './views/admin/vins/MARFlowSheet.vue'
 import opdForm from './views/admin/vins/opd_form.vue'
 import laboratory from './views/admin/vins/laboratory.vue'
-import NewUser from './views/admin/vins/newUser.vue'
+import NewUser from './views/admin/vins/newUser'
+
 import vascularExamination from './views/admin/vins/vascularExamination.vue'
 import neuroExamination from './views/admin/vins/neuroExamination.vue'
-import provisionalDiagnosis from './views/admin/vins/provisionalDiagnosis.vue'
 
-
-import UserList from './views/admin/vins/userList.vue'
+// import changePwd from './views/emails/ChangePwd.vue'
 import investigations from './components/investigations.vue'
 
 
@@ -149,12 +147,6 @@ const routes = [
                 component: patientsDetailForm,
                 meta: { requiresAuth: true },
                 name: 'patients_detail_form'
-            },
-            {
-                path: '/patients_receipt_form',
-                component: patientsReceiptForm,
-                meta: { requiresAuth: true },
-                name: 'patients_receipt_form'
             },
             {
                 path: '/adverseDrugReaction',
@@ -360,13 +352,6 @@ const routes = [
             },
 
             {
-                path: '/provisional_diagnosis',
-                component: provisionalDiagnosis,
-                meta: { requiresAuth: true },
-                name: 'provisional_diagnosis'
-            },
-
-            {
                 path: '/provisional_discharge_summary',
                 component: provisionalDischargeSummary,
                 meta: { requiresAuth: true },
@@ -490,13 +475,11 @@ const routes = [
                 component: neuroExamination,
                 name: 'neuroExamination'
             },
-
             // {
             //     path: '/changePwd',
             //     component: changePwd,
             //     name: 'changePwd'
             // },
-
             {
                 path: '/laboratory',
                 component: laboratory,
@@ -509,13 +492,7 @@ const routes = [
                 name: 'investigations'
 
             },
-            {
-                path: '/UserList',
-                component: UserList,
-                meta: { requiresAuth: true },
-                name: 'UserList'
-            }
-            ]
+        ]
     },
 
     {

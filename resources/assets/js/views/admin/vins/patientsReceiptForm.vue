@@ -191,8 +191,9 @@
 						let phone  = value.patient_details.phone ;
 						let references  = value.patient_details.references ;
 						let uhid_no  = value.patient_details.uhid_no ;
-		      			list.push({text:name,
-		      					   id:pid,
+		      			list.push({
+		      				text:name,
+							id:pid,
 		      					   add:address,
 		      					   case_type:caseType,
 		      					   consult:consulatant,

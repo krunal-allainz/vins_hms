@@ -133,6 +133,22 @@
 		<h4>Investigations:</h4>
 		<ul class="nav nav-tabs">
 			<li class="nav-item">
+				<a class="nav-link active" data-toggle="tab" href="#radiology">Radiology</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" data-toggle="tab" href="#lab">Lab</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" data-toggle="tab" href="#others">others</a>
+			</li>
+			
+		</ul>
+		<div class="tab-content">
+			<div id="x_rays" class="tab-pane fade in active">
+			</div>
+		</div>
+		<ul class="nav nav-tabs">
+			<li class="nav-item">
 				<a class="nav-link active" data-toggle="tab" href="#x_rays">X-Rays</a>
 			</li>
 			<li class="nav-item">
@@ -627,7 +643,7 @@
 								<input type="file" class="form-control" name="others_4" accept="image/*"  >
 							</td>
 							<td>
-								<input type="text" class="form-control" name="others_4_name" value=">
+								<input type="text" class="form-control" name="others_4_name" value="">
 							</td>
 							<td>
 								<button class="form-control" name="save_others_4">Save others_4</button>

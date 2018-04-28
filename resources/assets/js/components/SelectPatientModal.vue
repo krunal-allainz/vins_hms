@@ -40,8 +40,10 @@
         },
         mounted(){
             var vm = this;
+            $("body .js-loader").removeClass('d-none');
             setTimeout(function(){
                 vm.ipdData = vm.$store.state.Patient.ipdData;
+                $("body .js-loader").addClass('d-none');
             },3000)
         },
         props: {
