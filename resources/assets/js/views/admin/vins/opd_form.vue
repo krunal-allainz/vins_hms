@@ -13,7 +13,8 @@
       <div class="row form-group">
         <div class="col-md-6">
           <div class="col-md-6 ">
-            <label for="date">Case type:</label>
+
+            <label for="case_type">Case type:</label>
           </div>
           <div class="col-md-6">
             <select  class="form-control ls-select2" type = "text" v-validate="'required'" id = "case_type" name="case_type" value="" v-model="opdData.case_type">
@@ -69,6 +70,7 @@
           </div>
         </div>
 
+
         <div class="col-md-2">
             <div class="col-md-6">
               <label for="date">BMI:</label>
@@ -78,9 +80,7 @@
             </div>
           </div>
       </div>
-
       <hr>
-
       <div class="row form-group">
         <div class="col-md-6">
           <div class="col-md-6">
@@ -137,6 +137,7 @@
           </div>
         </div>
         <div class="col-md-6">
+
           <div class="col-md-6">
             <label for="date">Temp:</label>
           </div>
@@ -236,52 +237,77 @@
           </div>
       </div>
       <div class="row form-group">
-          <div class="col-md-6">
+
               <div class="col-md-6">
+                <div class="col-md-6">
                  <label for="referral">Referral:</label>
-              </div>
-              <div class="col-md-6">
+                </div>
+                <div class="col-md-6">
                 <select class="form-control ls-select2" name="referral" id="referral" v-model="opdData.referral">
-                    <option value="cross">Cross</option>
-                    <option value="radiology">Radiology</option>
-                    <option value="aboratory">Laboratory</option>
+                  <option value="cross">Cross</option>
+                  <option value="radiology">Radiology</option>
+                  <option value="laboratory">Laboratory</option>
                 </select>
+                </div>
               </div>
-          </div>
-           <div class="col-md-6">
-              
               <div class="col-md-6" v-if= "opdData.referral == 'cross'">
-                  <select class="form-control ls-select2" name="internal" id="internal" v-model="opdData.cross">
+                <div class="col-md-6">
+                    <label for="internal">Cross Reference:</label>
+                </div>
+                <div class="col-md-6">
+                    <select class="form-control ls-select2" name="internal" id="internal" v-model="opdData.cross">
                         <option value="internal">Internal</option>
-                        <option value="external">Exernal</option>
-                  </select>
+                        <option value="external">External</option>
+                    </select>
+                </div>
               </div>
-              <div class="col-md-6" v-if="opdData.cross == 'internal'">
-                  <select class="form-control ls-select2" name="cross_type_int" v-model="opdData.cross_type_int">
-                          <option value="doctor1">doctor1</option>
-                          <option value="doctor2">doctor2></option>
-                          <option value="doctor3">doctor3></option>
-                          <option value="doctor4">doctor4></option>
-                          <option value="doctor5">doctor5></option>
-                  </select>
+              <div class="col-md-6" v-show="opdData.referral == 'radiology'">
+                  <div class="col-md-6">
+                    <label for="radiology">Radiology:</label>
+                  </div>
+                  <div class="col-md-6" >
+                    <select class="form-control ls-select2" name="radiology" id="radiology">
+                      <option value="drug1">Drug1</option>
+                      <option value="drug2">Drug2</option>
+                      <option value="drug3">Drug3</option>
+                      <option value="drug4">Drug4</option>
+                      <option value="drug5">Drug5</option>
+                    </select>
+                  </div>
               </div>
-              <div class="col-md-6" v-if="opdData.cross == 'external'">
-                  <input type="text" name="external" id="cross" class="form-control" v-model="opdData.cross_type_ext">
-            </div>
-            <div class="col-md-6" v-if="opdData.referral == 'radiology'">
-              <select class="form-control ls-select2" name="radiology" id="radiology">
-                  <option value="drug1">Drug1</option>
-                  <option value="drug2">Drug2</option>
-                  <option value="drug3">Drug3</option>
-                  <option value="drug4">Drug4</option>
-                  <option value="drug5">Drug5</option>
-              </select>
-            </div>
-                <div class="col-md-6" v-if="opdData.referral == 'laboratory'">
-                    <input type="text" name="laboratory" id="laboratory" v-model="opdData.laboratory" />
-                </div> 
-            </div>
-      </div>
+              <div class="col-md-6" v-if="opdData.referral == 'laboratory'">
+                <div class="col-md-6">
+                  <label for="laboratory">Laboratory:</label>
+                </div>
+                <div class="col-md-6" >
+                  <input class="form-control" type="text" name="laboratory" id="laboratory" v-model="opdData.laboratory" />
+                </div>
+              </div>
+              </div>
+              <div class="row form-group">
+                <div class="col-md-6"  v-show="opdData.referral == 'cross' && opdData.cross == 'internal'">
+                  <div class="col-md-6">
+                    <label for="internal">Internal Reference:</label>
+                  </div>
+                  <div class="col-md-6">
+                    <select class="form-control ls-select2" name="internal" v-model="opdData.cross_type_int" id="internal">
+                      <option value="doctor1">doctor1</option>
+                      <option value="doctor2">doctor2</option>
+                      <option value="doctor3">doctor3</option>
+                      <option value="doctor4">doctor4</option>
+                      <option value="doctor5">doctor5</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6" v-show="opdData.referral == 'cross' && opdData.cross == 'external'">
+                  <div class="col-md-6">
+                    <label for="external">External Reference:</label>
+                  </div>
+                  <div class="col-md-6" >
+                    <input type="text" name="external" id="external" class="form-control" v-model="opdData.cross_type_ext">
+                  </div>
+                </div>
+              </div>
     </div>
 
     <div class="row form-group" v-if="frmStep == 'step2'">
@@ -292,21 +318,20 @@
         <vascular-examination></vascular-examination>
       </div>
     </div>
-      <div class="row form-group">
+    <div class="row form-group">
           <div class="col-md-6">
               <button type="button" class="btn btn-primary btn-submit text-right " @click="saveInformation()">Next</button>
           </div>
-      </div>
+    </div>
   </form>
   </div>
 </template>
 <script >
-	import User from '../../../api/users.js';
+  import User from '../../../api/users.js';
   import createPatientDetail from './createPatientDetail.vue';
   import vascularExamination from './vascularExamination.vue';
   import neuroExamination from './neuroExamination.vue';
   import SignaturePad from 'signature_pad';
-
     export default {
         data() {
             return {
@@ -329,7 +354,6 @@
                 'historyType': 'scrabble',
                 'past_history':'',
                 'pastHistoryType': 'scrabble',
-
                 'prescription':'',
                 'advise':'',
                 'referral':'',
@@ -354,27 +378,30 @@
             } else {
               return 0;
             }
-
           }
        },
         mounted(){
-
        
           $('.ls-select2').select2({
            placeholder: "Select"
           }); 
-
-          var vm =this;
-            // On mobile devices it might make more sense to listen to orientation change,
-            // rather than window resize events.
-            
-
+         var vm =this;   
           $('.ls-select2').on("select2:select", function (e) { 
             if(this.id == 'referral'){
               vm.opdData.referral=$(this).val();
             }
-            else if(this.id== 'internal'){
-              vm.opdData.cross_type_int = $(this).val();
+
+            else if(this.id == 'radiology'){
+              vm.opdData.radiology=$(this).val();
+            }
+            else if(this.id == 'laboratory'){
+              vm.opdData.laboratory=$(this).val();
+            }
+            else if(this.id == 'internal'){
+              vm.opdData.cross_type_int=$(this).val();
+            }
+            else if(this.id == 'external'){
+              vm.opdData.cross_type_ext=$(this).val();
             }
             else{
               vm.opdData.case_type = $(this).val(); 
@@ -386,7 +413,6 @@
                   $('#createPatientDetail').modal('show');  
              },500)
             }
-            
 
           });
         setTimeout(function(){
@@ -402,7 +428,6 @@
             } else {
               vm.opdData.pastHistoryType = type;
             }
-
           },
           resizeCanvas(canvas) {
               var ratio =  Math.max(window.devicePixelRatio || 1, 1);
@@ -417,11 +442,9 @@
               var raw = window.atob(parts[1]);
               var rawLength = raw.length;
               var uInt8Array = new Uint8Array(rawLength);
-
               for (var i = 0; i < rawLength; ++i) {
                 uInt8Array[i] = raw.charCodeAt(i);
               }
-
               return new Blob([uInt8Array], { type: contentType });
             },
           saveInformation() {
@@ -455,15 +478,12 @@
             var vm =this;
               var blob = vm.dataURLToBlob(dataURL);
               var url = window.URL.createObjectURL(blob);
-
               var a = document.createElement("a");
               a.style = "display: none";
               a.href = url;
               a.download = filename;
-
               document.body.appendChild(a);
               a.click();
-
               window.URL.revokeObjectURL(url);
             },
           examinationChangeImage() {

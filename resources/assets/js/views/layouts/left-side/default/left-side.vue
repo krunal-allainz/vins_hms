@@ -14,9 +14,8 @@
                     <vmenu-item link="/NewUser" icon="ti-layout">
                         &nbsp; New User
                     </vmenu-item>
-                    
                     <vmenu-item link="/opd_form" icon="ti-layout">
-                        &nbsp; OPD form
+                        &nbsp; OPD Form
                     </vmenu-item>
                     <vmenu-item link="/patients_detail_form" icon="ti-layout">
                         &nbsp; Patients Detail Form
@@ -24,7 +23,9 @@
                     <vmenu-item link="/patients_receipt_form" icon="ti-layout">
                         &nbsp; Patients Receipt Form
                     </vmenu-item>
-                    
+                    <vmenu-item link="/provisional_diagnosis" icon="ti-layout">
+                        &nbsp; Provisional Diagnosis Form
+                    </vmenu-item>
 
                 </vmenu>
                 <!-- / .navigation -->
