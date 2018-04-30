@@ -2,17 +2,19 @@
 <div class="container">
 	<div class="page-header">
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-9">
 			<h1>Blood Transfusion Form</h1>
 			</div>
-			<div class="col-md-6">
-				<div class="text-right">
-					DOC NO. FMT/IPD/36 <br>
-					REV. No. 0.1 <br>
-					WEF 01-10-2014 <br>
-					PAGE NO. 01 OF 02
-				</div>
-			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+
+		</div>
+		<div class="col-md-6">
+  		<div class="text-right">
+  			<addressograph></addressograph>
+	    </div>
 		</div>
 	</div>
 	<form action="" method="post">
@@ -28,6 +30,7 @@
 					</span>
 				</div>
 				<div class="col">
+
 					<label>IPD No.:</label>
 				</div>
 				<div class="col">
@@ -35,7 +38,11 @@
 					<span class="help is-danger" v-show="errors.has('ipd_no')">
 						Field is required
 					</span>
+					</div>
+					<div class="col">
+
 				</div>
+
 		</div>
 
 		<div class="form-group row">
@@ -52,7 +59,7 @@
 				<label>Sex:</label>
 			</div>
 			<div class="col">
-				<select class="form-control" name="sex" v-validate="'required'" v-model="bloodTransfusionDetails.sex">
+				<select class="form-control ls-select2" name="sex" v-validate="'required'" v-model="bloodTransfusionDetails.sex">
 					<option value="NA">NA</option>
 					<option value="male">Male</option>
 					<option value="female">Female</option>
@@ -62,39 +69,44 @@
 				</span>
 			</div>
 		</div>
-
-		<div class="row form-group">
-			<div class="col-md-6">
-				<div class="col-md-6">
-					<label>Date:</label>
-				</div>
-				<div class="col-md-6">
-					<input type="date" class="form-control" name="date" v-validate="'required'" v-model="bloodTransfusionDetails.date" id="date" value="" >
-					<span class="help is-danger" v-show="errors.has('date')">
-						Field is required
-					</span>
-				</div>
+		<div class="form-group row">
+			<div class="col">
+				<label>Date:</label>
 			</div>
-			<div class="col-md-6">
-				<div class="col-md-6">
-					<label>Time:</label>
-				</div>
-				<div class="col-md-6">
-					<input type="time" class="form-control" name="time" v-validate="'required'" v-model="bloodTransfusionDetails.time" id="time" value="" >
-					<span class="help is-danger" v-show="errors.has('time')">
-						Field is required
-					</span>
-				</div>
+			<div class="col">
+				<input type="date" class="form-control " name="date" v-validate="'required'" v-model="bloodTransfusionDetails.date" id="date" value="" >
+				<span class="help is-danger" v-show="errors.has('date')">
+					Field is required
+				</span>
+			</div>
+			<div class="col">
+				<label>Time:</label>
+			</div>
+			<div class="col">
+
+				<input type="time" class="form-control " name="time" v-validate="'required'" v-model="bloodTransfusionDetails.time" />
+
+
+
+				<input type="time" class="form-control " name="time" v-validate="'required'" v-model="bloodTransfusionDetails.time" />
+
+				<input type="time" class="form-control ls-timepicker" name="time" v-validate="'required'" v-model="bloodTransfusionDetails.time" />
+
+
+
+				<span class="help is-danger" v-show="errors.has('time')">
+					Field is required
+				</span>
+
 			</div>
 		</div>
 
-		<div class="row form-group">
-			<div class="col-md-6">
-				<div class="col-md-6">
+		<div class="form-group row">
+				<div class="col">
 					<label>Patient's Blood Group:</label>
 				</div>
-				<div class="col-md-6">
-					<select class="form-control" name="blood_group" v-validate="'required'" v-model="bloodTransfusionDetails.blood_group">
+				<div class="col">
+					<select class="form-control ls-select2" name="blood_group" v-validate="'required'" v-model="bloodTransfusionDetails.blood_group">
 						<option value="A+">A+</option>
 						<option value="A-">A-</option>
 						<option value="AB+">AB+</option>
@@ -108,13 +120,11 @@
 						Field is required
 					</span>
 				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="col-md-6">
+				<div class="col">
 					<label>History of previous BT :</label>
 				</div>
-				<div class="col-md-6">
-					<select class="form-control" name="history_bt" v-validate="'required'" v-model="bloodTransfusionDetails.history_bt">
+				<div class="col">
+					<select class="form-control ls-select2" name="history_bt" v-validate="'required'" v-model="bloodTransfusionDetails.history_bt">
 						<option value="NA">NA</option>
 						<option value="Yes">Yes</option>
 						<option value="No">No</option>
@@ -123,7 +133,7 @@
 						Field is required
 					</span>
 				</div>
-			</div>
+
 		</div>
 
 
@@ -144,7 +154,7 @@
 					<label>Blood Bag No.:</label>
 				</div>
 				<div class="col-md-6">
-					<input type="text" class="form-control" name="blood_bag_no" v-validate="'required'" v-model="bloodTransfusionDetails.blood_bag_no" id="blood_bag_no" value="" >
+					<input type="text" class="form-control" name="blood_bag_no" v-validate="'required'" v-model="bloodTransfusionDetails.blood_bag_no" id ="blood_bag_no" value="" >
 					<span class="help is-danger" v-show="errors.has('blood_bag_no')">
 						Field is required
 					</span>
@@ -155,7 +165,7 @@
 					<label>Blood Group:</label>
 				</div>
 				<div class="col-md-6">
-					<select class="form-control" name="blood_bag_group" v-validate="'required'" v-model="bloodTransfusionDetails.blood_bag_group">
+					<select class="form-control ls-select2" name="blood_bag_group" v-validate="'required'" v-model="bloodTransfusionDetails.blood_bag_group">
 						<option value="A+">A+</option>
 						<option value="A-">A-</option>
 						<option value="AB+">AB+</option>
@@ -178,7 +188,7 @@
 					<label>Product's Name:</label>
 				</div>
 				<div class="col-md-6">
-					<select class="form-control" id="prod_name" name="prod_name" v-validate="'required'" v-model="bloodTransfusionDetails.prod_name">
+					<select class="form-control ls-select2" id="prod_name" name="prod_name" v-validate="'required'" v-model="bloodTransfusionDetails.prod_name">
 							<option value="whole_blood"> Whole Blood </option>
 							<option value="PCV"> PCV </option>
 							<option value="PRC"> PRC </option>
@@ -211,7 +221,7 @@
 					<label>Date of Expiry:</label>
 				</div>
 				<div class="col-md-6">
-					<input type="date" class="form-control" name="expiry_date" v-validate="'required'" v-model="bloodTransfusionDetails.expiry_date" id="expiry_date" value="" >
+					<input type="date" class="form-control" name="expiry_date" v-validate="'required'" v-model="bloodTransfusionDetails.expiry_date" id ="expiry_date" value="" >
 					<span class="help is-danger" v-show="errors.has('expiry_date')">
 						Field is required
 					</span>
@@ -250,7 +260,7 @@
 					<label>BT Started at:</label>
 				</div>
 				<div class="col-md-6">
-					<input type="time" class="form-control" name="start_time" v-validate="'required'" v-model="bloodTransfusionDetails.start_time" id="start_time" value="" >
+					<input type="time" class="form-control " name="start_time" v-validate="'required'" v-model="bloodTransfusionDetails.start_time" id ="start_time" value="" >
 					<span class="help is-danger" v-show="errors.has('start_time')">
 						Field is required
 					</span>
@@ -261,7 +271,7 @@
 					<label>Stopped at:</label>
 				</div>
 				<div class="col-md-6">
-					<input type="time" class="form-control" name="end_time" v-validate="'required'" v-model="bloodTransfusionDetails.end_time" id="end_time" value="" >
+					<input type="time" class="form-control " name="end_time" v-validate="'required'" v-model="bloodTransfusionDetails.end_time" id ="end_time" value="" >
 					<span class="help is-danger" v-show="errors.has('end_time')">
 						Field is required
 					</span>
@@ -275,8 +285,8 @@
 		<div class="row">
 			<label>Vitals must be taken every 15 mins during transfusion and post transfusion upto 60 minutes.</label>
 		</div>
-		<div class="row">
-			<table class="table table-bordered">
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped">
 				<thead>
 					<tr>
 						<th></th>
@@ -293,10 +303,12 @@
 						<td v-else-if="n == 3">During Transfusion</td>
 						<td v-else-if="n == 11">Post Transfusion</td>
 						<td v-else></td>
-						<td><input type="time" class="form-control" :name="'tftime'+n" v-model="bloodTransfusionDetails.transfusion[n].tftime" id="_01_01" /></td>
-						<td><input type="text" class="form-control" :name="'temp'+n" v-model="bloodTransfusionDetails.transfusion[n].temp" id="_01_02" /></td>
-						<td><input type="text" class="form-control" :name="'resp'+n" v-model="bloodTransfusionDetails.transfusion[n].resp" id="_01_03" /></td>
-						<td><input type="text" class="form-control" :name="'bp'+n" v-model="bloodTransfusionDetails.transfusion[n].bp" id="_01_04" /></td>
+						<td><input type="time" class="form-control " id = "'tftime'+n" :name="'tftime'+n" v-model="bloodTransfusionDetails.transfusion[n].tftime"  /></td>
+						<td><input type="time" class="form-control " id = "'tftime'+n" :name="'tftime'+n" v-model="bloodTransfusionDetails.transfusion[n].tftime"  /></td>
+						<td><input type="text" class="form-control ls-timepicker" :id = "'tftime'+n" :name="'tftime'+n" v-model="bloodTransfusionDetails.transfusion[n].tftime"  /></td>
+						<td><input type="text" class="form-control" :name="'temp'+n" v-model="bloodTransfusionDetails.transfusion[n].temp" id ="_01_02" /></td>
+						<td><input type="text" class="form-control" :name="'resp'+n" v-model="bloodTransfusionDetails.transfusion[n].resp" id ="_01_03" /></td>
+						<td><input type="text" class="form-control" :name="'bp'+n" v-model="bloodTransfusionDetails.transfusion[n].bp" id ="_01_04" /></td>
 					</tr>
 
 				</tbody>
@@ -309,7 +321,8 @@
 						<label>Minor Reaction : </label>
 					</div>
 					<div class="col-md-6">
-						<select class="form-group" name="minor_reaction" v-model="bloodTransfusionDetails.minor_reaction">
+						<select class="form-control ls-select2" name="minor_reaction" v-model="bloodTransfusionDetails.minor_reaction">
+							<option value="NA">NA</option>
 							<option value="skin_rash">Skin Rash</option>
 							<option value="urticaria">Urticaria</option>
 							<option value="body_ache">Body Ache</option>
@@ -320,10 +333,11 @@
 				</div>
 				<div class="col-md-6">
 					<div class="col-md-6">
-						<label>Moderate : </label>
+						<label>Moderate Reaction: </label>
 					</div>
 					<div class="col-md-6">
-						<select class="form-group" name="moderate" v-model="bloodTransfusionDetails.moderate">
+						<select class="form-control ls-select2" name="moderate" v-model="bloodTransfusionDetails.moderate_reaction">
+							<option value="NA">NA</option>
 							<option value="fever">Fever</option>
 							<option value="vomiting">Vomiting</option>
 							<option value="shivering">Shivering</option>
@@ -339,7 +353,8 @@
 						<label>Major Reaction : </label>
 					</div>
 					<div class="col-md-6">
-						<select class="form-group" name="major_reactions" v-model="bloodTransfusionDetails.major_reactions">
+						<select class="form-control ls-select2" name="major_reactions" v-model="bloodTransfusionDetails.major_reaction">
+							<option value="NA">NA</option>
 							<option value="chest_pain">Chest Pain</option>
 							<option value="breathlessness">Breathlessness</option>
 							<option value="decreased_urine_output">Decreased Urine Output</option>
@@ -351,19 +366,25 @@
 						<label>Time of onset of Adverse Reactions : </label>
 					</div>
 					<div class="col-md-6">
-						<input class="form-control" type="time" name="time_adverse" v-model="bloodTransfusionDetails.time_adverse" value=""/>
+						<input class="form-control ls-timepicker" id = "time_adverse" type="text" name="time_adverse" v-model="bloodTransfusionDetails.time_adverse" value=""/>
 					</div>
 				</div>
 			</div>
 
 		<div class="row form-group">
-			<button class="btn btn-success" type="button" @click="saveBloodTransfusion()" >Submit</button>
+			<div class="col text-center">
+				<button class="btn btn-success" type="button" @click="saveBloodTransfusion()" >Submit</button>
+			</div>
 		</div>
 	</form>
+		<select-patient-modal @confirmed="deleteConfirmed()"></select-patient-modal>
 </div>
 </template>
 <script >
 	import User from '../../../api/users.js';
+	import addressograph from './addressograph.vue';
+	import SelectPatientModal from '../../../components/SelectPatientModal.vue';
+
     export default {
         data() {
             return {
@@ -374,7 +395,6 @@
                	'ipd_id': this.$store.state.Patient.ipdId,
                 'bloodTransfusionDetails' : {
 									'patient_name': '',
-									'ipd_no': '',
 									'age': '',
 									'sex': '',
 									'date': '',
@@ -392,8 +412,8 @@
 									'start_time': '',
 									'end_time': '',
 									'minor_reaction': '',
-									'moderate': '',
-									'major_reactions': '',
+									'moderate_reaction': '',
+									'major_reaction': '',
 									'time_adverse': '',
 									'transfusion' : {
 										'1':{
@@ -492,6 +512,94 @@
                 }
             }
         },
+				components: {
+					 addressograph,
+					 SelectPatientModal
+			 },
+			 mounted() {
+				 $('.ls-select2').select2({
+						placeholder: "Select",
+				 });
+              $('.ls-datepicker').datepicker({
+				    format: 'dd/mm/yyyy',
+				    'autoclose': true
+					})
+               if(this.ipd_id == 0){
+	         	$('#delete_modal').modal('show');
+	    	 }
+
+	        $('.ls-timepicker').timepicker({
+						 format: 'hh-mm',
+						 'autoclose': true
+					 })
+					let vm =this;
+		 			$('.ls-timepicker').timepicker().on('change',function(){
+
+		 				if (this.id == 'tftime_1') {
+		 					vm.bloodTransfusionDetails.transfusion[1].tftime = this.value;
+		 				}
+						if (this.id == 'tftime_2') {
+							vm.bloodTransfusionDetails.transfusion[2].tftime = this.value;
+						}
+						if (this.id == 'tftime_3') {
+							vm.bloodTransfusionDetails.transfusion[3].tftime = this.value;
+						}
+						if (this.id == 'tftime_4') {
+							vm.bloodTransfusionDetails.transfusion[4].tftime = this.value;
+						}
+						if (this.id == 'tftime_5') {
+							vm.bloodTransfusionDetails.transfusion[5].tftime = this.value;
+						}
+						if (this.id == 'tftime_6') {
+							vm.bloodTransfusionDetails.transfusion[6].tftime = this.value;
+						}
+						if (this.id == 'tftime_7') {
+							vm.bloodTransfusionDetails.transfusion[7].tftime = this.value;
+						}
+						if (this.id == 'tftime_8') {
+							vm.bloodTransfusionDetails.transfusion[8].tftime = this.value;
+						}
+						if (this.id == 'tftime_9') {
+							vm.bloodTransfusionDetails.transfusion[9].tftime = this.value;
+						}
+						if (this.id == 'tftime_10') {
+							vm.bloodTransfusionDetails.transfusion[10].tftime = this.value;
+						}
+						if (this.id == 'tftime_11') {
+							vm.bloodTransfusionDetails.transfusion[12].tftime = this.value;
+						}
+						if (this.id == 'tftime_13') {
+							vm.bloodTransfusionDetails.transfusion[13].tftime = this.value;
+						}
+						if (this.id == 'tftime_14') {
+							vm.bloodTransfusionDetails.transfusion[14].tftime = this.value;
+						}
+						if (this.id == 'tftime_15') {
+							vm.bloodTransfusionDetails.transfusion[15].tftime = this.value;
+						}
+						if (this.id == 'end_time') {
+							vm.bloodTransfusionDetails.end_time = this.value;
+						}
+						if (this.id == 'start_time') {
+							vm.bloodTransfusionDetails.start_time = this.value;
+						}
+						if (this.id == 'time') {
+							vm.bloodTransfusionDetails.time = this.value;
+						}
+						if (this.id == 'time_adverse') {
+							vm.bloodTransfusionDetails.time_adverse = this.value;
+						}
+					})
+					$('.ls-datepicker').datepicker().on('changeDate',function(){
+
+						if (this.id == 'expiry_date') {
+							vm.bloodTransfusionDetails.expiry_date = this.value;
+						}
+						if (this.id == 'date') {
+							vm.bloodTransfusionDetails.date = this.value;
+						}
+					})
+				},
         methods: {
 		    GetSelectComponent(componentName) {
 		       this.$router.push({name: componentName})

@@ -5,13 +5,6 @@
         <div class="col-md-6">
           <h1>Operative Detail Sheet</h1>
         </div>
-        <div class="col-md-6">
-          <div class="text-right">
-            DOC NO. FMT/HIC/09 </br>
-            REV. No. 0.1 </br>
-            WEF 10-10-2015
-          </div>
-        </div>
       </div>
     </div>
 
@@ -19,13 +12,13 @@
 
       <div class="row">
         <div class="col-md-6">
-          <div class="col-md-6">
-            <label>IPD No : </label>
-          </div>
-          <div class="col-md-6">
-            <input class="form-control" type="text" name="ipd_no" v-model="ipd_id" v-validate="'required'"/>
-          </div>
         </div>
+        <div class="col-md-6">
+          <div class="text-right">
+            <addressograph></addressograph>
+          </div>
+
+				</div>
       </div>
 
       <div class="row form-group">
@@ -34,7 +27,7 @@
             <label>OT No : </label>
           </div>
           <div class="col-md-6">
-            <select class="form-control" name="ot_no" v-model="operativeDetailSheetData.ot_no" v-validate="'required'">
+            <select class="form-control ls-select2" name="ot_no" v-model="operativeDetailSheetData.ot_no" v-validate="'required'">
               <option value="1">1</option>
               <option value="2">2</option>
             </select>
@@ -48,7 +41,7 @@
             <label>Date : </label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="date" name="date" v-model="operativeDetailSheetData.date" v-validate="'required'" value=""/>
+            <input class="form-control ls-datepicker" type="text" name="date" id="date" v-model="operativeDetailSheetData.date" v-validate="'required'" value=""/>
 						<span class="help is-danger" v-show="errors.has('date')">
 							Field is required
 						</span>
@@ -123,7 +116,7 @@
             <label>Time : </label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="text" name="antibiotic1_time" v-model="operativeDetailSheetData.antibiotic1_time" v-validate="'required'" value=""/>
+            <input class="form-control" type="time" name="antibiotic1_time" v-model="operativeDetailSheetData.antibiotic1_time" v-validate="'required'" value=""/>
 						<span class="help is-danger" v-show="errors.has('antibiotic1_time')">
 							Field is required
 						</span>
@@ -148,7 +141,7 @@
             <label>Time : </label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="text" name="antibiotic2_time" v-model="operativeDetailSheetData.antibiotic2_time" v-validate="'required'" value=""/>
+            <input class="form-control" type="time" name="antibiotic2_time" v-model="operativeDetailSheetData.antibiotic2_time" v-validate="'required'" value=""/>
 						<span class="help is-danger" v-show="errors.has('antibiotic2_time')">
 							Field is required
 						</span>
@@ -187,7 +180,7 @@
             <label>Surgery Type : </label>
           </div>
           <div class="col-md-6">
-            <select class="form-control" name="surgery_type" v-model="operativeDetailSheetData.surgery_type" v-validate="'required'">
+            <select class="form-control ls-select2" name="surgery_type" v-model="operativeDetailSheetData.surgery_type" v-validate="'required'">
               <option value="elective">Elective</option>
               <option value="emergency">Emergency</option>
             </select>
@@ -412,7 +405,7 @@
             <label>Mediclaim / Cashless : </label>
           </div>
           <div class="col-md-6">
-            <select class="form-control" name="mediclaim" v-model="operativeDetailSheetData.mediclaim" v-validate="'required'">
+            <select class="form-control ls-select2" name="mediclaim" v-model="operativeDetailSheetData.mediclaim" v-validate="'required'">
               <option value="mediclaim">Mediclaim</option>
               <option value="cashless">Cashless</option>
             </select>
@@ -523,10 +516,14 @@
         </div>
       </div>
     </form>
+     <select-patient-modal @confirmed="deleteConfirmed()"></select-patient-modal>
   </div>
 </template>
 <script >
 	import User from '../../../api/users.js';
+  import addressograph from './addressograph.vue';
+  import SelectPatientModal from '../../../components/SelectPatientModal.vue'
+
     export default {
         data() {
             return {
@@ -576,6 +573,29 @@
                   'package_total':'',
                 }
             }
+        },
+        components: {
+          addressograph,
+          SelectPatientModal
+        },
+        mounted() {
+          $('.ls-select2').select2({
+             placeholder: "Select",
+          });
+          $('.ls-datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            'autoclose': true
+          })
+          // if(this.ipd_id == 0){
+          $('#delete_modal').modal('show');
+          // }
+
+          let vm =this;
+   				$('.ls-datepicker').datepicker().on('changeDate',function(){
+   					if (this.id == 'date') {
+   						vm.operativeDetailSheetData.date = this.value;
+   					}
+          });f
         },
         methods: {
 		    GetSelectComponent(componentName) {

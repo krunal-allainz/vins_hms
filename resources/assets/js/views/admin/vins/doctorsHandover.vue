@@ -5,13 +5,7 @@
         <div class="col-md-6">
         <h1>Doctor's Handover</h1>
         </div>
-        <div class="col-md-6">
-          <div class="text-right">
-            DOC NO. F/IPD/62 <br>
-            REV. No. 0.0 <br>
-            WEF 25-02-2017
-          </div>
-        </div>
+
       </div>
     </div>
 
@@ -19,7 +13,7 @@
 
     <form action="" method = "post">
       <div class="row form-group">
-        <div class="col">
+        <div class="col-md-8">
           <div class="row">
             <div class="col">
               <label for="diagnosis" class="control-label">Diagnosis: </label>
@@ -32,19 +26,11 @@
             </div>
           </div>
         </div>
-  			<div class="col">
-  				<div class="row">
-  					<div class="col">
-  						<label for="">IPD No.</label>
-  					</div>
-  					<div class="col">
-  						<input type="text" name="ipd_no" class="form-control" v-model="ipd_id" v-validate="'required'">
-  						<span class="help is-danger" v-show="errors.has('ipd_no')">
-  							Field is required
-  						</span>
-  					</div>
-  				</div>
-  			</div>
+        <div class="col-md-4">
+          <div class="text-right">
+            <addressograph></addressograph>
+          </div>
+        </div>
       </div>
       <hr>
       <div class="row form-group">
@@ -54,7 +40,7 @@
               <th class="text-center">Sr. No.</th>
               <th class="text-center">Particulars</th>
               <th class="text-center">
-                <select class="form-control" v-validate="'required'" id = "day_night" name="day_night" value=""  v-model="doctorsHandoverData.day_night">
+                <select class="form-control ls-select2" v-validate="'required'" id = "day_night" name="day_night" value=""  v-model="doctorsHandoverData.day_night">
                   <option value="day">Day</option>
                   <option value="night">Night</option>
                 </select>
@@ -69,7 +55,7 @@
               <td class="text-center">1</td>
               <td>Patient is surgical/conservative</td>
               <td>
-                <select class="form-control" v-validate="'required'" id = "surgical" name="surgical" value=""  v-model="doctorsHandoverData.surgical">
+                <select class="form-control ls-select2" v-validate="'required'" id = "surgical" name="surgical" value=""  v-model="doctorsHandoverData.surgical">
                   <option value="conservative">Conservative</option>
                   <option value="surgical">Surgical</option>
                 </select>
@@ -82,7 +68,7 @@
             <tr>
               <td class="text-center">2</td>
               <td>If patient is surgical then tentative date of surgery</td>
-              <td><input class="form-control" type = "text" v-validate="'required'" id = "tentative_date_of_surgery" name="tentative_date_of_surgery" value=""  v-model="doctorsHandoverData.tentative_date_of_surgery"/>
+              <td><input class="form-control ls-datepicker" type = "text" v-validate="'required'" id = "tentative_date_of_surgery" name="tentative_date_of_surgery" value=""  v-model="doctorsHandoverData.tentative_date_of_surgery"/>
               <span class="help is-danger" v-show="errors.has('tentative_date_of_surgery')">
                         Field is required
                       </span></td>
@@ -91,7 +77,7 @@
             <tr>
               <td class="text-center">3</td>
               <td>Please mention date of surgery performed (If surgery performed)</td>
-              <td><input class="form-control" type = "date" v-validate="'required'" id = "date_of_surgery" name="date_of_surgery" value=""  v-model="doctorsHandoverData.date_of_surgery"/>
+              <td><input class="form-control ls-datepicker" type = "text" v-validate="'required'" id = "date_of_surgery" name="date_of_surgery" value=""  v-model="doctorsHandoverData.date_of_surgery"/>
               <span class="help is-danger" v-show="errors.has('date_of_surgery')">
                         Field is required
                       </span></td>
@@ -119,7 +105,7 @@
               <td class="text-center">6</td>
               <td>Pathological investigation to be done</td>
               <td>
-                 <select class="form-control" v-validate="'required'" id = "pathological_investigation_done" name="pathological_investigation_done" value=""  v-model="doctorsHandoverData.pathological_investigation_done">
+                 <select class="form-control ls-select2" v-validate="'required'" id = "pathological_investigation_done" name="pathological_investigation_done" value=""  v-model="doctorsHandoverData.pathological_investigation_done">
                   <option value="no">No</option>
                   <option value="yes">Yes</option>
                 </select><span class="help is-danger" v-show="errors.has('pathological_investigation_done')">
@@ -131,7 +117,7 @@
               <td class="text-center">7</td>
               <td>Reports of pathological investigation to be collected</td>
               <td>
-                 <select class="form-control" v-validate="'required'" id = "pathological_investigation_collected" name="pathological_investigation_collected" value=""  v-model="doctorsHandoverData.pathological_investigation_collected">
+                 <select class="form-control ls-select2" v-validate="'required'" id = "pathological_investigation_collected" name="pathological_investigation_collected" value=""  v-model="doctorsHandoverData.pathological_investigation_collected">
                   <option value="no">No</option>
                   <option value="yes">Yes</option>
                 </select>
@@ -145,7 +131,7 @@
               <td class="text-center">8</td>
               <td>Radiological investigation to be done</td>
               <td>
-                   <select class="form-control" v-validate="'required'" id = "radiological_investigation_done" name="radiological_investigation_done" value=""  v-model="doctorsHandoverData.radiological_investigation_done">
+                   <select class="form-control ls-select2" v-validate="'required'" id = "radiological_investigation_done" name="radiological_investigation_done" value=""  v-model="doctorsHandoverData.radiological_investigation_done">
                   <option value="no">No</option>
                   <option value="yes">Yes</option>
                 </select>
@@ -159,7 +145,7 @@
               <td class="text-center">9</td>
               <td>Reports of radiological investigation to be collected</td>
               <td>
-                 <select class="form-control" v-validate="'required'" id = "radiological_investigation_collected" name="radiological_investigation_collected" value=""  v-model="doctorsHandoverData.radiological_investigation_collected">
+                 <select class="form-control ls-select2" v-validate="'required'" id = "radiological_investigation_collected" name="radiological_investigation_collected" value=""  v-model="doctorsHandoverData.radiological_investigation_collected">
                   <option value="no">No</option>
                   <option value="yes">Yes</option>
                 </select>
@@ -173,7 +159,7 @@
               <td class="text-center">10</td>
               <td>Any other investigation to be done</td>
               <td>
-                 <select class="form-control" v-validate="'required'" id = "other_investigation_done" name="other_investigation_done" value=""  v-model="doctorsHandoverData.other_investigation_done">
+                 <select class="form-control ls-select2" v-validate="'required'" id = "other_investigation_done" name="other_investigation_done" value=""  v-model="doctorsHandoverData.other_investigation_done">
                   <option value="no">No</option>
                   <option value="yes">Yes</option>
                 </select>
@@ -187,7 +173,7 @@
               <td class="text-center">11</td>
               <td>Reports of said investigation awaited</td>
               <td>
-                   <select class="form-control" v-validate="'required'" id = "other_investigation_collected" name="other_investigation_collected" value=""  v-model="doctorsHandoverData.other_investigation_collected">
+                   <select class="form-control ls-select2" v-validate="'required'" id = "other_investigation_collected" name="other_investigation_collected" value=""  v-model="doctorsHandoverData.other_investigation_collected">
                   <option value="no">No</option>
                   <option value="yes">Yes</option>
                 </select>
@@ -201,7 +187,7 @@
               <td class="text-center">12</td>
               <td>Echo</td>
               <td>
-                   <select class="form-control" v-validate="'required'" id = "echo" name="echo" value=""  v-model="doctorsHandoverData.echo">
+                   <select class="form-control ls-select2" v-validate="'required'" id = "echo" name="echo" value=""  v-model="doctorsHandoverData.echo">
                   <option value="no">No</option>
                   <option value="yes">Yes</option>
                 </select>
@@ -215,7 +201,7 @@
               <td class="text-center">13</td>
               <td>Physiotherapy</td>
               <td>
-                   <select class="form-control" v-validate="'required'" id = "physiotherapy" name="physiotherapy" value=""  v-model="doctorsHandoverData.physiotherapy">
+                   <select class="form-control ls-select2" v-validate="'required'" id = "physiotherapy" name="physiotherapy" value=""  v-model="doctorsHandoverData.physiotherapy">
                   <option value="no">No</option>
                   <option value="yes">Yes</option>
                 </select>
@@ -239,7 +225,7 @@
               <td class="text-center">15</td>
               <td>Verified by physician's assistant</td>
               <td>
-                   <select class="form-control" v-validate="'required'" id = "verified_by_assistant" name="verified_by_assistant" value=""  v-model="doctorsHandoverData.verified_by_assistant">
+                   <select class="form-control ls-select2" v-validate="'required'" id = "verified_by_assistant" name="verified_by_assistant" value=""  v-model="doctorsHandoverData.verified_by_assistant">
                   <option value="no">No</option>
                   <option value="yes">Yes</option>
                 </select>
@@ -256,7 +242,7 @@
             <tr>
               <td class=""></td>
               <td>16.1 Name</td>
-              <td><input class="form-control" type = "text" v-validate="'required'" id = "name_given" name="name_given" value=""  v-model="doctorsHandoverData.name_given"/>
+              <td><input class="form-control ls-select2" type = "text" v-validate="'required'" id = "name_given" name="name_given" value=""  v-model="doctorsHandoverData.name_given"/>
               <span class="help is-danger" v-show="errors.has('name_given')">
                         Field is required
                       </span>
@@ -266,7 +252,7 @@
             <tr>
               <td class=""></td>
               <td>16.2 Date</td>
-              <td><input class="form-control" type = "date" v-validate="'required'" id = "date_given" name="date_given" value=""  v-model="doctorsHandoverData.date_given"/>
+              <td><input class="form-control ls-datepicker" type = "text" v-validate="'required'" id = "date_given" name="date_given" value=""  v-model="doctorsHandoverData.date_given"/>
               <span class="help is-danger" v-show="errors.has('date_given')">
                         Field is required
                       </span>
@@ -276,7 +262,7 @@
             <tr>
               <td class=""></td>
               <td>16.3 Time</td>
-              <td><input class="form-control" type = "time" v-validate="'required'" id = "time_given" name="time_given" value=""  v-model="doctorsHandoverData.time_given"/>
+              <td><input class="form-control ls-timepicker" type = "text" v-validate="'required'" id = "time_given" name="time_given" value=""  v-model="doctorsHandoverData.time_given"/>
               <span class="help is-danger" v-show="errors.has('time_given')">
                         Field is required
                       </span>
@@ -301,7 +287,7 @@
             <tr>
               <td class=""></td>
               <td>17.2 Date</td>
-              <td><input class="form-control" type = "date" v-validate="'required'" id = "date_taken" name="date_taken" value=""  v-model="doctorsHandoverData.date_taken"/>
+              <td><input class="form-control ls-datepicker" type = "text" v-validate="'required'" id = "date_taken" name="date_taken" value=""  v-model="doctorsHandoverData.date_taken"/>
               <span class="help is-danger" v-show="errors.has('date_taken')">
                         Field is required
                       </span>
@@ -311,7 +297,7 @@
             <tr>
               <td class=""></td>
               <td>17.3 Time</td>
-              <td><input class="form-control" type = "time" v-validate="'required'" id = "time_taken" name="time_taken" value=""  v-model="doctorsHandoverData.time_taken"/>
+              <td><input class="form-control ls-timepicker" type = "text" v-validate="'required'" id = "time_taken" name="time_taken" value=""  v-model="doctorsHandoverData.time_taken"/>
               <span class="help is-danger" v-show="errors.has('time_taken')">
                         Field is required
               </span>
@@ -326,10 +312,14 @@
         <button class="btn btn-success" type="button" @click="saveDoctorsHandover()">Submit</button>
       </div>
     </form>
+    <select-patient-modal @confirmed="deleteConfirmed()"></select-patient-modal>
   </div>
 </template>
 <script >
 	import User from '../../../api/users.js';
+  import addressograph from './addressograph.vue';
+  import SelectPatientModal from '../../../components/SelectPatientModal.vue';
+
     export default {
         data() {
             return {
@@ -358,12 +348,57 @@
                   'verified_by_assistant': '',
                   'name_given': '',
                   'date_given': '',
+                  'time_given': '',
                   'name_taken': '',
                   'date_taken': '',
                   'time_taken': ''
                 }
             }
         },
+        components: {
+           addressograph,
+           SelectPatientModal
+       },
+       mounted() {
+         $('.ls-select2').select2({
+            placeholder: "Select",
+         });
+         $('.ls-datepicker').datepicker({
+         format: 'dd/mm/yyyy',
+         'autoclose': true
+         })
+         $('.ls-timepicker').timepicker({
+         format: 'hh-mm',
+         'autoclose': true
+        })
+          // if(this.ipd_id == 0){
+            $('#delete_modal').modal('show');
+         // }
+           let vm =this;
+            $('.ls-datepicker').datepicker().on('changeDate',function(){
+            if(this.id == 'date_given'){
+              vm.doctorsHandoverData.date_given = this.value;
+            }
+            if(this.id == 'date_taken'){
+              vm.bloodSugarMonitoringChart.date_taken = this.value;
+            }
+            if(this.id == 'tentative_date_of_surgery'){
+              vm.bloodSugarMonitoringChart.tentative_date_of_surgery = this.value;
+            }
+            if(this.id == 'date_of_surgery'){
+              vm.bloodSugarMonitoringChart.date_of_surgery = this.value;
+            }
+          })
+          $('.ls-timepicker').on('change', function(e)  {
+            if(this.id == 'time_given'){
+              vm.doctorsHandoverData.time_given = this.value;
+            }
+            if(this.id == 'time_taken'){
+              vm.doctorsHandoverData.time_taken = this.value;
+            }
+     			})
+
+       },
         methods: {
 		    GetSelectComponent(componentName) {
 		       this.$router.push({name: componentName})
@@ -376,8 +411,8 @@
                    var Res = {'type':this.type,'patient_id':this.patient_id,'ipd_id':this.ipd_id,'form_data':this.doctorsHandoverData};
 				    	     User.saveDoctorsHandover(Res).then(
 		                (response) => {
-		                	if(response.data.code == 200) {
-		                		toastr.success('Doctor\'s Handover has been saved', 'Doctor\'s Handover', {timeOut: 5000});
+		                	if(response.data.status == 200) {
+		                		toastr.success('Doctors Handover has been saved', 'Doctors Handover', {timeOut: 5000});
 		                	}
 		                	 $("body .js-loader").addClass('d-none');
 

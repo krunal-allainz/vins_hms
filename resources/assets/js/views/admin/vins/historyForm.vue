@@ -5,26 +5,28 @@
 			<div class="col-md-6">
 				<h1>History Form</h1>
 			</div>
-			<div class="col-md-6">
-				<div class="text-right">
-					DOC NO. FMT/HIC/09 </br>
-					REV. No. 0.1 </br>
-					WEF 10-10-2015
-				</div>
-			</div>
 		</div>
 	</div>
 
 	<form action="" method="post">
 
-		<div class="row form-group">
+		<div class="row">
 			<div class="col-md-6">
 				<div class="col-md-6">
-					<label>IPD No : </label>
+					<label>IPD NO : </label>
 				</div>
 				<div class="col-md-6">
-					<input class="form-control" type="text" name="ipd_id" v-model="ipd_id" v-validate="'required'" />
+					<input class="form-control" type="text" name="ipd_id" id="ipd_id" v-model="ipd_id" v-validate="'required|numeric'" />
+					<span class="help is-danger" v-show="errors.has('ipd_id')">
+						Numeric Field is required
+					</span>
 				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="text-right">
+					<addressograph></addressograph>
+				</div>
+
 			</div>
 		</div>
 
@@ -35,8 +37,8 @@
 			<div class="col-md-6">
 				<input class="form-control" type="text" id="chief_complaints" name="chief_complaints" value="" v-model="historyFormData.chief_complaints" v-validate="'required'"/>
 				<span class="help is-danger" v-show="errors.has('chief_complaints')">
-									Field is required
-								</span>
+					Field is required
+				</span>
 
 			</div>
 		</div>
@@ -125,11 +127,11 @@
 			</div>
 			<div class="col-md-4">
 				<div class="col-md-6">
-					<label for="at" class="control-label">At : </label>
+					<label for="at" class="control-label">Time : </label>
 				</div>
 				<div class="col-md-6">
-					<input class="form-control" type="text" id="at" name="at" value="" v-model="historyFormData.at" v-validate="'required'"/>
-					<span class="help is-danger" v-show="errors.has('at')">
+					<input class="form-control ls-timepicker" type="text" id="time_accident" name="time_accident" value="" v-model="historyFormData.time_accident" v-validate="'required'"/>
+					<span class="help is-danger" v-show="errors.has('time_accident')">
 										Field is required
 									</span>
 				</div>
@@ -139,10 +141,10 @@
 					<label for="date" class="control-label">Date : </label>
 				</div>
 				<div class="col-md-6">
-					<input class="form-control" type="date" id="date" name="date" value="" v-model="historyFormData.date" v-validate="'required'"/>
-					<span class="help is-danger" v-show="errors.has('date')">
-										Field is required
-									</span>
+					<input class="form-control ls-datepicker" type="text" id="date_accident" name="date_accident" value="" v-model="historyFormData.date_accident" v-validate="'required'"/>
+					<span class="help is-danger" v-show="errors.has('date_accident')">
+						Field is required
+					</span>
 
 				</div>
 			</div>
@@ -154,7 +156,7 @@
 					<label for="ho_loc" class="control-label">H/O LOC</label>
 				</div>
 				<div class="col-md-6">
-					<select class="form-control" v-validate="'required'" id = "ho_loc" name="ho_loc" value="" :class="{'is-danger': errors.has('ho_loc') }" v-model="historyFormData.ho_loc">
+					<select class="form-control ls-select2" v-validate="'required'" id = "ho_loc" name="ho_loc" value="" :class="{'is-danger': errors.has('ho_loc') }" v-model="historyFormData.ho_loc">
 						<option value="no">No</option>
 						<option value="yes">Yes</option>
 					</select>
@@ -168,7 +170,7 @@
 					<label for="ho_entbleeding" class="control-label">H/O ENT Bleeding</label>
 				</div>
 				<div class="col-md-6">
-					<select class="form-control" v-validate="'required'" id = "ho_entbleeding" name="ho_entbleeding" value="" :class="{'is-danger': errors.has('ho_entbleeding') }" v-model="historyFormData.ho_entbleeding">
+					<select class="form-control ls-select2" v-validate="'required'" id = "ho_entbleeding" name="ho_entbleeding" value="" :class="{'is-danger': errors.has('ho_entbleeding') }" v-model="historyFormData.ho_entbleeding">
 						<option value="no">No</option>
 						<option value="yes">Yes</option>
 					</select>
@@ -185,7 +187,7 @@
 					<label for="ho_seizures" class="control-label">H/O Seizures</label>
 				</div>
 				<div class="col-md-6">
-					<select class="form-control" v-validate="'required'" id = "ho_seizures" name="ho_seizures" value="" :class="{'is-danger': errors.has('ho_seizures') }" v-model="historyFormData.ho_seizures">
+					<select class="form-control ls-select2" v-validate="'required'" id = "ho_seizures" name="ho_seizures" value="" :class="{'is-danger': errors.has('ho_seizures') }" v-model="historyFormData.ho_seizures">
 						<option value="no">No</option>
 						<option value="yes">Yes</option>
 					</select>
@@ -199,7 +201,7 @@
 					<label for="ho_vomiting" class="control-label">H/O Vomiting</label>
 				</div>
 				<div class="col-md-6">
-					<select class="form-control" v-validate="'required'" id = "ho_vomiting" name="ho_vomiting" value="" :class="{'is-danger': errors.has('ho_vomiting') }" v-model="historyFormData.ho_vomiting" >
+					<select class="form-control ls-select2" v-validate="'required'" id = "ho_vomiting" name="ho_vomiting" value="" :class="{'is-danger': errors.has('ho_vomiting') }" v-model="historyFormData.ho_vomiting" >
 						<option value="no">No</option>
 						<option value="yes">Yes</option>
 					</select>
@@ -277,7 +279,7 @@
 				<label for="pain" class="control-label">Pain Assessment : </label>
 			</div>
 			<div class="col-md-6">
-				<select class="form-control" v-validate="'required'" id = "pain" name="pain" value="" :class="{'is-danger': errors.has('pain') }" v-model="historyFormData.pain">
+				<select class="form-control ls-select2" v-validate="'required'" id = "pain" name="pain" value="" :class="{'is-danger': errors.has('pain') }" v-model="historyFormData.pain">
 					<option value="0">0 - No Pain</option>
 					<option value="2">2 - Pain Little Bit</option>
 					<option value="4">4 - Pain Little More</option>
@@ -291,8 +293,8 @@
 			</div>
 		</div>
 
-    <div class="row form-group">
-      <table class="table table-bordered">
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped">
         <thead>
           <tr>
             <th></th>
@@ -442,7 +444,7 @@
           <label for="cerebellar" class="control-label">Cerebellar Signs : </label>
         </div>
         <div class="col-md-6">
-					<select class="form-control" v-validate="'required'" id = "cerebellar" name="cerebellar" value="" :class="{'is-danger': errors.has('cerebellar') }" v-model="historyFormData.cerebellar">
+					<select class="form-control ls-select2" v-validate="'required'" id = "cerebellar" name="cerebellar" value="" :class="{'is-danger': errors.has('cerebellar') }" v-model="historyFormData.cerebellar">
 						<option value="no">No</option>
             <option value="truncal">Truncal</option>
             <option value="appendicular">Appendicular</option>
@@ -489,12 +491,16 @@
 		</div>
 
 </form>
+ <select-patient-modal @confirmed="deleteConfirmed()"></select-patient-modal>
 </div>
 </template>
 
 <script >
 	import User from '../../../api/users.js';
-    export default {
+	import addressograph from './addressograph.vue';
+	import SelectPatientModal from '../../../components/SelectPatientModal.vue';
+
+      export default {
         data() {
             return {
                 'footer' : 'footer',
@@ -510,8 +516,8 @@
 									'road_accident':'',
 									'alleged_roadtrafficaccident':'',
 									'place':'',
-									'time':'',
-									'date':'',
+									'time_accident':'',
+									'date_accident':'',
 									'ho_loc':'',
 									'ho_entbleeding':'',
 									'ho_seizures':'',
@@ -545,6 +551,37 @@
                 }
             }
         },
+
+
+				components: {
+					 addressograph,
+					 SelectPatientModal
+			 },
+
+
+
+
+        mounted() {
+        	$('.ls-datepicker').datepicker({
+			    format: 'dd/mm/yyyy',
+			    'autoclose': true
+			});
+			$('.ls-select2').select2({
+				 placeholder: "Select",
+			});
+			$('.ls-timepicker').timepicker();
+            let vm =this;
+			$('.ls-datepicker').datepicker().on('changeDate',function(){
+				vm.historyFormData.date_accident = this.value;
+			})
+
+			$('.ls-timepicker').on('change', function(e)  {
+				//vm.historyFormData.time_accident = this.value;
+			});
+			 // if(this.ipd_id == 0){
+	     		   $('#delete_modal').modal('show');
+	    		// }
+  },
         methods: {
 		    GetSelectComponent(componentName) {
 		       this.$router.push({name: componentName})
@@ -578,6 +615,7 @@
 		  },
 
     }
+
 </script>
 
 
