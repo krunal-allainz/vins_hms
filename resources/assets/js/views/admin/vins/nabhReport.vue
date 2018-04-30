@@ -407,8 +407,7 @@
 										'avg_emergency_surgeries' : '',
 										'avg_day_care_surgeries' : '',
 										'avg_units_water' : '',
-										'avg_electricity' : '',
-
+										'avg_electricity' : '',		
 										'total_medication_error' : 0,
 										'incidence_medication_error' : 0,
 										'total_inpatient_medicationerror' : 0,
@@ -448,7 +447,6 @@
 										'total_inpatient_avgStay' : 0,
 										'avg_stay' : 0,
 										'total_spearations' : '',
-
 										'reported_needle_injury' : '',
 										'total_needle_injury' : '',
 										'total_inpatient_needle' : '',
