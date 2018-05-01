@@ -77,7 +77,12 @@ class PatientsDetailFormController extends Controller
          $patientId = $patientData->id;
         } else {
             $patientId = 0;
-            $patientData = PatientDetailsForm::where('first_name',$data['fname'])->where('dob',$data['dob'])->first();
+          if($data['select_type'] == 'uhidNo'){
+            $select_key = 'uhid_no';
+          }else {
+            $select_key = 'mob_no';
+          }
+            $patientData = PatientDetailsForm::where($select_key,$data['select_value'])->get()->first();
             if($patientData) {
                 $patientId = $patientData->id;
             } else {
