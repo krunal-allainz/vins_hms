@@ -168,10 +168,7 @@
 
 				</div>
 			</div>
-			<div class="form-group text-center">
-				<button class="btn btn-success" type="button" @click="savePatient()">Submit</button>
-			</div>
-
+			x
 		</form>
 	</div>
 
@@ -218,16 +215,16 @@
 						 placeholder: "Select",
 				  });
 					let vm =this;
-          $('.ls-select2').on("select2:select", function (e) {
+        $('.ls-select2').on("select2:select", function (e) {
              vm.patientData.case = $(this).val();
              if($(this).val() == 'old') {
              }
              else {
                 setTimeout(function(){
-                $('#createPatientDetail').modal('show');
-             },500)
-					 }
-				});
+	                $('#createPatientDetail').modal('show');
+	             },500)
+			}
+		});
 
      //    	 $('.ls-select2').select2({
      //                allowClear: true,

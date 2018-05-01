@@ -116,7 +116,7 @@ class UserController extends BaseController
            //    $email_msg = 'Euro-Sportring email verification';
            //    $email_details['is_mobile_user'] = 1;
            //  }
-            Common::sendMail($email_details, $recipient, $email_msg, $email_templates);
+            // Common::sendMail($email_details, $recipient, $email_msg, $email_templates);
             return ['status_code' => '200', 'message' => 'Please check your inbox to verify your email address and complete your account registration.'];
         }
 

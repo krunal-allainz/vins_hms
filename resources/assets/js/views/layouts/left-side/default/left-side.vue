@@ -14,18 +14,19 @@
                     <vmenu-item link="/NewUser" icon="ti-layout">
                         &nbsp; New User
                     </vmenu-item>
-                    <vmenu-item link="/opd_form" icon="ti-layout">
+
+                    <vmenu-item link="/opd_form" icon="ti-layout" v-if="userRole == 'Doctor'" >
                         &nbsp; OPD Form
                     </vmenu-item>
                     <vmenu-item link="/patients_detail_form" icon="ti-layout">
                         &nbsp; Patients Detail Form
                     </vmenu-item>
-                    <vmenu-item link="/patients_receipt_form" icon="ti-layout">
+                    <!-- <vmenu-item link="/patients_receipt_form" icon="ti-layout">
                         &nbsp; Patients Receipt Form
-                    </vmenu-item>
-                    <vmenu-item link="/provisional_diagnosis" icon="ti-layout">
+                    </vmenu-item> -->
+                   <!--  <vmenu-item link="/provisional_diagnosis" icon="ti-layout">
                         &nbsp; Provisional Diagnosis Form
-                    </vmenu-item>
+                    </vmenu-item> -->
 
                 </vmenu>
                 <!-- / .navigation -->
@@ -52,6 +53,9 @@ export default {
     },
     data() {
         return {
+            'test':'test',
+            'userRole': this.$store.state.Users.userDetails.user_type,
+
         }
     }
 }
