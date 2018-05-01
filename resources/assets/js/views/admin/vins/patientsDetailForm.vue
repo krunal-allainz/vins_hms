@@ -156,14 +156,14 @@
 					</div>
 					<div class="col-md-6">
 
-						<select class="form-control ls-select2 " id="case" name="case" value="" v-model="patientData.case">
+						<select class="form-control ls-select2 " id="case" name="case" value="" v-model="patientData.case"  v-validate="'required'">
 							<option value="new" selected="" >New</option>
 
 							<option value="old" >Old</option>
 						</select>
-						<!--span class="help is-danger" v-show="errors.has('case')">
+						<span class="help is-danger" v-show="errors.has('case')">
 		                	Field is required
-		                </span-->
+		                </span>
 					</div>
 
 				</div>
@@ -218,15 +218,15 @@
 						 placeholder: "Select",
 				  });
 					let vm =this;
-          $('.ls-select2').on("select2:select", function (e) {
-             vm.patientData.case = $(this).val();
-             if($(this).val() == 'old') {
-             }
-             else {
-                setTimeout(function(){
-                $('#createPatientDetail').modal('show');
-             },500)
-					 }
+		          $('.ls-select2').on("select2:select", function (e) {
+		             vm.patientData.case = $(this).val();
+		             if($(this).val() == 'old') {
+		             }
+		             else {
+		                setTimeout(function(){
+		                $('#createPatientDetail').modal('show');
+		             },500)
+							 }
 				});
 
      //    	 $('.ls-select2').select2({

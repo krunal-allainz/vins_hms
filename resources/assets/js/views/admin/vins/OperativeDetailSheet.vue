@@ -27,7 +27,7 @@
             <label>OT No : </label>
           </div>
           <div class="col-md-6">
-            <select class="form-control ls-select2" name="ot_no" v-model="operativeDetailSheetData.ot_no" v-validate="'required'">
+            <select class="form-control ls-select2" name="ot_no" id="ot_no" v-model="operativeDetailSheetData.ot_no" v-validate="'required'">
               <option value="1">1</option>
               <option value="2">2</option>
             </select>
@@ -405,7 +405,7 @@
             <label>Mediclaim / Cashless : </label>
           </div>
           <div class="col-md-6">
-            <select class="form-control ls-select2" name="mediclaim" v-model="operativeDetailSheetData.mediclaim" v-validate="'required'">
+            <select class="form-control ls-select2" name="mediclaim" id="mediclaim" v-model="operativeDetailSheetData.mediclaim" v-validate="'required'">
               <option value="mediclaim">Mediclaim</option>
               <option value="cashless">Cashless</option>
             </select>
@@ -584,6 +584,7 @@
           });
           $('.ls-datepicker').datepicker({
             format: 'dd/mm/yyyy',
+             todayHighlight: true,
             'autoclose': true
           })
           // if(this.ipd_id == 0){
@@ -595,7 +596,7 @@
    					if (this.id == 'date') {
    						vm.operativeDetailSheetData.date = this.value;
    					}
-          });f
+          });
         },
         methods: {
 		    GetSelectComponent(componentName) {
@@ -610,7 +611,7 @@
                    var operativeDetailSheetData = {'type':this.type,'patient_id':this.patient_id,'ipd_id':this.ipd_id,'form_data':this.operativeDetailSheetData};
                    User.saveOperativeDetailSheet(operativeDetailSheetData).then(
                          (response) => {
-                         	console.log(response)
+                         	
                          	if(response.data.status == 200) {
                          		toastr.success('Operative Detail Sheet Form has been saved', 'Operative Detail Sheet', {timeOut: 5000});
                          	}

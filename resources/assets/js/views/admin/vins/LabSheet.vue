@@ -135,6 +135,7 @@
 		mounted() {
 	         $('.ls-datepicker').datepicker({
 		         format: 'dd/mm/yyyy',
+				 todayHighlight: true,
 		         'autoclose': true
 	    	 })
 	    	 // if(this.ipd_id == 0){
