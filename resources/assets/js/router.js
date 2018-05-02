@@ -96,6 +96,7 @@ import vascularExamination from './views/admin/vins/vascularExamination.vue'
 import neuroExamination from './views/admin/vins/neuroExamination.vue'
 // import provisionalDiagnosis from './views/admin/vins/provisionalDiagnosis.vue'
 
+
 //import changePwd from './views/emails/ChangePwd.vue'
 
 import UserList from './views/admin/vins/userList.vue'
@@ -141,11 +142,11 @@ const routes = [
                 meta: { requiresAuth: true },
                 name: 'opd_form'
             },
-                       // {
-            //     path: '/doctorsInitialAssessment',
-            //     component: doctorsInitialAssessment,
-            //     name: 'doctorsInitialAssessment'
-            // },
+            {
+                path: '/doctorsInitialAssessment',
+                component: doctorsInitialAssessment,
+                name: 'doctorsInitialAssessment'
+            },
             {
                 path: '/patients_detail_form',
                 component: patientsDetailForm,
