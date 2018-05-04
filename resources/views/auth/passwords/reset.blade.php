@@ -70,7 +70,7 @@
                                 <input type="hidden" name="token" value="{{ $token }}">
 
                                 <div class="form-group">
-                                    <input id="email" type="email" class="form-control" placeholder="Enter email" name="email" value="">
+                                    <input id="email" type="email" class="form-control" placeholder="Enter email" name="email" value="{{$_GET['email']}}">
                                 </div>
 
                                 <div class="form-group">

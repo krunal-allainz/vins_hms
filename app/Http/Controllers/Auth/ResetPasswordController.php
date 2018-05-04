@@ -130,6 +130,8 @@ class ResetPasswordController extends Controller
        // $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
         $userData = User::where(['email'=>$data['email']])->first();
 
+     ;
+
         // if($userData->roles[0]->id == $mobileUserRoleId) {
         //     $data['otp'] = (isset($data['otp'])) ? $data['otp'] : '1';
         // //   if($this->isValidOTP($mobileUser, $data['otp'])) {

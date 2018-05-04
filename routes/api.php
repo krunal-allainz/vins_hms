@@ -29,7 +29,7 @@ Route::get('/mlogin', '\euro_hms\Http\Controllers\Auth\ResetPasswordController@u
 
 //Route::post('password/reset', '\euro_hms\Http\Controllers\Auth\ForgotPasswordController@resetLink');
 Route::post('password/reset/link', '\euro_hms\Api\Controllers\Auth\ForgotPasswordController@resetLink');
-//Route::Post('password/user/reset/{token}', '\euro_hms\Api\Controllers\Auth\ResetPasswordController@showResetForm');
+
 
 $api = app('Dingo\Api\Routing\Router');
 

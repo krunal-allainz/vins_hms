@@ -12,6 +12,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Str;
 use euro_hms\Models\User;
 use euro_hms\Models\Role;
+use Hash;
 
 class ResetPasswordController extends Controller
 {
@@ -129,36 +130,24 @@ class ResetPasswordController extends Controller
 
        // $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
         $userData = User::where(['email'=>$data['email']])->first();
-
-        // if($userData->roles[0]->id == $mobileUserRoleId) {
-        //     $data['otp'] = (isset($data['otp'])) ? $data['otp'] : '1';
-        // //   if($this->isValidOTP($mobileUser, $data['otp'])) {
-        //     // if its valid otp
-        //     $mobileUser->password =  \Hash::make($data['password']);
-        //     $mobileUser->save();
-        //     $response = 'passwords.reset';
-        //   // } else {
-        //    // return response(['status_code' => 319,'message'=>'Sorry code Expired']);
-        //   // }
-        // } else {
-
-        $response = $this->broker()->reset(
-          $this->credentials($request), function ($user, $password) {
-            $this->resetPassword($user, $password);
-          }
-        );
-        // }
+        $userPassword = Hash::make(trim($data['password']));
+        $token = str_random(30);
+           User::where('email',$data['email'])->update(['password'=>$userPassword]);
+           
+        
         // If the password was successfully reset, we will redirect the user back to
         // the application's home authenticated view. If there is an error we can
         // redirect them back to where they came from with their error message.
 
-        $response == Password::PASSWORD_RESET
+       /* $response == Password::PASSWORD_RESET
                 ? $this->sendResetResponse($response)
-                : $this->sendResetFailedResponse($request, $response);
-        if($userData->roles[0]->id != $mobileUserRoleId)
+                : $this->sendResetFailedResponse($request, $response);*/
+
+       /* if($userData->roles[0]->id != $mobileUserRoleId)
             return redirect('/login/passwordupdated');
         else
-            return redirect('/mlogin')->with('reset','reset password');
+            return redirect('/mlogin')->with('reset','reset password');*/
+             return redirect('/login');
     }
 
     public function userMlogin(Request $request) {
@@ -199,7 +188,7 @@ class ResetPasswordController extends Controller
      *
      * @param  \Illuminate\Contracts\Auth\CanResetPassword  $user
      * @param  string  $password
-     * @return void
+     * @return vpopmail_del_domain(domain)
      */
     protected function resetPassword($user, $password)
     {
