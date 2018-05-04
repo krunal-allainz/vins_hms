@@ -12,6 +12,8 @@ import AuthService from './services/auth'
 //Layouts
 import LayoutLogin from './views/layouts/LayoutLogin.vue'
 import LayoutFront from './views/layouts/LayoutFront.vue'
+import LayoutForgotPasswords from './views/layouts/LayoutForgotPasswords.vue' 
+import LayoutResetPassword from './views/layouts/LayoutResetPassword.vue'
 
 //Login : Auth
 // import Login from './views/auth/Login.vue'
@@ -134,7 +136,6 @@ const routes = [
                 meta: { requiresAuth: true },
                 name: 'dashboard'
             },
-<<<<<<< HEAD
             {
                 path: '/opd_form',
                 component: opdForm,
@@ -142,9 +143,7 @@ const routes = [
                 name: 'opd_form'
             },
                        // {
-=======
             // {
->>>>>>> c616785517d5ab3e43c6dc98ae4fa7e3143cede4
             //     path: '/doctorsInitialAssessment',
             //     component: doctorsInitialAssessment,
             //     name: 'doctorsInitialAssessment'
@@ -539,6 +538,14 @@ const routes = [
     {
 
         path: '/login', component: LayoutLogin,
+
+    },
+
+    {
+
+        path: '/forgotpassword',
+        component: LayoutForgotPasswords,
+        name: 'LayoutForgotPasswords'
 
     },
 

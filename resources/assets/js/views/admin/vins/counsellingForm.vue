@@ -35,8 +35,8 @@
 
   						<td>{{n}}</td>
 
-  						<td><input class="form-control ls-datepicker" type="text" :id = "'date_'+n" :name="'date_'+n" v-model="counsellingFormData.counselling[n].date" /></td>
-  						<td><input class="form-control ls-timepicker" type="text" :id = "'tim e_'+n" :name="'time_'+n" v-model="counsellingFormData.counselling[n].time" /></td>
+  						<td><input class="form-control ls-datepicker" type="text" id = "'date_'+n" name="'date_'+n" v-model="counsellingFormData.counselling[n].date" /></td>
+  						<td><input class="form-control ls-timepicker" type="text" id = "'tim e_'+n" name="'time_'+n" v-model="counsellingFormData.counselling[n].time" /></td>
 
   						<td><input class="form-control" type="text" :name="'counsellor_'+n" v-model="counsellingFormData.counselling[n].counsellor" /></td>
   						<td><input class="form-control" type="text" :name="'relatives_name_'+n" v-model="counsellingFormData.counselling[n].relatives_name" /></td>
@@ -55,7 +55,7 @@
   </div>
 </template>
 <script >
-	import User from '../../../api/users.js';
+	
   import addressograph from './addressograph.vue';
   import SelectPatientModal from '../../../components/SelectPatientModal.vue';
 
@@ -120,49 +120,50 @@
             $('#delete_modal').modal('show');
           // }
           $('.ls-timepicker').timepicker({
-            format: 'hh-mm',
-                     'autoclose': true
+              format: 'hh-mm',
+              'autoclose': true
            })
            $('.ls-datepicker').datepicker({
              format: 'dd/mm/yy',
+              todayHighlight: true,
              'autoclose': true
           })
 
-         let vm =this;
+       
          $('.ls-timepicker').timepicker().on('change',function(){
-
+  
            if (this.id == 'time_1') {
-             vm.counsellingFormData.counselling[1].time = this.value;
+             this.counsellingFormData.counselling[1].time = this.value;
            }
            if (this.id == 'time_2') {
-             vm.counsellingFormData.counselling[2].time = this.value;
+             this.counsellingFormData.counselling[2].time = this.value;
            }
            if (this.id == 'time_3') {
-             vm.counsellingFormData.counselling[3].time = this.value;
+             this.counsellingFormData.counselling[3].time = this.value;
            }
            if (this.id == 'time_4') {
-            vm.counsellingFormData.counselling[4].time = this.value;
+            this.counsellingFormData.counselling[4].time = this.value;
            }
            if (this.id == 'time_5') {
-             vm.counsellingFormData.counselling[5].time = this.value;
+             this.counsellingFormData.counselling[5].time = this.value;
            }
        })
        $('.ls-datepicker').datepicker().on('changeDate',function(){
 
          if (this.id == 'date_1') {
-           vm.counsellingFormData.counselling[1].date = this.value;
+           this.counsellingFormData.counselling[1].date = this.value;
          }
          if (this.id == 'date_2') {
-           vm.counsellingFormData.counselling[2].date = this.value;
+           this.counsellingFormData.counselling[2].date = this.value;
          }
          if (this.id == 'date_3') {
-           vm.counsellingFormData.counselling[3].date = this.value;
+           this.counsellingFormData.counselling[3].date = this.value;
          }
          if (this.id == 'date_4') {
-          vm.counsellingFormData.counselling[4].date = this.value;
+          this.counsellingFormData.counselling[4].date = this.value;
          }
          if (this.id == 'date_5') {
-           vm.counsellingFormData.counselling[5].date = this.value;
+           this.counsellingFormData.counselling[5].date = this.value;
          }
      })
 

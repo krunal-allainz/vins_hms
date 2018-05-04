@@ -13,7 +13,7 @@ Route::get('report/create/','\euro_hms\Api\Controllers\ReportController@store');
     Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.request');
     Route::get('mlogin','Auth\ResetPasswordController@userMlogin');
 
-   /* Route::post('password/email', '\Laraspace\Http\Controllers\Auth\ForgotPasswordController@resetlink' ); */
+    Route::post('password/email', '\Laraspace\Http\Controllers\Auth\ForgotPasswordController@resetlink' ); 
    
     Route::get('user/setpassword/{key}','\Laraspace\Api\Controllers\UserController@setPassword');
 

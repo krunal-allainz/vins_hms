@@ -127,7 +127,7 @@ class ResetPasswordController extends Controller
         // here we check for Mobile user
         $data = $request->all();
 
-        $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
+       // $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
         $userData = User::where(['email'=>$data['email']])->first();
 
         // if($userData->roles[0]->id == $mobileUserRoleId) {

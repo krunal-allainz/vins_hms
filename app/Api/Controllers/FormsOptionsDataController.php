@@ -42,7 +42,7 @@ class FormsOptionsDataController extends Controller
         // dd($request->all());
         $data = $request->all()['resData'];
         $resultData = '';
-        // dd($data);
+       
         if($data['type'] == 'labSheet'){
             $resultData = $this->formOptionRepo->storeLabSheetData($data);
         }

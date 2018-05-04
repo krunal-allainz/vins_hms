@@ -363,7 +363,7 @@ class FormOptionsRepository {
       $formsRec = '';
 
       $formId = $this->getFormId($data);
-      // dd($data);
+      
 
       if($formId != '') {
           foreach ($data['form_data'] as $key => $value) {
@@ -377,6 +377,7 @@ class FormOptionsRepository {
               ]);
           }
       }
+      
       return $formsRec;
     }
 

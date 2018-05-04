@@ -55,7 +55,7 @@
             <label>Wheel In Time : </label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="time" name="wheel_in" v-model="operativeDetailSheetData.wheel_in" v-validate="'required'" value=""/>
+            <input class="form-control" type="time" name="wheel_in" id="wheel_in" v-model="operativeDetailSheetData.wheel_in" v-validate="'required'" value=""/>
 						<span class="help is-danger" v-show="errors.has('wheel_in')">
 							Field is required
 						</span>
@@ -66,7 +66,7 @@
             <label>Wheel Out Time : </label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="time" name="wheel_out" v-model="operativeDetailSheetData.wheel_out" v-validate="'required'" value=""/>
+            <input class="form-control" type="time" name="wheel_out" id="wheel_out" v-model="operativeDetailSheetData.wheel_out" v-validate="'required'" value=""/>
 						<span class="help is-danger" v-show="errors.has('wheel_out')">
 							Field is required
 						</span>
@@ -80,7 +80,7 @@
             <label>Anesthesia Induction Time : </label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="time" name="anesthesa_induction_time" v-model="operativeDetailSheetData.anesthesa_induction_time" v-validate="'required'" value=""/>
+            <input class="form-control" type="time" name="anesthesa_induction_time" id="anesthesa_induction_time" v-model="operativeDetailSheetData.anesthesa_induction_time" v-validate="'required'" value=""/>
 						<span class="help is-danger" v-show="errors.has('anesthesa_induction_time')">
 							Field is required
 						</span>
@@ -91,7 +91,7 @@
             <label>Reversal Time : </label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="time" name="reversal_time" v-model="operativeDetailSheetData.reversal_time" v-validate="'required'" value=""/>
+            <input class="form-control" type="time" name="reversal_time" id="reversal_time" v-model="operativeDetailSheetData.reversal_time" v-validate="'required'" value=""/>
 						<span class="help is-danger" v-show="errors.has('reversal_time')">
 							Field is required
 						</span>
@@ -105,7 +105,7 @@
             <label>Antibiotic : </label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="text" name="antibiotic1" v-model="operativeDetailSheetData.antibiotic1" v-validate="'required'" value=""/>
+            <input class="form-control" type="text" name="antibiotic1" id="antibiotic1" v-model="operativeDetailSheetData.antibiotic1" v-validate="'required'" value=""/>
 						<span class="help is-danger" v-show="errors.has('antibiotic1')">
 							Field is required
 						</span>
@@ -116,7 +116,7 @@
             <label>Time : </label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="time" name="antibiotic1_time" v-model="operativeDetailSheetData.antibiotic1_time" v-validate="'required'" value=""/>
+            <input class="form-control" type="time" name="antibiotic1_time" id="antibiotic1_time" v-model="operativeDetailSheetData.antibiotic1_time" v-validate="'required'" value=""/>
 						<span class="help is-danger" v-show="errors.has('antibiotic1_time')">
 							Field is required
 						</span>
@@ -130,7 +130,7 @@
             <label>Antibiotic : </label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="text" name="antibiotic2" v-model="operativeDetailSheetData.antibiotic2" v-validate="'required'" value=""/>
+            <input class="form-control" type="text" name="antibiotic2" id="antibiotic2" v-model="operativeDetailSheetData.antibiotic2" v-validate="'required'" value=""/>
 						<span class="help is-danger" v-show="errors.has('antibiotic2')">
 							Field is required
 						</span>
@@ -141,7 +141,7 @@
             <label>Time : </label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="time" name="antibiotic2_time" v-model="operativeDetailSheetData.antibiotic2_time" v-validate="'required'" value=""/>
+            <input class="form-control" type="time" name="antibiotic2_time" id="antibiotic2_time" v-model="operativeDetailSheetData.antibiotic2_time" v-validate="'required'" value=""/>
 						<span class="help is-danger" v-show="errors.has('antibiotic2_time')">
 							Field is required
 						</span>
@@ -155,7 +155,7 @@
             <label>Surgical Time From : </label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="time" name="surgical_time_from" v-model="operativeDetailSheetData.surgical_time_from" v-validate="'required'" value=""/>
+            <input class="form-control" type="time" name="surgical_time_from" id="surgical_time_from" v-model="operativeDetailSheetData.surgical_time_from" v-validate="'required'" value=""/>
 						<span class="help is-danger" v-show="errors.has('surgical_time_from')">
 							Field is required
 						</span>
@@ -166,7 +166,7 @@
             <label>To : </label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="text" name="surgical_time_to" v-model="operativeDetailSheetData.surgical_time_to" v-validate="'required'" value=""/>
+            <input class="form-control" type="text" name="surgical_time_to" id="surgical_time_to" v-model="operativeDetailSheetData.surgical_time_to" v-validate="'required'" value=""/>
 						<span class="help is-danger" v-show="errors.has('surgical_time_to')">
 							Field is required
 						</span>
@@ -180,7 +180,7 @@
             <label>Surgery Type : </label>
           </div>
           <div class="col-md-6">
-            <select class="form-control ls-select2" name="surgery_type" v-model="operativeDetailSheetData.surgery_type" v-validate="'required'">
+            <select class="form-control ls-select2" name="surgery_type" id="surgery_type" v-model="operativeDetailSheetData.surgery_type" v-validate="'required'">
               <option value="elective">Elective</option>
               <option value="emergency">Emergency</option>
             </select>
@@ -202,13 +202,13 @@
 
       <div class="row form-group">
         <div class="col">
-          <input class="form-control" type="text" name="surgeon1" v-model="operativeDetailSheetData.surgeon1" v-validate="'required'" value=""/>
+          <input class="form-control" type="text" name="surgeon1" id="surgeon1" v-model="operativeDetailSheetData.surgeon1" v-validate="'required'" value=""/>
 						<span class="help is-danger" v-show="errors.has('surgeon1')">
 							Field is required
 						</span>
         </div>
         <div class="col">
-          <input class="form-control" type="text" name="anesthetist1" v-model="operativeDetailSheetData.anesthetist1" v-validate="'required'" value=""/>
+          <input class="form-control" type="text" name="anesthetist1" id="anesthetist1" v-model="operativeDetailSheetData.anesthetist1" v-validate="'required'" value=""/>
 						<span class="help is-danger" v-show="errors.has('anesthetist1')">
 							Field is required
 						</span>
@@ -217,13 +217,13 @@
 
       <div class="row form-group">
         <div class="col">
-          <input class="form-control" type="text" name="surgeon2" v-model="operativeDetailSheetData.surgeon2" v-validate="'required'" value=""/>
+          <input class="form-control" type="text" name="surgeon2" id="surgeon2" v-model="operativeDetailSheetData.surgeon2" v-validate="'required'" value=""/>
 						<span class="help is-danger" v-show="errors.has('surgeon2')">
 							Field is required
 						</span>
         </div>
         <div class="col">
-          <input class="form-control" type="text" name="anesthetist2" v-model="operativeDetailSheetData.anesthetist2" v-validate="'required'" value=""/>
+          <input class="form-control" type="text" name="anesthetist2" id="anesthetist2" v-model="operativeDetailSheetData.anesthetist2" v-validate="'required'" value=""/>
 						<span class="help is-danger" v-show="errors.has('anesthetist2')">
 							Field is required
 						</span>
@@ -232,13 +232,13 @@
 
       <div class="row form-group">
         <div class="col-md-6">
-          <input class="form-control" type="text" name="surgeon3" v-model="operativeDetailSheetData.surgeon3" v-validate="'required'" value=""/>
+          <input class="form-control" type="text" name="surgeon3" id="surgeon3" v-model="operativeDetailSheetData.surgeon3" v-validate="'required'" value=""/>
 						<span class="help is-danger" v-show="errors.has('surgeon3')">
 							Field is required
 						</span>
         </div>
         <div class="col-md-6">
-          <input class="form-control" type="text" name="anesthetist3" v-model="operativeDetailSheetData.anesthetist3" v-validate="'required'" value=""/>
+          <input class="form-control" type="text" name="anesthetist3" id="anesthetist3s" v-model="operativeDetailSheetData.anesthetist3" v-validate="'required'" value=""/>
 						<span class="help is-danger" v-show="errors.has('anesthetist3')">
 							Field is required
 						</span>
@@ -257,7 +257,7 @@
             <label>IITV : </label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="text" name="iitv" v-model="operativeDetailSheetData.iitv" v-validate="'required'" value="" />
+            <input class="form-control" type="text" name="iitv" id="iitv" v-model="operativeDetailSheetData.iitv" v-validate="'required'" value="" />
 						<span class="help is-danger" v-show="errors.has('iitv')">
 							Field is required
 						</span>
@@ -268,7 +268,7 @@
             <label>Fentanyl : </label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="text" name="fentanyl" v-model="operativeDetailSheetData.fentanyl" v-validate="'required'" value="" />
+            <input class="form-control" type="text" name="fentanyl" id="fentanyl" v-model="operativeDetailSheetData.fentanyl" v-validate="'required'" value="" />
 						<span class="help is-danger" v-show="errors.has('fentanyl')">
 							Field is required
 						</span>
@@ -282,7 +282,7 @@
             <label>Drill : </label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="text" name="drill" v-model="operativeDetailSheetData.drill" v-validate="'required'" value="" />
+            <input class="form-control" type="text" name="drill" id="drill" v-model="operativeDetailSheetData.drill" v-validate="'required'" value="" />
 						<span class="help is-danger" v-show="errors.has('drill')">
 							Field is required
 						</span>
@@ -293,7 +293,7 @@
             <label>Sevoflurane / Desflurane : </label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="text" name="sevoflurane_desflurane" v-model="operativeDetailSheetData.sevoflurane_desflurane" v-validate="'required'" value="" />
+            <input class="form-control" type="text" name="sevoflurane_desflurane" id="sevoflurane_desflurane" v-model="operativeDetailSheetData.sevoflurane_desflurane" v-validate="'required'" value="" />
 						<span class="help is-danger" v-show="errors.has('sevoflurane_desflurane')">
 							Field is required
 						</span>
@@ -307,7 +307,7 @@
             <label>Microscope : </label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="text" name="microscope" v-model="operativeDetailSheetData.microscope" v-validate="'required'" value="" />
+            <input class="form-control" type="text" name="microscope" id="microscope" v-model="operativeDetailSheetData.microscope" v-validate="'required'" value="" />
 						<span class="help is-danger" v-show="errors.has('microscope')">
 							Field is required
 						</span>
@@ -318,7 +318,7 @@
             <label>Endoscope : </label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="text" name="endoscope" v-model="operativeDetailSheetData.endoscope" v-validate="'required'" value="" />
+            <input class="form-control" type="text" name="endoscope" id="endoscope" v-model="operativeDetailSheetData.endoscope" v-validate="'required'" value="" />
 						<span class="help is-danger" v-show="errors.has('endoscope')">
 							Field is required
 						</span>
@@ -332,7 +332,7 @@
             <label>CUSSA : </label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="text" name="cussa" v-model="operativeDetailSheetData.cussa" v-validate="'required'" value="" />
+            <input class="form-control" type="text" name="cussa" id="cussa" v-model="operativeDetailSheetData.cussa" v-validate="'required'" value="" />
 						<span class="help is-danger" v-show="errors.has('cussa')">
 							Field is required
 						</span>
@@ -346,7 +346,7 @@
             <label>Implants : </label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="text" name="implants" v-model="operativeDetailSheetData.implants" v-validate="'required'" value="" />
+            <input class="form-control" type="text" name="implants" id="implants" v-model="operativeDetailSheetData.implants" v-validate="'required'" value="" />
 						<span class="help is-danger" v-show="errors.has('implants')">
 							Field is required
 						</span>
@@ -357,7 +357,7 @@
             <label>Vendor : </label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="text" name="vendor" v-model="operativeDetailSheetData.vendor" v-validate="'required'" value="" />
+            <input class="form-control" type="text" name="vendor" id="vendor" v-model="operativeDetailSheetData.vendor" v-validate="'required'" value="" />
 						<span class="help is-danger" v-show="errors.has('vendor')">
 							Field is required
 						</span>
@@ -371,7 +371,7 @@
             <label>Diagnosis : </label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="text" name="diagnosis" v-model="operativeDetailSheetData.diagnosis" v-validate="'required'" value="" />
+            <input class="form-control" type="text" name="diagnosis" id="diagnosis" v-model="operativeDetailSheetData.diagnosis" v-validate="'required'" value="" />
 						<span class="help is-danger" v-show="errors.has('diagnosis')">
 							Field is required
 						</span>
@@ -385,7 +385,7 @@
             <label>Operation Performed : </label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="text" name="operation_performed" v-model="operativeDetailSheetData.operation_performed" v-validate="'required'" value="" />
+            <input class="form-control" type="text" name="operation_performed" id="operation_performed" v-model="operativeDetailSheetData.operation_performed" v-validate="'required'" value="" />
 						<span class="help is-danger" v-show="errors.has('operation_performed')">
 							Field is required
 						</span>
@@ -419,7 +419,7 @@
             <label>Name of TPA</label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="text" name="name_tpa" v-model="operativeDetailSheetData.name_tpa" v-validate="'required'" value=""/>
+            <input class="form-control" type="text" name="name_tpa" id="name_tpa" v-model="operativeDetailSheetData.name_tpa" v-validate="'required'" value=""/>
 						<span class="help is-danger" v-show="errors.has('name_tpa')">
 							Field is required
 						</span>
@@ -434,7 +434,7 @@
             <label>Company / Third Party : </label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="text" name="company_thirdparty" v-model="operativeDetailSheetData.company_thirdparty" v-validate="'required'" value="" />
+            <input class="form-control" type="text" name="company_thirdparty" id="company_thirdparty" v-model="operativeDetailSheetData.company_thirdparty" v-validate="'required'" value="" />
 						<span class="help is-danger" v-show="errors.has('company_thirdparty')">
 							Field is required
 						</span>
@@ -445,7 +445,7 @@
             <label>Name of Party</label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="text" name="name_party" v-model="operativeDetailSheetData.name_party" v-validate="'required'" value=""/>
+            <input class="form-control" type="text" name="name_party" id="name_party" v-model="operativeDetailSheetData.name_party" v-validate="'required'" value=""/>
 						<span class="help is-danger" v-show="errors.has('name_party')">
 							Field is required
 						</span>
@@ -460,7 +460,7 @@
             <label>Amount : </label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="text" name="amount" v-model="operativeDetailSheetData.amount" v-validate="'required'" value="" />
+            <input class="form-control" type="text" name="amount" id="amount" v-model="operativeDetailSheetData.amount" v-validate="'required'" value="" />
 						<span class="help is-danger" v-show="errors.has('amount')">
 							Field is required
 						</span>
@@ -474,7 +474,7 @@
             <label>Surgery Only</label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="text" name="surgery_only" v-model="operativeDetailSheetData.surgery_only" v-validate="'required'" value=""/>
+            <input class="form-control" type="text" name="surgery_only" id="surgery_only" v-model="operativeDetailSheetData.surgery_only" v-validate="'required'" value=""/>
 						<span class="help is-danger" v-show="errors.has('surgery_only')">
 							Field is required
 						</span>
@@ -488,7 +488,7 @@
             <label>Package (Surgical)</label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="text" name="package_surgical" v-model="operativeDetailSheetData.package_surgical" v-validate="'required'" value=""/>
+            <input class="form-control" type="text" name="package_surgical" id="package_surgical" v-model="operativeDetailSheetData.package_surgical" v-validate="'required'" value=""/>
 						<span class="help is-danger" v-show="errors.has('package_surgical')">
 							Field is required
 						</span>
@@ -502,7 +502,7 @@
             <label>Package (Total)</label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="text" name="package_total" v-model="operativeDetailSheetData.package_total" v-validate="'required'" value=""/>
+            <input class="form-control" type="text" name="package_total" id="package_total" v-model="operativeDetailSheetData.package_total" v-validate="'required'" value=""/>
 						<span class="help is-danger" v-show="errors.has('package_total')">
 							Field is required
 						</span>

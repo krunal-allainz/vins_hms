@@ -21,10 +21,15 @@ Route::group(['prefix' => 'auth'], function () {
 
 
 });
-Route::get('password/reset/{token}', '\euro_hms\Api\Controllers\PasswordController@getReset');
-Route::post('password/reset', '\euro_hms\Api\Controllers\PasswordController@postReset');
+
+/*Route::get('password/reset/{token}', '\euro_hms\Api\Controllers\PasswordController@getReset');
+Route::post('password/reset', '\euro_hms\Api\Controllers\PasswordController@postReset');*/
 //Route::post('password/email', 'euro_hms\Api\Controllers\PasswordController@postEmail');
 Route::get('/mlogin', '\euro_hms\Http\Controllers\Auth\ResetPasswordController@userMlogin');
+
+//Route::post('password/reset', '\euro_hms\Http\Controllers\Auth\ForgotPasswordController@resetLink');
+Route::post('password/reset/link', '\euro_hms\Api\Controllers\Auth\ForgotPasswordController@resetLink');
+//Route::Post('password/user/reset/{token}', '\euro_hms\Api\Controllers\Auth\ResetPasswordController@showResetForm');
 
 $api = app('Dingo\Api\Routing\Router');
 

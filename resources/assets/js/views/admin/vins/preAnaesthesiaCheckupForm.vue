@@ -27,9 +27,9 @@
 	              <label for="">Weight:</label>
 	            </div>
 	            <div class="col-md-6">
-	              <input type="text" name="weight" class="form-control" value="" v-model="preAnaesthesiaCheckupFormData.weight">
+	              <input type="text" name="weight" id="weight" class="form-control" value="" v-model="preAnaesthesiaCheckupFormData.weight" v-validate="'required|numeric'" />
 						<span class="help is-danger" v-show="errors.has('weight')">
-							Field is required
+							Field and Numeric value required
 						</span>
 	            </div>
 	          </div>
@@ -38,9 +38,9 @@
 	              <label for="">Height:</label>
 	            </div>
 	            <div class="col-md-6">
-	              <input type="text" name="height" class="form-control" value="" v-model="preAnaesthesiaCheckupFormData.height">
+	              <input type="text" name="height" id="height" class="form-control" value="" v-model="preAnaesthesiaCheckupFormData.height" v-validate="'required|numeric'"  />
 						<span class="help is-danger" v-show="errors.has('height')">
-							Field is required
+							Field and Numeric value required
 						</span>
 	            </div>
 	          </div>
@@ -1031,7 +1031,7 @@
 </template>
 
 <script >
-	import User from '../../../api/users.js';
+	
 	import addressograph from './addressograph.vue';
 	import SelectPatientModal from '../../../components/SelectPatientModal.vue';
 

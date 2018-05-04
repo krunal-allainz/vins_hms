@@ -27,7 +27,7 @@
 						<label for="date">Date : </label>
 					</div>
 					<div class="col-md-6">
-						<input class="form-control ls-datepicker" type="text" name="date" value="" />
+						<input class="form-control ls-datepicker" type="text" name="date" id="data" value="" />
 					</div>
 				</div>
 			</div>
@@ -37,7 +37,7 @@
 						<label for="triage_category" class="control-label">Triage Category : </label>
 					</div>
 					<div class="col-md-6">
-						<input class="form-control" type = "text" v-validate="'required'" :id = "triage_category" name="triage_category" value=""  v-model="erObservationData.triage_category"/>
+						<input class="form-control" type = "text" v-validate="'required'" id = "triage_category" name="triage_category" value=""  v-model="erObservationData.triage_category"/>
 						<span class="help is-danger" v-show="errors.has('triage_category')">
 							Field is required
 						</span>
@@ -83,7 +83,7 @@
 					<tr>
 						<th>Time </th>
 						<th v-for="ti in 3">
-							<input class="form-control ls-timepicker" type="text" :id = "'time_'+ti" :name="'time_'+ti" value=" " v-model="erObservationData.vitals.time[ti]" v-validate="'required'">
+							<input class="form-control ls-timepicker" type="text" id = "'time_'+ti" name="'time_'+ti" value=" " v-model="erObservationData.vitals.time[ti]" v-validate="'required'" />
 							<span class="help is-danger" v-show="errors.has('time_'+ti)">
 								Field is required
 							</span>
@@ -260,7 +260,7 @@
 </template>
 
 <script >
-	import User from '../../../api/users.js';
+	
 	import addressograph from './addressograph.vue';
 	 import SelectPatientModal from '../../../components/SelectPatientModal.vue';
 
@@ -403,14 +403,19 @@
 
 			 mounted() {
 			 	let vm = this;
-         $('.ls-datepicker').datepicker({
-         format: 'dd/mm/yyyy',
-         'autoclose': true
+        			 $('.ls-datepicker').datepicker({
+       				  format: 'dd/mm/yyyy',
+        			  todayHighlight: true,
+        			 'autoclose': true
 
 			 });
 				 $('.ls-timepicker').timepicker({
+				 		 controlType: 'select',
 						 format:'hh:mm',
-						 'autoclose': true
+						 'autoclose': true,
+						 dynamic: false,
+   						 dropdown: true,
+   						 scrollbar: true
 				 });
 				 $('.ls-datepicker').datepicker().on('changeDate',function(){
 
