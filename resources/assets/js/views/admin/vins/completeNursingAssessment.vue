@@ -34,8 +34,8 @@
   						<label class="control-label col-md-4" for="date">Date:</label>
   					</div>
   					<div class="col-md-6">
-  						<input type="text" class="form-control ls-datepicker" id = "date" name="date" v-model="completeNursingAssessmentData.date" v-validate="'required'" value="">
-              <span class="help is-danger" v-show="errors.has('date')">
+  						<input type="text" class="form-control ls-datepicker" id="date_m" name="date_m" v-model="completeNursingAssessmentData.date" v-validate="'required'" value="">
+              <span class="help is-danger" v-show="errors.has('date_m')">
                 Field is required
               </span>
   					</div>
@@ -695,7 +695,7 @@
   			        <label class="control-label" for="date_nursing">Date:</label>
   			      </div>
   			      <div class="col">
-  			        <input type="date" class="form-control ls-datepicker"  id = "date_nursing" name="date_nursing" v-model="completeNursingAssessmentData.date_nursing" v-validate="'required'" >
+  			        <input type="text" class="form-control ls-datepicker"  id = "date_nursing" name="date_nursing" v-model="completeNursingAssessmentData.date_nursing" v-validate="'required'" >
   							<span class="help is-danger" v-show="errors.has('date_nursing')">
     		        	Date of nursing is required
     		        </span>
@@ -708,7 +708,7 @@
   			        <label class="control-label" for="time_nursing">Time:</label>
   			      </div>
   			      <div class="col">
-  			        <input type="time" class="form-control ls-timepicker" name="time_nursing" v-model="completeNursingAssessmentData.time_nursing" v-validate="'required'" id ="time_nursing">
+  			        <input type="text" class="form-control ls-timepicker" name="time_nursing" v-model="completeNursingAssessmentData.time_nursing" v-validate="'required'" id ="time_nursing">
   							<span class="help is-danger" v-show="errors.has('time_nursing')">
     		        	Time of nursing is required
     		        </span>
@@ -740,7 +740,7 @@
                	'ipd_id': this.$store.state.Patient.ipdId,
                 'completeNursingAssessmentData' : {
                   'unit': '',
-                  'date': '',
+                  'date_m': '',
                   'time': '',
                   'call_bell': '',
                   'height': '',
@@ -808,17 +808,15 @@
         components: {
            addressograph,
            SelectPatientModal,
+
        },
        mounted() {
 
                  $('.ls-select2').select2({
                     placeholder: "Select",
                  });
-
-                 $('.ls-datepicker').datepicker({
-				            format: 'dd/mm/yyyy',
-				            'autoclose': true
-					       })
+                  
+                
                   // if(this.ipd_id == 0){
                      $('#delete_modal').modal('show');
 
@@ -827,29 +825,37 @@
 
               $('.ls-timepicker').timepicker({
                 format: 'hh-mm',
-                'autoclose': true
-              })
+                 minTime: '11:30:00',
+                  maxHour: 20,
+                  maxMinutes: 30,
+                  startTime: new Date(0,0,0,12,0,0), 
+                  interval: 30, 
+                  defaultTime: 11,
+                autoclose: true
+              });
               $('.ls-datepicker').datepicker().on('changeDate',function(){
                 if(this.id ==  'date'){
-                    vm.completeNursingAssessmentData.date = this.value;
+                    this.completeNursingAssessmentData.date = this.value;
                 }
                 if(this.id ==  'date_nursing'){
-                    vm.completeNursingAssessmentData.date_nursing = this.value;
+                    this.completeNursingAssessmentData.date_nursing = this.value;
                 }
                 if(this.id ==  'date_of_screening'){
-                    vm.completeNursingAssessmentData.date_of_screening = this.value;
+                    this.completeNursingAssessmentData.date_of_screening = this.value;
                 }
-              })
+              });
 
 
               $('.ls-timepicker').timepicker().on('change',function(){
                 if(this.id == 'time'){
-                    vm.completeNursingAssessmentData.time = this.value;
+                    this.completeNursingAssessmentData.time = this.value;
                 }
                 if(this.id == 'time_nursing'){
-                    vm.appointmentBook.time_nursing = this.value;
+                    this.appointmentBook.time_nursing = this.value;
                 }
-              })
+              });
+
+                
 
 				},
         methods: {
@@ -885,4 +891,5 @@
 		  },
 
     }
+   
 </script>

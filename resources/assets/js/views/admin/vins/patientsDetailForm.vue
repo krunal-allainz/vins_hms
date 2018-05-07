@@ -173,8 +173,45 @@
 		                </span>
 					</div>
 				</div>
-           	</div>
-       		<div class="form-group text-center">
+				<div class="col-md-6">
+					<div class="col-md-6">
+			      <label class="control-label" for="consulting_dr">Consulting Dr..: </label>
+					</div>
+					<div class="col-md-6">
+						<!-- <input type="text" name=""> -->
+			      	<select class="form-control ls-select2"  id="consulting_dr" name="consulting_dr"  v-model="patientData.consulting_dr">
+
+			      		 <option :value="doctor.text" v-for="doctor in patientData.consulting_dr_option">{{doctor.text}}</option>
+
+			      	</select>
+			      		<!--span class="help is-danger" v-show="errors.has('consulting_dr')">
+		                	Field is required
+		                </span-->
+					</div>
+				</div>
+			</div>
+
+			<div class="row form-group">
+				<div class="col-md-6">
+					<div class="col-md-6">
+			      <label class="control-label" for="case">Case: </label>
+					</div>
+					<div class="col-md-6">
+
+						<select class="form-control ls-select2 " id="case" name="case" value="" v-model="patientData.case"  v-validate="'required'">
+							<option value="new" selected="" >New</option>
+
+							<option value="old" >Old</option>
+						</select>
+						<span class="help is-danger" v-show="errors.has('case')">
+		                	Field is required
+		                </span>
+					</div>
+
+				</div>
+			</div>
+			<div class="form-group text-center">
+
 				<button class="btn btn-success" type="button" @click="savePatient()">Submit</button>
 			</div>
 		</form>
@@ -219,6 +256,7 @@
             }
         },
         mounted() {
+
 				$('.ls-select2').select2({
 					placeholder: "Select",
 				});
@@ -233,6 +271,7 @@
 		             else{
 		             	vm.patientData.consulting_dr = $(this).val();			
 		             }
+
 				});
         },
         methods: {

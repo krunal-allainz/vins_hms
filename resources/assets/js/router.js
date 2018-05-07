@@ -12,6 +12,8 @@ import AuthService from './services/auth'
 //Layouts
 import LayoutLogin from './views/layouts/LayoutLogin.vue'
 import LayoutFront from './views/layouts/LayoutFront.vue'
+import LayoutForgotPasswords from './views/layouts/LayoutForgotPasswords.vue' 
+import LayoutResetPassword from './views/layouts/LayoutResetPassword.vue'
 
 //Login : Auth
 // import Login from './views/auth/Login.vue'
@@ -86,7 +88,7 @@ import informationForm from './views/admin/vins/informationForm.vue'
 import investigationSheet from './views/admin/vins/investigationSheet.vue'
 import intraoperativeEventManagement from './views/admin/vins/intraoperativeEventManagement.vue'
 import infusionTherapyChart from './views/admin/vins/infusionTherapyChart.vue'
-import doctorsInitialAssessment from './views/admin/vins/doctorsInitialAssessment.vue'
+// import doctorsInitialAssessment from './views/admin/vins/doctorsInitialAssessment.vue'
 import centralLineBundleChecklist from './views/admin/vins/centralLineBundleChecklist.vue'
 import MARFlowSheet from './views/admin/vins/MARFlowSheet.vue'
 import opdForm from './views/admin/vins/opd_form.vue'
@@ -142,6 +144,7 @@ const routes = [
                 name: 'opd_form'
             },
                        // {
+            // {
             //     path: '/doctorsInitialAssessment',
             //     component: doctorsInitialAssessment,
             //     name: 'doctorsInitialAssessment'
@@ -543,6 +546,14 @@ const routes = [
     {
 
         path: '/login', component: LayoutLogin,
+
+    },
+
+    {
+
+        path: '/forgotpassword',
+        component: LayoutForgotPasswords,
+        name: 'LayoutForgotPasswords'
 
     },
 
