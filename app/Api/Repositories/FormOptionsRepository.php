@@ -209,17 +209,17 @@ class FormOptionsRepository {
     public function storeDischargeSummary($data)
     {
         $formId = $this->getFormId($data);
-        // dd($formId);
+        // dd($data);
         $formsRec = '';
         if($formId != '') {
             foreach ($data['form_data'] as $key => $value) {
-                // echo "<pre>";print_r($key);echo "</pre>";
+                // echo "<pre>";print_r($value);echo "</pre>";
                 $formsRec = FormsOptionsData::create([
                     'form_id' => $formId,
                     'patient_id' => $data['patient_id'],
                     'ipd_no' => $data['ipd_id'],
                     'form_key' => $key,
-                    'form_value' => $value
+                    'form_value' => json_encode($value)
                 ]);
             }
         }
@@ -239,7 +239,7 @@ class FormOptionsRepository {
                     'patient_id' => $data['patient_id'],
                     'ipd_no' => $data['ipd_id'],
                     'form_key' => $key,
-                    'form_value' => $value
+                    'form_value' => json_encode($value)
                 ]);
             }
         }

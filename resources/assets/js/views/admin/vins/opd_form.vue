@@ -450,14 +450,14 @@
                 alert("Please provide a signature first.");
               } else {
                 var dataURL = vm.signaturePad.toDataURL();
-                console.log(dataURL);
                 var opdDataRes = {'data':opdData,'imgData':dataURL};
+                vm.frmStep = 'step2';
                 // vm.download(dataURL, "signature.png");
               }
-            User.saveOpdData(opdDataRes).then((response) => {
-                        // console.log(response);
-                         // this.$router.push({'name':'dashboard'});
-                    })
+            // User.saveOpdData(opdDataRes).then((response) => {
+            //             // console.log(response);
+            //              // this.$router.push({'name':'dashboard'});
+            //         })
           },
           download(dataURL, filename) {
             var vm =this;

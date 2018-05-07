@@ -45,9 +45,9 @@
 		<h3>Emergency Patient</h3>
 	</div>
 	<div class="row">
-		<div class="col-md-4 top-buffer">
+		<!-- <div class="col-md-4 top-buffer">
 			<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('doctorsInitialAssessment')">Doctors Initial Assessment</a>
-		</div>
+		</div> -->
 		<div class="col-md-4 top-buffer">
 			<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('er_observation')">ER Observation</a>
 		</div>
@@ -71,9 +71,9 @@
 		<div class="col-md-4 top-buffer">
 			<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('information_form')" > Information Form </a>
 		</div>
-		<div class="col-md-4 top-buffer">
+<!-- 		<div class="col-md-4 top-buffer">
 			<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('PatientValuableForm')"> Patient Valuables Form </a>
-		</div>
+		</div> -->
 	</div>
 
 	<hr />
@@ -306,7 +306,20 @@
             }
         },
         mounted() {
-        	this.$store.dispatch('SetIpdId',0);
+        	let vm =this;
+        	$("body .js-loader").removeClass('d-none');
+        	setTimeout(function(){
+        		console.log(vm.$store.state.Users.userDetails);
+        		console.log(vm.$store.state.Users.userDetails.user_type);
+	        	if(vm.$store.state.Users.userDetails.user_type == 'Doctor'){
+	        		vm.$router.push('opd_form');
+	        	} else {
+	        		vm.$router.push('nabhReport');
+	        	}
+	        	$("body .js-loader").addClass('d-none');
+        	},3000)
+        	
+        	// this.$store.dispatch('SetIpdId',0);
 
     },
         methods: {

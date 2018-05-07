@@ -8,7 +8,7 @@
                     <!-- <profile></profile> -->
                 </div>
                 <vmenu>
-                    <vmenu-item link="/" icon="ti-desktop">
+                    <!-- <vmenu-item link="/" icon="ti-desktop">
                         &nbsp; Dashboard
                     </vmenu-item>
                     <vmenu-item link="/NewUser" icon="ti-layout">
@@ -20,7 +20,75 @@
                     </vmenu-item>
                     <vmenu-item link="/patients_detail_form" icon="ti-layout">
                         &nbsp; Patients Detail Form
-                    </vmenu-item>
+                    </vmenu-item> -->
+                    <vsub-menu title="Emergeny Patient" icon="ti-layout">
+                        <vmenu-item link="/er_observation" icon="ti-desktop">
+                             ER Observation
+                        </vmenu-item>
+                    </vsub-menu> 
+                    <vsub-menu title="Pre-Admission Forms" icon="ti-layout">
+                        <vmenu-item link="/information_form" icon="ti-desktop">
+                            Information form
+                        </vmenu-item>
+                    </vsub-menu>
+                    <vsub-menu title="Within 24 Hours" icon="ti-layout">
+                        <vmenu-item link="/counsellingForm" icon="ti-desktop">
+                            Counselling form
+                        </vmenu-item>
+                         <vmenu-item link="/completeNursingAssessment" icon="ti-desktop">
+                            Complete nursing assessment
+                        </vmenu-item>
+                        <vmenu-item link="/NutritionalAssessmentForm" icon="ti-desktop">
+                            Nutritional assessment form
+                        </vmenu-item>
+                        <vmenu-item link="/plan_of_care" icon="ti-desktop">
+                            Plan of care
+                        </vmenu-item>
+                        <vmenu-item link="/history_form" icon="ti-desktop">
+                            History form
+                        </vmenu-item>
+                    </vsub-menu>
+                    <vsub-menu title="Operation/Surgery" icon="ti-layout">
+                        <vmenu-item link="/LabSheet" icon="ti-desktop">
+                            Lab sheet
+                        </vmenu-item>
+                         <vmenu-item link="/codeBlueEvaluationForm" icon="ti-desktop">
+                            Code blue evaluation form
+                        </vmenu-item>
+                        <vmenu-item link="/OperativeDetailSheet" icon="ti-desktop">
+                            Operative detail sheet
+                        </vmenu-item>
+                        <vmenu-item link="/surgicalSafetyChecklist" icon="ti-desktop"> 
+                            Surgical safety Checklist
+                        </vmenu-item>
+                        <vmenu-item link="/pre_anaesthesia_checkup_form" icon="ti-desktop">
+                            Pre-Anaesthesia Form
+                        </vmenu-item>
+                        <vmenu-item link="/briefOperativeNote" icon="ti-desktop">
+                            Brief Operative Notes
+                        </vmenu-item>
+                    </vsub-menu>
+                    <vsub-menu title="Daily Ward / General Forms" icon="ti-layout">
+                        <vmenu-item link="/bloodSugarMonitoringChart" icon="ti-desktop">
+                            Blood-Sugar Monitoring Chart
+                        </vmenu-item>
+                         <vmenu-item link="doctorsDailyNotes" icon="ti-desktop">
+                            Doctor's Daily Notes
+                        </vmenu-item>
+                        <vmenu-item link="/OperativeDetailSheet" icon="ti-desktop">
+                            Operative detail sheet
+                        </vmenu-item>
+                        <vmenu-item link="/surgicalSafetyChecklist" icon="ti-desktop"> 
+                            Surgical safety Checklist
+                        </vmenu-item>
+                        <vmenu-item link="/pre_anaesthesia_checkup_form" icon="ti-desktop">
+                            Pre-Anaesthesia Form
+                        </vmenu-item>
+                        <vmenu-item link="/briefOperativeNote" icon="ti-desktop">
+                            Brief Operative Notes
+                        </vmenu-item>
+                    </vsub-menu>
+                    
                     <!-- <vmenu-item link="/patients_receipt_form" icon="ti-layout">
                         &nbsp; Patients Receipt Form
                     </vmenu-item> -->

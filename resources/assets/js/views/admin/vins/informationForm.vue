@@ -404,6 +404,9 @@
 			SelectPatientModal,
 		},
 		mounted() {
+			if(this.$store.state.Patient.ipdId == '') {
+                      $('#delete_modal').modal('show');
+                }
 			$('.ls-select2').select2({
                     placeholder: "Select"
                 });
@@ -411,8 +414,7 @@
 				 format: 'dd/mm/yyyy',
 				 'autoclose': true
 		 	})
-		 	$('#delete_modal').modal('show');
-
+		 	
 	    	$('.ls-timepicker').timepicker({
 				 format: 'hh-mm',
 				 'autoclose': true

@@ -215,6 +215,9 @@ export default {
   },
   saveOpdData(opdData) {
       return api.post('opd/saveData',{'opdData':opdData})
+    },
+  savePatientDetailBySearch(searchData) {
+      return api.post('patient/getDetails',{'searchData':searchData})
     }
 
 

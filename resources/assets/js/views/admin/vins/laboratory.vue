@@ -122,7 +122,9 @@
 					</div>
 				</div>
 		<hr>
-		<h4>Investigations:</h4>
+		<h4>Radiology:</h4>
+
+
 		<ul class="nav nav-tabs">
 			<li class="nav-item">
 				<a class="nav-link active" data-toggle="tab" href="#x_rays">X-Rays</a>
@@ -690,7 +692,27 @@
                 'footer' : 'footer',
                 'currentYear': new Date().getFullYear(),
                 'deleteConfirmMsg': 'Are you sure you would like to delete this referee? All information associated with this referee will be permanently deleted.',
-                'laboratoryData' : {
+                'investigationData' : {
+                	'neurology': {
+                		'radiology':{
+	                		'x-rays': {
+		                		'value': '',
+		                		'x-rays-options' : {
+		                		text:'fixed',
+		                		text:'portable'
+		                		}
+		                	}
+                		}
+                	},
+                	'ortho': {
+
+                	},
+                	'vascular': {
+
+                	},
+                	'cardio': {
+
+                	},
 
                 	'checkboxList':[],
                 	'labReportOption': [

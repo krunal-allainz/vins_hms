@@ -6,11 +6,11 @@ import moment from 'moment'
 // initial state
 const state = {
 	  'patientId':0,
-  	'ipdId':0,
+  	'ipdId':'',
     'uhid_no':'',
     'admitDatetime': '',
-  	'patientData': [],
-    'ipdData': [],
+  	'patientData': {},
+    'ipdData': {},
  }
 
  // getters
