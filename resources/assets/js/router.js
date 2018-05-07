@@ -96,6 +96,7 @@ import laboratory from './views/admin/vins/laboratory.vue'
 import NewUser from './views/admin/vins/newUser.vue'
 import vascularExamination from './views/admin/vins/vascularExamination.vue'
 import neuroExamination from './views/admin/vins/neuroExamination.vue'
+//import provisionalDiagnosis from './views/admin/vins/provisionalDiagnosis.vue'
 
 //import changePwd from './views/emails/ChangePwd.vue'
 
@@ -362,6 +363,13 @@ const routes = [
                 meta: { requiresAuth: true },
                 name: 'pre_OT_checklist'
             },
+
+            // {
+            //     path: '/provisional_diagnosis',
+            //     component: provisionalDiagnosis,
+            //     meta: { requiresAuth: true },
+            //     name: 'provisional_diagnosis'
+            // },
 
             {
                 path: '/provisional_discharge_summary',
