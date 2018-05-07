@@ -58,25 +58,38 @@ class ForgotPasswordController extends Controller
 		        if( $user = User::where('email', $request->input('email') )->first() )
 		        {
 		            $token = str_random(64);
+                    
+                    $password_reset = \DB::table('password_resets')->where('email',  $user->email)->first();
+                    
+                    if(empty($password_reset)){ 
+    		            DB::table(config('auth.passwords.users.table'))->insert([
+    		                'email' => $user->email, 
+    		                'token' => $token,
+    		                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+              				'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+    		            ]);
 
-		            DB::table(config('auth.passwords.users.table'))->insert([
-		                'email' => $user->email, 
-		                'token' => $token,
-		                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-          				'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-		            ]);
+                    }else{  
+                          DB::table(config('auth.passwords.users.table'))->where('email',$user->email)->
+                              update([
+                                'token'=>$token,
+                                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')]);
+                    }
 
-                /*Mail::send('emails.welcome', [], function($message) use ($emails)
-{    
-    $message->to($emails)->subject('This is test e-mail');    
-});
-var_dump( Mail:: failures());*/
                  $data = ['status' => 200 , 'token' => $token , 'email' =>  $user->email];
                 
               }else{
                 $data = ['status' =>404 ,  'email' =>  $request->input('email')];
               }
                return $data;
+
+
+                /*Mail::send('emails.welcome', [], function($message) use ($emails)
+{    
+    $message->to($emails)->subject('This is test e-mail');    
+});
+var_dump( Mail:: failures());*/
                     /*$response = Password::sendResetLink($request->only('email'), function (Message $message) {
               }
             $message->subject(trans('password reset link'));

@@ -19,10 +19,11 @@
                                     <div class="row">
                                         <div class="col-sm-12 mt-3 ">
                                             <div class="form-group">
-                                                    <span id="responceMessage"></span>
+                                                   
                                                     <input v-model="forgotpwd.email" name="email" id="email" type="email" required autofocus placeholder="E-mail" v-validate="'required|email'"  class="form-control" />
                                                    <i v-show="errors.has('email')" class="fa fa-warning"></i>
-                            <span class="help is-danger" v-show="errors.has('email')">{{ errors.first('email') }}</span>
+                                                 <span class="help is-danger" v-show="errors.has('email')">{{ errors.first('email') }}</span>
+                                                  <span id="responceMessage"></span>
                                                 
                                             </div>
                                         </div>
@@ -46,7 +47,7 @@
 </template>
 
 <script>
-
+     $('#responceMessage').text('');
     import Auth from '../../services/auth';
     import User from '../../api/users.js';
     import Ls from '../../services/ls'
@@ -76,16 +77,18 @@ export default{
                             (response) => {
                              $('#responceMessage').text('');
                              var resetLink  = '';
-                            if(response.status == 200) {
-                                 var resetLink  = 'password/reset/'+response.data.token;
-                                toastr.success('Record not found', 'Error', {timeOut: 5000})
+                            if(response.data.status == 200) {
+                                 var resetLink  = 'password/reset/'+response.data.token+'?email='+response.data.email;
+                                toastr.success('Succesfully link send', 'Forgot password', {timeOut: 5000})
                                 $('#responceMessage').text(resetLink);
-                            }else if(response.status == 404) {
-                                  $('#responceMessage').text(resetLink);
+                            }else if(response.data.status == 404) {
+                                var resetLink  = 'Record not found';
                                 toastr.error('Record not found', 'Error', {timeOut: 5000});
+                                  $('#responceMessage').text(resetLink);
                             } else{
-                                
-                             toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
+                                 var resetLink = '';
+                                toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
+                                 $('#responceMessage').text(resetLink);
                             }
 
                         })

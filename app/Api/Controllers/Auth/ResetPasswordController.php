@@ -7,12 +7,14 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Auth\Notifications;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Str;
 use euro_hms\Models\User;
 use euro_hms\Models\Role;
 use Hash;
+use DB;
 
 class ResetPasswordController extends Controller
 {
@@ -55,16 +57,18 @@ class ResetPasswordController extends Controller
     //         ['token' => $token, 'email' => $request->email]
     //     );
     // }
+   
     public function showResetForm(Request $request, $token = null)
     {
-         $password_reset = \DB::table('password_resets')->where('token', $token)->first();
-        // if(empty($password_reset)){
-        //     throw new NotFoundHttpException;
-        // }
+        $emalId = Input::get('email');
+        $password_reset = \DB::table('password_resets')->where('token', $token)->where('email',$emalId)->first();
+         if(empty($password_reset)){
+             //throw new NotFoundHttpException('invalide request');
+          return view('error.error');
+         }
         $email = '';
-        // dd($email);
         // return view('auth.reset')->with('token', $token)->with('email', $email);
-        return view('auth.passwords.reset')->with(
+        return view('auth.passwords.vims_reset')->with(
             ['token' => $token, 'email' => $email]
         );
     }
@@ -133,6 +137,8 @@ class ResetPasswordController extends Controller
         $userPassword = Hash::make(trim($data['password']));
         $token = str_random(30);
            User::where('email',$data['email'])->update(['password'=>$userPassword]);
+         DB::table(config('auth.passwords.users.table'))->where('email',$data['email'])->delete();
+        
            
         
         // If the password was successfully reset, we will redirect the user back to
