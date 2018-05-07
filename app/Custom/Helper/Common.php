@@ -54,4 +54,13 @@ class Common {
                'message' => 'Thank you for your message. We will aim to get back to you within the next 24 hours.'
            ]);
        }
+
+      static function getCurrentSiteUrl(){
+          if(\App::environment('local')){
+           s
+            return config::get('app.url');
+          }else{
+             return config('app.site_url');
+          }
+      }
 }

@@ -11,6 +11,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use euro_hms\Models\User;
+use euro_hms\Custom\Helper\Common;
 use DB;
 use Mail;
 use App\Mail\EmailVerification;
@@ -74,10 +75,19 @@ class ForgotPasswordController extends Controller
                               update([
                                 'token'=>$token,
                                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')]);
+                                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+                            ]);
                     }
-
-                 $data = ['status' => 200 , 'token' => $token , 'email' =>  $user->email];
+                     $url = '';
+                $url = common::getCurrentSiteUrl();s
+                    $resetLink = '';
+               $resetLink  = $url.'/password/reset/'.$token.'?email='. $user->email;
+                $data = [
+                    'status' => 200 ,
+                    'token' => $token , 
+                    'email' =>  $user->email ,
+                    'link' =>$resetLink 
+                ];
                 
               }else{
                 $data = ['status' =>404 ,  'email' =>  $request->input('email')];
