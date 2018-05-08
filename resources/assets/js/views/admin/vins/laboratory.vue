@@ -124,7 +124,30 @@
 		<hr>
 		<h4>Radiology:</h4>
 
+	<div class="row form-group">
+		<div class="col-md-6">
+			<div class="row">
+				<div class="col-md-4">
+					<label>Select Radiology:</label><br>
+					<select class = "form-control ls-select2" id = "radiology_type" name = "radiology_type" >
+						<option v-for="type in investigationData.radiologyType" :value="type.value">{{type.text}}</option>
+					</select>
+				</div>
+				<div class="col-md-2">
+					
+					
+				</div>
+				<div class="col-md-4	">
+					<select class = "form-control ls-select2" id = "radiology_subtype" name = "radiology_subtype" >
+						<option v-for="obj in investigationData.radiologySubType" :value="obj.text">{{obj.text}}</option>
+					</select>
+					
+				</div>
+			</div>
+		</div>
+	</div>
 
+		
 		<ul class="nav nav-tabs">
 			<li class="nav-item">
 				<a class="nav-link active" data-toggle="tab" href="#x_rays">X-Rays</a>
@@ -686,20 +709,27 @@
 	import _ from 'lodash';
 
     export default {
+    	computed:{
+
+    	},
         data() {
             return {
             	'notValid':false,
                 'footer' : 'footer',
                 'currentYear': new Date().getFullYear(),
-                'deleteConfirmMsg': 'Are you sure you would like to delete this referee? All information associated with this referee will be permanently deleted.',
+                'resultData': {
+                	'type': '',
+                	'subtype': ''
+
+                },
                 'investigationData' : {
                 	'neurology': {
                 		'radiology':{
 	                		'x-rays': {
 		                		'value': '',
-		                		'x-rays-options' : {
-		                		text:'fixed',
-		                		text:'portable'
+		                		'x-rays_options' : {
+		                			text:'fixed',
+		                			text:'portable'
 		                		}
 		                	}
                 		}
@@ -713,6 +743,8 @@
                 	'cardio': {
 
                 	},
+                },
+                'laboratoryData': {
 
                 	'checkboxList':[],
                 	'labReportOption': [
@@ -799,41 +831,50 @@
 							],
                 },
                 'investigationData':{
+                	'radiologyType':[
+                		{text:'',value:''},
+	                	{text:'x-rays',value:'x_rays'},
+	                	{text:'CT',value:'ct'},
+	                	{text:'MRI',value:'mri'},
+	                	{text:'Doppler',value:'doppler'},
+	                	{text:'Other',value:'other'}
+                	],
+                	'radiologySubType':[
+                			{text:'',value:''},
+                			{text:'Fixed',value:'fixed'},
+							{text:'Portable',value:'portable'}
+						],
                 	'x_rays':'',
                 	'x_rays_options':[
-								 {text:'x-rays-Option 1'},
-								 {text:'x-rays-Option 2'},
-								 {text:'x-rays-Option 3'},
-								 {text:'x-rays-Option 4'},
-								 {text:'x-rays-Option 5'},
-								 {text:'x-rays-Option 6'},
-								 {text:'x-rays-Option 7'},
-								 {text:'x-rays-Option 8'}
-                			 ],
+								 {text:'', value:''},
+								 {text:'Fixed', value:'fixed'},
+								 {text:'Portable', value:'portable'},
+							 ],
                 	'ct':'',		 
                 	'ct_options':[
-                			{text:'ct-Option 1'},
-							{text:'ct-Option 2'},
-							{text:'ct-Option 3'},
-							{text:'ct-Option 4'},
-							{text:'ct-Option 5'},
-							{text:'ct-Option 6'},
-							{text:'ct-Option 7'},
-							{text:'ct-Option 8'}
+                			{text:'',value:''},
+                			{text:'Brain (Plain)', value:'brain_plain'},
+                			{text:'Brain (Plain & Contrast)', value:'brain_plain_contrast'},
+                			{text:'Neck', value:'neck'},
+                			{text:'Chest', value:'chest'},
+                			{text:'Upper Abdomen', value:'upper_abdomen'},
+                			{text:'Pelvis', value:'pelvis'},
+                			{text:'Whole Abdomen', value:'whole_abdomen'},
+                			{text:'CT Angiography', value:'ct_angiography'},
+                			{text:'Guided Procedure:Biopsy', value:'guided_procedure'},
                 		 ],
                 	'mri':'',
                 	'mri_options':[
-                			 {text:'mri-Option 1'},
-							 {text:'mri-Option 2'},
-							 {text:'mri-Option 3'},
-							 {text:'mri-Option 4'},
-							 {text:'mri-Option 5'},
-							 {text:'mri-Option 6'},
-							 {text:'mri-Option 7'},
-							 {text:'mri-Option 8'}
+                			{text:'',value:''},
+                			 {text:'Brain', value:'brain'},
+                			 {text:'Spine', value:'spine'},
+                			 {text:'Joint', value:'joint'},
+                			 {text:'Other', value:'other'},
+                			 {text:'Protocol', value:'protocol'}
                 		 ],
                 	'doppler':'',
                 	'doppler_options':[
+                				{text:'',value:''},
                 			 	 {text:'doppler-Option 1'},
 								 {text:'doppler-Option 2'},
 								 {text:'doppler-Option 3'},
@@ -845,6 +886,7 @@
                 			  ],
                 	'others':'',
                 	'others_options':[
+                			 	{text:'',value:''},
                 			 	 {text:'other-Option 1'},
 								 {text:'other-Option 2'},
 								 {text:'other-Option 3'},
@@ -861,6 +903,7 @@
         	let vm =this;
 				$('.ls-select2').select2({
 					 placeholder: "Select",
+
 			  });
 	        //   $('.ls-select2').on("select2:select", function (e) { 
 	        //     if(this.id == 'label_1'){
@@ -884,6 +927,14 @@
 
 	        // });
 	        $('.ls-select2').on("select2:select", function (e) {
+	        	if(this.id == 'radiology_type') {
+
+	        		 $('#radiology_subtype').select2("destroy");
+	        		 // console.log(typeData);
+	        		vm.resultData.type = $("#radiology_type").select2().val();
+	        		vm.radioSubType();
+
+	        	}
 	        	// var vId = this.id;
 	        	// var vVal = $("#label_1").select2().val();
 	    	    // _.find(vm.laboratoryData.selectedLabReport,function(val) {
@@ -922,6 +973,34 @@
         	}
         },
         methods: {
+    		radioSubType(){
+        		let vm =this;
+        		let resType = vm.resultData.type;
+        		let x_rayData = '';
+        		if(vm.resultData.type != ''){
+        			x_rayData = vm.investigationData[resType+'_options'];
+        			$('#radiology_subtype').select2({
+						placeholder: "Select",
+			  		});
+        		}
+        		vm.investigationData.radiologySubType = '';
+        		setTimeout(function(){
+
+    				vm.investigationData.radiologySubType = x_rayData;
+        		},200)
+        	},
+        	radioType(){
+        		// console.log(vm.)
+
+    			let radData = '';
+    			// console.log(this.$store.state.Users.userDetails.department);
+    			if(this.$store.state.Users.userDetails.department == 'Neurology' || this.$store.state.Users.userDetails.department == 'Neurosurgery' ) {
+    				radData = ['x-rays','CT','MRI'];
+    			} else if(this.$store.state.users.userDetails.department == 'ortho') {
+    				radData = ['x-rays','CT','MRI','Sonography'];
+    			}
+    			return radData;
+    		},
 		    GetSelectComponent(componentName) {
 		       this.$router.push({name: componentName})
 		    },
