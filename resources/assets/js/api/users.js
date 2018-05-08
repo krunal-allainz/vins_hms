@@ -212,9 +212,6 @@ export default {
   getPatientOPDDetail(patientId) {
     return api.post('patient/OPDDetails/'+patientId)
   },
-  saveOpdData(opdData) {
-      return api.post('opd/saveData',{'opdData':opdData})
-},
   sendResetLinkInMail(requestData) {  
     return api.post('password/reset/link',{'email':requestData})
   }
