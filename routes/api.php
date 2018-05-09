@@ -22,8 +22,13 @@ Route::group(['prefix' => 'auth'], function () {
 
 });
 
+
 /*Route::get('password/reset/{token}', '\euro_hms\Api\Controllers\PasswordController@getReset');
 Route::post('password/reset', '\euro_hms\Api\Controllers\PasswordController@postReset');*/
+
+// Route::get('password/reset/{token}', '\euro_hms\Api\Controllers\PasswordController@getReset');
+// Route::post('password/reset', '\euro_hms\Api\Controllers\PasswordController@postReset');
+
 //Route::post('password/email', 'euro_hms\Api\Controllers\PasswordController@postEmail');
 Route::get('/mlogin', '\euro_hms\Http\Controllers\Auth\ResetPasswordController@userMlogin');
 
@@ -104,6 +109,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
         $api->post('user/getDetails', '\euro_hms\Api\Controllers\UserController@getUserDetailsByID')->name('user.getUserDetails');
         $api->post('opd/saveData', '\euro_hms\Api\Controllers\opdController@saveData'); 
+        $api->post('patient/getDetails', '\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientDetailBysearch'); 
 
 
 });

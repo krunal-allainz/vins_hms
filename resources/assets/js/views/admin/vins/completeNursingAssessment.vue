@@ -15,9 +15,9 @@
   						<label class="control-label col-md-4" for="unit">Unit:</label>
   					</div>
   					<div class="col-md-6">
-  						<input type="text" class="form-control" name="unit" v-validate="'required'" v-model="completeNursingAssessmentData.unit" value="15">
+  						<input type="text" class="form-control" name="unit" v-validate="'required|numeric'" v-model="completeNursingAssessmentData.unit" value="15">
               <span class="help is-danger" v-show="errors.has('unit')">
-                Field is required
+                Please enter numeric value.
               </span>
   					</div>
   				</div>
@@ -34,8 +34,10 @@
   						<label class="control-label col-md-4" for="date">Date:</label>
   					</div>
   					<div class="col-md-6">
-  						<input type="text" class="form-control ls-datepicker" id="date_m" name="date_m" v-model="completeNursingAssessmentData.date" v-validate="'required'" value="">
-              <span class="help is-danger" v-show="errors.has('date_m')">
+  						<input type="text" class="form-control ls-datepicker" id = "date" name="date" v-model="completeNursingAssessmentData.date" v-validate="'required'" value=""> -->
+              <date-picker :date.sync="completeNursingAssessmentData.nurDate"  :option="option"></date-picker>
+
+              <span class="help is-danger" v-show="errors.has('date')">
                 Field is required
               </span>
   					</div>
@@ -50,8 +52,8 @@
   						<label class="control-label col-md-6" for="time">Time:</label>
   					</div>
   					<div class="col-md-6">
-  						<input type="text" class="form-control ls-timepicker" id = "time" name="time" v-model="completeNursingAssessmentData.time" v-validate="'required'" value="">
-              <span class="help is-danger" v-show="errors.has('time')">
+  						<input type="text" class="form-control ls-timepicker" id = "nur_time" name="nur_time" v-model="completeNursingAssessmentData.nur_time" v-validate="'required'" value="">
+              <span class="help is-danger" v-show="errors.has('nur_time')">
                 Field is required
               </span>
   					</div>
@@ -109,7 +111,7 @@
   						<label>Allergies:</label>
   					</div>
   					<div class="col-md-6">
-  						<select class="form-control ls-select2" name="allergies" v-model="completeNursingAssessmentData.allergies" v-validate="'required'" >
+  						<select class="form-control ls-select2" name="allergies" v-model="completeNursingAssessmentData.allergies" >
   							<option value="no" >NO</option>
   							<option value="yes" >YES</option>
   							<option value="other" >Other</option>
@@ -135,7 +137,7 @@
   						<label>History Informant:</label>
   					</div>
   					<div class="col-md-6">
-  						<select class="form-control ls-select2" name="history_informant" v-model="completeNursingAssessmentData.history_informant" v-validate="'required'" >
+  						<select class="form-control ls-select2" name="history_informant" v-model="completeNursingAssessmentData.history_informant" >
   							<option value="patient" >Patient</option>
   							<option value="other" >Other</option>
   						</select>
@@ -160,7 +162,7 @@
   						<label>Patient Arrived:</label>
   					</div>
   					<div class="col-md-6">
-  						<select class="form-control ls-select2" name="patient_arrived" v-model="completeNursingAssessmentData.patient_arrived" v-validate="'required'" >
+  						<select class="form-control ls-select2" name="patient_arrived" v-model="completeNursingAssessmentData.patient_arrived"  >
   							<option value="ambulatory" >Ambulatory</option>
   							<option value="wheelchair" >Wheelchair</option>
   							<option value="stretcher" >Stretcher</option>
@@ -187,7 +189,7 @@
   						<label>Patient Arrived From:</label>
   					</div>
   					<div class="col-md-6">
-  						<select class="form-control ls-select2" name="patient_arrived_from" v-model="completeNursingAssessmentData.patient_arrived_from" v-validate="'required'" >
+  						<select class="form-control ls-select2" name="patient_arrived_from" v-model="completeNursingAssessmentData.patient_arrived_from" >
   							<option value="home" >Home</option>
   							<option value="opd" >OPD</option>
   							<option value="other_hospital" >Other Hospital</option>
@@ -231,7 +233,7 @@
               <label>Pain:</label>
             </div>
             <div class="col-md-6">
-              <select class="form-control ls-select2" name="pain" v-model="completeNursingAssessmentData.pain" v-validate="'required'" >
+              <select class="form-control ls-select2" name="pain" v-model="completeNursingAssessmentData.pain"  >
   							<option value="opd" >OPD</option>
   							<option value="home" >Home</option>
   						</select>
@@ -244,6 +246,9 @@
 
         <div class="row form-group">
           <div class="col-md-6">
+            <div class="col-md-6">
+              <label>Temperature type:</label>
+            </div>
             <div class="col-md-6">
               <select class="form-control ls-select2" id="temperature_type" name="temperature_type" v-model="completeNursingAssessmentData.temperature_type" >
                 <option value="oral" > Oral </option>
@@ -549,31 +554,33 @@
 				</div>
 
         <div class="row form-group">
-  				<div class="col">
-  					<div class="row">
-  						<label class="col control-label" for="type_of_diet">Type of Diet:</label>
-  						<div class="col">
-  							<select class="form-control ls-select2" name="type_of_diet" v-model="completeNursingAssessmentData.type_of_diet" v-validate="'required'" id="type_of_diet">
-  								<option value="veg">Veg</option>
-  								<option value="non_veg">Non-veg</option>
-  								<option value="jain">Jain</option>
-  							</select>
-  							<span class="help is-danger" v-show="errors.has('type_of_diet')">
-    		        	Type of diet is required
-    		        </span>
-  						</div>
-  					</div>
+  				<div class="col-md-6">
+  					<div class="col-md-6">
+  						<label  for="type_of_diet">Type of Diet:</label>
+            </div>
+
+						<div class="col-md-6">
+							<select class="form-control ls-select2" name="type_of_diet" v-model="completeNursingAssessmentData.type_of_diet" id="type_of_diet">
+								<option value="veg">Veg</option>
+								<option value="non_veg">Non-veg</option>
+								<option value="jain">Jain</option>
+							</select>
+							<span class="help is-danger" v-show="errors.has('type_of_diet')">
+  		        	Type of diet is required
+  		        </span>
+					  </div>
   				</div>
-  				<div class="col">
-  					<div class="row">
+  				<div class="col-md-6">
+  					<div class="col-md-6">
   						<label class="col control-label" for="date_of_screening">Date of Screening:</label>
-  						<div class="col">
-  							<input type="text" class="form-control ls-datepicker" name="date_of_screening" v-model="completeNursingAssessmentData.date_of_screening" v-validate="'required'" id="date_of_screening">
-  							<span class="help is-danger" v-show="errors.has('date_of_screening')">
-    		        	Date of screening is required
-    		        </span>
-  						</div>
-  					</div>
+            </div>
+						<div class="col-md-6">
+                <date-picker :date.sync="completeNursingAssessmentData.date_of_screening" :option="option"></date-picker>
+
+							<span class="help is-danger" v-show="errors.has('date_of_screening')">
+  		        	Date of screening is required
+  		        </span>
+						</div>
   				</div>
   			</div>
 
@@ -591,7 +598,7 @@
   							<th>1</th>
   							<th>Has there been any unintentional weight loss in the last three months?</th>
   							<td>
-  								<select class="form-control ls-select2" name="weight_loss" v-model="completeNursingAssessmentData.weight_loss" v-validate="'required'" id="weight_loss">
+  								<select class="form-control ls-select2" name="weight_loss" v-model="completeNursingAssessmentData.weight_loss" id="weight_loss">
   									<option value="3">>6 Kgs</option>
   									<option value="2">3-6 Kgs</option>
   									<option value="1">0-3 Kgs (Don't Know)</option>
@@ -606,12 +613,12 @@
   							<th>2</th>
   							<th>Does the patient appear emaciated?</th>
   							<td>
-  								<select class="form-control ls-select2" name="emaciated" v-model="completeNursingAssessmentData.emaciated" v-validate="'required'" id="emaciated">
+  								<select class="form-control ls-select2" name="emaciated" v-model="completeNursingAssessmentData.emaciated" id="emaciated">
   									<option value="2">Yes</option>
   									<option value="1">No</option>
   								</select>
   								<span class="help is-danger" v-show="errors.has('emaciated')">
-  	  		        	Emaciated is required
+  	  		        	emaciated is required
   	  		        </span>
   							</td>
   						</tr>
@@ -619,7 +626,7 @@
   							<th>3</th>
   							<th>Is the patient mentally well oriented?</th>
   							<td>
-  								<select class="form-control ls-select2" name="mental_orientation" v-model="completeNursingAssessmentData.mental_orientation" v-validate="'required'" id="mental_orientation">
+  								<select class="form-control ls-select2" name="mental_orientation" v-model="completeNursingAssessmentData.mental_orientation"  id="mental_orientation">
   									<option value="2">Yes</option>
   									<option value="1">No</option>
   								</select>
@@ -632,7 +639,7 @@
   							<th>4</th>
   							<th>Patient mode of feeding :</th>
   							<td>
-  								<select class="form-control ls-select2" name="mode_of_feeding" v-model="completeNursingAssessmentData.mode_of_feeding" v-validate="'required'" id="mode_of_feeding">
+  								<select class="form-control ls-select2" name="mode_of_feeding" v-model="completeNursingAssessmentData.mode_of_feeding"  id="mode_of_feeding">
   									<option value="3">Parental Nutritional / NBM</option>
   									<option value="2">External Tube Feeding</option>
   									<option value="1">Oral Feeding - Liquids</option>
@@ -695,8 +702,9 @@
   			        <label class="control-label" for="date_nursing">Date:</label>
   			      </div>
   			      <div class="col">
-  			        <input type="text" class="form-control ls-datepicker"  id = "date_nursing" name="date_nursing" v-model="completeNursingAssessmentData.date_nursing" v-validate="'required'" >
-  							<span class="help is-danger" v-show="errors.has('date_nursing')">
+
+                <date-picker :date.sync="completeNursingAssessmentData.date_nursing" :option="option"></date-picker>
+  			        <input type="date" class="form-control ls-datepicker"  id = "date_nursing" name="date_nursing" v-model="completeNursingAssessmentData.date_nursing" v-validate="'required'" >   							<span class="help is-danger" v-show="errors.has('date_nursing')">
     		        	Date of nursing is required
     		        </span>
   			      </div>
@@ -708,7 +716,9 @@
   			        <label class="control-label" for="time_nursing">Time:</label>
   			      </div>
   			      <div class="col">
-  			        <input type="text" class="form-control ls-timepicker" name="time_nursing" v-model="completeNursingAssessmentData.time_nursing" v-validate="'required'" id ="time_nursing">
+
+  			        <input type="text" class="form-control ls-timepicker" name="time_nursing" v-model="completeNursingAssessmentData.time_nursing"  id ="time_nursing" >
+
   							<span class="help is-danger" v-show="errors.has('time_nursing')">
     		        	Time of nursing is required
     		        </span>
@@ -728,8 +738,9 @@
 <script >
 	import User from '../../../api/users.js';
   import addressograph from './addressograph.vue';
-  import SelectPatientModal from '../../../components/SelectPatientModal.vue'
-
+  import SelectPatientModal from '../../../components/SelectPatientModal.vue';
+  import myDatepicker from 'vue-datepicker';
+  
     export default {
         data() {
             return {
@@ -738,9 +749,27 @@
                 'type': 'completeNursingAssessment',
                 'patient_id': this.$store.state.Patient.patientId,
                	'ipd_id': this.$store.state.Patient.ipdId,
+                'option': {
+                    type: 'day',
+                    week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+                    month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    format: 'DD-MM-YYYY',
+                    placeholder: 'Select Date',
+                    inputStyle: {
+                        'display': 'inline-block',
+                        'padding': '6px',
+                        'line-height': '22px',
+                        'font-size': '16px',
+                        'border': '2px solid #fff',
+                        'box-shadow': '0 1px 3px 0 rgba(0, 0, 0, 0.2)',
+                        'border-radius': '2px',
+                        'color': '#5F5F5F'
+                    },
+                    
+                  },
                 'completeNursingAssessmentData' : {
                   'unit': '',
-                  'date_m': '',
+                  'date': '',
                   'time': '',
                   'call_bell': '',
                   'height': '',
@@ -791,7 +820,9 @@
                   'relative_name': '',
                   'relation': '',
                   'type_of_diet':'',
-									'date_of_screening':'',
+									'date_of_screening': {
+                    'time':'',
+                  },
 									'weight_loss':'',
 									'emaciated':'',
 									'mental_orientation':'',
@@ -799,7 +830,14 @@
 									'food_to_be_avoided':'',
 									'nursing_care_plan':'',
 									'assessment_done_by':'',
-									'date_nursing':'',
+									// 'date_nursing':'',
+                  'nurDate': {
+                    'time':'',
+                  },
+                  'date_nursing': {
+                    'time':'',
+                  },
+
 									'time_nursing':'',
                 }
             }
@@ -809,49 +847,58 @@
            addressograph,
            SelectPatientModal,
 
+           'date-picker': myDatepicker,
+
        },
        mounted() {
-
+       
+                var vm =this;
                  $('.ls-select2').select2({
                     placeholder: "Select",
                  });
-                  
-                
+
                   // if(this.ipd_id == 0){
                      $('#delete_modal').modal('show');
 
                   // }
 
+                 $('.ls-datepicker').datepicker({
+				            format: 'dd/mm/yyyy',
+				            'autoclose': true
+					       })
+                 if(this.$store.state.Patient.ipdId == '') {
+                      $('#delete_modal').modal('show');
+                }
+
+
+              // var datepicker = $.fn.datepicker.noConflict(); // return $.fn.datepicker to previously assigned value
+              // $.fn.bootstrapDP = datepicker;  
 
               $('.ls-timepicker').timepicker({
                 format: 'hh-mm',
-                 minTime: '11:30:00',
-                  maxHour: 20,
-                  maxMinutes: 30,
-                  startTime: new Date(0,0,0,12,0,0), 
-                  interval: 30, 
-                  defaultTime: 11,
-                autoclose: true
-              });
-              $('.ls-datepicker').datepicker().on('changeDate',function(){
-                if(this.id ==  'date'){
-                    this.completeNursingAssessmentData.date = this.value;
-                }
-                if(this.id ==  'date_nursing'){
-                    this.completeNursingAssessmentData.date_nursing = this.value;
-                }
-                if(this.id ==  'date_of_screening'){
-                    this.completeNursingAssessmentData.date_of_screening = this.value;
-                }
-              });
+                'autoclose': true
+              })
+              // $('.ls-datepicker').datepicker().on('changeDate',function(){
+              //   if(this.id ==  'date'){
+              //       vm.completeNursingAssessmentData.date = this.value;
+              //   }
+              //   if(this.id ==  'date_nursing'){
+              //       vm.completeNursingAssessmentData.date_nursing = this.value;
+              //   }
+              //   if(this.id ==  'date_of_screening'){
+              //       vm.completeNursingAssessmentData.date_of_screening = this.value;
+              //   }
+              // })
 
 
               $('.ls-timepicker').timepicker().on('change',function(){
-                if(this.id == 'time'){
-                    this.completeNursingAssessmentData.time = this.value;
+                console.log('test')
+                if(this.id == 'nur_time'){
+                    vm.completeNursingAssessmentData.nur_time = this.value;
                 }
                 if(this.id == 'time_nursing'){
-                    this.appointmentBook.time_nursing = this.value;
+                    vm.completeNursingAssessmentData.time_nursing = this.value;
+
                 }
               });
 
@@ -867,8 +914,8 @@
 	            (response) => {
 	            	if (!this.errors.any()) {
 	            		 $("body .js-loader").removeClass('d-none');
-                   var completeNursingAssessmentData = {'type':this.type,'patient_id':this.patient_id,'ipd_id':this.ipd_id,'form_data':this.completeNursingAssessmentData};
-				    	User.saveCompleteNursingAssessment(completeNursingAssessmentData).then(
+                   var completeNursingAssessmentDataAll = {'type':this.type,'patient_id':this.patient_id,'ipd_id':this.ipd_id,'form_data':this.completeNursingAssessmentData};
+				    	User.saveCompleteNursingAssessment(completeNursingAssessmentDataAll).then(
 		                (response) => {
 		                	if(response.data.status == 200) {
 		                		toastr.success('Complete Nursing Assessment has been saved', 'Complete Nursing Assessment', {timeOut: 5000});

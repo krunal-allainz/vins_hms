@@ -17,7 +17,9 @@
                                     </div>
                                     <div class="col-md-9">
                                         <input type="text" class="form-control" id="firstName"
-                                               placeholder="First Name" v-model="userData.fName">
+                                               placeholder="First Name" v-validate="'required|alpha'" v-model="userData.fName" name="firstName">
+                                        <i v-show="errors.has('firstName')" class="fa fa-warning"></i>
+                                        <span class="help is-danger" v-show="errors.has('firstName')">First name is required.</span>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -25,7 +27,9 @@
                                     <label for="lastName" class="control-label float-right txt_media1">Last Name :</label>
                                     </div>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" id="lastName" placeholder="Last Name" v-model="userData.lName">
+                                        <input type="text" class="form-control" id="lastName" name="lastName" v-validate="'required|alpha'" placeholder="Last Name" v-model="userData.lName">
+                                        <i v-show="errors.has('lastName')" class="fa fa-warning"></i>
+                                        <span class="help is-danger" v-show="errors.has('lastName')">Last name is required.</span>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -33,12 +37,14 @@
                                     <label for="userType" class="control-label float-right txt_media1">User Type :</label>
                                     </div>
                                     <div class="col-md-9">
-                                        <select class="form-control ls-select2" id="userType" v-model="userData.user_type">
+                                        <select class="form-control ls-select2" id="userType" v-model="userData.userType">
                                             <option :value="type.text" v-for="type in userData.userTypeOption">{{type.text}}</option>
                                         </select> 
+                                        <i v-show="errors.has('lastName')" class="fa fa-warning"></i>
+                                        <span class="help is-danger" v-show="errors.has('lastName')">Last name is required.</span>
                                     </div>
                                 </div>
-                                <div class="row form-group">
+                                <div class="row form-group" v-if="userData.userType == 'Doctor'" >
                                     <div class="col-md-3">
                                     <label for="department " class="control-label float-right txt_media1">Department :</label>
                                     </div>
@@ -131,7 +137,7 @@
                                 'userTypeOption': [{text:'Doctor'},
                                              {text:'Others'}
                                             ],
-                                'user_type': '',
+                                'userType': '',
                                 'departmentOption':[{text:'Neurology'},
                                               {text:'Neurosurgery'},
                                               {text:'Cardiology'},
@@ -173,17 +179,20 @@
                
                 this.$validator.validateAll().then(() => {
                     console.log('test');
+                    if (!this.errors.any()) {
                     // if(this.$data.userData.id=="") {
                                 // here we add code for Mobile user for create user
                                 User.createUser(this.userData).then(
                                   (response)=> {
                                     toastr.success('User has been added successfully.', 'Add User', {timeOut: 5000});
+                                    this.$router.push('dashboard');
                                   },
                                   (error)=>{
                                   }
 
                                 )
                         // }
+                    }
                 })
             }
         }

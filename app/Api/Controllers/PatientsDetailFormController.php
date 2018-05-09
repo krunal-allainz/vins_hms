@@ -121,6 +121,24 @@ class PatientsDetailFormController extends Controller
         
         // return view('\index');
     }
+    public function getPatientDetailBysearch(Request $request)
+    {
+        $data = $request->all()['searchData'];
+        $patientId = 0;
+        if($data['select_type'] == 'uhidNo'){
+            $select_key = 'uhid_no';
+        }else {
+            $select_key = 'mob_no';
+        }
+        $patientData = PatientDetailsForm::where($select_key,$data['select_value'])->get()->first();
+        if($patientData) {
+             return ['code' => '200','data'=>$patientData, 'message' => 'Patient record '];
+        } else {
+             return ['code' => '300','patientData'=>'', 'message' => 'Record not found'];
+        }
+       
+
+    }
 
     /**
      * get all details of patient.

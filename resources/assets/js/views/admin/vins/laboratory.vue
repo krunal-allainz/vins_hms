@@ -1,44 +1,35 @@
 <template>
 	<div class="container">
 		<div class="page-header">
+
 			<div class=" row col-md-6">
-				<h1>Laboratory Form</h1>
+			<h1>Laboratory Form</h1>
 			</div>
+
 		</div>
-		<form method = "post">
+
+		<form method = "post" >
 			<div class="row form-group">
-					<div class="col-md-6">
-						<div class="row">
-							<div class="col-md-6">
-								<label class="control-label" for="label_0">CheckBox </label>
-							</div>
-							<div class="col-md-6">
- 								<span class="col-md-3" v-for="(opt,n) in laboratoryData.labReportOption">
- 									{{opt.text}}<input type="checkbox" :name="opt.text" :value="opt.text" :id="opt.text" class=" chkLabInv" v-model="laboratoryData.checkboxList">
- 								</span>
-							</div>	
-						</div>
-					</div>
-			</div>
-			<div class="row form-group">				
 				<div class="col-md-6">
 					<div class = "row">
-						<div class="col-md-6">
-							<label class="control-label" for="label_1">Label 1 </label>
-						</div>
-						<div class="col-md-6">
-								<select class="form-control ls-select2"  id="label_1" name="label_1[]"  multiple="multiple">
-									 <option :value="label1.text" v-for="label1 in laboratoryData.label_1_option">{{label1.text}}</option>
-								</select>
-						</div>
+					<div class="col-md-6">
+						<label class="control-label" for="label_1">Label 1 </label>
+					</div>
+					<div class="col-md-6">
+							<select class="form-control ls-select2"  id="label_1" name="label_1"  v-model="laboratoryData.label_1">
+								 <option :value="label1.text" v-for="label1 in laboratoryData.label_1_option">{{label1.text}}</option>
+							</select>
 					</div>
 				</div>
+				</div>
+
 				<div class="col-md-6">
 					<div class = "row">
 					<div class="col-md-6">
 						<label class="control-label" for="label_2">Label 2 </label>
 					</div>
 					<div class="col-md-6">
+
 							<select class="form-control ls-select2"  id="label_2" name="label_2" multiple="multiple" >
 								 <option :value="label_2.text"  v-for="label_2 in laboratoryData.label_2_option">{{label_2.text}}</option>
 								 <option></option>
@@ -106,6 +97,7 @@
 		</div>
 	</div>
 		</form>
+
 		<br><br>
 		<div class="row form-group">
 					<div class="col-md-6">
@@ -130,7 +122,9 @@
 					</div>
 				</div>
 		<hr>
-		<h4>Investigations:</h4>
+		<h4>Radiology:</h4>
+
+
 		<ul class="nav nav-tabs">
 			<li class="nav-item">
 				<a class="nav-link active" data-toggle="tab" href="#x_rays">X-Rays</a>
@@ -698,7 +692,28 @@
                 'footer' : 'footer',
                 'currentYear': new Date().getFullYear(),
                 'deleteConfirmMsg': 'Are you sure you would like to delete this referee? All information associated with this referee will be permanently deleted.',
-                'laboratoryData' : {
+                'investigationData' : {
+                	'neurology': {
+                		'radiology':{
+	                		'x-rays': {
+		                		'value': '',
+		                		'x-rays-options' : {
+		                		text:'fixed',
+		                		text:'portable'
+		                		}
+		                	}
+                		}
+                	},
+                	'ortho': {
+
+                	},
+                	'vascular': {
+
+                	},
+                	'cardio': {
+
+                	},
+
                 	'checkboxList':[],
                 	'labReportOption': [
 				                	{text:'labReport_1'},
@@ -910,7 +925,6 @@
 		    GetSelectComponent(componentName) {
 		       this.$router.push({name: componentName})
 		    },
-		    
 		    saveLaboratory() {
 		    	this.$validator.validateAll().then(
 	            (response) => {

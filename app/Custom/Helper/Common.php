@@ -57,7 +57,6 @@ class Common {
 
       static function getCurrentSiteUrl(){
           if(\App::environment('local')){
-           s
             return config::get('app.url');
           }else{
              return config('app.site_url');

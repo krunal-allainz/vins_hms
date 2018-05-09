@@ -104,7 +104,7 @@ class UserRepository {
         'password' => $data['password'],
         'mobile_no'=>$data['mobile_no'],
         'token' => $data['token'],
-        'is_verified' => 0,
+        'is_verified' => 1,
         'is_active' =>  1,
         //'user_image'=>(isset($data['user_image']) && $data['user_image']!='') ?  $data['user_image'] : ''
         ];

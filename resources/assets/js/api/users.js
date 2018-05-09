@@ -190,6 +190,7 @@ export default {
   saveMARFlowSheet(MARFlowSheet) {
     return api.post('MARFlowSheet/create',{'MARFlowSheet': MARFlowSheet})
   },
+
   getpatientDetail(ipdId) { 
     return api.post('patient/getDetails/'+ipdId)
   },
@@ -198,10 +199,7 @@ export default {
     },
   submitReport(reportData) {
     return api.post('report/create',{'reportData':reportData})
-  },
-  submitReport(reportData) {
-      return api.post('report/create',{'reportData':reportData})
-  },
+  }
   getAllPatientName() {
       return api.get('patient/getAll');
   },
@@ -212,10 +210,13 @@ export default {
   getPatientOPDDetail(patientId) {
     return api.post('patient/OPDDetails/'+patientId)
   },
+  saveOpdData(opdData) {                                                            
+        return api.post('opd/saveData',{'opdData':opdData})
+  },             
   sendResetLinkInMail(requestData) {  
     return api.post('password/reset/link',{'email':requestData})
-  }
-
-
-
+  },
+  savePatientDetailBySearch(searchData) {
+      return api.post('patient/getDetails',{'searchData':searchData})
+    }
 }
