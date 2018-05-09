@@ -35,7 +35,10 @@
                                         </div>
                                         <div class="col text-center">
                                             <button class="btn btn-success text-center" type="button" @click="signInUser()">Sign in</button>
+                                            
+                                             <a class="btn btn-link" style="white-space: normal;" @click = "GetSelectComponent('LayoutForgotPasswords')">  Forgot Your Password? </a>
                                         </div>
+
                                             
                                     </div>
                                 </form>
@@ -94,6 +97,10 @@ export default {
                 toastr.error('Please enter email and password.', 'Login error', {timeOut: 5000});
                 }
             });
+        },
+        GetSelectComponent(comp) {
+         this.$router.push({name: comp})
+
         }
 
     },
@@ -101,6 +108,7 @@ export default {
     console.log(Ls.get('userId'),Ls.get('email'));
 
     },
+       
     destroyed: function() {
 
     }

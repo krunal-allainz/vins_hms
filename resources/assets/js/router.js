@@ -12,6 +12,8 @@ import AuthService from './services/auth'
 //Layouts
 import LayoutLogin from './views/layouts/LayoutLogin.vue'
 import LayoutFront from './views/layouts/LayoutFront.vue'
+import LayoutForgotPasswords from './views/layouts/LayoutForgotPasswords.vue' 
+import LayoutResetPassword from './views/layouts/LayoutResetPassword.vue'
 
 //Login : Auth
 // import Login from './views/auth/Login.vue'
@@ -147,6 +149,7 @@ const routes = [
                 component: doctorsInitialAssessment,
                 name: 'doctorsInitialAssessment'
             },
+
             {
                 path: '/patients_detail_form',
                 component: patientsDetailForm,
@@ -544,6 +547,13 @@ const routes = [
     {
 
         path: '/login', component: LayoutLogin,
+
+    },
+    {
+
+        path: '/forgotpassword',
+        component: LayoutForgotPasswords,
+        name: 'LayoutForgotPasswords'
 
     },
 

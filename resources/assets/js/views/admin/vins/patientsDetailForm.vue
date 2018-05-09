@@ -180,7 +180,6 @@
 		                </span>
 					</div>
 				</div>
-
            	</div>
        		<div class="form-group text-center">
 				<button class="btn btn-success" type="button" @click="savePatient()">Submit</button>
@@ -241,6 +240,7 @@
 		             else{
 		             	vm.patientData.consulting_dr = $(this).val();			
 		             }
+
 				});
         },
         methods: {
