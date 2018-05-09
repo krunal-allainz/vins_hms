@@ -43,7 +43,7 @@ class ForgotPasswordController extends Controller
 
      public function resetLink(Request $request )
     {   
-      //Common::sendMail($email_details, $recipient, $email_msg, $email_templates);
+      
     	$this->validate($request, ['email' => 'required|email']);
     	/*$valodator = Validator::make($request->all(), 
 			array(
@@ -79,15 +79,28 @@ class ForgotPasswordController extends Controller
                             ]);
                     }
                      $url = '';
-                $url = common::getCurrentSiteUrl();s
+                $url = common::getCurrentSiteUrl();
                     $resetLink = '';
                $resetLink  = $url.'/password/reset/'.$token.'?email='. $user->email;
-                $data = [
+
+
+                 
+
+           //  if($userObj->is_mobile_user == 1) {
+           // //   $email_templates = 'emails.users.mobile_create';
+           //    $email_msg = 'Euro-Sportring email verification';
+           //    $email_details['is_mobile_user'] = 1;
+           //  }
+            // Common::sendMail($email_details, $recipient, $email_msg, $email_templates);
+               $data = [
                     'status' => 200 ,
                     'token' => $token , 
                     'email' =>  $user->email ,
-                    'link' =>$resetLink 
-                ];
+                    'link' => 'Reset password link send to Mail id'
+
+
+
+                //Common::sendMail($email_details, $recipient, $email_msg, $email_templates);
                 
               }else{
                 $data = ['status' =>404 ,  'email' =>  $request->input('email')];
