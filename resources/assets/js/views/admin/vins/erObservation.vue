@@ -27,7 +27,7 @@
 						<label for="date">Date : </label>
 					</div>
 					<div class="col-md-6">
-						<!-- <input class="form-control ls-datepicker" type="text" name="er_date" value="" /> -->
+						<!-- <input class="form-control ls-datepicker" type="text" name="er_date" value="" /> 
 						<date-picker :date.sync="erObservationData.date_obs" class="form-control" :option="option" name="er_date" id="er_date" v-model="erObservationData.date_obs.time" v-validate="'required'"></date-picker>
 						<span class="help is-danger" v-show="errors.has('tri_category')">
 							Field is required
@@ -421,7 +421,6 @@
 					 SelectPatientModal,
 					 'date-picker': myDatepicker,
 			 },
-
 		mounted() {
 			let vm = this;
          	$('.ls-datepicker').datepicker({
@@ -429,8 +428,12 @@
          		'autoclose': true
 			});
 				 $('.ls-timepicker').timepicker({
+				 		 controlType: 'select',
 						 format:'hh:mm',
-						 'autoclose': true
+						 'autoclose': true,
+						 dynamic: false,
+   						 dropdown: true,
+   						 scrollbar: true
 				 });
 				 $('.ls-datepicker').datepicker().on('changeDate',function(){
 	 				vm.erObservationData.date = this.value;

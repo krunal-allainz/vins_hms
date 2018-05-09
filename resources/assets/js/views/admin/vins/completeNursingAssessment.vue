@@ -34,7 +34,7 @@
   						<label class="control-label col-md-4" for="date">Date:</label>
   					</div>
   					<div class="col-md-6">
-<!--   						<input type="text" class="form-control ls-datepicker" id = "date" name="date" v-model="completeNursingAssessmentData.date" v-validate="'required'" value=""> -->
+  						<input type="text" class="form-control ls-datepicker" id = "date" name="date" v-model="completeNursingAssessmentData.date" v-validate="'required'" value=""> -->
               <date-picker :date.sync="completeNursingAssessmentData.nurDate"  :option="option"></date-picker>
 
               <span class="help is-danger" v-show="errors.has('date')">
@@ -702,9 +702,9 @@
   			        <label class="control-label" for="date_nursing">Date:</label>
   			      </div>
   			      <div class="col">
+
                 <date-picker :date.sync="completeNursingAssessmentData.date_nursing" :option="option"></date-picker>
-  			        <!-- <input type="date" class="form-control ls-datepicker"  id = "date_nursing" name="date_nursing" v-model="completeNursingAssessmentData.date_nursing" v-validate="'required'" > -->
-  							<span class="help is-danger" v-show="errors.has('date_nursing')">
+  			        <input type="date" class="form-control ls-datepicker"  id = "date_nursing" name="date_nursing" v-model="completeNursingAssessmentData.date_nursing" v-validate="'required'" >   							<span class="help is-danger" v-show="errors.has('date_nursing')">
     		        	Date of nursing is required
     		        </span>
   			      </div>
@@ -716,7 +716,9 @@
   			        <label class="control-label" for="time_nursing">Time:</label>
   			      </div>
   			      <div class="col">
+
   			        <input type="text" class="form-control ls-timepicker" name="time_nursing" v-model="completeNursingAssessmentData.time_nursing"  id ="time_nursing" >
+
   							<span class="help is-danger" v-show="errors.has('time_nursing')">
     		        	Time of nursing is required
     		        </span>
@@ -844,13 +846,21 @@
         components: {
            addressograph,
            SelectPatientModal,
+
            'date-picker': myDatepicker,
+
        },
        mounted() {
-        var vm =this;
+       
+                var vm =this;
                  $('.ls-select2').select2({
                     placeholder: "Select",
                  });
+
+                  // if(this.ipd_id == 0){
+                     $('#delete_modal').modal('show');
+
+                  // }
 
                  $('.ls-datepicker').datepicker({
 				            format: 'dd/mm/yyyy',
@@ -859,6 +869,7 @@
                  if(this.$store.state.Patient.ipdId == '') {
                       $('#delete_modal').modal('show');
                 }
+
 
               // var datepicker = $.fn.datepicker.noConflict(); // return $.fn.datepicker to previously assigned value
               // $.fn.bootstrapDP = datepicker;  
@@ -887,8 +898,11 @@
                 }
                 if(this.id == 'time_nursing'){
                     vm.completeNursingAssessmentData.time_nursing = this.value;
+
                 }
-              })
+              });
+
+                
 
 				},
         methods: {
@@ -924,4 +938,5 @@
 		  },
 
     }
+   
 </script>
