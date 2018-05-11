@@ -25,36 +25,22 @@ class MailNotification extends Model
     }
 
 
-    static function send($emailData,$content){ 
+    static function sendMail($emailData,$content){ 
     	    $content = $content->content;
-    	    $NAME = $emailData['NAME'];
-    	    $LINK = $emailData['LINK'];
-
+    	   
     	    foreach ($emailData as $key=>$value){
-    	    	str_replace("{{".$key."}}",$value, $content); 
+    	    	//echo $key.'=='.$value;
+
+				str_replace('{{'.$key.'}}',$value, $content); 
     	    }
-    	    dd($content);
+    	    
+    	    return $content;
     	    if($emailData['WITH-ATTECHMENT'] == 'no'){
 		    		return Mail::to($emailData['EMAIL'])->send($emailData, $emailData['SUBJECT'],$content,'mital.sharma@netfonia.us','');
-	    }else{
-	    	$attachment = '';
-	    	return Mail::to($emailData['EMAIL'])->send(new SendMail($emailData, $emailData['SUBJECT'],$content,'mital.sharma@netfonia.us',$attachment));
-	    }
-
-    			
-    	
-    	/*	$contact_details = $email_details;        
-           $recipient = $email_recipients;
-           if ($email_from != null && !empty($email_from)) {
-              Mail::to($recipient)->send(new SendMail($contact_details, $email_subject,  $email_view, $email_from,$attachment));
-           }
-           else{
-               Mail::to($recipient)->send(new SendMail($contact_details, $email_subject,  $email_view,'',$attachment));
-           }
-           return response()->json([
-               'status' => 'suceess',
-               'message' => 'Thank you for your message. We will aim to get back to you within the next 24 hours.'
-           ]);*/
+		    }else{
+		    	$attachment = '';
+		    	return Mail::to($emailData['EMAIL'])->send($emailData, $emailData['SUBJECT'],$content,'mital.sharma@netfonia.us',$attachments);
+		    }
     }
 
     static function useTemplate($id){

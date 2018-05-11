@@ -106,7 +106,8 @@ class ForgotPasswordController extends Controller
                     'status' => 200 ,
                     'token' => $token , 
                     'email' =>  $user->email ,
-                    'msg' => $resetLink
+                    'link' => $resetLink,
+                    'msg'   => 'Reset password link send to your mail id'
                   ];
 
 
