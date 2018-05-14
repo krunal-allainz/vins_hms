@@ -64,12 +64,12 @@ class ForgotPasswordController extends Controller
                     $password_reset = \DB::table('password_resets')->where('email',  $user->email)->first();
                     
                     if(empty($password_reset)){ 
-    		            DB::table(config('auth.passwords.users.table'))->insert([
-    		                'email' => $user->email, 
-    		                'token' => $token,
-    		                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-              			  	'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-    		            ]);
+      		            DB::table(config('auth.passwords.users.table'))->insert([
+      		                'email' => $user->email, 
+      		                'token' => $token,
+      		                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                			  	'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+      		            ]);
 
                     }else{  
                           DB::table(config('auth.passwords.users.table'))->where('email',$user->email)->

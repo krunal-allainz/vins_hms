@@ -199,7 +199,7 @@ export default {
     },
   submitReport(reportData) {
     return api.post('report/create',{'reportData':reportData})
-  }
+  },
   getAllPatientName() {
       return api.get('patient/getAll');
   },
