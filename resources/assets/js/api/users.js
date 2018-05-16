@@ -218,5 +218,8 @@ export default {
   },
   savePatientDetailBySearch(searchData) {
       return api.post('patient/getDetails',{'searchData':searchData})
-    }
+  },
+  printReceiptPreview(fromData,content){
+     return api.post('print/receipt',{'fromData':fromData,'content':content})
+  }
 }

@@ -4,12 +4,12 @@ namespace euro_hms\Api\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade as PDF;
 use euro_hms\Models\User;
 use euro_hms\Models\PatientDetailsForm;
 use euro_hms\Models\IpdDetails;
 use euro_hms\Models\OpdDetails;
-
-
+use Illuminate\Support\Facades\Response;
 use DB;
 use Carbon\Carbon;
 
@@ -210,5 +210,24 @@ class PatientsDetailFormController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+    *   print patient recept
+    *   
+    *   
+    *   
+    */
+    public function printReceipt(Request $request,$content = array()){
+
+        //return response()->view('receipt', $content, 200)->header('Content-Type','application/pdf');
+
+           /* $contents = view('receipt', $content,200);
+           // $response = Response::make($contents, $statusCode);
+            $response->header('Content-Type', 'application/pdf');
+            return $response;*/
+
+            return response()->view('receipt', $content, 200);
+
     }
 }
