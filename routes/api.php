@@ -111,6 +111,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         $api->post('opd/saveData', '\euro_hms\Api\Controllers\opdController@saveData'); 
         $api->post('patient/getDetails', '\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientDetailBysearch'); 
          $api->post('print/receipt', '\euro_hms\Api\Controllers\PatientsDetailFormController@printReceipt'); 
+          $api->post('generate/receipt', '\euro_hms\Api\Controllers\PatientsDetailFormController@saveReceiptData'); 
 
 
 });

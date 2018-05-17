@@ -72,10 +72,8 @@
 		            <label><b>Date :</b></label>
 		          </div>
 		          <div class="col-md-6">
-		           <input class="form-control ls-datepicker" type="text" id ="date_receipt" name="date_receipt" v-model="patientData.date_receipt"   v-validate="'required|numeric'" />
-		            <span class="help is-danger" v-show="errors.has('date_receipt')">
-		              Field is required
-		            </span>
+		          	 <date-picker v-model="patientData.date_receipt" lang="en"  format="dd-MM-yyyy" ></date-picker>
+		           
 		          </div>
 		        </div>
 			 </div>
@@ -86,12 +84,12 @@
 			<div class="row form-group" >
 				<div class="col-md-6">
 						<input class="form-control" type="text" name="charges" id="charges" placeholder="charges" 
-						v-validate="'required'"/>
+						v-validate="'required'" v-model="patientData.charges"/>
 						<span class="help is-danger" v-show="errors.has('charges')">
 		              		Please enter charges name
 		            	</span>
 				</div>
-				<div class="col-md-6"><input class="form-control" type="text" name="chargeAmount" id="chargeAmount" placeholder="amount" v-validate="'required|numeric'" />
+				<div class="col-md-6"><input class="form-control" type="text" name="chargeAmount" id="chargeAmount" placeholder="amount" v-validate="'required|numeric'" v-model="patientData.amount"/>
 				<span class="help is-danger" v-show="errors.has('chargeAmount')">
 		              		Please enter charges in numeric
 		            	</span></div>
@@ -102,16 +100,40 @@
 	       		 <div class="btn-success" type="submit" ><a class="btn btn-primary pull-right" data-toggle="modal" href="#receiptModal" id="modellink" @click="receiptPrintView()">Print Preview</a> </div>
 	       	</div>
          </div>
-       </form>		
+       </form>
+       <div id="receiptModal" class="modal fade">
+       	<div class="modal-dialog">
+        	<div class="modal-content">
+            	<div class="modal-header">
+               
+            	</div>
+            	<div class="modal-body" id="printContent">
+            	</div>
+            
+
+       		<div class="modal-footer">
+
+				<button  type="button" class="btn btn-primary"  @click="ClickHereToPrint()">Print</button>		
+		
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <!--  <button type="button" class="btn btn-primary">Save</button>-->
+            </div>
+            </div>
+           </div>
+       </div>		
    </div>
+
 </template>
+
 <script >
 	import User from '../../../api/users.js';
+	import DatePicker from 'vue2-datepicker';
 	//import myDatepicker from 'vue-datepicker';
 	
 	let list=[];
 	// var opdDetail=[];
 	//var patient_data_detail=[];
+	var patientId = '';
 
 	 export default {
         data() {
@@ -120,35 +142,47 @@
                 'footer' : 'footer',
                 'currentYear': new Date().getFullYear(),
                 'patientData' : {
+                	'fullname' : '',
                 	'gender': '',
                 	'case_no': '',
                 	'dob' : '',
                 	'age' : '',
                 	'casetype' : '',
                 	'reference_dr': '',
-                	'patient':'',
+                	'patient_id':'',
                 	'date_receipt' : '',
                 	'patient_option':list,
                 	'case_detail':{},
+                	'charges':'',
+                	'amount' : '',
+
                 	'select_patient_detail':{},
+
                 }
             }
 
         },
-
+        components: {
+        	 DatePicker
+        },
         mounted(){
        		   
 		          $('.ls-select2').select2({
 		        	   placeholder: "Select"
 		          }); 
-
-			      $('.ls-datepicker').datepicker({
-	           	       format: 'dd/mm/yyyy',
-	                   todayHighlight: true,
-	                  'autoclose': true
-	              });
-
 		          let vm =this;
+       
+       
+		           $('#printOut').click(function(e){
+            e.preventDefault();
+            var w = window.open();
+            var printOne = $('#printContent').html();
+           // var printTwo = $('.termsToPrint').html();
+            w.document.write('<html><head><title></title></head><body>' + printOne ) + '</body></html>';
+            w.window.print();
+            w.document.close();
+            return false;
+        });
          // // $('.ls-select2').on("select2:select", function (e) { 
          // //   if(this.id == 'referral'){
          // //     vm.patientData.referral=$(this).val();
@@ -170,8 +204,9 @@
 
          //  });
            $('#patient').on("select2:select", function (e) { 
-  			let patientId = $(this).val();
+  			 patientId = $(this).val();
   			let opdDetail=[];
+
   			 User.getPatientOPDDetail(patientId).then(
   			 	(response) => { 
   			 		if(response.data.code == 200){
@@ -184,6 +219,7 @@
   			 					opdDetail.push({'id':opdId,'text':opdNumber});
   			 				});
   			 				vm.patientData.case_detail = opdDetail;
+  			 				
 
 
   			 				
@@ -196,7 +232,7 @@
 
 			});
  			$('#case_no').on("select2:select", function (e) {
-	  			let patientId = $(this).val();
+	  			//let patientId = $(this).val();
 	  			let patient_data_detail = [];
 	           User.getpatientDetail(patientId).then(
 	  				(response) => { 
@@ -228,7 +264,11 @@
 				      					  });
 	  					vm.patientData.select_patient_detail=patient_data_detail;
 	  					vm.patientData.dob = dob;
+	  					vm.patientData.fullname = name;
+	  					vm.patientData.case_no = $(this).val();
+	  					vm.patientData.gender = gender;
 	  					vm.patientData.casetype = caseType;
+	  					vm.patientData.patient_id = pid;
 	  					 vm.handleDOBChanged();
 	  					}
 	  				},
@@ -274,11 +314,23 @@
        methods: {
 		    receiptPrintView() {   
 		    	this.$validator.validateAll().then(  
-	            (response) => { 
+	            (response) => {   
 	            	//if (!this.errors.any()) {
 	            		// $("body .js-loader").removeClass('d-none');
 	            		let content = [];
-				    	User.printReceiptPreview(this.patientData,content).then(
+	            		let type = 'opd';
+	            		User.generateReceiptData(this.patientData,type).then(
+		                (response) => { 
+		                	$('#printContent').append(response.data.html)
+		                	//$('#receiptModal').modal({show:true}); 
+
+		            	},
+		                (error) => {
+		                	 $("body .js-loader").addClass('d-none');
+
+		                }
+		                )
+				    	/*User.printReceiptPreview(this.patientData,content).then(
 		                (response) => {
 		                	if(response.data.code == 200) {
 		                		$('#receiptModal').modal({show:true});
@@ -291,7 +343,7 @@
 		                	 $("body .js-loader").addClass('d-none');
 
 		                }
-		                )
+		                )*/
 			    	//
 			    },
                 (error) => {
@@ -374,6 +426,23 @@
 				  }
 
 				  return true;
+				},
+				ClickHereToPrint() {
+				    try {
+				        var printContent = document.getElementById('printContent').innerHTML;
+				        var windowUrl = 'about:blank';
+				        var uniqueName = new Date();
+				        var windowName = 'Print' + uniqueName.getTime();
+				        var printWindow = window.open(windowUrl, windowName, 'left=50000,top=50000,width=0,height=0');
+				        printWindow.document.write('<div class="wrapper"><!----> <aside class="right-aside">'+printContent+'</div></div>');
+				        printWindow.document.close();
+				        printWindow.focus();
+				        printWindow.print();
+				        printWindow.close();
+				    }
+				    catch (e) {
+				        self.print();
+				    }
 				},
 
 			

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
 use euro_hms\Models\User;
 use euro_hms\Models\PatientDetailsForm;
+use euro_hms\Models\Receipt;
 use euro_hms\Models\IpdDetails;
 use euro_hms\Models\OpdDetails;
 use Illuminate\Support\Facades\Response;
@@ -229,5 +230,14 @@ class PatientsDetailFormController extends Controller
 
             return response()->view('receipt', $content, 200);
 
+    }
+
+    public function saveReceiptData(Request $request){
+        $data =  Receipt::saveReceipt($request);
+        $formData = ['name' => $request->formData['fullname'],'date' => $request->formData['date_receipt'] ];
+        /*$data = array_push($data,{'name' : $request->formData['fullname'],'date' : $request->formData['date_receipt'] });*/
+        $view = view("receipt",compact('data'))->render();
+        return response()->json(['html'=>$view]);
+       //  return redirect('receipt/view');
     }
 }
