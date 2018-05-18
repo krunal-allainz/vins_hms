@@ -83,7 +83,7 @@
 			</div>-->
 			<div class="row form-group" >
 				<div class="col-md-6">
-						<input class="form-control" type="text" name="charges" id="charges" placeholder="charges" 
+						<input class="form-control" type="text" name="charges" id="charges" placeholder="charges name" 
 						v-validate="'required'" v-model="patientData.charges"/>
 						<span class="help is-danger" v-show="errors.has('charges')">
 		              		Please enter charges name
@@ -171,18 +171,7 @@
 		        	   placeholder: "Select"
 		          }); 
 		          let vm =this;
-       
-       
-		           $('#printOut').click(function(e){
-            e.preventDefault();
-            var w = window.open();
-            var printOne = $('#printContent').html();
-           // var printTwo = $('.termsToPrint').html();
-            w.document.write('<html><head><title></title></head><body>' + printOne ) + '</body></html>';
-            w.window.print();
-            w.document.close();
-            return false;
-        });
+   
          // // $('.ls-select2').on("select2:select", function (e) { 
          // //   if(this.id == 'referral'){
          // //     vm.patientData.referral=$(this).val();
@@ -269,6 +258,7 @@
 	  					vm.patientData.gender = gender;
 	  					vm.patientData.casetype = caseType;
 	  					vm.patientData.patient_id = pid;
+	  					vm.patientData.reference_dr = consulatant;
 	  					 vm.handleDOBChanged();
 	  					}
 	  				},
@@ -321,7 +311,12 @@
 	            		let type = 'opd';
 	            		User.generateReceiptData(this.patientData,type).then(
 		                (response) => { 
-		                	$('#printContent').append(response.data.html)
+		                	 if ($("#printContent .printReceiptPage" ).length == 0){
+		                		$('#printContent').append(response.data.html);
+		                	}else{
+		                		$('#printContent').htm('');
+		                		$('#printContent').append(response.data.html)
+		                	}
 		                	//$('#receiptModal').modal({show:true}); 
 
 		            	},
@@ -387,7 +382,10 @@
 				    if (ageMonth < 0 || (ageMonth == 0 && ageDay < 0)) {
 				        age = parseInt(age) - 1;
 				    }
-				   	if(age != 0){
+				    if(age > 1){
+				    	return age+' Years';
+				    }
+				   	if(age == 1){
 						 return age+' Year';
 					}else if(ageMonth != 0){
 						return ageMonth +' Month';
@@ -429,15 +427,18 @@
 				},
 				ClickHereToPrint() {
 				    try {
-				        var printContent = document.getElementById('printContent').innerHTML;
-				        var windowUrl = 'about:blank';
-				        var uniqueName = new Date();
-				        var windowName = 'Print' + uniqueName.getTime();
-				        var printWindow = window.open(windowUrl, windowName, 'left=50000,top=50000,width=0,height=0');
-				        printWindow.document.write('<div class="wrapper"><!----> <aside class="right-aside">'+printContent+'</div></div>');
+				    	var  printContent = '';
+					        printContent = document.getElementById('printContent').innerHTML;
+					        var windowUrl = 'about:blank';
+					        var uniqueName = new Date();
+					        var windowName = 'Print' + uniqueName.getTime();
+					        var printWindow = window.open(windowUrl, windowName, 'left=50000,top=50000,width=0,height=0');
+					        printWindow.document.write('<html><body><div class="wrapper"><!----> <aside class="right-aside">'+printContent+'</div></div></body></html>');
+
 				        printWindow.document.close();
 				        printWindow.focus();
 				        printWindow.print();
+
 				        printWindow.close();
 				    }
 				    catch (e) {

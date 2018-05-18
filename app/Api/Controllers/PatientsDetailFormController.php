@@ -11,6 +11,7 @@ use euro_hms\Models\Receipt;
 use euro_hms\Models\IpdDetails;
 use euro_hms\Models\OpdDetails;
 use Illuminate\Support\Facades\Response;
+use Terbilang;
 use DB;
 use Carbon\Carbon;
 
@@ -234,9 +235,17 @@ class PatientsDetailFormController extends Controller
 
     public function saveReceiptData(Request $request){
         $data =  Receipt::saveReceipt($request);
-        $formData = ['name' => $request->formData['fullname'],'date' => $request->formData['date_receipt'] ];
+        $wordAmount = Terbilang::make($request->formData['amount']);
+        $formData = [
+            'name' => $request->formData['fullname'],
+            'date' => $request->formData['date_receipt'] ,
+            'consultant' => $request->formData['reference_dr'],
+            'age' =>   $request->formData['age'],
+            'gender' =>$request->formData['gender'],
+            'wordamount' => $wordAmount
+        ];
         /*$data = array_push($data,{'name' : $request->formData['fullname'],'date' : $request->formData['date_receipt'] });*/
-        $view = view("receipt",compact('data'))->render();
+        $view = view("receipt",['data'=> $data,'formData' => $formData])->render();
         return response()->json(['html'=>$view]);
        //  return redirect('receipt/view');
     }
