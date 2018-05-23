@@ -199,7 +199,7 @@ export default {
     },
   submitReport(reportData) {
     return api.post('report/create',{'reportData':reportData})
-  },
+  }
   getAllPatientName() {
       return api.get('patient/getAll');
   },
@@ -218,11 +218,5 @@ export default {
   },
   savePatientDetailBySearch(searchData) {
       return api.post('patient/getDetails',{'searchData':searchData})
-  },
-  printReceiptPreview(fromData,content){
-     return api.post('print/receipt',{'fromData':fromData,'content':content})
-  },
-  generateReceiptData(formData,type){
-    return api.post('generate/receipt',{'formData':formData,'type':type})
-  }
+    }
 }
