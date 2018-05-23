@@ -17,7 +17,7 @@ class CreateProvisionalDiagnosisTable extends Migration
             $table->increments('id');
             $table->string('name')->nullable();
             $table->string('category_id')->nullable();
-            $table->boolean('status');
+            $table->enum('status', [0, 1])->nullable();
             $table->timestamps();
         });
     }
