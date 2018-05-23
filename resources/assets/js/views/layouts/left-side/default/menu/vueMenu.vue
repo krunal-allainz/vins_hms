@@ -10,6 +10,7 @@ export default {
             return this.$children.filter(child => child._isCollapseItem)
         }
     },
+
     methods: {
         openByIndex(index) {
             this.$collapseItems.forEach((item, i) => {

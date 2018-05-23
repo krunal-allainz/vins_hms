@@ -43,8 +43,9 @@ class AppointmentBookController extends Controller
       $appointmentBookCreate = AppointmentBook::create([
         // 'date' => $request->date,
         // 'time' => $request->time,
-        'date' => $data['date'],
-        'name_of_patient' => $data['name_of_patient'],
+
+        'appointment_date' => $data['appoint_date']['time'],
+        'patient_name' => $data['name_of_patient'],
         'contact_no' => $data['contact_no'],
         'appointment_time' => $data['appointment_time'],
         'consultant_name' => $data['consultant_name'],

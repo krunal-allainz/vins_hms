@@ -31,7 +31,7 @@
 
         <div class="dashboard">
           <div class="wrapper">
-            <aside class="left-aside">
+            <aside class="left-aside" v-if="userType != 'Doctor'">
               <left_side></left_side>
             </aside>
             <aside class="right-aside">
@@ -46,7 +46,7 @@
   </body>
 </template>
 
-<script type="text/babel">
+<script >
 
 import SiteFooter from './partials/SiteFooter.vue';
 import Auth from '../../services/auth';
@@ -56,8 +56,22 @@ export default {
              SiteFooter,
              left_side
         },
+        data(){
+          return {
+            // 'userType': '',
+          }
+        },
+        computed:{
+          userType(){
+            return  this.$store.state.Users.userDetails.user_type;
+          }
+        },
         mounted() {
-          this.$store.dispatch('SetIpdId',0);
+          let vm = this;
+          // setTimeout(function(){
+          //   vm.userType = vm.$store.state.Users.userDetails.user_type;
+          // },3000)
+          //this.$store.dispatch('SetIpdId',0);
         },
         methods:{
           logout(){
