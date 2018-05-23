@@ -43,38 +43,47 @@
 			    </div>
 			    <div  v-for="data in patientData.select_patient_detail">
 			   	 <div class="row form-group" >
-		          	<div class="col-md-6">
-				       
-				          <label for="date"><b>Gender:</b></label>
-				       
-				        <span  v-if="data.gender=='M'">
-				             Male 
-				        </span>
-				        <span  v-if="data.gender=='F'">
-				             Female
-				        </span>
-				        / <span id=age>{{patientData.age}}</span>
-				     </div>
-
-			     <div class="col-md-6" v-for="data in patientData.select_patient_detail">
-					
-			     	 <label class="control-label" for="consulting_dr"><b>Consulting Dr.:</b> </label>
-						{{data.consult}}
-				</div>
+			   	 	<div class="col-md-6">
+				          	<div class="col-md-6">
+						       
+						          <label for="date"><b>Gender:</b></label>
+						    </div>
+						    <div class="col-md-6">
+						        <span  v-if="data.gender=='M'">
+						             Male 
+						        </span>
+						        <span  v-if="data.gender=='F'">
+						             Female
+						        </span>
+						        / <span id=age>{{patientData.age}}</span>
+						     </div>
+					 </div>
+					  <div class="col-md-6">
+					 	<div class="col-md-6" v-for="data in patientData.select_patient_detail">
+							
+					     	 <label class="control-label" for="consulting_dr"><b>Consulting Dr.:</b> </label>
+					     </div>
+					      <div class="col-md-6">
+								{{data.consult}}
+						</div>
+					</div>
 			</div>
 			 <div class="row form-group" >
-			 	<div class="col-md-6">
-			 	 <label for="date"><b>Case Type:</b></label>
-			 	 {{patientData.casetype}}
-			 	</div>
-			 	 <div class="col-md-6">
-		          <div class="col-md-6">
-		            <label><b>Date :</b></label>
-		          </div>
-		          <div class="col-md-6">
-		          	 <date-picker v-model="patientData.date_receipt" lang="en"  format="dd-MM-yyyy" ></date-picker>
-		           
-		          </div>
+			 		<div class="col-md-6">
+				 		<div class="col-md-6">
+				 	 		<label for="date"><b>Case Type:</b></label>
+				 		</div>
+				 		<div class="col-md-6">
+				 			 {{patientData.casetype}}
+				 		</div>
+			 	 	</div>
+			 	 	<div class="col-md-6">
+			          <div class="col-md-6">
+			            <label><b>Date :</b></label>
+			         </div>
+			         <div class="col-md-6">
+		       				<date-picker v-model="patientData.date_receipt" lang="en"  format="dd-MM-yyyy" ></date-picker>
+		           	</div>
 		        </div>
 			 </div>
 
@@ -82,18 +91,33 @@
 				<div class="col-md-6"><label>Perticular</label></div><div class="col-md-6"><label>Amount</label></div>
 			</div>-->
 			<div class="row form-group" >
-				<div class="col-md-6">
-						<input class="form-control" type="text" name="charges" id="charges" placeholder="charges name" 
-						v-validate="'required'" v-model="patientData.charges"/>
-						<span class="help is-danger" v-show="errors.has('charges')">
-		              		Please enter charges name
-		            	</span>
-				</div>
-				<div class="col-md-6"><input class="form-control" type="text" name="chargeAmount" id="chargeAmount" placeholder="amount" v-validate="'required|numeric'" v-model="patientData.amount"/>
-				<span class="help is-danger" v-show="errors.has('chargeAmount')">
-		              		Please enter charges in numeric
-		            	</span></div>
+				 	<div class="col-md-6">
+						<div class="col-md-6">
+							<label for="charges"><b>Charges Name:</b></label>
+								
+						</div>
+						<div class="col-md-6">
+							<input class="form-control" type="text" name="charges" id="charges"  
+								v-validate="'required'" v-model="patientData.charges"/>
+								<span class="help is-danger" v-show="errors.has('charges')">
+				              		Please enter charges name
+				            	</span>
+						</div>
+					</div>
+					<div class="col-md-6">
+							<div class="col-md-6">
+									<label for="chargeAmount"><b>Charges Amount:</b></label>
+							
+							</div>
+							<div class="col-md-6">
+									<input class="form-control" type="text" name="chargeAmount" id="chargeAmount"  v-validate="'required|numeric'" v-model="patientData.amount"/>
+								<span class="help is-danger" v-show="errors.has('chargeAmount')">
+				              		Please enter charges in numeric
+				            	</span>
+				            </div>
+			        </div>
 			</div>
+
 			
 
 	        <div class="row form-group" >
@@ -429,11 +453,11 @@
 				    try {
 				    	var  printContent = '';
 					        printContent = document.getElementById('printContent').innerHTML;
-					        var windowUrl = 'about:blank';
+					        var windowUrl = '';
 					        var uniqueName = new Date();
 					        var windowName = 'Print' + uniqueName.getTime();
 					        var printWindow = window.open(windowUrl, windowName, 'left=50000,top=50000,width=0,height=0');
-					        printWindow.document.write('<html><body><div class="wrapper"><!----> <aside class="right-aside">'+printContent+'</div></div></body></html>');
+					        printWindow.document.write('<html><body><div class="wrapper">'+printContent+'</div></body></html>');
 
 				        printWindow.document.close();
 				        printWindow.focus();
