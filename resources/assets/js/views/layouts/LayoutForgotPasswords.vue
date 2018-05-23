@@ -14,26 +14,20 @@
                         <div class="row">
                             <div class="col-12">
                                 <form method="post">
-
-
                                     <div class="row">
                                         <div class="col-sm-12 mt-3 ">
                                             <div class="form-group">
-                                                   
                                                     <input v-model="forgotpwd.email" name="email" id="email" type="email" required autofocus placeholder="E-mail" v-validate="'required|email'"  class="form-control" />
                                                    <i v-show="errors.has('email')" class="fa fa-warning"></i>
                                                  <span class="help is-danger" v-show="errors.has('email')">{{ errors.first('email') }}</span>
                                                   <span id="responceMessage"></span>
                                                 
-                                            </div>
+                                            </div>  
                                         </div>
                                       
                                         <div class="col text-center">
                                           <button class="btn btn-success text-center" type="button" @click="sendLink()">Send Link</button>
-                                             
                                         </div>
-
-                                            
                                     </div>
                                 </form>
                             </div>
@@ -50,7 +44,8 @@
      $('#responceMessage').text('');
     import Auth from '../../services/auth';
     import User from '../../api/users.js';
-    import Ls from '../../services/ls'
+    import Ls from '../../services/ls';
+    import anime from 'animejs'
 
 export default{
     
@@ -78,17 +73,19 @@ export default{
                              $('#responceMessage').text('');
                              var resetLink  = '';
                             if(response.data.status == 200) {
-                                 var resetLink  = 'password/reset/'+response.data.token+'?email='+response.data.email;
+                                 var resetLink  =  response.data.link;
+                                 var msg  = response.data.msg;
+                                alert('You just copied this link : ' + resetLink);
                                 toastr.success('Succesfully link send', 'Forgot password', {timeOut: 5000})
-                                $('#responceMessage').text(resetLink);
+                                $('#responceMessage').text(msg);
                             }else if(response.data.status == 404) {
-                                var resetLink  = 'Record not found';
+                                var msg  = 'Record not found';
                                 toastr.error('Record not found', 'Error', {timeOut: 5000});
-                                  $('#responceMessage').text(resetLink);
+                                  $('#responceMessage').text(msg);
                             } else{
-                                 var resetLink = '';
+                                 var msg = '';
                                 toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
-                                 $('#responceMessage').text(resetLink);
+                                 $('#responceMessage').text(msgs);
                             }
 
                         })

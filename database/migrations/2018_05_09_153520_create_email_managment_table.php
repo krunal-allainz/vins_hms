@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProvisionalDiagnosisTable extends Migration
+class CreateEmailManagmentTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateProvisionalDiagnosisTable extends Migration
      */
     public function up()
     {
-        Schema::create('provisional_diagnosis', function (Blueprint $table) {
+        Schema::create('email_managment', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->nullable();
-            $table->string('category_id')->nullable();
+            $table->string('type')->nullable();
+            $table->string('title')->nullable();
+            $table->longText('content')->nullable();
             $table->boolean('status');
             $table->timestamps();
         });
@@ -29,6 +30,6 @@ class CreateProvisionalDiagnosisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('provisional_diagnosis');
+        Schema::dropIfExists('email_managment');
     }
 }
