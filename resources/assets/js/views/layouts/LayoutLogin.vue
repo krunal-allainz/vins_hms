@@ -79,15 +79,10 @@ export default {
                                     // this.$validator.validateAll();
                 if (!this.errors.any()) {(
                     Auth.login(this.loginData).then((response) => {
-                        console.log(Ls.get('userId'),Ls.get('email'));
                         setTimeout(function(){
                             var userId = Ls.get('userId');
-
-                                vm.$store.dispatch('SetUserDetailsData',userId);
-                            // User.getUserDetails(userId).then((response) => {
-                            //     console.log('response',response);
-                            // });
-                        },1500)
+                            vm.$store.dispatch('SetUserDetailsData',userId);
+                        },500)
                         
 
                          this.$router.push({'name':'dashboard'});

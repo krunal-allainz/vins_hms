@@ -317,7 +317,7 @@
 	        		vm.$router.push('nabhReport');
 	        	}
 	        	$("body .js-loader").addClass('d-none');
-        	},3000)
+        	},500)
         	
         	// this.$store.dispatch('SetIpdId',0);
 

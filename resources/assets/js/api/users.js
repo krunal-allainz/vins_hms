@@ -199,7 +199,7 @@ export default {
     },
   submitReport(reportData) {
     return api.post('report/create',{'reportData':reportData})
-  }
+  },
   getAllPatientName() {
       return api.get('patient/getAll');
   },
@@ -218,5 +218,11 @@ export default {
   },
   savePatientDetailBySearch(searchData) {
       return api.post('patient/getDetails',{'searchData':searchData})
-    }
+  },
+  getDiagnosis(data) {
+      return api.post('provison/getDiagnosis',{'data':data})
+  },
+  getPrescription(data) {
+      return api.post('prescription/getDetails',{'data':data})
+  }
 }
