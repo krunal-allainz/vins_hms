@@ -29,6 +29,4 @@ class PatientDetailsForm extends Model
       {
           return $this->hasMany('euro_hms\Models\IpdDetails');
       }
-
-      
 }

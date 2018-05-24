@@ -27,7 +27,7 @@
 						<label for="date">Date : </label>
 					</div>
 					<div class="col-md-6">
-						<input class="form-control ls-datepicker" type="text" name="er_date" value="" /> 
+						 <input class="form-control ls-datepicker" type="text" name="er_date" value="" /> 
 						<date-picker :date.sync="erObservationData.date_obs" class="form-control" :option="option" name="er_date" id="er_date" v-model="erObservationData.date_obs.time" v-validate="'required'"></date-picker>
 						<span class="help is-danger" v-show="errors.has('tri_category')">
 							Field is required
@@ -61,7 +61,7 @@
 						<span class="help is-danger" v-show="errors.has('diagnosis')">
 							Field is required
 						</span>
-					</div>
+				</div>
 				</div>
 			</div>
 			<div class="col-md-6">
@@ -74,7 +74,7 @@
 						<span class="help is-danger" v-show="errors.has('investigation')">
 							Field is required
 						</span>
-					</div>
+				</div>
 				</div>
 			</div>
 		</div>
