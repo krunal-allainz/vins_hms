@@ -13,10 +13,9 @@
                             <th>Body parts</th>
                             <th>Qualifier</th>
                             <th>Special request</th>
-                            <!-- <th>Image</th> -->
+                            <th>Details</th>
                             <th>Gallery</th>
                             <th>Action</th>
-
                         </tr>
                         </thead>
                         <tbody>
@@ -26,8 +25,8 @@
                             <td>{{res.bodyPart}}</td>
                             <td>{{res.qualifier}}</td>
                             <td>{{res.special_request}}</td>
-                            <td v-if="res.uploadType=='text'">{{res.textData | strLimit}}</td>
-                            <td v-else><a href="javascript:void(0)" @click="viewGallery(res.id)" class="red">View</a></td>
+                            <td>{{res.textData | strLimit}}</td>
+                            <td><a href="javascript:void(0)" @click="viewGallery(res.id)" class="red">View</a></td>
                             <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
                             <td> <i class="fa fa-remove" @click="removeReport(res.id)"></i></td>
 
@@ -70,6 +69,12 @@
                         <label> Other Parts</label>   
                         <input type="text" name="subType_text" id="subType_text" class="form-control" v-model="resultData.bodyPart" >
     			    </div>
+                    <div class="col-md-6" v-if="resultData.bodyPart == 'Spine'">
+                        <label> Spine option</label>
+                        <select class="form-control ls-select2" id="radiology_spine" name="radiology_spine" v-model="resultData.spine_option_value">
+                          <option v-for="obj in investigationData.Spine_option" :value="obj.text">{{obj.text}}</option>
+                        </select>
+                      </div>
                 </div>
                 <div class="row form-group">
     				<div class="col-md-6">
@@ -94,22 +99,27 @@
                     </div>
                 </div>
                 <div class="row form-group">
+                    <div class="col-md-6" >
+                        <label>Report details:</label><br>
+                        <textarea class="form-control" cols="50" rows="5" v-model="resultData.textData"></textarea>
+                    </div>
+                </div>
+                <div class="row form-group">
                     <div class="col-md-6"  v-if="(resultData.type != '' && resultData.bodyPart != '')"  >
                         <label>Select upload type:</label><br>
                         <select class = "form-control " id = "upload_type" name = "upload_type" v-model="resultData.uploadType"  >
                             <option value="image">Image</option>
                             <option value="video">Video</option>
-                            <option value="text">Text</option>
                         </select>
                     </div>
     				<div class="col-md-6" v-if="(resultData.type != '' && resultData.bodyPart != '')">
                         <div v-if="(resultData.uploadType == 'image' ||resultData.uploadType == 'video' )">
                             
                             <label class="control-label txt_media" for="input-21">
-                                    Select File
-                                </label>
+                                Select File
+                            </label>
                              <br>
-                             <div tabindex="500" class="btn btn-primary " id="btn-img-file"  >
+                            <div tabindex="500" class="btn btn-primary " id="btn-img-file"  >
                                 <i class="fa fa-folder-open"></i>  
                                 <span class="hidden-xs">Browse …</span>
                                 
@@ -118,11 +128,6 @@
 
                             <input id="img_upload_file" name="imgupload[]" type="file" multiple class="btn btn-info  "  @change="previewFile('img')"  accept="image/*" style="display: none;">                        
                         </div>
-                        <div v-else>
-                            <textarea class="form-control" cols="50" rows="5" v-model="resultData.textData"></textarea>
-                        </div>
-
-
                     </div>
                     <!-- <div class="col-md-2">
                          <img src="http://place-hold.it/100x100" id="img_preview" height="100" width="100" alt="Image preview..." v-if="resultData.imgData==''">
@@ -188,7 +193,6 @@
         },
         filters: {
           strLimit: function (value) {
-            console.log(value);
             var str50 = value.substr(0,50);
             return str50+'...'; 
           }
@@ -203,6 +207,7 @@
                     'bodyPart':'',
                 	'type': '',
                     'x_ray_type':'fixed',
+                    'spine_option_value':'',
                 	'subType': '',
                     'qualifier':'',
                     'imgData': '',
@@ -299,6 +304,12 @@
                 			 {text:'Other', value:'other'},
                 			 {text:'Protocol', value:'protocol'}
                 		 ],
+                    'Spine_option': [
+                      {text:'Cervical', value:'Cervical'},
+                      {text:'Dorsal', value:'Dorsal'},
+                      {text:'Lumbar', value:'Lumbar'},
+                      {text:'Whole spine screening', value:'Whole spine screening'},
+                    ],  
                 	'doppler':'',
                 	'doppler_options':[
                 				{text:'',value:''},
@@ -352,14 +363,12 @@
             })
             
 	        $('#radio_div').on("select2:select", '.ls-select2',function (e) {
-	        	if(this.id == 'radiology_type') {
-	        		 $('#radiology_subtype').select2("destroy");
-	        		 // console.log(typeData);
+                if(this.id == 'radiology_type') {
+	        	    $('#radiology_subtype').select2("destroy");
 	        		vm.resultData.type = $("#radiology_type").select2().val();
 	        		vm.radioSubType();
                 } if(this.id == 'radiology_subtype') {
-                    console.log($("#radiology_subtype").select2().val());    
-                    if($("#radiology_subtype").select2().val() == 'Other'){
+                if($("#radiology_subtype").select2().val() == 'Other'){
                         vm.resultData.subtype_text_enable = true;
                         vm.resultData.bodyPart = '';
                     } else {
@@ -370,8 +379,7 @@
                 if(this.id == 'radiology_qualifier') {
                     vm.resultData.qualifier = $("#radiology_qualifier").select2().val();
                 }
-	        	// console.log(vm.resultData,$("#radiology_subtype").select2().val());
-	         });
+	        });
 			
         },
         
@@ -399,7 +407,6 @@
                 });
             },
             removeImage(no) {
-                console.log(no);
                 let vm = this;
                 _.find(vm.resultData.imgData, function(img) {
                  if(img.id == no) {
@@ -409,7 +416,6 @@
             },
             removeReport(did) {
                 let vm =this;
-                // console.log(resData);
                 // _.pullAt(resData, 0);
                 _.find(vm.finalResultData, function(res) {
                     if(res.id == did) {
@@ -434,7 +440,6 @@
                     toastr.error('Please select report data.', 'Report error', {timeOut: 5000});
                     return false;
                 }
-                // console.log();
                 vm.resultData.id = resData.length;
                 resData.push(vm.resultData);
                 
@@ -527,10 +532,8 @@
         		},200)
         	},
         	radioType(){
-        		// console.log(vm.)
-
+        	
     			let radData = '';
-    			// console.log(this.$store.state.Users.userDetails.department);
     			if(this.$store.state.Users.userDetails.department == 'Neurology' || this.$store.state.Users.userDetails.department == 'Neurosurgery' ) {
     				radData = ['x-rays','CT','MRI'];
     			} else if(this.$store.state.users.userDetails.department == 'ortho') {

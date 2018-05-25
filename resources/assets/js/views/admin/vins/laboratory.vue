@@ -2,12 +2,12 @@
 	<div class="container">
 		<div class="page-header">
 
-			<div class=" row col-md-6">
-			<h1>Laboratory Form</h1>
+			<div class=" row text-center">
+			<h3>Investigation</h3>
 			</div>
 
 		</div>
-
+		<h4>Lab Report</h4>
 		<form method = "post" >
 			<div class="row form-group">
 				<div class="col-md-6">
@@ -16,8 +16,8 @@
 						<label class="control-label" for="label_1">Blood </label>
 					</div>
 					<div class="col-md-6">
-							<select class="form-control ls-select2"  id="label_1" name="label_1"  v-model="laboratoryData.label_1">
-								 <option :value="label1.text" v-for="label1 in laboratoryData.label_1_option">{{label1.text}}</option>
+							<select class="form-control ls-select2"  id="blood_report" name="blood_report"  v-model="laboratoryData.blood_report">
+								 <option :value="opt.text" v-for="opt in laboratoryData.blood_option">{{opt.text}}</option>
 							</select>
 					</div>
 				</div>
@@ -30,8 +30,8 @@
 					</div>
 					<div class="col-md-6">
 
-							<select class="form-control ls-select2"  id="label_2" name="label_2" multiple="multiple" >
-								 <option :value="label_2.text"  v-for="label_2 in laboratoryData.label_2_option">{{label_2.text}}</option>
+							<select class="form-control ls-select2"  id="sputum_report" name="sputum_report" v-model="laboratoryData.sputum_report">
+								 <option :value="opt.text"  v-for="opt in laboratoryData.sputum_option">{{opt.text}}</option>
 								 <option></option>
 							</select>
 					</div>
@@ -47,7 +47,7 @@
 							<label class="control-label" for="urine">Urine </label>
 						</div>
 						<div class="col-md-6">
-								<select class="form-control ls-select2" multiple="multiple" id="urine" name="urine" >
+								<select class="form-control ls-select2" id="urine" name="urine"  v-model="laboratoryData.urine_report">
 									 <option :value="urinesample.text" v-for="urinesample in laboratoryData.urine_option">{{urinesample.text}}</option>
 								</select>
 						</div>
@@ -59,98 +59,19 @@
 							<label class="control-label" for="stone">Stool </label>
 							</div>
 						<div class="col-md-6">
-								<select class="form-control ls-select2"  id="stone" name="stone" multiple="multiple" >
-									 <option :value="stonesample.text" v-for="stonesample in laboratoryData.stone_option">{{stonesample.text}}</option>
+								<select class="form-control ls-select2"  id="stool_report" name="stool_report"  v-model="laboratoryData.stool_report">
+									 <option :value="opt.text" v-for="opt in laboratoryData.stool_option">{{opt.text}}</option>
 								</select>
 						</div>
 				</div>
 				</div>
 			</div>
 
-			<div class = "row form-group">
-				<div class = "col-md-6">
-				<div class = "row">
-				<div class = "col-md-6">
-					<label class = "control-label" for = "demo"> Demo </label>
-				</div>
-					<div class = "col-md-6">
-					<select class = "form-control ls-select2" id = "demo" name = "demo"  multiple="multiple">
-						<optgroup label = "Option-Group1">
-							<option :value = "optGroup1.text" v-for="optGroup1 in laboratoryData.option_group_1">{{optGroup1.text}}
-							</option>
-						</optgroup>
-						<optgroup label = "Option-Group2">
-							<option :value = "optGroup2.text" v-for="optGroup2 in laboratoryData.option_group_2">{{optGroup2.text}}
-							</option>
-						</optgroup>
-						<optgroup label = "Option-Group3">
-							<option :value = "optGroup3.text" v-for="optGroup3 in laboratoryData.option_group_3">{{optGroup3.text}}
-							</option>
-						</optgroup>
-						<optgroup label = "Option-Group4">
-							<option :value = "optGroup4.text" v-for="optGroup4 in laboratoryData.option_group_4">{{optGroup4.text}}
-							</option>
-						</optgroup>
-					</select>
-				</div>
-			</div>
-		</div>
-	</div>
+			
 		</form>
 
 		<br><br>
-		<div class="row form-group">
-					<div class="col-md-6">
-						<div class="row">
-							<div class="col-md-6">
-								<h3>Suggested Reports: </h3>
-							</div>
-							<div class="col-md-6">
-								<hr>
-									<span v-for="(list1,index in laboratoryData.label_1">{{list1 | reportDisplay(index)}}</span>
-									<span v-for="(list2,index in laboratoryData.label_2">{{list2 | reportDisplay(index)}}</span>
-									<span v-for="(urineList,index in laboratoryData.urine">{{urineList | reportDisplay(index)}}</span>
-									<span v-for="(stoneList,index in laboratoryData.stone">{{stoneList | reportDisplay(index)}}</span>
-									<span v-for="(demoList,index in laboratoryData.demo">{{demoList | reportDisplay(index)}}</span>
-									
-									<span v-for="(listData,index) in laboratoryData.checkboxList">
-										<span>{{listData | reportDisplay(index)}}</span>
-									</span>
-								<hr>
-							</div>
-						</div>
-					</div>
-				</div>
-		<hr>
-		<!-- <h4>Radiology:</h4> -->
 
-	<!-- <div class="row form-group">
-		<div class="col-md-12">
-			<div class="row">
-				<div class="col-md-2">
-					<label>Select Radiology:</label><br>
-					<select class = "form-control ls-select2" id = "radiology_type" name = "radiology_type" >
-						<option v-for="type in investigationData.radiologyType" :value="type.value">{{type.text}}</option>
-					</select>
-				</div>
-
-				<div class="col-md-2">
-					<label>Select SubType:</label><br>
-					<select class = "form-control ls-select2" id = "radiology_subtype" name = "radiology_subtype" >
-						<option v-for="obj in investigationData.radiologySubType" :value="obj.text">{{obj.text}}</option>
-					</select>
-					
-				</div>
-				<div class="col-md-2">
-					<label>Select Qualifires:</label><br>
-					<select class = "form-control ls-select2" id = "radiology_qualifier" name = "radiology_qualifier" >
-						<option v-for="obj in investigationData.radiologySubType" :value="obj.text">{{obj.text}}</option>
-					</select>
-					
-				</div>
-			</div>
-		</div>
-	</div> -->
 	<radiology></radiology>
 		
 
@@ -215,10 +136,10 @@
 				                	{text:'labReport_9'},
 				                	{text:'labReport_10'}
                 				],
-                	'label_1':'',
-                	'label_2':'',
-                	'urine':'',
-                	'stone':'',
+                	'blood_report':'',
+                	'sputum_report':'',
+                	'urine_report':'',
+                	'stool_report':'',
                 	'demo':'',
                 	// 'selectedLabReport': [{'label_1':''},{'label_2':''}],
                 	'blood_option':[{text:'Blood-Option 1'},

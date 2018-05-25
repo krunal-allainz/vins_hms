@@ -21,8 +21,6 @@
 						<tr>
 							<th width="50%">Start Date :</th>
 							<td width="50%">
-								<!-- <input class="form-control ls-datepicker" type="text" name="start_date" v-model="report.start_date" id="start_date" v-validate="'required'"  /> -->
-
               				<date-picker :date.sync="report.start_date" :option="option" name="start_date" id="start_date" v-model="report.start_date.time" v-validate="'required'"></date-picker>
 
 							<span class="help is-danger" v-show="errors.has('start_date')">
@@ -31,7 +29,6 @@
 						</tr>
 						<tr>
 							<th width="50%">End Date : </th>
-							<!-- <td class="text-center"><input class="form-control ls-datepicker" id="end_date" type="text" name="end_date" v-model="report.end_date" v-validate="'required'" /> -->
               				<td width="50%">
               					<date-picker :date.sync="report.end_date" id="end_date" name="end_date"  v-model="report.end_date.time" v-validate="'required'" :option="option"></date-picker>
 
@@ -66,9 +63,11 @@
 						</tr>
 						<tr>
 							<th>Total number of non-ICU beds</th>
-							<td><input class="form-control" type="text" name="total_non_icu_beds" v-model="report.total_non_icu_beds"  v-validate="'required|numeric'" /><span class="help is-danger" v-show="errors.has('total_non_icu_beds')">
-		                	Please enter numeric value.
-		                </span></td>
+							<td><input class="form-control" type="text" name="total_non_icu_beds" v-model="report.total_non_icu_beds"  v-validate="'required|numeric'" />
+								<span class="help is-danger" v-show="errors.has('total_non_icu_beds')">
+		                			Please enter numeric value.
+		                		</span>
+		                	</td>
 						</tr>
 						<tr>
 							<th>Average number of Doctors on hospital rolls at any point of time</th>

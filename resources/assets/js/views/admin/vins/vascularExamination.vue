@@ -206,7 +206,7 @@
       <div class="row form-group" style="display: none;">
         <img id="scream" src="/assets/img/examin.png" alt="The Scream" width="220" height="277">
 
-        <canvas height="500" width="600" style="background: url('https://i.imgur.com/1bvTivk.png'); max-width:100%; max-height:100%;"></canvas>
+       
       </div>
 
       <div class="row form-group">
