@@ -152,7 +152,7 @@ class PatientsDetailFormController extends Controller
     {
         // echo "<pre>";print_r($id);echo "</pre>";exit;
         if($id!='') {
-            $details = IpdDetails::with('patientDetails')->where('id',$id)->first();
+            $details = OpdDetails::with('patientDetails')->where('id',$id)->first();
             // dd($details);
             if ($details) {
                 return ['code' => '200','data'=>$details, 'message' => 'Record Sucessfully created'];
@@ -162,7 +162,7 @@ class PatientsDetailFormController extends Controller
         }
     }
     public function getAllPatientName() {
-        $ipdDetails = IpdDetails::with('patientDetails')->get();
+        $ipdDetails = OpdDetails::with('patientDetails')->get();
         if ($ipdDetails) {
                 return ['code' => '200','data'=>$ipdDetails, 'message' => 'Record Sucessfully created'];
             } else {
