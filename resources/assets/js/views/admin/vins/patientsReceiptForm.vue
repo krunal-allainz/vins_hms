@@ -16,11 +16,11 @@
     	   		
 
     	   		<div class="col-md-6">
-	          		<select  class="form-control ls-select2" v-validate="'required'" id = "patient" name="patient" value="" v-model="patientData.patient"   v-on:change="myFunction()">
+	          		<select  class="form-control ls-select2" v-validate="'required'" id = "patient" name="patient" value="" v-model="patientData.patient_id"   v-on:change="myFunction()">
 	            		 <option :value="patient.id" v-for="patient in patientData.patient_option">{{patient.text}}</option>
 	          		</select>	
          							
-	          		<span class="help is-danger" v-show="errors.has('patient_list')">
+	          		<span class="help is-danger" v-show="errors.has('patient')">
 	            		Field is required
 	          		</span>
 	          	</div>
@@ -180,7 +180,6 @@
 	          	    $('#patient').on("select2:select", function (e) { 
 	          	    patientId = $(this).val();
   					let opdDetail=[];
-
   					User.getPatientOPDDetail(patientId).then(
   						(response) => { 
   							if(response.data.code == 200){
@@ -191,6 +190,11 @@
   										opdDetail.push({'id':opdId,'text':opdNumber});
   									});
   								vm.patientData.case_detail = opdDetail;
+  								setTimeout(function(){
+  									$('#case_no').select2({
+  										placeholder: 'Select'
+  									});
+  								},500)
   								}
   							}
   						},
@@ -249,8 +253,14 @@
 	               	});
 
 	               	 User.getAllPatientName().then(
-	               	 	(response) => {
-
+	               	 (response) => {
+	               	 		let patien_data ;
+	               	 		patien_data = response.data;
+	               	 		$.each(response.data.data, function(key, value) {
+	               	 		let name = value.patient_details.first_name +' '+value.patient_details.last_name;
+	               	 		let pid  = value.patient_details.id ;
+	               	 		let address  = value.patient_details.address ;
+	               	 		let caseType  = value.patient_details.case_type ;	
 	               	 		let consulatant  = value.patient_details.consultant ;
 	               	 		let gender  = value.patient_details.gender ;
 	               	 		let mob  = value.patient_details.mob_no ;
@@ -259,11 +269,27 @@
 	               	 		let uhid_no  = value.patient_details.uhid_no ;
 	               	 		list.push({
 	               	 				text:name,
+	               	 				id:pid,
+	               	 				add:address,
+	               	 				case_type:caseType,
+	               	 				consult:consulatant,
+	               	 				gender:gender,
+	               	 				mob:mob,
+	               	 				phone:phone,
+	               	 				references:references,
 	               	 				uhid_no:uhid_no
 	               	 				 });
 	               	 	  
+	               	 	});
+	               	 		setTimeout(function(){
+	               	 			$('#patient').select2({
+					          	 	 placeholder: "Select"
+					          	  });		
+	               	 		},500)
+	               	 	 
+	               	 		
 	               	 	 },
-	               	 	(error) => {
+	               	 	 	(error) => {
 	            	 	},
 	               	 );
 	         },
@@ -417,5 +443,4 @@
 	
  	 
      }	
-
-
+</script>

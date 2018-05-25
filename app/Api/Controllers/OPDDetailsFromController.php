@@ -32,7 +32,6 @@ class OPDDetailsFromController extends Controller
          
         if($patientId!='') {
             $details = OpdDetails::where('patient_id',$patientId)->get();
-           
             if ($details) {
                 return ['code' => '200','data'=>$details, 'message' => 'Record Sucessfully Generated'];
             } else {

@@ -9,6 +9,8 @@ use euro_hms\Models\PatientDetailsForm;
 use euro_hms\Models\IpdDetails;
 use euro_hms\Models\OpdDetails;
 use Illuminate\Support\Facades\Response;
+use euro_hms\Models\Receipt;
+
 use Terbilang;
 
 
@@ -162,12 +164,12 @@ class PatientsDetailFormController extends Controller
         }
     }
     public function getAllPatientName() {
-        $ipdDetails = IpdDetails::with('patientDetails')->get();
-        if ($ipdDetails) {
-                return ['code' => '200','data'=>$ipdDetails, 'message' => 'Record Sucessfully created'];
-            } else {
-                return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
-            }
+        $OpdDetails = OpdDetails::with('patientDetails')->get();
+        if ($OpdDetails) {
+            return ['code' => '200','data'=>$OpdDetails, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
     }
     /**
      * Display the specified resource.
