@@ -46,7 +46,9 @@
                             		<div class="col-sm-6 col-md-5">
 		                            	<div class="form-group">
 		                                    <label for="date_of_birth">Date of Birth: </label>
-											<input class="form-control ls-datepicker"  id = "date_of_birth" type="text" name="date_of_birth"  v-model="patientData.dob" />
+
+		                                    <date-picker class="form-control ls-datepicker"  id = "date_of_birth" type="text" name="date_of_birth"  v-model="patientData.dob" v-validate="'required'"></date-picker> 
+											
 											<span class="help is-danger" v-show="errors.has('date_of_birth')">
 						            			Field is required
 						            		</span>
@@ -129,6 +131,7 @@
 </template>
 <script >
 	import User from '../../../api/users.js';
+  	import myDatepicker from 'vue-datepicker';
 
     export default {
     	props:['patientType'],
@@ -162,6 +165,9 @@
 	 				vm.patientData.dob = this.value;
 	 			});
 
+        },
+        components: {
+        	'date-picker': myDatepicker,
         },
         methods: {
 

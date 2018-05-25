@@ -3,19 +3,18 @@
 	<div class="page-header">
 		<div class="row">
 			<div class="col-md-6">
-				<h1>Neuro Examination Form</h1>
+				<h3>Examination</h3>
 			</div>
 		</div>
 	</div>
 
   <form action>
-
     <div class="row">
       <div class="col-md-6">
-        <canvas height="500" width="600" style="background: url('https://i.imgur.com/1bvTivk.png'); max-width:100%; max-height:100%;"></canvas>
+        <canvas id="neuro_signature-pad" height="500" width="600" style="background: url('https://i.imgur.com/1bvTivk.png'); max-width:100%; max-height:100%;"></canvas>
       </div>
       <div class="col-md-6">
-        <canvas height="500" width="600" style="background: url('https://i.imgur.com/1bvTivk.png'); max-width:100%; max-height:100%;"></canvas>
+        <canvas id="neuro_signature-pad1" height="500" width="600" style="background: url('https://i.imgur.com/1bvTivk.png'); max-width:100%; max-height:100%;"></canvas>
       </div>
     </div>
 
@@ -160,13 +159,48 @@
         </div>
       </div>
     </div>
+    <div class="row form-group">
+      <div class="col-md-6">
+        <div class="col-md-6">
+          <label for="signature" class="control-label">Doctor's Signature</label>
+        </div>
+        <div class="col-md-6">
+          <div id="signature1" class="signature-pad">
+                <div class="signature-pad--body">
+                  <canvas class="can-img" id="doc_signature" height="200px" width="500px" ></canvas> 
+                </div>
+                <div><button type="button" id="clear_doctor_signature" class="btn btn-sm btn-danger">Clear</button></div>
+              </div>
+        </div>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-md-6">
+        <div class="col-md-6">
+          <label for="diagnosis" class="control-label">Doctor's name</label>
+        </div>
+        <div class="col-md-6">
+          <input class="form-control" type="text" id="doctor_name" name="doctor_name" value="" v-model="doctor" readonly="" />
+         
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="col-md-6">
+          <label for="diagnosis" class="control-label">Date</label>
+        </div>
+        <div class="col-md-6">
+          <input class="form-control" type="text" id="cur_datetime" name="cur_datetime" value="" v-model="currentDatetime" readonly="" />
+          
+        </div>
+      </div>
+    </div>
 
     <div class="row form-group">
       <button class=" btn btn-success" type="button" @click="saveNeuroExamination()">Submit</button>
     </div>
   </form>
 
-  <select-patient-modal @confirmed="deleteConfirmed()"></select-patient-modal>
+  <!-- <select-patient-modal @confirmed="deleteConfirmed()"></select-patient-modal> -->
 </div>
 
 
@@ -176,16 +210,23 @@
 	import User from '../../../api/users.js'
 	import addressograph from './addressograph.vue';
 	import SelectPatientModal from '../../../components/SelectPatientModal.vue';
-
+  import SignaturePad from 'signature_pad';
+  import moment from 'moment';
+   
     export default {
+      props:['doctor'],
         data() {
             return {
                 'footer' : 'footer',
-                'currentYear': new Date().getFullYear(),
+                'currentDatetime': moment().format('DD-MM-YYYY hh:mm A'),
+
 								'type': 'neuroExamination',
                 'patient_id': this.$store.state.Patient.patientId,
                	'ipd_id': this.$store.state.Patient.ipdId,
-								'neuroExaminationData': {
+                'signaturePad1':{},
+                'signaturePad2':{},
+                'signaturePad3':{},
+                'neuroExaminationData': {
                   'right_biceps' : '',
                   'right_triceps' : '',
                   'right_supinator' : '',
@@ -216,42 +257,98 @@
 					 SelectPatientModal
 			 },
 			 mounted() {
+        let vm =this;
 				 $('.ls-select2').select2({
 						placeholder: "Select",
 				 });
-
+         setTimeout(function(){
+          vm.examinationChangeImage();
+ 
+        },2000)
 			 },
 				methods: {
 		    GetSelectComponent(componentName) {
 		       this.$router.push({name: componentName})
 		    },
 		    saveNeuroExamination() {
+          let vm = this;
 		    	this.$validator.validateAll().then(
 	            (response) => {
 	            	if (!this.errors.any()) {
 	            		 $("body .js-loader").removeClass('d-none');
                    var neuroExaminationData = {'type':this.type,'patient_id':this.patient_id,'ipd_id':this.ipd_id,'form_data':this.neuroExaminationData};
-				    	User.saveNeuroExamination(neuroExaminationData).then(
-		                (response) => {
-		                	if(response.data.status == 200) {
-		                		toastr.success('Neuro Examination has been saved', 'Neuro Examination', {timeOut: 5000});
-		                	}
-		                	 $("body .js-loader").addClass('d-none');
+        			    	User.saveNeuroExamination(neuroExaminationData).then(
+        	                (response) => {
+        	                	if(response.data.status == 200) {
+        	                		toastr.success('Neuro Examination has been saved', 'Neuro Examination', {timeOut: 5000});
+        	                	}
+        	                	 $("body .js-loader").addClass('d-none');
 
-		                },
-		                (error) => {
-		                	 $("body .js-loader").addClass('d-none');
+        	                },
+        	                (error) => {
+        	                	 $("body .js-loader").addClass('d-none');
 
-		                }
-		                )
-			    	}
-			    },
+        	                }
+        	                )
+        		    	}
+        		    },
                 (error) => {
                 }
                 )
 
-			}
-		  },
+			   },
+      examinationChangeImage() {
+            var vm =this;
+            var canvas = document.getElementById("neuro_signature-pad");
+            var canvas1 = document.getElementById("neuro_signature-pad1");
+            var canvas2 = document.getElementById("doc_signature");
 
+            var clear_neuro_scribble = document.getElementById("clear_doctor_signature");
+            // var clear_neuro_scribble1 = document.getElementById("clear_neuro_scribble");
+
+
+            vm.signaturePad1 = new SignaturePad(canvas, {
+              backgroundColor: 'rgb(255, 255, 255)',
+            });
+            vm.signaturePad2 = new SignaturePad(canvas1, {
+              backgroundColor: 'rgb(255, 255, 255)',
+            });
+            vm.signaturePad3 = new SignaturePad(canvas2, {
+              backgroundColor: 'rgb(255, 255, 255)',
+            });
+            window.onresize = vm.resizeCanvas;
+            vm.resizeCanvas(canvas);
+            vm.resizeCanvas(canvas1);
+            vm.resizeCanvas(canvas2);
+            clear_neuro_scribble.addEventListener("click", function (event) {
+              vm.signaturePad3.clear();
+            });
+              // if (signaturePad.isEmpty()) {
+              //   alert("Please provide a signature first.");
+              // } else {resizeCanvas
+              //   console.log(dataURL);resizeCanvas
+              //   // download(dataURL, "signature.png");
+              // }
+            // });
+          },
+          resizeCanvas(canvas) {
+              var ratio =  Math.max(window.devicePixelRatio || 1, 1);
+              canvas.width = canvas.offsetWidth * ratio;
+              canvas.height = canvas.offsetHeight * ratio;
+               canvas.getContext("2d").scale(ratio, ratio);
+            },
+         dataURLToBlob(dataURL) {
+              // Code taken from https://github.com/ebidel/filer.js
+              var parts = dataURL.split(';base64,');
+              var contentType = parts[0].split(":")[1];
+              var raw = window.atob(parts[1]);
+              var rawLength = raw.length;
+              var uInt8Array = new Uint8Array(rawLength);
+              for (var i = 0; i < rawLength; ++i) {
+                uInt8Array[i] = raw.charCodeAt(i);
+              }
+              return new Blob([uInt8Array], { type: contentType });
+            },
+        },
     }
 </script>
