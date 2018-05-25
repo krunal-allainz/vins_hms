@@ -224,5 +224,11 @@ export default {
   },
   getPrescription(data) {
       return api.post('prescription/getDetails',{'data':data})
+  },
+  printReceiptPreview(fromData,content){ 
+     return api.post('print/receipt',{'fromData':fromData,'content':content})  
+  }, 
+  generateReceiptData(formData,type){  
+    return api.post('generate/receipt',{'formData':formData,'type':type})  
   }
 }

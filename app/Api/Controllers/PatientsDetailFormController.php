@@ -8,6 +8,8 @@ use euro_hms\Models\User;
 use euro_hms\Models\PatientDetailsForm;
 use euro_hms\Models\IpdDetails;
 use euro_hms\Models\OpdDetails;
+use Illuminate\Support\Facades\Response;
+use Terbilang;
 
 
 use DB;
@@ -210,5 +212,43 @@ class PatientsDetailFormController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+
+    /**    
+    *   print patient recept   
+    *      
+    *      
+    *      
+    */ 
+    public function printReceipt(Request $request,$content = array()){ 
+   
+        //return response()->view('receipt', $content, 200)->header('Content-Type','application/pdf'); 
+   
+           /* $contents = view('receipt', $content,200);   
+           // $response = Response::make($contents, $statusCode);  
+            $response->header('Content-Type', 'application/pdf');  
+            return $response;*/    
+   
+            return response()->view('receipt', $content, 200); 
+   
+    }  
+   
+    public function saveReceiptData(Request $request){ 
+        $data =  Receipt::saveReceipt($request);   
+        $wordAmount = Terbilang::make($request->formData['amount']);   
+        $formData = [  
+            'name' => $request->formData['fullname'],  
+            'date' => $request->formData['date_receipt'] , 
+            'consultant' => $request->formData['reference_dr'],    
+            'age' =>   $request->formData['age'],  
+            'gender' =>$request->formData['gender'],   
+            'wordamount' => $wordAmount    
+        ]; 
+        /*$data = array_push($data,{'name' : $request->formData['fullname'],'date' : $request->formData['date_receipt'] });*/  
+        $view = view("receipt",['data'=> $data,'formData' => $formData])->render();    
+        return response()->json(['html'=>$view]);  
+       //  return redirect('receipt/view');    
     }
 }
