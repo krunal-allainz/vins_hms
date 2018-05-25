@@ -86,32 +86,31 @@
 			        </div>	
 				 </div>
 				 <div class="row form-group" >	
--				 	<div class="col-md-6">	
--						<div class="col-md-6">	
--							<label for="charges"><b>Charges Name:</b></label>	
--									
--						</div>	
--						<div class="col-md-6">	
--							<input class="form-control" type="text" name="charges" id="charges"  	
--								v-validate="'required'" v-model="patientData.charges"/>	
--								<span class="help is-danger" v-show="errors.has('charges')">	
--				              		Please enter charges name	
--				            	</span>	
--						</div>	
+				 	<div class="col-md-6">	
+						<div class="col-md-6">	
+						<label for="charges"><b>Charges Name:</b></label>	
+									
+						</div>	
+						<div class="col-md-6">	
+							<input class="form-control" type="text" name="charges" id="charges"  	
+								v-validate="'required'" v-model="patientData.charges"/>									<span class="help is-danger" v-show="errors.has('charges')">	
+				              		Please enter charges name	
+				            	</span>	
+						</div>	
  					</div>
  					<div class="col-md-6">
  						<div class="col-md-6">
  							<label for="chargeAmount"><b>Charges Amount:</b></label>	
--								
--							</div>	
--							<div class="col-md-6">	
--									<input class="form-control" type="text" name="chargeAmount" id="chargeAmount"  v-validate="'required|numeric'" 	v-model="patientData.amount"/>	
--								<span class="help is-danger" v-show="errors.has('chargeAmount')">	
--				              		Please enter charges in numeric	
--				            	</span>	
--				            </div>	
--			        </div>	
--				</div>
+								
+							</div>	
+							<div class="col-md-6">	
+									<input class="form-control" type="text" name="chargeAmount" id="chargeAmount"  v-validate="'required|numeric'" 	v-model="patientData.amount"/>	
+								<span class="help is-danger" v-show="errors.has('chargeAmount')">	
+				              		Please enter charges in numeric	
+				            	</span>	
+				            </div>	
+			        </div>	
+				</div>
 				<div class="row form-group" >
 					 <div class="btn-success" type="submit" ><a class="btn btn-primary pull-right" data-toggle="modal" href="#receiptModal" id="modellink" @click="receiptPrintView()">Print Preview</a> </div>
 				</div>
@@ -123,19 +122,19 @@
 		 			<div class="modal-header">
 		 			</div>
 		 			<div class="modal-body" id="printContent">	
--            	</div>	
--            	
--	
--       		<div class="modal-footer">	
--	
--				<button  type="button" class="btn btn-primary"  @click="ClickHereToPrint()">Print</button>		      	
--			
--                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>	
--              <!--  <button type="button" class="btn btn-primary">Save</button>-->	
--            </div>	
--            </div>	
--           </div>	
--       </div>		
+            	</div>	
+            	
+	
+       		<div class="modal-footer">	
+	
+				<button  type="button" class="btn btn-primary"  @click="ClickHereToPrint()">Print</button>		      	
+			
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>	
+             <!--  <button type="button" class="btn btn-primary">Save</button>-->	
+            </div>	
+            </div>	
+          </div>	
+       </div>		
 		</div>
 	 </template>
 	<script >
