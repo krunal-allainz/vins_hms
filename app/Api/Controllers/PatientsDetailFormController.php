@@ -164,9 +164,9 @@ class PatientsDetailFormController extends Controller
         }
     }
     public function getAllPatientName() {
-        $OpdDetails = OpdDetails::with('patientDetails')->get();
-        if ($OpdDetails) {
-            return ['code' => '200','data'=>$OpdDetails, 'message' => 'Record Sucessfully created'];
+        $patientDetails = PatientDetailsForm::get();
+        if ($patientDetails) {
+            return ['code' => '200','data'=>$patientDetails, 'message' => 'Record Sucessfully created'];
         } else {
             return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
         }

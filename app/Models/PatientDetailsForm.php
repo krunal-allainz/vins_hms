@@ -3,6 +3,7 @@
 namespace euro_hms\models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class PatientDetailsForm extends Model
 {
@@ -24,6 +25,19 @@ class PatientDetailsForm extends Model
       'consultant',
       'case_type',
     ];
+
+    public function getDobAttribute($value)
+    {
+        return Carbon::parse($value)->format('d-m-Y');
+    }
+
+    public function setDobDateAttribute($value)
+    {
+      dd($value);
+        $new_val = $value['time']." 00:00:00";
+        $this->attributes['dob'] =   Carbon::createFromFormat('d-m-Y', $value);
+
+    }
 
       public function getIpdDetails()
       {
