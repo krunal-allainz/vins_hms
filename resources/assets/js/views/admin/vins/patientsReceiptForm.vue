@@ -43,7 +43,7 @@
 			   </div>
 	          	 <div  v-for="data in patientData.select_patient_detail">
 	          	 	 <div class="row form-group" >
-	          	 	 	 <div class="row form-group" >
+	          	 	 	<div class="col-md-6">	
 	          	 	 	 	<div class="col-md-6">
 	          	 	 	 		 <label for="date"><b>Gender:</b></label>
 	          	 	 	 	 </div>
@@ -183,6 +183,7 @@
   					User.getPatientOPDDetail(patientId).then(
   						(response) => { 
   							if(response.data.code == 200){
+  								vm.patientData.case_detail = opdDetail;
   								if(response.data.data.length != 0){
   									$.each(response.data.data,function(key,value){
   										let opdId = value.id;
@@ -257,16 +258,16 @@
 	               	 		let patien_data ;
 	               	 		patien_data = response.data;
 	               	 		$.each(response.data.data, function(key, value) {
-	               	 		let name = value.patient_details.first_name +' '+value.patient_details.last_name;
-	               	 		let pid  = value.patient_details.id ;
-	               	 		let address  = value.patient_details.address ;
-	               	 		let caseType  = value.patient_details.case_type ;	
-	               	 		let consulatant  = value.patient_details.consultant ;
-	               	 		let gender  = value.patient_details.gender ;
-	               	 		let mob  = value.patient_details.mob_no ;
-	               	 		let phone  = value.patient_details.ph_no ;
-	               	 		let references  = value.patient_details.references ;
-	               	 		let uhid_no  = value.patient_details.uhid_no ;
+	               	 		let name = value.first_name +' '+value.last_name;
+	               	 		let pid  = value.id ;
+	               	 		let address  = value.address ;
+	               	 		let caseType  = value.case_type ;	
+	               	 		let consulatant  = value.consultant ;
+	               	 		let gender  = value.gender ;
+	               	 		let mob  = value.mob_no ;
+	               	 		let phone  = value.ph_no ;
+	               	 		let references  = value.references ;
+	               	 		let uhid_no  = value.uhid_no ;
 	               	 		list.push({
 	               	 				text:name,
 	               	 				id:pid,
@@ -303,10 +304,10 @@
 	            		let type = 'opd';	
 	            		User.generateReceiptData(this.patientData,type).then(	
 		                (response) => { 	
+		                	$('#printContent').html('');
 		                	 if ($("#printContent .printReceiptPage" ).length == 0){	
 		                		$('#printContent').append(response.data.html);	
 		                	}else{	
-		                		$('#printContent').htm('');	
 		                		$('#printContent').append(response.data.html)	
 		                	}	
 		                	//$('#receiptModal').modal({show:true}); 	

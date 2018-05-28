@@ -61,7 +61,7 @@ class PatientsDetailFormController extends Controller
            $lastPatientId=$patientD->id;
            $newPatNo = sprintf("%04d",++$lastPatientId);
            $insertedPatientId=$uhid.$year.$newPatNo;
-
+           // dd($data);
             $patientData = PatientDetailsForm::create([
            // 'date' => $request->date,
            // 'time' => $request->time,
@@ -69,7 +69,7 @@ class PatientsDetailFormController extends Controller
           'first_name' => $data['fname'],
           'middle_name' => $data['mname'],
           'last_name' => $data['lname'],
-          'dob' => $data['dob'],
+          'dob' => Carbon::createFromFormat('d-m-Y', $data['dob']['time']),
           'gender' => $data['gender'],
           'address' => $data['address'],
           'ph_no' => $data['ph_no'],
@@ -154,7 +154,7 @@ class PatientsDetailFormController extends Controller
     {
         // echo "<pre>";print_r($id);echo "</pre>";exit;
         if($id!='') {
-            $details = OpdDetails::with('patientDetails')->where('id',$id)->first();
+            $details = IpdDetails::with('patientDetails')->where('id',$id)->first();
             // dd($details);
             if ($details) {
                 return ['code' => '200','data'=>$details, 'message' => 'Record Sucessfully created'];
@@ -164,13 +164,12 @@ class PatientsDetailFormController extends Controller
         }
     }
     public function getAllPatientName() {
-        $OpdDetails = OpdDetails::with('patientDetails')->get();
-        if ($OpdDetails) {
-            return ['code' => '200','data'=>$OpdDetails, 'message' => 'Record Sucessfully created'];
+        $patientDetails = PatientDetailsForm::get();
+        if ($patientDetails) {
+            return ['code' => '200','data'=>$patientDetails, 'message' => 'Record Sucessfully created'];
         } else {
             return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
         }
-
     }
     /**
      * Display the specified resource.
