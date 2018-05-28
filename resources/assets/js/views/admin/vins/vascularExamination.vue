@@ -181,19 +181,20 @@
       <hr />
         <div id="signature-pad" class="signature-pad">
           <div class="signature-pad--body">
-            <canvas id="myCanvas" height="500" width="600" ></canvas>
-             <!-- <canvas height="500" width="600" style="background: url('https://i.imgur.com/1bvTivk.png'); max-width:100%; max-height:100%;"></canvas> -->
+            <canvas id="vasc_signature-pad" height="500" width="600"  style="background: url('assets/img/examin1.png'); max-width:100%; max-height:100%;"></canvas>
+             <!-- <canvas height="500" width="600" style="background: url('assets/img/examin.jpg'); max-width:100%; max-height:100%;"></canvas> -->
           </div>
           <div class="signature-pad--footer">
            
             <div class="signature-pad--actions">
-              <div>
+              <div><button type="button" id="clear_vasc_signature" class="btn btn-sm btn-danger">Clear</button></div>
+              <!-- <div>
                 <button type="button" class="button clear btn btn-warning" data-action="clear">Clear</button>
                 <button type="button" class="button save btn btn-success" data-action="save-png">Save</button>
                 <input type="color" class="button" data-action="change-color">Change color
-                <!-- <button type="button" class="button" data-action="undo">Undo</button> -->
+                 --><!-- <button type="button" class="button" data-action="undo">Undo</button>
 
-              </div>
+              </div> -->
               <div>
                 
                <!--  <button type="button" class="button save" data-action="save-jpg">Save as JPG</button>
@@ -204,9 +205,7 @@
         </div>
 
       <div class="row form-group" style="display: none;">
-        <img id="scream" src="/assets/img/examin.png" alt="The Scream" width="220" height="277">
-
-       
+        <img id="scream" src="/assets/img/examin.jpg" alt="The Scream" width="600" height="500">
       </div>
 
       <div class="row form-group">
@@ -219,7 +218,7 @@
       </div>
 
 			<div class="text-center form-group">
-				<button class="btn btn-success" type="button" @click="saveDoctorsInitialAssessment()">Submit</button>
+				<button class="btn btn-success" type="button" @click="saveVascularExamination()">Submit</button>
 			</div>
 
 		</form>
@@ -272,6 +271,7 @@
                   'both' : '',
                   'ipv' : '',
                   'clinical_diagnosis' : '',
+                  'signaturePad1':{},
 
 								}
             }
@@ -288,106 +288,82 @@
         },2000)
 			 },
 				methods: {
-        examinationChangeImage() {
+                examinationChangeImage() {
+            var vm =this;
+            var canvas = document.getElementById("vasc_signature");
+            // var canvas1 = document.getElementById("neuro_signature-pad1");
+            // var canvas2 = document.getElementById("doc_signature");
 
-          var wrapper = document.getElementById("signature-pad");
-          var clearButton = wrapper.querySelector("[data-action=clear]");
-          var changeColorButton = wrapper.querySelector("[data-action=change-color]");
-          var savePNGButton = wrapper.querySelector("[data-action=save-png]");
-          var canvas = document.getElementById("myCanvas");
-          var signaturePad = new SignaturePad(canvas, {
-            backgroundColor: 'rgb(255, 255, 255)',
-          });
-
-           function resizeCanvas() {
-            var ratio =  Math.max(window.devicePixelRatio || 1, 1);
-            canvas.width = canvas.offsetWidth * ratio;
-            canvas.height = canvas.offsetHeight * ratio;
-             canvas.getContext("2d").scale(ratio, ratio);
-            var  ctx = canvas.getContext('2d');
-             ctx.drawImage($('#scream').get(0), 0, 0);
-          }
-
-          // On mobile devices it might make more sense to listen to orientation change,
-          // rather than window resize events.
-          window.onresize = resizeCanvas;
-          resizeCanvas();
-
-          function download(dataURL, filename) {
-            var blob = dataURLToBlob(dataURL);
-            var url = window.URL.createObjectURL(blob);
-
-            var a = document.createElement("a");
-            a.style = "display: none";
-            a.href = url;
-            a.download = filename;
-
-            document.body.appendChild(a);
-            a.click();
-
-            window.URL.revokeObjectURL(url);
-          }
-
-          // One could simply use Canvas#toBlob method instead, but it's just to show
-          // that it can be done using result of SignaturePad#toDataURL.
-          function dataURLToBlob(dataURL) {
-            // Code taken from https://github.com/ebidel/filer.js
-            var parts = dataURL.split(';base64,');
-            var contentType = parts[0].split(":")[1];
-            var raw = window.atob(parts[1]);
-            var rawLength = raw.length;
-            var uInt8Array = new Uint8Array(rawLength);
-
-            for (var i = 0; i < rawLength; ++i) {
-              uInt8Array[i] = raw.charCodeAt(i);
-            }
-
-            return new Blob([uInt8Array], { type: contentType });
-          }
-
-          clearButton.addEventListener("click", function (event) {
-            signaturePad.clear();
-            resizeCanvas();
-          });
-          changeColorButton.addEventListener("change", function (event) {
-            signaturePad.penColor = $(this).val();
-          });
-
-          savePNGButton.addEventListener("click", function (event) {
-            if (signaturePad.isEmpty()) {
-              alert("Please provide a signature first.");
-            } else {
-              var dataURL = signaturePad.toDataURL();
-              console.log(dataURL);
-              // download(dataURL, "signature.png");
-            }
-          });
+            var clear_vasc_signature = document.getElementById("clear_vasc_signature");
+            // var clear_neuro_scribble1 = document.getElementById("clear_neuro_scribble");
 
 
-        },
+            vm.vascularExaminationData.signaturePad1 = new SignaturePad(canvas, {
+              backgroundColor: 'rgb(255, 255, 255)',
+            });
+
+            window.onresize = vm.resizeCanvas;
+            vm.resizeCanvas(canvas);
+            vm.resizeCanvas(canvas1);
+            vm.resizeCanvas(canvas2);
+            clear_vasc_signature.addEventListener("click", function (event) {
+              vm.neuroExaminationData.signaturePad3.clear();
+            });
+              // if (signaturePad.isEmpty()) {
+              //   alert("Please provide a signature first.");
+              // } else {resizeCanvas
+              //   console.log(dataURL);resizeCanvas
+              //   // download(dataURL, "signature.png");
+              // }
+            // });
+          },
+          resizeCanvas(canvas) {
+              var ratio =  Math.max(window.devicePixelRatio || 1, 1);
+              canvas.width = canvas.offsetWidth * ratio;
+              canvas.height = canvas.offsetHeight * ratio;
+              canvas.getContext("2d").scale(ratio, ratio);
+              // var  ctx = canvas.getContext('2d');
+              // ctx.drawImage($('#scream').get(0), 0, 0);
+            },
+         dataURLToBlob(dataURL) {
+              // Code taken from https://github.com/ebidel/filer.js
+              var parts = dataURL.split(';base64,');
+              var contentType = parts[0].split(":")[1];
+              var raw = window.atob(parts[1]);
+              var rawLength = raw.length;
+              var uInt8Array = new Uint8Array(rawLength);
+              for (var i = 0; i < rawLength; ++i) {
+                uInt8Array[i] = raw.charCodeAt(i);
+              }
+              return new Blob([uInt8Array], { type: contentType });
+            },
+
 		    GetSelectComponent(componentName) {
 		       this.$router.push({name: componentName})
 		    },
 		    saveVascularExamination() {
+          let vm =this;
 		    	this.$validator.validateAll().then(
 	            (response) => {
 	            	if (!this.errors.any()) {
-	            		 $("body .js-loader").removeClass('d-none');
-                   var vascularExaminationData = {'type':this.type,'patient_id':this.patient_id,'ipd_id':this.ipd_id,'form_data':this.vascularExaminationData};
-				    	User.saveDoctorsInitialAssessment(vascularExaminationData).then(
-		                (response) => {
-		                	if(response.data.status == 200) {
-		                		toastr.success('Vascular Examination has been saved', 'Vascular Examination', {timeOut: 5000});
-		                	}
-		                	 $("body .js-loader").addClass('d-none');
+                   vm.$store.dispatch('saveVascularExamination',vm.vascularExaminationData);
 
-		                },
-		                (error) => {
-		                	 $("body .js-loader").addClass('d-none');
+	            		 // $("body .js-loader").removeClass('d-none');
+        //            var vascularExaminationData = {'type':this.type,'patient_id':this.patient_id,'ipd_id':this.ipd_id,'form_data':this.vascularExaminationData};
+				    // 	User.saveDoctorsInitialAssessment(vascularExaminationData).then(
+		      //           (response) => {
+		      //           	if(response.data.status == 200) {
+		      //           		toastr.success('Vascular Examination has been saved', 'Vascular Examination', {timeOut: 5000});
+		      //           	}
+		      //           	 $("body .js-loader").addClass('d-none');
 
-		                }
-		                )
-			    	}
+		      //           },
+		      //           (error) => {
+		      //           	 $("body .js-loader").addClass('d-none');
+
+		      //           }
+		      //           )
+			     }
 			    },
                 (error) => {
                 }

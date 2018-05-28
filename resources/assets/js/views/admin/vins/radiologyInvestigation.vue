@@ -180,8 +180,8 @@
 	import User from '../../../api/users.js';
 	import _ from 'lodash';
     import card from "./card.vue"
-    import vue2Dropzone from 'vue2-dropzone'
-    import 'vue2-dropzone/dist/vue2Dropzone.css'
+    // import vue2Dropzone from 'vue2-dropzone'
+    // import 'vue2-dropzone/dist/vue2Dropzone.css'
 
     export default {
     	computed:{
@@ -189,12 +189,17 @@
     	},
         components: {
             card,
-            vueDropzone: vue2Dropzone
+            // vueDropzone: vue2Dropzone
         },
         filters: {
           strLimit: function (value) {
-            var str50 = value.substr(0,50);
-            return str50+'...'; 
+            if(value.length > 50){
+                var str50 = value.substr(0,50);
+                return str50+'...'; 
+            } else {
+                return value; 
+
+            }
           }
         },
         data() {
@@ -218,12 +223,6 @@
 
                 },
                 'imgGallery':'',
-                dropzoneOptions: {
-                    url: 'https://httpbin.org/post',
-                    thumbnailWidth: 100,
-                    thumbnailHeight:100,
-                    headers: {"My-Awesome-Header": "header value"}
-                },
                 'finalResultData':{},
                 'investigationData' : {
                 	'neurology': {
@@ -353,6 +352,7 @@
 					 placeholder: "Select",
 
 			    });
+                 vm.finalResultData = vm.$store.state.Patient.radioData;
             $('#radio_div').on('click','#btn-img-file',function(){
                 if(vm.resultData.uploadType == 'image'){
 
@@ -422,6 +422,8 @@
                          res.removed = true;
                     }
                 });
+                vm.setRadioData();
+
             },
             editReport (eid) {
               _.find(vm.finalResultData, function(res) {
@@ -429,7 +431,9 @@
                         vm.resultData = vm.finalResultData;
                          res.removed = true;
                     }
-                });  
+                });
+                vm.setRadioData();
+
             },
             saveReport() {
                 // var resData=[];
@@ -446,6 +450,11 @@
                 vm.finalResultData = resData;
 
                 vm.initData();
+                vm.setRadioData();
+            },
+            setRadioData() {
+                let vm =this;
+                vm.$store.dispatch('saveRadioData',vm.finalResultData);
             },
             initData() {
                 let vm =this;
@@ -465,7 +474,7 @@
                     'removed':false
                 };
                 vm.imgGallery = '';
-                $('.ls-select2').val(null).trigger('change');
+                $('#radio_div .ls-select2').val(null).trigger('change');
                 // $('.ls-select2').select2().val('');
 
             },

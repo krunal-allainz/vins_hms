@@ -85,7 +85,7 @@ export default {
                         },500)
                         
 
-                         this.$router.push({'name':'dashboard'});
+                         this.$router.push({'name':'opd_form'});
                     })
                 )}
                 else {

@@ -8,7 +8,7 @@
       </div>
     </div>
     <form action="" method="post" enctype="multipart/formdata">
-      <div v-show="curStep == 1">
+      <div v-if="curStep == 1">
         <div class="row form-group">
           <div class="col-md-6">
             <div class="col-md-6 ">
@@ -25,7 +25,13 @@
             </div>
           </div>
           <div class="col-md-6" v-if="opdData.case_type == 'new'">
-            <create-patient-detail @confirmed="deleteConfirmed()" patientType='opd'></create-patient-detail>
+            <create-patient-detail @confirmed="deleteConfirmed()" patientType='opd' :doctor="doctor"></create-patient-detail>
+            <div class="col-md-6 " v-if="opdData.uhid_no!=''" >
+              <label for="date">UHID No:</label>
+            </div>
+            <div class="col-md-6" v-if="opdData.uhid_no!=''" >
+              <input type="text" class="form-control"  v-model="opdData.uhid_no" readonly="">
+            </div>
           </div>
           <div class="col-md-6" v-if="opdData.case_type == 'old'">
             <div class="col-md-6 ">
@@ -355,11 +361,12 @@
                                       </div>
                                     </div>
                                   </div>
+                                  <div class="row"> 
+                                    <laboratory ></laboratory>
+                                  </div>
                                 </div>
-                                <div class="row"> 
-                                  <laboratory ></laboratory>
-                                </div>
-                                <div class="row form-group" v-show="curStep == 2">
+                                
+                                <div class="row form-group" v-if="curStep == 2">
                                   <div class="col-md-12" v-if="department == 'Neurology' || department == 'Neurosurgery'">
                                     <neuro-examination :doctor="doctor"></neuro-examination>
                                   </div>
@@ -384,7 +391,8 @@
   import vascularExamination from './vascularExamination.vue';
   import neuroExamination from './neuroExamination.vue';
   import SignaturePad from 'signature_pad';
-  import laboratory from './laboratory.vue'
+  import laboratory from './laboratory.vue';
+  import _ from 'lodash';
 
     export default {
         data() {
@@ -421,14 +429,14 @@
                         {text:'Portable',value:'portable','selected':false}
                     ],
                   'X-Rays_options':[
-                {text:'',value:''},
+                            {text:'',value:''},
                             {text:'HIP',value:'hip'},
                             {text:'Knee',value:'knee'},
                             {text:'Shoulder',value:'shoulder'},
                             {text:'Pelvis',value:'pelvis'},
                             {text:'Other',value:'other'},
 
-           ],
+                  ],
                   'CT':'',     
                   'CT_options':[
                       {text:'',value:''},
@@ -489,8 +497,7 @@
                         {text:'Extension',value:'extension'},
                     ]
               },
-              'signaturePad':{},
-              'signaturePad1':{},
+              
               'curStep':1,
               'totalStep':2,  
               'resultData': {
@@ -510,8 +517,8 @@
 
                 },
               'doctorOption': [
-                  { 'name':'Rakesh Shah' },
-                  {  'name':'Anand Vaishnav'},
+                  {'name':'Rakesh Shah' },
+                  {'name':'Anand Vaishnav'},
                   {'name':'Suvorit Bhowmick'},
                   {'name':'Mihir Acharya'},
                   {'name':'Monish Malhotra'},
@@ -543,7 +550,9 @@
                 'cross_type_int':'',
                 'cross_type_ext':'',
                 'radiology':'',
-                'laboratory':''
+                'laboratory':'',
+                'signaturePad':{},
+                'signaturePad1':{},
               }
             }
         }, 
@@ -563,6 +572,9 @@
             }
           }
        },
+       created: function() {
+             this.$root.$on('SetUhidNo', this.updateUhidNo);
+        },
         mounted(){
        
           $('.ls-select2').select2({
@@ -624,7 +636,7 @@
             }
              if($(this).val() == 'old') {
              } 
-             else {
+             else if($(this).val() == 'new') {
                 setTimeout(function(){
                 $('#createPatientDetail').modal('show');  
              },500)
@@ -638,15 +650,39 @@
         vm.getPrescriptionList();
         },
         methods: {
+          updateUhidNo(uhid) {
+            console.log('uhid',uhid)
+            let vm = this;
+            vm.opdData.uhid_no = uhid;
+          },
           prev(){
             let vm =this;
-            vm.curStep = vm.curStep-1;
+            if(vm.curStep> 0){
+              vm.curStep = vm.curStep-1;
+            }
+
+            vm.opdData =  _.cloneDeep(vm.$store.state.Patient.opdData);
+            vm.resultData = _.cloneDeep(vm.$store.state.Patient.opd_resultData);
+            vm.initLastData();
+            
           },
           next() {
             let vm =this;
             vm.curStep = vm.curStep+1;
+            console.log('res',vm.resultData);
+            vm.$store.dispatch('setOpdData',vm.opdData);
+            vm.$store.dispatch('setResData',vm.resultData);
+          },
+          initLastData(){
+            let vm = this;
+            let pres = _.cloneDeep(vm.opdData.prescription);
+            console.log('pres',pres);
+            setTimeout(function(){
+              $('#prescription').val(pres).trigger('change');
+            },500)
           },
           getPrescriptionList() {
+
             let vm =this;
             let userDepartment = vm.department;
             jQuery('.js-loader').removeClass('d-none');
@@ -714,15 +750,16 @@
             // // var signaturePad = new SignaturePad(canvas, {
             // //   backgroundColor: 'rgb(255, 255, 255)',
             // // });
-            
+            toastr.success('Report has been saved succeessfully', 'OPD Report', {timeOut: 5000});
+            tos
             // window.onresize = vm.resizeCanvas(canvas);
             // vm.  (canvas);
             var opdData = this.opdData;
             // if (vm.signaturePad.isEmpty()) {
               //  alert("Please provide a signature first.");
               //} else {
-                var dataURL1 = vm.signaturePad.toDataURL();
-                var dataURL2 = vm.signaturePad1.toDataURL();
+                var dataURL1 = vm.opdData.signaturePad.toDataURL();
+                var dataURL2 = vm.opdData.signaturePad1.toDataURL();
                 var opdDataRes = {'data':opdData,'imgData1':dataURL1,'imgData2':dataURL2};
                 vm.frmStep = 'step2';
                 // vm.download(dataURL, "signature.png");
@@ -755,20 +792,20 @@
             var clear_past_history_scribble = document.getElementById("clear_past_history_scribble");
 
 
-            vm.signaturePad = new SignaturePad(canvas, {
+            vm.opdData.signaturePad = new SignaturePad(canvas, {
               backgroundColor: 'rgb(255, 255, 255)',
             });
-            vm.signaturePad1 = new SignaturePad(canvas1, {
+            vm.opdData.signaturePad1 = new SignaturePad(canvas1, {
               backgroundColor: 'rgb(255, 255, 255)',
             });
             window.onresize = vm.resizeCanvas;
             vm.resizeCanvas(canvas);
             vm.resizeCanvas(canvas1);
             clear_history_scribble.addEventListener("click", function (event) {
-              vm.signaturePad.clear();
+              vm.opdData.signaturePad.clear();
             });
             clear_past_history_scribble.addEventListener("click", function (event) {
-              vm.signaturePad1.clear();
+              vm.opdData.signaturePad1.clear();
             });
             
               // if (signaturePad.isEmpty()) {

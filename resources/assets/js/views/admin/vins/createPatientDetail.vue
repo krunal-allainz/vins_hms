@@ -45,9 +45,9 @@
                             	<div class="row">
                             		<div class="col-sm-6 col-md-5">
 		                            	<div class="form-group">
-		                                    <label for="date_of_birth">Date of Birth: </label>
+		                                    <label for="date_of_birth">Date of Birth: </label><br>
 
-		                                    <date-picker class="form-control ls-datepicker"  id = "date_of_birth" type="text" name="date_of_birth"  v-model="patientData.dob" v-validate="'required'"></date-picker> 
+		                                    <date-picker  :date.sync="patientData.dob" :option="option" id = "date_of_birth" class="" type="text" name="date_of_birth"  v-model="patientData.dob.time" v-validate="'required'"></date-picker> 
 											
 											<span class="help is-danger" v-show="errors.has('date_of_birth')">
 						            			Field is required
@@ -57,7 +57,7 @@
 		                            <div class="col-sm-6 col-md-5">
 		                                <div class="form-group">
 		                                	<label class="control-label" for="sex">Gender: </label>
-											<select  class="form-control ls-select2" id = "gender" name="gender">
+											<select  class="form-control" v-model="patientData.gender" id = "gender" name="gender">
 					            				<option value="M">Male</option>
 								            	<option value="F">Female</option>
 								          	</select>
@@ -132,26 +132,50 @@
 <script >
 	import User from '../../../api/users.js';
   	import myDatepicker from 'vue-datepicker';
+  	import moment from 'moment';
 
     export default {
-    	props:['patientType'],
+    	props:['patientType','doctor'],
         data() {
             return {
                 'footer' : 'footer',
                 'currentYear': new Date().getFullYear(),
                 'deleteConfirmMsg': 'Are you sure you would like to delete this referee? All information associated with this referee will be permanently deleted.',
-                'patientData' : {
+                'option': {
+                    type: 'day',
+                    week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+                    month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    format: 'DD-MM-YYYY',
+                    placeholder: 'Select Date',
+                    inputStyle: {
+                        'display': 'inline-block',
+                        'padding': '6px',
+                        'line-height': '22px',
+                        'font-size': '16px',
+                        'border': '2px solid #fff',
+                        'box-shadow': '0 1px 3px 0 rgba(0, 0, 0, 0.2)',
+                        'border-radius': '2px',
+                        'color': '#5F5F5F',
+                        'width':'100%',
+                    },
+                    
+                  },
+                  'patientData' : {
                 	'fname':'',
                 	'mname': '',
                 	'lname': '',
-                	'dob': '',
+                	'dob': {
+                		time:''
+                	},
                 	'gender': '',
                 	'address': '',
                 	'ph_no': '',
                 	'mob_no': '',
+                	'consulting_dr': this.doctor,
                 	'case':'new',
                 	'reference_dr': ''
                 }
+
             }
         },
         mounted() {
@@ -192,6 +216,7 @@
 		    					var uhidNo=response.data.data.uhid_no;
 								$("#createPatientDetail").modal("hide");
 		    					this.$store.dispatch('SetUhidNo',uhidNo);
+		    					 this.$root.$emit('SetUhidNo',uhidNo);
 		                	} else if(response.data.code == 300) {
 		                		toastr.error('Record not found', 'Error', {timeOut: 5000});
 		                	} else{
