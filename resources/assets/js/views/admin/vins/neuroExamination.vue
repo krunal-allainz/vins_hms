@@ -21,6 +21,7 @@
           <div class="text-center"  style="font-size: 20px;font-weight: bold;border-bottom:1px solid;height:35px;"><b>Sensory Examination</b></div>
         <canvas id="neuro_signature-pad1" height="500" width="600" style="background: url('/assets/img/froms/examination_small_2.png') no-repeat; max-width:100%; max-height:100%;width: 85%"></canvas>
       </div>
+
       </div>
     </div>
 
@@ -125,7 +126,7 @@
           <label for="cerebellar" class="control-label">Cerebellar Signs : </label>
         </div>
         <div class="col-md-6">
-					<select class="form-control ls-select2" v-validate="'required'" id = "cerebellar" name="cerebellar" value="" :class="{'is-danger': errors.has('cerebellar') }" v-model="neuroExaminationData.cerebellar">
+					<select class="form-control ls-select2"  id = "cerebellar" name="cerebellar" value="" :class="{'is-danger': errors.has('cerebellar') }" v-model="neuroExaminationData.cerebellar">
 						<option value="no">No</option>
             <option value="truncal">Truncal</option>
             <option value="appendicular">Appendicular</option>
@@ -202,7 +203,7 @@
     </div>
 
     <div class="row form-group">
-      <button class=" btn btn-success" type="button" @click="saveNeuroExamination()">Submit</button>
+      <button class=" btn btn-success" type="button" @click="saveNeuroExamination()">Save Data</button>
     </div>
   </form>
 
@@ -229,9 +230,7 @@
 								'type': 'neuroExamination',
                 'patient_id': this.$store.state.Patient.patientId,
                	'ipd_id': this.$store.state.Patient.ipdId,
-                'signaturePad1':{},
-                'signaturePad2':{},
-                'signaturePad3':{},
+                
                 'neuroExaminationData': {
                   'right_biceps' : '',
                   'right_triceps' : '',
@@ -253,6 +252,9 @@
                   'cerebellar' : '',
                   'neck_stiffness' : '',
                   'diagnosis' : '',
+                  'signaturePad1':{},
+                  'signaturePad2':{},
+                  'signaturePad3':{},
 
 
 								}
@@ -281,21 +283,24 @@
 		    	this.$validator.validateAll().then(
 	            (response) => {
 	            	if (!this.errors.any()) {
-	            		 $("body .js-loader").removeClass('d-none');
-                   var neuroExaminationData = {'type':this.type,'patient_id':this.patient_id,'ipd_id':this.ipd_id,'form_data':this.neuroExaminationData};
-        			    	User.saveNeuroExamination(neuroExaminationData).then(
-        	                (response) => {
-        	                	if(response.data.status == 200) {
-        	                		toastr.success('Neuro Examination has been saved', 'Neuro Examination', {timeOut: 5000});
-        	                	}
-        	                	 $("body .js-loader").addClass('d-none');
+	            		 // $("body .js-loader").removeClass('d-none');
+                   vm.$store.dispatch('saveNeuroExamination',vm.neuroExaminationData);
+                    // $("body .js-loader").addClass('d-none');
 
-        	                },
-        	                (error) => {
-        	                	 $("body .js-loader").addClass('d-none');
+                //    var neuroExaminationData = {'type':this.type,'patient_id':this.patient_id,'ipd_id':this.ipd_id,'form_data':this.neuroExaminationData};
+        			    	// User.saveNeuroExamination(neuroExaminationData).then(
+        	       //          (response) => {
+        	       //          	if(response.data.status == 200) {
+        	       //          		toastr.success('Neuro Examination has been saved', 'Neuro Examination', {timeOut: 5000});
+        	       //          	}
+        	       //          	 $("body .js-loader").addClass('d-none');
 
-        	                }
-        	                )
+        	       //          },
+        	       //          (error) => {
+        	       //          	 $("body .js-loader").addClass('d-none');
+
+        	       //          }
+        	       //          )
         		    	}
         		    },
                 (error) => {
@@ -313,13 +318,13 @@
             // var clear_neuro_scribble1 = document.getElementById("clear_neuro_scribble");
 
 
-            vm.signaturePad1 = new SignaturePad(canvas, {
+            vm.neuroExaminationData.signaturePad1 = new SignaturePad(canvas, {
               backgroundColor: 'rgb(255, 255, 255)',
             });
-            vm.signaturePad2 = new SignaturePad(canvas1, {
+            vm.neuroExaminationData.signaturePad2 = new SignaturePad(canvas1, {
               backgroundColor: 'rgb(255, 255, 255)',
             });
-            vm.signaturePad3 = new SignaturePad(canvas2, {
+            vm.neuroExaminationData.signaturePad3 = new SignaturePad(canvas2, {
               backgroundColor: 'rgb(255, 255, 255)',
             });
             window.onresize = vm.resizeCanvas;
@@ -327,7 +332,7 @@
             vm.resizeCanvas(canvas1);
             vm.resizeCanvas(canvas2);
             clear_neuro_scribble.addEventListener("click", function (event) {
-              vm.signaturePad3.clear();
+              vm.neuroExaminationData.signaturePad3.clear();
             });
               // if (signaturePad.isEmpty()) {
               //   alert("Please provide a signature first.");

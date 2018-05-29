@@ -136,38 +136,35 @@
                     </div> -->
                     
     			</div>
+
+                <card title="Gallery Preview" v-if="imgGallery">
+                    <div class="row form-group">
+                        <div class="col-6 col-lg-3 col-sm-6" v-if="img.remove==false" v-for="(img,index) in imgGallery.data" >
+                            <div v-if="img.type =='image'">
+                                <a class="mag img-fluid">
+                                    <br/>
+                                    <img data-toggle="magnify" class="mag-style img-fluid" :src="img.data" alt="image">
+                                </a>
+                                <br>
+                            </div>
+                            <div  v-else >
+                                <a class="mag img-fluid">
+                                <video width="200px" height="auto"    controls>
+                                  <source :src="img.data" id="video_here">
+                                    Your browser does not support HTML5 video.
+                                </video>
+                                </a>
+                            </div>
+                            <label v-if="imgGallery.view!=true"  @click="removeImage(img.id)">Remove</label>
+                        </div>
+                    </div>
+                        <!--row-->
+                </card>
                 <div class="row form-group">
                     <div class="col-md-12">
                          <button type="button" class="btn btn-primary btn-lg " :disabled="(resultData.type == '' || resultData.bodyPart == '')" @click="saveReport()">Add</button>
                     </div>
-                </div>
-                <card title="Gallery Preview" v-if="imgGallery">
-                        <div class="row form-group">
-                            <div class="col-6 col-lg-3 col-sm-6" v-if="img.remove==false" v-for="(img,index) in imgGallery.data" >
-                                <div v-if="img.type =='image'">
-                                    <a class="mag img-fluid">
-                                        <br/>
-                                        <img data-toggle="magnify" class="mag-style img-fluid"
-                                             :src="img.data" alt="image">
-                                    </a>
-                                    <br>
-                                </div>
-                                <div  v-else >
-                                    <a class="mag img-fluid">
-                                    <video width="200px" height="auto"    controls>
-                                      <source :src="img.data" id="video_here">
-                                        Your browser does not support HTML5 video.
-                                    </video>
-                                    </a>
-                                </div>
-                                <label v-if="imgGallery.view!=true"  @click="removeImage(img.id)">Remove</label>
-                            </div>
-                            
-                        </div>
-                        <!--row-->
-                        
-                    </card>
-                    
+                </div>    
 
 
                  
@@ -180,8 +177,8 @@
 	import User from '../../../api/users.js';
 	import _ from 'lodash';
     import card from "./card.vue"
-    import vue2Dropzone from 'vue2-dropzone'
-    import 'vue2-dropzone/dist/vue2Dropzone.css'
+    // import vue2Dropzone from 'vue2-dropzone'
+    // import 'vue2-dropzone/dist/vue2Dropzone.css'
 
     export default {
     	computed:{
@@ -189,12 +186,17 @@
     	},
         components: {
             card,
-            vueDropzone: vue2Dropzone
+            // vueDropzone: vue2Dropzone
         },
         filters: {
           strLimit: function (value) {
-            var str50 = value.substr(0,50);
-            return str50+'...'; 
+            if(value.length > 50){
+                var str50 = value.substr(0,50);
+                return str50+'...'; 
+            } else {
+                return value; 
+
+            }
           }
         },
         data() {
@@ -218,12 +220,6 @@
 
                 },
                 'imgGallery':'',
-                dropzoneOptions: {
-                    url: 'https://httpbin.org/post',
-                    thumbnailWidth: 100,
-                    thumbnailHeight:100,
-                    headers: {"My-Awesome-Header": "header value"}
-                },
                 'finalResultData':{},
                 'investigationData' : {
                 	'neurology': {
@@ -353,6 +349,7 @@
 					 placeholder: "Select",
 
 			    });
+                 vm.finalResultData = _.cloneDeep(vm.$store.state.Patient.radioData);
             $('#radio_div').on('click','#btn-img-file',function(){
                 if(vm.resultData.uploadType == 'image'){
 
@@ -422,6 +419,8 @@
                          res.removed = true;
                     }
                 });
+                vm.setRadioData();
+
             },
             editReport (eid) {
               _.find(vm.finalResultData, function(res) {
@@ -429,7 +428,9 @@
                         vm.resultData = vm.finalResultData;
                          res.removed = true;
                     }
-                });  
+                });
+                vm.setRadioData();
+
             },
             saveReport() {
                 // var resData=[];
@@ -446,6 +447,11 @@
                 vm.finalResultData = resData;
 
                 vm.initData();
+                vm.setRadioData();
+            },
+            setRadioData() {
+                let vm =this;
+                vm.$store.dispatch('saveRadioData',vm.finalResultData);
             },
             initData() {
                 let vm =this;
@@ -465,7 +471,7 @@
                     'removed':false
                 };
                 vm.imgGallery = '';
-                $('.ls-select2').val(null).trigger('change');
+                $('#radio_div .ls-select2').val(null).trigger('change');
                 // $('.ls-select2').select2().val('');
 
             },
