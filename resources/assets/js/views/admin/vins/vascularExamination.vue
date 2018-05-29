@@ -179,11 +179,27 @@
       </div>
 
       <hr />
+      <div class="row form-group" >
+        <div class="col-md-4">
+        <canvas id="neuro_signature-pad" height="500" width="600" style="background: url('/assets/img/froms/varicose_vein_1_small.png') no-repeat; max-width:100%; max-height:100%;"></canvas>
+       
+      </div>
+       <div class="col-md-4">
+        <canvas id="neuro_signature-pad" height="500" width="600" style="background: url('/assets/img/froms/varicose_vein_2_small.png') no-repeat; max-width:100%; max-height:100%;"></canvas>
+       
+      </div>
+       <div class="col-md-4">
+        <canvas id="neuro_signature-pad" height="500" width="600" style="background: url('/assets/img/froms/varicose_vein_3_small.png') no-repeat; max-width:100%; max-height:100%;"></canvas>
+       
+      </div>
+
         <div id="signature-pad" class="signature-pad">
           <div class="signature-pad--body">
             <canvas id="myCanvas" height="500" width="600" ></canvas>
              <!-- <canvas height="500" width="600" style="background: url('https://i.imgur.com/1bvTivk.png'); max-width:100%; max-height:100%;"></canvas> -->
           </div>
+
+
           <div class="signature-pad--footer">
            
             <div class="signature-pad--actions">
@@ -203,8 +219,7 @@
           </div>
         </div>
 
-      <div class="row form-group" style="display: none;">
-        <img id="scream" src="/assets/img/examin.png" alt="The Scream" width="220" height="277">
+     
 
        
       </div>

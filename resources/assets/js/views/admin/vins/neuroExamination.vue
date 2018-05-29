@@ -10,11 +10,17 @@
 
   <form action>
     <div class="row">
-      <div class="col-md-6">
-        <canvas id="neuro_signature-pad" height="500" width="600" style="background: url('https://i.imgur.com/1bvTivk.png'); max-width:100%; max-height:100%;"></canvas>
+      <div class="col-md-6" style="padding: 0px;">
+        <div style="border: 1px solid;height: 75%;border-right:0px; ">
+          <div class="text-center" style="font-size: 20px;font-weight: bold;background-color:gray;border-bottom:1px solid;height:35px;"><b>Motor Examination</b></div>
+            <canvas id="neuro_signature-pad" height="500" width="600" style="background: url('/assets/img/froms/examination_small_2.png') no-repeat; max-width:100%; max-height:100%;width: 85%"></canvas>
+        </div>
       </div>
-      <div class="col-md-6">
-        <canvas id="neuro_signature-pad1" height="500" width="600" style="background: url('https://i.imgur.com/1bvTivk.png'); max-width:100%; max-height:100%;"></canvas>
+      <div class="col-md-6" style="padding: 0px;">
+        <div style="border: 1px solid;height: 75%">
+          <div class="text-center"  style="font-size: 20px;font-weight: bold;border-bottom:1px solid;height:35px;"><b>Sensory Examination</b></div>
+        <canvas id="neuro_signature-pad1" height="500" width="600" style="background: url('/assets/img/froms/examination_small_2.png') no-repeat; max-width:100%; max-height:100%;width: 85%"></canvas>
+      </div>
       </div>
     </div>
 
@@ -26,7 +32,7 @@
           <thead>
             <tr>
               <th></th>
-              <th>Biceps</th>
+              <th>Biceps 123456</th>
               <th>Triceps</th>
               <th>Supinator</th>
               <th>Knee</th>
