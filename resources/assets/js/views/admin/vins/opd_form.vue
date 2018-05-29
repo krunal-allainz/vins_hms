@@ -31,7 +31,7 @@
             </div>
             <div class="col-md-6" v-if="opdData.uhid_no!=''" >
               <input type="text" class="form-control"  v-model="opdData.uhid_no" readonly="">
-            </div>
+            </div>  
           </div>
           <div class="col-md-6" v-if="opdData.case_type == 'old'">
             <div class="col-md-6 ">
@@ -40,8 +40,8 @@
             <div class="col-md-6">
               <input type="text" name="uhid_no" class="form-control" v-validate="'required'" v-model="opdData.uhid_no">
                 <span class="help is-danger" v-show="errors.has('uhid_no')">
-              Field is required
-            </span>
+                  Field is required
+                </span>
               </div>
             </div>
           </div>
@@ -53,8 +53,8 @@
               <div class="col-md-6">
                 <input type="text" name="weight" id="weight" class="form-control" v-model="opdData.weight"  placeholder="In kgs"   v-validate="'required'">
                   <span class="help is-danger" v-show="errors.has('weight')">
-              Field is required
-            </span>
+                    Field is required
+                  </span>
                 </div>
               </div>
               <div class="col-md-4">
@@ -64,8 +64,8 @@
                 <div class="col-md-9">
                   <input type="text" name="height" id="height" class="form-control" placeholder="In cms" v-model="opdData.height"  v-validate="'required'">
                     <span class="help is-danger" v-show="errors.has('height')">
-              Field is required
-            </span>
+                      Field is required
+                    </span>
                   </div>
                 </div>
                 <div class="col-md-2">
@@ -85,41 +85,41 @@
                       </div>
                       <div class="col-md-6">
                         <input type="text" name="vitals" id="vitals" class="form-control" readonly="" v-model="doctor">
-                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="col-md-6">
+                        <label for="date">Department:</label>
                       </div>
                       <div class="col-md-6">
-                        <div class="col-md-6">
-                          <label for="date">Department:</label>
-                        </div>
-                        <div class="col-md-6">
-                          <input type="text" name="pulse" id="pulse" class="form-control" readonly=""  v-model="department">
-                          </div>
-                        </div>
+                        <input type="text" name="pulse" id="pulse" class="form-control" readonly=""  v-model="department">
                       </div>
-                      <div class="row form-group">
-                        <div class="col-md-6">
-                          <div class="col-md-6">
-                            <label for="date">Vitals:</label>
-                          </div>
-                          <div class="col-md-6">
-                            <input type="text" name="vitals" id="vitals" class="form-control" v-model="opdData.vitals"  v-validate="'required'">
-                              <span class="help is-danger" v-show="errors.has('vitals')">
-                                Field is required
-                              </span>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="col-md-6">
-                              <label for="date">Pulse:</label>
-                            </div>
-                            <div class="col-md-6">
-                              <input type="text" name="pulse" id="pulse" class="form-control" v-model="opdData.pulse"  v-validate="'required'">
-                               <span class="help is-danger" v-show="errors.has('pulse')">
-                                Field is required
-                              </span>
-                              </div>
-                            </div>
-                          </div>
+                    </div>
+                  </div>
+                  <div class="row form-group">
+                  <div class="col-md-6">
+                    <div class="col-md-6">
+                      <label for="date">Vitals:</label>
+                    </div>
+                    <div class="col-md-6">
+                      <input type="text" name="vitals" id="vitals" class="form-control" v-model="opdData.vitals"  v-validate="'required'">
+                      <span class="help is-danger" v-show="errors.has('vitals')">
+                        Field is required
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="col-md-6">
+                      <label for="date">Pulse:</label>
+                    </div>
+                    <div class="col-md-6">
+                      <input type="text" name="pulse" id="pulse" class="form-control" v-model="opdData.pulse"  v-validate="'required'">
+                       <span class="help is-danger" v-show="errors.has('pulse')">
+                        Field is required
+                      </span>
+                    </div>
+                  </div>
+                </div>
                           <div class="row form-group">
                             <div class="col-md-6">
                               <div class="col-md-6">
@@ -233,7 +233,7 @@
         </div>
          <div class="col-md-6" v-if="opdData.signaturePad1_src!=''">
           <div class="col-md-12">
-              <label for="history">Past history Preview:  <i class="fa fa-download fa-lg" @click="download(opdData.signaturePad1_src,'Past history')" aria-hidden="true"></i></label>
+              <label for="history">Past history Preview:  <i class="fa fa-download fa-lg red" @click="download(opdData.signaturePad1_src,'Past history')" aria-hidden="true"></i></label>
             </div>
             <div>
               <img :src="opdData.signaturePad1_src" title="past history">
@@ -302,7 +302,7 @@
       <div class=" form-group" id="radio_div1" v-show="opdData.referral == 'radiology'">
         <div class="">
             <div class="row form-group">
-              <div class="col-md-12">
+              <!-- <div class="col-md-12"> -->
                 <div class="col-md-6">
                   <label>Select Radiology:</label>
                    
@@ -318,7 +318,7 @@
                     <option v-for="type in investigationData.xray_type_options" :value="type.value">{{type.text}}</option>
                   </select>
                 </div>
-              </div>
+              <!-- </div> -->
             </div>
             <div class="row form-group">
               <div class="col-md-12">
