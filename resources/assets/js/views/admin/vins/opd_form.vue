@@ -92,7 +92,7 @@
                           <label for="date">Department:</label>
                         </div>
                         <div class="col-md-6">
-                          <input type="text" name="pulse" id="pulse" class="form-control" readonly="" v-model="department">
+                          <input type="text" name="pulse" id="pulse" class="form-control" readonly=""  v-model="department">
                           </div>
                         </div>
                       </div>
@@ -104,8 +104,8 @@
                           <div class="col-md-6">
                             <input type="text" name="vitals" id="vitals" class="form-control" v-model="opdData.vitals"  v-validate="'required'">
                               <span class="help is-danger" v-show="errors.has('vitals')">
-              Field is required
-            </span>
+                                Field is required
+                              </span>
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -114,6 +114,9 @@
                             </div>
                             <div class="col-md-6">
                               <input type="text" name="pulse" id="pulse" class="form-control" v-model="opdData.pulse"  v-validate="'required'">
+                               <span class="help is-danger" v-show="errors.has('pulse')">
+                                Field is required
+                              </span>
                               </div>
                             </div>
                           </div>
@@ -123,11 +126,11 @@
                                 <label for="date">BP Systolic:</label>
                               </div>
                               <div class="col-md-6">
-                                <input type="text" name="bp_systolic" id="bp_systolic" class="form-control"  v-model="opdData.bp_systolic">
+                                <input type="text" name="bp_systolic" id="bp_systolic" class="form-control"  v-model="opdData.bp_systolic"  v-validate="'required'">
 
-                                <!-- <span class="help is-danger" v-show="errors.has('vitals')">
+                                <span class="help is-danger" v-show="errors.has('bp_systolic')">
                                   Field is required
-                                </span> -->
+                                </span>
                               </div>
                             </div>
                             <div class="col-md-6">
@@ -135,8 +138,10 @@
                                 <label for="date">BP Diastolic:</label>
                               </div>
                               <div class="col-md-6">
-                                <input type="text" name="bp_diastolic" id="bp_diastolic" class="form-control"  v-model="opdData.bp_diastolic">
-
+                                <input type="text" name="bp_diastolic" id="bp_diastolic" class="form-control"  v-model="opdData.bp_diastolic"  v-validate="'required'">
+                                 <span class="help is-danger" v-show="errors.has('bp_diastolic')">
+                                  Field is required
+                                </span>
                               </div>
                             </div>
                           </div>
@@ -148,8 +153,10 @@
                                 <label for="date">Temp:</label>
                               </div>
                               <div class="col-md-6">
-                                <input type="text" name="temp" id="temp" class="form-control"  v-model="opdData.temp">
-
+                                <input type="text" name="temp" id="temp" class="form-control"  v-model="opdData.temp" v-validate="'required'">
+                                <span class="help is-danger" v-show="errors.has('temp')">
+                                  Field is required
+                                </span>
                               </div>
                             </div>
                           </div>
@@ -163,11 +170,12 @@
             </div>
 
         </div>
+        
       </div>
       <div class="row form-group">
         <div class="col-md-6">
             <div class="col-md-6">
-              <label for="history">History:</label>
+              <label for="history">History: </label>
             </div>
             <div class="col-md-12" v-show="opdData.historyType == 'text'">
               <textarea name="history"  id="history" class="form-control"  v-model="opdData.history" cols=""></textarea> 
@@ -177,9 +185,19 @@
                 <div class="signature-pad--body">
                   <canvas class="can-img" id="history_scribble" height="200px" width="500px" ></canvas> 
                 </div>
-                <div><button type="button" id="clear_history_scribble" class="btn btn-sm btn-danger">Clear</button></div>
+                <div><button type="button" id="clear_history_scribble" class="btn btn-md btn-danger">Clear</button>
+                <button type="button" id="save_history_scribble" class="btn btn-md btn-primary">Save</button></div>
+
               </div>
             </div>
+        </div>
+        <div class="col-md-6" v-if="opdData.signaturePad_src!=''">
+          <div class="col-md-12">
+              <label for="history">History Preview:     <i class="fa fa-download fa-lg red" @click="download(opdData.signaturePad_src,'History')" aria-hidden="true"></i></label>
+            </div>
+            <div>
+              <img :src="opdData.signaturePad_src" title="past history">
+            </div>  
         </div>
       </div>
 
@@ -206,225 +224,248 @@
                 <div class="signature-pad--body">
                   <canvas class="can-img" id="past_history_scribble" height="200px" width="500px" ></canvas> 
                 </div>
-                <div><button type="button" id="clear_past_history_scribble" class="btn btn-sm btn-danger">Clear</button></div>
+                <div>
+                  <button type="button" id="clear_past_history_scribble" class="btn btn-md btn-danger">Clear</button>
+                  <button type="button" id="save_past_history_scribble" class="btn btn-md btn-primary">Save</button>
+                </div>
               </div>
             </div>
+        </div>
+         <div class="col-md-6" v-if="opdData.signaturePad1_src!=''">
+          <div class="col-md-12">
+              <label for="history">Past history Preview:  <i class="fa fa-download fa-lg" @click="download(opdData.signaturePad1_src,'Past history')" aria-hidden="true"></i></label>
+            </div>
+            <div>
+              <img :src="opdData.signaturePad1_src" title="past history">
+            </div>  
         </div>
       </div>
 
 
-<div class="row form-group">
-                                <div class="col-md-6">
-                                  <div class="col-md-6">
-                                    <label for="advise">Advise:</label>
-                                  </div>
-                                  <div class="col-md-12">
-                                    <textarea class="form-control" type="text" name="advise" id="advise" v-model="opdData.advise"></textarea>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="row form-group">
-                                <div class="col-md-6">
-                                  <div class="col-md-12">
-                                    <label for="prescription">Prescription:</label>
-                                  </div>
-                                  <div class="col-md-12">
-                                    <select class="form-control ls-select2" multiple="multiple" name="prescription" id="prescription">
-                                      <option value="">Select</option>
-                                      <option v-for="pres in prescriptionOption" :value="pres.name">{{pres.name}}</option>
-                                    </select>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="row form-group">
-                                <div class="col-md-6">
-                                  <div class="col-md-12">
-                                    <label for="referral">Referral:</label>
-                                  </div>
-                                  <div class="col-md-12">
-                                    <select class="form-control ls-select2" name="referral" id="referral" v-model="opdData.referral">
-                                      <option value="cross">Cross</option>
-                                      <option value="radiology">Radiology</option>
-                                      <option value="laboratory">Laboratory</option>
-                                    </select>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="row form-group">
-                                <div class="col-md-6" v-if="opdData.referral == 'cross'">
-                                  <div class="col-md-12">
-                                    <label for="internal">Cross Reference:</label>
-                                  </div>
-                                  <div class="col-md-12">
-                                    <select class="form-control ls-select2" name="cross" id="cross" v-model="opdData.cross">
-                                      <option value="internal">Internal</option>
-                                      <option value="external">External</option>
-                                    </select>
-                                  </div>
-                                </div>
-                              </div>
-                              <div >
-                                <div class=" form-group" id="radio_div1" v-show="opdData.referral == 'radiology'">
-                                  <div class="">
-                                    <div class="col-md-12">
-                                      <div class="row form-group">
-                                        <div class="col-md-6">
-                                           <div class="col-md-12">
-                                          <label>Select Radiology:</label>
-                                           
-                                          <br>
-                                          <select class="form-control ls-select2" id="radiology_type_opd" name="radiology_type_opd">
-                                            <option v-for="type in investigationData.radiologyType" :value="type.value">{{type.text}}</option>
-                                          </select>
-                                          </div>
-                                        </div>
-                                        <div class="col-md-6" v-show="resultData.type == 'X-Rays'">
-                                          <label> Select Type</label>
-                                          <select class="form-control" id="xray_type_opd" name="xray_type_opd" v-model="resultData.x_ray_type">
-                                            <option v-for="type in investigationData.xray_type_options" :value="type.value">{{type.text}}</option>
-                                          </select>
-                                        </div>
-                                      </div>
-                                      <div class="row form-group">
-                                          <div class="col-md-6">
-                                            <label>Body Parts:</label>
-                                            <br>
-                                            <select class="form-control ls-select2" id="radiology_subtype_opd" name="radiology_subtype_opd">
-                                              <option v-for="obj in investigationData.radiologySubType" :value="obj.text">{{obj.text}}</option>
-                                            </select>
-                                          </div>
-                                          <div class="col-md-6" v-if="resultData.subtype_text_enable">
-                                            <label> Other Parts</label>
-                                            <input type="text" name="subType_text_opd" id="subType_text_opd" class="form-control" v-model="resultData.bodyPart">
-                                          </div>
-                                          <div class="col-md-6" v-if="resultData.bodyPart == 'Spine'">
-                                            <label> Spine option</label>
-                                            <select class="form-control ls-select2" id="radiology_spine_opd" name="radiology_spine_opd"  v-model="resultData.spine_option_value">
-                                              <option v-for="obj in investigationData.Spine_option" :value="obj.text">{{obj.text}}</option>
-                                            </select>
-                                          </div>
-                                          
-                                      </div>
-                                      <div class="row form-group">
-                                        <div class="col-md-6">
-                                          <label>Select Qualifires:</label>
-                                          <br>  
-                                            <select class="form-control " id="radiology_qualifier_opd" name="radiology_qualifier_opd" v-if="resultData.type == 'MRI'" v-model="resultData.qualifier">
-                                              <option v-for="obj in investigationData.radiologyQualifier" :value="obj.text">{{obj.text}}</option>
-                                            </select>
-                                            <input type="text" name="qualifier_opd" id="qualifier_opd" class="form-control" v-model="resultData.qualifier" v-else>
-                                        </div>
-                                        <div class="col-md-6" v-if="resultData.type == 'MRI'">
-                                              <label>Select Special request:</label>
-                                              <br>
-                                                <select class="form-control" id="radiology_special_request_opd" name="radiology_special_request_opd" v-model="resultData.special_request">
-                                                  <option v-for="obj in investigationData.radiologySpecialRequest" :value="obj.text">{{obj.text}}</option>
-                                                </select>
-                                        </div>
-                                        <div class="col-md-6" v-else>
-                                          <label>Select Special request:</label>
-                                          <br>
-                                            <input type="text" name="special_request_opd" id="special_request_opd" class="form-control" v-model="resultData.special_request">
-                                        </div>
-                                      </div>
-                                       <div class="row form-group">
-                                        <div class="col-md-12">
-                                             <button type="button" class="btn btn-primary btn-lg " :disabled="(resultData.type == '' || resultData.bodyPart == '')" @click="saveReport()">Add</button>
-                                        </div>
-                                    </div>                   
-                                        
-                                      </div>
-                                    </div>
-                                    <card title="<i class='ti-layout-cta-left'></i> Reports">
-                                     <div class="table-responsive">
-                                        <table class="table" id="radio_list">
-                                            <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Type</th>
-                                                <th>Body parts</th>
-                                                <th>Qualifier</th>
-                                                <th>Special request</th>
-                                                <!-- <th>Details</th> -->
-                                                <!-- <th>Gallery</th> -->
-                                                <th>Action</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr v-if="res.removed == false" v-for="(res,index) in finalResultData">
-                                                <td>{{++index}}</td>
-                                                <td>{{res.type}}</td>
-                                                <td>{{res.bodyPart}}</td>
-                                                <td>{{res.qualifier}}</td>
-                                                <td>{{res.special_request}}</td>
-                                                <!-- <td>{{res.textData | strLimit}}</td> -->
-                                                <!-- <td><a href="javascript:void(0)" @click="viewGallery(res.id)" class="red">View</a></td> -->
-                                                <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
-                                                <td> <i class="fa fa-remove" @click="removeReport(res.id)"></i></td>
+    <div class="row form-group">
+      <div class="col-md-6">
+        <div class="col-md-6">
+          <label for="advise">Advise:</label>
+        </div>
+        <div class="col-md-12">
+          <textarea class="form-control" type="text" name="advise" id="advise" v-model="opdData.advise"  v-validate="'required'"></textarea>
+          <span class="help is-danger" v-show="errors.has('advise')">
+            Field is required
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-md-6">
+        <div class="col-md-12">
+          <label for="prescription">Prescription:</label>
+        </div>
+        <div class="col-md-12">
+          <select class="form-control ls-select2" multiple="multiple" name="prescription" id="prescription"  v-validate="'required'">
+            <option value="">Select</option>
+            <option v-for="pres in prescriptionOption" :value="pres.name">{{pres.name}}</option>
+          </select>
+          <span class="help is-danger" v-show="errors.has('prescription')">
+            Field is required
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-md-6">
+        <div class="col-md-12">
+          <label for="referral">Referral:</label>
+        </div>
+        <div class="col-md-12">
+          <select class="form-control ls-select2" name="referral" id="referral" v-model="opdData.referral">
+            <option value="cross">Cross</option>
+            <option value="radiology">Radiology</option>
+            <option value="laboratory">Laboratory</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-md-6" v-if="opdData.referral == 'cross'">
+        <div class="col-md-12">
+          <label for="internal">Cross Reference:</label>
+        </div>
+        <div class="col-md-12">
+          <select class="form-control ls-select2" name="cross" id="cross" v-model="opdData.cross">
+            <option value="internal">Internal</option>
+            <option value="external">External</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div >
+      <div class=" form-group" id="radio_div1" v-show="opdData.referral == 'radiology'">
+        <div class="">
+            <div class="row form-group">
+              <div class="col-md-12">
+                <div class="col-md-6">
+                  <label>Select Radiology:</label>
+                   
+                  <br>
+                  <select class="form-control ls-select2" id="radiology_type_opd" name="radiology_type_opd">
+                    <option v-for="type in investigationData.radiologyType" :value="type.value">{{type.text}}</option>
+                  </select>
+                  
+                </div>
+                <div class="col-md-6" v-show="resultData.type == 'X-Rays'">
+                  <label> Select Type</label>
+                  <select class="form-control" id="xray_type_opd" name="xray_type_opd" v-model="resultData.x_ray_type">
+                    <option v-for="type in investigationData.xray_type_options" :value="type.value">{{type.text}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-md-12">
 
-                                                
-                                            </tr>
-                                            
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                  </card>
-                                  </div>
+                <div class="col-md-6">
+                  <label>Body Parts:</label>
+                  <br>
+                  <select class="form-control ls-select2" id="radiology_subtype_opd" name="radiology_subtype_opd">
+                    <option v-for="obj in investigationData.radiologySubType" :value="obj.text">{{obj.text}}</option>
+                  </select>
+                </div>
+                <div class="col-md-6" v-if="resultData.subtype_text_enable">
+                  <label> Other Parts</label>
+                  <input type="text" name="subType_text_opd" id="subType_text_opd" class="form-control" v-model="resultData.bodyPart">
+                </div>
+                <div class="col-md-6" v-if="resultData.bodyPart == 'Spine'">
+                  <label> Spine option</label>
+                  <select class="form-control ls-select2" id="radiology_spine_opd" name="radiology_spine_opd"  v-model="resultData.spine_option_value">
+                    <option v-for="obj in investigationData.Spine_option" :value="obj.text">{{obj.text}}</option>
+                  </select>
+                </div>
+              </div>
+                
+            </div>
+            <div class="row form-group">
+              <div class="col-md-12">
 
-                                  <!-- <div class="row">
-                                    <div  v-if="opdData.referral == 'laboratory'">
-                                      <div class="col-md-6">
-                                        <label for="laboratory">Laboratory:</label>
-                                      </div>
-                                      <div class="col-md-12">
-                                        <input class="form-control" type="text" name="laboratory" id="laboratory" v-model="opdData.laboratory" />
-                                      </div>
-                                    </div>
-                                  </div> -->
-                                </div>
-                                <div class="row form-group">
-                                  <div class="col-md-6" v-show="opdData.referral == 'cross' && opdData.cross == 'internal'">
-                                    <div class="col-md-12">
-                                      <label for="internal">Internal Reference:</label>
-                                    </div>
-                                    <div class="col-md-12">
-                                      <select class="form-control ls-select2" name="internal" v-model="opdData.cross_type_int" id="internal">
-                                        <option :value="doc.name" v-for="doc in doctorOption">{{doc.name}}</option>
-                                      </select>
-                                    </div>
-                                  </div>
-                                  <div class="col-md-6" v-show="opdData.referral == 'cross'&& opdData.cross == 'external'">
-                                    <div class="col-md-12">
-                                      <label for="external">External Reference:</label>
-                                    </div>
-                                    <div class="col-md-12">
-                                      <input type="text" name="external" id="external" class="form-control" v-model="opdData.cross_type_ext">
-                                      </div>
-                                    </div>
-                                  </div>
-                                  
-                                </div>
-                                <div class="row" v-if="curStep == 2"> 
-                                    <laboratory ></laboratory>
-                                  </div>
-                                <div class="row form-group"  v-if="curStep == 3">
-                                  <div class="col-md-12" v-if="department == 'Neurology' || department == 'Neurosurgery'">
-                                    <neuro-examination :doctor="doctor"></neuro-examination>
-                                  </div>
-                                  <div class="col-md-12" v-if="department == 'Vascular'">
-                                    <vascular-examination :doctor="doctor"></vascular-examination>
-                                  </div>
-                                </div>
-                                <div class="row form-group">
-                                  <div class="col-md-6">
-                                    <button type="button" class="btn btn-primary btn-submit text-right " @click="prev()" v-if="curStep!=1">Previous</button>
-                                    <button type="button" class="btn btn-primary btn-submit text-right " @click="next()" v-if="curStep!=3">Next</button>
-                                    <button type="button" class="btn btn-primary btn-submit text-right " v-if="curStep==3" @click="saveInformation()">Submit</button>
-                                  </div>
-                                </div>
-                              </form>
-                            </div>
-                          </template>
+              <div class="col-md-6">
+                <label>Select Qualifires:</label>
+                <br>  
+                  <select class="form-control " id="radiology_qualifier_opd" name="radiology_qualifier_opd" v-if="resultData.type == 'MRI'" v-model="resultData.qualifier">
+                    <option v-for="obj in investigationData.radiologyQualifier" :value="obj.text">{{obj.text}}</option>
+                  </select>
+                  <input type="text" name="qualifier_opd" id="qualifier_opd" class="form-control" v-model="resultData.qualifier" v-else>
+              </div>
+              <div class="col-md-6" v-if="resultData.type == 'MRI'">
+                    <label>Select Special request:</label>
+                    <br>
+                      <select class="form-control" id="radiology_special_request_opd" name="radiology_special_request_opd" v-model="resultData.special_request">
+                        <option v-for="obj in investigationData.radiologySpecialRequest" :value="obj.text">{{obj.text}}</option>
+                      </select>
+              </div>
+              <div class="col-md-6" v-else>
+                <label>Select Special request:</label>
+                <br>
+                  <input type="text" name="special_request_opd" id="special_request_opd" class="form-control" v-model="resultData.special_request">
+              </div>
+              </div>
+            </div>
+             <div class="row form-group">
+              <div class="col-md-12">
+                   <button type="button" class="btn btn-primary btn-lg " :disabled="(resultData.type == '' || resultData.bodyPart == '')" @click="saveReport()">Add</button>
+              </div>
+          </div>                   
+              
+           
+          </div>
+          <card title="<i class='ti-layout-cta-left'></i> Reports">
+           <div class="table-responsive">
+              <table class="table" id="radio_list">
+                  <thead>
+                  <tr>
+                      <th>#</th>
+                      <th>Type</th>
+                      <th>Body parts</th>
+                      <th>Qualifier</th>
+                      <th>Special request</th>
+                      <!-- <th>Details</th> -->
+                      <!-- <th>Gallery</th> -->
+                      <th>Action</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr v-if="res.removed == false" v-for="(res,index) in finalResultData">
+                      <td>{{++index}}</td>
+                      <td>{{res.type}}</td>
+                      <td>{{res.bodyPart}}</td>
+                      <td>{{res.qualifier}}</td>
+                      <td>{{res.special_request}}</td>
+                      <!-- <td>{{res.textData | strLimit}}</td> -->
+                      <!-- <td><a href="javascript:void(0)" @click="viewGallery(res.id)" class="red">View</a></td> -->
+                      <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
+                      <td> <i class="fa fa-remove" @click="removeReport(res.id)"></i></td>
+
+                      
+                  </tr>
+                  
+                  </tbody>
+              </table>
+          </div>
+        </card>
+        </div>
+
+        <!-- <div class="row">
+          <div  v-if="opdData.referral == 'laboratory'">
+            <div class="col-md-6">
+              <label for="laboratory">Laboratory:</label>
+            </div>
+            <div class="col-md-12">
+              <input class="form-control" type="text" name="laboratory" id="laboratory" v-model="opdData.laboratory" />
+            </div>
+          </div>
+        </div> -->
+      </div>
+      <div class="row form-group">
+        <div class="col-md-6" v-show="opdData.referral == 'cross' && opdData.cross == 'internal'">
+          <div class="col-md-12">
+            <label for="internal">Internal Reference:</label>
+          </div>
+          <div class="col-md-12">
+            <select class="form-control ls-select2" name="internal" v-model="opdData.cross_type_int" id="internal">
+              <option :value="doc.name" v-for="doc in doctorOption">{{doc.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6" v-show="opdData.referral == 'cross'&& opdData.cross == 'external'">
+          <div class="col-md-12">
+            <label for="external">External Reference:</label>
+          </div>
+          <div class="col-md-12">
+            <input type="text" name="external" id="external" class="form-control" v-model="opdData.cross_type_ext">
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      <div class="row" v-if="curStep == 2"> 
+          <laboratory ></laboratory>
+        </div>
+      <div class="row form-group"  v-if="curStep == 3">
+        <div class="col-md-12" v-if="department == 'Neurology' || department == 'Neurosurgery'">
+          <neuro-examination :doctor="doctor"></neuro-examination>
+        </div>
+        <div class="col-md-12" v-if="department == 'Vascular'">
+          <vascular-examination :doctor="doctor"></vascular-examination>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-md-6">
+          <button type="button" class="btn btn-primary btn-submit text-right " @click="prev()" v-if="curStep!=1">Previous</button>
+          <button type="button" class="btn btn-primary btn-submit text-right " @click="next()" v-if="curStep!=3">Next</button>
+          <button type="button" class="btn btn-primary btn-submit text-right " v-if="curStep==3" @click="saveInformation()">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</template>
 
 <script >
     var resData1=[];
@@ -597,7 +638,9 @@
                 'radiology':'',
                 'laboratory':'',
                 'signaturePad':{},
-                'signaturePad1':{},
+                'signaturePad_src':'',
+
+                'signaturePad1_src':'',
               }
             }
         }, 
@@ -866,8 +909,7 @@
             // if (vm.signaturePad.isEmpty()) {
               //  alert("Please provide a signature first.");
               //} else {
-                // var dataURL1 = vm.opdData.signaturePad.toDataURL();
-                // var dataURL2 = vm.opdData.signaturePad1.toDataURL();
+                //    
                 // var opdDataRes = {'data':opdData,'imgData1':dataURL1,'imgData2':dataURL2};
                 // vm.frmStep = 'step2';
                 // vm.download(dataURL, "signature.png");
@@ -898,6 +940,8 @@
             var canvas1 = document.getElementById("past_history_scribble");
             var clear_history_scribble = document.getElementById("clear_history_scribble");
             var clear_past_history_scribble = document.getElementById("clear_past_history_scribble");
+            var save_history_scribble = document.getElementById("save_history_scribble");
+            var save_past_history_scribble = document.getElementById("save_past_history_scribble");
 
 
             vm.opdData.signaturePad = new SignaturePad(canvas, {
@@ -911,9 +955,19 @@
             vm.resizeCanvas(canvas1);
             clear_history_scribble.addEventListener("click", function (event) {
               vm.opdData.signaturePad.clear();
+              vm.opdData.signaturePad_src='';
             });
             clear_past_history_scribble.addEventListener("click", function (event) {
               vm.opdData.signaturePad1.clear();
+              vm.opdData.signaturePad1_src='';
+
+            });
+            save_history_scribble.addEventListener("click", function (event) {
+              vm.opdData.signaturePad_src = vm.opdData.signaturePad.toDataURL();
+              
+            });
+            save_past_history_scribble.addEventListener("click", function (event) {
+              vm.opdData.signaturePad1_src = vm.opdData.signaturePad1.toDataURL();
             });
             
               // if (signaturePad.isEmpty()) {
