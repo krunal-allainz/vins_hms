@@ -780,7 +780,7 @@
                 tags:false 
               }); 
             },1500)
-          },
+          }, 
           removeReport(did) {
                 let vm =this;
                 // _.pullAt(resData, 0);
