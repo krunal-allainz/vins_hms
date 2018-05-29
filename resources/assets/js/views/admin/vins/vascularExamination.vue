@@ -290,7 +290,7 @@
 				methods: {
                 examinationChangeImage() {
             var vm =this;
-            var canvas = document.getElementById("vasc_signature");
+            var canvas = document.getElementById("vasc_signature-pad");
             // var canvas1 = document.getElementById("neuro_signature-pad1");
             // var canvas2 = document.getElementById("doc_signature");
 

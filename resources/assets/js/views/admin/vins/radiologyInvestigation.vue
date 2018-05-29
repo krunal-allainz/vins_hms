@@ -136,38 +136,35 @@
                     </div> -->
                     
     			</div>
+
+                <card title="Gallery Preview" v-if="imgGallery">
+                    <div class="row form-group">
+                        <div class="col-6 col-lg-3 col-sm-6" v-if="img.remove==false" v-for="(img,index) in imgGallery.data" >
+                            <div v-if="img.type =='image'">
+                                <a class="mag img-fluid">
+                                    <br/>
+                                    <img data-toggle="magnify" class="mag-style img-fluid" :src="img.data" alt="image">
+                                </a>
+                                <br>
+                            </div>
+                            <div  v-else >
+                                <a class="mag img-fluid">
+                                <video width="200px" height="auto"    controls>
+                                  <source :src="img.data" id="video_here">
+                                    Your browser does not support HTML5 video.
+                                </video>
+                                </a>
+                            </div>
+                            <label v-if="imgGallery.view!=true"  @click="removeImage(img.id)">Remove</label>
+                        </div>
+                    </div>
+                        <!--row-->
+                </card>
                 <div class="row form-group">
                     <div class="col-md-12">
                          <button type="button" class="btn btn-primary btn-lg " :disabled="(resultData.type == '' || resultData.bodyPart == '')" @click="saveReport()">Add</button>
                     </div>
-                </div>
-                <card title="Gallery Preview" v-if="imgGallery">
-                        <div class="row form-group">
-                            <div class="col-6 col-lg-3 col-sm-6" v-if="img.remove==false" v-for="(img,index) in imgGallery.data" >
-                                <div v-if="img.type =='image'">
-                                    <a class="mag img-fluid">
-                                        <br/>
-                                        <img data-toggle="magnify" class="mag-style img-fluid"
-                                             :src="img.data" alt="image">
-                                    </a>
-                                    <br>
-                                </div>
-                                <div  v-else >
-                                    <a class="mag img-fluid">
-                                    <video width="200px" height="auto"    controls>
-                                      <source :src="img.data" id="video_here">
-                                        Your browser does not support HTML5 video.
-                                    </video>
-                                    </a>
-                                </div>
-                                <label v-if="imgGallery.view!=true"  @click="removeImage(img.id)">Remove</label>
-                            </div>
-                            
-                        </div>
-                        <!--row-->
-                        
-                    </card>
-                    
+                </div>    
 
 
                  
@@ -352,7 +349,7 @@
 					 placeholder: "Select",
 
 			    });
-                 vm.finalResultData = vm.$store.state.Patient.radioData;
+                 vm.finalResultData = _.cloneDeep(vm.$store.state.Patient.radioData);
             $('#radio_div').on('click','#btn-img-file',function(){
                 if(vm.resultData.uploadType == 'image'){
 

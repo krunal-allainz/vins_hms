@@ -51,7 +51,7 @@
                 <label for="date">Weight:</label>
               </div>
               <div class="col-md-6">
-                <input type="text" name="weight" id="weight" class="form-control" v-model="opdData.weight"  placeholder="In kgs" >
+                <input type="text" name="weight" id="weight" class="form-control" v-model="opdData.weight"  placeholder="In kgs"   v-validate="'required'">
                   <span class="help is-danger" v-show="errors.has('weight')">
               Field is required
             </span>
@@ -62,7 +62,7 @@
                   <label for="date">Height:</label>
                 </div>
                 <div class="col-md-9">
-                  <input type="text" name="height" id="height" class="form-control" placeholder="In cms" v-model="opdData.height" >
+                  <input type="text" name="height" id="height" class="form-control" placeholder="In cms" v-model="opdData.height"  v-validate="'required'">
                     <span class="help is-danger" v-show="errors.has('height')">
               Field is required
             </span>
@@ -102,7 +102,7 @@
                             <label for="date">Vitals:</label>
                           </div>
                           <div class="col-md-6">
-                            <input type="text" name="vitals" id="vitals" class="form-control" v-model="opdData.vitals">
+                            <input type="text" name="vitals" id="vitals" class="form-control" v-model="opdData.vitals"  v-validate="'required'">
                               <span class="help is-danger" v-show="errors.has('vitals')">
               Field is required
             </span>
@@ -113,7 +113,7 @@
                               <label for="date">Pulse:</label>
                             </div>
                             <div class="col-md-6">
-                              <input type="text" name="pulse" id="pulse" class="form-control" v-model="opdData.pulse">
+                              <input type="text" name="pulse" id="pulse" class="form-control" v-model="opdData.pulse"  v-validate="'required'">
                               </div>
                             </div>
                           </div>
@@ -327,19 +327,60 @@
                                             <input type="text" name="special_request_opd" id="special_request_opd" class="form-control" v-model="resultData.special_request">
                                         </div>
                                       </div>
-                                                      
+                                       <div class="row form-group">
+                                        <div class="col-md-12">
+                                             <button type="button" class="btn btn-primary btn-lg " :disabled="(resultData.type == '' || resultData.bodyPart == '')" @click="saveReport()">Add</button>
+                                        </div>
+                                    </div>                   
                                         
                                       </div>
                                     </div>
-                                  </div>
-                                  <div class="col-md-6" v-if="opdData.referral == 'laboratory'">
-                                    <div class="col-md-6">
-                                      <label for="laboratory">Laboratory:</label>
+                                    <card title="<i class='ti-layout-cta-left'></i> Reports">
+                                     <div class="table-responsive">
+                                        <table class="table" id="radio_list">
+                                            <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Type</th>
+                                                <th>Body parts</th>
+                                                <th>Qualifier</th>
+                                                <th>Special request</th>
+                                                <!-- <th>Details</th> -->
+                                                <!-- <th>Gallery</th> -->
+                                                <th>Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr v-if="res.removed == false" v-for="(res,index) in finalResultData">
+                                                <td>{{++index}}</td>
+                                                <td>{{res.type}}</td>
+                                                <td>{{res.bodyPart}}</td>
+                                                <td>{{res.qualifier}}</td>
+                                                <td>{{res.special_request}}</td>
+                                                <!-- <td>{{res.textData | strLimit}}</td> -->
+                                                <!-- <td><a href="javascript:void(0)" @click="viewGallery(res.id)" class="red">View</a></td> -->
+                                                <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
+                                                <td> <i class="fa fa-remove" @click="removeReport(res.id)"></i></td>
+
+                                                
+                                            </tr>
+                                            
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    <div class="col-md-6">
-                                      <input class="form-control" type="text" name="laboratory" id="laboratory" v-model="opdData.laboratory" />
-                                    </div>
+                                  </card>
                                   </div>
+
+                                  <!-- <div class="row">
+                                    <div  v-if="opdData.referral == 'laboratory'">
+                                      <div class="col-md-6">
+                                        <label for="laboratory">Laboratory:</label>
+                                      </div>
+                                      <div class="col-md-12">
+                                        <input class="form-control" type="text" name="laboratory" id="laboratory" v-model="opdData.laboratory" />
+                                      </div>
+                                    </div>
+                                  </div> -->
                                 </div>
                                 <div class="row form-group">
                                   <div class="col-md-6" v-show="opdData.referral == 'cross' && opdData.cross == 'internal'">
@@ -361,12 +402,12 @@
                                       </div>
                                     </div>
                                   </div>
-                                  <div class="row"> 
+                                  
+                                </div>
+                                <div class="row" v-if="curStep == 2"> 
                                     <laboratory ></laboratory>
                                   </div>
-                                </div>
-                                
-                                <div class="row form-group" v-if="curStep == 2">
+                                <div class="row form-group"  v-if="curStep == 3">
                                   <div class="col-md-12" v-if="department == 'Neurology' || department == 'Neurosurgery'">
                                     <neuro-examination :doctor="doctor"></neuro-examination>
                                   </div>
@@ -377,8 +418,8 @@
                                 <div class="row form-group">
                                   <div class="col-md-6">
                                     <button type="button" class="btn btn-primary btn-submit text-right " @click="prev()" v-if="curStep!=1">Previous</button>
-                                    <button type="button" class="btn btn-primary btn-submit text-right " @click="next()" v-if="curStep!=2">Next</button>
-                                    <button type="button" class="btn btn-primary btn-submit text-right " v-if="curStep==2" @click="saveInformation()">Submit</button>
+                                    <button type="button" class="btn btn-primary btn-submit text-right " @click="next()" v-if="curStep!=3">Next</button>
+                                    <button type="button" class="btn btn-primary btn-submit text-right " v-if="curStep==3" @click="saveInformation()">Submit</button>
                                   </div>
                                 </div>
                               </form>
@@ -386,6 +427,8 @@
                           </template>
 
 <script >
+    var resData1=[];
+
   import User from '../../../api/users.js';
   import createPatientDetail from './createPatientDetail.vue';
   import vascularExamination from './vascularExamination.vue';
@@ -393,6 +436,8 @@
   import SignaturePad from 'signature_pad';
   import laboratory from './laboratory.vue';
   import _ from 'lodash';
+    import card from "./card.vue"
+
 
     export default {
         data() {
@@ -499,7 +544,7 @@
               },
               
               'curStep':1,
-              'totalStep':2,  
+              'totalStep':3,  
               'resultData': {
                     'id':'',
                     'uploadType':'image',
@@ -560,7 +605,8 @@
          createPatientDetail,
          vascularExamination,
          neuroExamination,
-         laboratory
+         laboratory,
+         card,
        },
         computed: {
           bmi() {
@@ -645,11 +691,52 @@
           });
         setTimeout(function(){
           vm.examinationChangeImage();
- 
+           
         },2000)
         vm.getPrescriptionList();
         },
         methods: {
+          saveReport() {
+                // var resData1=[];
+                let vm =this;
+                 // resData1.push= vm.finalResultData;
+                
+                if(vm.resultData.type == '' || vm.resultData.bodyPart == '' ){
+                    toastr.error('Please select report data.', 'Report error', {timeOut: 5000});
+                    return false;
+                }
+                vm.resultData.id = resData1.length;
+                resData1.push(vm.resultData);
+                
+                vm.finalResultData = resData1;
+
+                vm.initData();
+                // vm.setRadioData();
+          },
+          initData() {
+                let vm =this;
+                
+                vm.resultData = {
+                   'id':'',
+                    'uploadType':'image',
+                    'bodyPart':'',
+                    'type': '',
+                    'x_ray_type':'fixed',
+                    'spine_option_value':'',
+                    'subType': '',
+                    'qualifier':'',
+                    'imgData': '',
+                    'textData': '',
+                    'subtype_text_enable':false,
+                    'special_request':'',
+                    'removed':false
+
+                };
+                // vm.imgGallery = '';
+                $('#radio_div1 .ls-select2').val(null).trigger('change');
+                // $('.ls-select2').select2().val('');
+
+            },
           updateUhidNo(uhid) {
             console.log('uhid',uhid)
             let vm = this;
@@ -668,10 +755,19 @@
           },
           next() {
             let vm =this;
-            vm.curStep = vm.curStep+1;
-            console.log('res',vm.resultData);
-            vm.$store.dispatch('setOpdData',vm.opdData);
-            vm.$store.dispatch('setResData',vm.resultData);
+                this.$validator.validateAll().then(
+                (response) => {
+                  if (!this.errors.any()) {
+                     vm.curStep = vm.curStep+1;
+                    console.log('res',vm.resultData);
+                    vm.$store.dispatch('setOpdData',vm.opdData);
+                    vm.$store.dispatch('setResData',vm.finalResultData);
+                  }
+                },
+                (error) => {
+                }
+                )
+            
           },
           initLastData(){
             let vm = this;
@@ -679,7 +775,20 @@
             console.log('pres',pres);
             setTimeout(function(){
               $('#prescription').val(pres).trigger('change');
-            },500)
+              $('.ls-select2').select2({
+                placeholder: "Select",
+                tags:false 
+              }); 
+            },1500)
+          },
+          removeReport(did) {
+                let vm =this;
+                // _.pullAt(resData, 0);
+                _.find(vm.finalResultData, function(res) {
+                    if(res.id == did) {
+                         res.removed = true;
+                    }
+                });
           },
           getPrescriptionList() {
 
@@ -751,17 +860,16 @@
             // //   backgroundColor: 'rgb(255, 255, 255)',
             // // });
             toastr.success('Report has been saved succeessfully', 'OPD Report', {timeOut: 5000});
-            tos
             // window.onresize = vm.resizeCanvas(canvas);
             // vm.  (canvas);
             var opdData = this.opdData;
             // if (vm.signaturePad.isEmpty()) {
               //  alert("Please provide a signature first.");
               //} else {
-                var dataURL1 = vm.opdData.signaturePad.toDataURL();
-                var dataURL2 = vm.opdData.signaturePad1.toDataURL();
-                var opdDataRes = {'data':opdData,'imgData1':dataURL1,'imgData2':dataURL2};
-                vm.frmStep = 'step2';
+                // var dataURL1 = vm.opdData.signaturePad.toDataURL();
+                // var dataURL2 = vm.opdData.signaturePad1.toDataURL();
+                // var opdDataRes = {'data':opdData,'imgData1':dataURL1,'imgData2':dataURL2};
+                // vm.frmStep = 'step2';
                 // vm.download(dataURL, "signature.png");
               //}
             // User.saveOpdData(opdDataRes).then((response) => {
