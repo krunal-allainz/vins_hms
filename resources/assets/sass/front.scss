@@ -281,7 +281,11 @@ span.select2.select2-container.select2-container--default.select2-container--foc
         border-top: 1px solid #ddd !important; 
     }  
 }
-
 span.select2-container.select2-container--default.select2-container--open {
     z-index: 9999;
+
+}
+.cov-vue-date {
+    width:100%;
+
 }

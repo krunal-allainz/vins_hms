@@ -11,6 +11,11 @@ const state = {
     'admitDatetime': '',
   	'patientData': {},
     'ipdData': {},
+    'opdData':{},
+    'opd_resultData':{},
+    'radioData':{},
+    'neuroExaminationData':{},
+    'vascExaminationData':{},
  }
 
  // getters
@@ -27,6 +32,15 @@ const actions = {
   SetPatientId ({commit},patientId) {
     commit(types.SET_PATIENT_ID, patientId)
   },
+  setOpdData({commit},opdData) {
+    commit(types.SET_OPD_DATA, opdData);
+  },
+  setResData({commit},resultData) {
+    commit(types.SET_OPD_RESULT_DATA, resultData);
+  },
+  saveRadioData({commit},radioData) {
+    commit(types.SET_RADIO_DATA, radioData);
+  },
   SetIpdId ({commit},ipdId) {
     commit(types.SET_IPD_ID, ipdId)
   },
@@ -34,6 +48,15 @@ const actions = {
     // console(uhid_no);
     commit(types.SET_UHID_NO, uhid_no)
   },
+  saveNeuroExamination({commit},neuroData) {
+    // console(uhid_no);
+    commit(types.SET_NEURO_DATA, neuroData)
+  },
+  saveVascularExamination({commit},vascData) {
+    // console(uhid_no);
+    commit(types.SET_VASC_DATA, vascData)
+  },
+  
   SetPatientData ({commit},ipdId) {
     
     user.getpatientDetail(ipdId).then(
@@ -78,6 +101,28 @@ const mutations = {
     // console.log(patientData)
       state.ipdData = ipdData;
   },
+  [types.SET_OPD_DATA] (state, opdData) {
+    // console.log(patientData)
+      state.opdData = opdData;
+  },
+  [types.SET_OPD_RESULT_DATA] (state, resultData) {
+    // console.log(patientData)
+      state.opd_resultData = resultData;
+  },
+  [types.SET_RADIO_DATA] (state, radioData) {
+    // console.log(patientData)
+      state.radioData = radioData;
+  },
+  [types.SET_NEURO_DATA] (state, neuroData) {
+    // console.log(patientData)
+      state.neuroExaminationData = neuroData;
+  },
+  [types.SET_VASC_DATA] (state, vascData) {
+    // console.log(patientData)
+      state.vascExaminationData = vascData;
+  },
+
+  
   
 }
 
