@@ -120,46 +120,46 @@
                     </div>
                   </div>
                 </div>
-                          <div class="row form-group">
-                            <div class="col-md-6">
-                              <div class="col-md-6">
-                                <label for="date">BP Systolic:</label>
-                              </div>
-                              <div class="col-md-6">
-                                <input type="text" name="bp_systolic" id="bp_systolic" class="form-control"  v-model="opdData.bp_systolic"  v-validate="'required'">
+                <div class="row form-group">
+                  <div class="col-md-6">
+                    <div class="col-md-6">
+                      <label for="date">BP Systolic:</label>
+                    </div>
+                    <div class="col-md-6">
+                      <input type="text" name="bp_systolic" id="bp_systolic" class="form-control"  v-model="opdData.bp_systolic"  v-validate="'required'">
 
-                                <span class="help is-danger" v-show="errors.has('bp_systolic')">
-                                  Field is required
-                                </span>
-                              </div>
-                            </div>
-                            <div class="col-md-6">
-                              <div class="col-md-6">
-                                <label for="date">BP Diastolic:</label>
-                              </div>
-                              <div class="col-md-6">
-                                <input type="text" name="bp_diastolic" id="bp_diastolic" class="form-control"  v-model="opdData.bp_diastolic"  v-validate="'required'">
-                                 <span class="help is-danger" v-show="errors.has('bp_diastolic')">
-                                  Field is required
-                                </span>
-                              </div>
-                            </div>
-                          </div>
+                      <span class="help is-danger" v-show="errors.has('bp_systolic')">
+                        Field is required
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="col-md-6">
+                      <label for="date">BP Diastolic:</label>
+                    </div>
+                    <div class="col-md-6">
+                      <input type="text" name="bp_diastolic" id="bp_diastolic" class="form-control"  v-model="opdData.bp_diastolic"  v-validate="'required'">
+                       <span class="help is-danger" v-show="errors.has('bp_diastolic')">
+                        Field is required
+                      </span>
+                    </div>
+                  </div>
+                </div>
 
-                          <div class="row form-group">
+                <div class="row form-group">
 
-                            <div class="col-md-6">
-                              <div class="col-md-6">
-                                <label for="date">Temp:</label>
-                              </div>
-                              <div class="col-md-6">
-                                <input type="text" name="temp" id="temp" class="form-control"  v-model="opdData.temp" v-validate="'required'">
-                                <span class="help is-danger" v-show="errors.has('temp')">
-                                  Field is required
-                                </span>
-                              </div>
-                            </div>
-                          </div>
+                  <div class="col-md-6">
+                    <div class="col-md-6">
+                      <label for="date">Temp:</label>
+                    </div>
+                    <div class="col-md-6">
+                      <input type="text" name="temp" id="temp" class="form-control"  v-model="opdData.temp" v-validate="'required'">
+                      <span class="help is-danger" v-show="errors.has('temp')">
+                        Field is required
+                      </span>
+                    </div>
+                  </div>
+                </div>
 
       <div class="row form-group">
         <div class="col-md-6">
@@ -301,7 +301,7 @@
     <div >
       <div class=" form-group" id="radio_div1" v-show="opdData.referral == 'radiology'">
         <div class="">
-            <div class="row form-group">
+            <div class="form-group">
               <!-- <div class="col-md-12"> -->
                 <div class="col-md-6">
                   <label>Select Radiology:</label>
@@ -781,7 +781,6 @@
 
             },
           updateUhidNo(uhid) {
-            console.log('uhid',uhid)
             let vm = this;
             vm.opdData.uhid_no = uhid;
           },
@@ -790,22 +789,19 @@
             if(vm.curStep> 0){
               vm.curStep = vm.curStep-1;
             }
-
             vm.opdData =  _.cloneDeep(vm.$store.state.Patient.opdData);
             vm.resultData = _.cloneDeep(vm.$store.state.Patient.opd_resultData);
             vm.initLastData();
-            
           },
           next() {
             let vm =this;
                 this.$validator.validateAll().then(
                 (response) => {
-                  if (!this.errors.any()) {
-                     vm.curStep = vm.curStep+1;
-                    console.log('res',vm.resultData);
+                  // if (!this.errors.any()) {
+                    vm.curStep = vm.curStep+1;
                     vm.$store.dispatch('setOpdData',vm.opdData);
                     vm.$store.dispatch('setResData',vm.finalResultData);
-                  }
+                  // }
                 },
                 (error) => {
                 }
@@ -815,13 +811,15 @@
           initLastData(){
             let vm = this;
             let pres = _.cloneDeep(vm.opdData.prescription);
-            console.log('pres',pres);
             setTimeout(function(){
               $('#prescription').val(pres).trigger('change');
               $('.ls-select2').select2({
                 placeholder: "Select",
                 tags:false 
-              }); 
+              });
+              if(vm.curStep == 1){
+                vm.examinationChangeImage();
+              } 
             },1500)
           }, 
           removeReport(did) {
@@ -932,6 +930,7 @@
               window.URL.revokeObjectURL(url);
             },
           examinationChangeImage() {
+            console.log('sdf');
             var vm =this;
             // savePNGButton.addEventListener("click", function (event) {
             var wrapper = document.getElementById("signature-pad");
