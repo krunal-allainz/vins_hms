@@ -820,13 +820,13 @@
             let vm =this;
                 this.$validator.validateAll().then(
                 (response) => {
-                  // if (!this.errors.any()) {
+                  if (!this.errors.any()) {
 
                     vm.curStep = vm.curStep+1;
 
                     vm.$store.dispatch('setOpdData',vm.opdData);
                     vm.$store.dispatch('setResData',vm.finalResultData);
-                  // }
+                  }
                 },
                 (error) => {
                 }

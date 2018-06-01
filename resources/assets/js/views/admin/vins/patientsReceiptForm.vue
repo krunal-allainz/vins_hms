@@ -3,7 +3,7 @@
    	   <div class="page-header">
       	  <div class="row">
              <div class="col-md-6">
-               <h1>Patient Receipt From </h1>
+               <h3>Patient Receipt form </h3>
              </div>
           </div>
        </div>	
