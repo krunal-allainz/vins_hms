@@ -18,6 +18,8 @@
     	 	 	<!--</div>
     	 	 	<div class="col-md-4"> -->
     	 	 		<button type="button" class="btn btn-primary btn-submit text-right " data-toggle="modal" href="#printModal"  @click="printReferal()">Referal</button>
+
+    	 	 		<button type="button" class="btn btn-primary btn-submit text-right" @click = "GetSelectComponent('patients_receipt_form')">Print Receipts</button>
     	 	 	<!--</div> -->
     	 	 </div>
     	 </div>
@@ -174,6 +176,9 @@
 				        self.print();	
 				    }	
 				},
+				 GetSelectComponent(componentName) {
+		       this.$router.push({name: componentName})
+		   	 }
 		}
 	}
 </script>
