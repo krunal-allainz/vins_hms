@@ -97,6 +97,9 @@ import NewUser from './views/admin/vins/newUser.vue'
 import vascularExamination from './views/admin/vins/vascularExamination.vue'
 import neuroExamination from './views/admin/vins/neuroExamination.vue'
 import provisionalDiagnosis from './views/admin/vins/provisionalDiagnosis.vue'
+import opdformthankyou from './views/admin/vins/opd_form_thankyou.vue'
+import vinsletterheadheaderpart from './views/admin/vins/vins_letter_header.vue'
+import vinsletterheadfooterpart from './views/admin/vins/vins_letter_footer.vue'
 
 
 //import changePwd from './views/emails/ChangePwd.vue'
@@ -143,6 +146,24 @@ const routes = [
                 component: opdForm,
                 meta: { requiresAuth: true },
                 name: 'opd_form'
+            },
+            {
+                path: '/opd_form_thankyou',
+                component: opdformthankyou,
+                meta: { requiresAuth: true },
+                name: 'opd_form_thankyou'
+            },
+            {
+                path: '/vins_letterhead_Header',
+                component: vinsletterheadheaderpart,
+                meta: { requiresAuth: true },
+                name: 'vins_letterhead_Header'
+            },
+             {
+                path: '/vins_letterhead_footer',
+                component: vinsletterheadfooterpart,
+                meta: { requiresAuth: true },
+                name: 'vins_letterhead_footer'
             },
             {
                 path: '/doctorsInitialAssessment',

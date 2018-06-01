@@ -242,6 +242,14 @@ span.select2.select2-container.select2-container--default.select2-container--foc
 #receiptModal .modal-content{  
     width : 850px; 
 }  
+#printModal .modal-content{  
+    min-width : 850px; 
+    min-height : 950px;
+    
+} 
+#printModal .modal-content .modal-body{
+    font-size : 16px;
+}
 #printContent .address{    
     font-size : medium;    
 }  
@@ -265,6 +273,39 @@ span.select2.select2-container.select2-container--default.select2-container--foc
     border-top: 1px solid #ddd !important; 
 }  
 @media print { 
+#receiptModal .modal-content{  
+    width : 850px; 
+}  
+#printModal .modal-content{  
+    min-width : 850px; 
+    min-height : 950px;
+    
+} 
+#printModal .modal-content .modal-body{
+    font-size : 16px;
+}
+#printContent .address{    
+    font-size : medium;    
+}  
+#printContent table{   
+    width : 90%;   
+   
+}  
+#printContent table, th, td, tbody, thead, tr{ 
+    border : 0 !important; 
+    padding : 3px 0px !important;  
+}  
+   
+#printContent table.table-bordered, th, td, tbody, thead, tr{  
+    border : 0 !important; 
+     padding : 3px  0px !important;    
+}  
+#printContent table tr.borderTopBottom{    
+    border: 1px solid #ddd !important;border-left: 0px !important;border-right: 0px !important;    
+}  
+#printContent table tr.borderTop{  
+    border-top: 1px solid #ddd !important; 
+}  
     .printReceiptPage table, th, td, tbody, thead, tr{ 
         border : 0 !important; 
         padding : 3px 0px !important;  
@@ -280,6 +321,9 @@ span.select2.select2-container.select2-container--default.select2-container--foc
     table tr.borderTop{    
         border-top: 1px solid #ddd !important; 
     }  
+    .letter-head img{
+    width:30%;
+}
 }
 span.select2-container.select2-container--default.select2-container--open {
     z-index: 9999;
@@ -288,4 +332,7 @@ span.select2-container.select2-container--default.select2-container--open {
 .cov-vue-date {
     width:100%;
 
+}
+.letter-head img{
+    width:30%;
 }
