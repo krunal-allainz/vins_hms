@@ -15,8 +15,12 @@
 	  </div>
 	  <div class="row">	
       	<div class="col-md-12 text-center">	
-      		<div class="text-center"><i class="glyphicon glyphicon-phone-alt"></i>+91-265-232 37 78,233 13 43,234 17 87 <i class="glyphicon-glyphicon-phone"></i>+91 99 78 99 99 40
-      			<i class="glyphicon-envelope"></i>mail@vinshospital.com <i class="icon-globe"></i>www.vinshospital.com</div>	
+      		<div class="text-center">
+      			<span style="padding-right: 5px;"><i class="fa fa-phone-square" aria-hidden="true" style="padding-right: 2px;"></i>+91-265-232 37 78,233 13 43,234 17 87 </span>
+      			<span style="padding-right: 5px;"><i class="fa fa-mobile" aria-hidden="true"  style="padding-right: 2px;"></i>+91 99 78 99 99 40</span>
+      			<span style="padding-right: 5px;"><i class="fa fa-envelope" aria-hidden="true"  style="padding-right: 2px;"></i>mail@vinshospital.com</span>
+      			<span style="padding-right: 5px;"> <i class="fa fa-globe" aria-hidden="true"  style="padding-right: 2px;"></i>www.vinshospital.com</span>
+      		</div>	
       	</div>	
 	  </div>
 
