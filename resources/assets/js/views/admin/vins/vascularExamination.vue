@@ -3,7 +3,7 @@
 		<div class="page-header">
 			<div class="row">
 				<div class="col-md-6">
-				<h1>Vascular Examination</h1>
+				<h3>Vascular Examination</h3>
 				</div>
 			</div>
 		</div>
@@ -181,47 +181,21 @@
       <hr />
       <div class="row form-group" >
         <div class="col-md-4">
-        <canvas id="neuro_signature-pad" height="500" width="600" style="background: url('/assets/img/froms/varicose_vein_1_small.png') no-repeat; max-width:100%; max-height:100%;"></canvas>
-       
-      </div>
-       <div class="col-md-4">
-        <canvas id="neuro_signature-pad" height="500" width="600" style="background: url('/assets/img/froms/varicose_vein_2_small.png') no-repeat; max-width:100%; max-height:100%;"></canvas>
-       
-      </div>
-       <div class="col-md-4">
-        <canvas id="neuro_signature-pad" height="500" width="600" style="background: url('/assets/img/froms/varicose_vein_3_small.png') no-repeat; max-width:100%; max-height:100%;"></canvas>
-       
-      </div>
-
-        <div id="signature-pad" class="signature-pad">
-          <div class="signature-pad--body">
-            <canvas id="vasc_signature-pad" height="500" width="600"  style="background: url('assets/img/examin1.png'); max-width:100%; max-height:100%;"></canvas>
-             <!-- <canvas height="500" width="600" style="background: url('assets/img/examin.jpg'); max-width:100%; max-height:100%;"></canvas> -->
-          </div>
-
-
-          <div class="signature-pad--footer">
-           
-            <div class="signature-pad--actions">
+        <canvas id="vasc_signature-pad1" height="500" width="600" style="background: url('/assets/img/froms/varicose_vein_1_small.png') no-repeat; max-width:100%; max-height:100%;"></canvas>
               <div><button type="button" id="clear_vasc_signature" class="btn btn-sm btn-danger">Clear</button></div>
-              <!-- <div>
-                <button type="button" class="button clear btn btn-warning" data-action="clear">Clear</button>
-                <button type="button" class="button save btn btn-success" data-action="save-png">Save</button>
-                <input type="color" class="button" data-action="change-color">Change color
-                 --><!-- <button type="button" class="button" data-action="undo">Undo</button>
-
-              </div> -->
-              <div>
-                
-               <!--  <button type="button" class="button save" data-action="save-jpg">Save as JPG</button>
-                <button type="button" class="button save" data-action="save-svg">Save as SVG</button> -->
-              </div>
-            </div>
-          </div>
-        </div>
-
-
+       
       </div>
+       <div class="col-md-4">
+        <canvas id="vasc_signature-pad2" height="500" width="600" style="background: url('/assets/img/froms/varicose_vein_2_small.png') no-repeat; max-width:100%; max-height:100%;"></canvas>
+              <div><button type="button" id="clear_vasc_signature1" class="btn btn-sm btn-danger">Clear</button></div>
+       
+      </div>
+       <div class="col-md-4">
+        <canvas id="vasc_signature-pad3" height="500" width="600" style="background: url('/assets/img/froms/varicose_vein_3_small.png') no-repeat; max-width:100%; max-height:100%;"></canvas>
+              <div><button type="button" id="clear_vasc_signature2" class="btn btn-sm btn-danger">Clear</button></div>
+       
+      </div>
+    </div>
 
       <div class="row form-group">
         <div class="col-md-6">
@@ -233,17 +207,17 @@
       </div>
 
 			<div class="text-center form-group">
-				<button class="btn btn-success" type="button" @click="saveVascularExamination()">Submit</button>
+				<button class="btn btn-success" type="button" @click="saveVascularExamination()">Save Data</button>
 			</div>
 
 		</form>
-		  <select-patient-modal @confirmed="deleteConfirmed()"></select-patient-modal>
+		  <!-- <select-patient-modal @confirmed="deleteConfirmed()"></select-patient-modal> -->
 	</div>
 </template>
 <script >
 	import User from '../../../api/users.js'
 	import addressograph from './addressograph.vue';
-	import SelectPatientModal from '../../../components/SelectPatientModal.vue';
+	// import SelectPatientModal from '../../../components/SelectPatientModal.vue';
   import SignaturePad from 'signature_pad';
     export default {
         data() {
@@ -287,13 +261,15 @@
                   'ipv' : '',
                   'clinical_diagnosis' : '',
                   'signaturePad1':{},
+                  'signaturePad2':{},
+                  'signaturePad3':{},
 
 								}
             }
         },
 				components: {
 					 addressograph,
-					 SelectPatientModal
+					 // SelectPatientModal
 			 },
 			 mounted() {
         var vm =this;
@@ -303,17 +279,25 @@
         },2000)
 			 },
 				methods: {
-                examinationChangeImage() {
+          examinationChangeImage() {
             var vm =this;
-            var canvas = document.getElementById("vasc_signature-pad");
-            // var canvas1 = document.getElementById("neuro_signature-pad1");
-            // var canvas2 = document.getElementById("doc_signature");
+            var canvas = document.getElementById("vasc_signature-pad1");
+            var canvas1 = document.getElementById("vasc_signature-pad2");
+            var canvas2 = document.getElementById("vasc_signature-pad3");
 
             var clear_vasc_signature = document.getElementById("clear_vasc_signature");
+            var clear_vasc_signature1 = document.getElementById("clear_vasc_signature1");
+            var clear_vasc_signature2 = document.getElementById("clear_vasc_signature2");
             // var clear_neuro_scribble1 = document.getElementById("clear_neuro_scribble");
 
 
             vm.vascularExaminationData.signaturePad1 = new SignaturePad(canvas, {
+              backgroundColor: 'rgb(255, 255, 255)',
+            });
+            vm.vascularExaminationData.signaturePad2 = new SignaturePad(canvas1, {
+              backgroundColor: 'rgb(255, 255, 255)',
+            });
+            vm.vascularExaminationData.signaturePad3 = new SignaturePad(canvas2, {
               backgroundColor: 'rgb(255, 255, 255)',
             });
 
@@ -321,8 +305,15 @@
             vm.resizeCanvas(canvas);
             vm.resizeCanvas(canvas1);
             vm.resizeCanvas(canvas2);
+            
             clear_vasc_signature.addEventListener("click", function (event) {
-              vm.neuroExaminationData.signaturePad3.clear();
+              vm.vascularExaminationData.signaturePad1.clear();
+            });
+            clear_vasc_signature1.addEventListener("click", function (event) {
+              vm.vascularExaminationData.signaturePad2.clear();
+            });
+            clear_vasc_signature2.addEventListener("click", function (event) {
+              vm.vascularExaminationData.signaturePad3.clear();
             });
               // if (signaturePad.isEmpty()) {
               //   alert("Please provide a signature first.");
@@ -332,6 +323,20 @@
               // }
             // });
           },
+          saveVascularExamination() {
+          let vm = this;
+          this.$validator.validateAll().then(
+              (response) => {
+                if (!this.errors.any()) {
+                   // $("body .js-loader").removeClass('d-none');
+                   vm.$store.dispatch('saveVascExamination',vm.vascularExaminationData);
+                  }
+                },
+                (error) => {
+                }
+                )
+
+         },
           resizeCanvas(canvas) {
               var ratio =  Math.max(window.devicePixelRatio || 1, 1);
               canvas.width = canvas.offsetWidth * ratio;
@@ -362,24 +367,8 @@
 	            (response) => {
 	            	if (!this.errors.any()) {
                    vm.$store.dispatch('saveVascularExamination',vm.vascularExaminationData);
-
-	            		 // $("body .js-loader").removeClass('d-none');
-        //            var vascularExaminationData = {'type':this.type,'patient_id':this.patient_id,'ipd_id':this.ipd_id,'form_data':this.vascularExaminationData};
-				    // 	User.saveDoctorsInitialAssessment(vascularExaminationData).then(
-		      //           (response) => {
-		      //           	if(response.data.status == 200) {
-		      //           		toastr.success('Vascular Examination has been saved', 'Vascular Examination', {timeOut: 5000});
-		      //           	}
-		      //           	 $("body .js-loader").addClass('d-none');
-
-		      //           },
-		      //           (error) => {
-		      //           	 $("body .js-loader").addClass('d-none');
-
-		      //           }
-		      //           )
-			     }
-			    },
+        			     }
+        			    },
                 (error) => {
                 }
                 )

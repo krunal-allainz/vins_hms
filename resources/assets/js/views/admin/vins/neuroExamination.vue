@@ -2,6 +2,20 @@
 <div class="container">
 	<div class="page-header">
 		<div class="row">
+      <div class="col-md-6">
+        <h3>Pain Assessment</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2" @click="pain_value(0)"><img src="/assets/img/pain/pain_0.jpeg" class="test"  v-bind:class="[neuroExaminationData.pain_value==0 ? 'pain_select': ''  ]"></div>
+      <div class="col-md-2" @click="pain_value(2)"><img src="/assets/img/pain/pain_1.jpeg"  v-bind:class="[neuroExaminationData.pain_value==2 ? 'pain_select': ''  ]"> </div>
+      <div class="col-md-2" @click="pain_value(4)"><img src="/assets/img/pain/pain_2.jpeg"   v-bind:class="[neuroExaminationData.pain_value==4 ? 'pain_select': ''  ]"></div>
+      <div class="col-md-2" @click="pain_value(6)"><img src="/assets/img/pain/pain_3.jpeg"   v-bind:class="[neuroExaminationData.pain_value==6 ? 'pain_select': ''  ]"></div>
+      <div class="col-md-2" @click="pain_value(8)"><img src="/assets/img/pain/pain_4.jpeg"   v-bind:class="[neuroExaminationData.pain_value==8 ? 'pain_select': ''  ]"></div>
+      <div class="col-md-2" @click="pain_value(10)"><img src="/assets/img/pain/pain_5.jpeg"   v-bind:class="[neuroExaminationData.pain_value==10 ? 'pain_select': ''  ]"></div>
+    </div>
+     
+    <div class="row">
 			<div class="col-md-6">
 				<h3>Examination</h3>
 			</div>
@@ -33,7 +47,7 @@
           <thead>
             <tr>
               <th></th>
-              <th>Biceps 123456</th>
+              <th>Biceps </th>
               <th>Triceps</th>
               <th>Supinator</th>
               <th>Knee</th>
@@ -202,9 +216,9 @@
       </div>
     </div>
 
-    <div class="row form-group">
+<!--     <div class="row form-group">
       <button class=" btn btn-success" type="button" @click="saveNeuroExamination()">Save Data</button>
-    </div>
+    </div> -->
   </form>
 
   <!-- <select-patient-modal @confirmed="deleteConfirmed()"></select-patient-modal> -->
@@ -219,6 +233,8 @@
 	import SelectPatientModal from '../../../components/SelectPatientModal.vue';
   import SignaturePad from 'signature_pad';
   import moment from 'moment';
+  import _ from 'lodash';
+
    
     export default {
       props:['doctor'],
@@ -230,8 +246,9 @@
 								'type': 'neuroExamination',
                 'patient_id': this.$store.state.Patient.patientId,
                	'ipd_id': this.$store.state.Patient.ipdId,
-                
+                'hasError':true,
                 'neuroExaminationData': {
+                  'pain_value':0,
                   'right_biceps' : '',
                   'right_triceps' : '',
                   'right_supinator' : '',
@@ -264,17 +281,34 @@
 					 addressograph,
 					 SelectPatientModal
 			 },
+      
+       created: function() {
+             this.$root.$on('submitNeuroData',this.submitData);
+        },
 			 mounted() {
         let vm =this;
 				 $('.ls-select2').select2({
 						placeholder: "Select",
 				 });
+
+         let neuroData = _.cloneDeep(vm.$store.state.Patient.neuroExaminationData);
+         if(neuroData.pain_value){
+
+            vm.neuroExaminationData = neuroData; 
+         }
          setTimeout(function(){
           vm.examinationChangeImage();
- 
-        },2000)
+          
+        },1000)
 			 },
 				methods: {
+          pain_value(pain){
+            this.neuroExaminationData.pain_value = pain;
+          },
+          submitData(){
+            let vm =this;
+            vm.$store.dispatch('saveNeuroExamination',vm.neuroExaminationData);
+          },
 		    GetSelectComponent(componentName) {
 		       this.$router.push({name: componentName})
 		    },
@@ -285,22 +319,7 @@
 	            	if (!this.errors.any()) {
 	            		 // $("body .js-loader").removeClass('d-none');
                    vm.$store.dispatch('saveNeuroExamination',vm.neuroExaminationData);
-                    // $("body .js-loader").addClass('d-none');
 
-                //    var neuroExaminationData = {'type':this.type,'patient_id':this.patient_id,'ipd_id':this.ipd_id,'form_data':this.neuroExaminationData};
-        			    	// User.saveNeuroExamination(neuroExaminationData).then(
-        	       //          (response) => {
-        	       //          	if(response.data.status == 200) {
-        	       //          		toastr.success('Neuro Examination has been saved', 'Neuro Examination', {timeOut: 5000});
-        	       //          	}
-        	       //          	 $("body .js-loader").addClass('d-none');
-
-        	       //          },
-        	       //          (error) => {
-        	       //          	 $("body .js-loader").addClass('d-none');
-
-        	       //          }
-        	       //          )
         		    	}
         		    },
                 (error) => {
