@@ -261,7 +261,7 @@
           <label for="prescription">Prescription:</label>
         </div>
         <div class="col-md-12">
-          <select class="form-control ls-select2" multiple="multiple" name="prescription" id="prescription"  >
+          <select class="form-control ls-select2" multiple="multiple" name="prescription" id="prescription" v-validate="'required'" >
             <option value="">Select</option>
             <option v-for="pres in prescriptionOption" :value="pres.name">{{pres.name}}</option>
           </select>
