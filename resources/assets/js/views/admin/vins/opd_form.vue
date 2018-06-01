@@ -313,16 +313,16 @@
       <div class=" form-group" id="radio_div1" v-show="opdData.referral == 'radiology'">
         <div class="">
             <div class="row form-group">
-               <div class="col-md-12"> 
-                <div class="col-md-6">
-                  <div class="col-md-12">
+               <div class="col-md-6"> 
+                <div class="col-md-12">
+               
                   <label>Select Radiology:</label>
                    
                   <br>
                   <select class="form-control ls-select2" id="radiology_type_opd" name="radiology_type_opd">
                     <option v-for="type in investigationData.radiologyType" :value="type.value">{{type.text}}</option>
                   </select>
-                  </div>
+                  
                 </div>
                 <div class="col-md-6" v-show="resultData.type == 'X-Rays'">
                   <div class="col-md-12">
@@ -360,9 +360,9 @@
                 
             </div>
             <div class="row form-group">
-              <div class="col-md-12">
-
               <div class="col-md-6">
+
+              <div class="col-md-12">
                 <label>Select Qualifires:</label>
                 <br>  
                   <select class="form-control " id="radiology_qualifier_opd" name="radiology_qualifier_opd" v-if="resultData.type == 'MRI'" v-model="resultData.qualifier">
@@ -370,14 +370,14 @@
                   </select>
                   <input type="text" name="qualifier_opd" id="qualifier_opd" class="form-control" v-model="resultData.qualifier" v-else>
               </div>
-              <div class="col-md-6" v-if="resultData.type == 'MRI'">
+              <div class="col-md-12" v-if="resultData.type == 'MRI'">
                     <label>Select Special request:</label>
                     <br>
                       <select class="form-control" id="radiology_special_request_opd" name="radiology_special_request_opd" v-model="resultData.special_request">
                         <option v-for="obj in investigationData.radiologySpecialRequest" :value="obj.text">{{obj.text}}</option>
                       </select>
               </div>
-              <div class="col-md-6" v-else>
+              <div class="col-md-12" v-else>
                 <label>Select Special request:</label>
                 <br>
                   <input type="text" name="special_request_opd" id="special_request_opd" class="form-control" v-model="resultData.special_request">
