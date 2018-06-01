@@ -51,9 +51,9 @@
                 <label for="date">Weight:</label>
               </div>
               <div class="col-md-6">
-                <input type="text" name="weight" id="weight" class="form-control" v-model="opdData.weight"  placeholder="In kgs"   v-validate="'required'">
+                <input type="text" name="weight" id="weight" class="form-control" v-model="opdData.weight"  placeholder="In kgs"   v-validate="'required|numeric'">
                   <span class="help is-danger" v-show="errors.has('weight')">
-                    Field is required
+                    Field and Numeric value required
                   </span>
                 </div>
               </div>
@@ -62,9 +62,9 @@
                   <label for="date">Height:</label>
                 </div>
                 <div class="col-md-9">
-                  <input type="text" name="height" id="height" class="form-control" placeholder="In cms" v-model="opdData.height"  v-validate="'required'">
+                  <input type="text" name="height" id="height" class="form-control" placeholder="In cms" v-model="opdData.height"  v-validate="'required|numeric'">
                     <span class="help is-danger" v-show="errors.has('height')">
-                      Field is required
+                      Field and Numeric value required
                     </span>
                   </div>
                 </div>
@@ -261,7 +261,7 @@
           <label for="prescription">Prescription:</label>
         </div>
         <div class="col-md-12">
-          <select class="form-control ls-select2" multiple="multiple" name="prescription" id="prescription"  v-validate="'required'">
+          <select class="form-control ls-select2" multiple="multiple" name="prescription" id="prescription"  >
             <option value="">Select</option>
             <option v-for="pres in prescriptionOption" :value="pres.name">{{pres.name}}</option>
           </select>
@@ -313,7 +313,7 @@
       <div class=" form-group" id="radio_div1" v-show="opdData.referral == 'radiology'">
         <div class="">
             <div class="row form-group">
-              <!-- <div class="col-md-12"> -->
+               <div class="col-md-12"> 
                 <div class="col-md-6">
                   <div class="col-md-12">
                   <label>Select Radiology:</label>
@@ -332,7 +332,7 @@
                     </select>
                   </div>
                 </div>
-              <!-- </div> -->
+              </div> 
             </div>
             <div class="row form-group">
               <div class="col-md-6">
@@ -821,7 +821,9 @@
                 this.$validator.validateAll().then(
                 (response) => {
                   // if (!this.errors.any()) {
+
                     vm.curStep = vm.curStep+1;
+
                     vm.$store.dispatch('setOpdData',vm.opdData);
                     vm.$store.dispatch('setResData',vm.finalResultData);
                   // }
@@ -923,10 +925,12 @@
             // // var signaturePad = new SignaturePad(canvas, {
             // //   backgroundColor: 'rgb(255, 255, 255)',
             // // });
+
             toastr.success('Report has been saved succeessfully', 'OPD Report', {timeOut: 5000});
             // window.onresize = vm.resizeCanvas(canvas);
             // vm.  (canvas);
             var opdData = this.opdData;
+             this.$router.push({'name':'opd_form_thankyou'});
             // if (vm.signaturePad.isEmpty()) {
               //  alert("Please provide a signature first.");
               //} else {
