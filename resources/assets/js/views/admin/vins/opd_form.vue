@@ -270,6 +270,17 @@
           </span>
         </div>
       </div>
+      <div class="col-md-6">
+        <div class="col-md-12">
+          <label for="quantity">Quantity:</label>
+        </div>
+        <div class="col-md-12">
+            <input type="text" name="prescription_quantity" id="prescription_quantity" class="form-control" v-model="opdData.prescription_quantity">
+          <span class="help is-danger" v-show="errors.has('prescription_quantity')">
+            Field is required
+          </span>
+        </div>
+      </div>
     </div>
     <div class="row form-group">
       <div class="col-md-6">
@@ -301,36 +312,41 @@
     <div >
       <div class=" form-group" id="radio_div1" v-show="opdData.referral == 'radiology'">
         <div class="">
-            <div class="form-group">
+            <div class="row form-group">
               <!-- <div class="col-md-12"> -->
                 <div class="col-md-6">
+                  <div class="col-md-12">
                   <label>Select Radiology:</label>
                    
                   <br>
                   <select class="form-control ls-select2" id="radiology_type_opd" name="radiology_type_opd">
                     <option v-for="type in investigationData.radiologyType" :value="type.value">{{type.text}}</option>
                   </select>
-                  
+                  </div>
                 </div>
                 <div class="col-md-6" v-show="resultData.type == 'X-Rays'">
-                  <label> Select Type</label>
-                  <select class="form-control" id="xray_type_opd" name="xray_type_opd" v-model="resultData.x_ray_type">
-                    <option v-for="type in investigationData.xray_type_options" :value="type.value">{{type.text}}</option>
-                  </select>
+                  <div class="col-md-12">
+                    <label> Select Type</label>
+                    <select class="form-control" id="xray_type_opd" name="xray_type_opd" v-model="resultData.x_ray_type">
+                      <option v-for="type in investigationData.xray_type_options" :value="type.value">{{type.text}}</option>
+                    </select>
+                  </div>
                 </div>
               <!-- </div> -->
             </div>
             <div class="row form-group">
-              <div class="col-md-12">
+              <div class="col-md-6">
 
-                <div class="col-md-6">
+                <div class="col-md-12">
                   <label>Body Parts:</label>
                   <br>
                   <select class="form-control ls-select2" id="radiology_subtype_opd" name="radiology_subtype_opd">
                     <option v-for="obj in investigationData.radiologySubType" :value="obj.text">{{obj.text}}</option>
                   </select>
                 </div>
-                <div class="col-md-6" v-if="resultData.subtype_text_enable">
+              </div>
+              <div class="col-md-6">
+                <div class="col-md-12" v-if="resultData.subtype_text_enable">
                   <label> Other Parts</label>
                   <input type="text" name="subType_text_opd" id="subType_text_opd" class="form-control" v-model="resultData.bodyPart">
                 </div>
@@ -630,6 +646,7 @@
                 'past_history':'',
                 'pastHistoryType': 'scribble',
                 'prescription':[],
+                'prescription_quantity':'',
                 'advise':'',
                 'referral':'',
                 'cross':'',
@@ -672,7 +689,9 @@
           }); 
          var vm =this;  
          
-       
+          setTimeout(function(){
+            vm.doctor = vm.$store.state.Users.userDetails.first_name+' '+vm.$store.state.Users.userDetails.last_name;  
+          },1000);
           $(document).on("select2:select",'.ls-select2', function (e) { 
             if(this.id == 'referral'){
               vm.opdData.referral=$(this).val();
@@ -735,8 +754,8 @@
         setTimeout(function(){
           vm.examinationChangeImage();
            
+            vm.getPrescriptionList();
         },2000)
-        vm.getPrescriptionList();
         },
         methods: {
           saveReport() {
@@ -786,9 +805,13 @@
           },
           prev(){
             let vm =this;
-            if(vm.curStep> 0){
-              vm.curStep = vm.curStep-1;
-            }
+            vm.$root.$emit('submitNeuroData');
+            // setTimeout(function(){
+              if(vm.curStep> 0){
+                vm.curStep = vm.curStep-1;
+              }  
+            // },3000)
+            
             vm.opdData =  _.cloneDeep(vm.$store.state.Patient.opdData);
             vm.resultData = _.cloneDeep(vm.$store.state.Patient.opd_resultData);
             vm.initLastData();
