@@ -64,7 +64,7 @@
 				'priscriptionData':this.$store.state.Patient.opdData.prescription,
 				'referalType':this.$store.state.Patient.opdData.referral,
 				'crossType':this.$store.state.Patient.opdData.cross,
-				'radiologyData':this.$store.state.Patient.opdData.advise,
+				'radiologyData':this.$store.state.Patient.resultData,
 			}
 		},
 		components: {
@@ -114,6 +114,7 @@
 				$('#printContent').html('');
 				$('.printReceiptPage').html('');
 				let getReferalType =  this.referalType;
+				
 				let data = '';
 				var html = "<div class='row'><div class='col-md-6 text-left'>";
 					html +="<span class='text-left'><b>By :</b>"+this.adviceDoctor; 
@@ -136,9 +137,15 @@
 				 		}
 
 					}else if(getReferalType == 'radiology'){
+						data = "<div class='table-responsive'><table class='table' id='radio_list'";
+						 data += "align='center'><thead><tr><th>#</th>";
+                        data += "<th>Type</th><th>Body parts</th><th>Qualifier</th><th>Special request</th>";
+                        data +="</tr></thead><tbody><tr style='font-size:13px;'><td>1</td><td>CT</td>";
+                         data +="<td>Upper Abdomen</td>";
+                        data += "<td> Qualifires</td><td> Special request</td></tr> </tbody> </table> </div>";
 
 					}else{
-
+						data ="";
 					}
 					html +=  data;
 		            if ($("#printContent .printReceiptPage").length == 0){	
