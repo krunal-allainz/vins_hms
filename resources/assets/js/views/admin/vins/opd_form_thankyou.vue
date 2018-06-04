@@ -30,11 +30,41 @@
 		 			<div class="modal-header">
 		 				<vinsletterheadheaderpart></vinsletterheadheaderpart>
 		 			</div>
-		 			<div class="modal-body" id="printContent">	
+		 			<div class="modal-body">
+			 			<div  id="printContent">
+			 			</div>
+			 			<div  v-if="(printType=='referal' &&  referalType == 'radiology')">	
+		 				<table class="table" id="radio_list">
+			                  <thead>
+			                  <tr>
+			                      <th>#</th>
+			                      <th>Type</th>
+			                      <th>Body parts</th>
+			                      <th>Qualifier</th>
+			                      <th>Special request</th>
+			                      <!-- <th>Details</th> -->
+			                      <!-- <th>Gallery</th> -->
+			                  </tr>
+			                  </thead>
+			                  <tbody>
+			                  <tr v-if="res.removed == false" v-for="(res,index) in radiologyData">
+			                      <td>{{++index}}</td>
+			                      <td>{{res.type}}</td>
+			                      <td>{{res.bodyPart}}</td>
+			                      <td>{{res.qualifier}}</td>
+			                      <td>{{res.special_request}}</td>
+			                      <!-- <td>{{res.textData | strLimit}}</td> -->
+			                      <!-- <td><a href="javascript:void(0)" @click="viewGallery(res.id)" class="red">View</a></td> -->
+			                      <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
+			                      
+			                  </tr>
+			                  
+			                  </tbody>
+			            </table>
+		 			</div>
+		 			</div>
 		 				
-		 				
-            			</div>	
-            	
+            			
 				<vinsletterheadfooterpart></vinsletterheadfooterpart>
        		<div class="modal-footer">	
 				
@@ -66,7 +96,8 @@
 				'priscriptionData':this.$store.state.Patient.opdData.prescription,
 				'referalType':this.$store.state.Patient.opdData.referral,
 				'crossType':this.$store.state.Patient.opdData.cross,
-				'radiologyData':this.$store.state.Patient.resultData,
+				'radiologyData':this.$store.state.Patient.opd_resultData,
+				'printType':'',
 			}
 		},
 		components: {
@@ -76,7 +107,7 @@
 
 		methods: {
 			printAdvice(){
-				
+				this.printType = 'advice';	
 				$('#printContent').html('');
 				$('.printReceiptPage').html('');
 				var html = "<div class='row'><div class='col-md-6 text-left'>";
@@ -92,6 +123,8 @@
 		               	}
 			},
 			printPriscription(){
+				this.printType = 'prescription';	
+
 				$('#printContent').html('');
 				$('.printReceiptPage').html('');
 				var html = "<div class='row'><div class='col-md-6 text-left'>";
@@ -113,6 +146,8 @@
 		                	}
 			},
 			printReferal(){
+				this.printType = 'referal';	
+
 				$('#printContent').html('');
 				$('.printReceiptPage').html('');
 				let getReferalType =  this.referalType;
@@ -139,12 +174,13 @@
 				 		}
 
 					}else if(getReferalType == 'radiology'){
-						data = "<div class='table-responsive'><table class='table' id='radio_list'";
-						 data += "align='center'><thead><tr><th>#</th>";
-                        data += "<th>Type</th><th>Body parts</th><th>Qualifier</th><th>Special request</th>";
-                        data +="</tr></thead><tbody><tr style='font-size:13px;'><td>1</td><td>CT</td>";
-                         data +="<td>Upper Abdomen</td>";
-                        data += "<td> Qualifires</td><td> Special request</td></tr> </tbody> </table> </div>";
+						// data = "<div class='table-responsive'><table class='table' id='radio_list'";
+						//  data += "align='center'><thead>";
+						// data += "<tr ><th>#</th>";
+      //                   data += "<th>Type</th><th>Body parts</th><th>Qualifier</th><th>Special request</th>";
+      //                   data +="</tr></thead><tbody><tr style='font-size:13px;'><td>1</td><td>CT</td>";
+      //                    data +="<td>Upper Abdomen</td>";
+      //                   data += "<td> Qualifires</td><td> Special request</td></tr> </tbody> </table> </div>";
 
 					}else{
 						data ="";
