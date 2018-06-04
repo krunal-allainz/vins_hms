@@ -104,7 +104,7 @@ import vinsletterheadfooterpart from './views/admin/vins/vins_letter_footer.vue'
 
 //import changePwd from './views/emails/ChangePwd.vue'
 
-import UserList from './views/admin/vins/userList.vue'
+import UserList from './views/admin/vins/UserList.vue'
 
 import investigations from './components/investigations.vue'
 
