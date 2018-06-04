@@ -1,5 +1,5 @@
 <template id="">
-  <div class="container">
+  <div class="container" style="padding: 170px 0px;">
     <div class="page-header">
       <div class="row text-center">
         <div class="col-md-12">
@@ -25,8 +25,8 @@
     	 </div>
     </form>
      <div id="printModal" class="modal fade">
-     	<div class="modal-dialog">
-		 		<div class="modal-content">
+     	<div class="modal-dialog" id="printData">
+		 		<div class="modal-content" >
 		 			<div class="modal-header">
 		 				<vinsletterheadheaderpart></vinsletterheadheaderpart>
 		 			</div>
@@ -38,7 +38,7 @@
 				<vinsletterheadfooterpart></vinsletterheadfooterpart>
        		<div class="modal-footer">	
 				
-				<!--<button  type="button" class="btn btn-primary"  @click="ClickHereToPrint()">Print</button>		      -->	
+				<button  type="button" class="btn btn-primary"  @click="ClickHereToPrint()">Print</button>	
 			
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>	
 
@@ -159,13 +159,13 @@
 			ClickHereToPrint() {	
 				    try {	
 				    	var  printContent = '';	
-				        printContent = document.getElementById('printContent').innerHTML;	
+				        printContent = document.getElementById('printData').innerHTML;	
 					        var windowUrl = '';	
 					        var uniqueName = new Date();	
 					        var windowName = 'Print' + uniqueName.getTime();	
-					        var printWindow = window.open(windowUrl, windowName, 'left=50000,top=50000,width=0,height=0');	
-					        printWindow.document.write('<html><body><div class="wrapper">'+printContent+'</div></body></html>');	
-	
+					        var printWindow = window.open(windowUrl, windowName, 'left=50000,top=50000,width=0,height=0');
+					        printWindow.document.write('<!DOCTYPE html><html><head><meta charset="utf-8" /></head><body><div class="wrapper">'+printContent+'</div></body></html>');	
+							alert(printContent);
 				        printWindow.document.close();	
 				        printWindow.focus();	
 				        printWindow.print();	

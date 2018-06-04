@@ -122,7 +122,8 @@
 		 			<div class="modal-header">
 		 			</div>
 		 			<div class="modal-body" id="printContent">	
-            	</div>	
+		 				
+            		</div>	
             	
 	
        		<div class="modal-footer">	
