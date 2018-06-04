@@ -82,10 +82,12 @@ export default {
                         setTimeout(function(){
                             var userId = Ls.get('userId');
                             vm.$store.dispatch('SetUserDetailsData',userId);
+                            vm.$router.push({'name':'opd_form'});
+
                         },500)
                         
+                         
 
-                         this.$router.push({'name':'opd_form'});
                     })
                 )}
                 else {
