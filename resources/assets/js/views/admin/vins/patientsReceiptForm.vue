@@ -54,7 +54,7 @@
 							        <span  v-if="data.gender=='F'">	
 						             Female	
 							        </span>	
-							        / <span id=age>{{patientData.age}}</span>	
+							        / <span id="age">{{patientData.age}}</span>	
 							     </div>	
 						 </div>	
 							  <div class="col-md-6">	
@@ -177,6 +177,7 @@
 	          	 	 placeholder: "Select"
 	          	  }); 
 	          	   let vm =this;
+	          	   let list = [];
 
 	          	    $('#patient').on("select2:select", function (e) { 
 	          	    patientId = $(this).val();
@@ -246,8 +247,9 @@
   							 	vm.patientData.casetype = caseType;
   							 	vm.patientData.patient_id = pid;
   							 	vm.patientData.reference_dr = consulatant;
-  							 	vm.handleDOBChanged();
+  							 	
   							 	}
+  							 	this.handleDOBChanged();
   							 	},	
 				    		(error) => {	
 				   			 },
@@ -255,6 +257,7 @@
 	               	});
 
 	               	 User.getAllPatientName().then(
+
 	               	 (response) => {
 	               	 		let patien_data ;
 	               	 		patien_data = response.data;
@@ -342,14 +345,13 @@
 			},	
 				handleDOBChanged() { 	
 				   // $('#dob').on('change', function () {	
+				   		alert(this.patientData.dob);
 				      if (this.isDate(this.patientData.dob)) {	
-				        var age = this.calculateAge(this.parseDate(this.patientData.dob), new Date());	
-				      	//$("#age").html(age);  	
-				      	this.patientData.age = age; 	
-				      } else {	
-				        //$("#age").html('');   	
-				        this.patientData.age = age;	
-				      }      	
+				        var ageCal = this.calculateAge(this.parseDate(this.patientData.dob), new Date());	
+				      	//$("#age").html(age); 
+
+				      	this.patientData.age = ageCal; 	
+				      }     	
 				  //  });	
 				},	
 	
@@ -368,7 +370,7 @@
 				    var birthYear = dateOfBirth.getFullYear();	
 				    var birthMonth = dateOfBirth.getMonth();	
 				    var birthDay = dateOfBirth.getDate();	
-	
+					
 				    var age = calculateYear - birthYear;	
 				    var ageMonth = calculateMonth - birthMonth;	
 				    var ageDay = calculateDay - birthDay;	
@@ -426,8 +428,8 @@
 					        var windowUrl = '';	
 					        var uniqueName = new Date();	
 					        var windowName = 'Print' + uniqueName.getTime();	
-					        var printWindow = window.open(windowUrl, windowName, 'left=50000,top=50000,width=0,height=0');	
-					        printWindow.document.write('<html><body><div class="wrapper">'+printContent+'</div></body></html>');	
+					        var printWindow = window.open(windowUrl, windowName, 'left=5000,top=5000,width=0,height=0');	
+					        printWindow.document.write(printContent);	
 	
 				        printWindow.document.close();	
 				        printWindow.focus();	

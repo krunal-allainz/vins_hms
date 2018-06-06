@@ -10,11 +10,12 @@
         		<div class="col-md-12 text-center">	
         			<div class="address text-center">99,Urmi Society, Opp Haveli Productivity Road, Akota Vadodara. Ph :(0265)2331343 , 2341787 </div>	
         		</div>	
+                <div class="col-md-12 text-center"> 
+        -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</div>
 			</div>	
-			<div class="row">	
-        		<div class="col-md-12">	
-		--------------------------------------------------------------------------------------------------------------------------------------------------------------------	
-		</div>	
+			
+        			
+		
 			
 	
          <table class="table" align="center" cellspacing=0>	
@@ -83,7 +84,46 @@
 	</div>	
 	
 	
- <style type="text/css">	
+ <style type="text/css">
+ html {
+    -ms-overflow-style: scrollbar;
+    -webkit-tap-highlight-color: transparent;
+}
+body {
+    background-color: #fff;
+    font-family: "Lato", sans-serif;
+    color: #595959;
+    font-size: small;
+    letter-spacing: 0.5px;
+    font-weight: normal;
+    line-height: 1.5;
+}	
+.row {
+    margin-right: -15px;
+    margin-left: -15px;
+}
+.text-center {
+        text-align: center !important;
+    }
+    .text-left {
+        text-align: left !important;
+    }
+    .text-right {
+        text-align: right !important;
+    }
+    .col-md-12 {
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    .text-capitalize {
+        text-transform: capitalize !important;
+    }
+    .col-md-6 {
+        -ms-flex: 0 0 50%;
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
  #receiptModal .modal-content{	
     width : 850px;	
 }	
@@ -108,8 +148,60 @@
 }	
 #printContent table tr.borderTop{	
     border-top: 1px solid #ddd !important;	
+}
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #eceeef;
+}
+.table th, .table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #eceeef;
+}
+@page {
+    margin: 5px;
+    size: landscape;
 }	
 @media print {	
+  html {
+    -ms-overflow-style: scrollbar;
+    -webkit-tap-highlight-color: transparent;
+}
+body {
+     background-color: #fff;
+    font-family: "Lato", sans-serif;
+    color: #595959;
+    font-size: small;
+    letter-spacing: 0.5px;
+    font-weight: normal;
+    line-height: 1.5;
+}   
+.row {
+    margin-right: -15px;
+    margin-left: -15px;
+}
+.text-center {
+        text-align: center !important;
+    }
+    .text-left {
+        text-align: left !important;
+    }
+    .text-right {
+        text-align: right !important;
+    }
+    .col-md-12 {
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    .text-capitalize {
+        text-transform: capitalize !important;
+    }
+    .col-md-6 {
+        -ms-flex: 0 0 50%;
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
     .printReceiptPage table, th, td, tbody, thead, tr{	
         border : 0 !important;	
         padding : 3px 0px !important;	
@@ -125,6 +217,15 @@
     table tr.borderTop{	
         border-top: 1px solid #ddd !important;	
     }	
+    .table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #eceeef;
+    }
+    .table th, .table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #eceeef;
+    }
 }	
 	
 	

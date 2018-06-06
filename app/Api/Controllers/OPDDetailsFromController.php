@@ -8,6 +8,7 @@ use euro_hms\Http\Controllers\Controller;
 use euro_hms\Models\PatientDetailsForm;
 use euro_hms\Models\OpdDetails;
 use Illuminate\Support\Facades\Response;
+use euro_hms\Custom\Helper\Common;
 
 class OPDDetailsFromController extends Controller
 {
@@ -43,12 +44,17 @@ class OPDDetailsFromController extends Controller
 
     /**
     * get opd cse detail in array.
-      * @param  int  $OPDCaseData
-     * @return \Illuminate\Http\Response
-     */
+    * @param  int  $OPDCaseData
+    * @return \Illuminate\Http\Response
+    */
     public function printCaseData(Request $request)
     {
-    
-         return view("opdcaseprint",['data'=> $request->OPDCaseData])->render();    
+        
+        $data =  $request->OPDCaseData;
+        $url = common::getCurrentSiteUrl();
+
+         return view("opdcaseprint",compact('data','url')); 
+
+          
     }
 }
