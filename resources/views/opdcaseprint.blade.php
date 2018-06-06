@@ -379,7 +379,7 @@
 			 		<span class='text-left'><b>{{$data['crossType']}}</b></span> {{$data['crossSelectedValue']}}
 			 		</div>
 			</div>
-		@endifs
+		@endif
 		@if($data['crossType'] == 'external')
 			<div>
 				<div class='col-md-6 text-left'>

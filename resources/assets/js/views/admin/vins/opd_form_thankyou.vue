@@ -183,7 +183,7 @@
 							if(this.crossType == 'internal'){
 								this.crossSelectedValue = this.$store.state.Patient.opdData.cross_type_int;
 							}
-							if(this.crossType == 'internal'){
+							if(this.crossType == 'external'){
 								this.crossSelectedValue = this.$store.state.Patient.opdData.cross_type_ext;
 							}
 						}
