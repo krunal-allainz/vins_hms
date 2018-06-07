@@ -189,17 +189,6 @@
 						}
        },
 		methods: {
-			/*printAdvice(){
-				this.printType = 'advice';	
-				$('#printContent').html('');
-				$('.printReceiptPage').html('');
-
-		           /*     if ($("#printContent .printReceiptPage").length == 0){	
-		                		$("#printContent").append(html);	
-		                }else{	
-		                		$("#printContent").append(html);
-		               	}*/
-			
 
 			ClickHereToPrint() {	
 				
@@ -213,12 +202,11 @@
 							'todayDate': this.todayDate,
 							'crossSelectedValue' : this.crossSelectedValue
 						};
-						
-				       // var printContent1 = document.getElementById('printData').innerHTML;
-				      	// var  printContent = '';	
+
 				      	User.printOPDCaseData(OPDCaseData).then(	
 		                (response) => { 
-		                	var printContent = response.data;	
+		                	var printContent = "";
+		                	printContent = response.data;	
 				        	//$('#receiptModal').modal({show:true}); 
 		                	// try {
 		                    var windowUrl = '';	
@@ -226,8 +214,7 @@
 					        //var windowName = 'Print' + uniqueName.getTime();	
 					        var uniqueName = '';/*new Date();	*/
 					         var windowName = '';/*'Print' + uniqueName.getTime();	*/
-					        var printWindow = window.open(windowUrl, windowName, 'left=1000,top=1000,width=100, height=100');
-					        // console.log(printWindow);
+					        var printWindow = window.open(windowUrl, windowName, 'left=10,top=10,width=0, height=0');
 					        printWindow.document.write(printContent);	
 
 				        printWindow.document.close();	

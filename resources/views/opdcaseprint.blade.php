@@ -295,7 +295,8 @@
 	
      @page{
     	margin: 0px;
-    	 size: landscape;
+    	 size: portrait;
+
     }
 @media (min-width: 768px)
 	.hidden-md-up {
@@ -306,7 +307,7 @@
 </head>
 <body>
 	
-	<div class="container" style="padding-bottom:15px;">
+	<div class="container" style="padding:15px;">
     <div class="page-header"> 
        <div class="row">
         <div class="col-md-12 letter-head">
@@ -314,7 +315,7 @@
         </div>
       </div>
     </div>  
-  </div>
+  
   	<div class='row'>
 		<div class='col-md-12 text-center'>
 			<h4>OPD CASE </h4>
@@ -322,21 +323,19 @@
 		</div>
   	</div>
   	<div class='row' style="padding-left: 15px;padding-right:15px;">
-  		<div class='col-md-12'>
-			<div class='col-md-6 text-left'>
-				<span class='text-left'><b>Ref By :</b></span>
-					{{$data['adviceDoctor']}} 
-	    	</div>
-	    	<div class='col-md-6 text-right'>
-	    	 	<span class='text-right'><b>Date :</b> 
-	    	 	 	{{$data['todayDate']}} 
-	    	 	</span>
-	    	</div>
-	    </div>
+	    	 <table class="table" align="center" cellspacing=0>	
+         	<thead>	
+         		<tr>	
+         			<td class="text-left"><b>Ref By :</b>{{$data['adviceDoctor']}} </td>	
+         			<td class="text-center"><b>Date :</b> 	{{$data['todayDate']}} </td>	
+         		</tr>	
+         	</thead>
+         </table>
+	    
     </div>	
 	<br/><br/>
 	@if($data['advice'] != null)
-	<div>
+	<div  style="padding-left: 35px;">
 		<div class='col-md-6 text-left'>
 			<span class='text-left'><b>Advice :-</b></span>
 		</div>
@@ -350,7 +349,7 @@
 	@endif 
 	
 	@if(count($data['priscriptionData']) > 0)
-	<div>
+	<div style="padding-left: 35px;">
 		<div class='col-md-6 text-left'>
 			<span class='text-left'><b>prescription :-</b></span>
 		</div>
@@ -364,7 +363,7 @@
 	<br/><br/>
 	@endif
 	@if($data['referalType'] != null)
-	<div> 
+	<div style="padding-left: 35px;"> 
 		<div class='col-md-6 text-left'>
 			<span class='text-left'><b>Referal :-</b></span>
 		</div>
@@ -372,16 +371,16 @@
 	@endif
 
 	@if($data['referalType'] == 'cross')
-	<div >
+	<div style="padding-left: 40px;">
 		@if($data['crossType'] == 'internal')
-			<div>
+			<div class='row' style="padding-left: 15px;padding-right:15px;">
 			 	<div class='col-md-6 text-left'>
 			 		<span class='text-left'><b>{{$data['crossType']}}</b></span> {{$data['crossSelectedValue']}}
 			 		</div>
 			</div>
 		@endif
 		@if($data['crossType'] == 'external')
-			<div>
+			<div style="padding-left: 40px;">
 				<div class='col-md-6 text-left'>
 			 		<span class='text-left text-capitalize' style='padding-left:30px;padding-right;20px'><b>{{$data['crossType']}}
 			 					</b></span>
@@ -392,7 +391,7 @@
 	</div>
 	@endif
 	@if($data['referalType'] == 'radiology')
-	<div class="col-md-12 text-left">	
+	<div style="padding-left: 40px;">	
 		<table class="table" id="radio_list">
 			<thead>
 				<tr>
@@ -448,6 +447,7 @@
       		</div>	
       	</div>	
 	  </div>
+	</div>
 </div>
 </body>
 <html>

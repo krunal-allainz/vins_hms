@@ -177,7 +177,7 @@
 	          	 	 placeholder: "Select"
 	          	  }); 
 	          	   let vm =this;
-	          	   let list = [];
+	          	  
 
 	          	    $('#patient').on("select2:select", function (e) { 
 	          	    patientId = $(this).val();
@@ -187,7 +187,7 @@
   							if(response.data.code == 200){
   								vm.patientData.case_detail = opdDetail;
   								if(response.data.data.length != 0){
-  									$.each(response.data.data,function(key,value){
+  									$.each(response.data,function(key,value){
   										let opdId = value.id;
   										let opdNumber =  value.id;
   										opdDetail.push({'id':opdId,'text':opdNumber});
@@ -210,8 +210,8 @@
   					$('#case_no').on("select2:select", function (e) {
   						let patient_data_detail = [];
 
-  							 User.getpatientDetail(patientId).then(
-  							 	(response) => { 
+  							 User.getPatientOPDDetail(patientId).then(
+  							 	(response) => { console.log( response.data.data);
   							 		if(response.data.code == 200){
 
   							 			let patientDetails = response.data.data.patient_details;
@@ -239,6 +239,7 @@
   							 				 'references' : references,
   							 				 'uhid_no' : uhid_no
   							 			});
+  							 			
   							 	vm.patientData.select_patient_detail=patient_data_detail;
   							 	vm.patientData.dob = dob;
   							 	vm.patientData.fullname = name;
@@ -249,7 +250,7 @@
   							 	vm.patientData.reference_dr = consulatant;
   							 	
   							 	}
-  							 	this.handleDOBChanged();
+  							    vm.handleDOBChanged();
   							 	},	
 				    		(error) => {	
 				   			 },
@@ -345,11 +346,10 @@
 			},	
 				handleDOBChanged() { 	
 				   // $('#dob').on('change', function () {	
-				   		alert(this.patientData.dob);
+				   		
 				      if (this.isDate(this.patientData.dob)) {	
 				        var ageCal = this.calculateAge(this.parseDate(this.patientData.dob), new Date());	
 				      	//$("#age").html(age); 
-
 				      	this.patientData.age = ageCal; 	
 				      }     	
 				  //  });	
@@ -357,7 +357,8 @@
 	
 				//convert the date string in the format of dd/mm/yyyy into a JS date object	
 				parseDate(dateStr) { 	
-				  var dateParts = dateStr.split("/");	
+				  var dateParts = dateStr.split("-");
+				  
 				  return new Date(dateParts[2], (dateParts[1] - 1), dateParts[0]);	
 				},	
 	
@@ -374,7 +375,6 @@
 				    var age = calculateYear - birthYear;	
 				    var ageMonth = calculateMonth - birthMonth;	
 				    var ageDay = calculateDay - birthDay;	
-	
 				    if (ageMonth < 0 || (ageMonth == 0 && ageDay < 0)) {	
 			        age = parseInt(age) - 1;	
 				    }	

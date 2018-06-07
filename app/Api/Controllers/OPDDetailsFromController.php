@@ -9,6 +9,7 @@ use euro_hms\Models\PatientDetailsForm;
 use euro_hms\Models\OpdDetails;
 use Illuminate\Support\Facades\Response;
 use euro_hms\Custom\Helper\Common;
+use DB;
 
 class OPDDetailsFromController extends Controller
 {
@@ -33,7 +34,9 @@ class OPDDetailsFromController extends Controller
     {
          
         if($patientId!='') {
-            $details = OpdDetails::where('patient_id',$patientId)->get();
+
+            $details = OpdDetails::with('patientDetails')->where('patient_id',$patientId)->first();
+          
             if ($details) {
                 return ['code' => '200','data'=>$details, 'message' => 'Record Sucessfully Generated'];
             } else {
