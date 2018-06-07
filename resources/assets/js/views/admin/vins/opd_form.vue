@@ -635,7 +635,7 @@
               ],
               'opdData': {
                 'case_type': '',
-                'uhid_no': 0,
+                'uhid_no': '',
                 'name':'',
                 'age':'',
                 'gender':'',
@@ -750,6 +750,10 @@
              },500)
             }
 
+          });
+          $(document).on('hidden.bs.modal','#createPatientDetail', function () {
+            $('#case_type').val('old').trigger('change.select2');
+            vm.opdData.case_type = 'old';
           });
         setTimeout(function(){
           vm.examinationChangeImage();
@@ -957,7 +961,6 @@
               window.URL.revokeObjectURL(url);
             },
           examinationChangeImage() {
-            console.log('sdf');
             var vm =this;
             // savePNGButton.addEventListener("click", function (event) {
             var wrapper = document.getElementById("signature-pad");
