@@ -86,13 +86,20 @@ export default {
                                 var userId = Ls.get('userId');
                                 console.log('   test')
                                 vm.$store.dispatch('SetUserDetailsData',userId);
+                                console.log(' asssss')
                             // this.$router.push({'name':'opd_form'});   
                             }) 
                             setTimeout(function(){
                             // vm.$store.dispatch('SetUserDetailsData',userId);
                             jQuery('.js-loader').addClass('d-none');
+                                // console.log('   ',vm.$store.state.Users.userDetails.userType)
+                            if(vm.$store.state.Users.userDetails.user_type == 'Doctor'){
+                                
+                                    vm.$router.push({'name':'opd_form'});
+                            } else if(vm.$store.state.Users.userDetails.user_type == 'Others') {
+                                    vm.$router.push({'name':'patients_detail_form'});
 
-                            vm.$router.push({'name':'opd_form'});
+                            }
 
                             },2000)    
                         }else {
@@ -121,8 +128,8 @@ export default {
     mounted: function() {
 
         Auth.logout().then(() => {
-            toastr['success']('Logged out!', 'Success');
-            
+            // toastr['success']('Logged out!', 'Success');
+
             this.$router.replace('/login')
         })
         

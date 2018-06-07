@@ -302,22 +302,23 @@
         data() {
             return {
                 'footer' : 'footer',
-                'currentYear': new Date().getFullYear()
+                'currentYear': new Date().getFullYear(),
+                'userType': this.$store.state.Users.userDetails.user_type
             }
         },
         mounted() {
         	let vm =this;
         	$("body .js-loader").removeClass('d-none');
-        	setTimeout(function(){
-        		console.log(vm.$store.state.Users.userDetails);
-        		console.log(vm.$store.state.Users.userDetails.user_type);
-	        	if(vm.$store.state.Users.userDetails.user_type == 'Doctor'){
-	        		vm.$router.push('opd_form');
-	        	} else {
-	        		vm.$router.push('nabhReport');
+        	// setTimeout(function(){
+        		if(vm.userType == 'Doctor'){
+                		vm.$router.push({'name':'opd_form'});
+	        	} else if(vm.userType == 'Others'){
+                        vm.$router.push({'name':'patients_detail_form'});
+	        		// vm.$router.push('nabhReport');
 	        	}
+	        	
 	        	$("body .js-loader").addClass('d-none');
-        	},500)
+        	// },500)
         	
         	// this.$store.dispatch('SetIpdId',0);
 

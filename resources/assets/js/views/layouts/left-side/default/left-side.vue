@@ -7,21 +7,19 @@
                 <div class="nav_profile">
                     <!-- <profile></profile> -->
                 </div>
+                <div v-if="userRole == 'Others'">
                 <vmenu>
-                    <!-- <vmenu-item link="/" icon="ti-desktop">
-                        &nbsp; Dashboard
-                    </vmenu-item>
                     <vmenu-item link="/NewUser" icon="ti-layout">
                         &nbsp; New User
                     </vmenu-item>
-
-                    <vmenu-item link="/opd_form" icon="ti-layout" v-if="userRole == 'Doctor'" >
-                        &nbsp; OPD Form
-                    </vmenu-item>
-                    <vmenu-item link="/patients_detail_form" icon="ti-layout">
+                     <vmenu-item link="/patients_detail_form" icon="ti-layout">
                         &nbsp; Patients Detail Form
-                    </vmenu-item> -->
-                    <vsub-menu title="Emergeny Patient" icon="ti-layout">
+                    </vmenu-item>
+                </vmenu>
+                </div>
+                
+                <vmenu>
+                <!--     <vsub-menu title="Emergeny Patient" icon="ti-layout">
                         <vmenu-item link="/er_observation" icon="ti-desktop">
                              ER Observation
                         </vmenu-item>
@@ -88,7 +86,7 @@
                             Brief Operative Notes
                         </vmenu-item>
                     </vsub-menu>
-                    
+                 -->    
                     <!-- <vmenu-item link="/patients_receipt_form" icon="ti-layout">
                         &nbsp; Patients Receipt Form
                     </vmenu-item> -->
