@@ -112,6 +112,7 @@
 			                  </thead>
 			                  <tbody>
 			                  <tr v-if="res.removed == false" v-for="(res,index) in radiologyData">
+			                  	
 			                      <td>{{++index}}</td>
 			                      <td>{{res.type}}</td>
 			                      <td>{{res.bodyPart}}</td>
