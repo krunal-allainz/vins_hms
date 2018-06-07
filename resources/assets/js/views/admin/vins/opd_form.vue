@@ -926,7 +926,7 @@
             // //   backgroundColor: 'rgb(255, 255, 255)',
             // // });
 
-            toastr.success('Report has been saved succeessfully', 'OPD Report', {timeOut: 5000});
+            toastr.success('Report has been saved succeessfully', 'OPD Report', {timeOut: 2000});
             // window.onresize = vm.resizeCanvas(canvas);
             // vm.  (canvas);
             var opdData = this.opdData;

@@ -76,21 +76,38 @@ export default {
             var vm = this;
             this.$validator.validateAll().then(
                 (response) => {
+                    jQuery('.js-loader').removeClass('d-none');
+
                                     // this.$validator.validateAll();
                 if (!this.errors.any()) {(
                     Auth.login(this.loginData).then((response) => {
-                        setTimeout(function(){
-                            var userId = Ls.get('userId');
-                            vm.$store.dispatch('SetUserDetailsData',userId);
+                        if(response == 'success'){
+                            Auth.check().then((res) => {
+                                var userId = Ls.get('userId');
+                                console.log('   test')
+                                vm.$store.dispatch('SetUserDetailsData',userId);
+                            // this.$router.push({'name':'opd_form'});   
+                            }) 
+                            setTimeout(function(){
+                            // vm.$store.dispatch('SetUserDetailsData',userId);
+                            jQuery('.js-loader').addClass('d-none');
+
                             vm.$router.push({'name':'opd_form'});
 
-                        },500)
+                            },2000)    
+                        }else {
+                            jQuery('.js-loader').addClass('d-none');
+
+                        }
+                        
                         
                          
 
                     })
                 )}
                 else {
+                    jQuery('.js-loader').addClass('d-none');
+
                 toastr.error('Please enter email and password.', 'Login error', {timeOut: 5000});
                 }
             });
@@ -102,7 +119,10 @@ export default {
 
     },
     mounted: function() {
-    console.log(Ls.get('userId'),Ls.get('email'));
+        Auth.logout().then(() => {
+            this.$router.replace('/login')
+        })
+        
 
     },
        
