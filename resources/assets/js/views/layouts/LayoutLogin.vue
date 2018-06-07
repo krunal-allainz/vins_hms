@@ -15,7 +15,7 @@
                             <div class="col-12">
                                 <form method="post">
                                     <div class="row">
-                                        <div class="col-sm-12 mt-3 ">
+                                        <div class="col-sm-12 mt-3">
                                             <div class="form-group">
                                                     <input v-model="loginData.email" name="email" id="email" type="email" required autofocus placeholder="E-mail" v-validate="'required'"  class="form-control" />
                                                    <span class="help is-danger" v-show="errors.has('email')">

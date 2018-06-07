@@ -57,7 +57,9 @@ class ForgotPasswordController extends Controller
 
     	  /*if( ! $validator->fails() )
 		    {*/
-		        if( $user = User::where('email', $request->input('email') )->first() )
+                $reseEmail =  $request->input('email');
+                
+		        if( $user = User::where('email',$reseEmail)->first() )
 		        {
 		            $token = str_random(64);
                     
