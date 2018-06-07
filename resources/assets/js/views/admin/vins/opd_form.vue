@@ -324,6 +324,7 @@
                   </select>
                   
                 </div>
+              </div>
                 <div class="col-md-6" v-show="resultData.type == 'X-Rays'">
                   <div class="col-md-12">
                     <label> Select Type</label>
@@ -332,7 +333,7 @@
                     </select>
                   </div>
                 </div>
-              </div> 
+              <!-- </div>  -->
             </div>
             <div class="row form-group">
               <div class="col-md-6">
