@@ -119,7 +119,10 @@ export default {
 
     },
     mounted: function() {
+
         Auth.logout().then(() => {
+            toastr['success']('Logged out!', 'Success');
+            
             this.$router.replace('/login')
         })
         

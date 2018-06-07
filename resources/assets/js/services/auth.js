@@ -33,7 +33,6 @@ export default {
             Ls.remove('vuex')
             Ls.remove('userData')
             // here we have to reload the page
-            toastr['success']('Logged out!', 'Success');
         }).catch(error => {
         });
         // Reload
