@@ -324,6 +324,7 @@
                   </select>
                   
                 </div>
+              </div>
                 <div class="col-md-6" v-show="resultData.type == 'X-Rays'">
                   <div class="col-md-12">
                     <label> Select Type</label>
@@ -332,7 +333,7 @@
                     </select>
                   </div>
                 </div>
-              </div> 
+              <!-- </div>  -->
             </div>
             <div class="row form-group">
               <div class="col-md-6">
@@ -635,7 +636,7 @@
               ],
               'opdData': {
                 'case_type': '',
-                'uhid_no': 0,
+                'uhid_no': '',
                 'name':'',
                 'age':'',
                 'gender':'',
@@ -750,6 +751,10 @@
              },500)
             }
 
+          });
+          $(document).on('hidden.bs.modal','#createPatientDetail', function () {
+            $('#case_type').val('old').trigger('change.select2');
+            vm.opdData.case_type = 'old';
           });
         setTimeout(function(){
           vm.examinationChangeImage();
@@ -926,7 +931,7 @@
             // //   backgroundColor: 'rgb(255, 255, 255)',
             // // });
 
-            toastr.success('Report has been saved succeessfully', 'OPD Report', {timeOut: 5000});
+            toastr.success('Report has been saved succeessfully', 'OPD Report', {timeOut: 2000});
             // window.onresize = vm.resizeCanvas(canvas);
             // vm.  (canvas);
             var opdData = this.opdData;
@@ -957,7 +962,6 @@
               window.URL.revokeObjectURL(url);
             },
           examinationChangeImage() {
-            console.log('sdf');
             var vm =this;
             // savePNGButton.addEventListener("click", function (event) {
             var wrapper = document.getElementById("signature-pad");

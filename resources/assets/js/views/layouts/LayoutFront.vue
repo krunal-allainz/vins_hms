@@ -76,6 +76,8 @@ export default {
         methods:{
           logout(){
             Auth.logout().then(() => {
+            toastr['success']('Logged out!', 'Success');
+              
                 this.$router.replace('/login')
             })
           },
