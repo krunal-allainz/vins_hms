@@ -52,6 +52,7 @@ class PatientsDetailFormController extends Controller
         // dd($request->all());
         $data = $request->all()['patientData']['patientData'];
         $patientType = $request->all()['patientData']['patientType'];
+        // dd($patientType);
         $uhid="VM";
         $year = date('y');
         // dd($patientUHId);
