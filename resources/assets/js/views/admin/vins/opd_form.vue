@@ -84,7 +84,7 @@
                         <label for="date">Doctor:</label>
                       </div>
                       <div class="col-md-6">
-                        <input type="text" name="vitals" id="vitals" class="form-control" readonly="" v-model="doctor">
+                        <input type="text" name="doctor" id="doctor" class="form-control" readonly="" v-model="doctor">
                       </div>
                     </div>
                     <div class="col-md-6">
@@ -92,7 +92,7 @@
                         <label for="date">Department:</label>
                       </div>
                       <div class="col-md-6">
-                        <input type="text" name="pulse" id="pulse" class="form-control" readonly=""  v-model="department">
+                        <input type="text" name="department" id="department" class="form-control" readonly=""  v-model="department">
                       </div>
                     </div>
                   </div>
@@ -245,7 +245,7 @@
     <div class="row form-group">
       <div class="col-md-6">
         <div class="col-md-6">
-          <label for="advise">Advise:</label>
+          <label for="advise">Advice:</label>
         </div>
         <div class="col-md-12">
           <textarea class="form-control" type="text" name="advise" id="advise" v-model="opdData.advise"  v-validate="'required'"></textarea>
@@ -408,7 +408,7 @@
                   <label> Other Parts</label>
                   <input type="text" name="subType_text_opd" id="subType_text_opd" class="form-control" v-model="resultData.bodyPart">
                 </div>
-                <div class="col-md-6" v-if="resultData.bodyPart == 'Spine'">
+                <div class="col-md-12" v-if="resultData.bodyPart == 'Spine'">
                   <label> Spine option</label>
                   <select class="form-control ls-select2" id="radiology_spine_opd" name="radiology_spine_opd"  v-model="resultData.spine_option_value">
                     <option v-for="obj in investigationData.Spine_option" :value="obj.text">{{obj.text}}</option>
@@ -455,27 +455,24 @@
               <table class="table" id="radio_list">
                   <thead>
                   <tr>
-                      <th>#</th>
                       <th>Type</th>
                       <th>Body parts</th>
                       <th>Qualifier</th>
                       <th>Special request</th>
                       <!-- <th>Details</th> -->
                       <!-- <th>Gallery</th> -->
-                      <th>Action</th>
                   </tr>
                   </thead>
                   <tbody>
-                  <tr v-if="res.removed == false" v-for="(res,index) in finalResultData">
-                      <td>{{++index}}</td>
-                      <td>{{res.type}}</td>
-                      <td>{{res.bodyPart}}</td>
-                      <td>{{res.qualifier}}</td>
-                      <td>{{res.special_request}}</td>
+                  <tr >
+                      <td>{{finalResultData.type}}</td>
+                      <td>{{finalResultData.bodyPart}}</td>
+                      <td>{{finalResultData.qualifier}}</td>
+                      <td>{{finalResultData.special_request}}</td>
                       <!-- <td>{{res.textData | strLimit}}</td> -->
                       <!-- <td><a href="javascript:void(0)" @click="viewGallery(res.id)" class="red">View</a></td> -->
                       <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
-                      <td> <i class="fa fa-remove" @click="removeReport(res.id)"></i></td>
+                      <!-- <td> <i class="fa fa-remove" @click="removeReport(res.id)"></i></td> -->
 
                       
                   </tr>
@@ -579,25 +576,24 @@
                       {text:'',value:''},
                   ],
                   'radiologyQualifier':[
-                            {text:'',value:''},
-                            {text:'Stroke protocol',value:'stroke_protocol'},
-                            {text:'Epilepsy protocol',value:'epilepsy_protocol'},
-                            {text:'Headache protocol',value:'headache_protocol'},
-                            {text:'Tumor protocol',value:'tumor_protocol'}
-                        ],
+                      {text:'',value:''},
+                      {text:'Stroke protocol',value:'stroke_protocol'},
+                      {text:'Epilepsy protocol',value:'epilepsy_protocol'},
+                      {text:'Headache protocol',value:'headache_protocol'},
+                      {text:'Tumor protocol',value:'tumor_protocol'}
+                  ],
                   'X-Rays':'',
-                    'xray_type_options': [
-                        {text:'Fixed',value:'fixed','selected':true},
-                        {text:'Portable',value:'portable','selected':false}
-                    ],
+                  'xray_type_options': [
+                      {text:'Fixed',value:'fixed','selected':true},
+                      {text:'Portable',value:'portable','selected':false}
+                  ],
                   'X-Rays_options':[
-                            {text:'',value:''},
-                            {text:'HIP',value:'hip'},
-                            {text:'Knee',value:'knee'},
-                            {text:'Shoulder',value:'shoulder'},
-                            {text:'Pelvis',value:'pelvis'},
-                            {text:'Other',value:'other'},
-
+                      {text:'',value:''},
+                      {text:'HIP',value:'hip'},
+                      {text:'Knee',value:'knee'},
+                      {text:'Shoulder',value:'shoulder'},
+                      {text:'Pelvis',value:'pelvis'},
+                      {text:'Other',value:'other'},
                   ],
                   'CT':'',     
                   'CT_options':[
@@ -640,24 +636,24 @@
                   ],
                   'others':'',
                   'others_options':[
-                        {text:'',value:''},
-                         {text:'other-Option 1'},
-                 {text:'other-Option 2'},
-                 {text:'other-Option 3'},
-                 {text:'other-Option 4'},
-                 {text:'other-Option 5'},
-                 {text:'other-Option 6'},
-                 {text:'other-Option 7'},
-                 {text:'other-Option 8'}
-                       ],
-                    'radiologySpecialRequest':[
-                        {text:'Neck Angio',value:'neck_angio'},
-                        {text:'Brain Angio',value:'brain_angio'},
-                        {text:'Spectroscopy',value:'spectroscopy'},
-                        {text:'Diffusion',value:'diffusion'},
-                        {text:'Flexion',value:'flexion'},
-                        {text:'Extension',value:'extension'},
-                    ]
+                      {text:'',value:''},
+                      {text:'other-Option 1'},
+                      {text:'other-Option 2'},
+                      {text:'other-Option 3'},
+                      {text:'other-Option 4'},
+                      {text:'other-Option 5'},
+                      {text:'other-Option 6'},
+                      {text:'other-Option 7'},
+                      {text:'other-Option 8'}
+                  ],
+                  'radiologySpecialRequest':[
+                      {text:'Neck Angio',value:'neck_angio'},
+                      {text:'Brain Angio',value:'brain_angio'},
+                      {text:'Spectroscopy',value:'spectroscopy'},
+                      {text:'Diffusion',value:'diffusion'},
+                      {text:'Flexion',value:'flexion'},
+                      {text:'Extension',value:'extension'},
+                  ]
               },
               
               'curStep':1,
@@ -734,7 +730,8 @@
           bmi() {
             if(this.opdData.weight!='' && this.opdData.height!=''){
               var height_met = this.opdData.height / 100;
-              return (this.opdData.weight )/(height_met * height_met)
+              var bmiVal = (this.opdData.weight )/(height_met * height_met);
+              return bmiVal.toFixed(1);
             } else {
               return 0;
             }
@@ -776,6 +773,7 @@
           $(document).on("select2:select",'.ls-select2', function (e) { 
             if(this.id == 'referral'){
               vm.opdData.referral=$(this).val();
+              vm.finalResultData = '';
               if($(this).val() == 'cross') {
                 setTimeout(function(){
                   $('#cross').select2({
@@ -853,9 +851,9 @@
                     return false;
                 }
                 vm.resultData.id = resData1.length;
-                resData1.push(vm.resultData);
+                // resData1.push(vm.resultData);
                 
-                vm.finalResultData = resData1;
+                vm.finalResultData = vm.resultData;
 
                 vm.initData();
                 // vm.setRadioData();
