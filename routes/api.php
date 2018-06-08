@@ -114,7 +114,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         $api->post('prescription/getDetails', '\euro_hms\Api\Controllers\PrescriptionDrugController@getDetails'); 
         $api->post('print/receipt', '\euro_hms\Api\Controllers\PatientsDetailFormController@printReceipt');     
         $api->post('generate/receipt', '\euro_hms\Api\Controllers\PatientsDetailFormController@saveReceiptData'); 
-
+        $api->post('print/opdcase','\euro_hms\Api\Controllers\OPDDetailsFromController@printCaseData');
 
 
 });

@@ -1,5 +1,5 @@
 <template id="">
-  <div class="container">
+  <div class="container" style="padding: 170px 0px;">
     <div class="page-header">
       <div class="row text-center">
         <div class="col-md-12">
@@ -11,13 +11,13 @@
     	 <div class="row form-group text-center">
     	 	 <div class="col-md-12">
     	 	 	<!-- <div class="col-md-4"> -->
-    	 	 		<button type="button" class="btn btn-primary btn-submit text-right " data-toggle="modal" href="#printModal"  @click="printAdvice()">Advice</button>
+    	 	 		<button type="button" class="btn btn-primary btn-submit text-right " data-toggle="modal" href="#printModal">OPD Case</button>
     	 	 <!-- 	</div>
-    	 	 	<div class="col-md-4">-->
+    	 	 	<div class="col-md-4">
     	 	 		<button type="button" class="btn btn-primary btn-submit text-right " data-toggle="modal" href="#printModal"  @click="printPriscription()">Prescription</button>
     	 	 	<!--</div>
-    	 	 	<div class="col-md-4"> -->
-    	 	 		<button type="button" class="btn btn-primary btn-submit text-right " data-toggle="modal" href="#printModal"  @click="printReferal()">Referal</button>
+    	 	 	<div class="col-md-4"> 
+    	 	 		<button type="button" class="btn btn-primary btn-submit text-right " data-toggle="modal" href="#printModal"  @click="printReferal()">Referal</button>-->
 
     	 	 		<button type="button" class="btn btn-primary btn-submit text-right" @click = "GetSelectComponent('patients_receipt_form')">Print Receipts</button>
     	 	 	<!--</div> -->
@@ -25,15 +25,79 @@
     	 </div>
     </form>
      <div id="printModal" class="modal fade">
-     	<div class="modal-dialog">
-		 		<div class="modal-content">
-		 			<div class="modal-header">
-		 				<vinsletterheadheaderpart></vinsletterheadheaderpart>
-		 			</div>
+     	<div class="modal-dialog" >
+		 		<div class="modal-content" >
+		 			<!--<div class="modal-header">
+		 				
+		 			</div>-->
 		 			<div class="modal-body">
-			 			<div  id="printContent">
+		 				<div id="printData">
+			 					<div  id="printContent">
+			 					</div>
+			 					<vinsletterheadheaderpart></vinsletterheadheaderpart>
+			 			<div class='row'>
+			 				<div class='col-md-12 text-center'>
+			 					<h4>OPD CASE</h4>
+			 				</div>
 			 			</div>
-			 			<div  v-if="(printType=='referal' &&  referalType == 'radiology')">	
+			 			<div class='row' style="padding-left: 15px;padding-right:15px;">
+			 				<div class='col-md-6 text-left'>
+									<span class='text-left'><b>Ref By :</b></span>
+										{{this.adviceDoctor}}
+    	 	 				</div>
+    	 	 				<div class='col-md-6 text-right'>
+    	 	 					<span class='text-right'><b>Date :</b> 
+    	 	 							{{ todayDate }}
+    	 	 					</span>
+    	 	 				</div>
+    	 	 			</div>	
+    	 	 			<br/>
+    	 	 			<br/>
+    	 	 			<div v-if="(adviceData !== null)">
+    	 	 				<div class='col-md-6 text-left'>
+				 				<span class='text-left'><b>Advice :-</b></span>
+				 			</div>
+				 			<div class='row'>
+			 						<div class='col-md-12 text-left'>
+			 							<span class='text-left' style="padding-left:30px;"> {{adviceData}}</span>
+			 						</div>
+			 					</div>
+    	 	 			</div>
+    	 	 			<br/><br/>
+    	 	 			<div v-if="(priscriptionData !== null)">
+    	 	 				<div class='col-md-6 text-left'>
+				 				<span class='text-left'><b>prescription :-</b></span>
+				 			</div>
+							<ol class='text-left' >
+  									<li class='text-left' v-for="name in priscriptionData">{{name}}</li>
+				 			</ol>
+       
+    	 	 			</div>
+    	 	 			<br/><br/>
+    	 	 			<div v-if="(referalType !== null)"> 
+				 			<div class='col-md-6 text-left'>
+				 				<span class='text-left'><b>Referal :-</b></span>
+				 			</div>
+				 		</div>
+			 			<div v-if="(referalType == 'cross')">
+			 				<div v-if="(crossType == 'internal')">
+			 					
+			 						<div class='col-md-6 text-left'>
+			 							<span class='text-left'><b>Internal</b></span> {{this.$store.state.Patient.opdData.cross_type_int}}
+			 						</div>
+			 					
+			 				</div>
+			 				<div v-if="(crossType == 'external')">
+			 					
+			 						<div class='col-md-6 text-left'>
+			 								<span class='text-left text-capitalize' style='padding-left:30px;padding-right;20px'><b>External
+			 					</b></span>{{this.$store.state.Patient.opdData.cross_type_ext}}
+			 						</div>
+			 					
+			 				</div>
+				 		</div>
+			 			
+			 		<div  v-if="(referalType == 'radiology')" class="col-md-12 text-left">	
 		 				<table class="table" id="radio_list">
 			                  <thead>
 			                  <tr>
@@ -48,6 +112,7 @@
 			                  </thead>
 			                  <tbody>
 			                  <tr v-if="res.removed == false" v-for="(res,index) in radiologyData">
+			                  	
 			                      <td>{{++index}}</td>
 			                      <td>{{res.type}}</td>
 			                      <td>{{res.bodyPart}}</td>
@@ -61,14 +126,20 @@
 			                  
 			                  </tbody>
 			            </table>
+
 		 			</div>
-		 			</div>
-		 				
-            			
+		 			<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+		 			<div class="row" style="padding-bottom: 10px;padding-right:20px;font-size: 15px;  ">
+            				<div class='col-md-12 text-right'>
+				 				<span class='text-right'><b>Consultant's Signature</b></span>
+				 			</div>
+				 	</div>	
 				<vinsletterheadfooterpart></vinsletterheadfooterpart>
+				</div>
+			</div>
        		<div class="modal-footer">	
 				
-				<!--<button  type="button" class="btn btn-primary"  @click="ClickHereToPrint()">Print</button>		      -->	
+				<button  type="button" class="btn btn-primary"  @click="ClickHereToPrint()">Print</button>	
 			
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>	
 
@@ -80,6 +151,7 @@
 </div>
 </template>
 <script >
+	import User from '../../../api/users.js';
 	import vinsletterheadheaderpart from './vins_letter_header.vue';
 	import vinsletterheadfooterpart from './vins_letter_footer.vue';
 	import moment from 'moment';
@@ -98,119 +170,72 @@
 				'crossType':this.$store.state.Patient.opdData.cross,
 				'radiologyData':this.$store.state.Patient.opd_resultData,
 				'printType':'',
+				'todayDate' : formattedDate,
+				'crossSelectedValue' : '',
+
 			}
 		},
 		components: {
          vinsletterheadheaderpart,
          vinsletterheadfooterpart,
        },
-
+       mounted(){
+       		if(this.referalType == 'cross'){
+							if(this.crossType == 'internal'){
+								this.crossSelectedValue = this.$store.state.Patient.opdData.cross_type_int;
+							}
+							if(this.crossType == 'external'){
+								this.crossSelectedValue = this.$store.state.Patient.opdData.cross_type_ext;
+							}
+						}
+       },
 		methods: {
-			printAdvice(){
-				this.printType = 'advice';	
-				$('#printContent').html('');
-				$('.printReceiptPage').html('');
-				var html = "<div class='row'><div class='col-md-6 text-left'>";
-					html +="<span class='text-left'><b>By :</b>"+this.adviceDoctor; 
-    	 	 		html +="</div><div class='col-md-6 text-right'><span class='text-right'><b>Date :</b>";  
-				 	html += formattedDate + "</span></div></div><br/><br/><div class='row text-center'>";
-				 	html += "<div class='col-md-12'><span class='text-center'><h4><b><u>Advice</u></b>";
-				 	html += "</h4></span>"+this.adviceData+"</div></div>";
-		                if ($("#printContent .printReceiptPage").length == 0){	
-		                		$("#printContent").append(html);	
-		                }else{	
-		                		$("#printContent").append(html);
-		               	}
-			},
-			printPriscription(){
-				this.printType = 'prescription';	
 
-				$('#printContent').html('');
-				$('.printReceiptPage').html('');
-				var html = "<div class='row'><div class='col-md-6 text-left'>";
-					html +="<span class='text-left'><b>By :</b>"+this.adviceDoctor; 
-    	 	 		html +="</div><div class='col-md-6 text-right'><span class='text-right'><b>Date :</b>";  
-				 	html += formattedDate + "</span></div></div><br/><br/><div class='row text-center'>";
-				 	html += "<div class='col-md-12'><span class='text-center'><h4><b><u>Prescription</u></b>";
-				 	html += "</h4></span> <ol class='text-left'>";
-				 	$.each(this.priscriptionData,function(key,value){
-  									html += "<li class='text-left'>"+value+"</li>";	
-  									});
-				 	html += "</ol></div></div>";
-       
-
-		                	 if ($("#printContent .printReceiptPage").length == 0){	
-		                		$("#printContent").append(html);	
-		                	}else{	
-		                		$("#printContent").append(htmls);
-		                	}
-			},
-			printReferal(){
-				this.printType = 'referal';	
-
-				$('#printContent').html('');
-				$('.printReceiptPage').html('');
-				let getReferalType =  this.referalType;
-				
-				let data = '';
-				var html = "<div class='row'><div class='col-md-6 text-left'>";
-					html +="<span class='text-left'><b>By :</b>"+this.adviceDoctor; 
-    	 	 		html +="</div><div class='col-md-6 text-right'><span class='text-right'><b>Date :</b>";  
-				 	html += formattedDate + "</span></div></div><br/><br/><div class='row text-center'>";
-				 	html += "<div class='col-md-12'><span class='text-center'><h4><b><u>Referal</u></b></h4></span>";
-				 	html += "</div></div>";
-				 	if (getReferalType == 'cross'){
-				 		let crossType =  this.crossType;
-				 		if(crossType == 'internal'){
-				 			console.log(this.$store.state.Patient.opdData.cross_type_int);
-				 			data = "<div class='row'><div class='col-md-12'><span class='text-left'><b>";
-				 			data += crossType+":</b></span>Dr. "+this.$store.state.Patient.opdData.cross_type_int;
-				 			data += "</div></div>";
-				 		}
-				 		if(crossType == 'external'){
-				 			data = "<div class='row'><div class='col-md-12'><span class='text-left text-capitalize' style='padding-left:30px;padding-right;20px'><b>";
-				 			data += crossType+" : </b></span>Dr. "+this.$store.state.Patient.opdData.cross_type_ext;
-				 			data += "</div></div>";
-				 		}
-
-					}else if(getReferalType == 'radiology'){
-						// data = "<div class='table-responsive'><table class='table' id='radio_list'";
-						//  data += "align='center'><thead>";
-						// data += "<tr ><th>#</th>";
-      //                   data += "<th>Type</th><th>Body parts</th><th>Qualifier</th><th>Special request</th>";
-      //                   data +="</tr></thead><tbody><tr style='font-size:13px;'><td>1</td><td>CT</td>";
-      //                    data +="<td>Upper Abdomen</td>";
-      //                   data += "<td> Qualifires</td><td> Special request</td></tr> </tbody> </table> </div>";
-
-					}else{
-						data ="";
-					}
-					html +=  data;
-		            if ($("#printContent .printReceiptPage").length == 0){	
-		            	$("#printContent").append(html);	
-		            }else{	
-		            	$("#printContent").append(html);
-		            }
-			},
 			ClickHereToPrint() {	
-				    try {	
-				    	var  printContent = '';	
-				        printContent = document.getElementById('printContent').innerHTML;	
-					        var windowUrl = '';	
-					        var uniqueName = new Date();	
-					        var windowName = 'Print' + uniqueName.getTime();	
-					        var printWindow = window.open(windowUrl, windowName, 'left=50000,top=50000,width=0,height=0');	
-					        printWindow.document.write('<html><body><div class="wrapper">'+printContent+'</div></body></html>');	
-	
+				
+				var  OPDCaseData = {
+							'advice' : this.adviceData,
+							'adviceDoctor' : this.adviceDoctor,
+							'priscriptionData': this.priscriptionData,
+							'referalType' :this.referalType,
+							'crossType' : this.crossType,
+							'radiologyData' : this.radiologyData,
+							'todayDate': this.todayDate,
+							'crossSelectedValue' : this.crossSelectedValue
+						};
+
+				      	User.printOPDCaseData(OPDCaseData).then(	
+		                (response) => { 
+		                	var printContent = "";
+		                	printContent = response.data;	
+				        	//$('#receiptModal').modal({show:true}); 
+		                	// try {
+		                    var windowUrl = '';	
+					       // var uniqueName = new Date();	
+					        //var windowName = 'Print' + uniqueName.getTime();	
+					        var uniqueName = '';/*new Date();	*/
+					         var windowName = '';/*'Print' + uniqueName.getTime();	*/
+					        var printWindow = window.open(windowUrl, windowName, 'left=10,top=10,width=0, height=0');
+					        printWindow.document.write(printContent);	
+
 				        printWindow.document.close();	
 				        printWindow.focus();	
 				        printWindow.print();	
 	
 				        printWindow.close();	
-				    }	
-				    catch (e) {	
-				        self.print();	
-				    }	
+				    // 	}	
+				    // catch (e) {	
+				    //     self.print();	
+				    // }	
+	
+		            	},	
+		                (error) => {	
+		                	 $("body .js-loader").addClass('d-none');	
+	
+		                }	
+		                )	
+	
+				    	
 				},
 				 GetSelectComponent(componentName) {
 		       this.$router.push({name: componentName})

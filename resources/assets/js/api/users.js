@@ -230,5 +230,8 @@ export default {
   }, 
   generateReceiptData(formData,type){  
     return api.post('generate/receipt',{'formData':formData,'type':type})  
+  },
+  printOPDCaseData(OPDCaseData){
+      return api.post('print/opdcase',{'OPDCaseData':OPDCaseData})  
   }
 }

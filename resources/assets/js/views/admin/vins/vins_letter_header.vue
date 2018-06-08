@@ -1,5 +1,5 @@
 <template id="">
-  <div class="container">
+  <div class="container" style="padding-bottom:15px;">
     <div class="page-header">
        <div class="row">
         <div class="col-md-12">
