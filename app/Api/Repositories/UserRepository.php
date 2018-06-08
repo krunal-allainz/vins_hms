@@ -26,6 +26,10 @@ class UserRepository {
     public function getUserDetailsByID($userID) {
         return User::find($userID);
     }
+    public function chkUserExist($searchData) {
+        return User::where('mobile_no',$searchData['mobileNo'])->orWhere('email',$searchData['email'])->get();
+    }
+
     public function getUserDetails()
     {
         $data = DB::table('users')->get();
@@ -33,63 +37,7 @@ class UserRepository {
         return $data;
     }
 
-    public function getUsersByRegisterType($data)
-    {
-        $user = User::join('role_user', 'users.id', '=', 'role_user.user_id')
-                ->join('roles', 'roles.id', '=', 'role_user.role_id');
-                
-
-        if(isset($data['userData'])) {
-            $user = $user->where('users.email', 'like', "%" . $data['userData'] . "%")
-                        ->orWhere('people.first_name', 'like', "%" . $data['userData'] . "%")
-                        ->orWhere('people.last_name', 'like', "%" . $data['userData'] . "%");
-        }
-
-        $user = $user->select('users.id as id', 'people.first_name as first_name', 'people.last_name as last_name', 'users.email as email', 'roles.id as role_id', 'roles.name as role_name', 'roles.slug as role_slug', 'users.is_verified as is_verified', 'users.is_mobile_user as is_mobile_user', 'users.is_desktop_user as is_desktop_user', 'users.organisation as organisation', 'users.locale as locale');
-
-        $user->orderBy('people.last_name','asc');
-
-
-         $userData = $user->get();
-
-         $dataArray = array();
-
-         if(isset($data['report_download']) &&  $data['report_download'] == 'yes') {
-
-            foreach ($userData as $user) {
-
-                $status = ($user->is_verified == 1) ? 'Verified': 'Resend';
-                $isDesktopUser = ($user->is_desktop_user == 1) ? 'Yes': 'No';
-                $isMobileUser = ($user->is_mobile_user == 1) ? 'Yes': 'No';
-                
-                $ddata = [
-                        $user->first_name,
-                        $user->last_name,
-                        $user->email,
-                        $user->role_name,
-                        $status,
-                        $isDesktopUser,
-                        $isMobileUser,
-                    ];
-
-                array_push($dataArray, $ddata);
-            }
-
-            $otherParams = [
-                    'sheetTitle' =>"UserReport",
-                    'sheetName' => "UserReport",
-                    'boldLastRow' => false
-                ];
-
-            $lableArray = [
-                'Name', 'Surname' ,'Email address', 'User type', 'Status', 'Desktop', 'Mobile'
-            ];
-            //Total Stakes, Total Revenue, Amount & Balance fields are set as Number statically.
-            \euro_hms\Custom\Helper\Common::toExcel($lableArray,$dataArray,$otherParams,'xlsx','yes');
-         }
-
-         return  $user->get();
-    }
+    
 
     public function create($data)
     {
@@ -108,34 +56,11 @@ class UserRepository {
         'is_active' =>  1,
         //'user_image'=>(isset($data['user_image']) && $data['user_image']!='') ?  $data['user_image'] : ''
         ];
-        $deletedUser = User::onlyTrashed()->where('email',$data['email'])->first();
-        // if($deletedUser){
-        //     $user = $deletedUser->restore();
-        // }
-         // $deletedUser;
-            if($deletedUser){
-                $deletedUser->restore();
-
-                $userData = User::find($deletedUser['id'])->update($userData);
-               
-                // $userData->roles()->detatch();
-                $user = User::find($deletedUser['id']);
-                $user->roles()->sync($data['userType']);
-                return ['status' => 'updated', 'user' => $user];
-
-                // return {'status':'updated','user':$user};
-               
-                 // return  $deletedUser->attachRole($data['userType']);
-            }else {
-                   $user = User::create($userData);
-                    $user->attachRole(1);
-                    return ['status'=>'created','user'=>$user];
-
-
-                    // print_r($user);
-                   // return  $user->attachRole($data['userType']);
-              }
-        }
+        $user = User::create($userData);
+        $user->attachRole(1);
+        return ['status'=>'created','user'=>$user];
+        
+    }
         
 
     

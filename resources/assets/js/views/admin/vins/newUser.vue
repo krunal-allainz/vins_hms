@@ -184,8 +184,16 @@
                                 // here we add code for Mobile user for create user
                                 User.createUser(this.userData).then(
                                   (response)=> {
-                                    toastr.success('User has been added successfully.', 'Add User', {timeOut: 5000});
-                                    this.$router.push('dashboard');
+                                    console.log(response);
+                                    if(response.data.status_code == 200){
+
+                                    toastr.success('User has been added successfully.', 'Add User', {timeOut: 5000});       
+                                    this.initialState();
+                                    } else if (response.data.status_code == 301) {
+                                        toastr.error('User already exist.', 'Add User', {timeOut: 5000});
+
+                                    }
+                                    // this.$router.push('dashboard');
                                   },
                                   (error)=>{
                                   }

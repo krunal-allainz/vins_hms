@@ -179,7 +179,7 @@
             }
         },
         mounted() {
-	 				let vm = this;
+	 			let vm = this;
         		$('.ls-select2').select2();
              	$('.ls-datepicker').datepicker({
 			         format: 'dd/mm/yyyy',

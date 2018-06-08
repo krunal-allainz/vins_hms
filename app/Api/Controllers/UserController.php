@@ -86,11 +86,17 @@ class UserController extends BaseController
         $userData['user']['token'] = $token;
         \Log::info($userData);
         \Log::info('Insert in UserTable');
+        $existData = $this->userRepoObj->chkUserExist($data);
+        $cntExistData = $existData->count();
+        if($cntExistData > 0) {
+            return ['status_code' => '301', 'message' => 'User Already exist.'];
+
+        }
         $userRes=$this->userRepoObj->create($userData['user']);
        \Log::info('deleted user');
         if($userRes['status'] == false )
           {
-            return ['status_code' => '200', 'message' => 'This email already exists.'];
+            return ['status_code' => '200', 'message' => 'User is not activated.'];
           }
         $userObj = $userRes['user'];
         // $userObj->roles()->sync($data['userType'])

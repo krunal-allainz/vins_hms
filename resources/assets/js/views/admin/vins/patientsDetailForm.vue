@@ -357,7 +357,7 @@
 	            (response) => {
 	            	if (!this.errors.any()) {
 	            		 $("body .js-loader").removeClass('d-none');
-	            		 var pData = {'patientData':this.patientData,'patientType':'ipd'};
+	            		 var pData = {'patientData':this.patientData,'patientType':'opd'};
 				    	User.savePatient(pData).then(
 		                (response) => {
 		                	if(response.data.code == 200) {
