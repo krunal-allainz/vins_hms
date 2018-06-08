@@ -54,7 +54,7 @@
 							        <span  v-if="data.gender=='F'">	
 						             Female	
 							        </span>	
-							        / <span id=age>{{patientData.age}}</span>	
+							        / <span id="age">{{patientData.age}}</span>	
 							     </div>	
 						 </div>	
 							  <div class="col-md-6">	
@@ -122,7 +122,8 @@
 		 			<div class="modal-header">
 		 			</div>
 		 			<div class="modal-body" id="printContent">	
-            	</div>	
+		 				
+            		</div>	
             	
 	
        		<div class="modal-footer">	
@@ -176,6 +177,7 @@
 	          	 	 placeholder: "Select"
 	          	  }); 
 	          	   let vm =this;
+	          	  
 
 	          	    $('#patient').on("select2:select", function (e) { 
 	          	    patientId = $(this).val();
@@ -185,7 +187,7 @@
   							if(response.data.code == 200){
   								vm.patientData.case_detail = opdDetail;
   								if(response.data.data.length != 0){
-  									$.each(response.data.data,function(key,value){
+  									$.each(response.data,function(key,value){
   										let opdId = value.id;
   										let opdNumber =  value.id;
   										opdDetail.push({'id':opdId,'text':opdNumber});
@@ -208,8 +210,8 @@
   					$('#case_no').on("select2:select", function (e) {
   						let patient_data_detail = [];
 
-  							 User.getpatientDetail(patientId).then(
-  							 	(response) => { 
+  							 User.getPatientOPDDetail(patientId).then(
+  							 	(response) => { console.log( response.data.data);
   							 		if(response.data.code == 200){
 
   							 			let patientDetails = response.data.data.patient_details;
@@ -237,6 +239,7 @@
   							 				 'references' : references,
   							 				 'uhid_no' : uhid_no
   							 			});
+  							 			
   							 	vm.patientData.select_patient_detail=patient_data_detail;
   							 	vm.patientData.dob = dob;
   							 	vm.patientData.fullname = name;
@@ -245,8 +248,9 @@
   							 	vm.patientData.casetype = caseType;
   							 	vm.patientData.patient_id = pid;
   							 	vm.patientData.reference_dr = consulatant;
-  							 	vm.handleDOBChanged();
+  							 	
   							 	}
+  							    vm.handleDOBChanged();
   							 	},	
 				    		(error) => {	
 				   			 },
@@ -254,6 +258,7 @@
 	               	});
 
 	               	 User.getAllPatientName().then(
+
 	               	 (response) => {
 	               	 		let patien_data ;
 	               	 		patien_data = response.data;
@@ -341,20 +346,19 @@
 			},	
 				handleDOBChanged() { 	
 				   // $('#dob').on('change', function () {	
+				   		
 				      if (this.isDate(this.patientData.dob)) {	
-				        var age = this.calculateAge(this.parseDate(this.patientData.dob), new Date());	
-				      	//$("#age").html(age);  	
-				      	this.patientData.age = age; 	
-				      } else {	
-				        //$("#age").html('');   	
-				        this.patientData.age = age;	
-				      }      	
+				        var ageCal = this.calculateAge(this.parseDate(this.patientData.dob), new Date());	
+				      	//$("#age").html(age); 
+				      	this.patientData.age = ageCal; 	
+				      }     	
 				  //  });	
 				},	
 	
 				//convert the date string in the format of dd/mm/yyyy into a JS date object	
 				parseDate(dateStr) { 	
-				  var dateParts = dateStr.split("/");	
+				  var dateParts = dateStr.split("-");
+				  
 				  return new Date(dateParts[2], (dateParts[1] - 1), dateParts[0]);	
 				},	
 	
@@ -367,11 +371,10 @@
 				    var birthYear = dateOfBirth.getFullYear();	
 				    var birthMonth = dateOfBirth.getMonth();	
 				    var birthDay = dateOfBirth.getDate();	
-	
+					
 				    var age = calculateYear - birthYear;	
 				    var ageMonth = calculateMonth - birthMonth;	
 				    var ageDay = calculateDay - birthDay;	
-	
 				    if (ageMonth < 0 || (ageMonth == 0 && ageDay < 0)) {	
 			        age = parseInt(age) - 1;	
 				    }	
@@ -425,8 +428,8 @@
 					        var windowUrl = '';	
 					        var uniqueName = new Date();	
 					        var windowName = 'Print' + uniqueName.getTime();	
-					        var printWindow = window.open(windowUrl, windowName, 'left=50000,top=50000,width=0,height=0');	
-					        printWindow.document.write('<html><body><div class="wrapper">'+printContent+'</div></body></html>');	
+					        var printWindow = window.open(windowUrl, windowName, 'left=5000,top=5000,width=0,height=0');	
+					        printWindow.document.write(printContent);	
 	
 				        printWindow.document.close();	
 				        printWindow.focus();	
