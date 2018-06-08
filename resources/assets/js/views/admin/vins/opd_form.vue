@@ -84,7 +84,7 @@
                         <label for="date">Doctor:</label>
                       </div>
                       <div class="col-md-6">
-                        <input type="text" name="vitals" id="vitals" class="form-control" readonly="" v-model="doctor">
+                        <input type="text" name="doctor" id="doctor" class="form-control" readonly="" v-model="doctor">
                       </div>
                     </div>
                     <div class="col-md-6">
@@ -92,7 +92,7 @@
                         <label for="date">Department:</label>
                       </div>
                       <div class="col-md-6">
-                        <input type="text" name="pulse" id="pulse" class="form-control" readonly=""  v-model="department">
+                        <input type="text" name="department" id="department" class="form-control" readonly=""  v-model="department">
                       </div>
                     </div>
                   </div>
@@ -245,7 +245,7 @@
     <div class="row form-group">
       <div class="col-md-6">
         <div class="col-md-6">
-          <label for="advise">Advise:</label>
+          <label for="advise">Advice:</label>
         </div>
         <div class="col-md-12">
           <textarea class="form-control" type="text" name="advise" id="advise" v-model="opdData.advise"  v-validate="'required'"></textarea>
@@ -351,7 +351,7 @@
                   <label> Other Parts</label>
                   <input type="text" name="subType_text_opd" id="subType_text_opd" class="form-control" v-model="resultData.bodyPart">
                 </div>
-                <div class="col-md-6" v-if="resultData.bodyPart == 'Spine'">
+                <div class="col-md-12" v-if="resultData.bodyPart == 'Spine'">
                   <label> Spine option</label>
                   <select class="form-control ls-select2" id="radiology_spine_opd" name="radiology_spine_opd"  v-model="resultData.spine_option_value">
                     <option v-for="obj in investigationData.Spine_option" :value="obj.text">{{obj.text}}</option>
