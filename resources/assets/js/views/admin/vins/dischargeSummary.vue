@@ -32,7 +32,10 @@
               <label class="control-label" for="address">Date of Admission :</label>
             </div>
             <div class="col-md-8">
-              <input  class="form-control" type="date" name="date_of_admission" id = "date_of_admission" v-model="dischargeSummaryData.date_of_admission" v-validate="'required'"  value="">
+             <!--  <input  class="form-control" type="date" name="date_of_admission" id = "date_of_admission" v-model="dischargeSummaryData.date_of_admission" v-validate="'required'"  value="">
+              -->
+               <date-picker :date.sync="dischargeSummaryData.date_of_admission" class="form-control"  name="date_of_admission" id = "date_of_admission" v-model="dischargeSummaryData.date_of_admission.time" v-validate="'required'"   :option="option"></date-picker>
+
               <span class="help is-danger" v-show="errors.has('date_of_admission')">
                 Field is required
               </span>
@@ -43,8 +46,9 @@
               <label class="control-label" for="address">Date of Operation :</label>
             </div>
             <div class="col-md-8">
-              <input type="date" class="form-control" name="date_of_operation" id = "date_of_operation" v-model="dischargeSummaryData.date_of_operation" v-validate="'required'"  value="">
-              <span class="help is-danger" v-show="errors.has('date_of_operation')">
+               <date-picker :date.sync="dischargeSummaryData.date_of_operation" class="form-control"  name="date_of_operation" id = "date_of_operation" v-model="dischargeSummaryData.date_of_operation.time" v-validate="'required'"   :option="option"></date-picker>
+
+ <span class="help is-danger" v-show="errors.has('date_of_operation')">
                 Field is required
               </span>
             </div>
@@ -54,8 +58,10 @@
               <label class="control-label" for="date_of_discharge">Date of Discharge :</label>
             </div>
             <div class="col-md-8">
-              <input class="form-control" type="date" name="date_of_discharge" id = "date_of_discharge" v-model="dischargeSummaryData.date_of_discharge" v-validate="'required'"  value="">
-              <span class="help is-danger" v-show="errors.has('date_of_discharge')">
+             <!--  <input class="form-control" type="date" name="date_of_discharge" id = "date_of_discharge" v-model="dischargeSummaryData.date_of_discharge" v-validate="'required'"  value=""> -->
+               <date-picker :date.sync="dischargeSummaryData.date_of_discharge" class="form-control"  name="date_of_discharge" id = "date_of_discharge" v-model="dischargeSummaryData.date_of_discharge.time" v-validate="'required'"   :option="option"></date-picker>
+
+<span class="help is-danger" v-show="errors.has('date_of_discharge')">
                 Field is required
               </span>
             </div>
@@ -205,6 +211,7 @@
 	import User from '../../../api/users.js';
   import addressograph from './addressograph.vue';
   import SelectPatientModal from '../../../components/SelectPatientModal.vue';
+  import myDatepicker from 'vue-datepicker';
 
     export default {
         data() {
@@ -214,10 +221,27 @@
                 'type': 'dischargeSummary',
                 'patient_id': this.$store.state.Patient.patientId,
                	'ipd_id': this.$store.state.Patient.ipdId,
-                'dischargeSummaryData' : {
-                  'date_of_admission' : '',
-                  'date_of_operation' : '',
-                  'date_of_discharge' : '',
+                'option': {
+                    type: 'day',
+                    week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+                    month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    format: 'DD-MM-YYYY',
+                    placeholder: 'Select Date',
+                    inputStyle: {
+                        'border': '2px solid #fff',
+                    },
+                    
+                  },
+                  'dischargeSummaryData' : {
+                  'date_of_admission' : {
+                    time:''
+                  },
+                  'date_of_operation' : {
+                    time:''
+                  },
+                  'date_of_discharge' : {
+                    time:''
+                  },
                   'addressograph' : '',
                   'diagnosis' : '',
                   'icd' : '',
@@ -235,7 +259,8 @@
         },
         components: {
            addressograph,
-           SelectPatientModal
+           SelectPatientModal,
+          'date-picker': myDatepicker,
        },
         mounted() {
           $('.ls-datepicker').datepicker({
@@ -270,8 +295,8 @@
 	            (response) => {
 	            	if (!this.errors.any()) {
 	            		 $("body .js-loader").removeClass('d-none');
-                   var dischargeSummaryData = {'type':this.type,'patient_id':this.patient_id,'ipd_id':this.ipd_id,'form_data':this.dischargeSummaryData};
-				    	User.saveDischargeSummary(dischargeSummaryData).then(
+                   var dischargeSummaryDataAll = {'type':this.type,'patient_id':this.patient_id,'ipd_id':this.ipd_id,'form_data':this.dischargeSummaryData};
+				    	User.saveDischargeSummary(dischargeSummaryDataAll).then(
 		                (response) => {
 		                	if(response.data.status == 200) {
 		                		toastr.success('Discharge Summary has been saved', 'Discharge Summary', {timeOut: 5000});

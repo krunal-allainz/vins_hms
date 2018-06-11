@@ -3,18 +3,23 @@ import Ls from './ls'
 export default {
 
     login(loginData){
+        var vm =this;
         return axios.post('/api/auth/login', loginData).then(response =>  {
             Ls.set('auth.token',response.data.token)
             // We set Email Over here
-            Ls.set('email',loginData.email)
+            Ls.set('email',loginData.email);
+            return "success";
 
         }).catch(error => {
             if (error.response.status == 401) {
                 toastr['error']('Invalid credentials', 'Error');
                 Ls.remove('auth.token')
-                Ls.remove('email')
+                Ls.remove('email');
+                return "error";
             }
             else {
+                return "error";
+                
                 // Something happened in setting up the request that triggered an Error
             }
         });
@@ -28,8 +33,6 @@ export default {
             Ls.remove('vuex')
             Ls.remove('userData')
             // here we have to reload the page
-            toastr['success']('Logged out!', 'Success');
-            setTimeout(Plugin.reloadPage, 1000);
         }).catch(error => {
         });
         // Reload
@@ -42,7 +45,8 @@ export default {
                 toastr['error'](response.data.message, 'Error');
               }
             } else {
-               Ls.set('userId',response.data.userData.id);
+                Ls.set('userId',response.data.userData.id);
+                 // this.$store.dispatch('SetUserDetailsData',response.data.userData.id);
             }
 
             return !!response.data.authenticated;
