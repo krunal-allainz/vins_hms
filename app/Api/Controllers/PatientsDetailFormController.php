@@ -254,4 +254,15 @@ class PatientsDetailFormController extends Controller
         return response()->json(['html'=>$view]);  
        //  return redirect('receipt/view');    
     }
+
+    /**
+    */
+    public  function getAllPatientNameByConsultDoctor(Request $request){
+            $consultDr = $request->doctor;
+            $section   =  $request->section;
+             $patientDetails = PatientDetailsForm::getPatientListByConsultDr($consultDr, $section);
+            return $patientDetails; 
+                      
+        
+    }
 }
