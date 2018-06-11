@@ -34,7 +34,7 @@
               <label>{{opdData.uhid_no}}</label>
             </div>  
           </div>
-          <!-- <div class="col-md-6" v-if="opdData.case_type == 'new'">
+          <!--<div class="col-md-6" v-if="opdData.case_type == 'new'">
             <create-patient-detail @confirmed="deleteConfirmed()" patientType='opd' :doctor="doctor"></create-patient-detail>
             <div class="col-md-6 " v-if="opdData.uhid_no!=''" >
               <label for="date">UHID No:</label>
