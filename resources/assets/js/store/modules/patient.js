@@ -77,6 +77,10 @@ const actions = {
     
     )
   },
+  resetOpdForm({commit}) {
+        commit(types.RESET_OPD_FORM);
+    
+  }
 }
 
 // mutations
@@ -121,7 +125,13 @@ const mutations = {
     // console.log(patientData)
       state.vascExaminationData = vascData;
   },
-
+    [types.RESET_OPD_FORM] (state) {
+    // console.log(patientData)
+      state.opdData = {};
+      state.opd_resultData = {};
+      state.radioData = {};
+  },
+  
   
   
 }
