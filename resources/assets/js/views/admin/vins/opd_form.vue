@@ -113,7 +113,7 @@
                       <label for="date">Pulse:</label>
                     </div>
                     <div class="col-md-6">
-                      <input type="text" name="pulse" id="pulse" class="form-control" v-model="opdData.pulse"  v-validate="'required'">
+                      <input type="text" name="pulse" id="pulse" class="form-control" v-model="opdData.pulse"  v-validate="'required|numeric'" placeholder="/min"> 
                        <span class="help is-danger" v-show="errors.has('pulse')">
                         Field is required
                       </span>
@@ -153,7 +153,7 @@
                       <label for="date">Temp:</label>
                     </div>
                     <div class="col-md-6">
-                      <input type="text" name="temp" id="temp" class="form-control"  v-model="opdData.temp" v-validate="'required'">
+                      <input type="text" name="temp" id="temp" class="form-control"  v-model="opdData.temp" v-validate="'required'" placeholder="°F">
                       <span class="help is-danger" v-show="errors.has('temp')">
                         Field is required
                       </span>
@@ -256,12 +256,12 @@
       </div>
     </div>
     <div class="row form-group">
-      <div class="col-md-6">
+      <div class="col-md-3">
         <div class="col-md-12">
           <label for="prescription">Prescription:</label>
         </div>
         <div class="col-md-12">
-          <select class="form-control ls-select2" multiple="multiple" name="prescription" id="prescription" v-validate="'required'" >
+          <select class="form-control ls-select2"  name="prescription" id="prescription" v-validate="'required'"  v-model="opdData.prescription">
             <option value="">Select</option>
             <option v-for="pres in prescriptionOption" :value="pres.name">{{pres.name}}</option>
           </select>
@@ -270,7 +270,8 @@
           </span>
         </div>
       </div>
-      <div class="col-md-6">
+
+      <div class="col-md-3">
         <div class="col-md-12">
           <label for="quantity">Quantity:</label>
         </div>
@@ -280,6 +281,62 @@
             Field is required
           </span>
         </div>
+      </div>
+       <div class="col-md-3">
+        <div class="col-md-12">
+          <label for="prescription_unit">Unit:</label>
+        </div>
+         <div class="col-md-12">
+            <input type="text" name="prescription_unit" id="prescription_unit" class="form-control" v-model="opdData.prescription_unit" readonly="readonly">
+          <span class="help is-danger" v-show="errors.has('prescription_unit')">
+            Field is required
+          </span>
+        </div>
+      </div>
+      <div class="col-md-3">
+         <div class="col-md-12">
+          <label for="prescription_time">Time For Medicine:</label>
+        </div>
+        <div class="col-md-12">
+          <select class="form-control ls-select2"  name="prescription_time" id="prescription_time"  multiple="multiple" v-model="opdData.prescription_time">
+            <option value="">Select</option>
+            <option value="morning">Morning</option>
+             <option value="noon">Noon</option>
+             <option value="evening">Evening</option>
+             <option value="night">Night</option>
+          </select>
+          <span class="help is-danger" v-show="errors.has('prescription_time')">
+            Field is required
+          </span>
+      </div>
+      <div class="col-md-12">
+                   <button type="button" class="btn btn-primary btn-lg " :disabled="(opdData.prescriptionOption == '' || opdData.prescription_quantity == '' )" @click="savePrescription()">Add</button>
+      </div>
+    </div>
+     <div class="table-responsive">
+              <table class="table" id="prescription_list">
+                  <thead>
+                  <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Quntity</th>
+                      <th>Unit</th>
+                      <th>Time For Medicine</th>
+                      <th>Action</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    <tr></tr>
+                  </tbody>
+                   <tr  v-for="(res,index) in finalPrescriptionData">
+                      <td>{{res.id}}</td>
+                      <td>{{res.Prescription }}</td>
+                      <td>{{res.quntity}}</td>
+                      <td>{{res.unit}}</td>
+                      <td>{{res.time}}</td>
+                      <td> <i class="fa fa-remove" @click="removePrescription(res.id)"></i></td>
+                    </tr>
+              </table>
       </div>
     </div>
     <div class="row form-group">
@@ -492,7 +549,8 @@
   import laboratory from './laboratory.vue';
   import _ from 'lodash';
     import card from "./card.vue"
-
+      var  medicine ;
+      var  timeList ;
 
     export default {
         data() {
@@ -504,6 +562,8 @@
               'department':this.$store.state.Users.userDetails.department,
               'prescriptionOption':'',
               'finalResultData':{},
+              'finalPrescriptionData' : [],
+              'PrescriptiData' : {},
               'investigationData':{
                   'radiologyType':[
                     {text:'',value:''},
@@ -642,8 +702,10 @@
                 'historyType': 'scribble',
                 'past_history':'',
                 'pastHistoryType': 'scribble',
-                'prescription':[],
+                'prescription':'',
                 'prescription_quantity':'',
+                'prescription_unit':'',
+                'prescription_time':[],
                 'advise':'',
                 'referral':'',
                 'cross':'',
@@ -687,9 +749,32 @@
           }); 
          var vm =this;  
          vm.$store.dispatch('resetOpdForm');
+
           setTimeout(function(){
             vm.doctor = vm.$store.state.Users.userDetails.first_name+' '+vm.$store.state.Users.userDetails.last_name;  
           },1000);
+           $('#prescription').on("select2:select", function (e) { 
+              medicine =  $(this).val();
+              vm.PrescriptionData.Prescription = medicine;
+             let medicineType =  medicine.split(" ");
+             let size = medicineType.length;
+             let unitType =  medicineType[size-1];
+              if(unitType.match(/TAB/g)){
+                vm.opdData.prescription_unit='mg';
+              }else if(unitType.match(/INJ/g)){
+                 vm.opdData.prescription_unit='mg/ml';
+              }else if(unitType.match(/SYRUP/g)){
+               vm.opdData.prescription_unit='ml';
+              }else if(unitType.match(/GEL/g)){
+                vm.opdData.prescription_unit='ng/ul';
+              }else{ 
+                vm.opdData.prescription_unit='--';
+              }
+           });
+          $('#prescription_time').on("select2:select",function(e){
+            timeList = $(this).val().join(',');
+             vm.PrescriptionData.prescription_time = timeList;
+          });
           $(document).on("select2:select",'.ls-select2', function (e) { 
             if(this.id == 'referral'){
               vm.opdData.referral=$(this).val();
@@ -778,6 +863,34 @@
                 vm.initData();
                 // vm.setRadioData();
           },
+          savePrescription() {
+
+             let vm =this;
+             
+             if(vm.opdData.prescription == '' || vm.opdData.prescription_quantity == '' ){
+                    toastr.error('Please select prescription data.', 'prescription error', {timeOut: 5000});
+                    return false;
+                }
+                let prescription_index  = 1;
+                if(vm.finalPrescriptionData.length > 0){
+                   prescription_index = vm.finalPrescriptionData.length + 1;
+                 }
+                  vm.PrescriptionData.id = prescription_index ;
+                   vm.PrescriptionData.prescription_quantity = vm.opdData.prescription_quantity ;
+                   vm.PrescriptionData.prescription_unit = m.opdData.prescription_unit ;
+           //  fruits.join(" and ")
+              vm.finalPrescriptionData.push({
+                          'id' : prescription_index,
+                          'Prescription' : medicine,
+                          'quntity' : vm.opdData.prescription_quantity,
+                          'unit' : vm.opdData.prescription_unit,
+                          'time'  : timeList
+
+              });
+              vm.PrescriptiData = vm.finalPrescriptionData;
+              
+
+          },
           initData() {
                 let vm =this;
                 
@@ -856,6 +969,16 @@
                 _.find(vm.finalResultData, function(res) {
                     if(res.id == did) {
                          res.removed = true;
+                    }
+                });
+          },
+          removePrescription(did) {
+                let vm =this;
+                // _.pullAt(resData, 0);
+                _.find(vm.finalPrescriptionData, function(res) {
+                    if(res.id == did) {
+                         res.removed = true;
+                         vm.finalPrescriptionData.splice(did, 1);
                     }
                 });
           },
