@@ -12,19 +12,29 @@
         <div class="row form-group">
           <div class="col-md-6">
             <div class="col-md-6 ">
-              <label for="case_type">Case type:</label>
+              <label for="patient">Select Patient:</label>
             </div>
             <div class="col-md-6">
-              <select class="form-control ls-select2" type="text" v-validate="'required'" id="case_type" name="case_type" value="" v-model="opdData.case_type">
-                <option value="new">New</option>
-                <option value="old">Old</option>
-              </select>
-              <span class="help is-danger" v-show="errors.has('case_type')">
-              Field is required
-            </span>
+              <select  class="form-control ls-select2" v-validate="'required'" id = "patient" name="patient" value="" v-model="opdData.patientlist" >
+                   <option :value="patient.id" v-for="patient in opdData.patientlist">{{patient.name}}</option>
+                </select> 
+                      
+                <span class="help is-danger" v-show="errors.has('patient')">
+                  Field is required
+                </span>
             </div>
           </div>
-          <div class="col-md-6" v-if="opdData.case_type == 'new'">
+          <div class="col-md-6"  v-if="opdData.uhid_no!=''">
+           
+            <div class="col-md-6 " v-if="opdData.uhid_no!=''" >
+              <label for="date">UHID No:</label>
+            </div>
+            <div class="col-md-6" v-if="opdData.uhid_no!=''" >
+             <!--  <input type="text" class="form-control"  v-model="opdData.uhid_no" readonly=""> -->
+              <label>{{opdData.uhid_no}}</label>
+            </div>  
+          </div>
+          <!-- <div class="col-md-6" v-if="opdData.case_type == 'new'">
             <create-patient-detail @confirmed="deleteConfirmed()" patientType='opd' :doctor="doctor"></create-patient-detail>
             <div class="col-md-6 " v-if="opdData.uhid_no!=''" >
               <label for="date">UHID No:</label>
@@ -43,7 +53,7 @@
                   Field is required
                 </span>
               </div>
-            </div>
+            </div> -->
           </div>
           <div class="row form-group">
             <div class="col-md-6">
@@ -551,6 +561,7 @@
     import card from "./card.vue"
       var  medicine ;
       var  timeList ;
+      var patientData = [];
 
     export default {
         data() {
@@ -691,6 +702,7 @@
                   {'name':'Hemant Mathur'},
               ],
               'opdData': {
+                'patientlist':patientData,
                 'case_type': '',
                 'uhid_no': '',
                 'name':'',
@@ -748,14 +760,55 @@
             tags:false 
           }); 
          var vm =this;  
-
+         
+         let section = 'OPD';
          
           setTimeout(function(){
             vm.doctor = vm.$store.state.Users.userDetails.first_name+' '+vm.$store.state.Users.userDetails.last_name;  
           },1000);
+          
+           User.getAllPatientNameByConsultDoctor(vm.doctor,section).then(
+             
+                  (response) => {
+                    vm.opdData.patientlist =patientData; 
+                    $.each(response.data, function(key,value) {
+                       patientData.push({
+                         'id' : value.id,
+                         'name' : value.name,
+                         'uhid_no' : value.uhid_no
+                      });
+                    });
+                    
+                     vm.opdData.patientlist =patientData; 
+                    setTimeout(function(){
+                        $('#patient').select2({
+                         placeholder: "Select"
+                        });   
+                      },500)
+                   
+                  },
+                      (error) => {
+                  },
+          );
+            $('#patient').on("select2:select", function (e) {
+              let patientId = $(this).val();
+              
+             
+
+               $.each(patientData, function(key,value) {
+                       if(patientId == value.id){
+                        vm.opdData.uhid_no =value.uhid_no; 
+                       }
+              });
+              
+               //row= ;
+               
+               //vm.opdData.uhid_no
+            });
+
            $('#prescription').on("select2:select", function (e) { 
               medicine =  $(this).val();
-              vm.PrescriptionData.Prescription = medicine;
+              vm.PrescriptionData.Prescription = $(this).val();
              let medicineType =  medicine.split(" ");
              let size = medicineType.length;
              let unitType =  medicineType[size-1];
