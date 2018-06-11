@@ -813,7 +813,6 @@
 
            $('#prescription').on("select2:select", function (e) { 
               medicine =  $(this).val();
-              vm.PrescriptionData.Prescription = $(this).val();
              let medicineType =  medicine.split(" ");
              let size = medicineType.length;
              let unitType =  medicineType[size-1];
@@ -831,7 +830,6 @@
            });
           $('#prescription_time').on("select2:select",function(e){
             timeList = $(this).val().join(',');
-             vm.PrescriptionData.prescription_time = timeList;
           });
           $(document).on("select2:select",'.ls-select2', function (e) { 
             if(this.id == 'referral'){
@@ -933,9 +931,7 @@
                 if(vm.finalPrescriptionData.length > 0){
                    prescription_index = vm.finalPrescriptionData.length + 1;
                  }
-                  vm.PrescriptionData.id = prescription_index ;
-                   vm.PrescriptionData.prescription_quantity = vm.opdData.prescription_quantity ;
-                   vm.PrescriptionData.prescription_unit = m.opdData.prescription_unit ;
+                 
            //  fruits.join(" and ")
               vm.finalPrescriptionData.push({
                           'id' : prescription_index,
