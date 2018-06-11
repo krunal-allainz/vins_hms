@@ -68,9 +68,7 @@
     	 	 				<div class='col-md-6 text-left'>
 				 				<span class='text-left'><b>prescription :-</b></span>
 				 			</div>
-							<ol class='text-left' >
-  									<li class='text-left' v-for="name in priscriptionData">{{name}}</li>
-				 			</ol>
+							{{priscriptionData}}
        
     	 	 			</div>
     	 	 			<br/><br/>
@@ -165,7 +163,7 @@
 			return{
 				'adviceData':this.$store.state.Patient.opdData.advise,
 				'adviceDoctor':'Dr. '+this.$store.state.Users.userDetails.first_name+' '+this.$store.state.Users.userDetails.last_name,
-				'priscriptionData':this.$store.state.Patient.opdData.prescription,
+				'priscriptionData':this.$store.state.Patient.PrescriptiData,
 				'referalType':this.$store.state.Patient.opdData.referral,
 				'crossType':this.$store.state.Patient.opdData.cross,
 				'radiologyData':this.$store.state.Patient.opd_resultData,

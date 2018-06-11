@@ -298,7 +298,7 @@
           <label for="prescription_time">Time For Medicine:</label>
         </div>
         <div class="col-md-12">
-          <select class="form-control ls-select2"  name="prescription_time" id="prescription_time" v-validate="'required'" multiple="multiple" v-model="opdData.prescription_time">
+          <select class="form-control ls-select2"  name="prescription_time" id="prescription_time"  multiple="multiple" v-model="opdData.prescription_time">
             <option value="">Select</option>
             <option value="morning">Morning</option>
              <option value="noon">Noon</option>
@@ -550,7 +550,7 @@
   import _ from 'lodash';
     import card from "./card.vue"
       var  medicine ;
-      var  timeList = '';
+      var  timeList ;
 
     export default {
         data() {
@@ -563,6 +563,7 @@
               'prescriptionOption':'',
               'finalResultData':{},
               'finalPrescriptionData' : [],
+              'PrescriptiData' : {},
               'investigationData':{
                   'radiologyType':[
                     {text:'',value:''},
@@ -754,6 +755,7 @@
           },1000);
            $('#prescription').on("select2:select", function (e) { 
               medicine =  $(this).val();
+              vm.PrescriptionData.Prescription = medicine;
              let medicineType =  medicine.split(" ");
              let size = medicineType.length;
              let unitType =  medicineType[size-1];
@@ -769,7 +771,10 @@
                 vm.opdData.prescription_unit='--';
               }
            });
-          
+          $('#prescription_time').on("select2:select",function(e){
+            timeList = $(this).val().join(',');
+             vm.PrescriptionData.prescription_time = timeList;
+          });
           $(document).on("select2:select",'.ls-select2', function (e) { 
             if(this.id == 'referral'){
               vm.opdData.referral=$(this).val();
@@ -870,16 +875,20 @@
                 if(vm.finalPrescriptionData.length > 0){
                    prescription_index = vm.finalPrescriptionData.length + 1;
                  }
-             
+                  vm.PrescriptionData.id = prescription_index ;
+                   vm.PrescriptionData.prescription_quantity = vm.opdData.prescription_quantity ;
+                   vm.PrescriptionData.prescription_unit = m.opdData.prescription_unit ;
+           //  fruits.join(" and ")
               vm.finalPrescriptionData.push({
                           'id' : prescription_index,
                           'Prescription' : medicine,
                           'quntity' : vm.opdData.prescription_quantity,
                           'unit' : vm.opdData.prescription_unit,
-                          'time'  : vm.opdData.prescription_time
+                          'time'  : timeList
 
               });
-              console.log(vm.finalPrescriptionData);
+              vm.PrescriptiData = vm.finalPrescriptionData;
+              
 
           },
           initData() {
