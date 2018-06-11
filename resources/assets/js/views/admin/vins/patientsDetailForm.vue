@@ -150,7 +150,7 @@
 	                    	<label class="control-label" for="mobile_no">Mobile no.: </label>
 	                    </div>
 	                    <div class="col-md-6">
-					      	<input class="form-control" type="text" id="mobile_no" name="mob_no" value="" v-model="patientData.mob_no" v-validate="'required|numeric'" :disabled="patientData.case == 'old'"/>
+					      	<input class="form-control" type="text" id="mobile_no" name="mob_no" value="" v-model="patientData.mob_no" v-validate="'required|numeric'" :disabled="patientData.case == 'old'" maxlength="10"  />
 					      	<span class="help is-danger" v-show="errors.has('mob_no')">
 				               	Please enter valid mobile no.
 				            </span>

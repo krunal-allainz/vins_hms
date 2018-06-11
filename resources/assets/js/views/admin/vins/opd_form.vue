@@ -7,6 +7,7 @@
         </div>
       </div>
     </div>
+
     <form action="" method="post" enctype="multipart/formdata">
       <div v-if="curStep == 1">
         <div class="row form-group">
@@ -112,28 +113,43 @@
                     <div class="col-md-6">
                       <label for="date">Pulse:</label>
                     </div>
-                    <div class="col-md-6">
-                      <input type="text" name="pulse" id="pulse" class="form-control" v-model="opdData.pulse"  v-validate="'required|numeric'" placeholder="/min"> 
-                       <span class="help is-danger" v-show="errors.has('pulse')">
+                    <div class="col-md-6" >
+                      <div class=" input-group">
+                        <input type="text" name="pulse" id="pulse" class="form-control" v-model="opdData.pulse"  v-validate="'required|numeric'"> 
+                        <div class="input-group-append">
+                            <span class="input-group-text ">/mm</span>
+                        </div>
+                      
+                      </div>
+                       <div class="help is-danger" v-show="errors.has('pulse')">
                         Field is required
-                      </span>
+                      </div>
                     </div>
                   </div>
                 </div>
                 <div class="row form-group">
                   <div class="col-md-6">
                     <div class="col-md-6">
-                      <label for="date">BP Systolic:</label>
+                      <label for="date">BP:</label>
                     </div>
                     <div class="col-md-6">
-                      <input type="text" name="bp_systolic" id="bp_systolic" class="form-control"  v-model="opdData.bp_systolic"  v-validate="'required'">
+                      <div class=" input-group">
 
-                      <span class="help is-danger" v-show="errors.has('bp_systolic')">
-                        Field is required
+                      <input type="text" name="bp_systolic" id="bp_systolic" class="form-control"  v-model="opdData.bp_systolic"  v-validate="'required|numeric'" maxlength="3" > 
+                        <div class="input-group-append">
+                            <span class="input-group-text ">/</span>
+                        </div>
+                        <input type="text" name="bp_diastolic" id="bp_diastolic" class="form-control"  v-model="opdData.bp_diastolic"  v-validate="'required|numeric'" maxlength="3">
+                      
+                      </div>
+                      <!-- <input type="text" name="bp_systolic" id="bp_systolic" class="form-control"  v-model="opdData.bp_systolic"  v-validate="'required'"> -->
+
+                      <span class="help is-danger" v-show="errors.has('bp_systolic') || errors.has('bp_diastolic')">
+                        Please enter valid numeric value.
                       </span>
                     </div>
                   </div>
-                  <div class="col-md-6">
+                  <!-- <div class="col-md-6">
                     <div class="col-md-6">
                       <label for="date">BP Diastolic:</label>
                     </div>
@@ -143,7 +159,7 @@
                         Field is required
                       </span>
                     </div>
-                  </div>
+                  </div> -->
                 </div>
 
                 <div class="row form-group">
@@ -153,9 +169,15 @@
                       <label for="date">Temp:</label>
                     </div>
                     <div class="col-md-6">
-                      <input type="text" name="temp" id="temp" class="form-control"  v-model="opdData.temp" v-validate="'required'" placeholder="°F">
+                      <div class=" input-group">
+                      <input type="text" name="temp" id="temp" class="form-control"  v-model="opdData.temp" v-validate="'required|numeric'" maxlength="3">
+                        <div class="input-group-append">
+                            <span class="input-group-text ">°F</span>
+                        </div>
+                      
+                      </div>
                       <span class="help is-danger" v-show="errors.has('temp')">
-                        Field is required
+                         Please enter valid numeric value.
                       </span>
                     </div>
                   </div>
@@ -276,40 +298,42 @@
           <label for="quantity">Quantity:</label>
         </div>
         <div class="col-md-12">
+          <div class=" input-group">
             <input type="text" name="prescription_quantity" id="prescription_quantity" class="form-control" v-model="opdData.prescription_quantity">
+              <div class="input-group-append">
+                  <span class="input-group-text ">Tab</span>
+              </div>
+            
+            </div>
+            
           <span class="help is-danger" v-show="errors.has('prescription_quantity')">
             Field is required
           </span>
         </div>
       </div>
-       <div class="col-md-3">
-        <div class="col-md-12">
-          <label for="prescription_unit">Unit:</label>
-        </div>
-         <div class="col-md-12">
-            <input type="text" name="prescription_unit" id="prescription_unit" class="form-control" v-model="opdData.prescription_unit" readonly="readonly">
-          <span class="help is-danger" v-show="errors.has('prescription_unit')">
-            Field is required
-          </span>
-        </div>
-      </div>
+
       <div class="col-md-3">
          <div class="col-md-12">
           <label for="prescription_time">Time For Medicine:</label>
         </div>
         <div class="col-md-12">
-          <select class="form-control ls-select2"  name="prescription_time" id="prescription_time"  multiple="multiple" v-model="opdData.prescription_time">
-            <option value="">Select</option>
-            <option value="morning">Morning</option>
-             <option value="noon">Noon</option>
-             <option value="evening">Evening</option>
-             <option value="night">Night</option>
-          </select>
+          <div class=" input-group">
+            <input type="text" name="prescription_time" id="prescription_time" class="form-control" v-model="opdData.prescription_time"  v-validate="'required|numeric'"> 
+            <div class="input-group-append">
+                <span class="input-group-text "> hourly</span>
+            </div>
+          
+          </div>
+          
           <span class="help is-danger" v-show="errors.has('prescription_time')">
-            Field is required
+            Please enter valid numeric value.
           </span>
       </div>
-      <div class="col-md-12">
+
+    </div>
+    <div class="col-md-3">
+            <div class="col-md-12"><br></div>
+             <div class="col-md-12">
                    <button type="button" class="btn btn-primary btn-lg " :disabled="(opdData.prescriptionOption == '' || opdData.prescription_quantity == '' )" @click="savePrescription()">Add</button>
       </div>
     </div>
@@ -771,10 +795,10 @@
                 vm.opdData.prescription_unit='--';
               }
            });
-          $('#prescription_time').on("select2:select",function(e){
-            timeList = $(this).val().join(',');
-             vm.PrescriptionData.prescription_time = timeList;
-          });
+          // $('#prescription_time').on("select2:select",function(e){
+          //   timeList = $(this).val().join(',');
+          //    vm.PrescriptionData.prescription_time = timeList;
+          // });
           $(document).on("select2:select",'.ls-select2', function (e) { 
             if(this.id == 'referral'){
               vm.opdData.referral=$(this).val();
