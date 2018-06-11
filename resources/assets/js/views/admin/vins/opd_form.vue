@@ -519,7 +519,7 @@
                   'radiologyQualifier':[
                       {text:'',value:''},
                       {text:'Stroke protocol',value:'stroke_protocol'},
-                      {text:'Epilepsy protocol',value:'epilepsy_protocol'},
+                      {text:'Epilepsy protocol',value:  'epilepsy_protocol'},
                       {text:'Headache protocol',value:'headache_protocol'},
                       {text:'Tumor protocol',value:'tumor_protocol'}
                   ],
@@ -686,7 +686,7 @@
             tags:false 
           }); 
          var vm =this;  
-         
+         vm.$store.dispatch('resetOpdForm');
           setTimeout(function(){
             vm.doctor = vm.$store.state.Users.userDetails.first_name+' '+vm.$store.state.Users.userDetails.last_name;  
           },1000);
