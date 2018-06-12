@@ -64,7 +64,7 @@
               <div class="col-md-6">
                 <input type="text" name="weight" id="weight" class="form-control" v-model="opdData.weight"  placeholder="In kgs"   v-validate="'required|numeric'">
                   <span class="help is-danger" v-show="errors.has('weight')">
-                    Field and Numeric value required
+                     Please enter valid numeric value.
                   </span>
                 </div>
               </div>
@@ -75,7 +75,7 @@
                 <div class="col-md-9">
                   <input type="text" name="height" id="height" class="form-control" placeholder="In cms" v-model="opdData.height"  v-validate="'required|numeric'">
                     <span class="help is-danger" v-show="errors.has('height')">
-                      Field and Numeric value required
+                       Please enter valid numeric value.
                     </span>
                   </div>
                 </div>
@@ -132,7 +132,7 @@
                       
                       </div>
                        <div class="help is-danger" v-show="errors.has('pulse')">
-                        Field is required
+                        Please enter valid numeric value.
                       </div>
                     </div>
                   </div>
