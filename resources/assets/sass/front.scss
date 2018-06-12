@@ -405,3 +405,61 @@ span.select2-container.select2-container2-container--default.select2-container--
     width: 1%;
     margin-bottom: 0;
 }
+// card css
+.wtHider,.htCore,.handsontable table.htCore,.ht_clone_top.handsontable,.handsontable .wtSpreader,.handsontable .wtHider{
+    min-width:100% !important;
+}@media(min-width:320px) and (max-width:425px) {
+    #hot-preview {
+        overflow-x: scroll;
+    }
+
+    .htMobileEditorContainer {
+        height: 76pt !important;
+    }
+
+    .htMobileEditorContainer .positionControls > div {
+        margin-top: 45px;
+        height: auto;
+    }
+
+    .htMobileEditorContainer .inputs {
+        width: 80%;
+    }
+
+    .htMobileEditorContainer .inputs textarea, .htMobileEditorContainer .positionControls {
+        width: 100%;
+    }
+}
+@media(max-width:320px)  {
+    .htMobileEditorContainer .positionControls{
+        left: -17px;
+    }
+    .htMobileEditorContainer .positionControls > div{
+        margin-left: 28px;
+        width: 7% !important;
+    }
+}
+.wtHider{
+    height: auto;
+}
+#table1 + input {
+    box-shadow     : inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #428bca;
+    outline        : #428bca auto 5px;
+    outline-offset : 0;
+    border         : none;
+}
+#table1 td:focus {
+    box-shadow : inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #428bca;
+    outline    : #428bca auto 5px;
+}
+.fixed-table-toolbar .btn-group > .btn-group:last-child > .btn {
+    border-radius : 0;
+}
+.open > .dropdown-menu {
+    animation : none;
+}
+.table-responsive input {
+    position : relative !important;
+}
+
+
