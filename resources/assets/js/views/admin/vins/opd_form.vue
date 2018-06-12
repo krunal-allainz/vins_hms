@@ -13,19 +13,29 @@
         <div class="row form-group">
           <div class="col-md-6">
             <div class="col-md-6 ">
-              <label for="case_type">Case type:</label>
+              <label for="patient">Select Patient:</label>
             </div>
             <div class="col-md-6">
-              <select class="form-control ls-select2" type="text" v-validate="'required'" id="case_type" name="case_type" value="" v-model="opdData.case_type">
-                <option value="new">New</option>
-                <option value="old">Old</option>
-              </select>
-              <span class="help is-danger" v-show="errors.has('case_type')">
-              Field is required
-            </span>
+              <select  class="form-control ls-select2" v-validate="'required'" id = "patient" name="patient" value="" v-model="opdData.patientlist" >
+                   <option :value="patient.id" v-for="patient in opdData.patientlist">{{patient.name}}</option>
+                </select> 
+                      
+                <span class="help is-danger" v-show="errors.has('patient')">
+                  Field is required
+                </span>
             </div>
           </div>
-          <div class="col-md-6" v-if="opdData.case_type == 'new'">
+          <div class="col-md-6"  v-if="opdData.uhid_no!=''">
+           
+            <div class="col-md-6 " v-if="opdData.uhid_no!=''" >
+              <label for="date">UHID No:</label>
+            </div>
+            <div class="col-md-6" v-if="opdData.uhid_no!=''" >
+             <!--  <input type="text" class="form-control"  v-model="opdData.uhid_no" readonly=""> -->
+              <label>{{opdData.uhid_no}}</label>
+            </div>  
+          </div>
+          <!--<div class="col-md-6" v-if="opdData.case_type == 'new'">
             <create-patient-detail @confirmed="deleteConfirmed()" patientType='opd' :doctor="doctor"></create-patient-detail>
             <div class="col-md-6 " v-if="opdData.uhid_no!=''" >
               <label for="date">UHID No:</label>
@@ -44,7 +54,7 @@
                   Field is required
                 </span>
               </div>
-            </div>
+            </div> -->
           </div>
           <div class="row form-group">
             <div class="col-md-6">
@@ -285,7 +295,7 @@
         <div class="col-md-12">
           <select class="form-control ls-select2"  name="prescription" id="prescription" v-validate="'required'"  v-model="opdData.prescription">
             <option value="">Select</option>
-            <option v-for="pres in prescriptionOption" :value="pres.name">{{pres.name}}</option>
+            <option v-for="pres in prescriptionOption"  :value="pres.id">{{pres.name}}</option>
           </select>
           <span class="help is-danger" v-show="errors.has('prescription')">
             Field is required
@@ -301,7 +311,7 @@
           <div class=" input-group">
             <input type="text" name="prescription_quantity" id="prescription_quantity" class="form-control" v-model="opdData.prescription_quantity">
               <div class="input-group-append">
-                  <span class="input-group-text ">Tab</span>
+                  <span class="input-group-text ">{{opdData.prescription_unit}}</span>
               </div>
             
             </div>
@@ -334,35 +344,41 @@
     <div class="col-md-3">
             <div class="col-md-12"><br></div>
              <div class="col-md-12">
-                   <button type="button" class="btn btn-primary btn-lg " :disabled="(opdData.prescriptionOption == '' || opdData.prescription_quantity == '' )" @click="savePrescription()">Add</button>
+                   <button type="button" class="btn btn-primary btn-lg " :disabled="(opdData.prescriptionOption == '' || opdData.prescription_quantity == '' || opdData.prescription_time == '' )" @click="savePrescription()">Add</button>
       </div>
     </div>
-     <div class="table-responsive">
-              <table class="table" id="prescription_list">
-                  <thead>
-                  <tr>
-                      <th>#</th>
-                      <th>Name</th>
-                      <th>Quntity</th>
-                      <th>Unit</th>
-                      <th>Time For Medicine</th>
-                      <th>Action</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                    <tr></tr>
-                  </tbody>
-                   <tr  v-for="(res,index) in finalPrescriptionData">
-                      <td>{{res.id}}</td>
-                      <td>{{res.Prescription }}</td>
-                      <td>{{res.quntity}}</td>
-                      <td>{{res.unit}}</td>
-                      <td>{{res.time}}</td>
-                      <td> <i class="fa fa-remove" @click="removePrescription(res.id)"></i></td>
-                    </tr>
-              </table>
+  </div>
+  <div class="row form-group">
+    <div class="col-md-12">
+      <card title="<i class='ti-layout-cta-left'></i> Prescription" class="filterable">
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered" id="prescription_list">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Quntity</th>
+                <th>Unit</th>
+                <th>Time For Medicine</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+              <tr></tr>
+            </tbody>
+             <tr v-if="res.removed == false"  v-for="(res,index) in finalPrescriptionData">
+                <td>{{res.id}}</td>
+                <td>{{res.Prescription }}</td>
+                <td>{{res.quntity}}</td>
+                <td>{{res.unit}}</td>
+                <td>{{res.time}}</td>
+                <td> <i class="fa fa-remove" @click="removePrescription(res.id)"></i></td>
+              </tr>
+        </table>
       </div>
+      </card>
     </div>
+  </div>    
     <div class="row form-group">
       <div class="col-md-6">
         <div class="col-md-12">
@@ -503,8 +519,8 @@
                   
                   </tbody>
               </table>
-          </div>
-        </card>
+            </div>
+          </card>
         </div>
 
         <!-- <div class="row">
@@ -575,6 +591,7 @@
     import card from "./card.vue"
       var  medicine ;
       var  timeList ;
+      var patientData = [];
 
     export default {
         data() {
@@ -715,6 +732,7 @@
                   {'name':'Hemant Mathur'},
               ],
               'opdData': {
+                'patientlist':patientData,
                 'case_type': '',
                 'uhid_no': '',
                 'name':'',
@@ -728,7 +746,7 @@
                 'pastHistoryType': 'scribble',
                 'prescription':'',
                 'prescription_quantity':'',
-                'prescription_unit':'',
+                'prescription_unit':'TAB.',
                 'prescription_time':[],
                 'advise':'',
                 'referral':'',
@@ -772,32 +790,71 @@
             tags:false 
           }); 
          var vm =this;  
+
+         
+         let section = 'OPD';
+         
+
          vm.$store.dispatch('resetOpdForm');
+
 
           setTimeout(function(){
             vm.doctor = vm.$store.state.Users.userDetails.first_name+' '+vm.$store.state.Users.userDetails.last_name;  
           },1000);
+          
+           User.getAllPatientNameByConsultDoctor(vm.doctor,section).then(
+             
+                  (response) => {
+                    vm.opdData.patientlist =patientData; 
+                    $.each(response.data, function(key,value) {
+                       patientData.push({
+                         'id' : value.id,
+                         'name' : value.name,
+                         'uhid_no' : value.uhid_no
+                      });
+                    });
+                    
+                     vm.opdData.patientlist =patientData; 
+                    setTimeout(function(){
+                        $('#patient').select2({
+                         placeholder: "Select"
+                        });   
+                      },500)
+                   
+                  },
+                      (error) => {
+                  },
+          );
+            $('#patient').on("select2:select", function (e) {
+              let patientId = $(this).val();
+              
+             
+
+               $.each(patientData, function(key,value) {
+                       if(patientId == value.id){
+                        vm.opdData.uhid_no =value.uhid_no; 
+                       }
+              });
+              
+               //row= ;
+               
+               //vm.opdData.uhid_no
+            });
+
            $('#prescription').on("select2:select", function (e) { 
-              medicine =  $(this).val();
-              vm.PrescriptionData.Prescription = medicine;
-             let medicineType =  medicine.split(" ");
-             let size = medicineType.length;
-             let unitType =  medicineType[size-1];
-              if(unitType.match(/TAB/g)){
-                vm.opdData.prescription_unit='mg';
-              }else if(unitType.match(/INJ/g)){
-                 vm.opdData.prescription_unit='mg/ml';
-              }else if(unitType.match(/SYRUP/g)){
-               vm.opdData.prescription_unit='ml';
-              }else if(unitType.match(/GEL/g)){
-                vm.opdData.prescription_unit='ng/ul';
-              }else{ 
-                vm.opdData.prescription_unit='--';
-              }
+            // console.log($(this).data()[0].formalation);
+            let presId = $('#prescription').select2('data')[0].id;
+            // vm.opdData.prescription = $(this).text();
+            _.find(vm.prescriptionOption, function(res) {
+                    if(res.id == presId) {
+                         vm.opdData.prescription_unit=res.formulation;
+                     
+                    }
+                });
            });
+
           // $('#prescription_time').on("select2:select",function(e){
           //   timeList = $(this).val().join(',');
-          //    vm.PrescriptionData.prescription_time = timeList;
           // });
           $(document).on("select2:select",'.ls-select2', function (e) { 
             if(this.id == 'referral'){
@@ -829,7 +886,7 @@
               vm.opdData.cross_type_ext=$(this).val();
             }
             else if(this.id == 'prescription'){
-              vm.opdData.prescription=$(this).val();
+              vm.opdData.prescription=$(this).select2('data')[0].text;
             }
             else if(this.id == 'case_type'){
               vm.opdData.case_type = $(this).val(); 
@@ -891,7 +948,7 @@
 
              let vm =this;
              
-             if(vm.opdData.prescription == '' || vm.opdData.prescription_quantity == '' ){
+             if(vm.opdData.prescription == '' || vm.opdData.prescription_quantity == '' || vm.opdData.prescription_time ==''){
                     toastr.error('Please select prescription data.', 'prescription error', {timeOut: 5000});
                     return false;
                 }
@@ -899,19 +956,22 @@
                 if(vm.finalPrescriptionData.length > 0){
                    prescription_index = vm.finalPrescriptionData.length + 1;
                  }
-                  vm.PrescriptionData.id = prescription_index ;
-                   vm.PrescriptionData.prescription_quantity = vm.opdData.prescription_quantity ;
-                   vm.PrescriptionData.prescription_unit = m.opdData.prescription_unit ;
+                 
            //  fruits.join(" and ")
               vm.finalPrescriptionData.push({
                           'id' : prescription_index,
-                          'Prescription' : medicine,
+                          'Prescription' : vm.opdData.prescription,
                           'quntity' : vm.opdData.prescription_quantity,
                           'unit' : vm.opdData.prescription_unit,
-                          'time'  : timeList
+                          'time'  : vm.opdData.prescription_time,
+                          'removed': false,
 
               });
               vm.PrescriptiData = vm.finalPrescriptionData;
+              // vm.opdData.prescription = '';
+              vm.opdData.prescription_quantity = '';
+              vm.opdData.prescription_unit = 'TAB.';
+              vm.opdData.prescription_time = '0';
               
 
           },
@@ -1002,7 +1062,7 @@
                 _.find(vm.finalPrescriptionData, function(res) {
                     if(res.id == did) {
                          res.removed = true;
-                         vm.finalPrescriptionData.splice(did, 1);
+                         // vm.finalPrescriptionData.splice(did, 1);
                     }
                 });
           },

@@ -233,5 +233,8 @@ export default {
   },
   printOPDCaseData(OPDCaseData){
       return api.post('print/opdcase',{'OPDCaseData':OPDCaseData})  
+  },
+  getAllPatientNameByConsultDoctor(doctor,section) {
+      return api.post('doctor/patientlist',{'doctor' :doctor,'section':section});
   }
 }
