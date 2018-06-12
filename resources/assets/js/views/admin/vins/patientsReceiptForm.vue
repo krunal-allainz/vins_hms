@@ -308,13 +308,18 @@
 	            		let content = [];	
 	            		let type = 'opd';	
 	            		User.generateReceiptData(this.patientData,type).then(	
-		                (response) => { 	
+		                (response) => { 
 		                	$('#printContent').html('');
-		                	 if ($("#printContent .printReceiptPage" ).length == 0){	
-		                		$('#printContent').append(response.data.html);	
-		                	}else{	
-		                		$('#printContent').append(response.data.html)	
-		                	}	
+		                	if(this.patientData.charges != '' && this.patientData.amount != ''){
+			                	 if ($("#printContent .printReceiptPage" ).length == 0){	
+			                		$('#printContent').append(response.data.html);	
+			                	}else{	
+			                		$('#printContent').append(response.data.html)	
+			                	}
+			                }else{
+			                	 toastr.error('Please fill require data.', 'receipt error', {timeOut: 5000});
+                   						 return false;
+			                }	
 		                	//$('#receiptModal').modal({show:true}); 	
 	
 		            	},	
