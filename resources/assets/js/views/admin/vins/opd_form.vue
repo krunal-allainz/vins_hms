@@ -310,7 +310,7 @@
       </div>
       <div class="col-md-6" v-if="opdData.signaturePad2_src!=''">
           <div class="col-md-12">
-              <label for="history">Past history Preview:  <i class="fa fa-download fa-lg red" @click="download(opdData.signaturePad2_src,'Advice')" aria-hidden="true"></i></label>
+              <label for="history">Advice Preview:  <i class="fa fa-download fa-lg red" @click="download(opdData.signaturePad2_src,'Advice')" aria-hidden="true"></i></label>
             </div>
             <div>
               <img :src="opdData.signaturePad2_src" title="Advice">
