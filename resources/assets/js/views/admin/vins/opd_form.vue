@@ -64,7 +64,7 @@
               <div class="col-md-6">
                 <input type="text" name="weight" id="weight" class="form-control" v-model="opdData.weight"  placeholder="In kgs"   v-validate="'required|numeric'">
                   <span class="help is-danger" v-show="errors.has('weight')">
-                    Field and Numeric value required
+                    Please enter valid weight.
                   </span>
                 </div>
               </div>
@@ -75,7 +75,7 @@
                 <div class="col-md-9">
                   <input type="text" name="height" id="height" class="form-control" placeholder="In cms" v-model="opdData.height"  v-validate="'required|numeric'">
                     <span class="help is-danger" v-show="errors.has('height')">
-                      Field and Numeric value required
+                      Please enter valid height.
                     </span>
                   </div>
                 </div>
@@ -273,19 +273,47 @@
         </div>
       </div>
 
+      <div class="row form-group">
+        <div class="col-md-6">
+            <div class="col-md-12">
+              <label for="history">Advice type:</label>
+              <button type="button" class="btn btn-submit" @click="setHistoryType('advice','text')">Text</button>
+              <button type="button" class="btn btn-warning" @click="setHistoryType('advice','scribble')">Scribble</button>
+            </div>
 
+        </div>
+      </div>
     <div class="row form-group">
       <div class="col-md-6">
         <div class="col-md-6">
-          <label for="advise">Advice:</label>
+          <label for="advice">Advice:</label>
         </div>
-        <div class="col-md-12">
-          <textarea class="form-control" type="text" name="advise" id="advise" v-model="opdData.advise"  v-validate="'required'"></textarea>
-          <span class="help is-danger" v-show="errors.has('advise')">
+        <div class="col-md-12" v-show="opdData.adviceType == 'text'">
+          <textarea class="form-control" type="text" name="advice" id="advice" v-model="opdData.advice"  v-validate="'required'"></textarea>
+          <span class="help is-danger" v-show="errors.has('advice')">
             Field is required
           </span>
         </div>
+         <div class="col-md-12" v-show="opdData.adviceType == 'scribble'">
+              <div id="signature-pad2" class="signature-pad">
+                <div class="signature-pad--body">
+                  <canvas class="can-img" id="advice_scribble" height="200px" width="500px" ></canvas> 
+                </div>
+                <div>
+                  <button type="button" id="clear_advice_scribble" class="btn btn-md btn-danger">Clear</button>
+                  <button type="button" id="save_advice_scribble" class="btn btn-md btn-primary">Save</button>
+                </div>
+              </div>
+            </div>
       </div>
+      <div class="col-md-6" v-if="opdData.signaturePad2_src!=''">
+          <div class="col-md-12">
+              <label for="history">Past history Preview:  <i class="fa fa-download fa-lg red" @click="download(opdData.signaturePad2_src,'Advice')" aria-hidden="true"></i></label>
+            </div>
+            <div>
+              <img :src="opdData.signaturePad2_src" title="Advice">
+            </div>  
+        </div>
     </div>
     <div class="row form-group">
       <div class="col-md-3">
@@ -348,7 +376,8 @@
       </div>
     </div>
   </div>
-  <div class="row form-group">
+  <div class="form-group" v-if="finalPrescriptionData.length>0">
+  <!-- <div class="form-group"> -->
     <div class="col-md-12">
       <card title="<i class='ti-layout-cta-left'></i> Prescription" class="filterable">
       <div class="table-responsive">
@@ -364,8 +393,6 @@
             </tr>
             </thead>
             <tbody>
-              <tr></tr>
-            </tbody>
              <tr v-if="res.removed == false"  v-for="(res,index) in finalPrescriptionData">
                 <td>{{res.id}}</td>
                 <td>{{res.Prescription }}</td>
@@ -374,6 +401,8 @@
                 <td>{{res.time}}</td>
                 <td> <i class="fa fa-remove" @click="removePrescription(res.id)"></i></td>
               </tr>
+
+            </tbody>
         </table>
       </div>
       </card>
@@ -490,9 +519,10 @@
               
            
           </div>
-          <card title="<i class='ti-layout-cta-left'></i> Reports">
+          <div class="col-md-12">
+          <card title="<i class='ti-layout-cta-left'></i> Reports"  class="filterable">
            <div class="table-responsive">
-              <table class="table" id="radio_list">
+              <table class="table table-striped table-bordered" id="radio_list">
                   <thead>
                   <tr>
                       <th>Type</th>
@@ -521,6 +551,8 @@
               </table>
             </div>
           </card>
+          </div>
+          
         </div>
 
         <!-- <div class="row">
@@ -748,7 +780,8 @@
                 'prescription_quantity':'',
                 'prescription_unit':'TAB.',
                 'prescription_time':[],
-                'advise':'',
+                'advice':'',
+                'adviceType': 'scribble',
                 'referral':'',
                 'cross':'',
                 'cross_type_int':'',
@@ -759,6 +792,7 @@
                 'signaturePad_src':'',
 
                 'signaturePad1_src':'',
+                'signaturePad2_src':'',
               }
             }
         }, 
@@ -1091,8 +1125,11 @@
             var vm =this;
             if(res == 'present'){
               vm.opdData.historyType = type;
-            } else {
+            } else if(res == 'past') {
               vm.opdData.pastHistoryType = type;
+            } else {
+              vm.opdData.adviceType = type;
+
             }
           },
           radioSubType(){
@@ -1173,16 +1210,22 @@
             var wrapper1 = document.getElementById("signature-pad1");
             var canvas = document.getElementById("history_scribble");
             var canvas1 = document.getElementById("past_history_scribble");
+            var canvas2 = document.getElementById("advice_scribble");
             var clear_history_scribble = document.getElementById("clear_history_scribble");
             var clear_past_history_scribble = document.getElementById("clear_past_history_scribble");
+            var clear_advice_scribble = document.getElementById("clear_advice_scribble");
             var save_history_scribble = document.getElementById("save_history_scribble");
             var save_past_history_scribble = document.getElementById("save_past_history_scribble");
+            var save_advice_scribble = document.getElementById("save_advice_scribble");
 
 
             vm.opdData.signaturePad = new SignaturePad(canvas, {
               backgroundColor: 'rgb(255, 255, 255)',
             });
             vm.opdData.signaturePad1 = new SignaturePad(canvas1, {
+              backgroundColor: 'rgb(255, 255, 255)',
+            });
+            vm.opdData.signaturePad2 = new SignaturePad(canvas2, {
               backgroundColor: 'rgb(255, 255, 255)',
             });
             window.onresize = vm.resizeCanvas;
@@ -1197,12 +1240,20 @@
               vm.opdData.signaturePad1_src='';
 
             });
+            clear_advice_scribble.addEventListener("click", function (event) {
+              vm.opdData.signaturePad2.clear();
+              vm.opdData.signaturePad2_src='';
+
+            });
             save_history_scribble.addEventListener("click", function (event) {
               vm.opdData.signaturePad_src = vm.opdData.signaturePad.toDataURL();
               
             });
             save_past_history_scribble.addEventListener("click", function (event) {
               vm.opdData.signaturePad1_src = vm.opdData.signaturePad1.toDataURL();
+            });
+            save_advice_scribble.addEventListener("click", function (event) {
+              vm.opdData.signaturePad2_src = vm.opdData.signaturePad2.toDataURL();
             });
             
               // if (signaturePad.isEmpty()) {
