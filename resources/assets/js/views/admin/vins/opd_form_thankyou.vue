@@ -99,7 +99,6 @@
 		 				<table class="table" id="radio_list">
 			                  <thead>
 			                  <tr>
-			                      <th>#</th>
 			                      <th>Type</th>
 			                      <th>Body parts</th>
 			                      <th>Qualifier</th>
@@ -109,13 +108,11 @@
 			                  </tr>
 			                  </thead>
 			                  <tbody>
-			                  <tr v-if="res.removed == false" v-for="(res,index) in radiologyData">
-			                  	
-			                      <td>{{++index}}</td>
-			                      <td>{{res.type}}</td>
-			                      <td>{{res.bodyPart}}</td>
-			                      <td>{{res.qualifier}}</td>
-			                      <td>{{res.special_request}}</td>
+			                  <tr>
+			                      <td>{{radiologyData.type}}</td>
+			                      <td>{{radiologyData.bodyPart}}</td>
+			                      <td>{{radiologyData.qualifier}}</td>
+			                      <td>{{radiologyData.special_request}}</td>
 			                      <!-- <td>{{res.textData | strLimit}}</td> -->
 			                      <!-- <td><a href="javascript:void(0)" @click="viewGallery(res.id)" class="red">View</a></td> -->
 			                      <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
