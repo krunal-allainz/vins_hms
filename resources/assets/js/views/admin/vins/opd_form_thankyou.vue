@@ -158,6 +158,7 @@
 	export default {
 		data() {
 			return{
+				'adviceType' :this.$store.state.Patient.opdData.adviceType,
 				'adviceData':this.$store.state.Patient.opdData.advise,
 				'adviceDoctor':'Dr. '+this.$store.state.Users.userDetails.first_name+' '+this.$store.state.Users.userDetails.last_name,
 				'priscriptionData':this.$store.state.Patient.PrescriptiData,

@@ -293,7 +293,7 @@
           <label for="advice">Advice:</label>
         </div>
         <div class="col-md-12" v-show="opdData.adviceType == 'text'">
-          <textarea class="form-control" type="text" name="advice" id="advice" v-model="opdData.advice"  "></textarea>
+          <textarea class="form-control" type="text" name="advice" id="advice" v-model="opdData.advice"></textarea>
          
         </div>
          <div class="col-md-12" v-show="opdData.adviceType == 'scribble'">
