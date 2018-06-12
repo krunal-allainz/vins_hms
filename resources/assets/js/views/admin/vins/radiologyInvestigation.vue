@@ -5,7 +5,8 @@
         <div class="col-md-12">
              <card title="<i class='ti-layout-cta-left'></i> Reports">
                 <div class="table-responsive">
-                    <table class="table" id="radio_list">
+                    <table class="table table-striped table-bordered" id="radio_list">
+              
                         <thead>
                         <tr>
                             <th>#</th>
