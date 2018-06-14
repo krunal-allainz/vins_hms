@@ -50,7 +50,8 @@
      $('#responceMessage').text('');
     import Auth from '../../services/auth';
     import User from '../../api/users.js';
-    import Ls from '../../services/ls'
+    import Ls from '../../services/ls';
+    import anime from 'animejs';
 
 export default{
     
@@ -78,17 +79,19 @@ export default{
                              $('#responceMessage').text('');
                              var resetLink  = '';
                             if(response.data.status == 200) {
-                                 var resetLink  = 'password/reset/'+response.data.token+'?email='+response.data.email;
-                                toastr.success('Succesfully link send', 'Forgot password', {timeOut: 5000})
-                                $('#responceMessage').text(resetLink);
+                                  var resetLink  =  response.data.link;
+                                  var msg  = response.data.msg;
+                                  alert('You just copied this link : ' + resetLink);
+                                  toastr.success('Succesfully link send', 'Forgot password', {timeOut: 5000})
+                                  $('#responceMessage').text(msg);
                             }else if(response.data.status == 404) {
-                                var resetLink  = 'Record not found';
-                                toastr.error('Record not found', 'Error', {timeOut: 5000});
-                                  $('#responceMessage').text(resetLink);
+                                 var msg  = 'Record not found';
+                                 toastr.error('Record not found', 'Error', {timeOut: 5000});
+                                 $('#responceMessage').text(msg);
                             } else{
-                                 var resetLink = '';
+                                var msg = '';
                                 toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
-                                 $('#responceMessage').text(resetLink);
+                                 $('#responceMessage').text(msgs);
                             }
 
                         })

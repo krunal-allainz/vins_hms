@@ -58,6 +58,7 @@
 	
   import addressograph from './addressograph.vue';
   import SelectPatientModal from '../../../components/SelectPatientModal.vue';
+  import myDatepicker from 'vue-datepicker';
 
     export default {
         data() {
@@ -116,9 +117,9 @@
 			 },
 
        mounted() {
-          // if(this.ipd_id == 0){
-            $('#delete_modal').modal('show');
-          // }
+           if(this.$store.state.Patient.ipdId == '') {
+                      $('#delete_modal').modal('show');
+                }
           $('.ls-timepicker').timepicker({
               format: 'hh-mm',
               'autoclose': true

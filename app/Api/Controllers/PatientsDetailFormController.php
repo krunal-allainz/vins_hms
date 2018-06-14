@@ -8,6 +8,10 @@ use euro_hms\Models\User;
 use euro_hms\Models\PatientDetailsForm;
 use euro_hms\Models\IpdDetails;
 use euro_hms\Models\OpdDetails;
+use Illuminate\Support\Facades\Response;
+use euro_hms\Models\Receipt;
+
+use Terbilang;
 
 
 use DB;
@@ -48,6 +52,7 @@ class PatientsDetailFormController extends Controller
         // dd($request->all());
         $data = $request->all()['patientData']['patientData'];
         $patientType = $request->all()['patientData']['patientType'];
+        // dd($patientType);
         $uhid="VM";
         $year = date('y');
         // dd($patientUHId);
@@ -57,7 +62,7 @@ class PatientsDetailFormController extends Controller
            $lastPatientId=$patientD->id;
            $newPatNo = sprintf("%04d",++$lastPatientId);
            $insertedPatientId=$uhid.$year.$newPatNo;
-
+           // dd($data);
             $patientData = PatientDetailsForm::create([
            // 'date' => $request->date,
            // 'time' => $request->time,
@@ -65,7 +70,7 @@ class PatientsDetailFormController extends Controller
           'first_name' => $data['fname'],
           'middle_name' => $data['mname'],
           'last_name' => $data['lname'],
-          'dob' => $data['dob'],
+          'dob' => Carbon::createFromFormat('d-m-Y', $data['dob']['time']),
           'gender' => $data['gender'],
           'address' => $data['address'],
           'ph_no' => $data['ph_no'],
@@ -121,6 +126,24 @@ class PatientsDetailFormController extends Controller
         
         // return view('\index');
     }
+    public function getPatientDetailBysearch(Request $request)
+    {
+        $data = $request->all()['searchData'];
+        $patientId = 0;
+        if($data['select_type'] == 'uhidNo'){
+            $select_key = 'uhid_no';
+        }else {
+            $select_key = 'mob_no';
+        }
+        $patientData = PatientDetailsForm::where($select_key,$data['select_value'])->get()->first();
+        if($patientData) {
+             return ['code' => '200','data'=>$patientData, 'message' => 'Patient record '];
+        } else {
+             return ['code' => '300','patientData'=>'', 'message' => 'Record not found'];
+        }
+       
+
+    }
 
     /**
      * get all details of patient.
@@ -142,12 +165,12 @@ class PatientsDetailFormController extends Controller
         }
     }
     public function getAllPatientName() {
-        $ipdDetails = IpdDetails::with('patientDetails')->get();
-        if ($ipdDetails) {
-                return ['code' => '200','data'=>$ipdDetails, 'message' => 'Record Sucessfully created'];
-            } else {
-                return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
-            }
+        $patientDetails = PatientDetailsForm::get();
+        if ($patientDetails) {
+            return ['code' => '200','data'=>$patientDetails, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
     }
     /**
      * Display the specified resource.
@@ -192,5 +215,54 @@ class PatientsDetailFormController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+
+    /**    
+    *   print patient recept   
+    *      
+    *      
+    *      
+    */ 
+    public function printReceipt(Request $request,$content = array()){ 
+   
+        //return response()->view('receipt', $content, 200)->header('Content-Type','application/pdf'); 
+   
+           /* $contents = view('receipt', $content,200);   
+           // $response = Response::make($contents, $statusCode);  
+            $response->header('Content-Type', 'application/pdf');  
+            return $response;*/    
+   
+            return response()->view('receipt', $content, 200); 
+   
+    }  
+   
+    public function saveReceiptData(Request $request){ 
+        $data =  Receipt::saveReceipt($request);   
+        $wordAmount = Terbilang::make($request->formData['amount']);   
+        $formData = [  
+            'name' => $request->formData['fullname'],  
+            'date' => $request->formData['date_receipt'] , 
+            'consultant' => $request->formData['reference_dr'],    
+            'age' =>   $request->formData['age'],  
+            'gender' =>$request->formData['gender'],   
+            'wordamount' => $wordAmount    
+        ]; 
+        /*$data = array_push($data,{'name' : $request->formData['fullname'],'date' : $request->formData['date_receipt'] });*/  
+        $view = view("receipt",['data'=> $data,'formData' => $formData])->render();    
+        return response()->json(['html'=>$view]);  
+       //  return redirect('receipt/view');    
+    }
+
+    /**
+    */
+    public  function getAllPatientNameByConsultDoctor(Request $request){
+            $consultDr = $request->doctor;
+            $section   =  $request->section;
+             $patientDetails = PatientDetailsForm::getPatientListByConsultDr($consultDr, $section);
+            return $patientDetails; 
+                      
+        
     }
 }
