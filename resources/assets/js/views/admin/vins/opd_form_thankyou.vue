@@ -53,7 +53,7 @@
     	 	 			</div>	
     	 	 			<br/>
     	 	 			<br/>
-    	 	 			<div v-if="(adviceData !== null)">
+    	 	 			<div v-if="(adviceType == 'text' && advice != '')">
     	 	 				<div class='col-md-6 text-left'>
 				 				<span class='text-left'><b>Advice :-</b></span>
 				 			</div>
@@ -61,6 +61,13 @@
 			 					<div class='col-md-12 text-left' v-if ="(adviceType == 'text')">
 			 							<span class='text-left' style="padding-left:30px;"> {{advice}}</span>
 			 					</div>
+							</div>
+    	 	 			</div>
+    	 	 			<div v-if="(adviceType !== 'text' && adviceScribleValue != '')">
+    	 	 				<div class='col-md-6 text-left'>
+				 				<span class='text-left'><b>Advice :-</b></span>
+				 			</div>
+				 			<div class='row'>
 			 					<div class='col-md-12 text-left' v-if ="(adviceType != 'text')">
 						            <img :src="adviceScribleValue" title="Advice">
 						        </div>  
@@ -87,7 +94,7 @@
 							                <td>{{++index}}</td>
 							                <td>{{res.Prescription }}</td>
 							                <td class="text-center">{{res.quntity}}</td>
-							                <td class="text-center">@(isset(res.unit)):{{res.unit}}?''</td>
+							                <td class="text-center">{{res.unit}}</td>
 							                <td class="text-center">{{res.time}}</td>
 							              </tr>
 
