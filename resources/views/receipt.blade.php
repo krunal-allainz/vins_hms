@@ -8,17 +8,16 @@
        		</div>	
 			<div class="row">	
         		<div class="col-md-12 text-center">	
-        			<div class="address text-center">99,Urmi Society, Opp Haveli Productivity Road, Akota Vadodara. Ph :(0265)2331343 , 2341787 </div>	
+        			<div class="address text-center">99,Urmi Society, Opp Haveli Productivity Road, Akota Vadodara. Ph :(0265)2331343 , 2341787 
+                    </div>	
         		</div>	
                 <div class="col-md-12 text-center"> 
         ----------------------------------------------------------------------------------------------------------------------------------------------------------</div>
-			</div>	
-			
-        			
-		
-			
-	
-         <table class="table" align="center" cellspacing=0>	
+			     </div>	
+            </div>
+    <div class="row">   
+        <div class="col-md-12 text-center"> 
+         <table class="table" align="center" cellspacing=0 width="90%">	
          	<thead>	
          		<tr>	
          			<td class="text-left"><b>ReceiptNo</b> : {{$data['receiptNumber']}}</td>	
@@ -36,7 +35,7 @@
          			<td class="text-left"><b>Consultant Name</b> : <span class="text-uppercase"> {{$formData['consultant']}}	</span></td>	
          			<td></td>	
          		</tr>	
-         		<tr  style="border: 1px solid #ddd !important;border-left: 0px !important;border-right: 0px !important;">	
+         		<tr  class="border-tr-top-bottom" style="border: 1px solid #ddd !important;border-left: 0px !important;border-right: 0px !important;">	
          			<th class="text-center">Particular</th>	
          			<th class="text-center">Amount</th>	
          		</tr>	
@@ -47,10 +46,10 @@
          	</tr>	
 	
          	<tr>	
-         		<td width="500px"><span class="text-uppercase"></span></td>	
-         		<td class="text-center">	
-         			<table class="text-center">	
-         				<tr  style="border-top: 1px solid #ddd !important;">	
+         		<td width="500px" class="text-left"><span class="text-uppercase"></span></td>	
+         		<td class="text-right">	
+         			<table align="center">	
+         				<tr  class="border-top-tr" style="border-top: 1px solid #ddd !important;">	
          					<td class="text-center"><b>{{number_format($data['amount'], 2)}}</b></td>	
          					<td class="text-center"><b>0.00</b></td>	
          					<td class="text-center"><b>{{number_format($data['amount'], 2)}}</b></td>	
@@ -59,16 +58,23 @@
          		</td>	
          	</tr>	
 	
-         	<tr  style="border: 1px solid #ddd !important;border-left: 0px !important;border-right: 0px !important;">	
+         	<tr  class="border-tr-top-bottom" style="border: 1px solid #ddd !important;border-left: 0px !important;border-right: 0px !important;">	
          		<td  class="text-left text-capitalize"><b>Rs.{{$formData['wordamount']}} Only</b></td>	
-         		<td  class="text-left"><b>Net Amount: {{number_format($data['amount'], 2)}}</b></td>	
+         		<td  class="text-right">
+                    <table align="center">  
+                        <tr >  
+                            <td class="text-center"><b>Net Amount: {{number_format($data['amount'], 2)}}</b></td>   
+                            
+                        </tr>   
+                    </table>
+                </td>	
          	</tr>	
          	<tr>	
          		<td class="text-left">Rs <span class="text-right">{{$data['amount']}}/-</span></td>	
-         		<td class="text-right" width="400px">For, Vadodara Institute Of Neurological Sciences</td>	
+         		<td class="text-right" width="500px">For, Vadodara Institute Of Neurological Sciences</td>	
          	</tr>	
          	<tr >	
-         		<td>=========================</td>	
+         		<td class="text-left">=========================</td>	
          		<td></td>	
          	</tr>	
          	<tr colspan="2">	
@@ -78,7 +84,7 @@
          	</tr>	
          		
          </table>	
-        	
+       </div> 	
 	
 </div>	
 	</div>	
@@ -124,63 +130,71 @@ body {
         flex: 0 0 50%;
         max-width: 50%;
     }
- #receiptModal .modal-content{	
-    width : 850px;	
-}	
-#printContent .address{	
-    font-size : medium;	
-}	
-#printContent table{	
-    width : 90%;	
-	
-}	
-#printContent table, th, td, tbody, thead, tr{	
-    border : 0 !important;	
-    padding : 3px 0px !important;	
-}	
-	
-#printContent table.table-bordered, th, td, tbody, thead, tr{	
-    border : 0 !important;	
-     padding : 3px  0px !important;	
-}	
-#printContent table tr.borderTopBottom{	
-    border: 1px solid #ddd !important;border-left: 0px !important;border-right: 0px !important;	
-}	
-#printContent table tr.borderTop{	
-    border-top: 1px solid #ddd !important;	
-}
-.table thead th {
-    vertical-align: bottom;
-    border-bottom: 2px solid #eceeef;
-}
-.table th, .table td {
-    padding: 0.75rem;
-    vertical-align: top;
-    border-top: 1px solid #eceeef;
-}
-@page {
-    margin: 5px;
-    size: landscape;
-}	
+    .modal-content{	
+        width : 850px;	
+    }	
+     .address{	
+        font-size : medium;	
+    }	
+    table{	
+        width : 90%;	
+    	
+    }	
+    table, th, td, tbody, thead, tr{	
+        
+        padding : 3px 0px !important;	
+    }	
+    	
+    table.table-bordered, th, td, tbody, thead, tr{	
+        
+         padding : 3px  0px !important;	
+    }	
+    table tr.borderTopBottom{	
+        border: 1px solid #ddd !important;border-left: 0px !important;border-right: 0px !important;	
+    }	
+    table tr.borderTop{	
+        border-top: 1px solid #ddd !important;	
+    }
+    .table thead th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #eceeef;
+    }
+    .table th, .table td {
+        padding: 0.75rem;
+        vertical-align: top;
+        border-top: 1px solid #eceeef;
+    }
+     table tr.border-top-tr{
+            border-top: 1px solid #ddd !important;
+        }
+     table tr.border-tr-top-bottom{
+        border: 1px solid #ddd !important;border-left: 0px !important;border-right: 0px !important; 
+    }
+
+    @page {
+        margin: 5px;
+        size: landscape;
+    }	
+
 @media print {	
-  html {
-    -ms-overflow-style: scrollbar;
-    -webkit-tap-highlight-color: transparent;
-}
-body {
-     background-color: #fff;
-    font-family: "Lato", sans-serif;
-    color: #595959;
-    font-size: small;
-    letter-spacing: 0.5px;
-    font-weight: normal;
-    line-height: 1.5;
-}   
-.row {
-    margin-right: -15px;
-    margin-left: -15px;
-}
-.text-center {
+    html {
+        -ms-overflow-style: scrollbar;
+        -webkit-tap-highlight-color: transparent;
+    }
+    body {
+        background-color: #fff;
+        font-family: "Lato", sans-serif;
+        color: #595959;
+        font-size: small;
+        letter-spacing: 0.5px;
+        font-weight: normal;
+        line-height: 1.5;
+    }   
+    .row {
+        margin-right: -15px;
+        margin-left: -15px;
+    }
+    .text-center {
         text-align: center !important;
     }
     .text-left {
@@ -206,17 +220,15 @@ body {
         border : 0 !important;	
         padding : 3px 0px !important;	
     }	
-	
+	table, th, td, tbody, thead, tr{   
+        
+        padding : 3px 0px !important;   
+    }   
+    
      table.table-bordered, th, td, tbody, thead, tr{	
         border : 0 !important;	
          padding : 3px  0px !important;	
-    }	
-     table tr.borderTopBottom{	
-    border: 1px solid #ddd !important;border-left: 0px !important;border-right: 0px !important;	
-    }	
-    table tr.borderTop{	
-        border-top: 1px solid #ddd !important;	
-    }	
+    }		
     .table thead th {
     vertical-align: bottom;
     border-bottom: 2px solid #eceeef;
@@ -225,6 +237,23 @@ body {
     padding: 0.75rem;
     vertical-align: top;
     border-top: 1px solid #eceeef;
+    }
+     table tr.border-top-tr{
+        border-top: 1px solid #ddd !important;
+         -webkit-print-color-adjust: exact; 
+    }
+     table tr.border-tr-top-bottom{
+       border: 1px solid #ddd !important;border-left: 0px !important;border-right: 0px !important; 
+        -webkit-print-color-adjust: exact; 
+    }
+     table{
+        border-collapse: collapse
+    }
+    .container {
+        width: 1140px;
+        max-width: 100%;
+            padding-right: 15px;
+    padding-left: 15px;
     }
 }	
 	

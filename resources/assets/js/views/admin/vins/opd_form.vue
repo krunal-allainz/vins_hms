@@ -293,7 +293,7 @@
           <label for="advice">Advice:</label>
         </div>
         <div class="col-md-12" v-show="opdData.adviceType == 'text'">
-          <textarea class="form-control" type="text" name="advice" id="advice" v-model="opdData.advice"  "></textarea>
+          <textarea class="form-control" type="text" name="advice" id="advice" v-model="opdData.advice"></textarea>
          
         </div>
          <div class="col-md-12" v-show="opdData.adviceType == 'scribble'">
@@ -310,7 +310,7 @@
       </div>
       <div class="col-md-6" v-if="opdData.signaturePad2_src!=''">
           <div class="col-md-12">
-              <label for="history">Past history Preview:  <i class="fa fa-download fa-lg red" @click="download(opdData.signaturePad2_src,'Advice')" aria-hidden="true"></i></label>
+              <label for="history">Advice Preview:  <i class="fa fa-download fa-lg red" @click="download(opdData.signaturePad2_src,'Advice')" aria-hidden="true"></i></label>
             </div>
             <div>
               <img :src="opdData.signaturePad2_src" title="Advice">
