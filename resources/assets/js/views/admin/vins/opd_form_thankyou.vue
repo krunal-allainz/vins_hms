@@ -58,17 +58,44 @@
 				 				<span class='text-left'><b>Advice :-</b></span>
 				 			</div>
 				 			<div class='row'>
-			 						<div class='col-md-12 text-left'>
-			 							<span class='text-left' style="padding-left:30px;"> {{adviceData}}</span>
-			 						</div>
+			 					<div class='col-md-12 text-left' v-if ="(adviceType == 'text')">
+			 							<span class='text-left' style="padding-left:30px;"> {{advice}}</span>
 			 					</div>
+			 					<div class='col-md-12 text-left' v-if ="(adviceType != 'text')">
+						            <img :src="adviceScribleValue" title="Advice">
+						        </div>  
+							</div>
     	 	 			</div>
     	 	 			<br/><br/>
     	 	 			<div v-if="(priscriptionData !== null)">
     	 	 				<div class='col-md-6 text-left'>
 				 				<span class='text-left'><b>prescription :-</b></span>
 				 			</div>
-							{{priscriptionData}}
+							<div class="table-responsive">
+							        <table class="table table-striped table-bordered" id="prescription_list">
+							            <thead>
+							            <tr>
+							                <th>#</th>
+							                <th>Name</th>
+							                <th>Quntity</th>
+							                <th>Unit</th>
+							                <th>Time For Medicine</th>
+							                <th>Action</th>
+							            </tr>
+							            </thead>
+							            <tbody>
+							             <tr  v-for="(res,index) in finalPrescriptionData">
+							                <td>++index</td>
+							                <td>{{res.Prescription }}</td>
+							                <td>{{res.quntity}}</td>
+							                <td>{{res.unit}}</td>
+							                <td>{{res.time}}</td>
+							                <td> <i class="fa fa-remove" ></i></td>
+							              </tr>
+
+							            </tbody>
+							        </table>
+							      </div>
        
     	 	 			</div>
     	 	 			<br/><br/>
@@ -159,15 +186,19 @@
 		data() {
 			return{
 				'adviceType' :this.$store.state.Patient.opdData.adviceType,
-				'adviceData':this.$store.state.Patient.opdData.advise,
+				'adviceData':this.$store.state.Patient.opdData.advice,
 				'adviceDoctor':'Dr. '+this.$store.state.Users.userDetails.first_name+' '+this.$store.state.Users.userDetails.last_name,
-				'priscriptionData':this.$store.state.Patient.PrescriptiData,
+				'PrescriptiData':this.$store.state.Patient.PrescriptiData,
 				'referalType':this.$store.state.Patient.opdData.referral,
 				'crossType':this.$store.state.Patient.opdData.cross,
 				'radiologyData':this.$store.state.Patient.opd_resultData,
 				'printType':'',
 				'todayDate' : formattedDate,
 				'crossSelectedValue' : '',
+				'adviceScribleValue' : '',
+				'advice' : this.$store.state.Patient.opdData.advice;
+				'finalPrescriptionData' : [];
+
 
 			}
 		},
@@ -176,7 +207,7 @@
          vinsletterheadfooterpart,
        },
        mounted(){
-       		if(this.referalType == 'cross'){
+       			if(this.referalType == 'cross'){
 							if(this.crossType == 'internal'){
 								this.crossSelectedValue = this.$store.state.Patient.opdData.cross_type_int;
 							}
@@ -184,6 +215,18 @@
 								this.crossSelectedValue = this.$store.state.Patient.opdData.cross_type_ext;
 							}
 						}
+				if(this.adviceType != 'text'){
+					this.adviceScribleValue = this.$store.state.Patient.opdData.signaturePad2_src;
+				}
+				vm.finalPrescriptionData.push({
+                          'Prescription' : $store.state.Patient.opdData.prescription,
+                          'quntity' :$store.state.Patient.opdData.prescription_quantity,
+                          'unit' : $store.state.Patient.opdData.prescription_unit,
+                          'time'  : $store.state.Patient.opdData.prescription_time,
+                         
+
+              });
+
        },
 		methods: {
 
