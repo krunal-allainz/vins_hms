@@ -340,9 +340,16 @@
 			<span class='text-left'><b>Advice :-</b></span>
 		</div>
 		<div class='row'>
-			<div class='col-md-12 text-left'>
-				<span class='text-left' style="padding-left:30px;">{{$data['advice']}}</span>
-			</div>
+			@if ($data['adviceType'] == 'text')
+				<div class='col-md-12 text-left'>
+					<span class='text-left' style="padding-left:30px;">{{$data['advice']}}</span>
+				</div>
+			@endif
+			@if ($data['adviceType'] != 'text')
+				<div class='col-md-12 text-left'>
+				    <img :src="$data['adviceScribleValue']" title="Advice">
+				</div> 
+			@endif 
 		</div>
 	</div>
 	<br/><br/>
@@ -353,12 +360,31 @@
 		<div class='col-md-6 text-left'>
 			<span class='text-left'><b>prescription :-</b></span>
 		</div>
-		<ol class='text-left' >
-			@foreach($data['priscriptionData'] as $key)
 
-				<li class='text-left'>{{$key}}</li>
-			@endforeach
-		</ol>
+		<div class="table-responsive">
+			<table class="table" id="prescription_list">
+			    <thead>
+				    <tr>
+					   <th width="8%">#</th>
+					   <th>Name</th>
+					   <th class="text-center">Quntity</th>
+					   <th class="text-center">Unit</th>
+					   <th class="text-center">Time For Medicine</th>
+				 	</tr>
+					</thead>
+					   <tbody>
+					   	@foreach($data['priscriptionData'] as $key=>$value)
+						   <tr >
+							   <td>{{$key}}</td>
+							   <td>{{$value['Prescription'] }}</td>
+							   <td class="text-center">{{$value['quntity']}}</td>
+							   <td class="text-center">{{(isset($value['unit']):$value['unit']?'';}}</td>
+							   <td class="text-center">{{$value['time']}}</td>
+						  </tr>
+						@endforeach
+		           </tbody>
+		       </table>
+		</div>
 	</div>
 	<br/><br/>
 	@endif
