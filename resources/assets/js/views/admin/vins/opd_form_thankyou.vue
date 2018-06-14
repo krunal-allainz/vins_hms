@@ -72,25 +72,23 @@
 				 				<span class='text-left'><b>prescription :-</b></span>
 				 			</div>
 							<div class="table-responsive">
-							        <table class="table table-striped table-bordered" id="prescription_list">
+							        <table class="table" id="prescription_list">
 							            <thead>
 							            <tr>
-							                <th>#</th>
+							                <th width="8%">#</th>
 							                <th>Name</th>
-							                <th>Quntity</th>
-							                <th>Unit</th>
-							                <th>Time For Medicine</th>
-							                <th>Action</th>
+							                <th class="text-center">Quntity</th>
+							                <th class="text-center">Unit</th>
+							                <th class="text-center">Time For Medicine</th>
 							            </tr>
 							            </thead>
 							            <tbody>
-							             <tr  v-for="(res,index) in finalPrescriptionData">
-							                <td>++index</td>
+							             <tr  v-for="(res,index) in prescriptiData">
+							                <td>{{++index}}</td>
 							                <td>{{res.Prescription }}</td>
-							                <td>{{res.quntity}}</td>
-							                <td>{{res.unit}}</td>
-							                <td>{{res.time}}</td>
-							                <td> <i class="fa fa-remove" ></i></td>
+							                <td class="text-center">{{res.quntity}}</td>
+							                <td class="text-center">@(isset(res.unit)):{{res.unit}}?''</td>
+							                <td class="text-center">{{res.time}}</td>
 							              </tr>
 
 							            </tbody>
@@ -186,9 +184,7 @@
 		data() {
 			return{
 				'adviceType' :this.$store.state.Patient.opdData.adviceType,
-				'adviceData':this.$store.state.Patient.opdData.advice,
 				'adviceDoctor':'Dr. '+this.$store.state.Users.userDetails.first_name+' '+this.$store.state.Users.userDetails.last_name,
-				'PrescriptiData':this.$store.state.Patient.PrescriptiData,
 				'referalType':this.$store.state.Patient.opdData.referral,
 				'crossType':this.$store.state.Patient.opdData.cross,
 				'radiologyData':this.$store.state.Patient.opd_resultData,
@@ -196,9 +192,8 @@
 				'todayDate' : formattedDate,
 				'crossSelectedValue' : '',
 				'adviceScribleValue' : '',
-				'advice' : this.$store.state.Patient.opdData.advice;
-				'finalPrescriptionData' : [];
-
+				'advice' : this.$store.state.Patient.opdData.advice,
+				'prescriptiData' : this.$store.state.Patient.opdData.prescriptiData,
 
 			}
 		},
@@ -218,14 +213,6 @@
 				if(this.adviceType != 'text'){
 					this.adviceScribleValue = this.$store.state.Patient.opdData.signaturePad2_src;
 				}
-				vm.finalPrescriptionData.push({
-                          'Prescription' : $store.state.Patient.opdData.prescription,
-                          'quntity' :$store.state.Patient.opdData.prescription_quantity,
-                          'unit' : $store.state.Patient.opdData.prescription_unit,
-                          'time'  : $store.state.Patient.opdData.prescription_time,
-                         
-
-              });
 
        },
 		methods: {
@@ -233,14 +220,16 @@
 			ClickHereToPrint() {	
 				
 				var  OPDCaseData = {
-							'advice' : this.adviceData,
+							'advice' : this.advice,
+							'adviceType' : this.adviceType,
 							'adviceDoctor' : this.adviceDoctor,
-							'priscriptionData': this.priscriptionData,
+							'priscriptionData': this.prescriptiData,
 							'referalType' :this.referalType,
 							'crossType' : this.crossType,
 							'radiologyData' : this.radiologyData,
 							'todayDate': this.todayDate,
-							'crossSelectedValue' : this.crossSelectedValue
+							'crossSelectedValue' : this.crossSelectedValue,
+							'adviceScribleValue' : this.adviceScribleValue,
 						};
 
 				      	User.printOPDCaseData(OPDCaseData).then(	
