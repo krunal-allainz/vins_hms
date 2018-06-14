@@ -100,7 +100,12 @@ import provisionalDiagnosis from './views/admin/vins/provisionalDiagnosis.vue'
 import opdformthankyou from './views/admin/vins/opd_form_thankyou.vue'
 import vinsletterheadheaderpart from './views/admin/vins/vins_letter_header.vue'
 import vinsletterheadfooterpart from './views/admin/vins/vins_letter_footer.vue'
+
+//for opd recipt list
+import opdreceiptlist from './views/admin/vins/opd_receipt_list.vue'
+
 import receipt from './views/admin/vins/receipt.vue'
+
 
 
 //import changePwd from './views/emails/ChangePwd.vue'
@@ -153,6 +158,12 @@ const routes = [
                 component: opdformthankyou,
                 meta: { requiresAuth: true },
                 name: 'opd_form_thankyou'
+            },
+             {
+                path: '/opd_receipt_list',
+                component: opdreceiptlist,
+                meta: { requiresAuth: true },
+                name: 'opd_receipt_list'
             },
             {
                 path: '/vins_letterhead_Header',
