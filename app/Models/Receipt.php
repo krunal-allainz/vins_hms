@@ -4,10 +4,16 @@ namespace euro_hms\Models;
 
 use Illuminate\Database\Eloquent\Model;	
 use Carbon\Carbon;	
+use DB;
+use euro_hms\Api\Repositories\ReceiptRepository;
+
 	
 class Receipt extends Model	
 {	
     //	
+
+    private $receiptObj = new ReceiptRepository();
+
     protected $table = 'receipt';	
 	
     protected $fillable=[	
@@ -23,6 +29,7 @@ class Receipt extends Model
 	
     ];	
 	
+    
 	
     static function saveReceipt($request){ 	
       //dd(Carbon::createFromFormat('dd-MM-yyyy', $request->formData['date_receipt']));	
@@ -52,5 +59,13 @@ class Receipt extends Model
 	
         $data = ['receiptId'=>$receiptId,'receiptNumber'=>$receiptNumber,'caseNo'=>$request->formData['case_no'],'chagredName'=>$request->formData['charges'],'amount'=>$request->formData['amount']];	
         return $data;	
+      }
+
+      public static function receiptlist(){
+        return $this->$receiptObj->getReceiptList(); 
+      }
+
+      public static function getReceiptDataById($id){
+         return $this->$receiptObj->getReceiptDataById($id);
       }
 }

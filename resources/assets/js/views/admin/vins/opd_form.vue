@@ -638,7 +638,6 @@
               'prescriptionOption':'',
               'finalResultData':{},
               'finalPrescriptionData' : [],
-              'PrescriptiData' : {},
               'investigationData':{
                   'radiologyType':[
                     {text:'',value:''},
@@ -795,6 +794,7 @@
 
                 'signaturePad1_src':'',
                 'signaturePad2_src':'',
+                'prescriptiData' : '',
               }
             }
         }, 
@@ -1003,7 +1003,8 @@
                           'removed': false,
 
               });
-              vm.PrescriptiData = vm.finalPrescriptionData;
+//              vm.PrescriptiData = vm.finalPrescriptionData;
+               vm.opdData.prescriptiData  =  _.cloneDeep(vm.finalPrescriptionData);
               // vm.opdData.prescription = '';
               vm.opdData.prescription_quantity = '';
               vm.opdData.prescription_unit = 'TAB.';
