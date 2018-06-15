@@ -37,7 +37,7 @@
                <td>{{res.date}}</td>
                <td>
                	<button type="button" class="btn btn-success" >Print</button>
-               	<!-- <button type="button" class="btn btn-success" data-toggle="modal" href="#receiptModal" id="modellink" @click="receiptPrintView()">Print</button> -->
+               	<!-- <button type="button" class="btn btn-success" data-toggle="modal" href="#receiptModal" id="modellink" @click="receiptPrintView(res.id)">Print</button> -->
                <button type="button" class="btn btn-danger" @click="removeReceipt(res.id)">Delete</button></td>
             </tr>
 
@@ -121,7 +121,7 @@
 
 			},
 			receiptPrintView(id) {   	
-		    
+		    	console.log('test');
 	            	//if (!this.errors.any()) {	
 	            		// $("body .js-loader").removeClass('d-none');	
 	            		let content = [];	
