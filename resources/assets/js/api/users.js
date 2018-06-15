@@ -238,6 +238,12 @@ export default {
       return api.post('doctor/patientlist',{'doctor' :doctor,'section':section});
   },
   getReceiptList(){
-     return api.post('patient/receiptlist');
+     return api.post('patient/receipt/list');
+  },
+  removeReceipt(id){
+     return api.post('patient/receipt/remove',{'id':id});
+  },
+  generateReceiptDataById(id,type){
+      return api.post('patient/receipt/view',{'id':id,'type':type});
   }
 }
