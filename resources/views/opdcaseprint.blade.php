@@ -150,12 +150,12 @@
 	
     
 	}
-	html {
+		html {
 		    -ms-overflow-style: scrollbar;
-		    -webkit-tap-highlight-color: transparent;
+		    -webkit-print-color-adjust: exact; 
 		}
 		body {
-			-webkit-print-color-adjust: exact; 
+		-webkit-print-color-adjust: exact; 
 	   /* background-color: #eeeeee;*/
 	    font-family: "Lato", sans-serif;
 	    color: #595959;
@@ -290,12 +290,14 @@
         border-top: 1px solid #ddd !important; 
     }  
     .letter-head img{
-    width:30%;
+   		 width:30%;
+   		 -webkit-print-color-adjust: exact; 
     }
 	
      @page{
     	margin: 0px;
     	 size: portrait;
+    	 -webkit-print-color-adjust: exact; 
 
     }
 	@media (min-width: 768px)
@@ -308,10 +310,10 @@
 <body>
 	
 	<div class="container" style="padding:15px;">
-    <div class="page-header"> 
+    <div class=""> 
        <div class="row">
         <div class="col-md-12">
-            <img src="{{$url.'/assets/img/nabh_vins_logo.png'}}" id="logo-desk" alt="NABH Logo" class="hidden-sm-down" width="30%" height="10%">
+            <img src="{{$url.'/assets/img/nabh_vins_logo.png'}}" id="logo-desk" alt="NABH Logo" class="hidden-sm-down">
         </div>
       </div>
     </div>  

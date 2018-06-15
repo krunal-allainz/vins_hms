@@ -1,0 +1,13 @@
+<?php 
+
+	namespace euro_hms\Api\Contracts;
+
+interface ReceiptContract
+{
+	/*
+     * Get All Receipt
+     *
+     * @return response
+     */
+    public function getReceiptList();
+}

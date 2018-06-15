@@ -15,7 +15,7 @@
     	 	 <!-- 	</div>
     	 	 	<div class="col-md-4">
     	 	 		<button type="button" class="btn btn-primary btn-submit text-right " data-toggle="modal" href="#printModal"  @click="printPriscription()">Prescription</button>
-    	 	 	<!--</div>
+    	 	 	</div>
     	 	 	<div class="col-md-4"> 
     	 	 		<button type="button" class="btn btn-primary btn-submit text-right " data-toggle="modal" href="#printModal"  @click="printReferal()">Referal</button>-->
 
@@ -74,7 +74,7 @@
 							</div>
     	 	 			</div>
     	 	 			<br/><br/>
-    	 	 			<div v-if="(priscriptionData !== null)">
+    	 	 			<div v-if="(prescriptiData !== null)">
     	 	 				<div class='col-md-6 text-left'>
 				 				<span class='text-left'><b>prescription :-</b></span>
 				 			</div>

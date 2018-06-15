@@ -5,7 +5,7 @@
 
  class ReceiptRepository 
  {
- 	public static function getReceiptList()
+ 	public function getReceiptList()
  	{
  			return Receipt::all();
  	}

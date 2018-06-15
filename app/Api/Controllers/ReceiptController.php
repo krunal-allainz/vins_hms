@@ -5,16 +5,18 @@ namespace euro_hms\Api\Controllers;
 use Illuminate\Http\Request;
 use euro_hms\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Response;
-use euro_hms\Models\Receipt;
+use euro_hms\ReceiptContract as receipt
 
 class ReceiptController extends Controller
 {
     //
-    
+    public function __construct(receipt $r){
+    	$this->receiptObj = $r;
+    }
 
     public function getPatientReceiptList(){
-    	$result = Receipt::receiptlist();
+    	$receiptData = $this->receiptObj->getReceiptList();
 
-    	return $result;
+    	return $receiptData;
     }
 }
