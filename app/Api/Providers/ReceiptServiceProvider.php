@@ -28,4 +28,14 @@ class ReceiptServiceProvider extends ServiceProvider
             return new ReceiptService();
         });
     }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['euro_hms\Api\Contracts\ReceiptContract'];
+    }
 }
