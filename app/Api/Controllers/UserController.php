@@ -86,11 +86,17 @@ class UserController extends BaseController
         $userData['user']['token'] = $token;
         \Log::info($userData);
         \Log::info('Insert in UserTable');
+        $existData = $this->userRepoObj->chkUserExist($data);
+        $cntExistData = $existData->count();
+        if($cntExistData > 0) {
+            return ['status_code' => '301', 'message' => 'User Already exist.'];
+
+        }
         $userRes=$this->userRepoObj->create($userData['user']);
        \Log::info('deleted user');
         if($userRes['status'] == false )
           {
-            return ['status_code' => '200', 'message' => 'This email already exists.'];
+            return ['status_code' => '200', 'message' => 'User is not activated.'];
           }
         $userObj = $userRes['user'];
         // $userObj->roles()->sync($data['userType'])
@@ -116,7 +122,7 @@ class UserController extends BaseController
            //    $email_msg = 'Euro-Sportring email verification';
            //    $email_details['is_mobile_user'] = 1;
            //  }
-            Common::sendMail($email_details, $recipient, $email_msg, $email_templates);
+            // Common::sendMail($email_details, $recipient, $email_msg, $email_templates);
             return ['status_code' => '200', 'message' => 'Please check your inbox to verify your email address and complete your account registration.'];
         }
 
@@ -136,6 +142,7 @@ class UserController extends BaseController
 
     public function getUserDetailsByID(Request $request)
     {
+      
         return $this->userRepoObj->getUserDetailsByID($request->all()['userId']);
     }
     public function getUserDetails()

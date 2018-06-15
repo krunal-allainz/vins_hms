@@ -190,6 +190,7 @@ export default {
   saveMARFlowSheet(MARFlowSheet) {
     return api.post('MARFlowSheet/create',{'MARFlowSheet': MARFlowSheet})
   },
+
   getpatientDetail(ipdId) { 
     return api.post('patient/getDetails/'+ipdId)
   },
@@ -198,9 +199,6 @@ export default {
     },
   submitReport(reportData) {
     return api.post('report/create',{'reportData':reportData})
-  },
-  submitReport(reportData) {
-      return api.post('report/create',{'reportData':reportData})
   },
   getAllPatientName() {
       return api.get('patient/getAll');
@@ -212,13 +210,34 @@ export default {
   getPatientOPDDetail(patientId) {
     return api.post('patient/OPDDetails/'+patientId)
   },
-  saveOpdData(opdData) {
-      return api.post('opd/saveData',{'opdData':opdData})
-},
+  saveOpdData(opdData) {                                                            
+        return api.post('opd/saveData',{'opdData':opdData})
+  },             
   sendResetLinkInMail(requestData) {  
     return api.post('password/reset/link',{'email':requestData})
+  },
+  savePatientDetailBySearch(searchData) {
+      return api.post('patient/getDetails',{'searchData':searchData})
+  },
+  getDiagnosis(data) {
+      return api.post('provison/getDiagnosis',{'data':data})
+  },
+  getPrescription(data) {
+      return api.post('prescription/getDetails',{'data':data})
+  },
+  printReceiptPreview(fromData,content){ 
+     return api.post('print/receipt',{'fromData':fromData,'content':content})  
+  }, 
+  generateReceiptData(formData,type){  
+    return api.post('generate/receipt',{'formData':formData,'type':type})  
+  },
+  printOPDCaseData(OPDCaseData){
+      return api.post('print/opdcase',{'OPDCaseData':OPDCaseData})  
+  },
+  getAllPatientNameByConsultDoctor(doctor,section) {
+      return api.post('doctor/patientlist',{'doctor' :doctor,'section':section});
+  },
+  getReceiptList(){
+     return api.post('patient/receiptlist');
   }
-
-
-
 }

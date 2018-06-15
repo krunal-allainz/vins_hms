@@ -5,13 +5,6 @@
 			<div class="col-md-6">
 				<h1>Plan of Care</h1>
 			</div>
-			<div class="col-md-6">
-				<div class="text-right">
-					DOC NO. F/IPD/48 <br>
-					REV. No. 0.2 <br>
-					WEF 31-01-2015
-				</div>
-			</div>
 		</div>
 	</div>
 
@@ -150,29 +143,23 @@ import SelectPatientModal from '../../../components/SelectPatientModal.vue';
 										'1': {
 											'progress': '',
 											'date': '',
-
-
 										},
 										'2': {
 											'progress': '',
 											'date': '',
-
 										},
 
 										'3': {
 											'progress': '',
 											'date': '',
-
 										},
 										'4': {
 											'progress': '',
 											'date': '',
-
 										},
 										'5': {
 											'progress': '',
 											'date': '',
-
 										},
 										'6': {
 											'progress': '',
@@ -187,12 +174,8 @@ import SelectPatientModal from '../../../components/SelectPatientModal.vue';
 										'8': {
 											'progress': '',
 											'date': '',
-
 										},
-
-
 									}
-
 							}
 					}
 			},

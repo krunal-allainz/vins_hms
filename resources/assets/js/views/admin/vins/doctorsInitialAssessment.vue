@@ -404,7 +404,7 @@
 					 addressograph,
 					 SelectPatientModal
 			 },
-			 mounted() {
+	mounted() {
 			 $('.ls-select2').select2({
 									 allowClear: true,
 									 theme: "bootstrap",
@@ -414,7 +414,10 @@
 				 format: 'dd/mm/yyyy',
 				 'autoclose': true
 			 });
+			if(this.$store.state.Patient.ipdId == '') {
+
 			  $('#delete_modal').modal('show');
+			}
 
 			 $('.ls-timepicker').timepicker({
 			 format: 'hh-mm',
@@ -427,7 +430,7 @@
       $('.ls-timepicker').timepicker().on('change',function(){
         vm.doctorsInitialAssessmentData.current_time = this.value;
       });
-			 },
+	},
 				methods: {
 		    GetSelectComponent(componentName) {
 		       this.$router.push({name: componentName})
