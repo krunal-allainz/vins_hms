@@ -293,7 +293,7 @@
           <label for="advice">Advice:</label>
         </div>
         <div class="col-md-12" v-show="opdData.adviceType == 'text'">
-          <textarea class="form-control" type="text" name="advice" id="advice" v-model="opdData.advice"></textarea>
+          <textarea class="form-control" type="text" name="advice" id="advice" v-model="opdData.advice"  "></textarea>
          
         </div>
          <div class="col-md-12" v-show="opdData.adviceType == 'scribble'">
@@ -310,7 +310,7 @@
       </div>
       <div class="col-md-6" v-if="opdData.signaturePad2_src!=''">
           <div class="col-md-12">
-              <label for="history">Advice Preview:  <i class="fa fa-download fa-lg red" @click="download(opdData.signaturePad2_src,'Advice')" aria-hidden="true"></i></label>
+              <label for="history">Past history Preview:  <i class="fa fa-download fa-lg red" @click="download(opdData.signaturePad2_src,'Advice')" aria-hidden="true"></i></label>
             </div>
             <div>
               <img :src="opdData.signaturePad2_src" title="Advice">
@@ -1057,13 +1057,13 @@
             let vm =this;
                 this.$validator.validateAll().then(
                 (response) => {
-                  if (!this.errors.any()) {
+                  // if (!this.errors.any()) {
 
                     vm.curStep = vm.curStep+1;
 
                     vm.$store.dispatch('setOpdData',vm.opdData);
                     vm.$store.dispatch('setResData',vm.finalResultData);
-                  }
+                  // }
                 },
                 (error) => {
                 }
@@ -1180,7 +1180,7 @@
             // window.onresize = vm.resizeCanvas(canvas);
             // vm.  (canvas);
             var opdData = this.opdData;
-             this.$router.push({'name':'opd_form_thankyou'});
+            this.$router.push({'name':'opd_form_thankyou'});
             // if (vm.signaturePad.isEmpty()) {
               //  alert("Please provide a signature first.");
               //} else {
@@ -1189,10 +1189,11 @@
                 // vm.frmStep = 'step2';
                 // vm.download(dataURL, "signature.png");
               //}
+            vm.$store.dispatch('saveOpdData');
             // User.saveOpdData(opdDataRes).then((response) => {
-            //             // console.log(response);
-            //              // this.$router.push({'name':'dashboard'});
-            //         })
+                        // console.log(response);
+                         // this.$router.push({'name':'dashboard'});
+                    // })
           },
           download(dataURL, filename) {
             var vm =this;
