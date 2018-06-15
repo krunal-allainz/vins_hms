@@ -11,7 +11,7 @@
     	 <div class="row form-group text-center">
     	 	 <div class="col-md-12">
     	 	 	<!-- <div class="col-md-4"> -->
-    	 	 		<button type="button" class="btn btn-primary btn-submit text-right " data-toggle="modal" href="#printModal">OPD Case</button>
+    	 	 		<button type="button" class="btn btn-primary btn-submit text-right " data-toggle="modal" data-backdrop="static" href="#printModal">OPD Case</button>
     	 	 <!-- 	</div>
     	 	 	<div class="col-md-4">
     	 	 		<button type="button" class="btn btn-primary btn-submit text-right " data-toggle="modal" href="#printModal"  @click="printPriscription()">Prescription</button>
