@@ -11,9 +11,6 @@ use euro_hms\Api\Repositories\ReceiptRepository;
 class Receipt extends Model	
 {	
     //	
-
-    private $receiptObj = new ReceiptRepository();
-
     protected $table = 'receipt';	
 	
     protected $fillable=[	
@@ -29,6 +26,10 @@ class Receipt extends Model
 	
     ];	
 	
+  public function patientDetails()
+    {
+        return $this->belongsTo('euro_hms\Models\PatientDetailsForm','patient_id');
+    }
     
 	
     static function saveReceipt($request){ 	
@@ -61,11 +62,5 @@ class Receipt extends Model
         return $data;	
       }
 
-      public static function receiptlist(){
-        return $this->$receiptObj->getReceiptList(); 
-      }
-
-      public static function getReceiptDataById($id){
-         return $this->$receiptObj->getReceiptDataById($id);
-      }
+    
 }
