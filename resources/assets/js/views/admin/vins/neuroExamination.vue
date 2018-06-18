@@ -7,12 +7,12 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-2" @click="pain_value(0)"><img src="/assets/img/pain/p1.png" class="test"  v-bind:class="[neuroExaminationData.pain_value==0 ? 'pain_select': '', 'pain_img'  ]"></div>
-      <div class="col-md-2" @click="pain_value(2)"><img src="/assets/img/pain/p2.png"  v-bind:class="[neuroExaminationData.pain_value==2 ? 'pain_select': '' , 'pain_img' ]"> </div>
-      <div class="col-md-2" @click="pain_value(4)"><img src="/assets/img/pain/p3.png"   v-bind:class="[neuroExaminationData.pain_value==4 ? 'pain_select': '', 'pain_img'  ]"></div>
-      <div class="col-md-2" @click="pain_value(6)"><img src="/assets/img/pain/p4.png"   v-bind:class="[neuroExaminationData.pain_value==6 ? 'pain_select': '', 'pain_img'  ]"></div>
-      <div class="col-md-2" @click="pain_value(8)"><img src="/assets/img/pain/p5.png"   v-bind:class="[neuroExaminationData.pain_value==8 ? 'pain_select': '', 'pain_img'  ]"></div>
-      <div class="col-md-2" @click="pain_value(10)"><img src="/assets/img/pain/p6.png"   v-bind:class="[neuroExaminationData.pain_value==10 ? 'pain_select': '', 'pain_img'  ]"></div>
+      <div class="col-md-2" @click="pain_value(0)"><img src="/assets/img/pain/P1.png" class="test"  v-bind:class="[neuroExaminationData.pain_value==0 ? 'pain_select': '', 'pain_img'  ]"></div>
+      <div class="col-md-2" @click="pain_value(2)"><img src="/assets/img/pain/P2.png"  v-bind:class="[neuroExaminationData.pain_value==2 ? 'pain_select': '' , 'pain_img' ]"> </div>
+      <div class="col-md-2" @click="pain_value(4)"><img src="/assets/img/pain/P3.png"   v-bind:class="[neuroExaminationData.pain_value==4 ? 'pain_select': '', 'pain_img'  ]"></div>
+      <div class="col-md-2" @click="pain_value(6)"><img src="/assets/img/pain/P4.png"   v-bind:class="[neuroExaminationData.pain_value==6 ? 'pain_select': '', 'pain_img'  ]"></div>
+      <div class="col-md-2" @click="pain_value(8)"><img src="/assets/img/pain/P5.png"   v-bind:class="[neuroExaminationData.pain_value==8 ? 'pain_select': '', 'pain_img'  ]"></div>
+      <div class="col-md-2" @click="pain_value(10)"><img src="/assets/img/pain/P6.png"   v-bind:class="[neuroExaminationData.pain_value==10 ? 'pain_select': '', 'pain_img'  ]"></div>
     </div>
      
     <div class="row">
