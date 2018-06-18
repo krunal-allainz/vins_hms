@@ -30,14 +30,15 @@
           <tbody>
             <tr v-for="(res,index) in receiptData">
                <td>{{++index}}</td>
-               <td>{{res.receipt_number}}</td>
-               <td>{{res.case_no}}</td>
-               <td>{{(res.patient_details.first_name)?res.patient_details.first_name:''}} {{(res.patient_details.last_name)?res.patient_details.last_name:''}}</td>
-               <td>{{(res.patient_details.consultant)?res.patient_details.consultant:''}}</td>
+               <td>{{res.receiptNo}}</td>
+               <td>{{res.caseNo}}</td>
+
+               <td>{{res.fullName }} </td></td>
+               <td>{{res.consult }}</td>
                <td>{{res.date}}</td>
                <td>
-               	<button type="button" class="btn btn-success" >Print</button>
-               	<!-- <button type="button" class="btn btn-success" data-toggle="modal" href="#receiptModal" id="modellink" @click="receiptPrintView(res.id)">Print</button> -->
+              <!--  	<button type="button" class="btn btn-success" >Print</button> -->
+               	<button type="button" class="btn btn-success" data-toggle="modal" href="#receiptModal" id="modellink" @click="receiptPrintView(res.id)">Print</button>
                <button type="button" class="btn btn-danger" @click="removeReceipt(res.id)">Delete</button></td>
             </tr>
 
@@ -70,19 +71,48 @@
 <script>
 	import User from '../../../api/users.js';
 	import moment from 'moment';
-
+	let  receptDataArrays = [];
 	export default{
 		data (){
 			return {
-				'receiptData' : '',
+				'receiptData' :receptDataArrays,
 			}
 		},
 		mounted(){
 			 let vm =this;
 
 			 User.getReceiptList().then(
+			 
 			 		(response) => {
-			 			this.receiptData = response.data;
+			 			
+			 			 $.each(response.data,function(key,value){
+			 			//	console.log(value);	
+				 		// 	//let receptDataArrays = response.data;
+					 			let id = value.id;
+					 			let receiptNo = value.receipt_number;
+					 			let caseNo = value.case_no;
+					 			let date = value.date;
+					 			//let date = value.date;
+					 			let patientId = value.patient_details.id;
+					 			let fullName  = value.patient_details.first_name+''+value.patient_details.last_name;
+					 			let consult = value.patient_details.consultant;
+					 			// $.each(value.patient_details,function(index){
+					 			// 	console.log(index.id);
+					 			// 	//let fullName = 
+					 			// });
+				 			receptDataArrays.push({
+				 				'id' : id,
+				 				'receiptNo' : receiptNo,
+				 				'caseNo' : caseNo,
+				 				'date' : date,
+				 				'patientId' : patientId,
+				 				'fullName' : fullName,
+				 				'consult' : consult
+
+
+				 			});
+				 		 });
+				 		// console.log(receptDataArrays);	
 			 		},
 			 		(error) => {
 
@@ -129,16 +159,13 @@
 	            		User.generateReceiptDataById(id,type).then(	
 		                (response) => { 
 		                	$('#printContent').html('');
-		                	if(this.patientData.charges != '' && this.patientData.amount != ''){
+		                	
 			                	 if ($("#printContent .printReceiptPage" ).length == 0){	
 			                		$('#printContent').append(response.data.html);	
 			                	}else{	
 			                		$('#printContent').append(response.data.html)	
 			                	}
-			                }else{
-			                	 toastr.error('Please fill require data.', 'receipt error', {timeOut: 5000});
-                   						 return false;
-			                }	
+			                
 		                	//$('#receiptModal').modal({show:true}); 	
 	
 		            	},	

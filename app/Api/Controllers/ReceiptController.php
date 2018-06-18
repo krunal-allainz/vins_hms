@@ -11,6 +11,7 @@ use ReceiptService;
 use euro_hms\Api\Contracts\ReceiptContract as ReceiptContract;
 use euro_hms\Api\Repositories\ReceiptRepository;
 use euro_hms\Models\Receipt;
+use Terbilang;
 
 
 
@@ -28,7 +29,6 @@ class ReceiptController extends Controller
     public function getPatientReceiptList(){
 
     	$receiptData = $this->receiptObj->getReceiptList();
-    	
     	return $receiptData;
     }
 
@@ -50,7 +50,19 @@ class ReceiptController extends Controller
     	$id = $request->id;
     	$type = $request->type;
     	$receiptData = $this->receiptObj->viewreceipt($id,$type);
-    	dd($receiptData);
-    	return $receiptData;
+         $wordAmount = Terbilang::make($request->formData['amount']);  
+        $data =  $receiptData;
+        $formData = [  
+            'name' => $receiptData->patient_details['first_name'].''.$receiptData->patient_details['last_name'],  
+            'date' => $receiptData->date , 
+            'consultant' => $receiptData->patient_details['consultant'],    
+            'age' =>   $receiptData->patient_details['dob'],  
+            'gender' =>$receiptData->patient_details['gender'],   
+            'wordamount' =>  $receiptData->amount    
+        ]; 
+        /*$data = array_push($data,{'name' : $request->formData['fullname'],'date' : $request->formData['date_receipt'] });*/  
+        $view = view("receipt",['data'=> $data,'formData' => $formData])->render();    
+        return response()->json(['html'=>$view]);  
+    	//return $receiptData;
     }
 }
