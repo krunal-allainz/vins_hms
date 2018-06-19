@@ -10,6 +10,7 @@ use euro_hms\Models\IpdDetails;
 use euro_hms\Models\OpdDetails;
 use Illuminate\Support\Facades\Response;
 use euro_hms\Models\Receipt;
+use euro_hms\Api\Repositories\ReceiptRepository;
 
 use Terbilang;
 
@@ -239,20 +240,23 @@ class PatientsDetailFormController extends Controller
     }  
    
     public function saveReceiptData(Request $request){ 
-        $data =  Receipt::saveReceipt($request);   
-        $wordAmount = Terbilang::make($request->formData['amount']);   
+
+        $data =  ReceiptRepository::saveReceipt($request); 
+        $all_amt=$request->formData['chargeAmount']+$request->formData['procedure_charges']+$request->formData['other_charges'];
+        $wordAmount = Terbilang::make($all_amt);   
         $formData = [  
             'name' => $request->formData['fullname'],  
             'date' => $request->formData['date_receipt'] , 
             'consultant' => $request->formData['reference_dr'],    
             'age' =>   $request->formData['age'],  
             'gender' =>$request->formData['gender'],   
-            'wordamount' => $wordAmount    
+            'wordamount' => $wordAmount  ,
+            'total_amount'  =>$all_amt
         ]; 
-        /*$data = array_push($data,{'name' : $request->formData['fullname'],'date' : $request->formData['date_receipt'] });*/  
+        
         $view = view("receipt",['data'=> $data,'formData' => $formData])->render();    
         return response()->json(['html'=>$view]);  
-       //  return redirect('receipt/view');    
+           
     }
 
     /**

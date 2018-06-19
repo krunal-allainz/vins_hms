@@ -10,6 +10,36 @@ use Hash;
 class UserRepository {
 
 
+    public function __construct()
+    {
+      $this->userImagePath = getenv('S3_URL').'/assets/img/users/';
+    }
+    public function getAllUsers()
+    {
+        return User::all();
+    }
+    public function createUserFavourites($userFavouriteData)
+    {
+      return UserFavourites::create($userFavouriteData);
+    }
+    public function getUserDetailsByID($userID) {
+        return User::find($userID);
+    }
+    public function chkUserExist($searchData) {
+        return User::where('mobile_no',$searchData['mobileNo'])->orWhere('email',$searchData['email'])->get();
+    }
+
+    public function getDepartmentByName($name) {
+        return User::select('department')->where('first_name', $name)->first();
+    }
+
+    public function getUserDetails()
+    {
+        $data = DB::table('users')->get();
+        // dd($data->toArray());
+        return $data;
+    }
+
     public function create($data)
     {
         // dd($data);

@@ -339,7 +339,7 @@
         </div>
         <div class="col-md-12">
           <div class=" input-group">
-            <input type="text" name="prescription_quantity" id="prescription_quantity" class="form-control" v-model="opdData.prescription_quantity">
+            <input type="text" name="prescription_quantity" id="prescription_quantity" class="form-control" v-model="opdData.prescription_quantity" v-validate="'required|numeric'">
               <div class="input-group-append">
                   <span class="input-group-text ">{{opdData.prescription_unit}}</span>
               </div>
@@ -347,7 +347,7 @@
             </div>
             
           <span class="help is-danger" v-show="errors.has('prescription_quantity')">
-            Field is required
+             Please enter valid numeric value.
           </span>
         </div>
       </div>
@@ -376,6 +376,7 @@
              <div class="col-md-12">
                    <button type="button" class="btn btn-primary btn-lg " :disabled="(opdData.prescriptionOption == '' || opdData.prescription_quantity == '' || opdData.prescription_time == '' )" @click="savePrescription()">Add</button>
       </div>
+       
     </div>
   </div>
   <div class="form-group" v-if="finalPrescriptionData.length>0">
@@ -638,6 +639,7 @@
               'prescriptionOption':'',
               'finalResultData':{},
               'finalPrescriptionData' : [],
+              'priscriptionAdd':'',
               'investigationData':{
                   'radiologyType':[
                     {text:'',value:''},
@@ -1005,8 +1007,9 @@
               });
 //              vm.PrescriptiData = vm.finalPrescriptionData;
                vm.opdData.prescriptiData  =  _.cloneDeep(vm.finalPrescriptionData);
+               vm.priscriptionAdd = vm.finalPrescriptionData.length;
               // vm.opdData.prescription = '';
-              vm.opdData.prescription_quantity = '';
+              vm.opdData.prescription_quantity = '0';
               vm.opdData.prescription_unit = 'TAB.';
               vm.opdData.prescription_time = '0';
               
@@ -1057,13 +1060,16 @@
             let vm =this;
                 this.$validator.validateAll().then(
                 (response) => {
-                  // if (!this.errors.any()) {
+                  vm.priscriptionAdd = vm.finalPrescriptionData.length;
+                  if (!this.errors.any()) {
+                    if(vm.priscriptionAdd >  0){
+                      
+                      vm.curStep = vm.curStep+1;
 
-                    vm.curStep = vm.curStep+1;
-
-                    vm.$store.dispatch('setOpdData',vm.opdData);
-                    vm.$store.dispatch('setResData',vm.finalResultData);
-                  // }
+                      vm.$store.dispatch('setOpdData',vm.opdData);
+                      vm.$store.dispatch('setResData',vm.finalResultData);
+                    }
+                  }
                 },
                 (error) => {
                 }
@@ -1098,7 +1104,9 @@
                 // _.pullAt(resData, 0);
                 _.find(vm.finalPrescriptionData, function(res) {
                     if(res.id == did) {
+
                          res.removed = true;
+                        
                          // vm.finalPrescriptionData.splice(did, 1);
                     }
                 });

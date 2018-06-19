@@ -368,10 +368,10 @@
 	<br/><br/>
 	@endif 
 	
-	@if(count($data['priscriptionData']) > 0)
+	@if(count($data['priscriptionData']) > 0 || $data['priscriptionData'] != null)
 	<div style="padding-left: 35px;">
 		<div class='col-md-6 text-left'>
-			<span class='text-left'><b>prescription :-</b></span>
+			<span class='text-left'><b>Prescription :-</b></span>
 		</div>
 
 		<div class="table-responsive">
