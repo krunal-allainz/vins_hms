@@ -367,6 +367,12 @@ span.select2-container.select2-container2-container--default.select2-container--
     width:100%;
 }
 
+.pain_img {
+    width:100%;
+    height:auto;
+    
+}
+
 .pain_select {
     display: inline-block;
     padding: 6px;
@@ -376,6 +382,7 @@ span.select2-container.select2-container2-container--default.select2-container--
     box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 3px 0px;
     border-radius: 2px;
     color: rgb(95, 95, 95);
+    width:100%;
     
 }
 .letter-head img{
@@ -462,7 +469,7 @@ span.select2-container.select2-container2-container--default.select2-container--
     position : relative !important;
 }
 #printModal .modal-dialog,#receiptModal .modal-dialog{
-    margin : 30px auto 30px 550px !important;
+    margin : 30px auto 30px 250px !important;
 }
 
 

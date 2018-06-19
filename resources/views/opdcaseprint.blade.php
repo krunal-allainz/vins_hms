@@ -150,12 +150,12 @@
 	
     
 	}
-	html {
+		html {
 		    -ms-overflow-style: scrollbar;
-		    -webkit-tap-highlight-color: transparent;
+		    -webkit-print-color-adjust: exact; 
 		}
 		body {
-			-webkit-print-color-adjust: exact; 
+		-webkit-print-color-adjust: exact; 
 	   /* background-color: #eeeeee;*/
 	    font-family: "Lato", sans-serif;
 	    color: #595959;
@@ -290,15 +290,17 @@
         border-top: 1px solid #ddd !important; 
     }  
     .letter-head img{
-    width:30%;
+   		 width:30%;
+   		 -webkit-print-color-adjust: exact; 
     }
 	
      @page{
     	margin: 0px;
     	 size: portrait;
+    	 -webkit-print-color-adjust: exact; 
 
     }
-@media (min-width: 768px)
+	@media (min-width: 768px)
 	.hidden-md-up {
 	    display: none !important;
 	}
@@ -308,10 +310,10 @@
 <body>
 	
 	<div class="container" style="padding:15px;">
-    <div class="page-header"> 
+    <div class=""> 
        <div class="row">
-        <div class="col-md-12 letter-head">
-            <img src="{{$url.'/assets/img/nabh_vins_logo.png'}}" id="logo-desk" alt="NABH Logo" class="hidden-sm-down" width="30%" height="10%">
+        <div class="col-md-12">
+            <img src="{{$url.'/assets/img/nabh_vins_logo.png'}}" id="logo-desk" alt="NABH Logo" class="hidden-sm-down">
         </div>
       </div>
     </div>  
@@ -334,7 +336,7 @@
 	    
     </div>	
 	<br/><br/>
-	@if($data['advice'] != null)
+	@if($data['advice'] != null && $data['adviceType'] == 'text')
 	<div  style="padding-left: 35px;">
 		<div class='col-md-6 text-left'>
 			<span class='text-left'><b>Advice :-</b></span>
@@ -345,20 +347,31 @@
 					<span class='text-left' style="padding-left:30px;">{{$data['advice']}}</span>
 				</div>
 			@endif
-			@if ($data['adviceType'] != 'text')
-				<div class='col-md-12 text-left'>
-				    <img :src="$data['adviceScribleValue']" title="Advice">
-				</div> 
-			@endif 
+			
 		</div>
 	</div>
 	<br/><br/>
 	@endif 
 	
-	@if(count($data['priscriptionData']) > 0)
+	@if($data['adviceType'] != 'text' && $data['adviceScribleValue'] != '')
+	<div  style="padding-left: 35px;">
+		<div class='col-md-6 text-left'>
+			<span class='text-left'><b>Advice :-</b></span>
+		</div>
+		<div class='row'>
+
+				<div class='col-md-12 text-left'>
+				    <img src="{{$data['adviceScribleValue']}}" title="Advice">
+				</div> 
+		</div>
+	</div>
+	<br/><br/>
+	@endif 
+	
+	@if(count($data['priscriptionData']) > 0 || $data['priscriptionData'] != null)
 	<div style="padding-left: 35px;">
 		<div class='col-md-6 text-left'>
-			<span class='text-left'><b>prescription :-</b></span>
+			<span class='text-left'><b>Prescription :-</b></span>
 		</div>
 
 		<div class="table-responsive">
@@ -366,7 +379,7 @@
 			    <thead>
 				    <tr>
 					   <th width="8%">#</th>
-					   <th>Name</th>
+					   <th >Name</th>
 					   <th class="text-center">Quntity</th>
 					   <th class="text-center">Unit</th>
 					   <th class="text-center">Time For Medicine</th>
@@ -378,7 +391,7 @@
 							   <td>{{$key}}</td>
 							   <td>{{$value['Prescription'] }}</td>
 							   <td class="text-center">{{$value['quntity']}}</td>
-							   <td class="text-center">{{(isset($value['unit']):$value['unit']?'';}}</td>
+							   <td class="text-center">{{(isset($value['unit']))?$value['unit']:''}}</td>
 							   <td class="text-center">{{$value['time']}}</td>
 						  </tr>
 						@endforeach
@@ -421,23 +434,20 @@
 		<table class="table" id="radio_list">
 			<thead>
 				<tr>
-					<th>#</th>
-					<th>Type</th>
-					<th>Body parts</th>
-					<th>Qualifier</th>
-					<th>Special request</th>
+					<th class="text-center">Type</th>
+					<th class="text-center">Body parts</th>
+					<th class="text-center">Qualifier</th>
+					<th class="text-center">Special request</th>
 				</tr>
 			</thead>
 			<tbody>
-				@foreach($data['radiologyData'] as $key=>$res)
 					<tr >
-						<td>{{++$key}}</td>
-						<td>{{$res['type']}}</td>
-						<td>{{$res['bodyPart']}}</td>
-						<td>{{$res['qualifier']}}</td>
-						<td>{{$res['special_request']}}</td>
+						<td class="text-center">{{$data['radiologyData']['type']}}</td>
+						<td class="text-center">{{$data['radiologyData']['bodyPart']}}</td>
+						<td class="text-center">{{$data['radiologyData']['qualifier']}}</td>
+						<td class="text-center">{{$data['radiologyData']['special_request']}}</td>
 					</tr>
-				@endforeach
+			
 			</tbody>
 		</table>
 	</div>
