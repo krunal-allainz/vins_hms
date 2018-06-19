@@ -6,7 +6,7 @@
 
                     <h2 class="text-center logo_h2">
                     
-                      <img src="/assets/img/nabh_vins_logo.png" id="logo-desk" alt="NABH Logo" class="hidden-sm-down" height="80px" >
+                        <img src="/assets/img/nabh_vins_logo.png" id="logo-desk" alt="NABH Logo" class="hidden-sm-down" height="80px" >
 
                     </h2>
 
@@ -84,22 +84,17 @@ export default {
                         if(response == 'success'){
                             Auth.check().then((res) => {
                                 var userId = Ls.get('userId');
-                                console.log('   test')
                                 vm.$store.dispatch('SetUserDetailsData',userId);
-                                console.log(' asssss')
-                            // this.$router.push({'name':'opd_form'});   
                             }) 
                             setTimeout(function(){
-                            // vm.$store.dispatch('SetUserDetailsData',userId);
-                            jQuery('.js-loader').addClass('d-none');
-                                // console.log('   ',vm.$store.state.Users.userDetails.userType)
-                            if(vm.$store.state.Users.userDetails.user_type == 'Doctor'){
-                                
-                                    vm.$router.push({'name':'opd_form'});
-                            } else if(vm.$store.state.Users.userDetails.user_type == 'Others') {
-                                    vm.$router.push({'name':'patients_detail_form'});
+                                jQuery('.js-loader').addClass('d-none');
+                                if(vm.$store.state.Users.userDetails.user_type == 'Doctor'){
+                                    
+                                        vm.$router.push({'name':'opd_form'});
+                                } else if(vm.$store.state.Users.userDetails.user_type == 'Others') {
+                                        vm.$router.push({'name':'patients_detail_form'});
 
-                            }
+                                }
 
                             },2000)    
                         }else {
