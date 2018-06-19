@@ -112,7 +112,7 @@
 			        </div>	
 				</div>
 				<div class="row form-group" >
-					 <div class="btn-success" type="submit" ><a class="btn btn-primary pull-right" data-toggle="modal" href="#receiptModal" id="modellink" @click="receiptPrintView()">Print Preview</a> </div>
+					 <div class="btn-success" type="submit" ><a class="btn btn-primary pull-right" data-toggle="modal" :href="url" id="modellink" @click="receiptPrintView()">Print Preview</a> </div>
 				</div>
 			 </div>
 		</form>
@@ -160,13 +160,14 @@
 		                	'casetype' : '',
 		                	'reference_dr': '',
 		                	'patient_id':'',
-		                	'date_receipt' : '',	
+		                	'date_receipt' : new Date(),	
                  			'patient_option':list,
                  			'case_detail':{},
                  			'charges':'',
                  			'amount' : '',
                  			'select_patient_detail':{},	
-                 		}
+                 		},
+                 	'url':''
                  	}
                 },
                 components: {	
@@ -305,29 +306,31 @@
 	            (response) => {   	
 	            	//if (!this.errors.any()) {	
 	            		// $("body .js-loader").removeClass('d-none');	
+	            	if(this.patientData.charges != '' && this.patientData.amount != ''){
+		                this.url = "#receiptModal";
 	            		let content = [];	
 	            		let type = 'opd';	
 	            		User.generateReceiptData(this.patientData,type).then(	
 		                (response) => { 
 		                	$('#printContent').html('');
-		                	if(this.patientData.charges != '' && this.patientData.amount != ''){
+		                	
 			                	 if ($("#printContent .printReceiptPage" ).length == 0){	
 			                		$('#printContent').append(response.data.html);	
 			                	}else{	
 			                		$('#printContent').append(response.data.html)	
 			                	}
-			                }else{
-			                	 toastr.error('Please fill require data.', 'receipt error', {timeOut: 5000});
-                   						 return false;
-			                }	
-		                	//$('#receiptModal').modal({show:true}); 	
-	
 		            	},	
 		                (error) => {	
 		                	 $("body .js-loader").addClass('d-none');	
 	
 		                }	
-		                )	
+		                )
+		                 }else{
+			                	  this.url = "";
+			                	 toastr.error('Please fill require data.', 'receipt error', {timeOut: 5000});
+                   						 return false;
+
+			                }		
 				    	/*User.printReceiptPreview(this.patientData,content).then(	
 		                (response) => {	
 		                	if(response.data.code == 200) {	
