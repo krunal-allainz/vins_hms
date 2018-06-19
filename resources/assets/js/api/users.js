@@ -229,7 +229,7 @@ export default {
      return api.post('print/receipt',{'fromData':fromData,'content':content})  
   }, 
   generateReceiptData(formData,type){  
-    return api.post('generate/receipt',{'formData':formData,'type':type})  
+    return api.post('generate/receipt',{'formData':formData})  
   },
   printOPDCaseData(OPDCaseData){
       return api.post('print/opdcase',{'OPDCaseData':OPDCaseData})  
@@ -239,5 +239,24 @@ export default {
   },
   getReceiptList(){
      return api.post('patient/receiptlist');
-  }
+  },
+   getChargesTypes(){
+     return api.post('receipt/getchargestypes');
+  },
+   getConsultationCategoryDetails(chargeID) {
+    return api.post('receipt/getconsultationcategory/'+chargeID)
+  },
+  getConsultationCategoryCharges(categoryId,typeId) {
+    return api.post('receipt/getconsultationcategorycharges/'+categoryId+'/'+typeId)
+  },
+   getEmergencyTypes(chargeID) {
+    return api.post('receipt/getemergencytypes/'+categoryId+'/'+typeId)
+  },
+   getEmergencyCharges(typeId) {
+    return api.post('receipt/getemergencycharges/'+typeId)
+  },
+  getDrDepartment(name) {
+    return api.post('user/getDepartmentByName/',{'name' :name})
+  },
+
 }

@@ -30,6 +30,10 @@ class UserRepository {
         return User::where('mobile_no',$searchData['mobileNo'])->orWhere('email',$searchData['email'])->get();
     }
 
+    public function getDepartmentByName($name) {
+        return User::select('department')->where('first_name', $name)->first();
+    }
+
     public function getUserDetails()
     {
         $data = DB::table('users')->get();
