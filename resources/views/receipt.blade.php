@@ -1,4 +1,4 @@
-<div class="container printReceiptPage">	
+    <div class="container printReceiptPage">	
 			<div class="page-header">	
 		      	  <div class="row">	
 		             <div class="col-md-12 text-center text-capitalize"  style="text-align: center;">	
@@ -15,13 +15,14 @@
         ----------------------------------------------------------------------------------------------------------------------------------------------------------</div>
 			     </div>	
             </div>
-    <div class="row">   
+    <div class="row"> 
+
         <div class="col-md-12 text-center"> 
          <table class="table" align="center" cellspacing=0 width="90%">	
          	<thead>	
          		<tr>	
          			<td class="text-left"><b>ReceiptNo</b> : {{$data['receiptNumber']}}</td>	
-         			<td class="text-center"><b>Date</b> : {{date('d/m/Y', strtotime($formData['date'] )) }}</td>	
+         			<td class="text-center"><b>Date</b> : {{date('d/m/Y', strtotime($data['date_receipt'] )) }}</td>	
          		</tr>	
          		<tr>	
          			<td class="text-left"><b>PatientName</b> : <span class="text-uppercase">{{$formData['name']}}</span></td>	
@@ -34,25 +35,212 @@
          		<tr>	
          			<td class="text-left"><b>Consultant Name</b> : <span class="text-uppercase"> {{$formData['consultant']}}	</span></td>	
          			<td></td>	
-         		</tr>	
+         		</tr>
+               
+                <tr>    
+                    <td class="text-left"><b>Case Type</b> : 
+                        @if($data['case_type']==1)
+                            <span class="text-uppercase">OPD</span>
+                        @elseif($data['case_type']==2)
+                            <span class="text-uppercase">IPD</span>
+                        @endif
+                    </td> 
+
+                    <td></td>   
+                </tr>	
          		<tr  class="border-tr-top-bottom" style="border: 1px solid #ddd !important;border-left: 0px !important;border-right: 0px !important;">	
          			<th class="text-center">Particular</th>	
          			<th class="text-center">Amount</th>	
          		</tr>	
-         	</thead>	
-         	<tr height="100px">	
-         		<td class="text-center"><span class="text-uppercase text-center"><b>{{$data['chagredName']}}<b></span></td>	
-         		<td class="text-center"><b>{{number_format($data['amount'], 2)}}</b></td>	
-         	</tr>	
-	
+         	</thead>
+            @if($data['charges']!=0 && $data['charges']!='')
+             	<tr height="">	
+             		<td class="text-center"><span class="text-uppercase text-center">
+                        @if($data['charges_type']==1)
+                            <b>Consultation Charges<b>
+                        @elseif($data['charges_type']==2)
+                            <b>Emergency Charges<b>
+                        @endif
+                        </span></td>	
+             		<td class="text-center"><b>{{number_format($data['charges'], 2)}}</b></td>	
+             	</tr>	
+            @endif
+            @if($data['procedures_charges']!=0 && $data['procedures_charges']!='')
+                <tr height=""> 
+                    <td class="text-center"><span class="text-uppercase text-center">
+                        <?php
+                            $procedure_val="" ;
+                            if($data['department']=='Neurology')
+                            {
+                                if($data['procedures_val']==1)
+                                {
+                                    $procedure_val="EEG";
+                                }
+                                if($data['procedures_val']==2)
+                                {
+                                    $procedure_val="Bedside EEG";
+                                }
+                                if($data['procedures_val']==3)
+                                {
+                                    $procedure_val="Video EEG";
+                                }
+                                if($data['procedures_val']==4)
+                                {
+                                    $procedure_val="Nerve Conduction Studies per limb / 2 limbs";
+                                }
+                                if($data['procedures_val']==5)
+                                {
+                                    $procedure_val="Nerve Conduction Studies (All 4 limbs)";
+                                }
+                                if($data['procedures_val']==6)
+                                {
+                                    $procedure_val="Electromyography with disposable needle";
+                                }
+                                if($data['procedures_val']==7)
+                                {
+                                    $procedure_val="Visual evoked potentials (VEP)";
+                                }
+                                if($data['procedures_val']==8)
+                                {
+                                    $procedure_val="Auditory evoked potentials (BAEP)";
+                                }
+                                if($data['procedures_val']==9)
+                                {
+                                    $procedure_val="Somatosensory potentials (SSEP) / per nerve";
+                                }
+                                if($data['procedures_val']==10)
+                                {
+                                    $procedure_val="Facial Nerve study";
+                                }
+                                if($data['procedures_val']==11)
+                                {
+                                    $procedure_val="Repetitive Nerve stimulation";
+                                }
+                                if($data['procedures_val']==12)
+                                {
+                                    $procedure_val="Lumbar Puncture / +Manometry";
+                                }
+                                if($data['procedures_val']==13)
+                                {
+                                    $procedure_val="Neostigmine Test";
+                                }
+                                if($data['procedures_val']==14)
+                                {
+                                    $procedure_val="Bedside NCV (all 4 limbs)";
+                                }
+                                if($data['procedures_val']==15)
+                                {
+                                    $procedure_val="Bedside NCV (2 limbs)";
+                                }
+                                if($data['procedures_val']==16)
+                                {
+                                    $procedure_val="Bedside RNS";
+                                }
+                                if($data['procedures_val']==17)
+                                {
+                                    $procedure_val="Stroke Management Charges";
+                                }
+                                
+                            }
+                            else if($data['department']=='Vascular')
+                            {
+                                if($data['procedures_val']==1)
+                                {
+                                    $procedure_val="Color Doppler (per leg)";
+                                }
+                                 if($data['procedures_val']==2)
+                                {
+                                    $procedure_val="Color Doppler Carotid";
+                                }
+                                 if($data['procedures_val']==3)
+                                {
+                                    $procedure_val="Ankle Brachial Index / TBI";
+                                }
+                                 if($data['procedures_val']==4)
+                                {
+                                    $procedure_val="Toe Brachial Index";
+                                }
+                                 if($data['procedures_val']==5)
+                                {
+                                    $procedure_val="Maximum Venous Flow";
+                                }
+                                if($data['procedures_val']==6)
+                                {
+                                    $procedure_val="Pneumatic Compression Device";
+                                }
+                                if($data['procedures_val']==7)
+                                {
+                                    $procedure_val="Photo Plethysmography";
+                                }
+
+                            }
+                        ?>
+                        <b>{{$procedure_val}}</b>
+                        </span></td>    
+                    <td class="text-center"><b>{{number_format($data['procedures_charges'], 2)}}</b></td>  
+                </tr>
+            @endif
+            @if($data['other_charges']!=0 && $data['other_charges']!='')
+                <tr height=""> 
+                    <td class="text-center"><span class="text-uppercase text-center">
+                        <?php 
+                            $other_category="";
+                            if($data['other_charges_category']==1)
+                            {
+                                $other_category="Dressing";
+                            }
+                            else if($data['other_charges_category']==2)
+                            {
+                                $other_category="Special dressing";
+                            } else if($data['other_charges_category']==3)
+                            {
+                                $other_category="Strip Method RBS   ";
+                            }
+                             else if($data['other_charges_category']==4)
+                            {
+                                $other_category="ECG";
+                            }
+                             else if($data['other_charges_category']==5)
+                            {
+                                $other_category="Enema";
+                            }
+                             else if($data['other_charges_category']==6)
+                            {
+                                $other_category="Urine Sugar (Per Test)";
+                            }
+                             else if($data['other_charges_category']==7)
+                            {
+                                $other_category="Suture Removal";
+                            }
+                             else if($data['other_charges_category']==8)
+                            {
+                                $other_category="Ambulance Charge (Within city limits only)";
+                            }
+                             else if($data['other_charges_category']==9)
+                            {
+                                $other_category="Escort with Ventilator (per hour)";
+                            }
+                             else if($data['other_charges_category']==10)
+                            {
+                                $other_category="Escort without Ventilator (per hour)";
+                            }
+                            
+
+                        ?>
+                        <b>{{$other_category}}</b>
+                        
+                        </span></td>    
+                    <td class="text-center"><b>{{number_format($data['other_charges'], 2)}}</b></td>  
+                </tr>
+	        @endif
          	<tr>	
          		<td width="500px" class="text-left"><span class="text-uppercase"></span></td>	
          		<td class="text-right">	
          			<table align="center">	
          				<tr  class="border-top-tr" style="border-top: 1px solid #ddd !important;">	
-         					<td class="text-center"><b>{{number_format($data['amount'], 2)}}</b></td>	
+         					<td class="text-center"><b>{{number_format($formData['total_amount'], 2)}}</b></td>	
          					<td class="text-center"><b>0.00</b></td>	
-         					<td class="text-center"><b>{{number_format($data['amount'], 2)}}</b></td>	
+         					<td class="text-center"><b>{{number_format($formData['total_amount'], 2)}}</b></td>	
          				</tr>	
          			</table>	
          		</td>	
@@ -63,14 +251,14 @@
          		<td  class="text-right">
                     <table align="center">  
                         <tr >  
-                            <td class="text-center"><b>Net Amount: {{number_format($data['amount'], 2)}}</b></td>   
+                            <td class="text-center"><b>Net Amount: {{number_format($formData['total_amount'], 2)}}</b></td>   
                             
                         </tr>   
                     </table>
                 </td>	
          	</tr>	
          	<tr>	
-         		<td class="text-left">Rs <span class="text-right">{{$data['amount']}}/-</span></td>	
+         		<td class="text-left">Rs <span class="text-right">{{$formData['total_amount']}}/-</span></td>	
          		<td class="text-right" width="500px">For, Vadodara Institute Of Neurological Sciences</td>	
          	</tr>	
          	<tr >	

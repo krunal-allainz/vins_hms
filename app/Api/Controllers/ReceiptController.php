@@ -15,6 +15,7 @@ use Terbilang;
 
 
 
+
 class ReceiptController extends Controller
 {
     //	
@@ -22,12 +23,12 @@ class ReceiptController extends Controller
     	$this->receiptObj = new ReceiptRepository();
     }
 
+
     /**
     * Get List Of Receipt
     * return array
     */
     public function getPatientReceiptList(){
-
     	$receiptData = $this->receiptObj->getReceiptList();
     	return $receiptData;
     }
@@ -63,6 +64,18 @@ class ReceiptController extends Controller
         /*$data = array_push($data,{'name' : $request->formData['fullname'],'date' : $request->formData['date_receipt'] });*/  
         $view = view("receipt",['data'=> $data,'formData' => $formData])->render();    
         return response()->json(['html'=>$view]);  
-    	//return $receiptData;
+    	//return $receiptData; 
     }
+
+    /**
+     * [getChargesTypes description]
+     * @return [array] [get all charges type for receipt]
+     */
+    public function getChargesTypes()
+    {
+    	$all=$this->receiptObj->getChargesTypes();
+    	return  $all;
+    }
+
+
 }
