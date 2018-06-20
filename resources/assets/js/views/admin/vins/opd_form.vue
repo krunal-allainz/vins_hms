@@ -1124,9 +1124,7 @@
                     $("#prescription").select2('destroy'); 
                      
                      setTimeout(function(){
-                      $('#prescription').select2({
-                        placeholder: "Select"
-                      });
+                      $('#prescription').select2();
                        jQuery('.js-loader').addClass('d-none');
                      },1000)
 
