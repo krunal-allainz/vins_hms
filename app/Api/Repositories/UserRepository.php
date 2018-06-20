@@ -99,5 +99,55 @@ class UserRepository {
 
     }
 
+    public function changeTournamentPermission($data) {
+      $user = User::find($data['user']['id']);
+      $user->tournaments()->sync([]);
+      $user->tournaments()->attach($data['tournaments']);
+      return true;
+    } 
+
+    public function getUserTournaments($id) {
+      $user = User::find($id);
+      return $user->tournaments()->pluck('id');
+    }
+
+    /**
+     * [getUserDetailsByType description]
+     * @param  [type] $type   [description]
+     * @param  [type] $status [description]
+     * @return [array]         [description]
+     */
+    public function get_user_details_by_type($type,$status)
+    {
+        if($type=='All')
+        {
+            return User::where('status',$status)->get();
+        }
+        else
+        {
+            return User::where('user_type',$type)->where('status',$status)->get(); 
+        }
+        
+    }
+
+    /**
+     * [getDepartmentById description]
+     * @param  [type] $id [description]
+     * @return [department]     [description]
+     */
+    public function getDepartmentById($id) {
+        return User::select('department')->where('id', $id)->first();
+    }
+
+    /**
+     * [getUserNameById description]
+     * @param  [type] $id [description]
+     * @return [name]     [description]
+     */
+    public function getUserNameById($id) {
+        $record=User::where('id', $id)->first();
+        return $record->first_name.' '.$record->last_name;
+    }
+
 
 }

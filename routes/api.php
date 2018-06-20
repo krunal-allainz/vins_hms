@@ -140,6 +140,13 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
         $api->post('patient/deletereceipt', '\euro_hms\Api\Controllers\OPDDetailsFromController@deletereceipt');
 
+        /*getting user details by status and type*/
+        $api->post('user/getUserDetailByUserType', '\euro_hms\Api\Controllers\UserController@getUserDetailsByType');
+
+        //for getting department types by id for dr 
+        $api->post('user/getDepartmentById', '\euro_hms\Api\Controllers\UserController@getDepartmentById');
+
+
         });
         
 
