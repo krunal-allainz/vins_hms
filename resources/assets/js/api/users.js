@@ -257,7 +257,7 @@ export default {
     return api.post('receipt/getemergencycharges/'+typeId)
   },
   getDrDepartment(name) {
-    return api.post('user/getDepartmentByName/',{'name' :name})
+    return api.post('user/getDepartmentByName',{'name' :name})
   },
   
   removeReceipt(id){
