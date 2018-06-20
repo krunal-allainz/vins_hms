@@ -21,7 +21,7 @@
  	}
 
  	public function viewReceipt($id,$type){
- 		return Receipt::with('patientDetails')->where('id',$id)->first();
+ 		return Receipt::with('patientDetails')->where('receipt.id',$id)->first();
  	}
 
 

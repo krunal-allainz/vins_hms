@@ -65,26 +65,41 @@
             </div>	
           </div>	
        </div>	
-    
-  </div>
+   		<pagination :data="receiptData">
+		<span slot="prev-nav">&lt; Previous</span>
+		<span slot="next-nav">Next &gt;</span>
+	</pagination>
+  </div>	
 </template>
 <script>
 	import User from '../../../api/users.js';
 	import moment from 'moment';
+	import laravelvuepagination from 'laravel-vue-pagination';
 	let  receptDataArrays = [];
 	export default{
 		data (){
 			return {
 				'receiptData' :receptDataArrays,
+				'next_page_url' :'',
+				'prev_page_url' : '',
+				'path' : '',
+				'laravelData' : {},
 			}
 		},
 		mounted(){
 			 let vm =this;
-
-			 User.getReceiptList().then(
+			 this.getResults();
+		},
+		methods: {
+			// Our method to GET results from a Laravel endpoint
+		getResults(page = 1) {
+			axios.get('example/results?page=' + page)
+				.then(response => {
+					this.laravelData = response.data;
+				});
+			User.getReceiptList().then(
 			 
 			 		(response) => {
-			 			
 			 			 $.each(response.data,function(key,value){
 			 			//	console.log(value);	
 				 		// 	//let receptDataArrays = response.data;
@@ -108,10 +123,9 @@
 				 				'patientId' : patientId,
 				 				'fullName' : fullName,
 				 				'consult' : consult
-
-
 				 			});
 				 		 });
+				 		 
 				 		// console.log(receptDataArrays);	
 			 		},
 			 		(error) => {
@@ -119,8 +133,7 @@
 			 		}
 
 			 	);
-		},
-		methods: {
+			},
 			removeReceipt(id){
 				
 				if(confirm('Are you sure to remove this record ?'))

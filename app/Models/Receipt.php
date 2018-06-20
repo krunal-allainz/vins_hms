@@ -5,7 +5,7 @@ namespace euro_hms\Models;
 use Illuminate\Database\Eloquent\Model;	
 use Carbon\Carbon;	
 use DB;
-use euro_hms\Api\Repositories\ReceiptRepository;
+
 
 	
 class Receipt extends Model	
@@ -46,7 +46,7 @@ class Receipt extends Model
         if ($type == 'opd'){	
         	$receiptNumber = 'OPD'.$receiptId;	
     	}	
-        Receipt::create([	
+        Receipt::create([	  
         	'receipt_id' => $receiptId,	
         	'receipt_number' => $receiptNumber,	
         	'date' =>  $request->formData['date_receipt'],	
@@ -60,7 +60,5 @@ class Receipt extends Model
 	
         $data = ['receiptId'=>$receiptId,'receiptNumber'=>$receiptNumber,'caseNo'=>$request->formData['case_no'],'chagredName'=>$request->formData['charges'],'amount'=>$request->formData['amount']];	
         return $data;	
-      }
-
-    
+      }  
 }

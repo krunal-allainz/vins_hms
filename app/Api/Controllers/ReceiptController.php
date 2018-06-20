@@ -3,6 +3,7 @@
 namespace euro_hms\Api\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use euro_hms\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\ServiceProvider;
@@ -52,14 +53,21 @@ class ReceiptController extends Controller
     	$receiptData = $this->receiptObj->viewreceipt($id,$type);
          $wordAmount = Terbilang::make($request->formData['amount']);  
         $data =  $receiptData;
+        $data = [
+        	'receiptNumber' =>  $receiptData->receipt_number,
+        	'chagredName' =>	$receiptData->charges_name,
+        	'amount' => $receiptData->amount,
+        	'caseNo' => $receiptData->case_no,
+        ];
         $formData = [  
-            'name' => $receiptData->patient_details['first_name'].''.$receiptData->patient_details['last_name'],  
-            'date' => $receiptData->date , 
-            'consultant' => $receiptData->patient_details['consultant'],    
-            'age' =>   $receiptData->patient_details['dob'],  
-            'gender' =>$receiptData->patient_details['gender'],   
-            'wordamount' =>  $receiptData->amount    
+            'name' => $receiptData->patient_details->first_name.''.$receiptData->patient_details->last_name,  
+            'date' => $receiptData->date, 
+            'consultant' => $receiptData->patient_details->consultant,    
+            'age' =>   $receiptData->patient_details->dob,  
+            'gender' =>$receiptData->patient_details->gender,   
+            'wordamount' =>  $receiptData->amount,  
         ]; 
+      //  dd($formData);
         /*$data = array_push($data,{'name' : $request->formData['fullname'],'date' : $request->formData['date_receipt'] });*/  
         $view = view("receipt",['data'=> $data,'formData' => $formData])->render();    
         return response()->json(['html'=>$view]);  

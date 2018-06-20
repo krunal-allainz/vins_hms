@@ -190,6 +190,7 @@ return [
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         Dingo\Api\Provider\LaravelServiceProvider::class,
         Duro85\Roles\RolesServiceProvider::class,
+        euro_hms\Api\Providers\ReceiptServiceProvider::class,
 
        
 
@@ -249,6 +250,7 @@ return [
         //'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
         // 'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'ReceiptService' =>  euro_hms\Api\Providers\ReceiptServiceProvider::class,
    ],
 
 ];
