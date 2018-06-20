@@ -65,10 +65,6 @@
             </div>	
           </div>	
        </div>	
-   		<pagination :data="receiptData">
-		<span slot="prev-nav">&lt; Previous</span>
-		<span slot="next-nav">Next &gt;</span>
-	</pagination>
   </div>	
 </template>
 <script>
@@ -83,20 +79,20 @@
 				'next_page_url' :'',
 				'prev_page_url' : '',
 				'path' : '',
-				'laravelData' : {},
+				
 			}
 		},
 		mounted(){
 			 let vm =this;
-			 this.getResults();
+			 vm.getResults();
 		},
 		methods: {
 			// Our method to GET results from a Laravel endpoint
 		getResults(page = 1) {
-			axios.get('example/results?page=' + page)
-				.then(response => {
-					this.laravelData = response.data;
-				});
+			// axios.get('example/results?page=' + page)
+			// 	.then(response => {
+			// 		this.laravelData = response.data;
+			// 	});
 			User.getReceiptList().then(
 			 
 			 		(response) => {
@@ -126,7 +122,7 @@
 				 			});
 				 		 });
 				 		 
-				 		// console.log(receptDataArrays);	
+				 		 console.log(receptDataArrays);	
 			 		},
 			 		(error) => {
 
@@ -142,15 +138,15 @@
 
 						(response) => {
 							if(response.data.code == '200'){
-								 // User.getReceiptList().then(
-								 // 		(response) => {
-								 // 			this.receiptData = response.data;
-								 // 		},
-								 // 		(error) => {
+								 User.getReceiptList().then(
+								 		(response) => {
+								 		this.receiptData = response.data;
+								 		},
+								 		(error) => {
 
-								 // 		}
+								 		}
 
-								 // 	);
+								 	);
 								toastr.success(response.data.message, 'Receipt Delete', {timeOut: 5000});	
 							}
 						},
@@ -160,11 +156,8 @@
 						}
 					);
         		}
-				
-
 			},
 			receiptPrintView(id) {   	
-		    	console.log('test');
 	            	//if (!this.errors.any()) {	
 	            		// $("body .js-loader").removeClass('d-none');	
 	            		let content = [];	
@@ -172,8 +165,7 @@
 	            		User.generateReceiptDataById(id,type).then(	
 		                (response) => { 
 		                	$('#printContent').html('');
-		                	
-			                	 if ($("#printContent .printReceiptPage" ).length == 0){	
+			                	if ($("#printContent .printReceiptPage" ).length == 0){	
 			                		$('#printContent').append(response.data.html);	
 			                	}else{	
 			                		$('#printContent').append(response.data.html)	
@@ -202,8 +194,6 @@
 		                }	
 		                )*/	
 			    	//	
-		  	
-	
 			},	
 			ClickHereToPrint() {	
 				    try {	

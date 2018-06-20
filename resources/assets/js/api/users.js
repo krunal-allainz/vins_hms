@@ -238,7 +238,6 @@ export default {
       return api.post('doctor/patientlist',{'doctor' :doctor,'section':section});
   },
   getReceiptList(){
-
      return api.post('patient/receiptlist');
   },
    getChargesTypes(){

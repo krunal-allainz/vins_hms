@@ -119,8 +119,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         $api->post('doctor/patientlist','\euro_hms\Api\Controllers\PatientsDetailFormController@getAllPatientNameByConsultDoctor');
 
         //for receipt list of opd
-        $api->get('opd/receiptlist', '\euro_hms\Api\Controllers\OPDDetailsFromController@receiptlist');
-        $api->post('patient/receipt/list','\euro_hms\Api\Controllers\ReceiptController@getPatientReceiptList');
+       /* $api->post('opd/receiptlist', '\euro_hms\Api\Controllers\OPDDetailsFromController@receiptlist');*/
+        $api->post('patient/receiptlist','\euro_hms\Api\Controllers\ReceiptController@getPatientReceiptList');
         $api->post('patient/receipt/remove','\euro_hms\Api\Controllers\ReceiptController@deleteReceipt');
         $api->post('patient/receipt/view','\euro_hms\Api\Controllers\ReceiptController@viewReceipt');
 

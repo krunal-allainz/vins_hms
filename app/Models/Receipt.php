@@ -11,7 +11,7 @@ use DB;
 class Receipt extends Model	
 {	
     // 
-    private $receiptObj;
+  
     protected $table = 'receipt';
     protected $fillable=[ 
       'receipt_id', 
@@ -38,8 +38,8 @@ class Receipt extends Model
     ];	
 	
 
-     public function __construct(){
-        $this->receiptObj = new ReceiptRepository();
+    public function __construct(){
+      
     }
 
   public function patientDetails()

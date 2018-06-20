@@ -76,7 +76,7 @@
     	 	 			<br/><br/>
     	 	 			<div v-if="(prescriptiData !== null)">
     	 	 				<div class='col-md-6 text-left'>
-				 				<span class='text-left'><b>prescription :-</b></span>
+				 				<span class='text-left'><b>Prescription :-</b></span>
 				 			</div>
 							<div class="table-responsive">
 							        <table class="table" id="prescription_list">
@@ -104,12 +104,13 @@
        
     	 	 			</div>
     	 	 			<br/><br/>
-    	 	 			<div v-if="(referalType !== null)"> 
-				 			<div class='col-md-6 text-left'>
-				 				<span class='text-left'><b>Referal :-</b></span>
+    	 	 			
+			 			<div v-if="(referalType == 'cross' && crossSelectedValue != '')">
+			 				<div v-if="(referalType !== null)"> 
+					 			<div class='col-md-6 text-left'>
+					 				<span class='text-left'><b>Referal :-</b></span>
+					 			</div>
 				 			</div>
-				 		</div>
-			 			<div v-if="(referalType == 'cross')">
 			 				<div v-if="(crossType == 'internal')">
 			 					
 			 						<div class='col-md-6 text-left'>
@@ -126,8 +127,12 @@
 			 					
 			 				</div>
 				 		</div>
-			 			
-			 		<div  v-if="(referalType == 'radiology')" class="col-md-12 text-left">	
+			 		<div  v-if="(referalType == 'radiology' && radiologyData != '')" class="col-md-12 text-left">
+			 			<div v-if="(referalType !== null && radiologyData != null)"> 
+					 		<div class='col-md-6 text-left'>
+					 			<span class='text-left'><b>Referal :-</b></span>
+					 		</div>
+				 		</div>	
 		 				<table class="table" id="radio_list">
 			                  <thead>
 			                  <tr>
