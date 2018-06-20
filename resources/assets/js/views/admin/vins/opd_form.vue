@@ -1125,8 +1125,7 @@
                      setTimeout(function(){
                       console.log('test')
                       $('#prescription').select2({
-                        placeholder: "Select",
-                        tags:false 
+                        placeholder: "Select"
                       });
                      },500)
 
