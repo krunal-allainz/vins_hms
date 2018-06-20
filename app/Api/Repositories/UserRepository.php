@@ -161,4 +161,24 @@ class UserRepository {
       $user = User::find($id);
       return $user->tournaments()->pluck('id');
     }
+
+    /**
+     * [getUserDetailsByType description]
+     * @param  [type] $type   [description]
+     * @param  [type] $status [description]
+     * @return [array]         [description]
+     */
+    public function getUserDetailsByType($type,$status)
+    {
+        return User::where('user_type',$type)->where('status',$status)->get();
+    }
+
+    /**
+     * [getDepartmentById description]
+     * @param  [type] $id [description]
+     * @return [department]     [description]
+     */
+    public function getDepartmentById($id) {
+        return User::select('department')->where('id', $id)->first();
+    }
 }

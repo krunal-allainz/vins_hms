@@ -158,4 +158,26 @@ class UserController extends BaseController
     {
         return $this->userRepoObj->getDepartmentByName($request->all()['name']);
     }
+
+    /**
+     * [getUserDetailsByType description]
+     * @param  Request $request [type,status]
+     * @return [array]           [description]
+     */
+    public function getUserDetailsByType(Request $request)
+    {
+        $type = $request->type;
+        $status   =  $request->status;
+        return $this->userRepoObj->getUserDetailsByType($type,$status);
+    }
+
+    /**
+     * [getDepartmentById description]
+     * @param  Request $request [id]
+     * @return [array]           [description]
+     */
+     public function getDepartmentById(Request $request)
+    {
+        return $this->userRepoObj->getDepartmentById($request->all()['id']);
+    }
 }

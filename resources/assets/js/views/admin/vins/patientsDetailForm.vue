@@ -175,7 +175,7 @@
 					</div>
 					<div class="col-md-6">
 			      		<select class="form-control ls-select2"  id="consulting_dr" name="consulting_dr"  v-model="patientData.consulting_dr">
-							 <option :value="doctor.text" v-for="doctor in patientData.consulting_dr_option">{{doctor.text}}</option>
+							 <option :value="doctor.id" v-for="doctor in patientData.consulting_dr_option">{{doctor.text}}</option>
 			      		</select>
 			      		<span class="help is-danger" v-show="errors.has('consulting_dr')">
 		                	Please select consulting doctor.
@@ -192,6 +192,8 @@
 <script >
 	import User from '../../../api/users.js';
   	import myDatepicker from 'vue-datepicker';
+  	/*for consulting dr */
+  	let consult_list=[];
 
     export default {
         data() {
@@ -240,19 +242,8 @@
                 	'mob_no': '',
                 	'reference_dr': '',
                 	'consulting_dr':'',
-                	'consulting_dr_option': [
-                		{text:'Dr. VIJAY THAKORE'},
-                		{text:'Dr. KAUSHIK K. TRIVEDI'},
-                		{text:'Dr. HEMANT MATHUR'},
-                		{text:'Dr. MIHIR ACHARYA'},
-                		{text:'Dr. SUMIT KAPADIA'},
-                		{text:'Dr. KETAN KAPASHI'},
-                		{text:'Dr. RAJESH KANTHARIA'},
-                		{text:'Dr. V.C. CHAUHAN'},
-                		{text:'Dr. NIRAJ BHATT'},
-                		{text:'Dr. K.C. PATEL'},
-                		{text:'Dr. CHIRAG MASTER'}
-                	]
+                	'consulting_dr_option':consult_list
+                	
                 }
             }
         },
@@ -276,6 +267,21 @@
 		             }
 
 				});
+
+			/*for consulting dr */
+
+				    User.generateUserDetailsByType().then(
+				    	 (response) => {
+	               	 		let consult_data  = response.data;
+	               	 		$.each(consult_data, function(key, value) {
+		               	 		let name =  value.first_name +' '+value.last_name;
+		               	 		let id  = value.id ;
+		               	 		consult_list.push({text:name, id:id});
+	               	 		});
+	               	 	},
+	               	 	(error) => {
+	            	 	},
+					);
         },
         methods: {
 		    GetSelectComponent(componentName) {

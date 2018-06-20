@@ -78,6 +78,7 @@ class PatientsDetailFormController extends Controller
           'mob_no' => $data['mob_no'],
           'references' => $data['reference_dr'],
           'consultant' => isset($data['consulting_dr'])?$data['consulting_dr']: '' ,
+          'consultant_id' =>$data['consulting_dr'],
           'case_type' => $data['case'],
         ]);    
          $patientId = $patientData->id;

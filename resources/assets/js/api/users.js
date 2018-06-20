@@ -265,6 +265,12 @@ export default {
   },
   generateReceiptDataById(id,type){
       return api.post('patient/receipt/view',{'id':id,'type':type});
+  },
+  generateUserDetailsByType(type,status){
+      return api.post('user/getUserDetailsByType',{'type':type,'status':status});
   }
+  getDrDepartmentById(id) {
+    return api.post('user/getDepartmentById/',{'id' :id})
+  },
 
 }
