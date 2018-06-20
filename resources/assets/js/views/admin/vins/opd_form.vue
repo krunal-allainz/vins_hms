@@ -969,7 +969,7 @@
           vm.examinationChangeImage();
            
             vm.getPrescriptionList();
-        },2000)
+        },500)
         },
         methods: {
           saveReport() {
@@ -1146,7 +1146,12 @@
               (response)=> {
                   if(response.status == 200){
                     vm.prescriptionOption = response.data.data;
-                    jQuery('.js-loader').addClass('d-none');
+                    $("#prescription").select2('destroy'); 
+                     
+                     setTimeout(function(){
+                      $('#prescription').select2();
+                       jQuery('.js-loader').addClass('d-none');
+                     },1000)
 
                   }
                 },
