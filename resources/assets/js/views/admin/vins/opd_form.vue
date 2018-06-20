@@ -962,7 +962,7 @@
           vm.examinationChangeImage();
            
             vm.getPrescriptionList();
-        },2000)
+        },500)
         },
         methods: {
           saveReport() {
@@ -1123,6 +1123,7 @@
                     vm.prescriptionOption = response.data.data;
                     jQuery('.js-loader').addClass('d-none');
                      setTimeout(function(){
+                      console.log('test')
                       $('#prescription').select2({
                         placeholder: "Select",
                         tags:false 
