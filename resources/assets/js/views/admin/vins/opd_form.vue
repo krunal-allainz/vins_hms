@@ -1121,10 +1121,9 @@
               (response)=> {
                   if(response.status == 200){
                     vm.prescriptionOption = response.data.data;
-                   
+                    $("#prescription").select2('destroy'); 
+                     
                      setTimeout(function(){
-                     $("#prescription").select2('destroy'); 
-                      console.log('test')
                       $('#prescription').select2({
                         placeholder: "Select"
                       });
