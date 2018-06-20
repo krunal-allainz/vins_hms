@@ -242,17 +242,19 @@
                 	'reference_dr': '',
                 	'consulting_dr':'',
                 	'consulting_dr_option': [
-                		{text:'Dr. VIJAY THAKORE'},
-                		{text:'Dr. KAUSHIK K. TRIVEDI'},
-                		{text:'Dr. HEMANT MATHUR'},
-                		{text:'Dr. MIHIR ACHARYA'},
-                		{text:'Dr. SUMIT KAPADIA'},
-                		{text:'Dr. KETAN KAPASHI'},
-                		{text:'Dr. RAJESH KANTHARIA'},
-                		{text:'Dr. V.C. CHAUHAN'},
-                		{text:'Dr. NIRAJ BHATT'},
-                		{text:'Dr. K.C. PATEL'},
-                		{text:'Dr. CHIRAG MASTER'}
+                	      {'name':'Rakesh Shah' },
+		                  {'name':'Anand Vaishnav'},
+		                  {'name':'Suvorit Bhowmick'},
+		                  {'name':'Mihir Acharya'},
+		                  {'name':'Monish Malhotra'},
+		                  {'name':'Suresh Nayak'},
+		                  {'name':'Rakesh Jasani'},
+		                  {'name':'Kaushik K Trivedi'},
+		                  {'name':'Ketan Kapashi'},
+		                  {'name':'Vijay Thakore'},
+		                  {'name':'Sumit Kapadia'},
+		                  {'name':'Rajesh Kantharia'},
+		                  {'name':'Hemant Mathur'},
                 	]
                 }
             }
