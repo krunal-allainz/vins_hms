@@ -1121,14 +1121,15 @@
               (response)=> {
                   if(response.status == 200){
                     vm.prescriptionOption = response.data.data;
-                    jQuery('.js-loader').addClass('d-none');
+                   
                      setTimeout(function(){
                      $("#prescription").select2('destroy'); 
                       console.log('test')
                       $('#prescription').select2({
                         placeholder: "Select"
                       });
-                     },500)
+                       jQuery('.js-loader').addClass('d-none');
+                     },1000)
 
                   }
                 },
