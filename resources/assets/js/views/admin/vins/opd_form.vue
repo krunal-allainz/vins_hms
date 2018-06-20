@@ -1122,6 +1122,10 @@
                   if(response.status == 200){
                     vm.prescriptionOption = response.data.data;
                     jQuery('.js-loader').addClass('d-none');
+                     $('#prescription').select2({
+                      placeholder: "Select",
+                      tags:false 
+                    });
 
                   }
                 },
