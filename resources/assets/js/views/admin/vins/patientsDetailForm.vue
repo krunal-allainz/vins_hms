@@ -1,4 +1,4 @@
-<template>
+<template>	
 	<div class="container">
 		<div class="page-header">
 			<div class="row">
@@ -188,6 +188,7 @@
 			</div>
 		</form>
 	</div>
+
 </template>
 <script >
 	import User from '../../../api/users.js';

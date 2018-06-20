@@ -1188,7 +1188,7 @@
             // window.onresize = vm.resizeCanvas(canvas);
             // vm.  (canvas);
             var opdData = this.opdData;
-            this.$router.push({'name':'opd_form_thankyou'});
+            // this.$router.push({'name':'opd_form_thankyou'});
             // if (vm.signaturePad.isEmpty()) {
               //  alert("Please provide a signature first.");
               //} else {
@@ -1197,7 +1197,7 @@
                 // vm.frmStep = 'step2';
                 // vm.download(dataURL, "signature.png");
               //}
-            // vm.$store.dispatch('saveOpdData');
+            vm.$store.dispatch('saveOpdData');
             // User.saveOpdData(opdDataRes).then((response) => {
                         // console.log(response);
                          // this.$router.push({'name':'dashboard'});

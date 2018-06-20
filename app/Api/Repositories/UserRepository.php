@@ -4,12 +4,11 @@ namespace euro_hms\Api\Repositories;
 
 use euro_hms\Models\User;
 use euro_hms\Models\Role;
-use euro_hms\Models\UserFavourites;
-use euro_hms\Models\Settings;
 use DB;
 use Hash;
 
 class UserRepository {
+
 
     public function __construct()
     {
@@ -30,14 +29,16 @@ class UserRepository {
         return User::where('mobile_no',$searchData['mobileNo'])->orWhere('email',$searchData['email'])->get();
     }
 
+    public function getDepartmentByName($name) {
+        return User::select('department')->where('first_name', $name)->first();
+    }
+
     public function getUserDetails()
     {
         $data = DB::table('users')->get();
         // dd($data->toArray());
         return $data;
     }
-
-    
 
     public function create($data)
     {
@@ -68,28 +69,6 @@ class UserRepository {
     {
         return User::find($id)->delete();
     }
-    public function changeUserStatus($data)
-    {
-        $id = $data['userData']['id'];
-        $status = ($data['userData']['status'] == 1) ? '0' : '1';
-        return User::where('id',$id)->update(['is_active'=>$status]);
-    }
-    public function edit($userId)
-    {
-       $user=DB::table('users')
-            ->join('role_user', 'users.id', '=', 'role_user.user_id')
-            ->select("users.id as id", "users.email as email",
-               DB::raw('IF(users.user_image is not null,CONCAT("'.$this->userImagePath.'", users.user_image),"" ) as image'),
-             "users.organisation as organisation", "people.first_name as name", "people.last_name as surname", "role_user.role_id as userType")
-            ->where("users.id", "=", $userId)
-            ->first();
-
-        $defaultFavouriteTournament = DB::table('users_favourite')->where('user_id', $user->id)->where('is_default', 1)->first();
-
-        $user->tournament_id = $defaultFavouriteTournament ? $defaultFavouriteTournament->tournament_id : null;
-
-        return json_encode($user);
-    }
 
     public function update($data, $userId)
     {
@@ -119,42 +98,6 @@ class UserRepository {
         return ($users->roles[0]->id == $mobileUserRoleId) ? 'Mobile' : 'Desktop';
 
     }
-    public function createUserSettings($userData)
-    {
-      return Settings::create($userData);
-    }
-    public function getSetting($userData)
-    {
-      $userId = $userData['user_id'];
-      return Settings::where('user_id','=',$userId)->get();
-      //return Settings::with(['user'])->where('user_id','=',$userId)->get();
-    }
-    public function postSetting($userData)
-    {
-        
-      \Log::info($userData);
-      $userId= $userData['userId'];
-      $updatedValue = ['value' => json_encode($userData['userSettings'])];
 
-      //$updatedValue = array('value'=>$userData['userSettings']);
-      return Settings::where('user_id', $userId)->update($updatedValue);
-    }
-    public function setFCM($data) {
-      $email = $data['email'];
-      $fcmId = $data['fcm_id'];
-      $updatedValue = ['fcm_id'=>$fcmId];
-      return User::where('email',$email)->update($updatedValue);
-    }
 
-    public function changeTournamentPermission($data) {
-      $user = User::find($data['user']['id']);
-      $user->tournaments()->sync([]);
-      $user->tournaments()->attach($data['tournaments']);
-      return true;
-    } 
-
-    public function getUserTournaments($id) {
-      $user = User::find($id);
-      return $user->tournaments()->pluck('id');
-    }
 }
