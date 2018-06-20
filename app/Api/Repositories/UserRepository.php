@@ -4,12 +4,11 @@ namespace euro_hms\Api\Repositories;
 
 use euro_hms\Models\User;
 use euro_hms\Models\Role;
-use euro_hms\Models\UserFavourites;
-use euro_hms\Models\Settings;
 use DB;
 use Hash;
 
 class UserRepository {
+
 
     public function __construct()
     {
@@ -41,8 +40,6 @@ class UserRepository {
         return $data;
     }
 
-    
-
     public function create($data)
     {
         // dd($data);
@@ -71,28 +68,6 @@ class UserRepository {
     public function delete($id)
     {
         return User::find($id)->delete();
-    }
-    public function changeUserStatus($data)
-    {
-        $id = $data['userData']['id'];
-        $status = ($data['userData']['status'] == 1) ? '0' : '1';
-        return User::where('id',$id)->update(['is_active'=>$status]);
-    }
-    public function edit($userId)
-    {
-       $user=DB::table('users')
-            ->join('role_user', 'users.id', '=', 'role_user.user_id')
-            ->select("users.id as id", "users.email as email",
-               DB::raw('IF(users.user_image is not null,CONCAT("'.$this->userImagePath.'", users.user_image),"" ) as image'),
-             "users.organisation as organisation", "people.first_name as name", "people.last_name as surname", "role_user.role_id as userType")
-            ->where("users.id", "=", $userId)
-            ->first();
-
-        $defaultFavouriteTournament = DB::table('users_favourite')->where('user_id', $user->id)->where('is_default', 1)->first();
-
-        $user->tournament_id = $defaultFavouriteTournament ? $defaultFavouriteTournament->tournament_id : null;
-
-        return json_encode($user);
     }
 
     public function update($data, $userId)
@@ -123,32 +98,6 @@ class UserRepository {
         return ($users->roles[0]->id == $mobileUserRoleId) ? 'Mobile' : 'Desktop';
 
     }
-    public function createUserSettings($userData)
-    {
-      return Settings::create($userData);
-    }
-    public function getSetting($userData)
-    {
-      $userId = $userData['user_id'];
-      return Settings::where('user_id','=',$userId)->get();
-      //return Settings::with(['user'])->where('user_id','=',$userId)->get();
-    }
-    public function postSetting($userData)
-    {
-        
-      \Log::info($userData);
-      $userId= $userData['userId'];
-      $updatedValue = ['value' => json_encode($userData['userSettings'])];
-
-      //$updatedValue = array('value'=>$userData['userSettings']);
-      return Settings::where('user_id', $userId)->update($updatedValue);
-    }
-    public function setFCM($data) {
-      $email = $data['email'];
-      $fcmId = $data['fcm_id'];
-      $updatedValue = ['fcm_id'=>$fcmId];
-      return User::where('email',$email)->update($updatedValue);
-    }
 
     public function changeTournamentPermission($data) {
       $user = User::find($data['user']['id']);
@@ -168,9 +117,17 @@ class UserRepository {
      * @param  [type] $status [description]
      * @return [array]         [description]
      */
-    public function getUserDetailsByType($type,$status)
+    public function get_user_details_by_type($type,$status)
     {
-        return User::where('user_type',$type)->where('status',$status)->get();
+        if($type=='All')
+        {
+            return User::where('status',$status)->get();
+        }
+        else
+        {
+            return User::where('user_type',$type)->where('status',$status)->get(); 
+        }
+        
     }
 
     /**
@@ -181,4 +138,16 @@ class UserRepository {
     public function getDepartmentById($id) {
         return User::select('department')->where('id', $id)->first();
     }
+
+    /**
+     * [getUserNameById description]
+     * @param  [type] $id [description]
+     * @return [name]     [description]
+     */
+    public function getUserNameById($id) {
+        $record=User::where('id', $id)->first();
+        return $record->first_name.' '.$record->last_name;
+    }
+
+
 }

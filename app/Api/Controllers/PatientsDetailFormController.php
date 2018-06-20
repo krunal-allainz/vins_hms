@@ -11,15 +11,17 @@ use euro_hms\Models\OpdDetails;
 use Illuminate\Support\Facades\Response;
 use euro_hms\Models\Receipt;
 use euro_hms\Api\Repositories\ReceiptRepository;
-
 use Terbilang;
-
-
 use DB;
 use Carbon\Carbon;
+use euro_hms\Api\Repositories\UserRepository;
 
 class PatientsDetailFormController extends Controller
 {
+
+    public function __construct(){
+        $this->userOBJ = new UserRepository();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -57,12 +59,21 @@ class PatientsDetailFormController extends Controller
         $uhid="VM";
         $year = date('y');
         // dd($patientUHId);
-
+        
+        $insertedPatientId="";
         if($data['case'] == 'new') {
-           $patientD =  PatientDetailsForm::get()->last();
-           $lastPatientId=$patientD->id;
-           $newPatNo = sprintf("%04d",++$lastPatientId);
+           $patientD =  PatientDetailsForm::orderBy('id', 'desc')->first();
+            if($patientD == null){   
+                $lastPatientId = 1; 
+            }else{  
+                $lastPatientId = $patientD->id + 1;  
+            }
+            
+            
+           $newPatNo = sprintf("%04d",$lastPatientId);
+            
            $insertedPatientId=$uhid.$year.$newPatNo;
+        
            // dd($data);
             $patientData = PatientDetailsForm::create([
            // 'date' => $request->date,
@@ -77,10 +88,11 @@ class PatientsDetailFormController extends Controller
           'ph_no' => $data['ph_no'],
           'mob_no' => $data['mob_no'],
           'references' => $data['reference_dr'],
-          'consultant' => isset($data['consulting_dr'])?$data['consulting_dr']: '' ,
           'consultant_id' =>$data['consulting_dr'],
+          'consultant' => isset($data['consulting_dr'])?$data['consulting_dr']: '' ,
           'case_type' => $data['case'],
-        ]);    
+        ]); 
+         
          $patientId = $patientData->id;
         } else {
             $patientId = 0;
@@ -244,11 +256,12 @@ class PatientsDetailFormController extends Controller
 
         $data =  ReceiptRepository::saveReceipt($request); 
         $all_amt=$request->formData['chargeAmount']+$request->formData['procedure_charges']+$request->formData['other_charges'];
-        $wordAmount = Terbilang::make($all_amt);   
+        $wordAmount = Terbilang::make($all_amt); 
+        $consultant_name=$this->userOBJ->getUserNameById($request->formData['consult_id']);  
         $formData = [  
             'name' => $request->formData['fullname'],  
             'date' => $request->formData['date_receipt'] , 
-            'consultant' => $request->formData['reference_dr'],    
+            'consultant' =>$consultant_name,    
             'age' =>   $request->formData['age'],  
             'gender' =>$request->formData['gender'],   
             'wordamount' => $wordAmount  ,

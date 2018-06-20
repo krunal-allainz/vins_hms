@@ -257,7 +257,7 @@ export default {
     return api.post('receipt/getemergencycharges/'+typeId)
   },
   getDrDepartment(name) {
-    return api.post('user/getDepartmentByName/',{'name' :name})
+    return api.post('user/getDepartmentByName',{'name' :name})
   },
   
   removeReceipt(id){
@@ -267,10 +267,10 @@ export default {
       return api.post('patient/receipt/view',{'id':id,'type':type});
   },
   generateUserDetailsByType(type,status){
-      return api.post('user/getUserDetailsByType',{'type':type,'status':status});
-  }
-  getDrDepartmentById(id) {
-    return api.post('user/getDepartmentById/',{'id' :id})
+      return api.post('user/getUserDetailByUserType',{'type':type,'status':status});
   },
+  getDrDepartmentById(consult_id) {
+    return api.post('user/getDepartmentById',{'id' :consult_id});
+  }
 
 }

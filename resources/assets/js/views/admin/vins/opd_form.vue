@@ -293,7 +293,7 @@
           <label for="advice">Advice:</label>
         </div>
         <div class="col-md-12" v-show="opdData.adviceType == 'text'">
-          <textarea class="form-control" type="text" name="advice" id="advice" v-model="opdData.advice"  "></textarea>
+          <textarea class="form-control" type="text" name="advice" id="advice" v-model="opdData.advice"  ></textarea>
          
         </div>
          <div class="col-md-12" v-show="opdData.adviceType == 'scribble'">
@@ -634,7 +634,7 @@
               'footer' : 'footer',
               'currentYear': new Date().getFullYear(),
               'type': 'opdForms',
-              'doctor':this.$store.state.Users.userDetails.first_name+' '+this.$store.state.Users.userDetails.last_name,
+              'doctor':this.$store.state.Users.userDetails.id,
               'department':this.$store.state.Users.userDetails.department,
               'prescriptionOption':'',
               'finalResultData':{},
@@ -837,7 +837,8 @@
 
 
           setTimeout(function(){
-            vm.doctor = vm.$store.state.Users.userDetails.first_name+' '+vm.$store.state.Users.userDetails.last_name;  
+          console.log(vm.$store.state.Users.userDetails);
+            vm.doctor = vm.$store.state.Users.userDetails.id;  
           },1000);
           
            User.getAllPatientNameByConsultDoctor(vm.doctor,section).then(
@@ -962,7 +963,7 @@
           vm.examinationChangeImage();
            
             vm.getPrescriptionList();
-        },2000)
+        },500)
         },
         methods: {
           saveReport() {
@@ -1121,7 +1122,12 @@
               (response)=> {
                   if(response.status == 200){
                     vm.prescriptionOption = response.data.data;
-                    jQuery('.js-loader').addClass('d-none');
+                    $("#prescription").select2('destroy'); 
+                     
+                     setTimeout(function(){
+                      $('#prescription').select2();
+                       jQuery('.js-loader').addClass('d-none');
+                     },1000)
 
                   }
                 },
@@ -1188,7 +1194,7 @@
             // window.onresize = vm.resizeCanvas(canvas);
             // vm.  (canvas);
             var opdData = this.opdData;
-            this.$router.push({'name':'opd_form_thankyou'});
+            // this.$router.push({'name':'opd_form_thankyou'});
             // if (vm.signaturePad.isEmpty()) {
               //  alert("Please provide a signature first.");
               //} else {
@@ -1197,7 +1203,7 @@
                 // vm.frmStep = 'step2';
                 // vm.download(dataURL, "signature.png");
               //}
-            // vm.$store.dispatch('saveOpdData');
+            vm.$store.dispatch('saveOpdData');
             // User.saveOpdData(opdDataRes).then((response) => {
                         // console.log(response);
                          // this.$router.push({'name':'dashboard'});

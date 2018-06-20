@@ -168,7 +168,7 @@ class UserController extends BaseController
     {
         $type = $request->type;
         $status   =  $request->status;
-        return $this->userRepoObj->getUserDetailsByType($type,$status);
+        return $this->userRepoObj->get_user_details_by_type($type,$status);
     }
 
     /**

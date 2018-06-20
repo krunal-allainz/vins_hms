@@ -24,6 +24,7 @@ class PatientDetailsForm extends Model
       'references',
       'consultant',
       'case_type',
+      'consultant_id',
     ];
 
     public function getDobAttribute($value)
@@ -51,14 +52,15 @@ class PatientDetailsForm extends Model
 
     public static function getPatientListByConsultDr($doctor,$section){
        $result = array();
-      if($section == 'OPD'){
-       $patientList =PatientDetailsForm::where('consultant',$doctor)->get();
-      }
+      //if($section == 'OPD'){
+       $patientList =PatientDetailsForm::where('consultant_id',$doctor)->get();
+      //}
+      
       foreach ($patientList as $key=>$value){
          $result[$key] = [
             'id' => $value->id,
             'name' =>  $value->first_name.' '.$value->last_name,
-            'consultant' =>  $value->consultant,
+            'consultant' =>  $value->consultant_id,
             'dob' => $value->dob,
             'gender' =>  $value->gender,
             'address' =>  $value->address,
