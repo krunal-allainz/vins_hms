@@ -1123,6 +1123,7 @@
                     vm.prescriptionOption = response.data.data;
                     jQuery('.js-loader').addClass('d-none');
                      setTimeout(function(){
+                     $("#prescription").select2('destroy'); 
                       console.log('test')
                       $('#prescription').select2({
                         placeholder: "Select"
