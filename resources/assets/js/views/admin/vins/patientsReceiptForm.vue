@@ -242,6 +242,21 @@
 		</div>
 	 </template>
 	<script>
+	//$(document).ready(function(){
+    //get it if Status key found
+    if(localStorage.getItem("Receipt"))
+    {
+        toastr.success('success.', 'Receipt Saved successfully', {timeOut: 5000});
+        localStorage.removeItem("Receipt");
+        //localStorage.clear();
+    }
+    if(localStorage.getItem("ReceiptAdd"))
+    {
+        toastr.success('success.', 'Receipt Print successfully', {timeOut: 5000});
+        localStorage.removeItem("ReceiptAdd");
+        //localStorage.clear();
+    }
+//});
 		import User from '../../../api/users.js';
 		import myDatepicker from 'vue-datepicker';
 
@@ -808,16 +823,15 @@
 				                		$('#printContent').append(response.data.html);	
 				                	}
 				                	$('#receiptModal').on('hidden.bs.modal', function () {
-				                		toastr.success('success.', 'receipt success', {timeOut: 5000});
-  										location.reload(true);
+				                		localStorage.setItem("ReceiptAdd",1)
+    									window.location.reload();
 									});
 			                	}
 			                	else
 			                	{
-			                		location.reload(true);
-			                		toastr.success('success.', 'Receipt Saved successfully', {timeOut: 600000});
 			                		$("body .js-loader").addClass('d-none');
-
+			                		localStorage.setItem("Receipt",1)
+    								window.location.reload();
 			                	}
 			                	
 		                	}
