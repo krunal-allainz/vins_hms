@@ -631,7 +631,7 @@
     import card from "./card.vue"
       var  medicine ;
       var  timeList ;
-      var patientData = [];
+      var patient_list = [];
 
     export default {
         data() {
@@ -774,7 +774,7 @@
                   {'name':'Hemant Mathur'},
               ],
               'opdData': {
-                'patientlist':patientData,
+                'patientlist':patient_list,
                 'case_type': '',
                 'uhid_no': '',
                 'name':'',
@@ -852,10 +852,10 @@
              
                   (response) => {
                     //vm.opdData.patientlist =patientData; 
-                    //patientData=[];
+                    patient_list=[];
                     
                     $.each(response.data, function(key,value) {
-                       patientData.push({
+                       patient_list.push({
                          'id' : value.id,
                          'name' : value.name,
                          'uhid_no' : value.uhid_no
@@ -863,7 +863,7 @@
                     });
                     /*console.log('fdsf');
                    console.log(patientData) ;*/
-                     vm.opdData.patientlist =patientData; 
+                     vm.opdData.patientlist =patient_list; 
                     // patientData={};
                     setTimeout(function(){
                         $('#patient').select2({
