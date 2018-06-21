@@ -174,8 +174,8 @@
 			      		<label class="control-label" for="consulting_dr">Consulting Dr..: </label>
 					</div>
 					<div class="col-md-6">
-			      		<select class="form-control ls-select2"  id="consulting_dr" name="consulting_dr"  v-model="patientData.consulting_dr">
-							 <option :value="doctor.text" v-for="doctor in patientData.consulting_dr_option">{{doctor.text}}</option>
+			      		<select class="form-control ls-select2"  id="consulting_dr" name="consulting_dr"  v-model="patientData.consulting_dr" v-validate="'required'">
+							 <option :value="doctor.id" v-for="doctor in patientData.consulting_dr_option">{{doctor.text}}</option>
 			      		</select>
 			      		<span class="help is-danger" v-show="errors.has('consulting_dr')">
 		                	Please select consulting doctor.
@@ -193,6 +193,8 @@
 <script >
 	import User from '../../../api/users.js';
   	import myDatepicker from 'vue-datepicker';
+  	/*for consulting dr */
+  	let consult_list=[];
 
     export default {
         data() {
@@ -241,21 +243,8 @@
                 	'mob_no': '',
                 	'reference_dr': '',
                 	'consulting_dr':'',
-                	'consulting_dr_option': [
-                	                  {'text':'Rakesh Shah' },
-		                  {'text':'Anand Vaishnav'},
-		                  {'text':'Suvorit Bhowmick'},
-		                  {'text':'Mihir Acharya'},
-		                  {'text':'Monish Malhotra'},
-		                  {'text':'Suresh Nayak'},
-		                  {'text':'Rakesh Jasani'},
-		                  {'text':'Kaushik K Trivedi'},
-		                  {'text':'Ketan Kapashi'},
-		                  {'text':'Vijay Thakore'},
-		                  {'text':'Sumit Kapadia'},
-		                  {'text':'Rajesh Kantharia'},
-		                  {'text':'Hemant Mathur'},
-                	]
+                	'consulting_dr_option':consult_list
+                	
                 }
             }
         },
@@ -279,6 +268,21 @@
 		             }
 
 				});
+
+			/*for consulting dr */
+
+				    User.generateUserDetailsByType('All','Active').then(
+				    	 (response) => {
+	               	 		let consult_data  = response.data;
+	               	 		$.each(consult_data, function(key, value) {
+		               	 		let name =  value.first_name +' '+value.last_name;
+		               	 		let id  = value.id ;
+		               	 		consult_list.push({text:name, id:id});
+	               	 		});
+	               	 	},
+	               	 	(error) => {
+	            	 	},
+					);
         },
         methods: {
 		    GetSelectComponent(componentName) {
@@ -338,6 +342,7 @@
 		                		this.patientData.mob_no = pData.mob_no;
 		                		this.patientData.gender = pData.gender;
 		                		this.patientData.dob = pData.dob;
+		                		this.patientData.consulting_dr = pData.consultant_id;
 		                		toastr.success('Patient details have been saved', 'patient detail', {timeOut: 5000});
 		    					
 		                	} else if(response.data.code == 300) {

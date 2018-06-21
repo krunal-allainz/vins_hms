@@ -293,8 +293,7 @@
           <label for="advice">Advice:</label>
         </div>
         <div class="col-md-12" v-show="opdData.adviceType == 'text'">
-          <textarea class="form-control" type="text" name="advice" id="advice" v-model="opdData.advice"></textarea>
-         
+          <textarea class="form-control" type="text" name="advice" id="advice" v-model="opdData.advice"></textarea>         
         </div>
          <div class="col-md-12" v-show="opdData.adviceType == 'scribble'">
               <div id="signature-pad2" class="signature-pad">
@@ -640,7 +639,7 @@
               'footer' : 'footer',
               'currentYear': new Date().getFullYear(),
               'type': 'opdForms',
-              'doctor':this.$store.state.Users.userDetails.first_name+' '+this.$store.state.Users.userDetails.last_name,
+              'doctor':this.$store.state.Users.userDetails.id,
               'department':this.$store.state.Users.userDetails.department,
               'prescriptionOption':'',
               'finalResultData':{},
@@ -844,7 +843,8 @@
 
 
           setTimeout(function(){
-            vm.doctor = vm.$store.state.Users.userDetails.first_name+' '+vm.$store.state.Users.userDetails.last_name;  
+          console.log(vm.$store.state.Users.userDetails);
+            vm.doctor = vm.$store.state.Users.userDetails.id;  
           },1000);
           
            User.getAllPatientNameByConsultDoctor(vm.doctor,section).then(

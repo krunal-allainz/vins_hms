@@ -435,13 +435,15 @@
   							 	
   							 	vm.patientData.patient_id = pid;
   							 	vm.patientData.reference_dr = consulatant;
+  							 	vm.patientData.consult_id = patientDetails.consultant_id;
 
   							 	
   							 	}
   							    vm.handleDOBChanged();
   							    //vm.ChargesTypeFunction();
   							   /*for getting department*/
-						  		 User.getDrDepartment(vm.patientData.reference_dr).then(
+  							   //console.log(vm.patientData.consult_id);
+						  		 User.getDrDepartmentById(vm.patientData.consult_id).then(
   							 	(response) => { 
   							 		let dept_name=response.data;
   							 		let dept_val  = dept_name.department;
