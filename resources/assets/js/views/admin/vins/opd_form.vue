@@ -851,7 +851,9 @@
            User.getAllPatientNameByConsultDoctor(vm.doctor_id,section).then(
              
                   (response) => {
-                    vm.opdData.patientlist =patientData; 
+                    //vm.opdData.patientlist =patientData; 
+                    //patientData=[];
+                    
                     $.each(response.data, function(key,value) {
                        patientData.push({
                          'id' : value.id,
@@ -859,8 +861,10 @@
                          'uhid_no' : value.uhid_no
                       });
                     });
-                    
+                    /*console.log('fdsf');
+                   console.log(patientData) ;*/
                      vm.opdData.patientlist =patientData; 
+                    // patientData={};
                     setTimeout(function(){
                         $('#patient').select2({
                          placeholder: "Select"

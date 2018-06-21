@@ -71,7 +71,7 @@
 							     	 <label class="control-label" for="consulting_dr"><b>Consulting Dr.:</b> </label>	
 							     </div>	
 							      <div class="col-md-6">	
-										{{data.consult}}	
+										{{patientData.consult}}	
 							</div>	
 							</div>	
 					</div>
@@ -312,6 +312,7 @@
                 			},
                  			'patient_option':list,
                  			'case_detail':{},
+                 			'consult' : '',
                  			'charges_type':'',
                  			'charges_type_option':charges_list,
                  			'chargeAmount' : '',
@@ -434,13 +435,23 @@
   							 			let phone  = patientDetails.ph_no;
   							 			let references  = patientDetails.references ;
   							 			let uhid_no  = patientDetails.uhid_no ;
+  							 			let consult_name =" ";
+  							 			User.generateUserNameById(patientDetails.consultant_id).then(
+  							 				(response) => {
+
+  							 					vm.patientData.consult = response.data;
+  							 				},
+				               				(error) => {
+				            	 			},
+  										); 
+
   							 			patient_data_detail.push({
 
   							 				 'name' : name,
   							 				 'id' : pid,
   							 				 'add' : address,
   							 				 //'case_type' : caseType,
-  							 				 'consult' : consulatant,
+  							 				 //'consult' : consult_name,
   							 				 'gender' : gender,
   							 				 'mob' : mob,
   							 				 'phone' : phone,

@@ -292,6 +292,7 @@ class UsersTableSeeder extends Seeder
 
         ]);
 
+
         DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
             ['first_name'=>'Dr. Ketan',
