@@ -180,4 +180,14 @@ class UserController extends BaseController
     {
         return $this->userRepoObj->getDepartmentById($request->all()['id']);
     }
+
+    /**
+     * [getUserNameById description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getUserNameById(Request $request)
+    {
+        return $this->userRepoObj->getUserNameById($request->all()['id']);
+    }
 }
