@@ -113,6 +113,7 @@
 	                    </div>
 	                    <div class="col-md-6">
 							<select  class="form-control ls-select2" id = "gender" name="gender" :disabled="patientData.case == 'old'">
+	            				<option>Select</option>
 	            				<option value="M">Male</option>
 				            	<option value="F">Female</option>
 				          	</select>
@@ -268,6 +269,10 @@
 		             }
 		             else if(this.id == 'select_type'){
 		             	vm.patientData.select_type = $(this).val();		
+		             }
+		             else if(this.id == 'gender') {
+		             	vm.patientData.gender = $(this).val();		
+
 		             }
 		             else{
 		             	vm.patientData.consulting_dr = $(this).val();			
