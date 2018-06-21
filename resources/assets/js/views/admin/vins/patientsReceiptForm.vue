@@ -56,8 +56,14 @@
 							        <span  v-if="data.gender=='F'">	
 						             Female	
 							        </span>	
-							       <span id="age">{{patientData.age}}</span>	
+							      
 							     </div>	
+							     <div class="col-md-6">
+	          	 	 	 		 <label for="date"><b>Age:</b></label>
+	          	 	 	 	 </div>
+	          	 	 	 	 <div class="col-md-6">
+	          	 	 	 	  <span id="age">{{patientData.age}}</span>	
+	          	 	 	 	</div>
 						 </div>	
 							  <div class="col-md-6">	
 						 	<div class="col-md-6" v-for="data in patientData.select_patient_detail">	
