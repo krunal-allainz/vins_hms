@@ -401,14 +401,12 @@
 	</div>
 	<br/><br/>
 	@endif
-	@if($data['referalType'] != null)
+	@if($data['referalType'] != null && $data['crossSelectedValue'] != '')
 	<div style="padding-left: 35px;"> 
 		<div class='col-md-6 text-left'>
 			<span class='text-left'><b>Referal :-</b></span>
 		</div>
 	</div>
-	@endif
-
 	@if($data['referalType'] == 'cross')
 	<div style="padding-left: 40px;">
 		@if($data['crossType'] == 'internal')
@@ -429,7 +427,13 @@
 		@endif
 	</div>
 	@endif
-	@if($data['referalType'] == 'radiology')
+	@endif
+	@if($data['referalType'] == 'radiology' && $data['radiologyData'] != '')
+	<div style="padding-left: 35px;"> 
+		<div class='col-md-6 text-left'>
+			<span class='text-left'><b>Referal :-</b></span>
+		</div>
+	</div>
 	<div style="padding-left: 40px;">	
 		<table class="table" id="radio_list">
 			<thead>

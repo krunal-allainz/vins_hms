@@ -65,26 +65,37 @@
             </div>	
           </div>	
        </div>	
-    
-  </div>
+  </div>	
 </template>
 <script>
 	import User from '../../../api/users.js';
 	import moment from 'moment';
+	import laravelvuepagination from 'laravel-vue-pagination';
 	let  receptDataArrays = [];
 	export default{
 		data (){
 			return {
 				'receiptData' :receptDataArrays,
+				'next_page_url' :'',
+				'prev_page_url' : '',
+				'path' : '',
+				
 			}
 		},
 		mounted(){
 			 let vm =this;
-
-			 User.getReceiptList().then(
+			 vm.getResults();
+		},
+		methods: {
+			// Our method to GET results from a Laravel endpoint
+		getResults(page = 1) {
+			// axios.get('example/results?page=' + page)
+			// 	.then(response => {
+			// 		this.laravelData = response.data;
+			// 	});
+			User.getReceiptList().then(
 			 
 			 		(response) => {
-			 			
 			 			 $.each(response.data,function(key,value){
 			 			//	console.log(value);	
 				 		// 	//let receptDataArrays = response.data;
@@ -108,19 +119,17 @@
 				 				'patientId' : patientId,
 				 				'fullName' : fullName,
 				 				'consult' : consult
-
-
 				 			});
 				 		 });
-				 		// console.log(receptDataArrays);	
+				 		 
+				 		 console.log(receptDataArrays);	
 			 		},
 			 		(error) => {
 
 			 		}
 
 			 	);
-		},
-		methods: {
+			},
 			removeReceipt(id){
 				
 				if(confirm('Are you sure to remove this record ?'))
@@ -129,15 +138,15 @@
 
 						(response) => {
 							if(response.data.code == '200'){
-								 // User.getReceiptList().then(
-								 // 		(response) => {
-								 // 			this.receiptData = response.data;
-								 // 		},
-								 // 		(error) => {
+								 User.getReceiptList().then(
+								 		(response) => {
+								 		this.receiptData = response.data;
+								 		},
+								 		(error) => {
 
-								 // 		}
+								 		}
 
-								 // 	);
+								 	);
 								toastr.success(response.data.message, 'Receipt Delete', {timeOut: 5000});	
 							}
 						},
@@ -147,11 +156,8 @@
 						}
 					);
         		}
-				
-
 			},
 			receiptPrintView(id) {   	
-		    	console.log('test');
 	            	//if (!this.errors.any()) {	
 	            		// $("body .js-loader").removeClass('d-none');	
 	            		let content = [];	
@@ -159,8 +165,7 @@
 	            		User.generateReceiptDataById(id,type).then(	
 		                (response) => { 
 		                	$('#printContent').html('');
-		                	
-			                	 if ($("#printContent .printReceiptPage" ).length == 0){	
+			                	if ($("#printContent .printReceiptPage" ).length == 0){	
 			                		$('#printContent').append(response.data.html);	
 			                	}else{	
 			                		$('#printContent').append(response.data.html)	
@@ -189,8 +194,6 @@
 		                }	
 		                )*/	
 			    	//	
-		  	
-	
 			},	
 			ClickHereToPrint() {	
 				    try {	
