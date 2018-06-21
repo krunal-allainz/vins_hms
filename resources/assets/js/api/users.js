@@ -270,6 +270,9 @@ export default {
   },
   getDrDepartmentById(consult_id) {
     return api.post('user/getDepartmentById',{'id' :consult_id});
+  },
+   generateUserNameById(consult_id) {
+    return api.post('user/getUserNameById',{'id' :consult_id});
   }
 
 }

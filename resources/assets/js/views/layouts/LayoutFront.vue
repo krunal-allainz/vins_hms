@@ -31,7 +31,7 @@
 
         <div class="dashboard">
           <div class="wrapper">
-            <aside class="left-aside" v-if="userType != 'Doctor'">
+            <aside class="left-aside" v-if="userType == 'Doctor'">
               <left_side></left_side>
             </aside>
             <aside class="right-aside">

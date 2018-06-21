@@ -163,10 +163,7 @@
                     <div class="col-md-6">
                     	<label class="control-label" for="reference_dr">Reference Dr.: 
                     	</label>
-				      	<input class="form-control" type="text" id="reference_dr" name="reference_dr" value="" v-model="patientData.reference_dr" v-validate="'required'" />
-				      	<span class="help is-danger" v-show="errors.has('reference_dr')">
-			                Please select reference doctor.
-			            </span>	  
+				      	<input class="form-control" type="text" id="reference_dr" name="reference_dr" value="" v-model="patientData.reference_dr"/>
                     </div>
                 </div>
                 <div class="col-md-6">

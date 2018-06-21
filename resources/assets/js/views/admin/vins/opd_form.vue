@@ -639,7 +639,8 @@
               'footer' : 'footer',
               'currentYear': new Date().getFullYear(),
               'type': 'opdForms',
-              'doctor':this.$store.state.Users.userDetails.first_name+' '+this.$store.state.Users.userDetails.last_name,
+              'doctor':this.$store.state.Users.userDetails.first_name + " "+ this.$store.state.Users.userDetails.last_name ,
+              'doctor_id':this.$store.state.Users.userDetails.id,
               'department':this.$store.state.Users.userDetails.department,
               'prescriptionOption':'',
               'finalResultData':{},
@@ -843,15 +844,16 @@
 
 
           setTimeout(function(){
-          console.log(vm.$store.state.Users.userDetails);
-            vm.doctor = vm.$store.state.Users.userDetails.first_name;
-            let doctor_id= vm.$store.state.Users.userDetails.id; 
+            vm.doctor = vm.$store.state.Users.userDetails.first_name + " "+ vm.$store.state.Users.userDetails.last_name;  
+            vm.doctor_id = vm.$store.state.Users.userDetails.id;  
           },1000);
-        
-           User.getAllPatientNameByConsultDoctor(doctor_id,section).then(
+          
+           User.getAllPatientNameByConsultDoctor(vm.doctor_id,section).then(
              
                   (response) => {
-                    vm.opdData.patientlist =patientData; 
+                    //vm.opdData.patientlist =patientData; 
+                    //patientData=[];
+                    
                     $.each(response.data, function(key,value) {
                        patientData.push({
                          'id' : value.id,
@@ -859,8 +861,10 @@
                          'uhid_no' : value.uhid_no
                       });
                     });
-                    
+                    /*console.log('fdsf');
+                   console.log(patientData) ;*/
                      vm.opdData.patientlist =patientData; 
+                    // patientData={};
                     setTimeout(function(){
                         $('#patient').select2({
                          placeholder: "Select"
@@ -1085,6 +1089,7 @@
           },
           next() {
             let vm =this;
+
                 this.$validator.validateAll().then(
                 (response) => {
                   vm.priscriptionAdd = vm.finalPrescriptionData.length;
