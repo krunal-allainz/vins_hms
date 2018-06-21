@@ -193,6 +193,9 @@
                 <div><button type="button" id="clear_doctor_signature" class="btn btn-sm btn-danger">Clear</button></div>
               </div>
         </div>
+        <span class="help is-danger" id="signaturevalidation" >
+            Signature is required
+          </span>
       </div>
     </div>
     <div class="row form-group">
@@ -290,6 +293,7 @@
 				 $('.ls-select2').select2({
 						placeholder: "Select",
 				 });
+        
 
          let neuroData = _.cloneDeep(vm.$store.state.Patient.neuroExaminationData);
          if(neuroData.pain_value){
@@ -306,8 +310,11 @@
             this.neuroExaminationData.pain_value = pain;
           },
           submitData(){
+
             let vm =this;
-            vm.$store.dispatch('saveNeuroExamination',vm.neuroExaminationData);
+           
+              vm.$store.dispatch('saveNeuroExamination',vm.neuroExaminationData);
+           
           },
 		    GetSelectComponent(componentName) {
 		       this.$router.push({name: componentName})
