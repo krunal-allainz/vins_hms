@@ -191,6 +191,15 @@
 
 </template>
 <script >
+//$(document).ready(function(){
+    //get it if Status key found
+    if(localStorage.getItem("Status"))
+    {
+        toastr.success('Patient details have been saved', 'patient detail', {timeOut: 5000});
+        localStorage.removeItem("Status");
+        //localStorage.clear();
+    }
+//});
 	import User from '../../../api/users.js';
   	import myDatepicker from 'vue-datepicker';
   	/*for consulting dr */
@@ -341,7 +350,11 @@
 		                		this.patientData.ph_no = pData.ph_no;
 		                		this.patientData.mob_no = pData.mob_no;
 		                		this.patientData.gender = pData.gender;
-		                		this.patientData.dob = pData.dob;
+		                		this.patientData.address = pData.address;
+		                		this.patientData.reference_dr = pData.references;
+		                		//this.patientData.dob = pData.dob;
+		                		
+		                		let d_date = new Date(pData.dob);
 		                		this.patientData.consulting_dr = pData.consultant_id;
 		                		toastr.success('Patient details have been saved', 'patient detail', {timeOut: 5000});
 		    					
@@ -369,10 +382,15 @@
 				    	User.savePatient(pData).then(
 		                (response) => {
 		                	if(response.data.code == 200) {
-		                		toastr.success('Patient details have been saved', 'patient detail', {timeOut: 5000});
+		                		
 		    					var uhidNo=response.data.data.uhid_no;
 								$("#createPatientDetail").modal("hide");
 		    					this.$store.dispatch('SetUhidNo',uhidNo);
+		    					
+		    					//toastr.success('Patient details have been saved', 'patient detail', {timeOut: 5000});
+		    					localStorage.setItem("Status",1)
+    							window.location.reload(); 
+    							//this.$router.go();
 		                	} else if(response.data.code == 300) {
 		                		toastr.error('Record not found.Please enter valid search value.', 'Error', {timeOut: 5000});
 		                	} else{
