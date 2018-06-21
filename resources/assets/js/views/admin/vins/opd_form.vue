@@ -640,6 +640,7 @@
               'currentYear': new Date().getFullYear(),
               'type': 'opdForms',
               'doctor':this.$store.state.Users.userDetails.first_name + " "+ this.$store.state.Users.userDetails.last_name ,
+              'doctor_id':this.$store.state.Users.userDetails.id,
               'department':this.$store.state.Users.userDetails.department,
               'prescriptionOption':'',
               'finalResultData':{},
@@ -844,9 +845,10 @@
 
           setTimeout(function(){
             vm.doctor = vm.$store.state.Users.userDetails.first_name + " "+ vm.$store.state.Users.userDetails.last_name;  
+            vm.doctor_id = vm.$store.state.Users.userDetails.id;  
           },1000);
           
-           User.getAllPatientNameByConsultDoctor(vm.doctor,section).then(
+           User.getAllPatientNameByConsultDoctor(vm.doctor_id,section).then(
              
                   (response) => {
                     vm.opdData.patientlist =patientData; 
@@ -1083,7 +1085,7 @@
           },
           next() {
             let vm =this;
-            
+
                 this.$validator.validateAll().then(
                 (response) => {
                   vm.priscriptionAdd = vm.finalPrescriptionData.length;
