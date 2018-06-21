@@ -34,7 +34,7 @@ class UsersTableSeeder extends Seeder
             'is_mobile_user'=>1,
             'deleted_at'=>NULL,
             'last_name'=>'THAKORE',
-            'email'=>'vijay.thakore@allianzcloud.com',
+            'email'=>'vijay.thakore@gmail.com',
             'status'=>'Active'],
 
         ]);
@@ -57,7 +57,7 @@ class UsersTableSeeder extends Seeder
             'is_mobile_user'=>1,
             'deleted_at'=>NULL,
             'last_name'=>'TRIVEDI',
-            'email'=>'kaushik.trivedi@allianzcloud.com',
+            'email'=>'kaushik.trivedi@gmail.com',
             'status'=>'Active'],
 
         ]);
@@ -80,7 +80,7 @@ class UsersTableSeeder extends Seeder
             'is_mobile_user'=>1,
             'deleted_at'=>NULL,
             'last_name'=>'MATHUR',
-            'email'=>'hemant.mathur@allianzcloud.com',
+            'email'=>'hemant.mathur@gmail.com',
             'status'=>'Active'],
 
         ]);
@@ -103,7 +103,7 @@ class UsersTableSeeder extends Seeder
             'is_mobile_user'=>1,
             'deleted_at'=>NULL,
             'last_name'=>'ACHARYA',
-            'email'=>'mihir.acharya@allianzcloud.com',
+            'email'=>'mihir.acharya@gmail.com',
             'status'=>'Active'],
 
         ]);
@@ -126,7 +126,7 @@ class UsersTableSeeder extends Seeder
             'is_mobile_user'=>1,
             'deleted_at'=>NULL,
             'last_name'=>'KAPADIA',
-            'email'=>'sumit.kapadia@allianzcloud.com',
+            'email'=>'sumit.kapadia@gmail.com',
             'status'=>'Active'],
 
         ]);
@@ -149,7 +149,7 @@ class UsersTableSeeder extends Seeder
             'is_mobile_user'=>1,
             'deleted_at'=>NULL,
             'last_name'=>'KAPASHI',
-            'email'=>'ketan.kapashi@allianzcloud.com',
+            'email'=>'ketan.kapashi@gmail.com',
             'status'=>'Active'],
 
         ]);
@@ -172,7 +172,7 @@ class UsersTableSeeder extends Seeder
             'is_mobile_user'=>1,
             'deleted_at'=>NULL,
             'last_name'=>'KANTHARIA',
-            'email'=>'rajesh.kantharia@allianzcloud.com',
+            'email'=>'rajesh.kantharia@gmail.com',
             'status'=>'Active'],
 
         ]);
@@ -195,7 +195,7 @@ class UsersTableSeeder extends Seeder
             'is_mobile_user'=>1,
             'deleted_at'=>NULL,
             'last_name'=>'CHAUHAN',
-            'email'=>'vc.chauhan@allianzcloud.com',
+            'email'=>'vc.chauhan@gmail.com',
             'status'=>'Active'],
 
         ]);
@@ -218,7 +218,7 @@ class UsersTableSeeder extends Seeder
             'is_mobile_user'=>1,
             'deleted_at'=>NULL,
             'last_name'=>'BHATT',
-            'email'=>'niraj.bhatt@allianzcloud.com',
+            'email'=>'niraj.bhatt@gmail.com',
             'status'=>'Active'],
 
         ]);
@@ -241,7 +241,7 @@ class UsersTableSeeder extends Seeder
             'is_mobile_user'=>1,
             'deleted_at'=>NULL,
             'last_name'=>'PATEL',
-            'email'=>'kc.patel@allianzcloud.com',
+            'email'=>'kc.patel@gmail.com',
             'status'=>'Active'],
 
         ]);
@@ -264,7 +264,7 @@ class UsersTableSeeder extends Seeder
             'is_mobile_user'=>1,
             'deleted_at'=>NULL,
             'last_name'=>'MASTER',
-            'email'=>'chirag.master@allianzcloud.com',
+            'email'=>'chirag.master@gmail.com',
             'status'=>'Active'],
 
         ]);
