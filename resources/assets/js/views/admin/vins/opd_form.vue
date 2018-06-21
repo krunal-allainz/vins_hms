@@ -293,8 +293,7 @@
           <label for="advice">Advice:</label>
         </div>
         <div class="col-md-12" v-show="opdData.adviceType == 'text'">
-          <textarea class="form-control" type="text" name="advice" id="advice" v-model="opdData.advice"  ></textarea>
-         
+          <textarea class="form-control" type="text" name="advice" id="advice" v-model="opdData.advice"></textarea>         
         </div>
          <div class="col-md-12" v-show="opdData.adviceType == 'scribble'">
               <div id="signature-pad2" class="signature-pad">
@@ -376,7 +375,13 @@
              <div class="col-md-12">
                    <button type="button" class="btn btn-primary btn-lg " :disabled="(opdData.prescriptionOption == '' || opdData.prescription_quantity == '' || opdData.prescription_time == '' )" @click="savePrescription()">Add</button>
       </div>
-       
+         <span class="help is-danger" v-if="priscriptionAdd == 0">
+            Please add prescription.
+          </span>
+          
+            <span class="help is-danger" v-if="prescriptionunique == 1">
+            Prescription already add.
+          </span>
     </div>
   </div>
   <div class="form-group" v-if="finalPrescriptionData.length>0">
@@ -639,7 +644,8 @@
               'prescriptionOption':'',
               'finalResultData':{},
               'finalPrescriptionData' : [],
-              'priscriptionAdd':'',
+              'priscriptionAdd':{},
+              'prescriptionunique' : 0,
               'investigationData':{
                   'radiologyType':[
                     {text:'',value:''},
@@ -986,8 +992,9 @@
           savePrescription() {
 
              let vm =this;
+             let prescriptionName = '';
              
-             if(vm.opdData.prescription == '' || vm.opdData.prescription_quantity == '' || vm.opdData.prescription_time ==''){
+              if(vm.opdData.prescription == '' || vm.opdData.prescription_quantity == '' || vm.opdData.prescription_time ==''){
                     toastr.error('Please select prescription data.', 'prescription error', {timeOut: 5000});
                     return false;
                 }
@@ -995,26 +1002,44 @@
                 if(vm.finalPrescriptionData.length > 0){
                    prescription_index = vm.finalPrescriptionData.length + 1;
                  }
-                 
-           //  fruits.join(" and ")
-              vm.finalPrescriptionData.push({
-                          'id' : prescription_index,
-                          'Prescription' : vm.opdData.prescription,
-                          'quntity' : vm.opdData.prescription_quantity,
-                          'unit' : vm.opdData.prescription_unit,
-                          'time'  : vm.opdData.prescription_time,
-                          'removed': false,
+                  prescriptionName = vm.opdData.prescription;
+                  var test = this.checkPrescription(prescriptionName);
+              if(this.checkPrescription(prescriptionName) == true){
+                vm.finalPrescriptionData.push({
+                            'id' : prescription_index,
+                            'Prescription' : vm.opdData.prescription,
+                            'quntity' : vm.opdData.prescription_quantity,
+                            'unit' : vm.opdData.prescription_unit,
+                            'time'  : vm.opdData.prescription_time,
+                            'removed': false,
+                });
+                vm.prescriptionunique = 0;
+              }else{
+                vm.prescriptionunique = 1;
+              }
 
-              });
-//              vm.PrescriptiData = vm.finalPrescriptionData;
                vm.opdData.prescriptiData  =  _.cloneDeep(vm.finalPrescriptionData);
-               vm.priscriptionAdd = vm.finalPrescriptionData.length;
-              // vm.opdData.prescription = '';
+                vm.priscriptionAdd =  vm.finalPrescriptionData.length;
+
               vm.opdData.prescription_quantity = '0';
               vm.opdData.prescription_unit = 'TAB.';
               vm.opdData.prescription_time = '0';
-              
+          },
+          checkPrescription(prescription){
+             let vm =this;
+             let presRes = true;
+             if(vm.finalPrescriptionData.length > 0){
+                 _.find(vm.finalPrescriptionData, function(res) {
+                    if(res.Prescription == prescription) {
+                      
+                          presRes = false;
+                    }
+                });
+            }else{
+               presRes = true;
 
+            }
+            return presRes;
           },
           initData() {
                 let vm =this;
@@ -1105,12 +1130,11 @@
                 // _.pullAt(resData, 0);
                 _.find(vm.finalPrescriptionData, function(res) {
                     if(res.id == did) {
-
-                         res.removed = true;
-                        
-                         // vm.finalPrescriptionData.splice(did, 1);
+                         //res.removed = true;
+                         vm.finalPrescriptionData.splice(res, 1);
                     }
                 });
+                vm.priscriptionAdd =  vm.finalPrescriptionData.length;
           },
           getPrescriptionList() {
 
@@ -1194,7 +1218,7 @@
             // window.onresize = vm.resizeCanvas(canvas);
             // vm.  (canvas);
             var opdData = this.opdData;
-            // this.$router.push({'name':'opd_form_thankyou'});
+             this.$router.push({'name':'opd_form_thankyou'});
             // if (vm.signaturePad.isEmpty()) {
               //  alert("Please provide a signature first.");
               //} else {
