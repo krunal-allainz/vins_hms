@@ -68,7 +68,7 @@ class ReceiptController extends Controller
             'age' =>   $receiptData->patientDetails->dob,  
             'gender' =>$receiptData->patientDetails->gender,   
             'wordamount' =>  $receiptData->amount, 
-            'total_amount '  => 0,
+            'total_amount'  => $receiptData->amount,
         ]; 
       //  dd($formData);
         /*$data = array_push($data,{'name' : $request->formData['fullname'],'date' : $request->formData['date_receipt'] });*/  
