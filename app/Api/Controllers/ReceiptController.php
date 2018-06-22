@@ -14,9 +14,6 @@ use euro_hms\Api\Repositories\ReceiptRepository;
 use euro_hms\Models\Receipt;
 use Terbilang;
 
-
-
-
 class ReceiptController extends Controller
 {
     //	
