@@ -302,7 +302,7 @@
 	         });
 
 	        /*for blood list start*/
-			User.generateBloodList().then(
+			User.generateLaboratoryByType(1).then(
 				(response) => {
 					let blood_data ;
 					blood_data = response.data;
@@ -322,7 +322,7 @@
 			});
 			/*for blood list end*/
 			/*for urine list start*/
-			User.generateUrineList().then(
+			User.generateLaboratoryByType(2).then(
 				(response) => {
 					let urine_data ;
 					urine_data = response.data;
@@ -342,7 +342,7 @@
 			});
 			/*for urine list end*/
 			/*for csf list start*/
-			User.generateCSFList().then(
+			User.generateLaboratoryByType(3).then(
 				(response) => {
 					let csf_data ;
 					csf_data = response.data;
@@ -362,7 +362,7 @@
 			});
 			/*for csf list end*/
 			/*for bfa list start*/
-			User.generateBodyFluidAnalysisList().then(
+			User.generateLaboratoryByType(4).then(
 				(response) => {
 					let bfa_data ;
 					bfa_data = response.data;

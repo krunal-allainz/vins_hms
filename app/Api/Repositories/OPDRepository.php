@@ -2,10 +2,7 @@
   namespace euro_hms\Api\Repositories;
 
  use euro_hms\Models\OpdDetails;
- use euro_hms\Models\Blood;
- use euro_hms\Models\Urine;
- use euro_hms\Models\BodyFluidAnalysis;
- use euro_hms\Models\CSF;
+ use euro_hms\Models\Laboratory;
  use Carbon\Carbon;
  use DB;
 
@@ -13,38 +10,23 @@
  {
 
  	/**
- 	 * [getBloodList description]
- 	 * @return [type] [description]
+ 	 * [getLaboratoryByType description]
+ 	 * @param  [type] $type [description]
+ 	 * @return [type]       [description]
  	 */
- 	public function getBloodList()
+ 	public function getLaboratoryByType($type)
  	{
- 			return Blood::get();
+ 		return Laboratory::whereRaw('FIND_IN_SET(?,type)', $type)->get();
  	}
  	/**
- 	 * [getBodyFluidAnalysisList description]
- 	 * @return [type] [description]
+ 	 * [getLabpratoryNameById description]	
+ 	 * @param  [type] $id [description]
+ 	 * @return [type]     [description]
  	 */
- 	public function getBodyFluidAnalysisList()
+ 	public function getLabpratoryNameById($id)
  	{
- 			return BodyFluidAnalysis::get();
+ 		return Laboratory::where('id',$id)->first();
  	}
- 	/**
- 	 * [getUrineList description]
- 	 * @return [type] [description]
- 	 */
- 	public function getUrineList()
- 	{
- 			return Urine::get();
- 	}
- 	/**
- 	 * [getCSFList description]
- 	 * @return [type] [description]
- 	 */
- 	public function getCSFList()
- 	{
- 			return CSF::get();
- 	}
-
  	
  }
 ?>

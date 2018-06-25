@@ -31,10 +31,7 @@ class DatabaseSeeder extends Seeder
          $this->call(ConsultationCategoryDetailsTableSeeder::class);
          $this->call(ChargesTypeTableSeeder::class);
          $this->call(EmergencyDetailsTableSeeder::class);
-         $this->call(BloodTableSeeder::class);
-         $this->call(CSFTableSeeder::class);
-         $this->call(BodyFluidAnalysisTableSeeder::class);
-         $this->call(UrineTableSeeder::class);
+         $this->call(LaboratoryTableSeeder::class);
          DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
     }

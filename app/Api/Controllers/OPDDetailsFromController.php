@@ -113,35 +113,22 @@ class OPDDetailsFromController extends Controller
     }
 
     /**
-     * [getBloodList description]
+     * [getLaboratoryByType description]
      * @return [type] [description]
      */
-    public function getBloodList()
+    public function getLaboratoryByType(Request $request)
     {
-        return $this->opdObj->getBloodList();
+        return $this->opdObj->getLaboratoryByType($request->all()['type']);
     }
     /**
-     * [getBodyFluidAnalysisList description]
-     * @return [type] [description]
+     * [getLabpratoryNameById description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
      */
-    public function getBodyFluidAnalysisList()
+    public function getLabpratoryNameById(Request $request)
     {
-        return $this->opdObj->getBodyFluidAnalysisList();
+        return $this->opdObj->getLabpratoryNameById($request->all()['id']);
     }
-    /**
-     * [getUrineList description]
-     * @return [type] [description]
-     */
-    public function getUrineList()
-    {
-        return $this->opdObj->getUrineList();
-    }
-    /**
-     * [getCSFList description]
-     * @return [type] [description]
-     */
-    public function getCSFList()
-    {
-        return $this->opdObj->getCSFList();
-    }
+
+   
 }
