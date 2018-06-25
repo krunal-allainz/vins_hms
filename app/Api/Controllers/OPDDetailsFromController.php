@@ -10,10 +10,15 @@ use euro_hms\Models\OpdDetails;
 use euro_hms\Models\Receipt;
 use Illuminate\Support\Facades\Response;
 use euro_hms\Custom\Helper\Common;
+use euro_hms\Api\Repositories\OPDRepository;
 use DB;
 
 class OPDDetailsFromController extends Controller
 {
+
+     public function __construct(){
+        $this->opdObj = new OPDRepository();
+    }
     //
     /**
      * Display a listing of the resource.
@@ -105,5 +110,38 @@ class OPDDetailsFromController extends Controller
             ->where('receipt.id', $rid)
             ->first();
         return $records;
+    }
+
+    /**
+     * [getBloodList description]
+     * @return [type] [description]
+     */
+    public function getBloodList()
+    {
+        return $this->opdObj->getBloodList();
+    }
+    /**
+     * [getBodyFluidAnalysisList description]
+     * @return [type] [description]
+     */
+    public function getBodyFluidAnalysisList()
+    {
+        return $this->opdObj->getBodyFluidAnalysisList();
+    }
+    /**
+     * [getUrineList description]
+     * @return [type] [description]
+     */
+    public function getUrineList()
+    {
+        return $this->opdObj->getUrineList();
+    }
+    /**
+     * [getCSFList description]
+     * @return [type] [description]
+     */
+    public function getCSFList()
+    {
+        return $this->opdObj->getCSFList();
     }
 }

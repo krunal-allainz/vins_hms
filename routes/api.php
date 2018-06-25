@@ -149,6 +149,20 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
          //for getting username by id 
         $api->post('user/getUserNameById', '\euro_hms\Api\Controllers\UserController@getUserNameById');
 
+        //for getting blood list 
+        $api->post('opd/getBloodList', '\euro_hms\Api\Controllers\OPDDetailsFromController@getBloodList');
+
+        //for getting urine list 
+        $api->post('opd/getUrineList', '\euro_hms\Api\Controllers\OPDDetailsFromController@getUrineList');
+
+        //for getting blood list 
+        $api->post('opd/getBodyFluidAnalysisList', '\euro_hms\Api\Controllers\OPDDetailsFromController@getBodyFluidAnalysisList');
+
+        //for getting blood list 
+        $api->post('opd/getCSFList', '\euro_hms\Api\Controllers\OPDDetailsFromController@getCSFList');
+
+
+
         });
         
 
