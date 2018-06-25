@@ -302,7 +302,8 @@
 	         });
 
 	        /*for blood list start*/
-			User.generateLaboratoryByType(1).then(
+	        var data_obj_blood = {name: 'type', value: '1'};
+			User.generateLaboratoryData(data_obj_blood).then(
 				(response) => {
 					let blood_data ;
 					blood_data = response.data;
@@ -322,7 +323,8 @@
 			});
 			/*for blood list end*/
 			/*for urine list start*/
-			User.generateLaboratoryByType(2).then(
+			var data_obj_urine = {name: 'type', value: '2'};
+			User.generateLaboratoryData(data_obj_urine).then(
 				(response) => {
 					let urine_data ;
 					urine_data = response.data;
@@ -342,7 +344,8 @@
 			});
 			/*for urine list end*/
 			/*for csf list start*/
-			User.generateLaboratoryByType(3).then(
+			var data_obj_csf = {name: 'type', value: '3'};
+			User.generateLaboratoryData(data_obj_csf).then(
 				(response) => {
 					let csf_data ;
 					csf_data = response.data;
@@ -362,7 +365,8 @@
 			});
 			/*for csf list end*/
 			/*for bfa list start*/
-			User.generateLaboratoryByType(4).then(
+			var data_obj_bfa = {name: 'type', value: '4'};
+			User.generateLaboratoryData(data_obj_bfa).then(
 				(response) => {
 					let bfa_data ;
 					bfa_data = response.data;

@@ -111,24 +111,25 @@ class OPDDetailsFromController extends Controller
             ->first();
         return $records;
     }
-
     /**
-     * [getLaboratoryByType description]
-     * @return [type] [description]
-     */
-    public function getLaboratoryByType(Request $request)
-    {
-        return $this->opdObj->getLaboratoryByType($request->all()['type']);
-    }
-    /**
-     * [getLabpratoryNameById description]
+     * [getLaboratoryData description]
      * @param  Request $request [description]
      * @return [type]           [description]
      */
-    public function getLabpratoryNameById(Request $request)
+    public function getLaboratoryData(Request $request)
     {
-        return $this->opdObj->getLabpratoryNameById($request->all()['id']);
+        $data_array=$request->all()['data'];
+        if($data_array['name']=='type')
+        {
+          return $this->opdObj->getLaboratoryByType($data_array['value']);
+        }
+        else if ($data_array['name']=='id')
+        {
+          return $this->opdObj->getLabpratoryNameById($data_array['value']);
+        }
+        
     }
+    
 
    
 }

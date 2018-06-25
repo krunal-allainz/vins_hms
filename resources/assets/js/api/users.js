@@ -274,8 +274,8 @@ export default {
   generateUserNameById(consult_id) {
     return api.post('user/getUserNameById',{'id' :consult_id});
   },
-  generateLaboratoryByType(type) {
-    return api.post('opd/getLaboratoryByType',{'type' :type});
+  generateLaboratoryData(data_obj) {
+    return api.post('opd/getLaboratoryData',{'data' :data_obj});
   }
 
 }
