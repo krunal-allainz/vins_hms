@@ -11,7 +11,7 @@
     	 <div class="row form-group text-center">
     	 	 <div class="col-md-12">
     	 	 	<!-- <div class="col-md-4"> -->
-    	 	 		<button type="button" class="btn btn-primary btn-submit text-right " data-toggle="modal" data-backdrop="static" href="#printModal">OPD Case</button>
+    	 	 		<button type="button" class="btn btn-primary btn-submit text-right " data-toggle="modal" data-backdrop="static" href="#printModal"  @click = "printReport('opd_case')">OPD Case</button>
     	 	 <!-- 	</div>
     	 	 	<div class="col-md-4">
     	 	 		<button type="button" class="btn btn-primary btn-submit text-right " data-toggle="modal" href="#printModal"  @click="printPriscription()">Prescription</button>
@@ -22,6 +22,8 @@
     	 	 		<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('lab')">Lab Report</button>
 
     	 	 		<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('radiology')">Radiology Report</button>
+
+    	 	 		<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('prescription')">Print Prescription</button>
     	 	 		
     	 	 		<button type="button" class="btn btn-primary btn-submit text-right" @click = "GetSelectComponent('patients_receipt_form')">Print Receipts</button>
     	 	 	<!--</div> -->
@@ -45,6 +47,16 @@
 			 					<h4>Lab Report</h4>
 			 				</div>
 			 			</div>
+			 		<div class="row">
+				  		<div class="col-md-12">
+				  			<div class="col-md-6"><span><b>Blood :</b></span>Blood-Option 1 </div>
+				  			<div class="col-md-6"><span><b>Sputum :</b>Sputum-Option 2</span></div>
+				  		</div>
+				  		<div class="col-md-12">
+				  			<div class="col-md-6"><span><b>Urine :</b>urine-Option 2</span></div>
+				  			<div class="col-md-6"><span><b>Stool :</b>stool-Option 4</span></div>
+				  		</div>
+				  	</div>
 			 	</div>
 			 	<div v-if="(printType == 'radiology')">
 			 		<div class='row'>
@@ -54,40 +66,92 @@
 			 		</div>
 			 		<div class="row">
         				<div class="col-md-12">
-        					  <div class="">
-                    <table class="table table-striped table-bordered" id="radio_list">
-              
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Type</th>
-                            <th>Body parts</th>
-                            <th>Qualifier</th>
-                            <th>Special request</th>
-                            <th>Details</th>
-                            <th>Gallery</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr v-if="res.removed == false" v-for="(res,index) in radioReportData">
-                            <td>{{++index}}</td>
-                            <td>{{res.type}}</td>
-                            <td>{{res.bodyPart}}</td>
-                            <td>{{res.qualifier}}</td>
-                            <td>{{res.special_request}}</td>
-                            <td>{{res.textData | strLimit}}</td>
-                            <td> <img v-for="data in res.imgData" :src="data.data"  height="100" width="100" ></td>
-                            <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
-                            <td></td>
-
-                            
-                        </tr>
-                        
-                        </tbody>
-                    </table>
-                </div>
+        					<div class="">
+                    			<table class="table table-striped table-bordered" id="radio_list">
+                        		<thead>
+                        			<tr>
+                            			<th>#</th>
+                            			<th>Type</th>
+                            			<th>Body parts</th>
+			                            <th>Qualifier</th>
+			                            <th>Special request</th>
+			                            <th>Details</th>
+			                            <th>Gallery</th>
+                        			</tr>
+                       			 </thead>
+                       			 <tbody>
+		                        <tr v-if="res.removed == false" v-for="(res,index) in radioReportData">
+		                            <td>{{++index}}</td>
+		                            <td>{{res.type}}</td>
+		                            <td>{{res.bodyPart}}</td>
+		                            <td>{{res.qualifier}}</td>
+		                            <td>{{res.special_request}}</td>
+		                            <td>{{res.textData | strLimit}}</td>
+		                            <td> <img v-for="data in res.imgData" :src="data.data"  height="100" width="100" ></td>
+		                            <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
+		                            <td></td>
+		                        </tr>
+                        		</tbody>
+                    			</table>
+                			</div>
         				</div>
         			</div>
+			 	</div>
+			 	<div v-if="(printType == 'prescription')">
+			 		<div v-if="(prescriptiData !== null)">
+    	 	 				<div class='row'>
+				 				<div class='col-md-12 text-center'>
+				 					<h4>Priscription</h4>
+				 				</div>
+			 				</div>
+							<div class="table-responsive">
+							        <table class="table" id="prescription_list">
+							            <thead>
+							            <tr>
+							                <th width="8%">#</th>
+							                <th>Name</th>
+							                <th class="text-center">Quntity</th>
+							                <th class="text-center">Unit</th>
+							                <th class="text-center">Time For Medicine</th>
+							            </tr>
+							            </thead>
+							            <tbody>
+							             <tr  v-for="(res,index) in prescriptiData">
+							                <td>{{++index}}</td>
+							                <td>{{res.Prescription }}</td>
+							                <td class="text-center">{{res.quntity}}</td>
+							                <td class="text-center">{{res.unit}}</td>
+							                <td class="text-center">{{res.time}}</td>
+							              </tr>
+
+							            </tbody>
+							        </table>
+							      </div>
+       
+    	 	 			</div>
+    	 	 			<br/><br/>
+    	 	 			<div v-if="(referalType == 'cross' && crossSelectedValue != '')">
+			 				
+				 			<div class='col-md-12 text-center'>
+				 				<span class='text-center'><b>Cross Referal </b></span>
+				 			</div>
+			 				<div v-if="(crossType == 'internal')">
+			 					
+			 						<div class='col-md-6 text-left'>
+			 							<span class='text-left'><b>Internal</b></span> {{this.$store.state.Patient.opdData.cross_type_int}}
+			 						</div>
+			 					
+			 				</div>
+			 				<div v-if="(crossType == 'external')">
+			 					
+			 						<div class='col-md-6 text-left'>
+			 								<span class='text-left text-capitalize' style='padding-left:30px;padding-right;20px'><b>External
+			 					</b></span>{{this.$store.state.Patient.opdData.cross_type_ext}}
+			 						</div>
+			 					
+			 				</div>
+				 		</div>
+
 			 	</div>
 			 	<div v-if="(printType == 'opd_case')">
 			 			<div class='row'>
@@ -303,6 +367,7 @@
 							'crossSelectedValue' : this.crossSelectedValue,
 							'adviceScribleValue' : this.adviceScribleValue,
 							'printType' : this.printType,
+							'radioReportData' : this.radioReportData
 						};
 
 				      	User.printOPDCaseData(OPDCaseData).then(	

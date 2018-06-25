@@ -321,17 +321,123 @@
   	<div class='row'>
 		<div class='col-md-12 text-center'>
 			<h4>Lab Report</h4>
-			
 		</div>
   	</div>
+  	<div class="row">
+  		<div class="col-md-12">
+  			<div class="col-md-6"><span><b>Blood :</b></span>Blood-Option 1 </div>
+  			<div class="col-md-6"><span><b>Sputum :</b>Sputum-Option 2</span></div>
+  		</div>
+  		<div class="col-md-12">
+  			<div class="col-md-6"><span><b>Urine :</b>urine-Option 2</span></div>
+  			<div class="col-md-6"><span><b>Stool :</b>stool-Option 4</span></div>
+  		</div>
+  	</div>
   @endif
-   @if($data['printType'] == 'radiology')
+  @if($data['printType'] == 'radiology')
   	<div class='row'>
 		<div class='col-md-12 text-center'>
 			<h4>Radiology Report</h4>
-			
 		</div>
+		<div class="row">
+        	<div class="col-md-12">
+        	  <div class="">
+                <table class="table table-striped table-bordered" id="radio_list">
+                  <thead>
+                    <tr>
+                     <th>#</th>
+                     <th>Type</th>
+                     <th>Body parts</th>
+                     <th>Qualifier</th>
+                     <th>Special request</th>
+                     <th>Details</th>
+                     <th>Gallery</th>
+                    </tr>
+                 </thead>
+                 <tbody>
+                 @foreach($data['radioReportData'] as $index=>$res)
+                 <tr>
+                            <td>{{++$index}}</td>
+                            <td>{{$res['type']}}</td>
+                            <td>{{$res['bodyPart']}}</td>
+                            <td>{{$res['qualifier']}}</td>
+                            <td>{{$res['special_request']}}</td>
+                            <td>{{$res['textData']}}</td>
+                            <td>
+                            	@foreach($res['imgData'] as $data)
+                             <img :src="{{$data['data']}}"  height="100" width="100" >@endforeach</td>
+                            <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
+                            
+                    </tr>
+                    @endforeach
+                        </tbody>
+                    </table>
+                </div>
+        				</div>
+        			</div>
   	</div>
+  @endif
+  @if($data['printType'] == 'prescription')
+  	@if(count($data['priscriptionData']) > 0 || $data['priscriptionData'] != null)
+	<div style="padding-left: 35px;">
+		<div class='col-md-12 text-center'>
+			<span class='text-center'><b>Prescription</b></span>
+		</div>
+
+		<div class="table-responsive">
+			<table class="table" id="prescription_list">
+			    <thead>
+				    <tr>
+					   <th width="8%">#</th>
+					   <th >Name</th>
+					   <th class="text-center">Quntity</th>
+					   <th class="text-center">Unit</th>
+					   <th class="text-center">Time For Medicine</th>
+				 	</tr>
+					</thead>
+					   <tbody>
+					   	@foreach($data['priscriptionData'] as $key=>$value)
+						   <tr >
+							   <td>{{$key}}</td>
+							   <td>{{$value['Prescription'] }}</td>
+							   <td class="text-center">{{$value['quntity']}}</td>
+							   <td class="text-center">{{(isset($value['unit']))?$value['unit']:''}}</td>
+							   <td class="text-center">{{$value['time']}}</td>
+						  </tr>
+						@endforeach
+		           </tbody>
+		       </table>
+		</div>
+	</div>
+	<br/><br/>
+	@endif
+	@if($data['referalType'] != null && $data['crossSelectedValue'] != '')
+	<div style="padding-left: 35px;"> 
+		<div class='col-md-12 text-center'>
+			<span class='text-center'><b>Cross Referal</b></span>
+		</div>
+	</div>
+	@if($data['referalType'] == 'cross')
+	<div style="padding-left: 40px;">
+		@if($data['crossType'] == 'internal')
+			<div class='row' style="padding-left: 15px;padding-right:15px;">
+			 	<div class='col-md-6 text-left'>
+			 		<span class='text-left'><b>{{$data['crossType']}}</b></span> {{$data['crossSelectedValue']}}
+			 		</div>
+			</div>
+		@endif
+		@if($data['crossType'] == 'external')
+			<div style="padding-left: 40px;">
+				<div class='col-md-6 text-left'>
+			 		<span class='text-left text-capitalize' style='padding-left:30px;padding-right;20px'><b>{{$data['crossType']}}
+			 					</b></span>
+			 					{{$data['crossSelectedValue']}}
+			 	</div>
+			</div>
+		@endif
+	</div>
+	@endif
+	@endif
   @endif
   @if($data['printType'] == 'opd_case')
   	<div class='row'>
