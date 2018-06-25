@@ -317,7 +317,23 @@
         </div>
       </div>
     </div>  
-  
+  @if($data['printType'] == 'lab')
+  	<div class='row'>
+		<div class='col-md-12 text-center'>
+			<h4>Lab Report</h4>
+			
+		</div>
+  	</div>
+  @endif
+   @if($data['printType'] == 'radiology')
+  	<div class='row'>
+		<div class='col-md-12 text-center'>
+			<h4>Radiology Report</h4>
+			
+		</div>
+  	</div>
+  @endif
+  @if($data['printType'] == 'opd_case')
   	<div class='row'>
 		<div class='col-md-12 text-center'>
 			<h4>OPD CASE </h4>
@@ -455,6 +471,7 @@
 			</tbody>
 		</table>
 	</div>
+	@endif
 	@endif
 
 	<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>

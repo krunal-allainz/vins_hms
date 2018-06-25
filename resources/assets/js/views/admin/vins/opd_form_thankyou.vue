@@ -19,6 +19,10 @@
     	 	 	<div class="col-md-4"> 
     	 	 		<button type="button" class="btn btn-primary btn-submit text-right " data-toggle="modal" href="#printModal"  @click="printReferal()">Referal</button>-->
 
+    	 	 		<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('lab')">Lab Report</button>
+
+    	 	 		<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('radiology')">Radiology Report</button>
+    	 	 		
     	 	 		<button type="button" class="btn btn-primary btn-submit text-right" @click = "GetSelectComponent('patients_receipt_form')">Print Receipts</button>
     	 	 	<!--</div> -->
     	 	 </div>
@@ -35,6 +39,57 @@
 			 					<div  id="printContent">
 			 					</div>
 			 					<vinsletterheadheaderpart></vinsletterheadheaderpart>
+			 	<div v-if="(printType == 'lab')">
+			 		<div class='row'>
+			 				<div class='col-md-12 text-center'>
+			 					<h4>Lab Report</h4>
+			 				</div>
+			 			</div>
+			 	</div>
+			 	<div v-if="(printType == 'radiology')">
+			 		<div class='row'>
+			 				<div class='col-md-12 text-center'>
+			 					<h4>Radiology Report</h4>
+			 				</div>
+			 		</div>
+			 		<div class="row">
+        				<div class="col-md-12">
+        					  <div class="">
+                    <table class="table table-striped table-bordered" id="radio_list">
+              
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Type</th>
+                            <th>Body parts</th>
+                            <th>Qualifier</th>
+                            <th>Special request</th>
+                            <th>Details</th>
+                            <th>Gallery</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-if="res.removed == false" v-for="(res,index) in radioReportData">
+                            <td>{{++index}}</td>
+                            <td>{{res.type}}</td>
+                            <td>{{res.bodyPart}}</td>
+                            <td>{{res.qualifier}}</td>
+                            <td>{{res.special_request}}</td>
+                            <td>{{res.textData | strLimit}}</td>
+                            <td> <img v-for="data in res.imgData" :src="data.data"  height="100" width="100" ></td>
+                            <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
+                            <td></td>
+
+                            
+                        </tr>
+                        
+                        </tbody>
+                    </table>
+                </div>
+        				</div>
+        			</div>
+			 	</div>
+			 	<div v-if="(printType == 'opd_case')">
 			 			<div class='row'>
 			 				<div class='col-md-12 text-center'>
 			 					<h4>OPD CASE</h4>
@@ -160,6 +215,7 @@
 			            </table>
 
 		 			</div>
+		 		</div>
 		 			<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 		 			<div class="row" style="padding-bottom: 10px;padding-right:20px;font-size: 15px;  ">
             				<div class='col-md-12 text-right'>
@@ -200,12 +256,13 @@
 				'referalType':this.$store.state.Patient.opdData.referral,
 				'crossType':this.$store.state.Patient.opdData.cross,
 				'radiologyData':this.$store.state.Patient.opd_resultData,
-				'printType':'',
+				'printType':'opd_case',
 				'todayDate' : formattedDate,
 				'crossSelectedValue' : '',
 				'adviceScribleValue' : '',
 				'advice' : this.$store.state.Patient.opdData.advice,
 				'prescriptiData' : this.$store.state.Patient.opdData.prescriptiData,
+				'radioReportData' : this.$store.state.Patient.radioData, 
 
 			}
 		},
@@ -228,7 +285,10 @@
 
        },
 		methods: {
-
+			printReport(type){
+				console.log(type);
+				this.printType = type;
+			},
 			ClickHereToPrint() {	
 				
 				var  OPDCaseData = {
@@ -242,6 +302,7 @@
 							'todayDate': this.todayDate,
 							'crossSelectedValue' : this.crossSelectedValue,
 							'adviceScribleValue' : this.adviceScribleValue,
+							'printType' : this.printType,
 						};
 
 				      	User.printOPDCaseData(OPDCaseData).then(	
