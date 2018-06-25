@@ -10,10 +10,15 @@ use euro_hms\Models\OpdDetails;
 use euro_hms\Models\Receipt;
 use Illuminate\Support\Facades\Response;
 use euro_hms\Custom\Helper\Common;
+use euro_hms\Api\Repositories\OPDRepository;
 use DB;
 
 class OPDDetailsFromController extends Controller
 {
+
+     public function __construct(){
+        $this->opdObj = new OPDRepository();
+    }
     //
     /**
      * Display a listing of the resource.
@@ -106,4 +111,25 @@ class OPDDetailsFromController extends Controller
             ->first();
         return $records;
     }
+    /**
+     * [getLaboratoryData description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getLaboratoryData(Request $request)
+    {
+        $data_array=$request->all()['data'];
+        if($data_array['name']=='type')
+        {
+          return $this->opdObj->getLaboratoryByType($data_array['value']);
+        }
+        else if ($data_array['name']=='id')
+        {
+          return $this->opdObj->getLabpratoryNameById($data_array['value']);
+        }
+        
+    }
+    
+
+   
 }

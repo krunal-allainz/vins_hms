@@ -146,6 +146,12 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         //for getting department types by id for dr 
         $api->post('user/getDepartmentById', '\euro_hms\Api\Controllers\UserController@getDepartmentById');
 
+         //for getting username by id 
+        $api->post('user/getUserNameById', '\euro_hms\Api\Controllers\UserController@getUserNameById');
+
+        //for getting laboratoey list  by type and id 
+        $api->post('opd/getLaboratoryData', '\euro_hms\Api\Controllers\OPDDetailsFromController@getLaboratoryData');
+
 
         });
         
