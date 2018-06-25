@@ -17,29 +17,11 @@
 					</div>
 					<div class="col-md-6">
 							<select class="form-control ls-select2"  id="blood_report" name="blood_report"  v-model="laboratoryData.blood_report">
-								 <option :value="opt.text" v-for="opt in laboratoryData.blood_option">{{opt.text}}</option>
+								 <option :value="opt.id" v-for="opt in laboratoryData.blood_option">{{opt.text}}</option>
 							</select>
 					</div>
 				</div>
 				</div>
-
-				<div class="col-md-6">
-					<div class = "row">
-					<div class="col-md-6">
-						<label class="control-label" for="label_2">Sputum </label>
-					</div>
-					<div class="col-md-6">
-
-							<select class="form-control ls-select2"  id="sputum_report" name="sputum_report" v-model="laboratoryData.sputum_report">
-								 <option :value="opt.text"  v-for="opt in laboratoryData.sputum_option">{{opt.text}}</option>
-								 <option></option>
-							</select>
-					</div>
-				</div>
-				</div>
-			</div>
-
-			<div class = "row form-group">
 
 				<div class="col-md-6">
 					<div class = "row">
@@ -48,19 +30,38 @@
 						</div>
 						<div class="col-md-6">
 								<select class="form-control ls-select2" id="urine" name="urine"  v-model="laboratoryData.urine_report">
-									 <option :value="urinesample.text" v-for="urinesample in laboratoryData.urine_option">{{urinesample.text}}</option>
+									 <option :value="urinesample.id" v-for="urinesample in laboratoryData.urine_option">{{urinesample.text}}</option>
 								</select>
 						</div>
 				</div>
 				</div>
+
+				
+			</div>
+
+			<div class = "row form-group">
+				<div class="col-md-6">
+					<div class = "row">
+					<div class="col-md-6">
+						<label class="control-label" for="label_2">Body Fluid Analysis </label>
+					</div>
+					<div class="col-md-6">
+
+							<select class="form-control ls-select2" id="body_fluid_analysis" name="body_fluid_analysis"  v-model="laboratoryData.body_fluid_analysis_report">
+									 <option :value="bfa.id" v-for="bfa in laboratoryData.bfa_option">{{bfa.text}}</option>
+								</select>
+					</div>
+				</div>
+				</div>
+				
 				<div class="col-md-6">
 					<div class = "row">
 						<div class="col-md-6">
-							<label class="control-label" for="stone">Stool </label>
+							<label class="control-label" for="stone">CSF </label>
 							</div>
 						<div class="col-md-6">
-								<select class="form-control ls-select2"  id="stool_report" name="stool_report"  v-model="laboratoryData.stool_report">
-									 <option :value="opt.text" v-for="opt in laboratoryData.stool_option">{{opt.text}}</option>
+								<select class="form-control ls-select2" id="csf" name="csf"  v-model="laboratoryData.csf_report">
+									 <option :value="csf_opt.id" v-for="csf_opt in laboratoryData.csf_option">{{csf_opt.text}}</option>
 								</select>
 						</div>
 				</div>
@@ -81,6 +82,10 @@
 	import User from '../../../api/users.js';
 	import Radiology from './radiologyInvestigation.vue';
 	import _ from 'lodash';
+	let blood_list=[];
+	let urine_list=[];
+	let bfa_list=[];
+	let csf_list=[];
 
     export default {
     	computed:{
@@ -139,20 +144,12 @@
                 	'blood_report':'',
                 	'sputum_report':'',
                 	'urine_report':'',
+                	'csf_report':'',
+                	'body_fluid_analysis_report':'',
                 	'stool_report':'',
                 	'demo':'',
                 	// 'selectedLabReport': [{'label_1':''},{'label_2':''}],
-                	'blood_option':[{text:'Blood-Option 1'},
-        							 {text:'Blood-Option 2'},
-        							 {text:'Blood-Option 3'},
-        							 {text:'Blood-Option 4'},
-        							 {text:'Blood-Option 5'},
-        							 {text:'Blood-Option 6'},
-        							 {text:'Blood-Option 7'},
-        							 {text:'Blood-Option 8'},
-        							 {text:'Blood-Option 9'},
-        							 {text:'Blood-Option 10'}
-                			],
+                	'blood_option':blood_list,
                 	'sputum_option':[{text:'Sputum-Option 1'},
         							 {text:'Sputum-Option 2'},
         							 {text:'Sputum-Option 3'},
@@ -164,17 +161,7 @@
         							 {text:'Sputum-Option 9'},
         							 {text:'Sputum-Option 10'}
                 			],
-					'urine_option': [{text:'urine-Option 1'},
-									 {text:'urine-Option 2'},
-									 {text:'urine-Option 3'},
-									 {text:'urine-Option 4'},
-									 {text:'urine-Option 5'},
-									 {text:'urine-Option 6'},
-									 {text:'urine-Option 7'},
-									 {text:'urine-Option 8'},
-									 {text:'urine-Option 9'},
-									 {text:'urine-Option 10'}
-							 ],
+					'urine_option': urine_list,
                 	'stool_option': [{text:'stool-Option 1'},
         							 {text:'stool-Option 2'},
         							 {text:'stool-Option 3'},
@@ -186,6 +173,8 @@
         							 {text:'stool-Option 9'},
         							 {text:'stool-Option 10'}
         					],
+        			'bfa_option': bfa_list,
+        			'csf_option': csf_list,
 					'option_group_1':[{text:'demo-group1-value 1'},
 									{text:'demo-group1-value 2'},
 									{text:'demo-group1-value 3'},
@@ -311,6 +300,87 @@
 	        	// }
 	        	
 	         });
+
+	        /*for blood list start*/
+			User.generateBloodList().then(
+				(response) => {
+					let blood_data ;
+					blood_data = response.data;
+					$.each(blood_data, function(key, value) {
+						//console.log(value);
+						let name = value.name;
+						let id  = value.id ;
+						blood_list.push({text:name, id:id });
+					});
+				},
+				(error) => 
+				{
+				},
+			);
+			$('#blood_report').on("select2:select", function (e) {
+				vm.laboratoryData.blood_report = $(this).val();  
+			});
+			/*for blood list end*/
+			/*for urine list start*/
+			User.generateUrineList().then(
+				(response) => {
+					let urine_data ;
+					urine_data = response.data;
+					$.each(urine_data, function(key, value) {
+						//console.log(value);
+						let name = value.name;
+						let id  = value.id ;
+						urine_list.push({text:name, id:id });
+					});
+				},
+				(error) => 
+				{
+				},
+			);
+			$('#urine').on("select2:select", function (e) {
+				vm.laboratoryData.urine_report = $(this).val();  
+			});
+			/*for urine list end*/
+			/*for csf list start*/
+			User.generateCSFList().then(
+				(response) => {
+					let csf_data ;
+					csf_data = response.data;
+					$.each(csf_data, function(key, value) {
+						//console.log(value);
+						let name = value.name;
+						let id  = value.id ;
+						csf_list.push({text:name, id:id });
+					});
+				},
+				(error) => 
+				{
+				},
+			);
+			$('#csf').on("select2:select", function (e) {
+				vm.laboratoryData.csf_report = $(this).val();  
+			});
+			/*for csf list end*/
+			/*for bfa list start*/
+			User.generateBodyFluidAnalysisList().then(
+				(response) => {
+					let bfa_data ;
+					bfa_data = response.data;
+					$.each(bfa_data, function(key, value) {
+						//console.log(value);
+						let name = value.name;
+						let id  = value.id ;
+						bfa_list.push({text:name, id:id });
+					});
+				},
+				(error) => 
+				{
+				},
+			);
+			$('#body_fluid_analysis').on("select2:select", function (e) {
+				vm.laboratoryData.body_fluid_analysis_report = $(this).val();  
+			});
+			/*for bfa list end*/
 			
         },
         filters:{
