@@ -111,37 +111,25 @@ class OPDDetailsFromController extends Controller
             ->first();
         return $records;
     }
+    /**
+     * [getLaboratoryData description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getLaboratoryData(Request $request)
+    {
+        $data_array=$request->all()['data'];
+        if($data_array['name']=='type')
+        {
+          return $this->opdObj->getLaboratoryByType($data_array['value']);
+        }
+        else if ($data_array['name']=='id')
+        {
+          return $this->opdObj->getLabpratoryNameById($data_array['value']);
+        }
+        
+    }
+    
 
-    /**
-     * [getBloodList description]
-     * @return [type] [description]
-     */
-    public function getBloodList()
-    {
-        return $this->opdObj->getBloodList();
-    }
-    /**
-     * [getBodyFluidAnalysisList description]
-     * @return [type] [description]
-     */
-    public function getBodyFluidAnalysisList()
-    {
-        return $this->opdObj->getBodyFluidAnalysisList();
-    }
-    /**
-     * [getUrineList description]
-     * @return [type] [description]
-     */
-    public function getUrineList()
-    {
-        return $this->opdObj->getUrineList();
-    }
-    /**
-     * [getCSFList description]
-     * @return [type] [description]
-     */
-    public function getCSFList()
-    {
-        return $this->opdObj->getCSFList();
-    }
+   
 }

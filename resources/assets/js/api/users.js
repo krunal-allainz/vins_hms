@@ -274,17 +274,8 @@ export default {
   generateUserNameById(consult_id) {
     return api.post('user/getUserNameById',{'id' :consult_id});
   },
-  generateBloodList() {
-    return api.post('opd/getBloodList');
-  },
-  generateUrineList() {
-    return api.post('opd/getUrineList');
-  },
-  generateBodyFluidAnalysisList() {
-    return api.post('opd/getBodyFluidAnalysisList');
-  },
-  generateCSFList() {
-    return api.post('opd/getCSFList');
+  generateLaboratoryData(data_obj) {
+    return api.post('opd/getLaboratoryData',{'data' :data_obj});
   }
 
 }

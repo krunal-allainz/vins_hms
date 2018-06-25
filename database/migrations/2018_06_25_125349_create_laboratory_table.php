@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBodyFluidAnalysisTable extends Migration
+class CreateLaboratoryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateBodyFluidAnalysisTable extends Migration
      */
     public function up()
     {
-        Schema::create('body_fluid_analysis', function (Blueprint $table) {
+        Schema::create('laboratory', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name',255)->nullable();
+            $table->string('type',255)->nullable()->comment('1=>blood,2=>urine,3=>csf,4=>bfa');;
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ class CreateBodyFluidAnalysisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bosy_fluid_analysis');
+        Schema::dropIfExists('laboratory');
     }
 }
