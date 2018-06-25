@@ -16,7 +16,7 @@ class CreateLaboratoryTable extends Migration
         Schema::create('laboratory', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name',255)->nullable();
-            $table->string('type',255)->nullable();
+            $table->string('type',255)->nullable()->comment('1=>blood,2=>urine,3=>csf,4=>bfa');;
             $table->timestamps();
         });
     }
