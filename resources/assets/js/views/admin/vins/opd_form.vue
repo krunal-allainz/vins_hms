@@ -16,14 +16,14 @@
               <label for="patient">Select Patient:</label>
             </div>
             <div class="col-md-6">
-              <!-- <select  class="form-control ls-select2" v-validate="'required'" id = "patient" name="patient" value="" v-model="opdData.patientlist" > -->
-                <select  class="form-control ls-select2"  id = "patient" name="patient" value="" v-model="opdData.patientlist" >
+              <select  class="form-control ls-select2" v-validate="'required'" id = "patient" name="patient" value="" v-model="opdData.patientlist" > 
+              
                    <option :value="pat.id" v-for="pat in opdData.patient_option">{{pat.name}}</option>
                 </select> 
                       
-                <!-- <span class="help is-danger" v-show="errors.has('patient')">
+                 <span class="help is-danger" v-show="errors.has('patient')">
                   Field is required
-                </span> -->
+                </span> 
             </div>
           </div>
           <div class="col-md-6"  v-if="opdData.uhid_no!=''">
@@ -910,7 +910,7 @@
               vm.opdData.patientlist=patientId;
              
 
-               $.each(patientData, function(key,value) {
+               $.each(patient_list_new, function(key,value) {
                        if(patientId == value.id){
                         vm.opdData.uhid_no =value.uhid_no; 
                        }
