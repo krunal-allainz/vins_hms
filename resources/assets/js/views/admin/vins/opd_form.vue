@@ -726,6 +726,7 @@
                   ],
                   'MRI':'',
                   'MRI_options':[
+                       {text:'', value:''},
                        {text:'Brain', value:'brain'},
                        {text:'Spine', value:'spine'},
                        {text:'Joint', value:'joint'},
@@ -1001,6 +1002,10 @@
               let radiologySubType_val=$("#radiology_subtype_opd").select2().val();
                 //console.log(radiologySubType_val);
                 
+                $("#radiology_qualifier_opd").val('').trigger('change.select2');
+                vm.resultData.qualifier = '';
+                vm.resultData.qualifier_text_enable = false;
+                vm.resultData.qualifierPart = '';
                 if(radiologySubType_val=='Brain')
                 {
                   
