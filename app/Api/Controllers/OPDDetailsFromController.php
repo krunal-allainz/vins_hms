@@ -121,11 +121,29 @@ class OPDDetailsFromController extends Controller
         $data_array=$request->all()['data'];
         if($data_array['name']=='type')
         {
-          return $this->opdObj->getLaboratoryByType($data_array['value']);
+            $type_data=$this->opdObj->getLaboratoryByType($data_array['value']);
+            if($type_data)
+            {
+                return ['code' => '200','data'=>$type_data, 'message' => 'Record Sucessfully created'];
+            }
+            else
+            {
+                return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+            }
+           
         }
         else if ($data_array['name']=='id')
         {
-          return $this->opdObj->getLabpratoryNameById($data_array['value']);
+           
+          $id_data=$this->opdObj->getLabpratoryNameById($data_array['value']);
+            if($id_data)
+            {
+                return ['code' => '200','data'=>$id_data, 'message' => 'Record Sucessfully created'];
+            }
+            else
+            {
+                return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+            }
         }
         
     }

@@ -306,7 +306,7 @@
 			User.generateLaboratoryData(data_obj_blood).then(
 				(response) => {
 					let blood_data ;
-					blood_data = response.data;
+					blood_data = response.data.data;
 					$.each(blood_data, function(key, value) {
 						//console.log(value);
 						let name = value.name;
@@ -327,7 +327,7 @@
 			User.generateLaboratoryData(data_obj_urine).then(
 				(response) => {
 					let urine_data ;
-					urine_data = response.data;
+					urine_data = response.data.data;
 					$.each(urine_data, function(key, value) {
 						//console.log(value);
 						let name = value.name;
@@ -348,7 +348,7 @@
 			User.generateLaboratoryData(data_obj_csf).then(
 				(response) => {
 					let csf_data ;
-					csf_data = response.data;
+					csf_data = response.data.data;
 					$.each(csf_data, function(key, value) {
 						//console.log(value);
 						let name = value.name;
@@ -369,7 +369,7 @@
 			User.generateLaboratoryData(data_obj_bfa).then(
 				(response) => {
 					let bfa_data ;
-					bfa_data = response.data;
+					bfa_data = response.data.data;
 					$.each(bfa_data, function(key, value) {
 						//console.log(value);
 						let name = value.name;
