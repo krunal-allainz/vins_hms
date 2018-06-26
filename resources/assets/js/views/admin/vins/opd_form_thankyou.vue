@@ -19,9 +19,9 @@
     	 	 	<div class="col-md-4"> 
     	 	 		<button type="button" class="btn btn-primary btn-submit text-right " data-toggle="modal" href="#printModal"  @click="printReferal()">Referal</button>-->
 
-    	 	 		<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('lab')">Lab Report</button>
+    	 	 		<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('lab')" v-if="(labReportData != '')">Lab Report</button>
 
-    	 	 		<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('radiology')">Radiology Report</button>
+    	 	 		<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('radiology')"  v-if="(radioReportData .length != 0)">Radiology Report</button>
 
     	 	 		<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('prescription')">Print Prescription</button>
     	 	 		
@@ -41,7 +41,7 @@
 			 					<div  id="printContent">
 			 					</div>
 			 					<vinsletterheadheaderpart></vinsletterheadheaderpart>
-			 	<div v-if="(printType == 'lab')">
+			 	<div v-if="(printType == 'lab')" style="min-height: 350px;height: 350px;">
 			 		<div class='row'>
 			 				<div class='col-md-12 text-center'>
 			 					<h4>Lab Report</h4>
@@ -49,12 +49,12 @@
 			 			</div>
 			 		<div class="row">
 				  		<div class="col-md-12">
-				  			<div class="col-md-6"><span><b>Blood :</b></span>Blood-Option 1 </div>
-				  			<div class="col-md-6"><span><b>Sputum :</b>Sputum-Option 2</span></div>
+				  			<div class="col-md-6"><span><b>Blood :</b></span>{{labReportData.blood}} </div>
+				  			<div class="col-md-6"><span><b>Sputum :</b>{{labReportData.sputum}}</span></div>
 				  		</div>
 				  		<div class="col-md-12">
-				  			<div class="col-md-6"><span><b>Urine :</b>urine-Option 2</span></div>
-				  			<div class="col-md-6"><span><b>Stool :</b>stool-Option 4</span></div>
+				  			<div class="col-md-6"><span><b>Urine :</b>{{labReportData.Urine}}</span></div>
+				  			<div class="col-md-6"><span><b>Stool :</b>{{labReportData.Stool}}</span></div>
 				  		</div>
 				  	</div>
 			 	</div>
@@ -64,7 +64,7 @@
 			 					<h4>Radiology Report</h4>
 			 				</div>
 			 		</div>
-			 		<div class="row">
+			 		<div class="row"  style="min-height: 350px;height: 350px;">
         				<div class="col-md-12">
         					<div class="">
                     			<table class="table table-striped table-bordered" id="radio_list">
@@ -97,8 +97,8 @@
         				</div>
         			</div>
 			 	</div>
-			 	<div v-if="(printType == 'prescription')">
-			 		<div v-if="(prescriptiData !== null)">
+			 	<div v-if="(printType == 'prescription')"  style="min-height: 350px;height: 350px;">
+			 		<div v-if="(prescriptiData !== null)" >
     	 	 				<div class='row'>
 				 				<div class='col-md-12 text-center'>
 				 					<h4>Priscription</h4>
@@ -153,7 +153,7 @@
 				 		</div>
 
 			 	</div>
-			 	<div v-if="(printType == 'opd_case')">
+			 	<div v-if="(printType == 'opd_case')"  style="min-height: 350px;height: 350px;">
 			 			<div class='row'>
 			 				<div class='col-md-12 text-center'>
 			 					<h4>OPD CASE</h4>
@@ -327,6 +327,8 @@
 				'advice' : this.$store.state.Patient.opdData.advice,
 				'prescriptiData' : this.$store.state.Patient.opdData.prescriptiData,
 				'radioReportData' : this.$store.state.Patient.radioData, 
+				'labReportData' : this.$store.state.Patient.labReportData,
+				
 
 			}
 		},
@@ -367,7 +369,8 @@
 							'crossSelectedValue' : this.crossSelectedValue,
 							'adviceScribleValue' : this.adviceScribleValue,
 							'printType' : this.printType,
-							'radioReportData' : this.radioReportData
+							'radioReportData' : this.radioReportData,
+							'labReportData' : this.labReportData
 						};
 
 				      	User.printOPDCaseData(OPDCaseData).then(	

@@ -323,14 +323,14 @@
 			<h4>Lab Report</h4>
 		</div>
   	</div>
-  	<div class="row">
+  	<div class="row" style="min-height: 350px;height: 350px;">
   		<div class="col-md-12">
-  			<div class="col-md-6"><span><b>Blood :</b></span>Blood-Option 1 </div>
-  			<div class="col-md-6"><span><b>Sputum :</b>Sputum-Option 2</span></div>
+  			<div class="col-md-6"><span><b>Blood :</b></span>{{$data['labReportData']['blood']}} </div>
+  			<div class="col-md-6"><span><b>Sputum :</b>{{$data['labReportData']['sputum']}}</span></div>
   		</div>
   		<div class="col-md-12">
-  			<div class="col-md-6"><span><b>Urine :</b>urine-Option 2</span></div>
-  			<div class="col-md-6"><span><b>Stool :</b>stool-Option 4</span></div>
+  			<div class="col-md-6"><span><b>Urine :</b>{{$data['labReportData']['Urine']}}</span></div>
+  			<div class="col-md-6"><span><b>Stool :</b>{{$data['labReportData']['Stool']}}</span></div>
   		</div>
   	</div>
   @endif
@@ -339,7 +339,7 @@
 		<div class='col-md-12 text-center'>
 			<h4>Radiology Report</h4>
 		</div>
-		<div class="row">
+		<div class="row"  style="min-height: 350px;height: 350px;">
         	<div class="col-md-12">
         	  <div class="">
                 <table class="table table-striped table-bordered" id="radio_list">
@@ -379,7 +379,7 @@
   @endif
   @if($data['printType'] == 'prescription')
   	@if(count($data['priscriptionData']) > 0 || $data['priscriptionData'] != null)
-	<div style="padding-left: 35px;">
+	<div style="padding-left: 35px;min-height: 350px;height: 350px;">
 		<div class='col-md-12 text-center'>
 			<span class='text-center'><b>Prescription</b></span>
 		</div>
@@ -408,7 +408,7 @@
 		           </tbody>
 		       </table>
 		</div>
-	</div>
+	
 	<br/><br/>
 	@endif
 	@if($data['referalType'] != null && $data['crossSelectedValue'] != '')
@@ -436,10 +436,12 @@
 			</div>
 		@endif
 	</div>
+	</div>
 	@endif
 	@endif
   @endif
   @if($data['printType'] == 'opd_case')
+  <div style='min-height: 750px;height: 1050px;'>
   	<div class='row'>
 		<div class='col-md-12 text-center'>
 			<h4>OPD CASE </h4>
@@ -577,6 +579,7 @@
 			</tbody>
 		</table>
 	</div>
+</div>
 	@endif
 	@endif
 
