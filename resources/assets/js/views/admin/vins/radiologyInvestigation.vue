@@ -45,15 +45,21 @@
     			<div class="row form-group">
     				<div class="col-md-6">
     					<label>Select Radiology:</label><br>
-    					<select class = "form-control ls-select2" id = "radiology_type" name = "radiology_type" >
+    					<select class = "form-control ls-select2" id = "radiology_type" name = "radiology_type" v-validate="'required'">
     						<option v-for="type in investigationData.radiologyType" :value="type.value">{{type.text}}</option>
     					</select>
+                        <span class="help is-danger" v-show="errors.has('radiology_type')">
+                  Field is required
+                </span>
                     </div>
                     <div class="col-md-6" v-show="resultData.type == 'X-Rays'">
                         <label> Select Type</label>   
-                        <select class = "form-control" id = "xray_type" name = "xray_type" v-model="resultData.x_ray_type" >
+                        <select class = "form-control" id = "xray_type" name = "xray_type" v-model="resultData.x_ray_type" v-validate="'required'">
                             <option v-for="type in investigationData.xray_type_options" :value="type.value" >{{type.text}}</option>
-                        </select>                    
+                        </select>      
+                        <span class="help is-danger" v-show="errors.has('xray_type')">
+                  Field is required
+                </span>              
                         
     				</div>
                 </div>
@@ -61,29 +67,39 @@
 
     				<div class="col-md-6">
     					<label>Body Parts:</label><br>
-    					<select class = "form-control ls-select2" id = "radiology_subtype" name = "radiology_subtype" >
+    					<select class = "form-control ls-select2" id = "radiology_subtype" name = "radiology_subtype" v-validate="'required'">
     						<option v-for="obj in investigationData.radiologySubType" :value="obj.text">{{obj.text}}</option>
     					</select>
+                        <span class="help is-danger" v-show="errors.has('radiology_subtype')">
+                  Field is required
+                </span>     
                     </div>
 
-                    <div class="col-md-6" v-if="resultData.subtype_text_enable">
+                    <div class="col-md-6" v-if="resultData.subtype_text_enable" v-validate="'required'">
                         <label> Other Parts</label>   
                         <input type="text" name="subType_text" id="subType_text" class="form-control" v-model="resultData.bodyPart" >
+
     			    </div>
                     <div class="col-md-6" v-if="resultData.bodyPart == 'Spine'">
                         <label> Spine option</label>
-                        <select class="form-control ls-select2" id="radiology_spine" name="radiology_spine" v-model="resultData.spine_option_value">
+                        <select class="form-control ls-select2" id="radiology_spine" name="radiology_spine" v-model="resultData.spine_option_value" v-validate="'required'">
                           <option v-for="obj in investigationData.Spine_option" :value="obj.text">{{obj.text}}</option>
                         </select>
+                          <span class="help is-danger" v-show="errors.has('radiology_spine')">
+                  Field is required
+                </span>    
                       </div>
                 </div>
                 <div class="row form-group">
     				<div class="col-md-6">
     					<label>Select Qualifires:</label><br>
-    					<select class = "form-control " id = "radiology_qualifier" name = "radiology_qualifier" v-if="resultData.type == 'MRI'"  v-model="resultData.qualifier"  >
+    					<select class = "form-control " id = "radiology_qualifier" name = "radiology_qualifier" v-if="resultData.type == 'MRI'"  v-model="resultData.qualifier"  v-validate="'required'">
     						<option v-for="obj in investigationData.radiologyQualifier" :value="obj.text">{{obj.text}}</option>
     					</select>
-                        <input type="text" name="qualifier" id="qualifier" class="form-control" v-model="resultData.qualifier"  v-else>
+                           <span class="help is-danger" v-show="errors.has('radiology_qualifier')">
+                  Field is required
+                </span>    
+                        <input type="text" name="qualifier" id="qualifier" class="form-control" v-model="resultData.qualifier" >
     					
     				</div>
                     <div class="col-md-6" v-if="resultData.type == 'MRI'">
