@@ -19,9 +19,9 @@
     	 	 	<div class="col-md-4"> 
     	 	 		<button type="button" class="btn btn-primary btn-submit text-right " data-toggle="modal" href="#printModal"  @click="printReferal()">Referal</button>-->
 
-    	 	 		<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('lab')" v-if="(labReportData != '')">Lab Report</button>
+    	 	 		<button  v-if="(labReportData != '')" type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('lab')" >Lab Report</button>
 
-    	 	 		<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('radiology')"  v-if="(radioReportData .length != 0)">Radiology Report</button>
+    	 	 		<button  v-if="(radioReportData != null)" type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('radiology')" >Radiology Report</button>
 
     	 	 		<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('prescription')">Print Prescription</button>
     	 	 		
@@ -50,11 +50,11 @@
 			 		<div class="row">
 				  		<div class="col-md-12">
 				  			<div class="col-md-6"><span><b>Blood :</b></span>{{labReportData.blood}} </div>
-				  			<div class="col-md-6"><span><b>Sputum :</b>{{labReportData.sputum}}</span></div>
+				  			<div class="col-md-6"><span><b>Body Fluid Analysis :</b>{{labReportData.bodyfluidanalysis}}</span></div>
 				  		</div>
 				  		<div class="col-md-12">
 				  			<div class="col-md-6"><span><b>Urine :</b>{{labReportData.Urine}}</span></div>
-				  			<div class="col-md-6"><span><b>Stool :</b>{{labReportData.Stool}}</span></div>
+				  			<div class="col-md-6"><span><b>CSF :</b>{{labReportData.csf}}</span></div>
 				  		</div>
 				  	</div>
 			 	</div>
@@ -140,7 +140,6 @@
 			 						<div class='col-md-6 text-left'>
 			 							<span class='text-left'><b>Internal</b></span> {{this.$store.state.Patient.opdData.cross_type_int}}
 			 						</div>
-			 					
 			 				</div>
 			 				<div v-if="(crossType == 'external')">
 			 					
@@ -352,7 +351,6 @@
        },
 		methods: {
 			printReport(type){
-				console.log(type);
 				this.printType = type;
 			},
 			ClickHereToPrint() {	

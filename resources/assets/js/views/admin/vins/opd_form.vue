@@ -887,9 +887,7 @@
           
            User.getAllPatientNameByConsultDoctor(vm.doctor_id,section).then(
                   (response) => {
-                   
-                    
-                    $.each(response.data, function(key,value) {
+                    $.each(response.data.data, function(key,value) {
 
                        patient_list_new.push({
                          'id' : value.id,
