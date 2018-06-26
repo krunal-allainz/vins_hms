@@ -644,6 +644,7 @@
       var  medicine ;
       var  timeList ;
       var patient_list = [];
+      var prescription_index  = 0;
 
     export default {
         data() {
@@ -1008,22 +1009,15 @@
                 vm.resultData.qualifierPart = '';
                 if(radiologySubType_val=='Brain')
                 {
-                  
                   vm.investigationData.radiologyQualifier="";
                   vm.investigationData.radiologyQualifier=vm.investigationData.brain_options;
-
                 }
                 else
-                {
-                    
-                   
+                { 
                     vm.investigationData.radiologyQualifier="";
                     vm.investigationData.radiologyQualifier=q_data;
                     vm.resultData.qualifier_text_enable = false;
                     vm.resultData.qualifierPart = '';
-
-
-
                 }
                 //vm.investigationData.radiologySubType =  radiologySubType_val;
 
@@ -1092,21 +1086,26 @@
 
              let vm =this;
              let prescriptionName = '';
-             
+            
               if(vm.opdData.prescription == '' || vm.opdData.prescription_quantity == '' || vm.opdData.prescription_time ==''){
                     toastr.error('Please select prescription data.', 'prescription error', {timeOut: 5000});
                     return false;
                 }
                 //console.log( vm.finalPrescriptionData.length);
-                let prescription_index  = 1;
-                if(vm.finalPrescriptionData.length > 0){
-                   //prescription_index = vm.finalPrescriptionData.length + 1;
-                   prescription_index = vm.finalPrescriptionData.last_prescription_index + 1;
-                 }
-                 vm.finalPrescriptionData.last_prescription_index=prescription_index;
+                
                   prescriptionName = vm.opdData.prescription;
                   var test = this.checkPrescription(prescriptionName);
               if(this.checkPrescription(prescriptionName) == true){
+                
+                /*let prescription_index_new=0;
+                if(vm.finalPrescriptionData.length > 0){
+                   prescription_index_new = vm.finalPrescriptionData.length + 1;
+                  
+                }*/
+                //console.log(prescription_index_new);
+                vm.finalPrescriptionData.last_prescription_index=prescription_index+1;
+                prescription_index=vm.finalPrescriptionData.last_prescription_index;
+                 //vm.finalPrescriptionData.last_prescription_index=prescription_index;
                 vm.finalPrescriptionData.push({
                             'id' : vm.finalPrescriptionData.last_prescription_index,
                             'Prescription' : vm.opdData.prescription,
