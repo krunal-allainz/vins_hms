@@ -810,7 +810,7 @@
               ],
               'opdData': {
                 'patientlist':'',
-                'patient_option':patient_list,
+                'patient_option':[],
                 'case_type': '',
                 'uhid_no': '',
                 'name':'',
@@ -872,7 +872,7 @@
           });
 
          var vm =this;  
-
+         let patient_list_new=[];
          
          let section = 'OPD';
          
@@ -884,18 +884,21 @@
             vm.doctor = vm.$store.state.Users.userDetails.first_name + " "+ vm.$store.state.Users.userDetails.last_name;  
             vm.doctor_id = vm.$store.state.Users.userDetails.id;  
           },1000);
-          //patient_list=[];
+          
            User.getAllPatientNameByConsultDoctor(vm.doctor_id,section).then(
                   (response) => {
                    
-                    patient_list=[];
+                    
                     $.each(response.data, function(key,value) {
-                       patient_list.push({
+
+                       patient_list_new.push({
                          'id' : value.id,
                          'name' : value.name,
                          'uhid_no' : value.uhid_no
                       });
                     });
+
+                    vm.opdData.patient_option=patient_list_new;
                     
                   },
                       (error) => {
@@ -1000,12 +1003,7 @@
                 
                 if(radiologySubType_val=='Brain')
                 {
-                  setTimeout(function(){
-                          $('#radiology_qualifier_opd').select2({
-                            placeholder: "Select",
-                            tags:false 
-                          }); 
-                    },1000);
+                  
                   vm.investigationData.radiologyQualifier="";
                   vm.investigationData.radiologyQualifier=vm.investigationData.brain_options;
 
@@ -1018,12 +1016,7 @@
                     vm.investigationData.radiologyQualifier=q_data;
                     vm.resultData.qualifier_text_enable = false;
                     vm.resultData.qualifierPart = '';
-                     setTimeout(function(){
-                          $('#radiology_qualifier_opd').select2({
-                            placeholder: "Select",
-                            tags:false 
-                          }); 
-                    },1000);
+
 
 
                 }
