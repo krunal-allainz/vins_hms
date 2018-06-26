@@ -851,25 +851,30 @@
            User.getAllPatientNameByConsultDoctor(vm.doctor_id,section).then(
              
                   (response) => {
+
                     //vm.opdData.patientlist =patientData; 
-                    patient_list=[];
+                   
                     
                     $.each(response.data, function(key,value) {
                        patient_list.push({
-                         'id' : value.id,
-                         'name' : value.name,
-                         'uhid_no' : value.uhid_no
+
+                        patient_list_new.push({
+                           'id' : value.id,
+                           'name' : value.name,
+                           'uhid_no' : value.uhid_no
+                        });
                       });
-                    });
+
                     /*console.log('fdsf');
                    console.log(patientData) ;*/
-                     vm.opdData.patientlist =patient_list; 
+                 //    vm.opdData.patientlist =patient_list; 
                     // patientData={};
-                    setTimeout(function(){
-                        $('#patient').select2({
-                         placeholder: "Select"
-                        });   
-                      },500)
+                    // setTimeout(function(){
+                    //     $('#patient').select2({
+                    //      placeholder: "Select"
+                    //     });   
+                    //   },500)
+                    vm.opdData.patient_option=patient_list_new;
                    
                   },
                       (error) => {
@@ -1219,6 +1224,7 @@
             // // var signaturePad = new SignaturePad(canvas, {
             // //   backgroundColor: 'rgb(255, 255, 255)',
             // // });
+            
 
             toastr.success('Report has been saved succeessfully', 'OPD Report', {timeOut: 2000});
             // window.onresize = vm.resizeCanvas(canvas);

@@ -14,9 +14,6 @@ use euro_hms\Api\Repositories\ReceiptRepository;
 use euro_hms\Models\Receipt;
 use Terbilang;
 
-
-
-
 class ReceiptController extends Controller
 {
     //	
@@ -56,17 +53,22 @@ class ReceiptController extends Controller
         $data =  $receiptData;
         $data = [
         	'receiptNumber' =>  $receiptData->receipt_number,
-        	'chagredName' =>	$receiptData->charges_name,
+        	'charges' =>	$receiptData->charges_name,
         	'amount' => $receiptData->amount,
         	'caseNo' => $receiptData->case_no,
+            'date_receipt' => $receiptData->date, 
+            'case_type' =>$receiptData->case_type,
+            'procedures_charges' => 0,
+            'other_charges' => ''
         ];
+
         $formData = [  
-            'name' => $receiptData->patient_details->first_name.''.$receiptData->patient_details->last_name,  
-            'date' => $receiptData->date, 
-            'consultant' => $receiptData->patient_details->consultant,    
-            'age' =>   $receiptData->patient_details->dob,  
-            'gender' =>$receiptData->patient_details->gender,   
-            'wordamount' =>  $receiptData->amount,  
+            'name' => $receiptData->patientDetails->first_name.''.$receiptData->patientDetails->last_name,  
+            'consultant' => $receiptData->patientDetails->consultant,    
+            'age' =>   $receiptData->patientDetails->dob,  
+            'gender' =>$receiptData->patientDetails->gender,   
+            'wordamount' =>  $receiptData->amount, 
+            'total_amount'  => $receiptData->amount,
         ]; 
       //  dd($formData);
         /*$data = array_push($data,{'name' : $request->formData['fullname'],'date' : $request->formData['date_receipt'] });*/  

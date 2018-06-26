@@ -181,17 +181,17 @@
       <hr />
       <div class="row form-group" >
         <div class="col-md-4">
-        <canvas id="vasc_signature-pad1" height="500" width="600" style="background: url('/assets/img/froms/varicose_vein_1_small.png') no-repeat; max-width:100%; max-height:100%;"></canvas>
+        <canvas id="vasc_signature-pad1" height="300" width="600" style="background: url('/assets/img/froms/varicose_vein_1_small_new.png') no-repeat; max-width:100%; max-height:100%;"></canvas>
               <div><button type="button" id="clear_vasc_signature" class="btn btn-sm btn-danger">Clear</button></div>
        
       </div>
        <div class="col-md-4">
-        <canvas id="vasc_signature-pad2" height="500" width="600" style="background: url('/assets/img/froms/varicose_vein_2_small.png') no-repeat; max-width:100%; max-height:100%;"></canvas>
+        <canvas id="vasc_signature-pad2" height="300" width="600" style="background: url('/assets/img/froms/varicose_vein_2_small_new.png') no-repeat; max-width:100%; max-height:100%;"></canvas>
               <div><button type="button" id="clear_vasc_signature1" class="btn btn-sm btn-danger">Clear</button></div>
        
       </div>
        <div class="col-md-4">
-        <canvas id="vasc_signature-pad3" height="500" width="600" style="background: url('/assets/img/froms/varicose_vein_3_small.png') no-repeat; max-width:100%; max-height:100%;"></canvas>
+        <canvas id="vasc_signature-pad3" height="300" width="600" style="background: url('/assets/img/froms/varicose_vein_3_small_new.png') no-repeat; max-width:100%; max-height:100%;"></canvas>
               <div><button type="button" id="clear_vasc_signature2" class="btn btn-sm btn-danger">Clear</button></div>
        
       </div>
