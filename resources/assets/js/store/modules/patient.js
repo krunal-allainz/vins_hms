@@ -78,8 +78,16 @@ const actions = {
     )
   },
   resetOpdForm({commit}) {
-        commit(types.RESET_OPD_FORM);
+      commit(types.RESET_OPD_FORM);
     
+  },
+  saveOpdData({commit,state}) {
+    let oData = state.opdData;
+    console.log(oData,'asa');
+    user.saveOpdData(oData).then((response) => {
+      commit(types.SAVE_OPD_DATA);
+    });
+
   }
 }
 
@@ -101,7 +109,7 @@ const mutations = {
       state.patientId = patientData.patient_details.id;
       state.ipdId = patientData.id;
   },
-    [types.SET_IPD_DATA] (state, ipdData) {
+  [types.SET_IPD_DATA] (state, ipdData) {
     // console.log(patientData)
       state.ipdData = ipdData;
   },
@@ -130,6 +138,9 @@ const mutations = {
       state.opdData = {};
       state.opd_resultData = {};
       state.radioData = {};
+  },
+  [types.SAVE_OPD_DATA] (state) {
+    // console.log(patientData)
   },
   
   
