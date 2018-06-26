@@ -113,7 +113,7 @@
 	                    </div>
 	                    <div class="col-md-6">
 							<select  class="form-control ls-select2" id = "gender" name="gender" :disabled="patientData.case == 'old'">
-	            				<option>Select</option>
+	            				<option value="">Select</option>
 	            				<option value="M">Male</option>
 				            	<option value="F">Female</option>
 				          	</select>
@@ -352,13 +352,14 @@
 		                		this.patientData.ph_no = pData.ph_no;
 		                		this.patientData.mob_no = pData.mob_no;
 		                		this.patientData.gender = pData.gender;
+		                		$('#gender').val(pData.gender).trigger('change');
 		                		this.patientData.address = pData.address;
 		                		this.patientData.reference_dr = pData.references;
 		                		//this.patientData.dob = pData.dob;
 		                		
 		                		let d_date = new Date(pData.dob);
 		                		this.patientData.consulting_dr = pData.consultant_id;
-		                		toastr.success('Patient details have been saved', 'patient detail', {timeOut: 5000});
+		                		toastr.success('Record found ', 'patient detail', {timeOut: 5000});
 		    					
 		                	} else if(response.data.code == 300) {
 		                		toastr.error('Record not found', 'Error', {timeOut: 5000});
