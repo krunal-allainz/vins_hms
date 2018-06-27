@@ -34,6 +34,7 @@ class AuthController extends Controller
 
     public function check()
     {
+
         \Log::info('Check Method is called');
         try {
             JWTAuth::parseToken()->authenticate();
@@ -41,6 +42,7 @@ class AuthController extends Controller
             return response(['authenticated' => false]);
         }
         \Log::info('After Authenticate');
+
         // Here Add Functionality if use is Active then allowed to login
         $token=JWTAuth::getToken();
 
@@ -56,9 +58,11 @@ class AuthController extends Controller
           if($userData->is_active == 0) {
             return response(['authenticated' => false,'message'=>'Account de-activated please contact your administrator.']);
           }
+          
           \Log::info('Success');
           return response(['authenticated' => true,'userData'=> $userData]);
         }
+
         \Log::info('NOT GETTING TOKEN');
     }
 
