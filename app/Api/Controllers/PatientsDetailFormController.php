@@ -280,8 +280,10 @@ class PatientsDetailFormController extends Controller
             $consultDr = $request->doctor;
             $section   =  $request->section;
              $patientDetails = PatientDetailsForm::getPatientListByConsultDr($consultDr, $section);
-            return $patientDetails; 
-                      
-        
+             if($patientDetails){
+               return  ['code' => '200','data'=>$patientDetails, 'message' => 'Record Sucessfully created'];
+             }else{
+                  return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+             }     
     }
 }

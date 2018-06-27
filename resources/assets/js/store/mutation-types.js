@@ -11,4 +11,7 @@ export const SET_NEURO_DATA = 'SET_NEURO_DATA'
 export const SET_VASC_DATA = 'SET_VASC_DATA'
 export const RESET_OPD_FORM = 'RESET_OPD_FORM'
 export const SAVE_OPD_DATA = 'SAVE_OPD_DATA'
+export const SET_LAB_REPORT_DATA = 'SET_LAB_REPORT_DATA'
+
+
 
