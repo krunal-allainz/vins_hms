@@ -93,7 +93,7 @@ class ForgotPasswordController extends Controller
                     'SUBJECT' => 'Reset Password Link',    
                     'WITH-ATTECHMENT'  => 'no' 
                 ];
-                 MailNotification::mailSendDetail($type,$emailData);
+              //   MailNotification::mailSendDetail($type,$emailData);
 
 
                  

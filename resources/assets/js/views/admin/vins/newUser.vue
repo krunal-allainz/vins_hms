@@ -37,11 +37,11 @@
                                     <label for="userType" class="control-label float-right txt_media1">User Type :</label>
                                     </div>
                                     <div class="col-md-9">
-                                        <select class="form-control ls-select2" id="userType" v-model="userData.userType">
+                                        <select class="form-control ls-select2" id="userType" v-model="userData.userType" name="userType" v-validate="'required'">
                                             <option :value="type.text" v-for="type in userData.userTypeOption">{{type.text}}</option>
                                         </select> 
-                                        <i v-show="errors.has('lastName')" class="fa fa-warning"></i>
-                                        <span class="help is-danger" v-show="errors.has('lastName')">Last name is required.</span>
+                                        <i v-show="errors.has('userType')" class="fa fa-warning"></i>
+                                        <span class="help is-danger" v-show="errors.has('userType')">User type is required.</span>
                                     </div>
                                 </div>
                                 <div class="row form-group" v-if="userData.userType == 'Doctor'" >
@@ -49,7 +49,7 @@
                                     <label for="department " class="control-label float-right txt_media1">Department :</label>
                                     </div>
                                     <div class="col-md-9">
-                                         <select class="form-control ls-select2" id="department" v-model="userData.department">
+                                         <select class="form-control ls-select2" id="department" name="department" v-model="userData.department">
                                             <option :value="dept.text" v-for="dept in userData.departmentOption">{{dept.text}}</option>
                                         </select> 
 
@@ -60,7 +60,8 @@
                                     <label for="email" class="control-label float-right txt_media1">EmailId :</label>
                                     </div>
                                     <div class="col-md-9">
-                                        <input type="email" class="form-control" id="email" placeholder="Email Address" v-model="userData.email">
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" v-model="userData.email" v-validate="'required|email'">
+                                        <span class="help is-danger" v-show="errors.has('email')">Email is required and enter valid email.</span>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -68,7 +69,8 @@
                                     <label for="mobileNo" class="control-label float-right txt_media1">Mobile No :</label>
                                     </div>
                                     <div class="col-md-9">
-                                        <input type="phoneNumber" class="form-control" id="mobileNo" placeholder="Mobile Number" v-model="userData.mobileNo">
+                                        <input type="text" class="form-control" id="mobileNo" placeholder="Mobile Number" v-model="userData.mobileNo" v-validate="'numeric|min:10'" name="mobileNo">
+                                        <span class="help is-danger" v-show="errors.has('mobileNo')">Mobile number must be valid.</span>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -134,7 +136,9 @@
                                 'confirmPassword':'',
                             	'mobileNo': '',
                             	'address': '',
-                                'userTypeOption': [{text:'Doctor'},
+                                'userTypeOption': [
+                                            {text:''},
+                                             {text:'Doctor'},
                                              {text:'Others'}
                                             ],
                                 'userType': '',
@@ -178,7 +182,7 @@
             validateBeforeSubmit() {
                
                 this.$validator.validateAll().then(() => {
-                    console.log('test');
+                    
                     if (!this.errors.any()) {
                     // if(this.$data.userData.id=="") {
                                 // here we add code for Mobile user for create user

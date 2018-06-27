@@ -105,7 +105,7 @@ class PatientsDetailFormController extends Controller
             if($patientData) {
                 $patientId = $patientData->id;
             } else {
-                 return ['code' => '300','patientData'=>'', 'message' => 'Record not found'];
+                 return ['code' => '300','data'=>'', 'message' => 'Record not found'];
             }
 
         }
