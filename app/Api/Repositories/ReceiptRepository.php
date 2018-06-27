@@ -116,5 +116,53 @@
 
 		        return $data;	
       }
+
+      /**
+       * [getReceiptDetailsById description]
+       * @param  [type] $id [description]
+       * @return [type]     [description]
+       */
+      public function getReceiptDetailsById($id)
+      {
+      		
+      		//$data_all=Receipt::where('id',$id)->first();
+      		$data_all=Receipt::with('patientDetails')->where('receipt.id',$id)->first();
+      		//for date receipt 
+      		
+      		$date_r = Carbon::parse($data_all['date']);
+		    $date_receipt=$date_r->format('Y-m-d H:i:s');
+      		if($data_all['charges_type_id']==1)
+		        {
+		            //$charges_type_val="consultation_charges_id"; 
+		            $charges_id=$data_all['consultation_charges_id'];
+		        }
+		        else if($data_all['charges_type_id']==2)
+		        {
+		            //$charges_type_val="emergency_charges_id";
+		           $charges_id=$data_all['emergency_charges_id'];
+		        }
+		        $department=$data_all['department'];
+		        $procedures_val=0;
+		        if($department=='Neurology')
+		        {
+		            $procedures_val=$data_all['neurological_procedures_id'];
+		        }
+		        else if($department=='Vascular')
+		        {
+		            $procedures_val=$data_all['vascular_procedures_id'];
+		        }
+      		$fullname=$data_all['patientDetails']['first_name'].' '.$data_all['patientDetails']['last_name'];
+      		$age=Carbon::parse($data_all['patientDetails']['dob'])->format('Y-m-d');
+      		$age_val=Carbon::parse($age)->diff(\Carbon\Carbon::now())->format('%y Years');
+      		//echo $age_val;exit;
+      		
+      		$gender='Female';
+      		if($data_all['patientDetails']['gender']=='M')
+      		{
+      			$gender='Male';
+      		}
+      		$data = ['receiptId'=>$data_all['receipt_id'],'receiptNumber'=>$data_all['receipt_number'],'caseNo'=>$data_all['case_no'],'chagredName'=>$data_all['charges_type_id'],'amount'=>$data_all['charges'],'case_type'=>$data_all['case_type'],'charges_type'=>$data_all['charges_type_id'],'charges_type_val'=>$charges_id,'charges'=>$data_all['charges'],'department'=>$data_all['department'],'procedures_val'=>$procedures_val,'procedures_charges'=>$data_all['procedures_charges'],'other_charges_category'=>$data_all['other_charges_id'],'other_charges'=>$data_all['other_charges'],'date_receipt'=>$date_receipt,'consult_id'=>$data_all['patientDetails']['consultant_id'],'fullname'=>$fullname,'gender'=>$gender,'age'=>$age_val];
+      		 return $data;	
+      }
  }
 ?>

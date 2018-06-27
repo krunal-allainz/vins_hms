@@ -485,11 +485,12 @@
             //     }
             // },
             viewGallery(gid) {
+
                 let vm = this;
                 _.find(vm.finalResultData, function(res) {
                     if(res.id == gid) {
-                       
                         vm.imgGallery = {'view':true,'data':res.imgData};
+                       
                         setTimeout(function(){
                             jQuery('[data-toggle="magnify"]').magnify();    
                         },1000)
@@ -529,7 +530,8 @@
                 // var resData=[];
                 let vm =this;
                  // resData.push= vm.finalResultData;
-                
+                 $('#radiology_qualifier').select2("destroy");
+                vm.resultData.qualifier_radio_text_enable = false;
                 if(vm.resultData.type == '' || vm.resultData.bodyPart == '' ){
                     toastr.error('Please select report data.', 'Report error', {timeOut: 5000});
                     return false;

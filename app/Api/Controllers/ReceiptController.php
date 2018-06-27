@@ -13,12 +13,14 @@ use euro_hms\Api\Contracts\ReceiptContract as ReceiptContract;
 use euro_hms\Api\Repositories\ReceiptRepository;
 use euro_hms\Models\Receipt;
 use Terbilang;
+use euro_hms\Api\Repositories\UserRepository;
 
 class ReceiptController extends Controller
 {
     //	
     public function __construct(){
     	$this->receiptObj = new ReceiptRepository();
+        $this->userOBJ = new UserRepository();
     }
 
 
@@ -45,36 +47,28 @@ class ReceiptController extends Controller
     /**
     *  View Receipt By Id
     */
-    public function viewreceipt(Request $request){
+    public function viewReceipt(Request $request){
     	$id = $request->id;
     	$type = $request->type;
-    	$receiptData = $this->receiptObj->viewreceipt($id,$type);
-         $wordAmount = Terbilang::make($request->formData['amount']);  
-        $data =  $receiptData;
-        $data = [
-        	'receiptNumber' =>  $receiptData->receipt_number,
-        	'charges' =>	$receiptData->charges_name,
-        	'amount' => $receiptData->amount,
-        	'caseNo' => $receiptData->case_no,
-            'date_receipt' => $receiptData->date, 
-            'case_type' =>$receiptData->case_type,
-            'procedures_charges' => 0,
-            'other_charges' => ''
-        ];
-
+    	$receiptData = $this->receiptObj->getReceiptDetailsById($id);
+        //print_r($receiptData);exit;
+        $all_amt=$receiptData['charges']+$receiptData['procedures_charges']+$receiptData['other_charges'];
+        $wordAmount = Terbilang::make($all_amt); 
+        $consultant_name=$this->userOBJ->getUserNameById($receiptData['consult_id']);  
         $formData = [  
-            'name' => $receiptData->patientDetails->first_name.''.$receiptData->patientDetails->last_name,  
-            'consultant' => $receiptData->patientDetails->consultant,    
-            'age' =>   $receiptData->patientDetails->dob,  
-            'gender' =>$receiptData->patientDetails->gender,   
-            'wordamount' =>  $receiptData->amount, 
-            'total_amount'  => $receiptData->amount,
+            'name' => $receiptData['fullname'],  
+            'date' => $receiptData['date_receipt'] , 
+            'consultant' =>$consultant_name,    
+            'age' =>   $receiptData['age'],  
+            'gender' =>$receiptData['gender'],   
+            'wordamount' => $wordAmount  ,
+            'total_amount'  =>$all_amt
         ]; 
-      //  dd($formData);
-        /*$data = array_push($data,{'name' : $request->formData['fullname'],'date' : $request->formData['date_receipt'] });*/  
+        $data=$receiptData;
+       
         $view = view("receipt",['data'=> $data,'formData' => $formData])->render();    
         return response()->json(['html'=>$view]);  
-    	//return $receiptData; 
+    	
     }
 
     /**
