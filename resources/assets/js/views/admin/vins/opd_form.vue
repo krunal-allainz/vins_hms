@@ -1099,7 +1099,7 @@
              let vm =this;
              let prescriptionName = '';
              vm.prescription_enable=true;
-              if(vm.opdData.prescription == '' || vm.opdData.prescription_quantity == '' || vm.opdData.prescription_time =='' || vm.opdData.prescription_quantity<5 ||  vm.opdData.prescription_time<1){
+              if(vm.opdData.prescription == '' || vm.opdData.prescription_quantity == '' || vm.opdData.prescription_time =='' || vm.opdData.prescription_quantity<1 ||  vm.opdData.prescription_time<1){
                     
                     toastr.error('Please select prescription data and must be valid.', 'Prescription error', {timeOut: 5000});
                     return false;
