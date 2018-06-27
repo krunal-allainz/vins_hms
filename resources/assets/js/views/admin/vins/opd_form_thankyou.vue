@@ -101,7 +101,7 @@
 			 		<div v-if="(prescriptiData !== null)" >
     	 	 				<div class='row'>
 				 				<div class='col-md-12 text-center'>
-				 					<h4>Priscription</h4>
+				 					<h4>Prescription</h4>
 				 				</div>
 			 				</div>
 							<div class="table-responsive">
