@@ -326,11 +326,11 @@
   	<div class="row" style="min-height: 350px;height: 350px;">
   		<div class="col-md-12">
   			<div class="col-md-6"><span><b>Blood :</b></span>{{$data['labReportData']['blood']}} </div>
-  			<div class="col-md-6"><span><b>Sputum :</b>{{$data['labReportData']['sputum']}}</span></div>
+  			<div class="col-md-6"><span><b>Body Fluid Analysis :</b>{{$data['labReportData']['bodyfluidanalysis']}}</span></div>
   		</div>
   		<div class="col-md-12">
   			<div class="col-md-6"><span><b>Urine :</b>{{$data['labReportData']['Urine']}}</span></div>
-  			<div class="col-md-6"><span><b>Stool :</b>{{$data['labReportData']['Stool']}}</span></div>
+  			<div class="col-md-6"><span><b>CSF :</b>{{$data['labReportData']['csf']}}</span></div>
   		</div>
   	</div>
   @endif

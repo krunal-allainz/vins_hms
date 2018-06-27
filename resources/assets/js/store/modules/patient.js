@@ -17,10 +17,10 @@ const state = {
     'neuroExaminationData':{},
     'vascExaminationData':{},
     'labReportData' : {
-      'blood' :'Blood-Option 1',
-      'sputum' : 'Sputum-Option 2',
-      'Urine' : 'Urine',
-      'Stool' : 'Stool'
+      'blood' :'Serum Electrolytes',
+      'bodyfluidanalysis' : 'Sputum-Option 2',
+      'Urine' : 'Culture / Sensitivity',
+      'csf' : 'Microscopy'
     },
  }
 
@@ -62,9 +62,9 @@ const actions = {
     // console(uhid_no);
     commit(types.SET_VASC_DATA, vascData)
   },
-  // saveLabReportData({commit},labReportData){
-  //   commit(types.SET_LAB_REPORT_DATA,labReportData)
-  // },
+  saveLabReportData({commit},labReportData){
+    commit(types.SET_LAB_REPORT_DATA,labReportData)
+  },
   SetPatientData ({commit},ipdId) {
     
     user.getpatientDetail(ipdId).then(
@@ -141,9 +141,9 @@ const mutations = {
     // console.log(patientData)
       state.vascExaminationData = vascData;
   },
-  // [types.SET_LAB_REPORT_DATA](){
-  //     state.labReportData = labReportData;
-  // },
+  [types.SET_LAB_REPORT_DATA](){
+      state.labReportData = labReportData;
+  },
     [types.RESET_OPD_FORM] (state) {
     // console.log(patientData)
       state.opdData = {};
