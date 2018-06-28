@@ -95,7 +95,7 @@
 	                		<label for="last_name" class="control-label">Last Name: </label>
 	                	</div>
 	                	<div class="col-md-6">
-							<input class="form-control" type="text" id="last_name" name="last_name" value="" v-model="patientData.lname" v-validate="'required'" :disabled="patientData.case == 'old'"/>
+							<input class="form-control" type="text" id="last_name" name="last_name" value="" v-model="patientData.lname" v-validate="'required|alpha'" :disabled="patientData.case == 'old'"/>
 							<i v-show="errors.has('last_name')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('last_name')">
 	            	         	Last name is required or must be valid.
@@ -352,7 +352,7 @@
 		    	vm.patientData.fname = '';
 		    	vm.patientData.mname = '';
 		    	vm.patientData.lname = '';
-		    	vm.patientData.dob = '';
+		    	vm.patientData.dob.time = '';
 		    	vm.patientData.gender = '';
 		    	vm.patientData.address = '';
 		    	vm.patientData.ph_no = '';
