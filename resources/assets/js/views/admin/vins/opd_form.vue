@@ -63,7 +63,7 @@
                 <label for="date">Weight:</label>
               </div>
               <div class="col-md-6">
-                <input type="text" name="weight" id="weight" class="form-control" v-model="opdData.weight"  placeholder="In kgs"   v-validate="'required|numeric'">
+                <input type="text" name="weight" id="weight" class="form-control" v-model="opdData.weight"  placeholder="In kgs"   v-validate="'required|numeric|min_value:1'">
                   <i v-show="errors.has('weight')" class="fa fa-warning"></i> 
                   <span class="help is-danger" v-show="errors.has('weight')"> Weight is required or must be valid.</span>
                 </div>
@@ -73,7 +73,7 @@
                   <label for="date">Height:</label>
                 </div>
                 <div class="col-md-9">
-                  <input type="text" name="height" id="height" class="form-control" placeholder="In cms" v-model="opdData.height"  v-validate="'required|numeric'">
+                  <input type="text" name="height" id="height" class="form-control" placeholder="In cms" v-model="opdData.height"  v-validate="'required|numeric|min_value:1'">
                   <i v-show="errors.has('height')" class="fa fa-warning"></i> 
                     <span class="help is-danger" v-show="errors.has('height')"> Height is required or must be valid. </span>
                   </div>
@@ -123,7 +123,7 @@
                     </div>
                     <div class="col-md-6" >
                       <div class=" input-group">
-                        <input type="text" name="pulse" id="pulse" class="form-control" v-model="opdData.pulse"  v-validate="'required|numeric'"> 
+                        <input type="text" name="pulse" id="pulse" class="form-control" v-model="opdData.pulse"  v-validate="'required|numeric|min_value:1'"> 
                         <div class="input-group-append">
                             <span class="input-group-text ">/mm</span>
                         </div>
@@ -142,11 +142,11 @@
                     <div class="col-md-6">
                       <div class=" input-group">
 
-                      <input type="text" name="bp_systolic" id="bp_systolic" class="form-control"  v-model="opdData.bp_systolic"  v-validate="'required|numeric'" maxlength="3" > 
+                      <input type="text" name="bp_systolic" id="bp_systolic" class="form-control"  v-model="opdData.bp_systolic"  v-validate="'required|numeric|min_value:1'" maxlength="3" > 
                         <div class="input-group-append">
                             <span class="input-group-text ">/</span>
                         </div>
-                        <input type="text" name="bp_diastolic" id="bp_diastolic" class="form-control"  v-model="opdData.bp_diastolic"  v-validate="'required|numeric'" maxlength="3">
+                        <input type="text" name="bp_diastolic" id="bp_diastolic" class="form-control"  v-model="opdData.bp_diastolic"  v-validate="'required|numeric|min_value:1'" maxlength="3">
                       
                       </div>
                       <!-- <input type="text" name="bp_systolic" id="bp_systolic" class="form-control"  v-model="opdData.bp_systolic"  v-validate="'required'"> -->
@@ -177,7 +177,7 @@
                     </div>
                     <div class="col-md-6">
                       <div class=" input-group">
-                      <input type="text" name="temp" id="temp" class="form-control"  v-model="opdData.temp" v-validate="'required|numeric'" maxlength="3">
+                      <input type="text" name="temp" id="temp" class="form-control"  v-model="opdData.temp" v-validate="'required|numeric|min_value:1'" maxlength="3">
                         <div class="input-group-append">
                             <span class="input-group-text ">°F</span>
                         </div>
