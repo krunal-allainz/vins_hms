@@ -83,7 +83,7 @@
                     <label for="date">BMI:</label>
                   </div>
                   <div class="col-md-12">
-                    <input type="text" name="bmi" id="bmi" class="form-control" readonly="" v-model="bmi">
+                    <input type="text" name="bmi" id="bmi" class="form-control" readonly="" v-model="bmi_mod">
                     </div>
                   </div>
                 </div>
@@ -130,7 +130,7 @@
                       
                       </div>
                       <i v-show="errors.has('pulse')" class="fa fa-warning"></i>
-                       <div class="help is-danger" v-show="errors.has('pulse')"> Pulse is required or must be valiid.</div>
+                       <div class="help is-danger" v-show="errors.has('pulse')"> Pulse is required or must be valid.</div>
                     </div>
                   </div>
                 </div>
@@ -835,10 +835,17 @@
                 'laboratory':'',
                 'signaturePad':{},
                 'signaturePad_src':'',
-
                 'signaturePad1_src':'',
                 'signaturePad2_src':'',
                 'prescriptiData' : '',
+                'weight':'',
+                'height': '',
+                'bmi':'',
+                'vitals':'',
+                'pulse':'',
+                'bp_systolic':'',
+                'bp_diastolic':'',
+                'temp':''
               }
             }
         }, 
@@ -850,7 +857,7 @@
          card,
        },
         computed: {
-          bmi() {
+          bmi_mod() {
             if(this.opdData.weight!='' && this.opdData.height!=''){
               var height_met = this.opdData.height / 100;
               var bmiVal = (this.opdData.weight )/(height_met * height_met);
@@ -905,17 +912,23 @@
             $('#patient').on("select2:select", function (e) {
               let patientId = $(this).val();
               vm.opdData.patientlist=patientId;
-             
-
-               $.each(patient_list_new, function(key,value) {
-                       if(patientId == value.id){
-                        vm.opdData.uhid_no =value.uhid_no; 
-                       }
-              });
-              
-               //row= ;
-               
-               //vm.opdData.uhid_no
+              User.generatePatientDetailsByID(patientId).then(
+                  (response) => {
+                    let patient_data=response.data.data;
+                    console.log(patient_data);
+                    vm.opdData.uhid_no =patient_data.uhid_no;
+                    vm.opdData.height =patient_data.height;
+                    vm.opdData.weight =patient_data.weight;
+                    vm.opdData.bmi =patient_data.bmi;
+                    vm.opdData.vitals =patient_data.vitals;
+                    vm.opdData.pulse =patient_data.pulse;
+                    vm.opdData.bp_diastolic =patient_data.bp_diastolic;
+                    vm.opdData.bp_systolic =patient_data.bp_systolic;
+                    vm.opdData.temp =patient_data.temp;
+                  },
+                  (error) => {
+                  },
+              );
             });
 
            $('#prescription').on("select2:select", function (e) { 
@@ -1247,14 +1260,12 @@
           },
           removePrescription(did) {
                 let vm =this;
-                // _.pullAt(resData, 0);
                 _.find(vm.finalPrescriptionData, function(res) {
                     if(res.id == did) {
-                         //res.removed = true;
-                         vm.finalPrescriptionData.splice(res, 1);
+                      var index = vm.finalPrescriptionData.indexOf(res);
+                      vm.finalPrescriptionData.splice(index, 1);
                     }
                 });
-                //console.log(vm.finalPrescriptionData.length);
                 vm.finalPrescriptionData.last_prescription_index=vm.finalPrescriptionData.last_prescription_index-1;
                 vm.priscriptionAdd =  vm.finalPrescriptionData.length;
           },

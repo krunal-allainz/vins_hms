@@ -91,6 +91,15 @@ class PatientsDetailFormController extends Controller
           'consultant_id' =>$data['consulting_dr'],
           'consultant' => isset($data['consulting_dr'])?$data['consulting_dr']: '' ,
           'case_type' => $data['case'],
+          'weight' => $data['weight'],
+          'height' => $data['height'],
+          'bmi' => $data['bmi'],
+          'vitals' => $data['vitals'],
+          'pulse' => $data['pulse'],
+          'temp' => $data['temp'],
+          'bp_systolic' => $data['bp_systolic'],
+          'bp_diastolic' => $data['bp_diastolic']
+
         ]); 
          
          $patientId = $patientData->id;
@@ -285,5 +294,21 @@ class PatientsDetailFormController extends Controller
              }else{
                   return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
              }     
+    }
+
+    /**
+     * [getPatientDetailsById description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getPatientDetailsById(Request $request)
+    {
+        $id=$request->id;
+        $patientDetails = PatientDetailsForm::where('id',$id)->first();
+        if ($patientDetails) {
+            return ['code' => '200','data'=>$patientDetails, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
     }
 }
