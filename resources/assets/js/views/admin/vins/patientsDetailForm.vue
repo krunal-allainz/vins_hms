@@ -448,7 +448,7 @@
 
 				    User.generateUserDetailsByType('All','Active').then(
 				    	 (response) => {
-	               	 		let consult_data  = response.data;
+	               	 		let consult_data  = response.data.data;
 	               	 		$.each(consult_data, function(key, value) {
 		               	 		let name =  value.first_name +' '+value.last_name;
 		               	 		let id  = value.id ;
