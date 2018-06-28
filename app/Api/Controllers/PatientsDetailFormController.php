@@ -296,6 +296,11 @@ class PatientsDetailFormController extends Controller
              }     
     }
 
+    /**
+     * [getPatientDetailsById description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function getPatientDetailsById(Request $request)
     {
         $id=$request->id;
