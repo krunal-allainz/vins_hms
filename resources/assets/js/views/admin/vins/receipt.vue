@@ -110,18 +110,18 @@
 			// Our method to GET results from a Laravel endpoint
 		getResults(page_url) {
 			var vm =this;
-			
+			 page_url = page_url || '/patient/receiptlist';
 			User.getReceiptList(page_url).then(
 			 		(response) => {
-			 			 page_url = page_url;
+			 			
 			 			 vm.receiptData = response.data.data;
 			 			 vm.makePagination(response.data);
 			 			//  vm.$set('receiptData', response.data.data)
-			 			 User.getReceiptList(page_url)
-		                    .then(function (response) {
-		                        vm.makePagination(response.data);
-		                         vm.receiptData = response.data.data;
-		                    });
+			 			 // User.getReceiptList(page_url)
+		      //               .then(function (response) {
+		      //                   vm.makePagination(response.data);
+		      //                    vm.receiptData = response.data.data;
+		      //               });
 		                    
 			 			/* $.each(response.data,function(key,value){
 					 			let id = value.id;

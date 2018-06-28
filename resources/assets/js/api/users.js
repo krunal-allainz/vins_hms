@@ -238,7 +238,7 @@ export default {
       return api.post('doctor/patientlist',{'doctor' :doctor,'section':section});
   },
   getReceiptList(page_url){
-     return api.post('patient/receiptlist');
+     return api.post(page_url);
   },
    getChargesTypes(){
      return api.post('receipt/getchargestypes');
