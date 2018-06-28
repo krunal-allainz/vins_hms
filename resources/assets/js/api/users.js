@@ -276,6 +276,9 @@ export default {
   },
   generateLaboratoryData(data_obj) {
     return api.post('opd/getLaboratoryData',{'data' :data_obj});
+  },
+  generatePatientDetailsByID(id) {
+      return api.post('patient/getPatientDetailsById',{'id':id})
   }
 
 }
