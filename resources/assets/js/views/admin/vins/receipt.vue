@@ -30,7 +30,7 @@
                <td>{{++index}}</td>
                <td>{{res.receipt_number}}</td>
                <td>{{res.case_no}}</td>
-               <td></td>
+               <td>{{res.patient_details.first_name}} {{res.patient_details.last_name}}</td>
                <td></td>
                <td>{{res.date}}</td>
                <td>
@@ -113,39 +113,8 @@
 			 page_url = page_url || '/patient/receiptlist';
 			User.getReceiptList(page_url).then(
 			 		(response) => {
-			 			
 			 			 vm.receiptData = response.data.data;
 			 			 vm.makePagination(response.data);
-			 			//  vm.$set('receiptData', response.data.data)
-			 			 // User.getReceiptList(page_url)
-		      //               .then(function (response) {
-		      //                   vm.makePagination(response.data);
-		      //                    vm.receiptData = response.data.data;
-		      //               });
-		                    
-			 			/* $.each(response.data,function(key,value){
-					 			let id = value.id;
-					 			let receiptNo = value.receipt_number;
-					 			let caseNo = value.case_no;
-					 			let date = value.date;
-					 			//let date = value.date;
-					 			let patientId = value.patientDetails.id;
-					 			let fullName  = value.patientDetails.first_name+''+value.patientDetails.last_name;
-					 			let consult = value.patientDetails.consultant;
-					 			// $.each(value.patient_details,function(index){
-					 			// 	console.log(index.id);
-					 			// 	//let fullName = 
-					 			// });
-				 			receptDataArrays.push({
-				 				'id' : id,
-				 				'receiptNo' : receiptNo,
-				 				'caseNo' : caseNo,
-				 				'date' : date,
-				 				'patientId' : patientId,
-				 				'fullName' : fullName,
-				 				'consult' : consult
-				 			});
-				 		 });*/
 			 		},
 			 		(error) => {
 
