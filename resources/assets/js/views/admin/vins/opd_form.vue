@@ -835,7 +835,6 @@
                 'laboratory':'',
                 'signaturePad':{},
                 'signaturePad_src':'',
-
                 'signaturePad1_src':'',
                 'signaturePad2_src':'',
                 'prescriptiData' : '',
@@ -1261,14 +1260,12 @@
           },
           removePrescription(did) {
                 let vm =this;
-                // _.pullAt(resData, 0);
                 _.find(vm.finalPrescriptionData, function(res) {
                     if(res.id == did) {
-                         //res.removed = true;
-                         vm.finalPrescriptionData.splice(res, 1);
+                      var index = vm.finalPrescriptionData.indexOf(res);
+                      vm.finalPrescriptionData.splice(index, 1);
                     }
                 });
-                //console.log(vm.finalPrescriptionData.length);
                 vm.finalPrescriptionData.last_prescription_index=vm.finalPrescriptionData.last_prescription_index-1;
                 vm.priscriptionAdd =  vm.finalPrescriptionData.length;
           },
