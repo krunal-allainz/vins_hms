@@ -149,24 +149,14 @@
                         <input type="text" name="bp_diastolic" id="bp_diastolic" class="form-control"  v-model="opdData.bp_diastolic"  v-validate="'required|numeric|min_value:1'" maxlength="3">
                       
                       </div>
-                      <!-- <input type="text" name="bp_systolic" id="bp_systolic" class="form-control"  v-model="opdData.bp_systolic"  v-validate="'required'"> -->
+                     
                       <i v-show="errors.has('bp_systolic')" class="fa fa-warning"></i>
                       <span class="help is-danger" v-show="errors.has('bp_systolic') || errors.has('bp_diastolic')">
                         BP is required or must be valid.
                       </span>
                     </div>
                   </div>
-                  <!-- <div class="col-md-6">
-                    <div class="col-md-6">
-                      <label for="date">BP Diastolic:</label>
-                    </div>
-                    <div class="col-md-6">
-                      <input type="text" name="bp_diastolic" id="bp_diastolic" class="form-control"  v-model="opdData.bp_diastolic"  v-validate="'required'">
-                       <span class="help is-danger" v-show="errors.has('bp_diastolic')">
-                        Field is required
-                      </span>
-                    </div>
-                  </div> -->
+                 
                 </div>
 
                 <div class="row form-group">
@@ -601,6 +591,33 @@
           </div>
         </div>
         
+        <!-- for laboratory -->
+        <div class="row form-group" v-show="opdData.referral == 'laboratory' ">
+          <div class="col-md-6">
+          <div class = "row">
+          <div class="col-md-6">
+            <label class="control-label" for="label_1">Blood </label>
+          </div>
+          <div class="col-md-6">
+              <select class="form-control ls-select2"  id="blood_report_opd" name="blood_report_opd"  v-model="laboratoryData.blood_report_opd">
+                 <option :value="opt.id" v-for="opt in laboratoryData.blood_option_opd">{{opt.text}}</option>
+              </select>
+          </div>
+        </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class = "row">
+            <div class="col-md-6">
+              <label class="control-label" for="urine">Urine </label>
+            </div>
+            <div class="col-md-6">
+                <select class="form-control ls-select2" id="urine_opd" name="urine_opd"  v-model="laboratoryData.urine_report_opd">
+                   <option :value="urinesampleopd.id" v-for="urinesampleopd in laboratoryData.urine_option_opd">{{urinesampleopd.text}}</option>
+                </select>
+            </div>
+        </div>
+        </div>
       </div>
       <div class="row" v-if="curStep == 2"> 
           <laboratory ></laboratory>

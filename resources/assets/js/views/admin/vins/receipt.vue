@@ -31,7 +31,7 @@
                <td>{{res.receipt_number}}</td>
                <td>{{res.case_no}}</td>
                <td></td>
-               <td></td>
+               <td>{{res.doctor_name}}</td>
                <td>{{res.date}}</td>
                <td>
               <!--  	<button type="button" class="btn btn-success" >Print</button> -->
