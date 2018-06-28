@@ -41,7 +41,7 @@
                                             <option :value="type.text" v-for="type in userData.userTypeOption">{{type.text}}</option>
                                         </select> 
                                         <i v-show="errors.has('userType')" class="fa fa-warning"></i>
-                                        <span class="help is-danger" v-show="errors.has('userType')">Select User type.</span>
+                                        <span class="help is-danger" v-show="errors.has('userType')">Please select User type.</span>
                                     </div>
                                 </div>
                                 <div class="row form-group" v-if="userData.userType == 'Doctor'" >
@@ -49,10 +49,11 @@
                                     <label for="department " class="control-label float-right txt_media1">Department :</label>
                                     </div>
                                     <div class="col-md-9">
-                                         <select class="form-control ls-select2" id="department" name="department" v-model="userData.department">
+                                         <select class="form-control ls-select2" id="department" name="department" v-model="userData.department" v-validate="'required'">
                                             <option :value="dept.text" v-for="dept in userData.departmentOption">{{dept.text}}</option>
                                         </select> 
-
+                                        <i v-show="errors.has('department')" class="fa fa-warning"></i>
+                                        <span class="help is-danger" v-show="errors.has('department')">Please select Department.</span>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -129,6 +130,12 @@
 </template>
 
 <script>
+if(localStorage.getItem("user_add"))
+    {
+        toastr.success('User has been added successfully', 'Add User', {timeOut: 5000});
+        localStorage.removeItem("user_add");
+        //localStorage.clear();
+    }
 	import User from '../../../api/users.js';
 
     export default {
@@ -163,16 +170,28 @@
         },
         mounted() {
             var vm = this;
-            setTimeout(function(){
-                $('.ls-select2').select2();
+            //setTimeout(function(){
+                $('.ls-select2').select2({
+                    placeholder: "Select"
+                });
 
                   $('#userType').on('select2:selecting', function(e) {
                     vm.userData.userType =  e.params.args.data.text;
+                    if(e.params.args.data.text=='Doctor')
+                    {
+                        setTimeout(function(){
+                            $('#department').select2({
+                              placeholder: "Select",
+                              tags:false 
+                            }); 
+                            $('#department').on('select2:selecting', function(e) {
+                                vm.userData.department =  e.params.args.data.text;
+                            });
+                         },500);
+                    }
                   });
-                  $('#department').on('select2:selecting', function(e) {
-                    vm.userData.department =  e.params.args.data.text;
-                  });
-            },200);
+                  
+            //},200);
 
         },
         methods: {
@@ -183,7 +202,9 @@
                 this.$data.userData.password='',
                 this.$data.userData.confirmPassword='',
                 this.$data.userData.mobileNo ='',
-                this.$data.userData.address =''
+                this.$data.userData.address ='',
+                this.$data.userData.department ='',
+                this.$data.userData.userType =''
             },
             validateBeforeSubmit() {
                
@@ -194,12 +215,13 @@
                                 // here we add code for Mobile user for create user
                                 User.createUser(this.userData).then(
                                   (response)=> {
-                                    console.log(response);
+                                    //console.log(response);
                                     if(response.data.status_code == 200){
-
-                                    toastr.success('User has been added successfully.', 'Add User', {timeOut: 5000});       
-                                    this.initialState();
+                                        this.initialState();
+                                        localStorage.setItem("user_add",1)
+                                        window.location.reload();
                                     } else if (response.data.status_code == 301) {
+                                        this.initialState();
                                         toastr.error('User already exist.', 'Add User', {timeOut: 5000});
 
                                     }

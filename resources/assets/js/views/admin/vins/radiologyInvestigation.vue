@@ -544,6 +544,7 @@
                 // var resData=[];
                 let vm =this;
                  // resData.push= vm.finalResultData;
+                 $('#radiology_special_request').select2("destroy");
                  $('#radiology_qualifier').select2("destroy");
                 vm.resultData.qualifier_radio_text_enable = false;
                 if(vm.resultData.type == '' || vm.resultData.bodyPart == '' ){
