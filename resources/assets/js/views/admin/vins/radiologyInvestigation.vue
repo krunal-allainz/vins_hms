@@ -53,8 +53,8 @@
                 </span>
                     </div>
                     <div class="col-md-6" v-show="resultData.type == 'X-Rays'">
-                        <label> Select Type</label>   
-                        <select class = "form-control" id = "xray_type" name = "xray_type" v-model="resultData.x_ray_type" v-validate="'required'">
+                        <label> Select Type:</label>   
+                        <select class = "form-control ls-select2" id = "xray_type" name = "xray_type" v-model="resultData.x_ray_type" v-validate="'required'">
                             <option v-for="type in investigationData.xray_type_options" :value="type.value" >{{type.text}}</option>
                         </select>      
                         <span class="help is-danger" v-show="errors.has('xray_type')">
@@ -418,10 +418,15 @@
                                 placeholder: "Select",
                                 tags:false 
                               }); 
+                        $('#radiology_special_request').select2({
+                            placeholder: "Select",
+                            tags:false 
+                          });
                         },500);
                     }
                     else
                     {
+                        $('#radiology_special_request').select2("destroy");
                         $('#radiology_qualifier').select2("destroy");
                     }
 	        		vm.radioSubType();
@@ -431,8 +436,16 @@
                     let q_data=vm.investigationData.radiologyQualifierReal;
                     let radiologySubType_val=$("#radiology_subtype").select2().val();
                     //console.log(radiologySubType_val);
-                    
-                    if(radiologySubType_val=='Brain')
+                    if(radiologySubType_val=='Spine')
+                    {
+                        setTimeout(function(){
+                                $('#radiology_spine').select2({
+                                  placeholder: "Select",
+                                  tags:false 
+                                }); 
+                        },500);
+                    }
+                    else if(radiologySubType_val=='Brain')
                     {
                       vm.investigationData.radiologyQualifier="";
                       vm.investigationData.radiologyQualifier=vm.investigationData.brain_options;
@@ -443,6 +456,7 @@
                         vm.investigationData.radiologyQualifier=q_data;
                         vm.resultData.qualifier_radio_text_enable = false;
                         vm.resultData.qualifierOtherPart = '';
+                        $('#radiology_special_request').select2("destroy");
                     }
                     if($("#radiology_subtype").select2().val() == 'Other'){
                         vm.resultData.subtype_text_enable = true;
