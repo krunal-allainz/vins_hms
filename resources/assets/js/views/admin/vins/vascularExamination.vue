@@ -197,17 +197,31 @@
     </div>
 
       <div class="row form-group">
-        <div class="col-md-6">
-          <label>Clinical Diagnosis : </label>
-        </div>
-        <div class="col-md-6">
-          <input class="form-control" type="text" name="clinical_diagnosis" id="clinical_diagnosis" v-model="vascularExaminationData.clinical_diagnosis" />
+        <div class="col-md-12">
+          <div class="col-md-12">
+            <label>Clinical Diagnosis : </label>
+          </div>
+          <div class="col-md-12">
+            <input class="form-control" type="text" name="clinical_diagnosis" id="clinical_diagnosis" v-model="vascularExaminationData.clinical_diagnosis" />
+          </div>
         </div>
       </div>
 
-			<div class="text-center form-group">
-				<button class="btn btn-success" type="button" @click="saveVascularExamination()">Save Data</button>
+			<div class="text-center row form-group">
+         <div class="col-md-12">
+				  <button class="btn btn-success pull-left" type="button" @click="saveVascularExamination()">Save Data</button>
+        </div>
 			</div>
+      <div class="row form-group">
+        <div class="col-md-12">
+          <div class="col-md-12">
+            <label>Follow Up : </label>
+          </div>
+          <div class="col-md-12">
+            <textarea class="form-control" type="text" name="follow_up" id="follow_up" v-model="vascularExaminationData.follow_up" /></textarea>
+          </div>
+        </div>
+      </div>
 
 		</form>
 		  <!-- <select-patient-modal @confirmed="deleteConfirmed()"></select-patient-modal> -->
@@ -262,6 +276,7 @@
                   'signaturePad1':{},
                   'signaturePad2':{},
                   'signaturePad3':{},
+                  'follow_up':''
 
 								}
             }

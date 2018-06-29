@@ -35,6 +35,11 @@ class PatientDetailsForm extends Model
       'bp_diastolic'
     ];
 
+    public function userDetails()
+    {
+        return $this->belongsTo('euro_hms\Models\User','consultant_id');
+    }
+
     public function getDobAttribute($value)
     {
         return Carbon::parse($value)->format('d-m-Y');
