@@ -17,7 +17,7 @@
 					</div>
 					<div class="col-md-6">
 							<select class="form-control ls-select2"  id="blood_report" name="blood_report"  v-model="laboratoryData.blood_report">
-								 <option :value="opt.id" v-for="opt in laboratoryData.blood_option">{{opt.text}}</option>
+								 <option :value="opt.id" v-for="opt in labData" v-if="opt.l_type.includes('1')">{{opt.text}}</option>
 							</select>
 					</div>
 				</div>
@@ -30,7 +30,7 @@
 						</div>
 						<div class="col-md-6">
 								<select class="form-control ls-select2" id="urine" name="urine"  v-model="laboratoryData.urine_report">
-									 <option :value="urinesample.id" v-for="urinesample in laboratoryData.urine_option">{{urinesample.text}}</option>
+									 <option :value="urinesample.id" v-for="urinesample in labData" v-if="urinesample.l_type.includes('2')">{{urinesample.text}}</option>
 								</select>
 						</div>
 				</div>
@@ -48,7 +48,7 @@
 					<div class="col-md-6">
 
 							<select class="form-control ls-select2" id="body_fluid_analysis" name="body_fluid_analysis"  v-model="laboratoryData.body_fluid_analysis_report">
-									 <option :value="bfa.id" v-for="bfa in laboratoryData.bfa_option">{{bfa.text}}</option>
+									 <option :value="bfa.id" v-for="bfa in labData" v-if="bfa.l_type.includes('4')">{{bfa.text}}</option>
 								</select>
 					</div>
 				</div>
@@ -61,7 +61,7 @@
 							</div>
 						<div class="col-md-6">
 								<select class="form-control ls-select2" id="csf" name="csf"  v-model="laboratoryData.csf_report">
-									 <option :value="csf_opt.id" v-for="csf_opt in laboratoryData.csf_option">{{csf_opt.text}}</option>
+									 <option :value="csf_opt.id" v-for="csf_opt in labData" v-if="csf_opt.l_type.includes('3')">{{csf_opt.text}}</option>
 								</select>
 						</div>
 				</div>
@@ -82,11 +82,6 @@
 	import User from '../../../api/users.js';
 	import Radiology from './radiologyInvestigation.vue';
 	import _ from 'lodash';
-	let blood_list=[];
-	let urine_list=[];
-	let bfa_list=[];
-	let csf_list=[];
-
     export default {
     	computed:{
 
@@ -94,6 +89,7 @@
     	components: {
     		Radiology
     	},
+    	props:['labData'],
         data() {
             return {
             	'notValid':false,
@@ -148,9 +144,6 @@
                 	'body_fluid_analysis_report':'',
                 	'stool_report':'',
                 	'demo':'',
-                	// 'selectedLabReport': [{'label_1':''},{'label_2':''}],
-                	'blood_option':[],
-                	'urine_option': [],
                 	'sputum_option':[{text:'Sputum-Option 1'},
         							 {text:'Sputum-Option 2'},
         							 {text:'Sputum-Option 3'},
@@ -173,8 +166,7 @@
         							 {text:'stool-Option 9'},
         							 {text:'stool-Option 10'}
         					],
-        			'bfa_option': [],
-        			'csf_option': [],
+        			
 					'option_group_1':[{text:'demo-group1-value 1'},
 									{text:'demo-group1-value 2'},
 									{text:'demo-group1-value 3'},
@@ -273,126 +265,28 @@
 			  });
 
 	        $('.ls-select2').on("select2:select", function (e) {
-	        	// if(this.id == 'radiology_type') {
-
-	        	// 	 $('#radiology_subtype').select2("destroy");
-	        	// 	 // console.log(typeData);
-	        	// 	vm.resultData.type = $("#radiology_type").select2().val();
-	        	// 	vm.radioSubType();
-
-	        	// } if(this.id == 'radiology_subtype') {
-	        	// 	vm.resultData.subType = $("#radiology_subtype").select2().val();
-	        	// }
-	        	// // console.log(vm.resultData,$("#radiology_subtype").select2().val());
-
 	        	vm.laboratoryData.label_1=$("#label_1").select2().val();
 	        	vm.laboratoryData.label_2=$("#label_2").select2().val();
 	        	vm.laboratoryData.urine=$("#urine").select2().val();
 	        	vm.laboratoryData.stone=$("#stone").select2().val();
 	        	vm.laboratoryData.demo=$("#demo").select2().val();
-
-	        	// console.log(avail,'avail');selectedLabReport
-	        	// if(avail == false){
-	        	// 	var labData = [];
-	        	// 	labData = vm.laboratoryData.selectedLabReport;
-	        	// 	labData.push({'key':vId,'val':vVal});
-	        	// 	vm.laboratoryData.selectedLabReport = labData;        		
-	        	// }
-	        	
 	         });
 
-	        /*for blood list start*/
-	        var data_obj_blood = {name: 'type', value: '1'};
-	        blood_list=[];
-			User.generateLaboratoryData(data_obj_blood).then(
-				(response) => {
-					let blood_data ;
-					blood_data = response.data.data;
-					$.each(blood_data, function(key, value) {
-						//console.log(value);
-						let name = value.name;
-						let id  = value.id ;
-						blood_list.push({text:name, id:id });
-					});
-					vm.laboratoryData.blood_option=blood_list;
-				},
-				(error) => 
-				{
-				},
-			);
+	        /*for lab data start*/
+	        
 			$('#blood_report').on("select2:select", function (e) {
 				vm.laboratoryData.blood_report = $(this).val();  
 			});
-			/*for blood list end*/
-			/*for urine list start*/
-			var data_obj_urine = {name: 'type', value: '2'};
-			urine_list=[];
-			User.generateLaboratoryData(data_obj_urine).then(
-				(response) => {
-					let urine_data ;
-					urine_data = response.data.data;
-					$.each(urine_data, function(key, value) {
-						//console.log(value);
-						let name = value.name;
-						let id  = value.id ;
-						urine_list.push({text:name, id:id });
-					});
-					vm.laboratoryData.urine_option=urine_list;
-				},
-				(error) => 
-				{
-				},
-			);
 			$('#urine').on("select2:select", function (e) {
 				vm.laboratoryData.urine_report = $(this).val();  
 			});
-			/*for urine list end*/
-			/*for csf list start*/
-			var data_obj_csf = {name: 'type', value: '3'};
-			csf_list=[];
-			User.generateLaboratoryData(data_obj_csf).then(
-				(response) => {
-					let csf_data ;
-					csf_data = response.data.data;
-					$.each(csf_data, function(key, value) {
-						//console.log(value);
-						let name = value.name;
-						let id  = value.id ;
-						csf_list.push({text:name, id:id });
-						vm.laboratoryData.csf_option=csf_list;
-					});
-				},
-				(error) => 
-				{
-				},
-			);
 			$('#csf').on("select2:select", function (e) {
 				vm.laboratoryData.csf_report = $(this).val();  
 			});
-			/*for csf list end*/
-			/*for bfa list start*/
-			var data_obj_bfa = {name: 'type', value: '4'};
-			bfa_list=[];
-			User.generateLaboratoryData(data_obj_bfa).then(
-				(response) => {
-					let bfa_data ;
-					bfa_data = response.data.data;
-					$.each(bfa_data, function(key, value) {
-						//console.log(value);
-						let name = value.name;
-						let id  = value.id ;
-						bfa_list.push({text:name, id:id });
-						vm.laboratoryData.bfa_option=bfa_list;
-					});
-				},
-				(error) => 
-				{
-				},
-			);
 			$('#body_fluid_analysis').on("select2:select", function (e) {
 				vm.laboratoryData.body_fluid_analysis_report = $(this).val();  
 			});
-			/*for bfa list end*/
+			/*for lab data end*/
 			
         },
         filters:{

@@ -149,24 +149,14 @@
                         <input type="text" name="bp_diastolic" id="bp_diastolic" class="form-control"  v-model="opdData.bp_diastolic"  v-validate="'required|numeric|min_value:1'" maxlength="3">
                       
                       </div>
-                      <!-- <input type="text" name="bp_systolic" id="bp_systolic" class="form-control"  v-model="opdData.bp_systolic"  v-validate="'required'"> -->
+                     
                       <i v-show="errors.has('bp_systolic')" class="fa fa-warning"></i>
                       <span class="help is-danger" v-show="errors.has('bp_systolic') || errors.has('bp_diastolic')">
                         BP is required or must be valid.
                       </span>
                     </div>
                   </div>
-                  <!-- <div class="col-md-6">
-                    <div class="col-md-6">
-                      <label for="date">BP Diastolic:</label>
-                    </div>
-                    <div class="col-md-6">
-                      <input type="text" name="bp_diastolic" id="bp_diastolic" class="form-control"  v-model="opdData.bp_diastolic"  v-validate="'required'">
-                       <span class="help is-danger" v-show="errors.has('bp_diastolic')">
-                        Field is required
-                      </span>
-                    </div>
-                  </div> -->
+                 
                 </div>
 
                 <div class="row form-group">
@@ -553,12 +543,6 @@
                       <td>{{finalResultData.bodyPart}}</td>
                       <td>{{finalResultData.qualifier}}</td>
                       <td>{{finalResultData.special_request}}</td>
-                      <!-- <td>{{res.textData | strLimit}}</td> -->
-                      <!-- <td><a href="javascript:void(0)" @click="viewGallery(res.id)" class="red">View</a></td> -->
-                      <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
-                      <!-- <td> <i class="fa fa-remove" @click="removeReport(res.id)"></i></td> -->
-
-                      
                   </tr>
                   
                   </tbody>
@@ -569,16 +553,7 @@
           
         </div>
 
-        <!-- <div class="row">
-          <div  v-if="opdData.referral == 'laboratory'">
-            <div class="col-md-6">
-              <label for="laboratory">Laboratory:</label>
-            </div>
-            <div class="col-md-12">
-              <input class="form-control" type="text" name="laboratory" id="laboratory" v-model="opdData.laboratory" />
-            </div>
-          </div>
-        </div> -->
+      
       </div>
       <div class="row form-group">
         <div class="col-md-6" v-show="opdData.referral == 'cross' && opdData.cross == 'internal'">
@@ -600,9 +575,60 @@
             </div>
           </div>
         </div>
-         <div class="row">
+        <!-- for laboratory -->
+        <div class="row form-group" v-show="opdData.referral == 'laboratory' ">
+          <div class="col-md-6">
+          <div class="col-md-12">
+            <label class="control-label" for="label_1">Blood </label>
+          </div>
+          <div class="col-md-12">
+              <select class="form-control ls-select2"  id="blood_report_opd" name="blood_report_opd"  v-model="opdData.blood_report_opd">
+                 <option :value="opt.id" v-for="opt in opdData.laboratoryALLData"  v-if="opt.l_type.includes('1')">{{opt.text}}</option>
+              </select>
+          </div>
+        
+        </div>
+
+        <div class="col-md-6">
+            <div class="col-md-12">
+              <label class="control-label" for="urine">Urine </label>
+            </div>
+            <div class="col-md-12">
+                <select class="form-control ls-select2" id="urine_opd" name="urine_opd"  v-model="opdData.urine_report_opd">
+                   <option :value="urinesampleopd.id" v-for="urinesampleopd in opdData.laboratoryALLData"  v-if="urinesampleopd.l_type.includes('2')">{{urinesampleopd.text}}</option>
+                </select>
+            </div>
+        </div>
+      </div>
+       <div class="row form-group" v-show="opdData.referral == 'laboratory' ">
+          <div class="col-md-6">
+          <div class="col-md-12">
+            <label class="control-label" for="label_1">Body Fluid Analysis </label>
+          </div>
+          <div class="col-md-12">
+              <select class="form-control ls-select2" id="body_fluid_analysis_opd" name="body_fluid_analysis_opd"  v-model="opdData.body_fluid_analysis_report_opd">
+                   <option :value="bfa_opd.id" v-for="bfa_opd in opdData.laboratoryALLData"  v-if="bfa_opd.l_type.includes('4')">{{bfa_opd.text}}</option>
+                </select>
+          </div>
+        
+        </div>
+
+        <div class="col-md-6">
+            <div class="col-md-12">
+              <label class="control-label" for="urine">CSF </label>
+            </div>
+            <div class="col-md-12">
+                <select class="form-control ls-select2" id="csf_opd" name="csf_opd"  v-model="opdData.csf_report_opd">
+                   <option :value="csf_opt_opd.id" v-for="csf_opt_opd in opdData.laboratoryALLData" v-if="csf_opt_opd.l_type.includes('3')">{{csf_opt_opd.text}}</option>
+                </select>
+            </div>
+        </div>
+      </div>
+      <!-- for laboratory -->
+      <div class="row">
       <div class="col-md-6">
         <h3>Pain Assessment</h3>
+
       </div>
     </div>
     <div class="row">
@@ -613,10 +639,19 @@
       <div class="col-md-2" @click="pain_value(8)"><img src="/assets/img/pain/P5.png"   v-bind:class="[opdData.pain_value==8 ? 'pain_select': '', 'pain_img'  ]"></div>
       <div class="col-md-2" @click="pain_value(10)"><img src="/assets/img/pain/P6.png"   v-bind:class="[opdData.pain_value==10 ? 'pain_select': '', 'pain_img'  ]"></div>
     </div>
+
+
+
+
       </div>
+
+        
+    
+       
+      
        
       <div class="row" v-if="curStep == 2"> 
-          <laboratory ></laboratory>
+          <laboratory :labData="opdData.laboratoryALLData" ></laboratory>
         </div>
       <div class="row form-group"  v-if="curStep == 3">
         <div class="col-md-12" v-if="department == 'Neurology' || department == 'Neurosurgery'">
@@ -859,7 +894,12 @@
                 'pulse':'',
                 'bp_systolic':'',
                 'bp_diastolic':'',
-                'temp':''
+                'temp':'',
+                'laboratoryALLData':[],
+                'blood_report_opd':'',
+                'urine_report_opd':'',
+                'csf_report_opd':'',
+                'body_fluid_analysis_report_opd':'',
               }
             }
         }, 
@@ -923,13 +963,34 @@
                   },
           );
 
+          /*for laboratory data*/
+            let labpratory_all_data=[];
+            User.generateAllLaboratoryList().then(
+              (response) => {
+                let lab_data = response.data.data;
+                
+                $.each(lab_data, function(key, value) {
+                    let name = value.name;
+                    let id  = value.id ;
+                    let old_type=value.type;
+                    let array_old=old_type.split(',');
+                    let l_type=array_old;
+                    labpratory_all_data.push({text:name, id:id ,l_type:l_type}); 
+                });
+               vm.opdData.laboratoryALLData = labpratory_all_data;
+              },
+              (error) => 
+              {
+              },
+            );
+             /*for laboratory data*/
+
             $('#patient').on("select2:select", function (e) {
               let patientId = $(this).val();
               vm.opdData.patientlist=patientId;
               User.generatePatientDetailsByID(patientId).then(
                   (response) => {
                     let patient_data=response.data.data;
-                    console.log(patient_data);
                     vm.opdData.uhid_no =patient_data.uhid_no;
                     vm.opdData.height =patient_data.height;
                     vm.opdData.weight =patient_data.weight;
@@ -995,6 +1056,19 @@
             else if(this.id == 'case_type'){
               vm.opdData.case_type = $(this).val(); 
             }
+            else if(this.id == 'blood_report_opd'){
+              vm.opdData.blood_report_opd = $(this).val(); 
+            }
+            else if(this.id == 'urine_opd'){
+              vm.opdData.urine_report_opd = $(this).val(); 
+            }
+            else if(this.id == 'csf_report_opd'){
+              vm.opdData.csf_report_opd = $(this).val(); 
+            }
+            else if(this.id == 'body_fluid_analysis_report_opd'){
+              vm.opdData.body_fluid_analysis_report_opd = $(this).val(); 
+            }
+
             
             if(this.id == 'radiology_type_opd') {
                //console.log('sdasd');

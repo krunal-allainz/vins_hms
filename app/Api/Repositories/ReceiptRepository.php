@@ -3,15 +3,19 @@
 
  use euro_hms\Models\Receipt;
  use euro_hms\Models\ChargesType;
+ use euro_hms\Models\PatientDetailsForm;
  use Carbon\Carbon;
  use DB;
+ use euro_hms\Api\Repositories\UserRepository;
 
  class ReceiptRepository 
  {
 
  	public function getReceiptList()
  	{
- 			return Receipt::with('patientDetails')->paginate(10);
+ 			return Receipt::with('patientDetails.userDetails')->paginate(10);
+ 			
+ 			
  	}
 
  	public function deleteReceipt($id){
