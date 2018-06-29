@@ -302,7 +302,7 @@ class PatientsDetailFormController extends Controller
      * @return [type]           [description]
      */
     public function getPatientDetailsById(Request $request)
-    {
+    {  
         $id=$request->id;
         $patientDetails = PatientDetailsForm::where('id',$id)->first();
         if ($patientDetails) {

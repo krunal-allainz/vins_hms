@@ -234,15 +234,14 @@
 			 						<div class='col-md-6 text-left'>
 			 							<span class='text-left'><b>Internal</b></span> {{this.$store.state.Patient.opdData.cross_type_int}}
 			 						</div>
-			 					
 			 				</div>
 			 				<div v-if="(crossType == 'external')">
-			 					
-			 						<div class='col-md-6 text-left'>
-			 								<span class='text-left text-capitalize' style='padding-left:30px;padding-right;20px'><b>External
-			 					</b></span>{{this.$store.state.Patient.opdData.cross_type_ext}}
+			 					<div class='col-md-6 text-left'>
+			 						<span class='text-left text-capitalize' style='padding-left:30px;padding-right;20px'>
+			 							<b>External</b>
+			 						</span>
+			 			{{this.$store.state.Patient.opdData.cross_type_ext}}
 			 						</div>
-			 					
 			 				</div>
 				 		</div>
 			 		<div  v-if="(referalType == 'radiology' && radiologyData != '')" class="col-md-12 text-left">
@@ -273,20 +272,23 @@
 			                      <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
 			                      
 			                  </tr>
-			                  
 			                  </tbody>
 			            </table>
 
 		 			</div>
 		 		</div>
-		 			<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
+		 	<div style="position:absolute;bottom:150px;width:100%height:200px;right:30px;">
+		 		<img  :src="'/assets/img/signature/'+signatureName+'.png'" height="66" width="182"/></div>	
+		 	<div style="position:absolute;bottom:120px;width:100%height:50px;right:30px;">
 		 			<div class="row" style="padding-bottom: 10px;padding-right:20px;font-size: 15px;  ">
             				<div class='col-md-12 text-right'>
 				 				<span class='text-right'><b>Consultant's Signature</b></span>
 				 			</div>
 				 	</div>	
-				<vinsletterheadfooterpart></vinsletterheadfooterpart>
 				</div>
+				<vinsletterheadfooterpart></vinsletterheadfooterpart>
+			</div>
 			</div>
        		<div class="modal-footer">	
 				
@@ -327,6 +329,9 @@
 				'prescriptiData' : this.$store.state.Patient.opdData.prescriptiData,
 				'radioReportData' : this.$store.state.Patient.radioData, 
 				'labReportData' : this.$store.state.Patient.labReportData,
+				'consultntId' : 1,
+				'consultName' : '',
+				'signatureName' : ''
 				
 
 			}
@@ -336,18 +341,58 @@
          vinsletterheadfooterpart,
        },
        mounted(){
-       			if(this.referalType == 'cross'){
-							if(this.crossType == 'internal'){
-								this.crossSelectedValue = this.$store.state.Patient.opdData.cross_type_int;
-							}
-							if(this.crossType == 'external'){
-								this.crossSelectedValue = this.$store.state.Patient.opdData.cross_type_ext;
-							}
-						}
-				if(this.adviceType != 'text'){
-					this.adviceScribleValue = this.$store.state.Patient.opdData.signaturePad2_src;
-				}
+			let vm =this;
 
+       		if(this.referalType == 'cross'){
+				if(this.crossType == 'internal'){
+					this.crossSelectedValue = this.$store.state.Patient.opdData.cross_type_int;
+			    }
+				if(this.crossType == 'external'){
+					this.crossSelectedValue = this.$store.state.Patient.opdData.cross_type_ext;
+				}
+			}
+			if(this.adviceType != 'text'){
+				this.adviceScribleValue = this.$store.state.Patient.opdData.signaturePad2_src;
+			}
+			User.generateUserNameById(vm.consultntId).then(
+  				(response) => {
+					vm.consultName = response.data;
+					if(vm.consultntId == 1){
+						vm.signatureName = 'rakesh_shah';
+					}
+					else if (vm.consultntId == 2){
+						vm.signatureName = 'anand_vaishnav';	
+					}else if (vm.consultntId == 3){
+						vm.signatureName = 'suvorit_bhowmick';	
+					}else if (vm.consultntId == 4){
+						vm.signatureName = 'monish_malhotra';	
+					}else if (vm.consultntId == 5){
+						vm.signatureName = 'suresh_nayak';	
+					}else if (vm.consultntId == 6){
+						vm.signatureName = 'viral_mehta';	
+					}else if (vm.consultntId == 7){
+						vm.signatureName = 'rakesh_jasani';	
+					}else if (vm.consultntId == 8){
+						vm.signatureName = 'vijay_thakore';	
+					}else if (vm.consultntId == 9){
+						vm.signatureName = 'kaushik_trivedi';	
+					}else if (vm.consultntId == 10){
+						vm.signatureName = 'hemant_mathur';	
+					}else if (vm.consultntId == 11){
+						vm.signatureName = 'mihir_acharya';	
+					}else if (vm.consultntId == 12){
+						vm.signatureName = 'sumit_kapadia';	
+					}else if (vm.consultntId == 13){
+						vm.signatureName = 'ketan_kapashi';	
+					}else if (vm.consultntId == 14){
+						vm.signatureName = 'rajesh_kantharia';	
+					}else{
+						vm.signatureName = 'test_signature';	
+					}
+				},
+			    (error) => {
+			    },
+  			); 
        },
 		methods: {
 			printReport(type){
@@ -368,7 +413,8 @@
 							'adviceScribleValue' : this.adviceScribleValue,
 							'printType' : this.printType,
 							'radioReportData' : this.radioReportData,
-							'labReportData' : this.labReportData
+							'labReportData' : this.labReportData,
+							'signatureName' : this.signatureName
 						};
 
 				      	User.printOPDCaseData(OPDCaseData).then(	
@@ -384,12 +430,10 @@
 					         var windowName = '';/*'Print' + uniqueName.getTime();	*/
 					        var printWindow = window.open(windowUrl, windowName, 'left=10,top=10,width=0, height=0');
 					        printWindow.document.write(printContent);	
-
-				        printWindow.document.close();	
-				        printWindow.focus();	
-				        printWindow.print();	
-	
-				        printWindow.close();	
+				        	printWindow.document.close();	
+				        	printWindow.focus();	
+				        	printWindow.print();	
+				        	printWindow.close();	
 				    // 	}	
 				    // catch (e) {	
 				    //     self.print();	
