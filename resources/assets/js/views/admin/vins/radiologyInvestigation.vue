@@ -436,6 +436,7 @@
                     let q_data=vm.investigationData.radiologyQualifierReal;
                     let radiologySubType_val=$("#radiology_subtype").select2().val();
                     //console.log(radiologySubType_val);
+                    vm.investigationData.radiologyQualifier=q_data;
                     if(radiologySubType_val=='Spine')
                     {
                         setTimeout(function(){
