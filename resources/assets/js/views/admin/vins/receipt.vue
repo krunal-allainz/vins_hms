@@ -26,12 +26,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(res,index) in laravelData">
+            <tr v-for="(res,index) in receiptData">
                <td>{{++index}}</td>
                <td>{{res.receipt_number}}</td>
                <td>{{res.case_no}}</td>
-
-               <td></td></td>
+               <td>{{res.patient_details.first_name}} {{res.patient_details.last_name}}</td>
                <td></td>
                <td>{{res.date}}</td>
                <td>
@@ -43,6 +42,15 @@
           </tbody>
         </table>
       </div>
+      <div class="pagination">
+    <button class="btn btn-default" @click="getResults(pagination.prev_page_url)"
+            :disabled="!pagination.prev_page_url">
+        Previous
+    </button>
+    <span>Page {{pagination.current_page}} of {{pagination.last_page}}</span>
+    <button class="btn btn-default" @click="getResults(pagination.next_page_url)"
+            :disabled="!pagination.next_page_url">Next
+    </button>
        <div id="receiptModal" class="modal fade">
 		 	<div class="modal-dialog">
 		 		<div class="modal-content">
@@ -64,6 +72,8 @@
           </div>	
        </div>
   </div>	
+  
+</div>
 </template>
 <script>
 	import User from '../../../api/users.js';
@@ -78,18 +88,14 @@
 				'next_page_url' :'',
 				'prev_page_url' : '',
 				'path' : '',
-				'laravelData' : [],
-				 'meta_data': {
-	                'last_page': null,
-	                'current_page': 1,
-	                'prev_page_url': null
-           		}
+				 'pagination': {}
 			}
 		},
 
 		mounted(){
 			 let vm =this;
 			 vm.getResults();
+			 //this.fetchStories()/
 		},
 		methods: {
 			 next(page) {
@@ -102,41 +108,13 @@
         this.pageNumber--;
       },
 			// Our method to GET results from a Laravel endpoint
-		getResults(page = 1) {
-			 // axios.get('example/results?page=' + page)
-			 // 	.then(response => {
-			 // 		this.laravelData = response.data;
-			 // 	});
-			
-			User.getReceiptList(page).then(
+		getResults(page_url) {
+			var vm =this;
+			 page_url = page_url || '/patient/receiptlist';
+			User.getReceiptList(page_url).then(
 			 		(response) => {
-			 			this.laravelData = response.data.data;
-			 			 this.meta_data.last_page = res.data.last_page;
-            this.meta_data.current_page = res.data.current_page;
-            this.meta_data.prev_page_url = res.data.prev_page_url; 
-			 			 $.each(response.data,function(key,value){
-					 			let id = value.id;
-					 			let receiptNo = value.receipt_number;
-					 			let caseNo = value.case_no;
-					 			let date = value.date;
-					 			//let date = value.date;
-					 			let patientId = value.patient_details.id;
-					 			let fullName  = value.patient_details.first_name+''+value.patient_details.last_name;
-					 			let consult = value.patient_details.consultant;
-					 			// $.each(value.patient_details,function(index){
-					 			// 	console.log(index.id);
-					 			// 	//let fullName = 
-					 			// });
-				 			receptDataArrays.push({
-				 				'id' : id,
-				 				'receiptNo' : receiptNo,
-				 				'caseNo' : caseNo,
-				 				'date' : date,
-				 				'patientId' : patientId,
-				 				'fullName' : fullName,
-				 				'consult' : consult
-				 			});
-				 		 });
+			 			 vm.receiptData = response.data.data;
+			 			 vm.makePagination(response.data);
 			 		},
 			 		(error) => {
 
@@ -209,6 +187,16 @@
 		                )*/	
 			    	//	
 			},	
+			makePagination: function(data){
+                let pagination = {
+                    current_page: data.current_page,
+                    last_page: data.last_page,
+                    next_page_url: data.next_page_url,
+                    prev_page_url: data.prev_page_url
+                }
+                this.pagination = pagination;
+                //this.$set('pagination', pagination)
+            },
 			ClickHereToPrint() {	
 				    try {	
 				    	var  printContent = '';	

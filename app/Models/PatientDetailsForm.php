@@ -25,6 +25,14 @@ class PatientDetailsForm extends Model
       'consultant',
       'case_type',
       'consultant_id',
+      'weight',
+      'height',
+      'bmi',
+      'vitals',
+      'pulse',
+      'temp',
+      'bp_systolic',
+      'bp_diastolic'
     ];
 
     public function getDobAttribute($value)

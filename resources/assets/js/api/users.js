@@ -237,8 +237,8 @@ export default {
   getAllPatientNameByConsultDoctor(doctor,section) {
       return api.post('doctor/patientlist',{'doctor' :doctor,'section':section});
   },
-  getReceiptList(){
-     return api.post('patient/receiptlist');
+  getReceiptList(page_url){
+     return api.post(page_url);
   },
    getChargesTypes(){
      return api.post('receipt/getchargestypes');
@@ -276,6 +276,9 @@ export default {
   },
   generateLaboratoryData(data_obj) {
     return api.post('opd/getLaboratoryData',{'data' :data_obj});
+  },
+  generatePatientDetailsByID(id) {
+      return api.post('patient/getPatientDetailsById',{'id':id})
   }
 
 }

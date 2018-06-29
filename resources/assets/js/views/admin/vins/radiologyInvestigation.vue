@@ -53,8 +53,8 @@
                 </span>
                     </div>
                     <div class="col-md-6" v-show="resultData.type == 'X-Rays'">
-                        <label> Select Type</label>   
-                        <select class = "form-control" id = "xray_type" name = "xray_type" v-model="resultData.x_ray_type" v-validate="'required'">
+                        <label> Select Type:</label>   
+                        <select class = "form-control ls-select2" id = "xray_type" name = "xray_type" v-model="resultData.x_ray_type" v-validate="'required'">
                             <option v-for="type in investigationData.xray_type_options" :value="type.value" >{{type.text}}</option>
                         </select>      
                         <span class="help is-danger" v-show="errors.has('xray_type')">
@@ -93,15 +93,22 @@
                 <div class="row form-group">
     				<div class="col-md-6">
     					<label>Select Qualifires:</label><br>
-    					<select class = "form-control " id = "radiology_qualifier" name = "radiology_qualifier" v-if="resultData.type == 'MRI'"  v-model="resultData.qualifier"  v-validate="'required'">
+    					<select class = "form-control ls-select2" id = "radiology_qualifier" name = "radiology_qualifier" v-if="resultData.type == 'MRI'"  v-model="resultData.qualifier"  v-validate="'required'">
     						<option v-for="obj in investigationData.radiologyQualifier" :value="obj.text">{{obj.text}}</option>
     					</select>
+                        <input type="text" name="qualifier" id="qualifier" class="form-control" v-model="resultData.qualifier" v-else>
                            <span class="help is-danger" v-show="errors.has('radiology_qualifier')">
-                  Field is required
-                </span>    
-                        <input type="text" name="qualifier" id="qualifier" class="form-control" v-model="resultData.qualifier" >
+                                Field is required
+                            </span>    
+                        
     					
     				</div>
+                     <div class="col-md-6">
+                        <div class="col-md-12" v-if="resultData.qualifier_radio_text_enable">
+                          <label> Other Parts</label>
+                          <input type="text" name="qualifier_other_text" id="qualifier_other_text" class="form-control" v-model="resultData.qualifierOtherPart">
+                        </div>
+                    </div>
                     <div class="col-md-6" v-if="resultData.type == 'MRI'">
                         <label>Select Special request:</label><br>
                         <select class = "form-control" id = "radiology_special_request" name = "radiology_special_request"   v-model="resultData.special_request"  >
@@ -232,8 +239,10 @@
                     'imgData': '',
                     'textData': '',
                     'subtype_text_enable':false,
+                    'qualifier_radio_text_enable':false,
                     'special_request':'',
-                    'removed':false
+                    'removed':false,
+                    'qualifierOtherPart':''
 
                 },
                 'imgGallery':'',
@@ -259,6 +268,7 @@
                 	'cardio': {
 
                 	},
+
                 },
                 
                 'investigationData':{
@@ -282,6 +292,26 @@
                             {text:'Headache protocol',value:'headache_protocol'},
                             {text:'Tumor protocol',value:'tumor_protocol'}
                         ],
+                    'radiologyQualifierReal':[
+                      {text:'',value:''},
+                      {text:'Stroke protocol',value:'stroke_protocol'},
+                      {text:'Epilepsy protocol',value:  'epilepsy_protocol'},
+                      {text:'Headache protocol',value:'headache_protocol'},
+                      {text:'Tumor protocol',value:'tumor_protocol'}
+                  ],
+                  'brain_options':[
+                      {text:'',value:''},
+                      {text:'Stroke protocol',value:'stroke_protocol'},
+                      {text:'Epilepsy protocol',value:  'epilepsy_protocol'},
+                      {text:'Headache protocol',value:'headache_protocol'},
+                      {text:'Tumor protocol',value:'tumor_protocol'},
+                      {text:'Brain (Routine)',value:'Brain (Routine)'},
+                      {text:'Brain with Head &Neck MR Angiography(MRA)',value:'Brain with Head &Neck MR Angiography(MRA)'},
+                      {text:'Brain with IntracranialMRA/MR Venography',value:'Brain with IntracranialMRA/MR Venography'},
+                      {text:'Brain MR Spectroscopy alone',value:'Brain MR Spectroscopy alone'},
+                      {text:'Brain Tumour Protoco',value:'Brain Tumour Protoco'},
+                      {text:'Other',value:'Other'},
+                  ],
                 	'X-Rays':'',
                     'xray_type_options': [
                         {text:'Fixed',value:'fixed','selected':true},
@@ -380,9 +410,55 @@
                 if(this.id == 'radiology_type') {
 	        	    $('#radiology_subtype').select2("destroy");
 	        		vm.resultData.type = $("#radiology_type").select2().val();
+                    let type_opd_val=$("#radiology_type").select2().val();
+                    if(type_opd_val=='MRI')
+                    {
+                      setTimeout(function(){
+                              $('#radiology_qualifier').select2({
+                                placeholder: "Select",
+                                tags:false 
+                              }); 
+                        $('#radiology_special_request').select2({
+                            placeholder: "Select",
+                            tags:false 
+                          });
+                        },500);
+                    }
+                    else
+                    {
+                        $('#radiology_special_request').select2("destroy");
+                        $('#radiology_qualifier').select2("destroy");
+                    }
 	        		vm.radioSubType();
-                } if(this.id == 'radiology_subtype') {
-                if($("#radiology_subtype").select2().val() == 'Other'){
+
+                } 
+                if(this.id == 'radiology_subtype') {
+                    let q_data=vm.investigationData.radiologyQualifierReal;
+                    let radiologySubType_val=$("#radiology_subtype").select2().val();
+                    //console.log(radiologySubType_val);
+                    if(radiologySubType_val=='Spine')
+                    {
+                        setTimeout(function(){
+                                $('#radiology_spine').select2({
+                                  placeholder: "Select",
+                                  tags:false 
+                                }); 
+                        },500);
+                    }
+                    else if(radiologySubType_val=='Brain')
+                    {
+                      vm.investigationData.radiologyQualifier="";
+                      vm.investigationData.radiologyQualifier=vm.investigationData.brain_options;
+                    }
+                    else
+                    {
+                        vm.investigationData.radiologyQualifier="";
+                        vm.investigationData.radiologyQualifier=q_data;
+                        vm.resultData.qualifier_radio_text_enable = false;
+                        vm.resultData.qualifierOtherPart = '';
+                        $('#radiology_special_request').select2("destroy");
+                    }
+                    if($("#radiology_subtype").select2().val() == 'Other'){
                         vm.resultData.subtype_text_enable = true;
                         vm.resultData.bodyPart = '';
                     } else {
@@ -391,8 +467,22 @@
                     }
 	        	}
                 if(this.id == 'radiology_qualifier') {
+                     console.log('weqweqw');
                     vm.resultData.qualifier = $("#radiology_qualifier").select2().val();
+                     let qualy_val=$("#radiology_qualifier").select2().val();
+                   
+                    if(qualy_val=='Other')
+                    {
+                        vm.resultData.qualifier_radio_text_enable = true;
+                        vm.resultData.qualifierOtherPart = '';
+                    }
+                    else
+                    {
+                        vm.resultData.qualifier_radio_text_enable = false;
+                        vm.resultData.qualifierOtherPart = '';
+                    }
                 }
+
 	        });
 			
         },
@@ -409,11 +499,12 @@
             //     }
             // },
             viewGallery(gid) {
+
                 let vm = this;
                 _.find(vm.finalResultData, function(res) {
                     if(res.id == gid) {
-                       
                         vm.imgGallery = {'view':true,'data':res.imgData};
+                       
                         setTimeout(function(){
                             jQuery('[data-toggle="magnify"]').magnify();    
                         },1000)
@@ -453,7 +544,9 @@
                 // var resData=[];
                 let vm =this;
                  // resData.push= vm.finalResultData;
-                
+                 $('#radiology_special_request').select2("destroy");
+                 $('#radiology_qualifier').select2("destroy");
+                vm.resultData.qualifier_radio_text_enable = false;
                 if(vm.resultData.type == '' || vm.resultData.bodyPart == '' ){
                     toastr.error('Please select report data.', 'Report error', {timeOut: 5000});
                     return false;

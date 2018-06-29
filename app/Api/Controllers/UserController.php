@@ -168,7 +168,13 @@ class UserController extends BaseController
     {
         $type = $request->type;
         $status   =  $request->status;
-        return $this->userRepoObj->get_user_details_by_type($type,$status);
+        $userDetails=$this->userRepoObj->get_user_details_by_type($type,$status);
+        if ($userDetails) {
+            return ['code' => '200','data'=>$userDetails, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+        //return 
     }
 
     /**

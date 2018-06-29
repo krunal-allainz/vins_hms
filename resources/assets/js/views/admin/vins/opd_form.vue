@@ -20,9 +20,9 @@
               
                    <option :value="pat.id" v-for="pat in opdData.patient_option">{{pat.name}}</option>
                 </select> 
-                      
+                <i v-show="errors.has('patient')" class="fa fa-warning"></i>      
                  <span class="help is-danger" v-show="errors.has('patient')">
-                  Field is required
+                  Please Select patient.
                 </span> 
             </div>
           </div>
@@ -63,12 +63,9 @@
                 <label for="date">Weight:</label>
               </div>
               <div class="col-md-6">
-                <input type="text" name="weight" id="weight" class="form-control" v-model="opdData.weight"  placeholder="In kgs"   v-validate="'required|numeric'">
-                  <span class="help is-danger" v-show="errors.has('weight')">
-
-                    Please enter valid weight.
-
-                  </span>
+                <input type="text" name="weight" id="weight" class="form-control" v-model="opdData.weight"  placeholder="In kgs"   v-validate="'required|numeric|min_value:1'">
+                  <i v-show="errors.has('weight')" class="fa fa-warning"></i> 
+                  <span class="help is-danger" v-show="errors.has('weight')"> Weight is required or must be valid.</span>
                 </div>
               </div>
               <div class="col-md-4">
@@ -76,12 +73,9 @@
                   <label for="date">Height:</label>
                 </div>
                 <div class="col-md-9">
-                  <input type="text" name="height" id="height" class="form-control" placeholder="In cms" v-model="opdData.height"  v-validate="'required|numeric'">
-                    <span class="help is-danger" v-show="errors.has('height')">
-
-                      Please enter valid height.
-
-                    </span>
+                  <input type="text" name="height" id="height" class="form-control" placeholder="In cms" v-model="opdData.height"  v-validate="'required|numeric|min_value:1'">
+                  <i v-show="errors.has('height')" class="fa fa-warning"></i> 
+                    <span class="help is-danger" v-show="errors.has('height')"> Height is required or must be valid. </span>
                   </div>
                 </div>
                 <div class="col-md-2">
@@ -89,7 +83,7 @@
                     <label for="date">BMI:</label>
                   </div>
                   <div class="col-md-12">
-                    <input type="text" name="bmi" id="bmi" class="form-control" readonly="" v-model="bmi">
+                    <input type="text" name="bmi" id="bmi" class="form-control" readonly="" v-model="bmi_mod">
                     </div>
                   </div>
                 </div>
@@ -119,9 +113,8 @@
                     </div>
                     <div class="col-md-6">
                       <input type="text" name="vitals" id="vitals" class="form-control" v-model="opdData.vitals"  v-validate="'required'">
-                      <span class="help is-danger" v-show="errors.has('vitals')">
-                        Field is required
-                      </span>
+                      <i v-show="errors.has('vitals')" class="fa fa-warning"></i> 
+                      <span class="help is-danger" v-show="errors.has('vitals')"> Vitals is required. </span>
                     </div>
                   </div>
                   <div class="col-md-6">
@@ -130,15 +123,14 @@
                     </div>
                     <div class="col-md-6" >
                       <div class=" input-group">
-                        <input type="text" name="pulse" id="pulse" class="form-control" v-model="opdData.pulse"  v-validate="'required|numeric'"> 
+                        <input type="text" name="pulse" id="pulse" class="form-control" v-model="opdData.pulse"  v-validate="'required|numeric|min_value:1'"> 
                         <div class="input-group-append">
                             <span class="input-group-text ">/mm</span>
                         </div>
                       
                       </div>
-                       <div class="help is-danger" v-show="errors.has('pulse')">
-                        Please enter valid numeric value.
-                      </div>
+                      <i v-show="errors.has('pulse')" class="fa fa-warning"></i>
+                       <div class="help is-danger" v-show="errors.has('pulse')"> Pulse is required or must be valid.</div>
                     </div>
                   </div>
                 </div>
@@ -150,17 +142,17 @@
                     <div class="col-md-6">
                       <div class=" input-group">
 
-                      <input type="text" name="bp_systolic" id="bp_systolic" class="form-control"  v-model="opdData.bp_systolic"  v-validate="'required|numeric'" maxlength="3" > 
+                      <input type="text" name="bp_systolic" id="bp_systolic" class="form-control"  v-model="opdData.bp_systolic"  v-validate="'required|numeric|min_value:1'" maxlength="3" > 
                         <div class="input-group-append">
                             <span class="input-group-text ">/</span>
                         </div>
-                        <input type="text" name="bp_diastolic" id="bp_diastolic" class="form-control"  v-model="opdData.bp_diastolic"  v-validate="'required|numeric'" maxlength="3">
+                        <input type="text" name="bp_diastolic" id="bp_diastolic" class="form-control"  v-model="opdData.bp_diastolic"  v-validate="'required|numeric|min_value:1'" maxlength="3">
                       
                       </div>
                       <!-- <input type="text" name="bp_systolic" id="bp_systolic" class="form-control"  v-model="opdData.bp_systolic"  v-validate="'required'"> -->
-
+                      <i v-show="errors.has('bp_systolic')" class="fa fa-warning"></i>
                       <span class="help is-danger" v-show="errors.has('bp_systolic') || errors.has('bp_diastolic')">
-                        Please enter valid numeric value.
+                        BP is required or must be valid.
                       </span>
                     </div>
                   </div>
@@ -185,14 +177,15 @@
                     </div>
                     <div class="col-md-6">
                       <div class=" input-group">
-                      <input type="text" name="temp" id="temp" class="form-control"  v-model="opdData.temp" v-validate="'required|numeric'" maxlength="3">
+                      <input type="text" name="temp" id="temp" class="form-control"  v-model="opdData.temp" v-validate="'required|numeric|min_value:1'" maxlength="3">
                         <div class="input-group-append">
                             <span class="input-group-text ">°F</span>
                         </div>
                       
                       </div>
+                      <i v-show="errors.has('temp')" class="fa fa-warning"></i>
                       <span class="help is-danger" v-show="errors.has('temp')">
-                         Please enter valid numeric value.
+                         Temprature is required or must be valid.
                       </span>
                     </div>
                   </div>
@@ -327,8 +320,9 @@
             <option value="">Select</option>
             <option v-for="pres in prescriptionOption"  :value="pres.id">{{pres.name}}</option>
           </select>
+          <i v-show="errors.has('prescription')" class="fa fa-warning"></i>
           <span class="help is-danger" v-show="errors.has('prescription')">
-            Field is required
+            Please select prescription.
           </span>
         </div>
       </div>
@@ -345,9 +339,9 @@
               </div>
             
             </div>
-            
-          <span class="help is-danger" v-show="errors.has('prescription_quantity')">
-             Please enter valid numeric value.
+            <i v-show="errors.has('prescription_quantity')" class="fa fa-warning" v-if="prescription_enable == true"></i>
+          <span class="help is-danger" v-show="errors.has('prescription_quantity')" v-if="prescription_enable == true">
+             Quantity is required and must be valid.
           </span>
         </div>
       </div>
@@ -364,9 +358,9 @@
             </div>
           
           </div>
-          
-          <span class="help is-danger" v-show="errors.has('prescription_time')">
-            Please enter valid numeric value.
+          <i v-show="errors.has('prescription_time')" class="fa fa-warning" v-if="prescription_enable == true"></i>
+          <span class="help is-danger" v-show="errors.has('prescription_time')" v-if="prescription_enable == true">
+            Time for medicine is required or must be valid.
           </span>
       </div>
 
@@ -462,8 +456,8 @@
               </div>
                 <div class="col-md-6" v-show="resultData.type == 'X-Rays'">
                   <div class="col-md-12">
-                    <label> Select Type</label>
-                    <select class="form-control" id="xray_type_opd" name="xray_type_opd" v-model="resultData.x_ray_type">
+                    <label> Select Type:</label>
+                    <select class="form-control ls-select2" id="xray_type_opd" name="xray_type_opd" v-model="resultData.x_ray_type">
                       <option v-for="type in investigationData.xray_type_options" :value="type.value">{{type.text}}</option>
                     </select>
                   </div>
@@ -487,7 +481,7 @@
                   <input type="text" name="subType_text_opd" id="subType_text_opd" class="form-control" v-model="resultData.bodyPart">
                 </div>
                 <div class="col-md-12" v-if="resultData.bodyPart == 'Spine'">
-                  <label> Spine option</label>
+                  <label> Spine option:</label>
                   <select class="form-control ls-select2" id="radiology_spine_opd" name="radiology_spine_opd"  v-model="resultData.spine_option_value">
                     <option v-for="obj in investigationData.Spine_option" :value="obj.text">{{obj.text}}</option>
                   </select>
@@ -514,7 +508,7 @@
               <div class="col-md-12" v-if="resultData.type == 'MRI'">
                     <label>Select Special request:</label>
                     <br>
-                      <select class="form-control" id="radiology_special_request_opd" name="radiology_special_request_opd" v-model="resultData.special_request">
+                      <select class="form-control ls-select2" id="radiology_special_request_opd" name="radiology_special_request_opd" v-model="resultData.special_request">
                         <option v-for="obj in investigationData.radiologySpecialRequest" :value="obj.text">{{obj.text}}</option>
                       </select>
               </div>
@@ -606,8 +600,21 @@
             </div>
           </div>
         </div>
-        
+         <div class="row">
+      <div class="col-md-6">
+        <h3>Pain Assessment</h3>
       </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2" @click="pain_value(0)"><img src="/assets/img/pain/P1.png" class="test"  v-bind:class="[opdData.pain_value==0 ? 'pain_select': '', 'pain_img'  ]"></div>
+      <div class="col-md-2" @click="pain_value(2)"><img src="/assets/img/pain/P2.png"  v-bind:class="[opdData.pain_value==2 ? 'pain_select': '' , 'pain_img' ]"> </div>
+      <div class="col-md-2" @click="pain_value(4)"><img src="/assets/img/pain/P3.png"   v-bind:class="[opdData.pain_value==4 ? 'pain_select': '', 'pain_img'  ]"></div>
+      <div class="col-md-2" @click="pain_value(6)"><img src="/assets/img/pain/P4.png"   v-bind:class="[opdData.pain_value==6 ? 'pain_select': '', 'pain_img'  ]"></div>
+      <div class="col-md-2" @click="pain_value(8)"><img src="/assets/img/pain/P5.png"   v-bind:class="[opdData.pain_value==8 ? 'pain_select': '', 'pain_img'  ]"></div>
+      <div class="col-md-2" @click="pain_value(10)"><img src="/assets/img/pain/P6.png"   v-bind:class="[opdData.pain_value==10 ? 'pain_select': '', 'pain_img'  ]"></div>
+    </div>
+      </div>
+       
       <div class="row" v-if="curStep == 2"> 
           <laboratory ></laboratory>
         </div>
@@ -644,6 +651,7 @@
       var  medicine ;
       var  timeList ;
       var patient_list = [];
+      var prescription_index  = 0;
 
     export default {
         data() {
@@ -658,6 +666,7 @@
               'finalResultData':{},
               'finalPrescriptionData' : [],
               'priscriptionAdd':{},
+              'prescription_enable':true,
               'prescriptionunique' : 0,
               'investigationData':{
                   'radiologyType':[
@@ -734,6 +743,7 @@
                        {text:'Other', value:'other'}
                      ],
                   'Spine_option': [
+                      {text:'',value:''},
                       {text:'Cervical', value:'Cervical'},
                       {text:'Dorsal', value:'Dorsal'},
                       {text:'Lumbar', value:'Lumbar'},
@@ -764,6 +774,7 @@
                       {text:'other-Option 8'}
                   ],
                   'radiologySpecialRequest':[
+                      {text:'',value:''},
                       {text:'Neck Angio',value:'neck_angio'},
                       {text:'Brain Angio',value:'brain_angio'},
                       {text:'Spectroscopy',value:'spectroscopy'},
@@ -810,6 +821,7 @@
                   {'name':'Hemant Mathur'},
               ],
               'opdData': {
+                'pain_value':0,
                 'patientlist':'',
                 'patient_option':[],
                 'case_type': '',
@@ -837,10 +849,17 @@
                 'laboratory':'',
                 'signaturePad':{},
                 'signaturePad_src':'',
-
                 'signaturePad1_src':'',
                 'signaturePad2_src':'',
                 'prescriptiData' : '',
+                'weight':'',
+                'height': '',
+                'bmi':'',
+                'vitals':'',
+                'pulse':'',
+                'bp_systolic':'',
+                'bp_diastolic':'',
+                'temp':''
               }
             }
         }, 
@@ -852,7 +871,7 @@
          card,
        },
         computed: {
-          bmi() {
+          bmi_mod() {
             if(this.opdData.weight!='' && this.opdData.height!=''){
               var height_met = this.opdData.height / 100;
               var bmiVal = (this.opdData.weight )/(height_met * height_met);
@@ -888,9 +907,7 @@
           
            User.getAllPatientNameByConsultDoctor(vm.doctor_id,section).then(
                   (response) => {
-                   
-                    
-                    $.each(response.data, function(key,value) {
+                    $.each(response.data.data, function(key,value) {
 
                        patient_list_new.push({
                          'id' : value.id,
@@ -909,17 +926,23 @@
             $('#patient').on("select2:select", function (e) {
               let patientId = $(this).val();
               vm.opdData.patientlist=patientId;
-             
-
-               $.each(patient_list_new, function(key,value) {
-                       if(patientId == value.id){
-                        vm.opdData.uhid_no =value.uhid_no; 
-                       }
-              });
-              
-               //row= ;
-               
-               //vm.opdData.uhid_no
+              User.generatePatientDetailsByID(patientId).then(
+                  (response) => {
+                    let patient_data=response.data.data;
+                    console.log(patient_data);
+                    vm.opdData.uhid_no =patient_data.uhid_no;
+                    vm.opdData.height =patient_data.height;
+                    vm.opdData.weight =patient_data.weight;
+                    vm.opdData.bmi =patient_data.bmi;
+                    vm.opdData.vitals =patient_data.vitals;
+                    vm.opdData.pulse =patient_data.pulse;
+                    vm.opdData.bp_diastolic =patient_data.bp_diastolic;
+                    vm.opdData.bp_systolic =patient_data.bp_systolic;
+                    vm.opdData.temp =patient_data.temp;
+                  },
+                  (error) => {
+                  },
+              );
             });
 
            $('#prescription').on("select2:select", function (e) { 
@@ -987,11 +1010,16 @@
                             placeholder: "Select",
                             tags:false 
                           }); 
+                          $('#radiology_special_request_opd').select2({
+                            placeholder: "Select",
+                            tags:false 
+                          });
                     },500);
                 }
                 else
                 {
                     $('#radiology_qualifier_opd').select2("destroy");
+                    $('#radiology_special_request_opd').select2("destroy");
                 }
                 vm.radioSubType();
                 
@@ -1006,25 +1034,29 @@
                 vm.resultData.qualifier = '';
                 vm.resultData.qualifier_text_enable = false;
                 vm.resultData.qualifierPart = '';
-                if(radiologySubType_val=='Brain')
+                
+                if(radiologySubType_val=='Spine')
                 {
-                  
+                    setTimeout(function(){
+                            $('#radiology_spine_opd').select2({
+                              placeholder: "Select",
+                              tags:false 
+                            }); 
+                    },500);
+                }
+                else if(radiologySubType_val=='Brain')
+                {
                   vm.investigationData.radiologyQualifier="";
                   vm.investigationData.radiologyQualifier=vm.investigationData.brain_options;
-
                 }
                 else
-                {
-                    
-                   
+                { 
                     vm.investigationData.radiologyQualifier="";
                     vm.investigationData.radiologyQualifier=q_data;
                     vm.resultData.qualifier_text_enable = false;
                     vm.resultData.qualifierPart = '';
-
-
-
                 }
+
                 //vm.investigationData.radiologySubType =  radiologySubType_val;
 
                 if(radiologySubType_val == 'Other'){
@@ -1038,7 +1070,7 @@
             if(this.id == 'radiology_qualifier_opd') {
                 vm.resultData.qualifier = $("#radiology_qualifier_opd").select2().val();
                 let qualy_val=$("#radiology_qualifier_opd").select2().val();
-                console.log(qualy_val);
+                //console.log(qualy_val);
                 if(qualy_val=='Other')
                 {
                     vm.resultData.qualifier_text_enable = true;
@@ -1071,11 +1103,15 @@
         },500)
         },
         methods: {
+            pain_value(pain){
+            this.opdData.pain_value = pain;
+          },
           saveReport() {
                 // var resData1=[];
                 let vm =this;
                  // resData1.push= vm.finalResultData;
-                
+                $('#radiology_qualifier_opd').select2("destroy");
+                $('#radiology_special_request_opd').select2("destroy");
                 if(vm.resultData.type == '' || vm.resultData.bodyPart == '' ){
                     toastr.error('Please select report data.', 'Report error', {timeOut: 5000});
                     return false;
@@ -1092,21 +1128,27 @@
 
              let vm =this;
              let prescriptionName = '';
-             
-              if(vm.opdData.prescription == '' || vm.opdData.prescription_quantity == '' || vm.opdData.prescription_time ==''){
-                    toastr.error('Please select prescription data.', 'prescription error', {timeOut: 5000});
+             vm.prescription_enable=true;
+              if(vm.opdData.prescription == '' || vm.opdData.prescription_quantity == '' || vm.opdData.prescription_time =='' || vm.opdData.prescription_quantity<1 ||  vm.opdData.prescription_time<1){
+                    
+                    toastr.error('Please select prescription data and must be valid.', 'Prescription error', {timeOut: 5000});
                     return false;
                 }
                 //console.log( vm.finalPrescriptionData.length);
-                let prescription_index  = 1;
-                if(vm.finalPrescriptionData.length > 0){
-                   //prescription_index = vm.finalPrescriptionData.length + 1;
-                   prescription_index = vm.finalPrescriptionData.last_prescription_index + 1;
-                 }
-                 vm.finalPrescriptionData.last_prescription_index=prescription_index;
+                
                   prescriptionName = vm.opdData.prescription;
                   var test = this.checkPrescription(prescriptionName);
               if(this.checkPrescription(prescriptionName) == true){
+                
+                /*let prescription_index_new=0;
+                if(vm.finalPrescriptionData.length > 0){
+                   prescription_index_new = vm.finalPrescriptionData.length + 1;
+                  
+                }*/
+                //console.log(prescription_index_new);
+                vm.finalPrescriptionData.last_prescription_index=prescription_index+1;
+                prescription_index=vm.finalPrescriptionData.last_prescription_index;
+                 //vm.finalPrescriptionData.last_prescription_index=prescription_index;
                 vm.finalPrescriptionData.push({
                             'id' : vm.finalPrescriptionData.last_prescription_index,
                             'Prescription' : vm.opdData.prescription,
@@ -1115,6 +1157,7 @@
                             'time'  : vm.opdData.prescription_time,
                             'removed': false,
                 });
+               
                 vm.prescriptionunique = 0;
               }else{
                 vm.prescriptionunique = 1;
@@ -1122,6 +1165,10 @@
 
                vm.opdData.prescriptiData  =  _.cloneDeep(vm.finalPrescriptionData);
                 vm.priscriptionAdd =  vm.finalPrescriptionData.length;
+                if( vm.priscriptionAdd>=1)
+                {
+                    vm.prescription_enable=false;
+                }
 
               vm.opdData.prescription_quantity = '0';
               vm.opdData.prescription_unit = 'TAB.';
@@ -1230,14 +1277,12 @@
           },
           removePrescription(did) {
                 let vm =this;
-                // _.pullAt(resData, 0);
                 _.find(vm.finalPrescriptionData, function(res) {
                     if(res.id == did) {
-                         //res.removed = true;
-                         vm.finalPrescriptionData.splice(res, 1);
+                      var index = vm.finalPrescriptionData.indexOf(res);
+                      vm.finalPrescriptionData.splice(index, 1);
                     }
                 });
-                //console.log(vm.finalPrescriptionData.length);
                 vm.finalPrescriptionData.last_prescription_index=vm.finalPrescriptionData.last_prescription_index-1;
                 vm.priscriptionAdd =  vm.finalPrescriptionData.length;
           },

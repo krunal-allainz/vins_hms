@@ -149,7 +149,8 @@
                 	'stool_report':'',
                 	'demo':'',
                 	// 'selectedLabReport': [{'label_1':''},{'label_2':''}],
-                	'blood_option':blood_list,
+                	'blood_option':[],
+                	'urine_option': [],
                 	'sputum_option':[{text:'Sputum-Option 1'},
         							 {text:'Sputum-Option 2'},
         							 {text:'Sputum-Option 3'},
@@ -161,7 +162,6 @@
         							 {text:'Sputum-Option 9'},
         							 {text:'Sputum-Option 10'}
                 			],
-					'urine_option': urine_list,
                 	'stool_option': [{text:'stool-Option 1'},
         							 {text:'stool-Option 2'},
         							 {text:'stool-Option 3'},
@@ -173,8 +173,8 @@
         							 {text:'stool-Option 9'},
         							 {text:'stool-Option 10'}
         					],
-        			'bfa_option': bfa_list,
-        			'csf_option': csf_list,
+        			'bfa_option': [],
+        			'csf_option': [],
 					'option_group_1':[{text:'demo-group1-value 1'},
 									{text:'demo-group1-value 2'},
 									{text:'demo-group1-value 3'},
@@ -303,16 +303,18 @@
 
 	        /*for blood list start*/
 	        var data_obj_blood = {name: 'type', value: '1'};
+	        blood_list=[];
 			User.generateLaboratoryData(data_obj_blood).then(
 				(response) => {
 					let blood_data ;
-					blood_data = response.data;
+					blood_data = response.data.data;
 					$.each(blood_data, function(key, value) {
 						//console.log(value);
 						let name = value.name;
 						let id  = value.id ;
 						blood_list.push({text:name, id:id });
 					});
+					vm.laboratoryData.blood_option=blood_list;
 				},
 				(error) => 
 				{
@@ -324,16 +326,18 @@
 			/*for blood list end*/
 			/*for urine list start*/
 			var data_obj_urine = {name: 'type', value: '2'};
+			urine_list=[];
 			User.generateLaboratoryData(data_obj_urine).then(
 				(response) => {
 					let urine_data ;
-					urine_data = response.data;
+					urine_data = response.data.data;
 					$.each(urine_data, function(key, value) {
 						//console.log(value);
 						let name = value.name;
 						let id  = value.id ;
 						urine_list.push({text:name, id:id });
 					});
+					vm.laboratoryData.urine_option=urine_list;
 				},
 				(error) => 
 				{
@@ -345,15 +349,17 @@
 			/*for urine list end*/
 			/*for csf list start*/
 			var data_obj_csf = {name: 'type', value: '3'};
+			csf_list=[];
 			User.generateLaboratoryData(data_obj_csf).then(
 				(response) => {
 					let csf_data ;
-					csf_data = response.data;
+					csf_data = response.data.data;
 					$.each(csf_data, function(key, value) {
 						//console.log(value);
 						let name = value.name;
 						let id  = value.id ;
 						csf_list.push({text:name, id:id });
+						vm.laboratoryData.csf_option=csf_list;
 					});
 				},
 				(error) => 
@@ -366,15 +372,17 @@
 			/*for csf list end*/
 			/*for bfa list start*/
 			var data_obj_bfa = {name: 'type', value: '4'};
+			bfa_list=[];
 			User.generateLaboratoryData(data_obj_bfa).then(
 				(response) => {
 					let bfa_data ;
-					bfa_data = response.data;
+					bfa_data = response.data.data;
 					$.each(bfa_data, function(key, value) {
 						//console.log(value);
 						let name = value.name;
 						let id  = value.id ;
 						bfa_list.push({text:name, id:id });
+						vm.laboratoryData.bfa_option=bfa_list;
 					});
 				},
 				(error) => 

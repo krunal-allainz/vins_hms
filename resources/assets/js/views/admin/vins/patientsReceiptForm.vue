@@ -385,6 +385,7 @@
 
 	          	    $('#patient').on("select2:select", function (e) { 
 	          	    patientId = $(this).val();
+	          	    vm.patientData.patient_id = patientId;
   					let opdDetail=[];
   					User.getPatientOPDDetail(patientId).then(
   						(response) => { 
@@ -465,7 +466,7 @@
   							 	vm.patientData.case_no = $(this).val();
   							 	vm.patientData.gender = gender;
   							 	
-  							 	vm.patientData.patient_id = pid;
+  							 	//vm.patientData.patient_id = pid;
   							 	vm.patientData.reference_dr = consulatant;
   							 	vm.patientData.consult_id = patientDetails.consultant_id;
 
