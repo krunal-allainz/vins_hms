@@ -57,10 +57,7 @@
 		 			<div class="modal-header">
 		 			</div>
 		 			<div class="modal-body" id="printContent">	
-		 				
             		</div>	
-            	
-	
 	       		<div class="modal-footer">	
 		
 					<button  type="button" class="btn btn-primary"  @click="ClickHereToPrint()">Print</button>		      	
