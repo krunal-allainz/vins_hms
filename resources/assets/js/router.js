@@ -312,7 +312,7 @@ const routes = [
             {
                 path: '/NewUser',
                 component: NewUser,
-                // meta: { requiresAuth: true },
+                meta: { requiresAuth: true },
                 name: 'NewUser'
             },
             {

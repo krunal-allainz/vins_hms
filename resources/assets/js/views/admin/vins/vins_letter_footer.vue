@@ -1,6 +1,6 @@
 <template id="">
 
-    <div  style="background-color: dodgerblue;color: white;margin-right:-15px;margin-left:-15px;">
+    <div  style="background-color: dodgerblue;color: white;background-color: dodgerblue;color: white;position:absolute;bottom:0;width:100%;height:120px;left:0">
       <div class="row text-center">
           <div class="col-md-12 text-center">
               <div class="text-center text-capitalize"  style="text-align: center;">  
