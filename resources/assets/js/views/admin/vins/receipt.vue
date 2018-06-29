@@ -111,7 +111,7 @@
 			User.getReceiptList(page_url).then(
 			 		(response) => {
 			 			 vm.receiptData = response.data.data;
-			 			 vm.makePagination(response.data.data);
+			 			 vm.makePagination(response.data);
 			 		},
 			 		(error) => {
 
