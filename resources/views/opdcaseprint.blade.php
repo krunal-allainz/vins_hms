@@ -308,7 +308,6 @@
     </style>
 </head>
 <body>
-	
 	<div class="container" style="padding:15px;">
     <div class=""> 
        <div class="row">
@@ -334,7 +333,7 @@
   		</div>
   	</div>
   @endif
-  @if($data['printType'] == "radiology")
+  @if($data['printType'] == 'radiology')
   	<div class='row'>
 		<div class='col-md-12 text-center'>
 			<h4>Radiology Report</h4>
@@ -581,7 +580,10 @@
 </div>
 	@endif
 	@endif
+	<div style="position:absolute;bottom:250px;width:100%height:200px;right:30px;">
+		<img  :src="{{'/assets/img/signature/'.$data['signatureName']+'.png'}}" height="66" width="182"/>
 
+	</div>	
 	<div style="position:absolute;bottom:200px;width:100%height:50px;right:30px;">
 	<div class="row" style="padding-right:20px;font-size: 15px;right:0px;">
 		<div class='col-md-12 text-right'>
