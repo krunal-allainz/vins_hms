@@ -3,43 +3,19 @@
 		<div class="page-header">
 			<div class="row">
 				<div class="col-md-6">
-				<h3>Vascular Examination</h3>
+				<h3>Examination</h3>
 				</div>
 			</div>
 		</div>
 
 		<form action="" method="post">
-
-      <div class="row">
-        <h3>Clinical Examination</h3>
-      </div>
-
       <div class="row form-group">
-        <div class="col-md-6">
+         <div class="col-md-6">
           <div class="col-md-6">
-            <label>Vitals : </label>
+            <label>Pulsations : </label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="text" name="vitals" id="vitals" v-model="vascularExaminationData.vitals" />
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="col-md-6">
-            <label>Temp : </label>
-          </div>
-          <div class="col-md-6">
-            <input class="form-control" type="text" name="temp" id="temp" v-model="vascularExaminationData.temp" />
-          </div>
-        </div>
-      </div>
-
-      <div class="row form-group">
-        <div class="col-md-6">
-          <div class="col-md-6">
-            <label>Pulse : </label>
-          </div>
-          <div class="col-md-6">
-            <input class="form-control" type="text" name="pulse" id="pulse" v-model="vascularExaminationData.pulse" />
+            <input class="form-control" type="text" name="pulsations" id="pulsations" v-model="vascularExaminationData.pulsations" />
           </div>
         </div>
         <div class="col-md-6">
@@ -52,16 +28,7 @@
         </div>
       </div>
 
-      <div class="row form-group">
-        <div class="col-md-6">
-          <div class="col-md-6">
-            <label>BP : </label>
-          </div>
-          <div class="col-md-6">
-            <input class="form-control" type="text" name="bp" id="bp" v-model="vascularExaminationData.bp" />
-          </div>
-        </div>
-      </div>
+  
 
       <div class="row form-group">
         <div class="col-md-6">
@@ -82,16 +49,7 @@
         </div>
       </div>
 
-      <div class="row form-group">
-        <div class="col-md-6">
-          <div class="col-md-6">
-            <label>Pulsations : </label>
-          </div>
-          <div class="col-md-6">
-            <input class="form-control" type="text" name="pulsations" id="pulsations" v-model="vascularExaminationData.pulsations" />
-          </div>
-        </div>
-      </div>
+     
 
       <div class="row">
         <table class="table table-bordered">
