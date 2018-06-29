@@ -31,7 +31,7 @@
                <td>{{res.receipt_number}}</td>
                <td>{{res.case_no}}</td>
                <td>{{res.patient_details.first_name}} {{res.patient_details.last_name}}</td>
-               <td></td>
+               <td>{{res.patient_details.user_details.first_name}} {{res.patient_details.user_details.last_name}}</td>
                <td>{{res.date}}</td>
                <td>
               <!--  	<button type="button" class="btn btn-success" >Print</button> -->
@@ -111,7 +111,7 @@
 			User.getReceiptList(page_url).then(
 			 		(response) => {
 			 			 vm.receiptData = response.data.data;
-			 			 vm.makePagination(response.data);
+			 			 vm.makePagination(response.data.data);
 			 		},
 			 		(error) => {
 
