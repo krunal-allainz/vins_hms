@@ -167,7 +167,7 @@
       </div>
     </div>
     <div class="row form-group">
-      <div class="col-md-6">
+      <!-- <div class="col-md-6">
         <div class="col-md-6">
           <label for="signature" class="control-label">Doctor's Signature</label>
         </div>
@@ -182,7 +182,15 @@
         <span class="help is-danger" id="signaturevalidation" >
             Signature is required
           </span>
-      </div>
+      </div> -->
+      <div class="col-md-12">
+          <div class="col-md-12">
+            <label>Follow Up : </label>
+          </div>
+          <div class="col-md-12">
+            <textarea class="form-control" type="text" name="follow_up" id="follow_up" v-model="neuroExaminationData.follow_up" /></textarea>
+          </div>
+        </div>
     </div>
     <div class="row form-group">
       <div class="col-md-6">
@@ -260,6 +268,7 @@
                   'signaturePad1':{},
                   'signaturePad2':{},
                   'signaturePad3':{},
+                  'follow_up':''
 
 
 								}
