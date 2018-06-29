@@ -308,7 +308,6 @@
     </style>
 </head>
 <body>
-	
 	<div class="container" style="padding:15px;">
     <div class=""> 
        <div class="row">
@@ -366,15 +365,14 @@
                             <td>
                             	@foreach($res['imgData'] as $data)
                              <img :src="{{$data['data']}}"  height="100" width="100" >@endforeach</td>
-                            <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
-                            
+                            <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->  
                     </tr>
                     @endforeach
                         </tbody>
                     </table>
                 </div>
-        				</div>
-        			</div>
+        	</div>
+        </div>
   	</div>
   @endif
   @if($data['printType'] == 'prescription')
@@ -412,33 +410,33 @@
 	<br/><br/>
 	@endif
 	@if($data['referalType'] != null && $data['crossSelectedValue'] != '')
-	<div style="padding-left: 35px;"> 
-		<div class='col-md-12 text-center'>
-			<span class='text-center'><b>Cross Referal</b></span>
+		<div style="padding-left: 35px;"> 
+			<div class='col-md-12 text-center'>
+				<span class='text-center'><b>Cross Referal</b></span>
+			</div>
 		</div>
-	</div>
-	@if($data['referalType'] == 'cross')
-	<div style="padding-left: 40px;">
-		@if($data['crossType'] == 'internal')
-			<div class='row' style="padding-left: 15px;padding-right:15px;">
-			 	<div class='col-md-6 text-left'>
-			 		<span class='text-left'><b>{{$data['crossType']}}</b></span> {{$data['crossSelectedValue']}}
-			 		</div>
+		@if($data['referalType'] == 'cross')
+				<div style="padding-left: 40px;">
+				@if($data['crossType'] == 'internal')
+					<div class='row' style="padding-left: 15px;padding-right:15px;">
+					 	<div class='col-md-6 text-left'>
+					 		<span class='text-left'><b>{{$data['crossType']}}</b></span> {{$data['crossSelectedValue']}}
+					 	</div>
+					</div>
+				@endif
+				@if($data['crossType'] == 'external')
+					<div style="padding-left: 40px;">
+						<div class='col-md-6 text-left'>
+					 		<span class='text-left text-capitalize' style='padding-left:30px;padding-right;20px'><b>{{$data['crossType']}}
+					 					</b></span>
+					 					{{$data['crossSelectedValue']}}
+					 	</div>
+					</div>
+				@endif
+			@endif
 			</div>
 		@endif
-		@if($data['crossType'] == 'external')
-			<div style="padding-left: 40px;">
-				<div class='col-md-6 text-left'>
-			 		<span class='text-left text-capitalize' style='padding-left:30px;padding-right;20px'><b>{{$data['crossType']}}
-			 					</b></span>
-			 					{{$data['crossSelectedValue']}}
-			 	</div>
-			</div>
-		@endif
-	</div>
-	</div>
-	@endif
-	@endif
+		
   @endif
   @if($data['printType'] == 'opd_case')
   <div style='min-height: 750px;height: 1050px;'>
@@ -582,14 +580,18 @@
 </div>
 	@endif
 	@endif
+	<div style="position:absolute;bottom:250px;width:100%height:200px;right:30px;">
+		<img  :src="{{'/assets/img/signature/'.$data['signatureName']+'.png'}}" height="66" width="182"/>
 
-	<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-	<div class="row" style="padding-bottom: 10px;padding-right:20px;font-size: 15px;  ">
+	</div>	
+	<div style="position:absolute;bottom:200px;width:100%height:50px;right:30px;">
+	<div class="row" style="padding-right:20px;font-size: 15px;right:0px;">
 		<div class='col-md-12 text-right'>
 			<span class='text-right'><b>Consultant's Signature</b></span>
 		</div>
 	</div>	
-   <div  class="footer" style="background-color: dodgerblue;color: white;">
+</div>
+   <div  class="footer" style="background-color: dodgerblue;color: white;position:absolute;bottom:0;width:100%;height:170px;left:0">
       <div class="row text-center">
           <div class="col-md-12">
               <div class="text-center text-capitalize"  style="text-align: center;">  
@@ -603,7 +605,7 @@
       	</div>	
 	  </div>
     
-	  <div class="row text-center">	
+<div class="row text-center" >
       	<div class="col-md-12 text-center">	
       		<div class="text-center">
       			<span style="padding-right: 5px;"><i class="fa fa-phone-square" aria-hidden="true" style="padding-right: 2px;"></i>+91-265-232 37 78,233 13 43,234 17 87 </span>

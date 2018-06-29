@@ -149,5 +149,15 @@ class UserRepository {
         return $record->first_name.' '.$record->last_name;
     }
 
+    /**
+     * [getUserDetailById description]
+     * @param  [type] $id [description]
+     * @return [name]     [description]
+     */
+    public function getUserDetaileById($id) {
+        $record=User::where('id', $id)->first();
+        return $record;
+    }
+
 
 }

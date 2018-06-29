@@ -27,6 +27,14 @@
  	{
  		return Laboratory::where('id',$id)->first();
  	}
+ 	/**
+ 	 * [getAllLaboratoryList description]
+ 	 * @return [type] [description]
+ 	 */
+ 	public function getAllLaboratoryList()
+ 	{
+ 		return Laboratory::get();
+ 	}
  	
  }
 ?>
