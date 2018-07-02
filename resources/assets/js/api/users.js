@@ -278,10 +278,13 @@ export default {
     return api.post('opd/getLaboratoryData',{'data' :data_obj});
   },
   generatePatientDetailsByID(id) {
-      return api.post('patient/getPatientDetailsById',{'id':id})
+      return api.post('patient/getPatientDetailsById',{'id':id});
   },
   generateAllLaboratoryList(data_obj) {
     return api.post('opd/getAllLaboratoryList');
+  },
+  getNumberOfPatient(type){
+    return api.post('patient/total',{'type':type});
   }
 
 }

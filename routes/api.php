@@ -158,6 +158,9 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
          //for getting laboratoey list  All
         $api->post('opd/getAllLaboratoryList', '\euro_hms\Api\Controllers\OPDDetailsFromController@getAllLaboratoryList');
 
+        /* get total number of patient by type*/
+        $api->post('patient/total','\euro_hms\Api\Controllers\PatientsDetailFormController@getNumberOfPatient');
+
         });
         
 

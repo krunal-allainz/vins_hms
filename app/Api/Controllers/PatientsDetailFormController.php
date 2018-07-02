@@ -311,4 +311,16 @@ class PatientsDetailFormController extends Controller
             return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
         }
     }
+
+    /**
+    * get  number of patient by type
+    * 
+    *
+    */
+
+    public function getNumberOfPatient(Request $request){
+        $type = $request->type;
+        $patientTotal =  
+
+    }
 }
