@@ -18,5 +18,6 @@ class Radiology extends Model
               'special_request',
               'details',
               'attachments',
+              'referance'
         ];
 }

@@ -1503,40 +1503,15 @@
               (response) => {
                 if (!this.errors.any()) {
                    $("body .js-loader").removeClass('d-none');
+                   var vm=this;
+                   /*var oData = {'opdData':this.opdData,'resultData':this.resultData,'doctor':this.doctor_id,'department':this.department};*/
+                    vm.$store.dispatch('saveOpdData');
                    
-                   var oData = {'opdData':this.opdData,'resultData':this.resultData,'doctor':this.doctor_id,'department':this.department};
-                    User.generateAddOpdDetails(oData).then(
-                      (response) => {
-                          if(response.data.code == 200) {
-                            var vm =this;
-                            toastr.success('OPD details saved successfully', 'OPD Report', {timeOut: 2000});
-                            var opdData = this.opdData;
-                            this.$router.push({'name':'opd_form_thankyou'});
-                            vm.$store.dispatch('saveOpdData');  
-                        
-                          } else if(response.data.code == 300) {
-                            toastr.error('Record not found.Please enter valid search value.', 'Error', {timeOut: 5000});
-                          } else{
-                            
-                           toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
-                          }
-                           $("body .js-loader").addClass('d-none');
-                        },
-                        (error) => {
-                           $("body .js-loader").addClass('d-none');
-
-                        }
-                    )
                   }
                 },
                 (error) => {
                 }
                 );
-
-
-
-            
-           
           },
           download(dataURL, filename) {
             var vm =this;

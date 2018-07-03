@@ -49,7 +49,9 @@
  		$user_id=$request->all()['data']['doctor'];
  		$department=$request->all()['data']['department'];
  		$prescription_data=$request->all()['data']['opdData']['prescriptiData'];
+ 		$radiology_data=$request->all()['data']['radioData'];
  		$resultdata=$request->all()['data']['resultData'];
+
  		/*if($department=='Vascular')
  		{
  			$examinationData=$request->all()['data']['vascularExaminationData'];
@@ -62,7 +64,7 @@
  		$opd_id_org=$data['opd_id'];
  		//print_r($data);exit;
  		//patient check up
- 		$data_patient_checkup=PatientCheckUp::findOrFail($opd_id_org);
+ 	/*	$data_patient_checkup=PatientCheckUp::findOrFail($opd_id_org);
 		$data_patient_checkup->height=$data['height'];
 		$data_patient_checkup->weight=$data['weight'];
 		$data_patient_checkup->bmi=$data['bmi'];
@@ -128,6 +130,7 @@
 	 		$reference_obj->opd_id=$opd_id_org;
 	 		$reference_obj->user_id=$user_id;
 	 		$reference_obj->reference_type=$data['referral'];
+	 		$reference_obj->referance=0;
 	 		if($data['referral']=='cross')
 	 		{
 	 			$reference_obj->cross_type=$data['cross'];
@@ -184,8 +187,15 @@
 	 		}
 	 		$reference_obj->save();
 
+ 		}*/
+
+ 		/*for radiology */
+ 		if(!empty($radiology_data))
+ 		{
+ 			print_r($radiology_data);
  		}
 
+ 		/*for radiology */
  		/*for examination*/
  		//$array_examination=array('pulsations')
  		
