@@ -150,6 +150,7 @@ class OPDDetailsFromController extends Controller
 
     public function getAllLaboratoryList()
     {
+        
             $get_list=$this->opdObj->getAllLaboratoryList();
             if($get_list)
             {
@@ -161,6 +162,28 @@ class OPDDetailsFromController extends Controller
             }
     }
 
+    /**
+     * [addDetails description]
+     * @param Request $request [description]
+     */
+    public function addDetails(Request $request)
+    {
+            
+            $opd_id=$this->opdObj->store($request);
+            if($opd_id)
+            {
+                return ['code' => '200','data'=>$opd_id, 'message' => 'Record Sucessfully created'];
+            }
+            else
+            {
+                return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+            }
+    }
+
+    /**
+     * [getOPDCounters description]
+     * @return [type] [description]
+     */
     public function getOPDCounters(){
         $opdTotal =  $this->opdObj->getOPDCounters();
           if($opdTotal)
@@ -171,7 +194,6 @@ class OPDDetailsFromController extends Controller
             {
                 return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
             }
-
     }
     
 
