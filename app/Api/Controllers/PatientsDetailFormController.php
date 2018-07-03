@@ -11,6 +11,7 @@ use euro_hms\Models\OpdDetails;
 use Illuminate\Support\Facades\Response;
 use euro_hms\Models\Receipt;
 use euro_hms\Api\Repositories\ReceiptRepository;
+use euro_hms\Api\Repositories\PatientDetailsFormRepository;
 use Terbilang;
 use DB;
 use Carbon\Carbon;
@@ -21,6 +22,7 @@ class PatientsDetailFormController extends Controller
 
     public function __construct(){
         $this->userOBJ = new UserRepository();
+        $this->patientDetailObj = new PatientDetailsFormRepository();
     }
     /**
      * Display a listing of the resource.
@@ -320,7 +322,12 @@ class PatientsDetailFormController extends Controller
 
     public function getNumberOfPatient(Request $request){
         $type = $request->type;
-        $patientTotal =  
+        $patientTotal = $this->patientDetailObj->getNumberOfPatient($type);
+           if ($patientTotal) {
+            return ['code' => '200','data'=>$patientTotal, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
 
     }
 }

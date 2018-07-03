@@ -8,7 +8,7 @@
                                 <i class="ti-eye text-warning"></i>
                             </div>
                             <div class="text-right">
-                                <h3 class="text-dark"><b>3752</b></h3>
+                                <h3 class="text-dark"><b>{{counterData.dailyPatient}}</b></h3>
                                 <p>Daily Visits</p>
                             </div>
                             <div class="clearfix"></div>
@@ -30,8 +30,8 @@
                                 <i class="ti-shopping-cart text-success"></i>
                             </div>
                             <div class="text-right">
-                                <h3><b id="widget_count3">3251</b></h3>
-                                <p>Sales status</p>
+                                <h3><b id="widget_count3">{{counterData.dailyOPD}}</b></h3>
+                                <p>Daily OPD</p>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -53,8 +53,8 @@
                                 <i class="ti-thumb-up text-danger"></i>
                             </div>
                             <div class="text-right">
-                                <h3 class="text-dark"><b>1532</b></h3>
-                                <p>Hits</p>
+                                <h3 class="text-dark"><b>{{counterData.monthlyPatient}}</b></h3>
+                                <p>Monthly Visits</p>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -75,8 +75,8 @@
                                 <i class="ti-user text-info"></i>
                             </div>
                             <div class="text-right">
-                                <h3 class="text-dark"><b>1252</b></h3>
-                                <p>Subscribers</p>
+                                <h3 class="text-dark"><b>{{counterData.monthlyOPD}}</b></h3>
+                                <p>Monthly OPD</p>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -108,20 +108,20 @@
                                         <ul class="timeline timeline-update">
                                             <li>
                                                 <div class="timeline-badge primary wow lightSpeedIn center">
-                                                    <img src="img/authors/avatar1.jpg" height="36" width="36"
-                                                         class="rounded-circle float-right" alt="avatar-image">
+                                                 <!--    <img src="img/authors/avatar1.jpg" height="36" width="36"
+                                                         class="rounded-circle float-right" alt="avatar-image"> -->
                                                 </div>
                                                 <div class="timeline-card wow slideInLeft"
                                                      style="display:inline-block;">
                                                     <div class="timeline-heading">
-                                                        <h4 class="timeline-title">Jade Project's Status </h4>
+                                                        <h4 class="timeline-title">Patient Add </h4>
                                                         <p>
                                                             <small class="text-primary">11 hours ago</small>
                                                         </p>
                                                     </div>
                                                     <div class="timeline-body">
                                                         <p>
-                                                            Jade Project team has completed their first phase.
+                                                            new patient add
                                                         </p>
                                                     </div>
                                                 </div>
@@ -129,46 +129,47 @@
 
                                             <li>
                                                 <div class="timeline-badge info wow lightSpeedIn center">
-                                                    <img src="img/authors/avatar.jpg" height="36" width="36"
-                                                         class="rounded-circle float-right" alt="avatar-image">
+                                                  <!--   <img src="img/authors/avatar.jpg" height="36" width="36"
+                                                         class="rounded-circle float-right" alt="avatar-image"> -->
                                                 </div>
                                                 <div class="timeline-card wow slideInLeft">
                                                     <div class="timeline-heading">
-                                                        <h4 class="timeline-title">Tinder Project</h4>
+                                                        <h4 class="timeline-title">New 
+                                                        OPD</h4>
                                                         <p>
-                                                            <small class="text-primary">Sept 10, 2016</small>
+                                                            <small class="text-primary">July 03, 2018</small>
                                                         </p>
                                                     </div>
                                                     <div class="timeline-body">
                                                         <p>
-                                                            Tinder Project's Final review has completed.
+                                                            New OPD case added.
                                                         </p>
                                                     </div>
                                                 </div>
                                             </li>
                                             <li>
                                                 <div class="timeline-badge default wow lightSpeedIn center">
-                                                    <img src="img/authors/avatar2.jpg" height="36" width="36"
-                                                         class="rounded-circle float-right" alt="avatar-image">
+                                                  <!--   <img src="img/authors/avatar2.jpg" height="36" width="36"
+                                                         class="rounded-circle float-right" alt="avatar-image"> -->
                                                 </div>
                                                 <div class="timeline-card wow slideInLeft">
                                                     <div class="timeline-heading">
-                                                        <h4 class="timeline-title">A new branch in Virginia.</h4>
+                                                        <h4 class="timeline-title">Vasculer Patient </h4>
                                                         <p>
-                                                            <small class="text-primary">Jan 02, 2017</small>
+                                                            <small class="text-primary">Jan 02, 2018</small>
                                                         </p>
                                                     </div>
                                                     <div class="timeline-body">
                                                         <p>
-                                                            Planning to have a branch in virginia in the coming year.
+                                                           old patient on vasculer department.
                                                         </p>
                                                     </div>
                                                 </div>
                                             </li>
                                             <li>
                                                 <div class="timeline-badge primary wow lightSpeedIn center">
-                                                    <img src="img/authors/avatar3.jpg" height="36" width="36"
-                                                         class="rounded-circle float-right" alt="avatar-image">
+                                                   <!--  <img src="img/authors/avatar3.jpg" height="36" width="36"
+                                                         class="rounded-circle float-right" alt="avatar-image"> -->
 
                                                 </div>
                                                 <div class="timeline-card wow slideInLeft"
@@ -176,57 +177,19 @@
                                                     <div class="timeline-heading">
                                                         <h4 class="timeline-title">Daily Status </h4>
                                                         <p>
-                                                            <small class="text-primary">2days ago</small>
+                                                            <small class="text-primary"></small>
                                                         </p>
                                                     </div>
                                                     <div class="timeline-body">
                                                         <p>
-                                                            Manager schedules to keep a daily project status track.
+                                                           average patient count
                                                         </p>
                                                     </div>
                                                 </div>
                                             </li>
 
-                                            <li>
-                                                <div class="timeline-badge info wow lightSpeedIn center">
-                                                    <img src="img/authors/avatar4.jpg" height="36" width="36"
-                                                         class="rounded-circle float-right" alt="avatar-image">
-
-                                                </div>
-                                                <div class="timeline-card wow slideInLeft">
-                                                    <div class="timeline-heading">
-                                                        <h4 class="timeline-title">Performance report</h4>
-                                                        <p>
-                                                            <small class="text-primary">Aug 10, 2016</small>
-                                                        </p>
-                                                    </div>
-                                                    <div class="timeline-body">
-                                                        <p>
-                                                            Richard, updated his Team over view Performance report.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="timeline-badge default wow lightSpeedIn center">
-                                                    <img src="img/authors/avatar2.jpg" height="36" width="36"
-                                                         class="rounded-circle float-right" alt="avatar-image">
-                                                </div>
-                                                <div class="timeline-card wow slideInLeft">
-                                                    <div class="timeline-heading">
-                                                        <h4 class="timeline-title">Project Evaluation</h4>
-                                                        <p>
-                                                            <small class="text-primary">Oct 05, 2016</small>
-                                                        </p>
-                                                    </div>
-                                                    <div class="timeline-body">
-                                                        <p>
-                                                            Variations Project Evaluation is going on to highlight
-                                                            project.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </li>
+                                         
+                                           
                                         </ul>
                                     </div>
                                 </div>
@@ -236,6 +199,69 @@
                 </div>
             </div>
     </section>
-
-
 </template>
+<script >
+	import User from '../../../api/users.js';
+	export default{
+		data(){
+			return {
+				post: null,
+				'counterData' : {
+					'dailyPatient' : '0',
+					'dailyOPD' : '0',
+					'monthlyPatient' : '0',
+					'monthlyOPD' : '0',
+
+				},
+				'type' : 'OPD'
+
+			}
+		},
+		 
+		 mounted(){
+
+		 	this.getPatientCounters();
+		 	this.getOPDCounters();
+		 	 if ($('.timeline-update').length > 0) {
+		        $('.timeline-update').newsTicker({
+		            row_height: 117,
+		            max_rows: 4,
+		            speed: 2000,
+		            direction: 'up',
+		            duration: 3500,
+		            autostart: 1,
+		            pauseOnHover: 1
+		        });
+		 	 
+   			 }
+		 },
+		  methods:{
+		  		getPatientCounters(){
+		  			User.getNumberOfPatient(this.type).then(
+		  				 (response) => {
+		  				 	this.counterData.dailyPatient = response.data.data.today;
+		  				 	this.counterData.monthlyPatient = response.data.data.month;
+		  				 },
+		  				  (error) => {	
+		  				  }
+
+		  				);
+
+		  		},
+		  		getOPDCounters(){
+
+		  			User.getOPDCounters().then(
+		  				(response) => {
+		  					this.counterData.dailyOPD = response.data.data.today;
+		  				 	this.counterData.monthlyOPD = response.data.data.month;
+		  				 
+		  				},
+		  				(error) => {
+
+		  				}
+		  			);
+
+		  		}
+		  },
+	}
+</script>

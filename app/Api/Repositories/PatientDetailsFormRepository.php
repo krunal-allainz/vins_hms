@@ -15,21 +15,20 @@ class PatientDetailsFormRepository
 		$result = array();
 
 		// this week results
-		$fromDate = Carbon\Carbon::now()->subDay(30)->startOfWeek()->toDateString(); // or ->format(..)
-		$tillDate = Carbon\Carbon::now()->subDay()->toDateString();
-		$result['today'] = PatientDetailsForm::selectRaw('date(created_at) as date, COUNT(*) as count'))
+		$fromDate =Carbon::now()->subDay(30)->startOfWeek()->toDateString(); // or ->format(..)
+		$tillDate = Carbon::now()->toDateString();
+		$result['today'] = PatientDetailsForm::selectRaw('date(created_at) as date, COUNT(*) as count')
         ->where( DB::raw('date(created_at)'), [$tillDate] )
-        ->groupBy('date')
-    	->orderBy('date', 'DESC')
-    	->lists('count', 'date');
+    	->orderBy('created_at', 'DESC')
+    	->count();
 
-		$result['month'] = PatientDetailsForm::selectRaw('date(created_at) as date, COUNT(*) as count'))
+		$result['month'] = PatientDetailsForm::selectRaw('date(created_at) as date, COUNT(*) as count')
 	    ->whereBetween( DB::raw('date(created_at)'), [$fromDate, $tillDate] )
-	    ->groupBy('date')
-	    ->orderBy('date', 'DESC')
-	    ->lists('count', 'date');
+	    ->orderBy('created_at', 'DESC')
+	    ->count();
 		
 
 
 	return $result;
+	}
 }

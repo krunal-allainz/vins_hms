@@ -161,6 +161,9 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         /* get total number of patient by type*/
         $api->post('patient/total','\euro_hms\Api\Controllers\PatientsDetailFormController@getNumberOfPatient');
 
+        /* get total number of opd */
+        $api->post('opd/opdtotal','\euro_hms\Api\Controllers\OPDDetailsFromController@getOPDCounters');
+
         });
         
 

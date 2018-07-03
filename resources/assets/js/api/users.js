@@ -285,6 +285,9 @@ export default {
   },
   getNumberOfPatient(type){
     return api.post('patient/total',{'type':type});
+  },
+  getOPDCounters(){
+    return api.post('opd/opdtotal');
   }
 
 }
