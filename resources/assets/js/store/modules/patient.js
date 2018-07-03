@@ -90,8 +90,7 @@ const actions = {
     
   },
   saveOpdData({commit,state}) {
-    let oData = state.opdData;
-    console.log(oData,'asa');
+    let oData = state.radioData;
     user.saveOpdData(oData).then((response) => {
       commit(types.SAVE_OPD_DATA);
     });
