@@ -14,8 +14,6 @@
  	public function getReceiptList()
  	{
  			return Receipt::with('patientDetails.userDetails')->paginate(10);
- 			
- 			
  	}
 
  	public function deleteReceipt($id){
