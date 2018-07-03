@@ -288,6 +288,9 @@ export default {
   },
   getOPDCounters(){
     return api.post('opd/opdtotal');
+  },
+  getPatientListByDoctor(page_url,id){
+    return api.post(page_url,{'id':id})
   }
 
 }
