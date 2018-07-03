@@ -154,14 +154,14 @@
                                                 </div>
                                                 <div class="timeline-card wow slideInLeft">
                                                     <div class="timeline-heading">
-                                                        <h4 class="timeline-title">Vasculer Patient </h4>
+                                                        <h4 class="timeline-title">Vascular Patient </h4>
                                                         <p>
                                                             <small class="text-primary">Jan 02, 2018</small>
                                                         </p>
                                                     </div>
                                                     <div class="timeline-body">
                                                         <p>
-                                                           old patient on vasculer department.
+                                                           old patient on vascular department.
                                                         </p>
                                                     </div>
                                                 </div>
