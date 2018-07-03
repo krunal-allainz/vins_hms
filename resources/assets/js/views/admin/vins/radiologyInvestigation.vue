@@ -480,6 +480,8 @@
                         vm.resultData.subtype_text_enable = true;
                         $('#radiology_spine').select2("destroy");
                        
+                    } else {
+                     vm.resultData.bodyPart = $("#radiology_subtype").select2().val();   
                     }
                     
 	        	}
