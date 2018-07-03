@@ -299,4 +299,4 @@ export default {
     return api.post('opd/opdtotal');
   }
 
-}  
+}   
