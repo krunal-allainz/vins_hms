@@ -7,9 +7,7 @@
                     <h2 class="text-center logo_h2">
                     
                         <img src="/assets/img/nabh_vins_logo.png" id="logo-desk" alt="NABH Logo" class="hidden-sm-down" height="80px" >
-
                     </h2>
-
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12">
@@ -90,7 +88,7 @@ export default {
                                 jQuery('.js-loader').addClass('d-none');
                                 if(vm.$store.state.Users.userDetails.user_type == 'Doctor'){
                                     
-                                        vm.$router.push({'name':'opd_form'});
+                                        vm.$router.push({'name':'dashboard'});
                                 } else if(vm.$store.state.Users.userDetails.user_type == 'Others') {
                                         vm.$router.push({'name':'patients_detail_form'});
 

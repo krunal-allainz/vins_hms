@@ -160,6 +160,19 @@ class OPDDetailsFromController extends Controller
                 return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
             }
     }
+
+    public function getOPDCounters(){
+        $opdTotal =  $this->opdObj->getOPDCounters();
+          if($opdTotal)
+            {
+                return ['code' => '200','data'=>$opdTotal, 'message' => 'Record Sucessfully created'];
+            }
+            else
+            {
+                return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+            }
+
+    }
     
 
    
