@@ -282,6 +282,15 @@ export default {
   },
   generateAllLaboratoryList(data_obj) {
     return api.post('opd/getAllLaboratoryList');
+  },
+  generateOpdIdByPatirntID(patient_id) {
+    return api.post('patient/getOPDIdByPatientId',{'patient_id':patient_id})
+  },
+  generatePatientCheckUpDetails(opd_id) {
+    return api.post('patient/getpatientCheckUpDetails',{'opd_id':opd_id})
+  },
+  generateAddOpdDetails(opd_data) {
+    return api.post('opd/addOpdDetails',{'data':opd_data})
   }
 
 }
