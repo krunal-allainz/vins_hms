@@ -25,16 +25,21 @@ class PatientDetailsForm extends Model
       'consultant',
       'case_type',
       'consultant_id',
-      'weight',
+      'appointment_datetime',
+     /* 'weight',
       'height',
       'bmi',
       'vitals',
       'pulse',
       'temp',
       'bp_systolic',
-      'bp_diastolic'
+      'bp_diastolic'*/
     ];
 
+    /**
+     * [userDetails description]
+     * @return [type] [description]
+     */
     public function userDetails()
     {
         return $this->belongsTo('euro_hms\Models\User','consultant_id');
@@ -63,25 +68,5 @@ class PatientDetailsForm extends Model
         return $this->hasMany('euro_hms\Models\OpdDetails');
       }
 
-    public static function getPatientListByConsultDr($doctor,$section){
-       $result = array();
-      //if($section == 'OPD'){
-       $patientList =PatientDetailsForm::where('consultant_id',$doctor)->get();
-      //}
-      
-      foreach ($patientList as $key=>$value){
-         $result[$key] = [
-            'id' => $value->id,
-            'name' =>  $value->first_name.' '.$value->last_name,
-            'consultant' =>  $value->consultant_id,
-            'dob' => $value->dob,
-            'gender' =>  $value->gender,
-            'address' =>  $value->address,
-            'uhid_no' =>  $value->uhid_no
-          ] ;
-      }
-     
-     
-      return  $result;
-    }
+    
 }

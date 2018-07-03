@@ -26,36 +26,34 @@
                 </span> 
             </div>
           </div>
-          <div class="col-md-6"  v-if="opdData.uhid_no!=''">
-           
-            <div class="col-md-6 " v-if="opdData.uhid_no!=''" >
-              <label for="date">UHID No:</label>
-            </div>
-            <div class="col-md-6" v-if="opdData.uhid_no!=''" >
-             <!--  <input type="text" class="form-control"  v-model="opdData.uhid_no" readonly=""> -->
-              <label>{{opdData.uhid_no}}</label>
-            </div>  
-          </div>
-          <!--<div class="col-md-6" v-if="opdData.case_type == 'new'">
-            <create-patient-detail @confirmed="deleteConfirmed()" patientType='opd' :doctor="doctor"></create-patient-detail>
-            <div class="col-md-6 " v-if="opdData.uhid_no!=''" >
-              <label for="date">UHID No:</label>
-            </div>
-            <div class="col-md-6" v-if="opdData.uhid_no!=''" >
-              <input type="text" class="form-control"  v-model="opdData.uhid_no" readonly="">
-            </div>  
-          </div>
-          <div class="col-md-6" v-if="opdData.case_type == 'old'">
+          <div class="col-md-6" v-if="opdData.patientlist!=''">
             <div class="col-md-6 ">
-              <label for="date">UHID No:</label>
+              <label for="opd_no">Select OPD No.:</label>
             </div>
             <div class="col-md-6">
-              <input type="text" name="uhid_no" class="form-control" v-validate="'required'" v-model="opdData.uhid_no">
-                <span class="help is-danger" v-show="errors.has('uhid_no')">
-                  Field is required
-                </span>
-              </div>
-            </div> -->
+              <select  class="form-control ls-select2" v-validate="'required'" id = "opd_no" name="opd_no" value="" v-model="opdData.opd_id" > 
+              
+                   <option :value="opd.id" v-for="opd in opdData.opd_option">{{opd.opd_id}}</option>
+                </select> 
+                <i v-show="errors.has('opd_no')" class="fa fa-warning"></i>      
+                 <span class="help is-danger" v-show="errors.has('opd_no')">
+                  Please Select OPD Number.
+                </span> 
+            </div>
+          </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-md-12">
+                 <div class="col-md-6"  v-if="opdData.uhid_no!=''">
+                  <div class="col-md-6 " v-if="opdData.uhid_no!=''" >
+                    <label for="date">UHID No:</label>
+                  </div>
+                  <div class="col-md-6" v-if="opdData.uhid_no!=''" >
+                   <!--  <input type="text" class="form-control"  v-model="opdData.uhid_no" readonly=""> -->
+                    <label>{{opdData.uhid_no}}</label>
+                  </div>  
+                </div>
+            </div>
           </div>
           <div class="row form-group">
             <div class="col-md-6">
@@ -438,7 +436,7 @@
                   <label>Select Radiology:</label>
                    
                   <br>
-                  <select class="form-control ls-select2" id="radiology_type_opd" name="radiology_type_opd">
+                  <select class="form-control ls-select2" id="radiology_type_opd" name="radiology_type_opd" >
                     <option v-for="type in investigationData.radiologyType" :value="type.value">{{type.text}}</option>
                   </select>
                   
@@ -460,7 +458,7 @@
                 <div class="col-md-12">
                   <label>Body Parts:</label>
                   <br>
-                  <select class="form-control ls-select2" id="radiology_subtype_opd" name="radiology_subtype_opd">
+                  <select class="form-control ls-select2" id="radiology_subtype_opd" name="radiology_subtype_opd"  v-model="opdData.radiology_subtype_opd">
                     <option v-for="obj in investigationData.radiologySubType" :value="obj.text">{{obj.text}}</option>
                   </select>
                 </div>
@@ -473,7 +471,7 @@
                 <div class="col-md-12" v-if="resultData.bodyPart == 'Spine'">
                   <label> Spine option:</label>
                   <select class="form-control ls-select2" id="radiology_spine_opd" name="radiology_spine_opd"  v-model="resultData.spine_option_value">
-                    <option v-for="obj in investigationData.Spine_option" :value="obj.text">{{obj.text}}</option>
+                    <option :value="obj.text" v-for="obj in investigationData.Spine_option" >{{obj.text}}</option>
                   </select>
                 </div>
               </div>
@@ -511,7 +509,7 @@
                <div class="col-md-6">
                 <div class="col-md-12" v-if="resultData.qualifier_text_enable">
                   <label> Other Parts</label>
-                  <input type="text" name="qualifier_text_opd" id="qualifier_text_opd" class="form-control" v-model="resultData.qualifierPart">
+                  <input type="text" name="qualifier_text_opd" id="qualifier_text_opd" class="form-control" v-model="resultData.qualifier">
                 </div>
               </div>
             </div>
@@ -859,6 +857,8 @@
                 'pain_value':0,
                 'patientlist':'',
                 'patient_option':[],
+                'opd_id':'',
+                'opd_option':[],
                 'case_type': '',
                 'uhid_no': '',
                 'name':'',
@@ -880,7 +880,6 @@
                 'cross':'',
                 'cross_type_int':'',
                 'cross_type_ext':'',
-                'radiology':'',
                 'laboratory':'',
                 'signaturePad':{},
                 'signaturePad_src':'',
@@ -900,6 +899,7 @@
                 'urine_report_opd':'',
                 'csf_report_opd':'',
                 'body_fluid_analysis_report_opd':'',
+
               }
             }
         }, 
@@ -933,6 +933,7 @@
 
          var vm =this;  
          let patient_list_new=[];
+         let opd_list_new=[];
          
          let section = 'OPD';
          
@@ -988,23 +989,62 @@
             $('#patient').on("select2:select", function (e) {
               let patientId = $(this).val();
               vm.opdData.patientlist=patientId;
+              //for uhid
               User.generatePatientDetailsByID(patientId).then(
                   (response) => {
                     let patient_data=response.data.data;
                     vm.opdData.uhid_no =patient_data.uhid_no;
-                    vm.opdData.height =patient_data.height;
-                    vm.opdData.weight =patient_data.weight;
-                    vm.opdData.bmi =patient_data.bmi;
-                    vm.opdData.vitals =patient_data.vitals;
-                    vm.opdData.pulse =patient_data.pulse;
-                    vm.opdData.bp_diastolic =patient_data.bp_diastolic;
-                    vm.opdData.bp_systolic =patient_data.bp_systolic;
-                    vm.opdData.temp =patient_data.temp;
                   },
                   (error) => {
                   },
               );
+              //for opd list
+              User.generateOpdIdByPatirntID(patientId).then(
+                  (response) => {
+                   $.each(response.data.data, function(key,value) {
+
+                       opd_list_new.push({
+                         'id' : value.id,
+                         'opd_id' : value.opd_id,
+                      });
+                    });
+                     setTimeout(function(){
+                            $('#opd_no').select2({
+                              placeholder: "Select",
+                              tags:false 
+                            }); 
+                    },500);
+                      /*for opd data */
+             $('#opd_no').on("select2:select", function (e) {
+                 let opdID = $(this).val();
+                 vm.opdData.opd_id=opdID;
+                 User.generatePatientCheckUpDetails(opdID).then(
+                  (response) => {
+                    let patient_checkup_details=response.data.data;
+                    vm.opdData.height =patient_checkup_details.height;
+                    vm.opdData.weight =patient_checkup_details.weight;
+                    vm.opdData.bmi =patient_checkup_details.bmi;
+                    vm.opdData.vitals =patient_checkup_details.vitals;
+                    vm.opdData.pulse =patient_checkup_details.pulse;
+                    let bp =patient_checkup_details.bp.split("/");
+                    vm.opdData.bp_systolic =bp[0];
+                    vm.opdData.bp_diastolic =bp[1];
+                    vm.opdData.temp =patient_checkup_details.temp;
+                  },
+                  (error) => {
+                  },
+              );
+             });
+            /*for opd data */ 
+                    vm.opdData.opd_option=opd_list_new;
+                  },
+                  (error) => {
+                  },
+              );
+
             });
+
+           
 
            $('#prescription').on("select2:select", function (e) { 
             // console.log($(this).data()[0].formalation);
@@ -1062,21 +1102,30 @@
             else if(this.id == 'urine_opd'){
               vm.opdData.urine_report_opd = $(this).val(); 
             }
-            else if(this.id == 'csf_report_opd'){
+            else if(this.id == 'csf_opd'){
               vm.opdData.csf_report_opd = $(this).val(); 
             }
-            else if(this.id == 'body_fluid_analysis_report_opd'){
+            else if(this.id == 'body_fluid_analysis_opd'){
               vm.opdData.body_fluid_analysis_report_opd = $(this).val(); 
             }
+            else if(this.id == 'xray_type_opd'){
+              vm.resultData.x_ray_type = $(this).val(); 
+            }
+
+           
+            
 
             
             if(this.id == 'radiology_type_opd') {
                //console.log('sdasd');
+               
+
                 
                //$('#radiology_subtype_opd').select2("destroy");
 
                 vm.resultData.type = $("#radiology_type_opd").select2().val();
                 let type_opd_val=$("#radiology_type_opd").select2().val();
+
                 if(type_opd_val=='MRI')
                 {
                   setTimeout(function(){
@@ -1088,7 +1137,9 @@
                             placeholder: "Select",
                             tags:false 
                           });
-                    },500);
+                          
+                    },1000);
+                  
                 }
                 else
                 {
@@ -1102,7 +1153,7 @@
                        
               let q_data=vm.investigationData.radiologyQualifierReal;
               let radiologySubType_val=$("#radiology_subtype_opd").select2().val();
-                //console.log(radiologySubType_val);
+               
                 
                 $("#radiology_qualifier_opd").val('').trigger('change.select2');
                 vm.resultData.qualifier = '';
@@ -1116,7 +1167,11 @@
                               placeholder: "Select",
                               tags:false 
                             }); 
+                            
+
                     },500);
+
+                   
                 }
                 else if(radiologySubType_val=='Brain')
                 {
@@ -1142,6 +1197,7 @@
                 }
             }
             if(this.id == 'radiology_qualifier_opd') {
+
                 vm.resultData.qualifier = $("#radiology_qualifier_opd").select2().val();
                 let qualy_val=$("#radiology_qualifier_opd").select2().val();
                 //console.log(qualy_val);
@@ -1153,9 +1209,17 @@
                 else
                 {
                     vm.resultData.qualifier_text_enable = false;
-                    vm.resultData.qualifierPart = '';
+                    vm.resultData.qualifierPart = $("#radiology_qualifier_opd").select2().val();
                 }
 
+            }
+            if(this.id == 'radiology_spine_opd')
+            {
+              vm.resultData.spine_option_value=$("#radiology_spine_opd").select2().val();
+            }
+            if(this.id == 'radiology_special_request_opd') {
+              
+              vm.resultData.special_request = $("#radiology_special_request_opd").select2().val();
             }
              if($(this).val() == 'old') {
              } 
@@ -1434,31 +1498,45 @@
               return new Blob([uInt8Array], { type: contentType });
             },
           saveInformation() {
-            var vm =this;
-            //   var wrapper = document.getElementById("signature-pad");
-            // var canvas = document.getElementById("history_scribble");
-            // // var signaturePad = new SignaturePad(canvas, {
-            // //   backgroundColor: 'rgb(255, 255, 255)',
-            // // });
 
-            toastr.success('Report has been saved succeessfully', 'OPD Report', {timeOut: 2000});
-            // window.onresize = vm.resizeCanvas(canvas);
-            // vm.  (canvas);
-            var opdData = this.opdData;
-             this.$router.push({'name':'opd_form_thankyou'});
-            // if (vm.signaturePad.isEmpty()) {
-              //  alert("Please provide a signature first.");
-              //} else {
-                //    
-                // var opdDataRes = {'data':opdData,'imgData1':dataURL1,'imgData2':dataURL2};
-                // vm.frmStep = 'step2';
-                // vm.download(dataURL, "signature.png");
-              //}
-            vm.$store.dispatch('saveOpdData');
-            // User.saveOpdData(opdDataRes).then((response) => {
-                        // console.log(response);
-                         // this.$router.push({'name':'dashboard'});
-                    // })
+              this.$validator.validateAll().then(
+              (response) => {
+                if (!this.errors.any()) {
+                   $("body .js-loader").removeClass('d-none');
+                   
+                   var oData = {'opdData':this.opdData,'resultData':this.resultData,'doctor':this.doctor_id,'department':this.department};
+                    User.generateAddOpdDetails(oData).then(
+                      (response) => {
+                          if(response.data.code == 200) {
+                            var vm =this;
+                            toastr.success('OPD details saved successfully', 'OPD Report', {timeOut: 2000});
+                            var opdData = this.opdData;
+                            this.$router.push({'name':'opd_form_thankyou'});
+                            vm.$store.dispatch('saveOpdData');  
+                        
+                          } else if(response.data.code == 300) {
+                            toastr.error('Record not found.Please enter valid search value.', 'Error', {timeOut: 5000});
+                          } else{
+                            
+                           toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
+                          }
+                           $("body .js-loader").addClass('d-none');
+                        },
+                        (error) => {
+                           $("body .js-loader").addClass('d-none');
+
+                        }
+                    )
+                  }
+                },
+                (error) => {
+                }
+                );
+
+
+
+            
+           
           },
           download(dataURL, filename) {
             var vm =this;
@@ -1471,6 +1549,19 @@
               document.body.appendChild(a);
               a.click();
               window.URL.revokeObjectURL(url);
+            },
+            decodeBase64Image(dataString) {
+              var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
+                response = {};
+
+              if (matches.length !== 3) {
+                return new Error('Invalid input string');
+              }
+
+              response.type = matches[1];
+              response.data = new Buffer(matches[2], 'base64');
+
+              return response;
             },
           examinationChangeImage() {
             var vm =this;
@@ -1517,6 +1608,7 @@
             save_history_scribble.addEventListener("click", function (event) {
               vm.opdData.signaturePad_src = vm.opdData.signaturePad.toDataURL();
               
+              
             });
             save_past_history_scribble.addEventListener("click", function (event) {
               vm.opdData.signaturePad1_src = vm.opdData.signaturePad1.toDataURL();
@@ -1525,13 +1617,7 @@
               vm.opdData.signaturePad2_src = vm.opdData.signaturePad2.toDataURL();
             });
             
-              // if (signaturePad.isEmpty()) {
-              //   alert("Please provide a signature first.");
-              // } else {resizeCanvas
-              //   console.log(dataURL);resizeCanvas
-              //   // download(dataURL, "signature.png");
-              // }
-            // });
+              
           },
         }
                       
