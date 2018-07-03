@@ -303,6 +303,19 @@
                       </span>
                     </div>
                   </div>
+                  <div class="col-md-6">
+	                	<div class="col-md-6">
+	                        <label for="appointment_datetime">Appointment Date-time: </label>
+	                    </div>
+	                    <div class="col-md-6">
+							
+							<date-picker  :date.sync="patientData.appointment_datetime" :option="option" id = "appointment_datetime" class="" type="text" name="appointment_datetime" :limit="limit2" v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'"></date-picker> 
+							<i v-show="errors.has('appointment_datetime')" class="fa fa-warning"></i>
+							<span class="help is-danger" v-show="errors.has('appointment_datetime')">
+		            			Appointment Datetime is required.
+		            		</span>
+	                    </div>
+	                </div>
                 </div>
        		<div class="form-group text-center">
 				<button class="btn btn-success" type="button" @click="savePatient()">Submit</button>
@@ -357,6 +370,11 @@
 			        type: 'fromto',
 			       	to: new Date()
 			      }],
+			      limit2: [
+			      {
+			        type: 'fromto',
+			       	from: new Date()
+			      }],
                 'patientData' : {
                 	'case': '',
                 	'select_type': '',
@@ -381,7 +399,10 @@
                 	'pulse':'',
                 	'bp_systolic':'',
                 	'bp_diastolic':'',
-                	'temp':''
+                	'temp':'',
+                	'appointment_datetime': {
+                		time:''
+                	}
                 }
             }
         },
@@ -493,6 +514,7 @@
 		    	vm.patientData.bp_diastolic = '';
 		    	vm.patientData.bp_systolic = '';
 		    	vm.patientData.temp = '';
+		    	vm.patientData.appointment_datetime.time = '';
 		    	$("#gender").val('').trigger('change.select2');
 		    	$("#consulting_dr").val('').trigger('change.select2');
 		    },
@@ -523,6 +545,7 @@
 		                (response) => {
 		                	if(response.data.code == 200) {
 		                		let pData = response.data.data;
+		                		
 		                		this.patientData.fname = pData.first_name;
 		                		this.patientData.mname = pData.middle_name;
 		                		this.patientData.lname = pData.last_name;
@@ -534,18 +557,9 @@
 		                		this.patientData.reference_dr = pData.references;
 		                		this.patientData.dob.time = pData.dob;
 		                		this.patientData.consulting_dr = pData.consultant_id;
-		                		toastr.success('Record found ', 'patient detail', {timeOut: 5000});
-		                		this.patientData.weight = pData.weight;
-						    	this.patientData.height = pData.height;
-						    	this.patientData.bmi = pData.bmi;
-						    	this.patientData.vitals = pData.vitals;
-						    	this.patientData.pulse = pData.pulse;
-						    	this.patientData.bp_diastolic = pData.bp_diastolic;
-						    	this.patientData.bp_systolic = pData.bp_systolic;
-						    	this.patientData.temp = pData.temp;
 		                		$('#gender').val(pData.gender).change();
 		                		$('#consulting_dr').val(pData.consultant_id).change();
-		                		/*toastr.success('Patient details have been saved', 'patient detail', {timeOut: 5000});*/
+		                		
 		                	} else if(response.data.code == 300) {
 		                		toastr.error('Record not found', 'Error', {timeOut: 5000});
 		                		vm.initPatientData();

@@ -16,13 +16,16 @@ use Terbilang;
 use DB;
 use Carbon\Carbon;
 use euro_hms\Api\Repositories\UserRepository;
+use euro_hms\Api\Repositories\PatientRepository;
 
 class PatientsDetailFormController extends Controller
 {
 
     public function __construct(){
         $this->userOBJ = new UserRepository();
+        $this->patientOBJ = new PatientRepository();
         $this->patientDetailObj = new PatientDetailsFormRepository();
+
     }
     /**
      * Display a listing of the resource.
@@ -53,103 +56,7 @@ class PatientsDetailFormController extends Controller
      */
     public function store(Request $request)
     {
-        // echo "<pre>";print_r($request->all());echo "</pre>";
-        // dd($request->all());
-        $data = $request->all()['patientData']['patientData'];
-        $patientType = $request->all()['patientData']['patientType'];
-        // dd($patientType);
-        $uhid="VM";
-        $year = date('y');
-        // dd($patientUHId);
-        
-        $insertedPatientId="";
-        if($data['case'] == 'new') {
-           $patientD =  PatientDetailsForm::orderBy('id', 'desc')->first();
-            if($patientD == null){   
-                $lastPatientId = 1; 
-            }else{  
-                $lastPatientId = $patientD->id + 1;  
-            }
-            
-            
-           $newPatNo = sprintf("%04d",$lastPatientId);
-            
-           $insertedPatientId=$uhid.$year.$newPatNo;
-        
-           // dd($data);
-            $patientData = PatientDetailsForm::create([
-           // 'date' => $request->date,
-           // 'time' => $request->time,
-          'uhid_no'=> $insertedPatientId,
-          'first_name' => $data['fname'],
-          'middle_name' => $data['mname'],
-          'last_name' => $data['lname'],
-          'dob' => Carbon::createFromFormat('d-m-Y', $data['dob']['time']),
-          'gender' => $data['gender'],
-          'address' => $data['address'],
-          'ph_no' => $data['ph_no'],
-          'mob_no' => $data['mob_no'],
-          'references' => $data['reference_dr'],
-          'consultant_id' =>$data['consulting_dr'],
-          'consultant' => isset($data['consulting_dr'])?$data['consulting_dr']: '' ,
-          'case_type' => $data['case'],
-          'weight' => $data['weight'],
-          'height' => $data['height'],
-          'bmi' => $data['bmi'],
-          'vitals' => $data['vitals'],
-          'pulse' => $data['pulse'],
-          'temp' => $data['temp'],
-          'bp_systolic' => $data['bp_systolic'],
-          'bp_diastolic' => $data['bp_diastolic']
-
-        ]); 
-         
-         $patientId = $patientData->id;
-        } else {
-            $patientId = 0;
-          if($data['select_type'] == 'uhidNo'){
-            $select_key = 'uhid_no';
-          }else {
-            $select_key = 'mob_no';
-          }
-            $patientData = PatientDetailsForm::where($select_key,$data['select_value'])->get()->first();
-            if($patientData) {
-                $patientId = $patientData->id;
-            } else {
-                 return ['code' => '300','data'=>'', 'message' => 'Record not found'];
-            }
-
-        }
-        if ($patientId) {
-            if($patientType == "opd"){
-                $caseData = OpdDetails::create([
-                    'patient_id'=> $patientId,
-                    'uhid_no'=> $patientData->uhid_no,
-                    'admit_datetime' =>  Carbon::now() 
-                ]);
-                if ($caseData) {
-                    return ['code' => '200','data'=>['patientId'=> $patientId,'opdId' => $caseData->id,'uhid_no'=>$patientData->uhid_no], 'message' => 'Record Sucessfully created'];
-                } else {
-                    return ['code' => '400','data'=>'', 'message' => 'Something goes wrong'];
-                }    
-            }
-            else{
-                 $caseData = IpdDetails::create([
-                    'patient_id'=> $patientId,
-                    'admit_datetime' =>  Carbon::now()
-                ]);
-                if ($caseData) {
-                    return ['code' => '200','data'=>['patientId'=> $patientId,'ipdId' => $caseData->id,'uhid_no'=>$patientData->uhid_no], 'message' => 'Record Sucessfully created'];
-                } else {
-                    return ['code' => '400','data'=>'', 'message' => 'Something goes wrong'];
-                }
-            }
-
-        }
-        return ['code' => '400','data'=>'', 'message' => 'Something goes wrong'];
-        
-        
-        // return view('\index');
+       return $this->patientOBJ->patient_add($request); 
     }
     public function getPatientDetailBysearch(Request $request)
     {
@@ -161,6 +68,7 @@ class PatientsDetailFormController extends Controller
             $select_key = 'mob_no';
         }
         $patientData = PatientDetailsForm::where($select_key,$data['select_value'])->get()->first();
+        
         if($patientData) {
              return ['code' => '200','data'=>$patientData, 'message' => 'Patient record '];
         } else {
@@ -290,7 +198,7 @@ class PatientsDetailFormController extends Controller
     public  function getAllPatientNameByConsultDoctor(Request $request){
             $consultDr = $request->doctor;
             $section   =  $request->section;
-             $patientDetails = PatientDetailsForm::getPatientListByConsultDr($consultDr, $section);
+            $patientDetails = $this->patientOBJ->getPatientListByConsultDr($consultDr, $section);
              if($patientDetails){
                return  ['code' => '200','data'=>$patientDetails, 'message' => 'Record Sucessfully created'];
              }else{
@@ -306,7 +214,7 @@ class PatientsDetailFormController extends Controller
     public function getPatientDetailsById(Request $request)
     {  
         $id=$request->id;
-        $patientDetails = PatientDetailsForm::where('id',$id)->first();
+        $patientDetails = $this->patientOBJ->getPatientDetailsById($id);
         if ($patientDetails) {
             return ['code' => '200','data'=>$patientDetails, 'message' => 'Record Sucessfully created'];
         } else {
@@ -315,11 +223,37 @@ class PatientsDetailFormController extends Controller
     }
 
     /**
+
+     * [getOPDIdByPatientId description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getOPDIdByPatientId(Request $request)
+    {
+        $pid=$request->patient_id;
+        $opdDetails =  $this->patientOBJ->getOPDIdByPatientId($pid);
+        if ($opdDetails) {
+            return ['code' => '200','data'=>$opdDetails, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+    }
+
+    public function patientCheckUpDetails(Request $request)
+    {
+        $oid=$request->opd_id;
+        $checkupdetails =  $this->patientOBJ->patientCheckUpDetailsByOpdId($oid);
+        if ($checkupdetails) {
+            return ['code' => '200','data'=>$checkupdetails, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+    }
+    /*
     * get  number of patient by type
     * 
     *
     */
-
     public function getNumberOfPatient(Request $request){
         $type = $request->type;
         $patientTotal = $this->patientDetailObj->getNumberOfPatient($type);
@@ -328,6 +262,7 @@ class PatientsDetailFormController extends Controller
         } else {
             return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
         }
+
 
     }
 

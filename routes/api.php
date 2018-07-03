@@ -109,7 +109,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         $api->post('patient/OPDDetails/{patientId}', '\euro_hms\Api\Controllers\OPDDetailsFromController@getDetails');
 
         $api->post('user/getDetails', '\euro_hms\Api\Controllers\UserController@getUserDetailsByID')->name('user.getUserDetails');
-        $api->post('opd/saveData', '\euro_hms\Api\Controllers\opdController@saveData'); 
+        $api->post('opd/saveData', '\euro_hms\Api\Controllers\OPDDetailsFromController@saveData'); 
         $api->post('patient/getDetails', '\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientDetailBysearch');    
         $api->post('provison/getDiagnosis', '\euro_hms\Api\Controllers\DiagnosisController@getDiagnosis'); 
         $api->post('prescription/getDetails', '\euro_hms\Api\Controllers\PrescriptionDrugController@getDetails'); 
@@ -158,6 +158,17 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
          //for getting laboratoey list  All
         $api->post('opd/getAllLaboratoryList', '\euro_hms\Api\Controllers\OPDDetailsFromController@getAllLaboratoryList');
 
+
+         //for getting OPD No list by patient id
+        $api->post('patient/getOPDIdByPatientId', '\euro_hms\Api\Controllers\PatientsDetailFormController@getOPDIdByPatientId');
+
+         //for getting patient check up details by opd id
+        $api->post('patient/getpatientCheckUpDetails', '\euro_hms\Api\Controllers\PatientsDetailFormController@patientCheckUpDetails');
+
+         //for adding opd details
+        $api->post('opd/addOpdDetails', '\euro_hms\Api\Controllers\OPDDetailsFromController@addDetails');
+        
+
         /* get total number of patient by type*/
         $api->post('patient/total','\euro_hms\Api\Controllers\PatientsDetailFormController@getNumberOfPatient');
 
@@ -165,6 +176,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         $api->post('opd/opdtotal','\euro_hms\Api\Controllers\OPDDetailsFromController@getOPDCounters');
 
         $api->post('patient/list','\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientListByDoctor');
+
 
         });
         

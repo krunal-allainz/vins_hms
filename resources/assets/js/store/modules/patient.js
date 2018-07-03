@@ -16,12 +16,8 @@ const state = {
     'radioData':{},
     'neuroExaminationData':{},
     'vascExaminationData':{},
-    'labReportData' : {
-      'blood' :'Serum Electrolytes',
-      'bodyfluidanalysis' : 'Sputum-Option 2',
-      'Urine' : 'Culture / Sensitivity',
-      'csf' : 'Microscopy'
-    },
+    'laboratoryData':{},
+
  }
 
  // getters
@@ -90,8 +86,7 @@ const actions = {
     
   },
   saveOpdData({commit,state}) {
-    let oData = state.opdData;
-    console.log(oData,'asa');
+    let oData = state.radioData;
     user.saveOpdData(oData).then((response) => {
       commit(types.SAVE_OPD_DATA);
     });
@@ -141,8 +136,8 @@ const mutations = {
     // console.log(patientData)
       state.vascExaminationData = vascData;
   },
-  [types.SET_LAB_REPORT_DATA](){
-      state.labReportData = labReportData;
+  [types.SET_LAB_REPORT_DATA](state, laboratoryData){
+      state.laboratoryData = laboratoryData;
   },
     [types.RESET_OPD_FORM] (state) {
     // console.log(patientData)

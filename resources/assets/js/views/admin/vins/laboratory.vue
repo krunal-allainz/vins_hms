@@ -276,15 +276,22 @@
 	        
 			$('#blood_report').on("select2:select", function (e) {
 				vm.laboratoryData.blood_report = $(this).val();  
+				vm.$store.dispatch('saveLabReportData',vm.laboratoryData);
 			});
 			$('#urine').on("select2:select", function (e) {
-				vm.laboratoryData.urine_report = $(this).val();  
+				vm.laboratoryData.urine_report = $(this).val();
+				vm.$store.dispatch('saveLabReportData',vm.laboratoryData);
+
 			});
 			$('#csf').on("select2:select", function (e) {
 				vm.laboratoryData.csf_report = $(this).val();  
+				vm.$store.dispatch('saveLabReportData',vm.laboratoryData);
+
 			});
 			$('#body_fluid_analysis').on("select2:select", function (e) {
 				vm.laboratoryData.body_fluid_analysis_report = $(this).val();  
+				vm.$store.dispatch('saveLabReportData',vm.laboratoryData);
+				
 			});
 			/*for lab data end*/
 			
