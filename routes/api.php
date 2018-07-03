@@ -158,6 +158,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
          //for getting laboratoey list  All
         $api->post('opd/getAllLaboratoryList', '\euro_hms\Api\Controllers\OPDDetailsFromController@getAllLaboratoryList');
 
+
          //for getting OPD No list by patient id
         $api->post('patient/getOPDIdByPatientId', '\euro_hms\Api\Controllers\PatientsDetailFormController@getOPDIdByPatientId');
 
@@ -167,6 +168,13 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
          //for adding opd details
         $api->post('opd/addOpdDetails', '\euro_hms\Api\Controllers\OPDDetailsFromController@addDetails');
         
+
+        /* get total number of patient by type*/
+        $api->post('patient/total','\euro_hms\Api\Controllers\PatientsDetailFormController@getNumberOfPatient');
+
+        /* get total number of opd */
+        $api->post('opd/opdtotal','\euro_hms\Api\Controllers\OPDDetailsFromController@getOPDCounters');
+
 
         });
         

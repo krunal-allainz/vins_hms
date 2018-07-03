@@ -41,6 +41,7 @@
  		return Laboratory::get();
  	}
 
+
  	public function store($request)
  	{
 
@@ -189,6 +190,30 @@
  		//$array_examination=array('pulsations')
  		
  		return $opd_id_org;
+ 	}
+
+ 	/**
+ 	*   get number of OPD
+ 	*
+ 	*
+ 	*/
+
+ 	public function getOPDCounters(){
+ 		$result = array();
+		// this week results
+		$fromDate =Carbon::now()->subDay(30)->startOfWeek()->toDateString(); // or ->format(..)
+		$tillDate = Carbon::now()->toDateString();
+		
+		$result['today'] = OpdDetails::selectRaw('date(created_at) as date, COUNT(*) as count')
+        ->where( DB::raw('date(created_at)'), [$tillDate] )
+    	->orderBy('created_at', 'DESC')
+    	->count();
+
+		$result['month'] = OpdDetails::selectRaw('date(created_at) as date, COUNT(*) as count')
+	    ->whereBetween( DB::raw('date(created_at)'), [$fromDate, $tillDate] )
+	    ->orderBy('created_at', 'DESC')
+	    ->count();	
+		return $result;
 
  	}
  	

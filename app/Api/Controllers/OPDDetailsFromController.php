@@ -162,6 +162,10 @@ class OPDDetailsFromController extends Controller
             }
     }
 
+    /**
+     * [addDetails description]
+     * @param Request $request [description]
+     */
     public function addDetails(Request $request)
     {
             
@@ -169,6 +173,22 @@ class OPDDetailsFromController extends Controller
             if($opd_id)
             {
                 return ['code' => '200','data'=>$opd_id, 'message' => 'Record Sucessfully created'];
+            }
+            else
+            {
+                return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+            }
+    }
+
+    /**
+     * [getOPDCounters description]
+     * @return [type] [description]
+     */
+    public function getOPDCounters(){
+        $opdTotal =  $this->opdObj->getOPDCounters();
+          if($opdTotal)
+            {
+                return ['code' => '200','data'=>$opdTotal, 'message' => 'Record Sucessfully created'];
             }
             else
             {

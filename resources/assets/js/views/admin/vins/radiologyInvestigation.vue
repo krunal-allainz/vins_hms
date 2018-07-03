@@ -341,7 +341,8 @@
                 		 ],
                 	'MRI':'',
                 	'MRI_options':[
-                			 {text:'Brain', value:'brain'},
+                            {text:'',value:''},
+                    		 {text:'Brain', value:'brain'},
                 			 {text:'Spine', value:'spine'},
                 			 {text:'Joint', value:'joint'},
                 			 {text:'Other', value:'other'},
@@ -515,10 +516,10 @@
             removeImage(no) {
                 let vm = this;
                 _.find(vm.resultData.imgData, function(img) {
-                 if(img.id == no) {
-                    img.remove =true;
-                 }
-             });
+                    if(img.id == no) {
+                        img.remove =true;
+                    }
+                });
             },
             removeReport(did) {
                 let vm =this;
@@ -602,7 +603,7 @@
                             var reader  = new FileReader();
 
                             reader.addEventListener("load", function () {
-                            imgData.push({'id':y,'data':reader.result,'remove':false,'view':false,'type':'image'});
+                                imgData.push({'id':y,'data':reader.result,'remove':false,'view':false,'type':'image'});
                             }, false);
                             reader.readAsDataURL(file); 
                             ++y;             

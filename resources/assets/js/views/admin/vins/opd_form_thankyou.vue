@@ -329,7 +329,7 @@
 				'prescriptiData' : this.$store.state.Patient.opdData.prescriptiData,
 				'radioReportData' : this.$store.state.Patient.radioData, 
 				'labReportData' : this.$store.state.Patient.labReportData,
-				'consultntId' : 1,
+				'consultntId' : this.$store.state.Users.userDetails.id,
 				'consultName' : '',
 				'signatureName' : ''
 				
