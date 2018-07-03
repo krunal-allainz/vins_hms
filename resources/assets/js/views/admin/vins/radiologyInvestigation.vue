@@ -77,7 +77,7 @@
 
                     <div class="col-md-6" v-if="resultData.subtype_text_enable" v-validate="'required'">
                         <label> Other Parts</label>   
-                        <input type="text" name="subType_text" id="subType_text" class="form-control" v-model="resultData.bodyPart" >
+                        <input type="text" name="subType_text" id="subType_text" class="form-control" v-model="resultData.bodyPart_others" >
 
     			    </div>
                     <div class="col-md-6" v-if="resultData.bodyPart == 'Spine'">
@@ -89,6 +89,14 @@
                   Field is required
                 </span>    
                       </div>
+                      <!-- <div class="col-md-6" v-if="resultData.bodyPart == 'Joint' || resultData.bodyPart == 'Others'">
+                        <label> Others</label>
+                        
+                         <input type="text" name="radiology_bodypart_other" id="radiology_bodypart_other" class="form-control" v-model="resultData.qualifier" >
+                            <span class="help is-danger" v-show="errors.has('radiology_bodypart_other')">
+                              Field is required
+                            </span>    
+                      </div> -->
                 </div>
                 <div class="row form-group">
     				<div class="col-md-6">
@@ -109,17 +117,19 @@
                           <input type="text" name="qualifier_other_text" id="qualifier_other_text" class="form-control" v-model="resultData.qualifierOtherPart">
                         </div>
                     </div>
-                    <div class="col-md-6" v-if="resultData.type == 'MRI'">
-                        <label>Select Special request:</label><br>
-                        <select class = "form-control" id = "radiology_special_request" name = "radiology_special_request"   v-model="resultData.special_request"  >
-                            <option v-for="obj in investigationData.radiologySpecialRequest" :value="obj.text">{{obj.text}}</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6" v-else>
-                        <label>Select Special request:</label><br>
-                    
-                        <input type="text" name="special_request" id="special_request" class="form-control" v-model="resultData.special_request" >
+                    <div class="col-md-6">
+                        <div v-if="resultData.type == 'MRI'">
+                            <label>Select Special request:</label><br>
+                            <select class = "form-control" id = "radiology_special_request" name = "radiology_special_request"   v-model="resultData.special_request"  >
+                                <option v-for="obj in investigationData.radiologySpecialRequest" :value="obj.text">{{obj.text}}</option>
+                            </select>
+                        </div>
+                        <div v-else>
+                            <label>Select Special request:</label><br>
                         
+                            <input type="text" name="special_request" id="special_request" class="form-control" v-model="resultData.special_request" >
+                            
+                        </div>
                     </div>
                 </div>
                 <div class="row form-group">
@@ -231,6 +241,7 @@
                     'id':'',
                     'uploadType':'image',
                     'bodyPart':'',
+                    'bodyPart_others':'',
                 	'type': '',
                     'x_ray_type':'fixed',
                     'spine_option_value':'',
@@ -246,7 +257,7 @@
 
                 },
                 'imgGallery':'',
-                'finalResultData':{},
+                'finalResultData':[],
                 'investigationData' : {
                 	'neurology': {
                 		'radiology':{
@@ -277,8 +288,8 @@
 	                	{text:'X-Rays',value:'X-Rays'},
 	                	{text:'CT',value:'CT'},
 	                	{text:'MRI',value:'MRI'},
-	                	{text:'Doppler',value:'doppler'},
-	                	{text:'Other',value:'other'}
+	                	// {text:'Doppler',value:'doppler'},
+	                	// {text:'Other',value:'other'}
                 	],
                 	'radiologySubType':[
                 			{text:'',value:''},
@@ -314,6 +325,7 @@
                   ],
                 	'X-Rays':'',
                     'xray_type_options': [
+                        {text:'',value:''},
                         {text:'Fixed',value:'fixed','selected':true},
                         {text:'Portable',value:'portable','selected':false}
                     ],
@@ -346,7 +358,7 @@
                 			 {text:'Spine', value:'spine'},
                 			 {text:'Joint', value:'joint'},
                 			 {text:'Other', value:'other'},
-                			 {text:'Protocol', value:'protocol'}
+                			 // {text:'Protocol', value:'protocol'}
                 		 ],
                     'Spine_option': [
                       {text:'Cervical', value:'Cervical'},
@@ -409,11 +421,18 @@
             
 	        $('#radio_div').on("select2:select", '.ls-select2',function (e) {
                 if(this.id == 'radiology_type') {
-	        	    $('#radiology_subtype').select2("destroy");
+                    console.log('id',this.id)
+	        	     $('#radiology_subtype').val('').trigger('change');
+                    // $('#radiology_qualifier').select2("destroy");
 	        		vm.resultData.type = $("#radiology_type").select2().val();
                     let type_opd_val=$("#radiology_type").select2().val();
+                    // $("#radiology_subtype").select2('destroy');
+                    vm.investigationData.radiologyQualifier="";
+                    $('#radiology_qualifier').select2("destroy");
+                    $('#radiology_special_request').select2("destroy");
                     if(type_opd_val=='MRI')
                     {
+                   
                       setTimeout(function(){
                               $('#radiology_qualifier').select2({
                                 placeholder: "Select",
@@ -425,55 +444,51 @@
                           });
                         },500);
                     }
-                    else
-                    {
-                        $('#radiology_special_request').select2("destroy");
-                        $('#radiology_qualifier').select2("destroy");
-                    }
+                    
 	        		vm.radioSubType();
 
                 } 
                 if(this.id == 'radiology_subtype') {
                     let q_data=vm.investigationData.radiologyQualifierReal;
+                    vm.investigationData.radiologyQualifier="";
+                     vm.investigationData.radiologyQualifier=q_data;
+                        vm.resultData.qualifier_radio_text_enable = false;
                     let radiologySubType_val=$("#radiology_subtype").select2().val();
                     //console.log(radiologySubType_val);
                     vm.investigationData.radiologyQualifier=q_data;
                     if(radiologySubType_val=='Spine')
                     {
-                        setTimeout(function(){
-                                $('#radiology_spine').select2({
-                                  placeholder: "Select",
-                                  tags:false 
-                                }); 
-                        },500);
+                        // setTimeout(function(){
+                        //         $('#radiology_spine').select2({
+                        //           placeholder: "Select",
+                        //           tags:false 
+                        //         }); 
+                        // },500);
+                         vm.resultData.subtype_text_enable = false;
+                         vm.resultData.bodyPart = $("#radiology_subtype").select2().val();
+                         vm.resultData.bodyPart_others="";
                     }
                     else if(radiologySubType_val=='Brain')
                     {
-                      vm.investigationData.radiologyQualifier="";
                       vm.investigationData.radiologyQualifier=vm.investigationData.brain_options;
+                       vm.resultData.subtype_text_enable = false;
+                         vm.resultData.bodyPart = $("#radiology_subtype").select2().val();
                     }
-                    else
-                    {
-                        vm.investigationData.radiologyQualifier="";
-                        vm.investigationData.radiologyQualifier=q_data;
-                        vm.resultData.qualifier_radio_text_enable = false;
-                        vm.resultData.qualifierOtherPart = '';
-                        $('#radiology_special_request').select2("destroy");
-                    }
-                    if($("#radiology_subtype").select2().val() == 'Other'){
+                    
+                    else if($("#radiology_subtype").select2().val() == 'Other' || $("#radiology_subtype").select2().val() =='Joint' ){
+                         vm.resultData.bodyPart = $("#radiology_subtype").select2().val();
                         vm.resultData.subtype_text_enable = true;
-                        vm.resultData.bodyPart = '';
-                    } else {
-                         vm.resultData.subtype_text_enable = false;
-	        		     vm.resultData.bodyPart = $("#radiology_subtype").select2().val();
+                        $('#radiology_spine').select2("destroy");
+                       
                     }
+                    
 	        	}
                 if(this.id == 'radiology_qualifier') {
-                     console.log('weqweqw');
+                   
                     vm.resultData.qualifier = $("#radiology_qualifier").select2().val();
                      let qualy_val=$("#radiology_qualifier").select2().val();
                    
-                    if(qualy_val=='Other')
+                    if(qualy_val=='Other'  )
                     {
                         vm.resultData.qualifier_radio_text_enable = true;
                         vm.resultData.qualifierOtherPart = '';
@@ -556,7 +571,7 @@
                 vm.resultData.id = resData.length;
                 resData.push(vm.resultData);
                 
-                vm.finalResultData = resData;
+                vm.finalResultData = _.cloneDeep(resData);
 
                 vm.initData();
                 vm.setRadioData();
@@ -569,18 +584,22 @@
                 let vm =this;
                 
                 vm.resultData = {
-                    'id':'',
+                     'id':'',
                     'uploadType':'image',
                     'bodyPart':'',
+                    'bodyPart_others':'',
                     'type': '',
                     'x_ray_type':'fixed',
+                    'spine_option_value':'',
                     'subType': '',
                     'qualifier':'',
                     'imgData': '',
                     'textData': '',
                     'subtype_text_enable':false,
+                    'qualifier_radio_text_enable':false,
                     'special_request':'',
-                    'removed':false
+                    'removed':false,
+                    'qualifierOtherPart':''
                 };
                 vm.imgGallery = '';
                 $('#radio_div .ls-select2').val(null).trigger('change');
