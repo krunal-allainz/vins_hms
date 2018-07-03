@@ -109,7 +109,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         $api->post('patient/OPDDetails/{patientId}', '\euro_hms\Api\Controllers\OPDDetailsFromController@getDetails');
 
         $api->post('user/getDetails', '\euro_hms\Api\Controllers\UserController@getUserDetailsByID')->name('user.getUserDetails');
-        $api->post('opd/saveData', '\euro_hms\Api\Controllers\opdController@saveData'); 
+        $api->post('opd/saveData', '\euro_hms\Api\Controllers\OPDDetailsFromController@saveData'); 
         $api->post('patient/getDetails', '\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientDetailBysearch');    
         $api->post('provison/getDiagnosis', '\euro_hms\Api\Controllers\DiagnosisController@getDiagnosis'); 
         $api->post('prescription/getDetails', '\euro_hms\Api\Controllers\PrescriptionDrugController@getDetails'); 
