@@ -4,7 +4,7 @@ namespace euro_hms\models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Examiantion extends Model
+class Examination extends Model
 {
     //
         protected $table = 'examination';
