@@ -26,7 +26,7 @@
                 </span> 
             </div>
           </div>
-          <div class="col-md-6" v-if="opdData.patientlist!=''">
+          <div class="col-md-6" >
             <div class="col-md-6 ">
               <label for="opd_no">Select OPD No.:</label>
             </div>
@@ -986,63 +986,7 @@
             );
              /*for laboratory data*/
 
-            $('#patient').on("select2:select", function (e) {
-              let patientId = $(this).val();
-              vm.opdData.patientlist=patientId;
-              //for uhid
-              User.generatePatientDetailsByID(patientId).then(
-                  (response) => {
-                    let patient_data=response.data.data;
-                    vm.opdData.uhid_no =patient_data.uhid_no;
-                  },
-                  (error) => {
-                  },
-              );
-              //for opd list
-              User.generateOpdIdByPatirntID(patientId).then(
-                  (response) => {
-                   $.each(response.data.data, function(key,value) {
-
-                       opd_list_new.push({
-                         'id' : value.id,
-                         'opd_id' : value.opd_id,
-                      });
-                    });
-                     setTimeout(function(){
-                            $('#opd_no').select2({
-                              placeholder: "Select",
-                              tags:false 
-                            }); 
-                    },500);
-                      /*for opd data */
-             $('#opd_no').on("select2:select", function (e) {
-                 let opdID = $(this).val();
-                 vm.opdData.opd_id=opdID;
-                 User.generatePatientCheckUpDetails(opdID).then(
-                  (response) => {
-                    let patient_checkup_details=response.data.data;
-                    vm.opdData.height =patient_checkup_details.height;
-                    vm.opdData.weight =patient_checkup_details.weight;
-                    vm.opdData.bmi =patient_checkup_details.bmi;
-                    vm.opdData.vitals =patient_checkup_details.vitals;
-                    vm.opdData.pulse =patient_checkup_details.pulse;
-                    let bp =patient_checkup_details.bp.split("/");
-                    vm.opdData.bp_systolic =bp[0];
-                    vm.opdData.bp_diastolic =bp[1];
-                    vm.opdData.temp =patient_checkup_details.temp;
-                  },
-                  (error) => {
-                  },
-              );
-             });
-            /*for opd data */ 
-                    vm.opdData.opd_option=opd_list_new;
-                  },
-                  (error) => {
-                  },
-              );
-
-            });
+            
 
            
 
@@ -1073,6 +1017,43 @@
                   }); 
                 },500)  
               }
+            }
+            else if(this.id == 'patient'){
+                let patientId = $(this).val();
+                vm.opdData.patientlist=patientId;
+                //for uhid
+                User.generatePatientDetailsByID(patientId).then(
+                    (response) => {
+                      let patient_data=response.data.data;
+                      vm.opdData.uhid_no =patient_data.uhid_no;
+                    },
+                    (error) => {
+                    },
+                );
+                //for opd list
+                
+                User.generateOpdIdByPatirntID(patientId).then(
+                    (response) => {
+                      opd_list_new=[];
+                     $.each(response.data.data, function(key,value) {
+
+                         opd_list_new.push({
+                           'id' : value.id,
+                           'opd_id' : value.opd_id,
+                        });
+                      });
+                       setTimeout(function(){
+                              $('#opd_no').select2({
+                                placeholder: "Select",
+                                tags:false 
+                              }); 
+
+                      },500);
+                       vm.opdData.opd_option=opd_list_new;
+                      },
+                      (error) => {
+                      },
+                );
             }
             else if(this.id == 'radiology'){
               vm.opdData.radiology=$(this).val();
@@ -1110,6 +1091,27 @@
             }
             else if(this.id == 'xray_type_opd'){
               vm.resultData.x_ray_type = $(this).val(); 
+            }
+            else if(this.id == 'opd_no')
+            {
+                 let opdID = $(this).val();
+                     vm.opdData.opd_id=opdID;
+                     User.generatePatientCheckUpDetails(opdID).then(
+                      (response) => {
+                        let patient_checkup_details=response.data.data;
+                        vm.opdData.height =patient_checkup_details.height;
+                        vm.opdData.weight =patient_checkup_details.weight;
+                        vm.opdData.bmi =patient_checkup_details.bmi;
+                        vm.opdData.vitals =patient_checkup_details.vitals;
+                        vm.opdData.pulse =patient_checkup_details.pulse;
+                        let bp =patient_checkup_details.bp.split("/");
+                        vm.opdData.bp_systolic =bp[0];
+                        vm.opdData.bp_diastolic =bp[1];
+                        vm.opdData.temp =patient_checkup_details.temp;
+                      },
+                      (error) => {
+                      },
+                  );
             }
 
            
@@ -1503,40 +1505,19 @@
               (response) => {
                 if (!this.errors.any()) {
                    $("body .js-loader").removeClass('d-none');
-                   
-                   var oData = {'opdData':this.opdData,'resultData':this.resultData,'doctor':this.doctor_id,'department':this.department};
-                    User.generateAddOpdDetails(oData).then(
-                      (response) => {
-                          if(response.data.code == 200) {
-                            var vm =this;
-                            toastr.success('OPD details saved successfully', 'OPD Report', {timeOut: 2000});
-                            var opdData = this.opdData;
-                            this.$router.push({'name':'opd_form_thankyou'});
-                            vm.$store.dispatch('saveOpdData');  
-                        
-                          } else if(response.data.code == 300) {
-                            toastr.error('Record not found.Please enter valid search value.', 'Error', {timeOut: 5000});
-                          } else{
-                            
-                           toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
-                          }
-                           $("body .js-loader").addClass('d-none');
-                        },
-                        (error) => {
-                           $("body .js-loader").addClass('d-none');
+                   var vm=this;
+    
+                   let res= vm.$store.dispatch('saveOpdData');
+                  
 
-                        }
-                    )
+                   if(res=='success')
+                   {
+                   }
                   }
                 },
                 (error) => {
                 }
                 );
-
-
-
-            
-           
           },
           download(dataURL, filename) {
             var vm =this;

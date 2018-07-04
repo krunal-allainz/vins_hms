@@ -14,5 +14,6 @@ class LaboratoryDetails extends Model
               'lab_type',
               'report',
               'user_id',
+              'refrences',
         ];
 }

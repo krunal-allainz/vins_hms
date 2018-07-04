@@ -86,10 +86,33 @@ const actions = {
     
   },
   saveOpdData({commit,state}) {
-    let oData = state.radioData;
-    user.saveOpdData(oData).then((response) => {
-      commit(types.SAVE_OPD_DATA);
-    });
+    var vm =this;
+   
+    //var oData = {'opdData':this.opdData,'resultData':this.resultData,'doctor':this.doctor_id,'department':this.department};
+    var oData = {'opdData':state.opdData,'resultData':state.opd_resultData,'doctor':8,'department':'Vascular','radioData':state.radioData,'laboratoryData':state.laboratoryData};
+    
+    // $router.push({name:'opd_form_thankyou'});
+
+    user.generateAddOpdDetails(oData).then((response) => {
+         $("body .js-loader").addClass('d-none');
+         
+        if(response.data.code == 200) {
+            toastr.success('OPD details saved successfully', 'OPD Report', {timeOut: 2000});
+            return 'success';
+          } else if(response.data.code == 300) {
+            toastr.error('Record not found.Please enter valid search value.', 'Error', {timeOut: 5000});
+            return 'failed';
+          } else{
+           
+           toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
+           return 'failed';
+          }
+          return 'failed';
+           
+    },
+    (error) => {
+                }
+    );
 
   }
 }
