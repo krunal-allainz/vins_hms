@@ -95,6 +95,55 @@
             </div>
             <div class="row">
                 <div class="col-xl-8 col-12">
+                	 <!-- First Basic Table strats here-->
+                    <div class="card ">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="ti-layout-cta-left"></i> Patient List
+                            </h3>
+                            <span class="float-right">
+                                    <i class="fa fa-fw ti-angle-up clickable"></i>
+                                    <i class="fa fa-fw ti-close removecard "></i>
+                                </span>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table" id="table1">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Gender</th>
+                                        <th>Uhid No</th>
+                                        <th>MobileNo</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="(res,index) in patientList">
+                                    	<td>{{++index}}</td>
+                                        <td>{{res.first_name}}</td>
+                                        <td>{{res.last_name}}</td>
+                                        <td>{{(res.gender == 'F')?'Female':'Male'}}</td>
+                                        <td>{{res.uhid_no}}</td>
+                                        <td>{{res.mob_no}}</td>
+                                    </tr>
+                                   
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    <!--     <div class="pagination" >
+						    <button class="btn btn-default" @click="getResults(pagination.prev_page_url)"
+						            :disabled="!pagination.prev_page_url">
+						        Previous
+						    </button>
+    						<span>Page {{pagination.current_page}} of {{pagination.last_page}}</span>
+						    <button class="btn btn-default" @click="getResults(pagination.next_page_url)"
+						            :disabled="!pagination.next_page_url">Next
+						    </button>
+						</div> -->
+                      </div>
                 </div>
                 <div class="col-xl-4  col-12">
                 	<div class="row">
@@ -213,13 +262,15 @@
 					'monthlyOPD' : '0',
 
 				},
-				'type' : 'OPD'
+				'type' : 'OPD',
+				'doctor_id':this.$store.state.Users.userDetails.id,
+				'pagination': {},
+				'patientList' : '',
 
 			}
 		},
-		 
 		 mounted(){
-
+		 	this.getResults();
 		 	this.getPatientCounters();
 		 	this.getOPDCounters();
 		 	 if ($('.timeline-update').length > 0) {
@@ -236,6 +287,30 @@
    			 }
 		 },
 		  methods:{
+			  	getResults(page_url) {
+				var vm =this;
+				 page_url = page_url || '/patient/list';
+				User.getPatientListByDoctor(page_url,vm.doctor_id).then(
+				 		(response) => {
+				 			 vm.patientList = response.data.data.data;
+				 			 vm.makePagination(response.data);
+				 		},
+				 		(error) => {
+
+				 		}
+
+				 	);
+				},
+				makePagination: function(data){
+	                let pagination = {
+	                    current_page: data.current_page,
+	                    last_page: data.last_page,
+	                    next_page_url: data.next_page_url,
+	                    prev_page_url: data.prev_page_url
+	                }
+	                this.pagination = pagination;
+	                //this.$set('pagination', pagination)
+	            },
 		  		getPatientCounters(){
 		  			User.getNumberOfPatient(this.type).then(
 		  				 (response) => {

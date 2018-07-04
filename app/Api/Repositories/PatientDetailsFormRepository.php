@@ -31,4 +31,10 @@ class PatientDetailsFormRepository
 
 	return $result;
 	}
+
+	public function getPatientListByDoctor($id){
+		 $patientList =PatientDetailsForm::where('consultant_id',$id)->paginate(10);
+
+		 return $patientList;
+	}
 }

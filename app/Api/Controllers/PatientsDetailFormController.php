@@ -257,12 +257,27 @@ class PatientsDetailFormController extends Controller
     public function getNumberOfPatient(Request $request){
         $type = $request->type;
         $patientTotal = $this->patientDetailObj->getNumberOfPatient($type);
-           if ($patientTotal) {
+        if ($patientTotal) {
             return ['code' => '200','data'=>$patientTotal, 'message' => 'Record Sucessfully created'];
         } else {
             return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
         }
 
 
+    }
+
+    /**
+    * get patient list with pagination of perticuler 
+    *
+    */
+
+    public function getPatientListByDoctor(Request $request){
+        $id = $request->id;
+        $patientList = $this->patientDetailObj->getPatientListByDoctor($id);
+        if ($patientList) {
+            return ['code' => '200','data'=>$patientList, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
     }
 }
