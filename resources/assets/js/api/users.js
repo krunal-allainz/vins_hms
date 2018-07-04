@@ -258,7 +258,6 @@ export default {
   getDrDepartment(name) {
     return api.post('user/getDepartmentByName',{'name' :name})
   },
-  
   removeReceipt(id){
      return api.post('patient/receipt/remove',{'id':id});
   },
@@ -301,5 +300,4 @@ export default {
   getPatientListByDoctor(page_url,id){
     return api.post(page_url,{'id':id})
   }
-
 }
