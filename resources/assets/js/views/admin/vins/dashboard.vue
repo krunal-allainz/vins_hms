@@ -219,7 +219,6 @@
                                                 <div class="timeline-badge primary wow lightSpeedIn center">
                                                    <!--  <img src="img/authors/avatar3.jpg" height="36" width="36"
                                                          class="rounded-circle float-right" alt="avatar-image"> -->
-
                                                 </div>
                                                 <div class="timeline-card wow slideInLeft"
                                                      style="display:inline-block;">
@@ -236,9 +235,6 @@
                                                     </div>
                                                 </div>
                                             </li>
-
-                                         
-                                           
                                         </ul>
                                     </div>
                                 </div>
@@ -312,7 +308,7 @@
 	                //this.$set('pagination', pagination)
 	            },
 		  		getPatientCounters(){
-		  			User.getNumberOfPatient(this.type).then(
+		  			User.getNumberOfPatient(this.type,doctor_id).then(
 		  				 (response) => {
 		  				 	this.counterData.dailyPatient = response.data.data.today;
 		  				 	this.counterData.monthlyPatient = response.data.data.month;
@@ -325,11 +321,10 @@
 		  		},
 		  		getOPDCounters(){
 
-		  			User.getOPDCounters().then(
+		  			User.getOPDCounters(doctor_id).then(
 		  				(response) => {
 		  					this.counterData.dailyOPD = response.data.data.today;
 		  				 	this.counterData.monthlyOPD = response.data.data.month;
-		  				 
 		  				},
 		  				(error) => {
 
