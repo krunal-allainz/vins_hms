@@ -18,6 +18,7 @@ const state = {
     'neuroExaminationData':{},
     'vascExaminationData':{},
     'laboratoryData':{},
+    'saveOpd':false,
 
  }
 
@@ -90,33 +91,7 @@ const actions = {
     
   },
   saveOpdData({commit,state}) {
-    var vm =this;
-   
-    //var oData = {'opdData':this.opdData,'resultData':this.resultData,'doctor':this.doctor_id,'department':this.department};
-    var oData = {'opdData':state.opdData,'resultData':state.opd_resultData,'doctor':state.doctorId,'department':'Vascular','radioData':state.radioData,'laboratoryData':state.laboratoryData,'vascExaminationData':state.vascExaminationData,'neuroExaminationData':state.neuroExaminationData};
     
-    // $router.push({name:'opd_form_thankyou'});
-console.log('sss');
-    user.generateAddOpdDetails(oData).then((response) => {
-         $("body .js-loader").addClass('d-none');
-         
-        if(response.data.code == 200) {
-            toastr.success('OPD details saved successfully', 'OPD Report', {timeOut: 2000});
-            return 'success';
-          } else if(response.data.code == 300) {
-            toastr.error('Record not found.Please enter valid search value.', 'Error', {timeOut: 5000});
-            return 'failed';
-          } else{
-           
-           toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
-           return 'failed';
-          }
-          return 'failed';
-           
-    },
-    (error) => {
-                }
-    );
 
   }
 }
@@ -176,6 +151,10 @@ const mutations = {
       state.radioData = {};
   },
   [types.SAVE_OPD_DATA] (state) {
+    // console.log(patientData)
+  },
+  [types.SAVE_OPD] (state,oData) {
+    state.saveOpd = oData;
     // console.log(patientData)
   },
   

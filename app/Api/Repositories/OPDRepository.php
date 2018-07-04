@@ -8,6 +8,7 @@
  use euro_hms\Models\Radiology;
  use euro_hms\Models\LaboratoryDetails;
  use euro_hms\Models\PatientCheckUp;
+ use euro_hms\Models\Examination;
  use euro_hms\Models\RadiologyAttachments;
  use Carbon\Carbon;
  use DB;
@@ -63,7 +64,7 @@
  			$examinationData=$request->all()['data']['neuroExaminationData'];
  		}
  		
- 		print_r($examinationData);exit;
+ 		
  		$opd_id_org=$data['opd_id'];
  		//print_r($data);exit;
  		//patient check up
@@ -263,7 +264,23 @@
 
  		/*for radiology */
  		/*for examination*/
- 		//$array_examination=array('pulsations')
+ 		if(!empty($examinationData))
+ 		{
+
+ 			$examination_obj=new Examination();
+ 			$examination_obj->opd_id=$opd_id_org;
+ 			$examination_obj->user_id=$user_id;
+ 			$examination_obj->department=$department;
+ 			$examination_data=array();
+ 			foreach($examinationData as $key=>$value)
+ 			{
+ 				$exam[$key]=$value;
+ 				$examination_data[]=$exam;
+ 			}
+ 			//print_r($examination_data);exit;
+ 			$examination_obj->examination_data=json_encode($examination_data);
+ 			$examination_obj->save();
+ 		}
  		
  		return $opd_id_org;
  	}

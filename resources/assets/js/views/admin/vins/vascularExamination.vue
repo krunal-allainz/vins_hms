@@ -192,6 +192,7 @@
 	import addressograph from './addressograph.vue';
 	// import SelectPatientModal from '../../../components/SelectPatientModal.vue';
   import SignaturePad from 'signature_pad';
+  import _ from 'lodash';
     export default {
         data() {
             return {
@@ -299,16 +300,37 @@
               (response) => {
                 // if (!this.errors.any()) {
                    // $("body .js-loader").removeClass('d-none');
-                   vm.$store.dispatch('saveVascExamination',vm.vascularExaminationData);
-                   // let res= vm.$store.dispatch('saveOpdData');
 
-                  // }
+                  vm.$store.dispatch('saveVascularExamination', _.cloneDeep(vm.vascularExaminationData)) ;
+                  let department = this.$store.state.Users.userDetails.department;
+                  let doctor =this.$store.state.Users.userDetails.id;
+                  //var oData = {'opdData':this.opdData,'resultData':this.resultData,'doctor':this.doctor_id,'department':this.department};
+                  var oData = {'opdData':this.$store.state.Patient.opdData,'resultData':this.$store.state.Patient.opd_resultData,'doctor':doctor,'department':department,'radioData':this.$store.state.Patient.radioData,'laboratoryData':this.$store.state.Patient.laboratoryData,'vascExaminationData':this.$store.state.Patient.vascExaminationData,'neuroExaminationData':this.$store.state.Patient.neuroExaminationData};
+                  User.generateAddOpdDetails(oData).then((response) => {
+                     $("body .js-loader").addClass('d-none');
+                     if(response.data.code == 200) {
+                       vm.$router.push({'name':'opd_form_thankyou'});
+                        toastr.success('OPD details saved successfully', 'OPD Report', {timeOut: 2000});
+                      } else if(response.data.code == 300) {
+                        toastr.error('Record not found.Please enter valid search value.', 'Error', {timeOut: 5000});
+                       vm.$router.push({'name':'opd_form_thankyou'});
+
+
+                      } else{
+                       vm.$router.push({'name':'opd_form_thankyou'});
+                       
+                       toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
+                      }
+                       vm.$router.push({'name':'opd_form_thankyou'}); 
+                  },
+                  (error) => {
+                  }
+                );
                 },
                 (error) => {
                 }
-                )
-
-         },
+                ) 
+        },
           resizeCanvas(canvas) {
               var ratio =  Math.max(window.devicePixelRatio || 1, 1);
               canvas.width = canvas.offsetWidth * ratio;
@@ -333,19 +355,7 @@
 		    GetSelectComponent(componentName) {
 		       this.$router.push({name: componentName})
 		    },
-		    saveVascularExamination() {
-          let vm =this;
-		    	this.$validator.validateAll().then(
-	            (response) => {
-	            	if (!this.errors.any()) {
-                   vm.$store.dispatch('saveVascularExamination',vm.vascularExaminationData);
-        			     }
-        			    },
-                (error) => {
-                }
-                )
 
-			}
 		  },
 
     }
