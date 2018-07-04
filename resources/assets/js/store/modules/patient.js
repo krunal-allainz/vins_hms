@@ -6,6 +6,7 @@ import moment from 'moment'
 // initial state
 const state = {
 	  'patientId':0,
+    'doctorId':0,
   	'ipdId':'',
     'uhid_no':'',
     'admitDatetime': '',
@@ -33,6 +34,9 @@ const getters = {
 const actions = {
   SetPatientId ({commit},patientId) {
     commit(types.SET_PATIENT_ID, patientId)
+  },
+  SetDoctorId ({commit},doctorId) {
+    commit(types.SET_DOCTOR_ID, doctorId)
   },
   setOpdData({commit},opdData) {
     commit(types.SET_OPD_DATA, opdData);
@@ -89,10 +93,10 @@ const actions = {
     var vm =this;
    
     //var oData = {'opdData':this.opdData,'resultData':this.resultData,'doctor':this.doctor_id,'department':this.department};
-    var oData = {'opdData':state.opdData,'resultData':state.opd_resultData,'doctor':8,'department':'Vascular','radioData':state.radioData,'laboratoryData':state.laboratoryData};
+    var oData = {'opdData':state.opdData,'resultData':state.opd_resultData,'doctor':state.doctorId,'department':'Vascular','radioData':state.radioData,'laboratoryData':state.laboratoryData,'vascExaminationData':state.vascExaminationData,'neuroExaminationData':state.neuroExaminationData};
     
     // $router.push({name:'opd_form_thankyou'});
-
+console.log('sss');
     user.generateAddOpdDetails(oData).then((response) => {
          $("body .js-loader").addClass('d-none');
          
@@ -124,6 +128,9 @@ const mutations = {
   },
   [types.SET_PATIENT_ID] (state, patientId) {
       state.patientId = patientId
+  },
+  [types.SET_DOCTOR_ID] (state, doctorId) {
+      state.doctorId = doctorId
   },
   [types.SET_UHID_NO] (state, uhid_no) {
       state.uhid_no = uhid_no

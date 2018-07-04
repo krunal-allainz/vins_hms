@@ -280,24 +280,7 @@
             vm.resizeCanvas(canvas1);
             vm.resizeCanvas(canvas2);
             
-            clear_vasc_signature.addEventListener("click", function (event) {
-              vm.vascularExaminationData.signaturePad1.clear();
-                vm.vascularExaminationData.signaturePad1 = new SignaturePad(canvas, {
-                    background: "url('/assets/img/froms/varicose_vein_1_small_new.png') no-repeat; max-width:100%; max-height:100%"
-                 });
-            });
-            clear_vasc_signature1.addEventListener("click", function (event) {
-                  vm.vascularExaminationData.signaturePad2.clear();
-                   vm.vascularExaminationData.signaturePad2 = new SignaturePad(canvas1, {
-                       background: "url('/assets/img/froms/varicose_vein_2_small_new.png') no-repeat; max-width:100%; max-height:100%"
-                    });
-            });
-            clear_vasc_signature2.addEventListener("click", function (event) {
-                  vm.vascularExaminationData.signaturePad3.clear();
-                   vm.vascularExaminationData.signaturePad3 = new SignaturePad(canvas2, {
-                    background: "url('/assets/img/froms/varicose_vein_3_small_new.png') no-repeat; max-width:100%; max-height:100%"
-                  });
-            });
+           
               // if (signaturePad.isEmpty()) {
               //   alert("Please provide a signature first.");
               // } else {resizeCanvas
@@ -317,7 +300,7 @@
                 // if (!this.errors.any()) {
                    // $("body .js-loader").removeClass('d-none');
                    vm.$store.dispatch('saveVascExamination',vm.vascularExaminationData);
-                   let res= vm.$store.dispatch('saveOpdData');
+                   // let res= vm.$store.dispatch('saveOpdData');
 
                   // }
                 },

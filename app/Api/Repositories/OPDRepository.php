@@ -54,15 +54,16 @@
  		$resultdata=$request->all()['data']['resultData'];
  		$labdata=$request->all()['data']['laboratoryData'];
 
- 		/*if($department=='Vascular')
+ 		if($department=='Vascular')
  		{
- 			$examinationData=$request->all()['data']['vascularExaminationData'];
+ 			$examinationData=$request->all()['data']['vascExaminationData'];
  		}
  		else
  		{
  			$examinationData=$request->all()['data']['neuroExaminationData'];
- 		}*/
+ 		}
  		
+ 		print_r($examinationData);exit;
  		$opd_id_org=$data['opd_id'];
  		//print_r($data);exit;
  		//patient check up

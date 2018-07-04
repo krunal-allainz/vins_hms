@@ -1511,7 +1511,7 @@
                 if (!this.errors.any()) {
                    $("body .js-loader").removeClass('d-none');
                    var vm=this;
-    
+                    this.$store.dispatch('SetDoctorId',vm.doctor_id);
                    let res= vm.$store.dispatch('saveOpdData');
                   
 
