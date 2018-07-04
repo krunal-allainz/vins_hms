@@ -13,13 +13,13 @@
       <div class="col-md-6" style="padding: 0px;">
         <div style="border: 1px solid;height: 100%;border-right:0px; ">
           <div class="text-center" style="font-size: 20px;font-weight: bold;background-color:gray;border-bottom:1px solid;height:35px;"><b>Motor Examination</b></div>
-            <canvas id="neuro_signature-pad" height="100%" width="100%" style="background: url('/assets/img/froms/examination_small_2.png') no-repeat; max-width:100%; max-height:100%;width: 85%;height:85%"></canvas>
+            <canvas id="neuro_signature-pad" height="100%" width="100%" style="background: url('/assets/img/froms/examination_small_2.png') no-repeat; max-width:100%; max-height:100%;width: 90%;height:85%"></canvas>
         </div>
       </div>
       <div class="col-md-6" style="padding: 0px;">
         <div style="border: 1px solid;height: 100%">
           <div class="text-center"  style="font-size: 20px;font-weight: bold;border-bottom:1px solid;height:35px;"><b>Sensory Examination</b></div>
-        <canvas id="neuro_signature-pad1" height="100%" width="100%" style="background: url('/assets/img/froms/examination_small_2.png') no-repeat; max-width:100%; max-height:100%;width: 85%;height:85%"></canvas>
+        <canvas id="neuro_signature-pad1" height="100%" width="100%" style="background: url('/assets/img/froms/examination_small_2.png') no-repeat; max-width:100%; max-height:100%;width: 90%;height:85%"></canvas>
       </div>
 
       </div>
@@ -324,30 +324,29 @@
           let vm = this;
 		    	this.$validator.validateAll().then(
 	            (response) => {
-	            	// if (!this.errors.any()) {
-	            		 // $("body .js-loader").removeClass('d-none');
-                   vm.$store.dispatch('saveVascularExamination', _.cloneDeep(vm.vascularExaminationData)) ;
-                                        let department = this.$store.state.Users.userDetails.department;
-     let doctor = this.$store.state.Users.userDetails.first_name + " "+ this.$store.state.Users.userDetails.last_name ;
-      //var oData = {'opdData':this.opdData,'resultData':this.resultData,'doctor':this.doctor_id,'department':this.department};
-      var oData = {'opdData':this.$store.state.Patient.opdData,'resultData':this.$store.state.Patient.opd_resultData,'doctor':doctor,'department':department,'radioData':this.$store.state.Patient.radioData,'laboratoryData':this.$store.state.Patient.laboratoryData};
-      
+	            
+              vm.$store.dispatch('saveNeuroExamination', _.cloneDeep(vm.neuroExaminationData)) ;
+              let department = this.$store.state.Users.userDetails.department;
+              let doctor = this.$store.state.Users.userDetails.id;
+              
+              var oData = {'opdData':this.$store.state.Patient.opdData,'resultData':this.$store.state.Patient.opd_resultData,'doctor':doctor,'department':department,'radioData':this.$store.state.Patient.radioData,'laboratoryData':this.$store.state.Patient.laboratoryData,'vascExaminationData':this.$store.state.Patient.vascExaminationData,'neuroExaminationData':this.$store.state.Patient.neuroExaminationData};
+                
 
-       User.generateAddOpdDetails(oData).then((response) => {
-           $("body .js-loader").addClass('d-none');
-           if(response.data.code == 200) {
-             vm.$router.push({'name':'opd_form_thankyou'});
-              toastr.success('OPD details saved successfully', 'OPD Report', {timeOut: 2000});
-            } else if(response.data.code == 300) {
-             vm.$router.push({'name':'opd_form_thankyou'});
+                 User.generateAddOpdDetails(oData).then((response) => {
+                     $("body .js-loader").addClass('d-none');
+                     if(response.data.code == 200) {
+                       vm.$router.push({'name':'opd_form_thankyou'});
+                        toastr.success('OPD details saved successfully', 'OPD Report', {timeOut: 2000});
+                      } else if(response.data.code == 300) {
+                       vm.$router.push({'name':'opd_form_thankyou'});
 
-              toastr.error('Record not found.Please enter valid search value.', 'Error', {timeOut: 5000});
-            } else{
-             vm.$router.push({'name':'opd_form_thankyou'});
-             
-             toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
-            }
-             vm.$router.push({'name':'opd_form_thankyou'});
+                        toastr.error('Record not found.Please enter valid search value.', 'Error', {timeOut: 5000});
+                      } else{
+                       vm.$router.push({'name':'opd_form_thankyou'});
+                       
+                       toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
+                      }
+                       vm.$router.push({'name':'opd_form_thankyou'});
              
       },
       (error) => {

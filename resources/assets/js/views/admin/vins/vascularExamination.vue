@@ -284,24 +284,7 @@
             vm.resizeCanvas(canvas1);
             vm.resizeCanvas(canvas2);
             
-            clear_vasc_signature.addEventListener("click", function (event) {
-              vm.vascularExaminationData.signaturePad1.clear();
-                vm.vascularExaminationData.signaturePad1 = new SignaturePad(canvas, {
-                    background: "url('/assets/img/froms/varicose_vein_1_small_new.png') no-repeat; max-width:100%; max-height:100%"
-                 });
-            });
-            clear_vasc_signature1.addEventListener("click", function (event) {
-                  vm.vascularExaminationData.signaturePad2.clear();
-                   vm.vascularExaminationData.signaturePad2 = new SignaturePad(canvas1, {
-                       background: "url('/assets/img/froms/varicose_vein_2_small_new.png') no-repeat; max-width:100%; max-height:100%"
-                    });
-            });
-            clear_vasc_signature2.addEventListener("click", function (event) {
-                  vm.vascularExaminationData.signaturePad3.clear();
-                   vm.vascularExaminationData.signaturePad3 = new SignaturePad(canvas2, {
-                    background: "url('/assets/img/froms/varicose_vein_3_small_new.png') no-repeat; max-width:100%; max-height:100%"
-                  });
-            });
+           
               // if (signaturePad.isEmpty()) {
               //   alert("Please provide a signature first.");
               // } else {resizeCanvas
@@ -322,40 +305,38 @@
               (response) => {
                 // if (!this.errors.any()) {
                    // $("body .js-loader").removeClass('d-none');
-                   vm.$store.dispatch('saveVascularExamination', _.cloneDeep(vm.vascularExaminationData)) ;
-                                        let department = this.$store.state.Users.userDetails.department;
-     let doctor = this.$store.state.Users.userDetails.first_name + " "+ this.$store.state.Users.userDetails.last_name ;
-      //var oData = {'opdData':this.opdData,'resultData':this.resultData,'doctor':this.doctor_id,'department':this.department};
-      var oData = {'opdData':this.$store.state.Patient.opdData,'resultData':this.$store.state.Patient.opd_resultData,'doctor':doctor,'department':department,'radioData':this.$store.state.Patient.radioData,'laboratoryData':this.$store.state.Patient.laboratoryData};
-      
-        
-       User.generateAddOpdDetails(oData).then((response) => {
-           $("body .js-loader").addClass('d-none');
-           if(response.data.code == 200) {
-             vm.$router.push({'name':'opd_form_thankyou'});
-              toastr.success('OPD details saved successfully', 'OPD Report', {timeOut: 2000});
-            } else if(response.data.code == 300) {
-              toastr.error('Record not found.Please enter valid search value.', 'Error', {timeOut: 5000});
-             vm.$router.push({'name':'opd_form_thankyou'});
 
-            } else{
-             vm.$router.push({'name':'opd_form_thankyou'});
-             
-             toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
-            }
-             vm.$router.push({'name':'opd_form_thankyou'});
+                  vm.$store.dispatch('saveVascularExamination', _.cloneDeep(vm.vascularExaminationData)) ;
+                  let department = this.$store.state.Users.userDetails.department;
+                  let doctor =this.$store.state.Users.userDetails.id;
+                  
+                  //var oData = {'opdData':this.opdData,'resultData':this.resultData,'doctor':this.doctor_id,'department':this.department};
+                  var oData = {'opdData':this.$store.state.Patient.opdData,'resultData':this.$store.state.Patient.opd_resultData,'doctor':doctor,'department':department,'radioData':this.$store.state.Patient.radioData,'laboratoryData':this.$store.state.Patient.laboratoryData,'vascExaminationData':this.$store.state.Patient.vascExaminationData,'neuroExaminationData':this.$store.state.Patient.neuroExaminationData};
+                  User.generateAddOpdDetails(oData).then((response) => {
+                     $("body .js-loader").addClass('d-none');
+                     if(response.data.code == 200) {
+                       vm.$router.push({'name':'opd_form_thankyou'});
+                        toastr.success('OPD details saved successfully', 'OPD Report', {timeOut: 2000});
+                      } else if(response.data.code == 300) {
+                        toastr.error('Record not found.Please enter valid search value.', 'Error', {timeOut: 5000});
+                       vm.$router.push({'name':'opd_form_thankyou'});
 
-             
-      },
-      (error) => {
+
+                      } else{
+                       vm.$router.push({'name':'opd_form_thankyou'});
+                       
+                       toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
+                      }
+                       vm.$router.push({'name':'opd_form_thankyou'}); 
+                  },
+                  (error) => {
                   }
-      );
+                );
                 },
                 (error) => {
                 }
-                )
-
-         },
+                ) 
+        },
           resizeCanvas(canvas) {
               var ratio =  Math.max(window.devicePixelRatio || 1, 1);
               canvas.width = canvas.offsetWidth * ratio;

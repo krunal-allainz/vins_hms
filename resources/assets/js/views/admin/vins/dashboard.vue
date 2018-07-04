@@ -5,7 +5,7 @@
                     <div class="flip">
                         <div class="widget-bg-color-icon card-box front">
                             <div class="bg-icon float-left">
-                                <i class="ti-eye text-warning"></i>
+                                <i class="fa fa-eye text-warning"></i>
                             </div>
                             <div class="text-right">
                                 <h3 class="text-dark"><b>{{counterData.dailyPatient}}</b></h3>
@@ -27,7 +27,7 @@
                     <div class="flip">
                         <div class="widget-bg-color-icon card-box front">
                             <div class="bg-icon float-left">
-                                <i class="ti-shopping-cart text-success"></i>
+                                <i class="fa fa-medkit text-success"></i>
                             </div>
                             <div class="text-right">
                                 <h3><b id="widget_count3">{{counterData.dailyOPD}}</b></h3>
@@ -50,7 +50,7 @@
                     <div class="flip">
                         <div class="widget-bg-color-icon card-box front">
                             <div class="bg-icon float-left">
-                                <i class="ti-thumb-up text-danger"></i>
+                                <i class="fa fa-user text-danger"></i>
                             </div>
                             <div class="text-right">
                                 <h3 class="text-dark"><b>{{counterData.monthlyPatient}}</b></h3>
@@ -72,7 +72,7 @@
                     <div class="flip">
                         <div class="widget-bg-color-icon card-box front">
                             <div class="bg-icon float-left">
-                                <i class="ti-user text-info"></i>
+                                <i class="fa fa-briefcase text-info"></i>
                             </div>
                             <div class="text-right">
                                 <h3 class="text-dark"><b>{{counterData.monthlyOPD}}</b></h3>

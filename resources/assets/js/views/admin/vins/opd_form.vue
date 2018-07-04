@@ -375,7 +375,7 @@
         <table class="table table-striped table-bordered" id="prescription_list">
             <thead>
             <tr>
-                <th>#</th>
+                <!-- <th>#</th> -->
                 <th>Name</th>
                 <th>Quntity</th>
                 <th>Unit</th>
@@ -385,7 +385,7 @@
             </thead>
             <tbody>
              <tr v-if="res.removed == false"  v-for="(res,index) in finalPrescriptionData">
-                <td>{{res.id}}</td>
+              <!--   <td>{{res.id}}</td> -->
                 <td>{{res.Prescription }}</td>
                 <td>{{res.quntity}}</td>
                 <td>{{res.unit}}</td>
@@ -1511,7 +1511,7 @@
                 if (!this.errors.any()) {
                    $("body .js-loader").removeClass('d-none');
                    var vm=this;
-    
+                    this.$store.dispatch('SetDoctorId',vm.doctor_id);
                    let res= vm.$store.dispatch('saveOpdData');
                   
 
