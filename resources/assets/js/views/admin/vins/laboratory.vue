@@ -74,7 +74,13 @@
 		<br><br>
 
 	<radiology></radiology>
-		
+		<div class="row form-group">
+        <div class="col-md-6">
+          <button type="button" class="btn btn-primary btn-submit text-right " @click="prev()" >Previous</button>
+          <button type="button" class="btn btn-primary btn-submit text-right ml-10" @click="next()" >Next</button>
+         <!--  <button type="button" class="btn btn-primary btn-submit text-right " v-if="curStep==3" @click="saveInformation()">Submit</button> -->
+        </div>
+      </div>
 
 	</div>
 </template>
@@ -307,7 +313,15 @@
         	}
         },
         methods: {
+			prev() {
+              let vm =this;
+              vm.$root.$emit('prev');
+          },
+          next() {
+          	let vm =this;
+              vm.$root.$emit('next');
 
+          },
 		    GetSelectComponent(componentName) {
 		       this.$router.push({name: componentName})
 		    },

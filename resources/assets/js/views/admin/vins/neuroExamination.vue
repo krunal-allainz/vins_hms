@@ -213,9 +213,10 @@
       </div>
     </div>
 
-<!--     <div class="row form-group">
-      <button class=" btn btn-success" type="button" @click="saveNeuroExamination()">Save Data</button>
-    </div> -->
+    <div class="row form-group">
+      <button type="button" class="btn btn-primary btn-submit text-right " @click="prev()" >Previous</button>
+      <button class="btn btn-primary btn-submit text-right ml-10" type="button" @click="saveNeuroExamination()">Save Data</button>
+    </div>
   </form>
 
   <!-- <select-patient-modal @confirmed="deleteConfirmed()"></select-patient-modal> -->
@@ -304,8 +305,12 @@
 
             let vm =this;
            
-              vm.$store.dispatch('saveNeuroExamination',vm.neuroExaminationData);
+              // vm.$store.dispatch('saveNeuroExamination',vm.neuroExaminationData);
            
+          },
+          prev() {
+              let vm =this;
+              vm.$root.$emit('prev');
           },
 		    GetSelectComponent(componentName) {
 		       this.$router.push({name: componentName})
@@ -314,11 +319,12 @@
           let vm = this;
 		    	this.$validator.validateAll().then(
 	            (response) => {
-	            	if (!this.errors.any()) {
+	            	// if (!this.errors.any()) {
 	            		 // $("body .js-loader").removeClass('d-none');
                    vm.$store.dispatch('saveNeuroExamination',vm.neuroExaminationData);
+                   let res= vm.$store.dispatch('saveOpdData');
 
-        		    	}
+        		    	// }
         		    },
                 (error) => {
                 }
@@ -329,7 +335,7 @@
             var vm =this;
             var canvas = document.getElementById("neuro_signature-pad");
             var canvas1 = document.getElementById("neuro_signature-pad1");
-            var canvas2 = document.getElementById("doc_signature");
+            // var canvas2 = document.getElementById("doc_signature");
 
             var clear_neuro_scribble = document.getElementById("clear_doctor_signature");
             // var clear_neuro_scribble1 = document.getElementById("clear_neuro_scribble");
@@ -341,13 +347,13 @@
             vm.neuroExaminationData.signaturePad2 = new SignaturePad(canvas1, {
               backgroundColor: 'rgb(255, 255, 255)',
             });
-            vm.neuroExaminationData.signaturePad3 = new SignaturePad(canvas2, {
-              backgroundColor: 'rgb(255, 255, 255)',
-            });
+            // vm.neuroExaminationData.signaturePad3 = new SignaturePad(canvas2, {
+            //   backgroundColor: 'rgb(255, 255, 255)',
+            // });
             window.onresize = vm.resizeCanvas;
             vm.resizeCanvas(canvas);
             vm.resizeCanvas(canvas1);
-            vm.resizeCanvas(canvas2);
+            // vm.resizeCanvas(canvas2);
             clear_neuro_scribble.addEventListener("click", function (event) {
               vm.neuroExaminationData.signaturePad3.clear();
             });
@@ -363,7 +369,7 @@
               var ratio =  Math.max(window.devicePixelRatio || 1, 1);
               canvas.width = canvas.offsetWidth * ratio;
               canvas.height = canvas.offsetHeight * ratio;
-               canvas.getContext("2d").scale(ratio, ratio);
+               // canvas.getContext("2d").scale(ratio, ratio);
             },
          dataURLToBlob(dataURL) {
               // Code taken from https://github.com/ebidel/filer.js

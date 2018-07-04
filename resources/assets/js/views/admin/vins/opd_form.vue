@@ -661,9 +661,9 @@
       </div>
       <div class="row form-group">
         <div class="col-md-6">
-          <button type="button" class="btn btn-primary btn-submit text-right " @click="prev()" v-if="curStep!=1">Previous</button>
-          <button type="button" class="btn btn-primary btn-submit text-right " @click="next()" v-if="curStep!=3">Next</button>
-          <button type="button" class="btn btn-primary btn-submit text-right " v-if="curStep==3" @click="saveInformation()">Submit</button>
+<!--           <button type="button" class="btn btn-primary btn-submit text-right " @click="prev()" v-if="curStep!=1">Previous</button>
+ -->          <button type="button" class="btn btn-primary btn-submit text-right " @click="next()" v-if="curStep==1">Next</button>
+         <!--  <button type="button" class="btn btn-primary btn-submit text-right " v-if="curStep==3" @click="saveInformation()">Submit</button> -->
         </div>
       </div>
     </form>
@@ -923,6 +923,8 @@
        },
        created: function() {
              this.$root.$on('SetUhidNo', this.updateUhidNo);
+             this.$root.$on('prev', this.prev);
+             this.$root.$on('next', this.next);
         },
         mounted(){
        
@@ -1359,6 +1361,7 @@
             vm.opdData.uhid_no = uhid;
           },
           prev(){
+            console.log(' parent prev')
             let vm =this;
             vm.$root.$emit('submitNeuroData');
             // setTimeout(function(){

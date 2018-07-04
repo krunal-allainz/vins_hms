@@ -165,11 +165,7 @@
         </div>
       </div>
 
-			<div class="text-center row form-group">
-         <div class="col-md-12">
-				  <button class="btn btn-success pull-left" type="button" @click="saveVascularExamination()">Save Data</button>
-        </div>
-			</div>
+
       <div class="row form-group">
         <div class="col-md-12">
           <div class="col-md-12">
@@ -178,6 +174,12 @@
           <div class="col-md-12">
             <textarea class="form-control" type="text" name="follow_up" id="follow_up" v-model="vascularExaminationData.follow_up" /></textarea>
           </div>
+        </div>
+      </div>
+          <div class="text-center row form-group">
+         <div class="col-md-12">
+           <button type="button" class="btn btn-primary btn-submit text-right " @click="prev()" >Previous</button>
+          <button class="btn btn-primary btn-submit text-right ml-10" type="button" @click="saveVascularExamination()">Save Examination</button>
         </div>
       </div>
 
@@ -304,14 +306,20 @@
               // }
             // });
           },
+          prev() {
+              let vm =this;
+              vm.$root.$emit('prev');
+          },
           saveVascularExamination() {
           let vm = this;
           this.$validator.validateAll().then(
               (response) => {
-                if (!this.errors.any()) {
+                // if (!this.errors.any()) {
                    // $("body .js-loader").removeClass('d-none');
                    vm.$store.dispatch('saveVascExamination',vm.vascularExaminationData);
-                  }
+                   let res= vm.$store.dispatch('saveOpdData');
+
+                  // }
                 },
                 (error) => {
                 }
