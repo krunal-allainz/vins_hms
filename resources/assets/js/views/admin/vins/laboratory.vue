@@ -299,6 +299,9 @@
 				vm.$store.dispatch('saveLabReportData',vm.laboratoryData);
 				
 			});
+			setTimeout(function(){
+				vm.initData();	
+			},1000)
 			/*for lab data end*/
 			
         },
@@ -321,6 +324,13 @@
           	let vm =this;
               vm.$root.$emit('next');
 
+          },
+          initData() {
+          	let vm =this;
+          	vm.laboratoryData.blood_report = '';
+          	vm.laboratoryData.urine_report = '';
+          	vm.laboratoryData.blood_report = '';
+          	vm.laboratoryData.blood_report = '';
           },
 		    GetSelectComponent(componentName) {
 		       this.$router.push({name: componentName})
