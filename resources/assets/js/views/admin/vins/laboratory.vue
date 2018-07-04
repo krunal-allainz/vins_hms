@@ -270,39 +270,29 @@
 
 			  });
 
-	        $('.ls-select2').on("select2:select", function (e) {
-	        	vm.laboratoryData.label_1=$("#label_1").select2().val();
-	        	vm.laboratoryData.label_2=$("#label_2").select2().val();
-	        	vm.laboratoryData.urine=$("#urine").select2().val();
-	        	vm.laboratoryData.stone=$("#stone").select2().val();
-	        	vm.laboratoryData.demo=$("#demo").select2().val();
-	         });
+
 
 	        /*for lab data start*/
 	        
 			$('#blood_report').on("select2:select", function (e) {
 				vm.laboratoryData.blood_report = $(this).val();  
-				vm.$store.dispatch('saveLabReportData',vm.laboratoryData);
 			});
 			$('#urine').on("select2:select", function (e) {
 				vm.laboratoryData.urine_report = $(this).val();
-				vm.$store.dispatch('saveLabReportData',vm.laboratoryData);
-
+			
 			});
 			$('#csf').on("select2:select", function (e) {
 				vm.laboratoryData.csf_report = $(this).val();  
-				vm.$store.dispatch('saveLabReportData',vm.laboratoryData);
-
+			
 			});
 			$('#body_fluid_analysis').on("select2:select", function (e) {
 				vm.laboratoryData.body_fluid_analysis_report = $(this).val();  
-				vm.$store.dispatch('saveLabReportData',vm.laboratoryData);
 				
 			});
-			setTimeout(function(){
-				vm.initData();	
-			},1000)
 			/*for lab data end*/
+			setTimeout(function(){
+				vm.initData();
+			},1000)
 			
         },
         filters:{
@@ -318,19 +308,32 @@
         methods: {
 			prev() {
               let vm =this;
+			vm.$store.dispatch('saveLabReportData',vm.laboratoryData);
+
               vm.$root.$emit('prev');
           },
           next() {
+
           	let vm =this;
+			vm.$store.dispatch('saveLabReportData',vm.laboratoryData);
+          	
               vm.$root.$emit('next');
 
           },
-          initData() {
+         initData() {
           	let vm =this;
-          	vm.laboratoryData.blood_report = '';
-          	vm.laboratoryData.urine_report = '';
-          	vm.laboratoryData.blood_report = '';
-          	vm.laboratoryData.blood_report = '';
+          	vm.laboratoryData.blood_report = _.cloneDeep(this.$store.state.Patient.laboratoryData.blood_report);
+          	
+          	vm.laboratoryData.urine_report = _.cloneDeep(this.$store.state.Patient.laboratoryData.urine_report);
+          	vm.laboratoryData.csf_report = _.cloneDeep(this.$store.state.Patient.laboratoryData.csf_report);
+          	vm.laboratoryData.body_fluid_analysis_report = _.cloneDeep(this.$store.state.Patient.laboratoryData.body_fluid_analysis_report);
+          	$('#blood_report').val(this.$store.state.Patient.laboratoryData.blood_report).trigger('change');
+          	$('#urine').val(this.$store.state.Patient.laboratoryData.urine_report).trigger('change');
+          	$('#csf').val(this.$store.state.Patient.laboratoryData.csf_report).trigger('change');
+          	$('#body_fluid_analysis').val(this.$store.state.Patient.laboratoryData.body_fluid_analysis_report).trigger('change');
+
+
+
           },
 		    GetSelectComponent(componentName) {
 		       this.$router.push({name: componentName})
