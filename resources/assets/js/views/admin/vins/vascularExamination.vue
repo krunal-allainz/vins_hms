@@ -304,6 +304,7 @@
                   vm.$store.dispatch('saveVascularExamination', _.cloneDeep(vm.vascularExaminationData)) ;
                   let department = this.$store.state.Users.userDetails.department;
                   let doctor =this.$store.state.Users.userDetails.id;
+                  
                   //var oData = {'opdData':this.opdData,'resultData':this.resultData,'doctor':this.doctor_id,'department':this.department};
                   var oData = {'opdData':this.$store.state.Patient.opdData,'resultData':this.$store.state.Patient.opd_resultData,'doctor':doctor,'department':department,'radioData':this.$store.state.Patient.radioData,'laboratoryData':this.$store.state.Patient.laboratoryData,'vascExaminationData':this.$store.state.Patient.vascExaminationData,'neuroExaminationData':this.$store.state.Patient.neuroExaminationData};
                   User.generateAddOpdDetails(oData).then((response) => {
