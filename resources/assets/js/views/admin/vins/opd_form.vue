@@ -1156,7 +1156,7 @@
               let q_data=vm.investigationData.radiologyQualifierReal;
               let radiologySubType_val=$("#radiology_subtype_opd").select2().val();
                
-                
+                $('#radiology_spine_opd').select2("destroy");
                 $("#radiology_qualifier_opd").val('').trigger('change.select2');
                 vm.resultData.qualifier = '';
                 vm.resultData.qualifier_text_enable = false;
@@ -1177,11 +1177,13 @@
                 }
                 else if(radiologySubType_val=='Brain')
                 {
+                  
                   vm.investigationData.radiologyQualifier="";
                   vm.investigationData.radiologyQualifier=vm.investigationData.brain_options;
                 }
                 else
                 { 
+
                     vm.investigationData.radiologyQualifier="";
                     vm.investigationData.radiologyQualifier=q_data;
                     vm.resultData.qualifier_text_enable = false;
