@@ -19,7 +19,7 @@ class PatientDetailsFormRepository
 		$tillDate = Carbon::now()->toDateString();
 		$result['today'] = PatientDetailsForm::selectRaw('date(created_at) as date, COUNT(*) as count')
         ->where( DB::raw('date(created_at)'), [$tillDate] )
-        ->where( 'consultant_id',$id )
+        ->where('consultant_id',$id)
     	->orderBy('created_at', 'DESC')
     	->count();
 

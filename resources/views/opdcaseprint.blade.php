@@ -323,6 +323,18 @@
 			<h4>Lab Report</h4>
 		</div>
   	</div>
+  		<div class='row' style="padding-left: 15px;padding-right:15px;">
+			    	 <table class="table" align="center" cellspacing=0>	
+		         	<thead>	
+		         		<tr>	
+		         			<td class="text-left"><b>Ref By :</b>{{$data['adviceDoctor']}} </td>	
+		         			<td class="text-center"><b>Date :</b> 	{{$data['todayDate']}} </td>	
+		         		</tr>	
+		         	</thead>
+		         </table>
+			    
+		    </div>	
+			<br/><br/>
   	<div class="row" style="min-height: 350px;height: 350px;">
   		<div class="col-md-12">
   			<div class="col-md-6"><span><b>Blood :</b></span>{{$data['labReportData']['blood']}} </div>
@@ -340,6 +352,18 @@
 		<div class='col-md-12 text-center'>
 			<h4>Radiology Report</h4>
 		</div>
+			<div class='row' style="padding-left: 15px;padding-right:15px;">
+			    	 <table class="table" align="center" cellspacing=0>	
+		         	<thead>	
+		         		<tr>	
+		         			<td class="text-left"><b>Ref By :</b>{{$data['adviceDoctor']}} </td>	
+		         			<td class="text-center"><b>Date :</b> 	{{$data['todayDate']}} </td>	
+		         		</tr>	
+		         	</thead>
+		         </table>
+			    
+		    </div>	
+			<br/><br/>
 		<div class="row"  style="min-height: 350px;height: 350px;">
         	<div class="col-md-12">
         	  <div class="">
@@ -375,41 +399,56 @@
   @endif
   
   @if($data['printType'] == 'prescription')
-  	@if(!empty($data['priscriptionData']))
+  	@if(isset($data['priscriptionData']))
+	  	@if(!empty($data['priscriptionData']))
 
-	<div style="padding-left: 35px;min-height: 350px;height: 350px;">
-		<div class='col-md-12 text-center'>
-			<span class='text-center'><b>Prescription</b></span>
-		</div>
-		
-		<div class="table-responsive">
-			<table class="table" id="prescription_list">
-			    <thead>
-				    <tr>
-					   <th width="8%">#</th>
-					   <th >Name</th>
-					   <th class="text-center">Quntity</th>
-					   <th class="text-center">Unit</th>
-					   <th class="text-center">Time For Medicine</th>
-				 	</tr>
-					</thead>
-					   <tbody>
-					   	@foreach($data['priscriptionData'] as $key=>$value)
-						   <tr >
-							   <td>{{$key}}</td>
-							   <td>{{$value['Prescription'] }}</td>
-							   <td class="text-center">{{$value['quntity']}}</td>
-							   <td class="text-center">{{(isset($value['unit']))?$value['unit']:''}}</td>
-							   <td class="text-center">{{$value['time']}}</td>
-						  </tr>
-						@endforeach
-		           </tbody>
-		       </table>
-		</div>
+		<div style="padding-left: 35px;min-height: 350px;height: 350px;">
+			<div class='row' style="padding-left: 15px;padding-right:15px;">
+			    	 <table class="table" align="center" cellspacing=0>	
+		         	<thead>	
+		         		<tr>	
+		         			<td class="text-left"><b>Ref By :</b>{{$data['adviceDoctor']}} </td>	
+		         			<td class="text-center"><b>Date :</b> 	{{$data['todayDate']}} </td>	
+		         		</tr>	
+		         	</thead>
+		         </table>
+			    
+		    </div>	
+			<br/><br/>
+			<div class='col-md-12 text-center'>
+				<span class='text-center'><b>Prescription</b></span>
+			</div>
+
+			
+			<div class="table-responsive">
+				<table class="table" id="prescription_list">
+				    <thead>
+					    <tr>
+						   <th width="8%">#</th>
+						   <th >Name</th>
+						   <th class="text-center">Quntity</th>
+						   <th class="text-center">Unit</th>
+						   <th class="text-center">Time For Medicine</th>
+					 	</tr>
+						</thead>
+						   <tbody>
+						   	@foreach($data['priscriptionData'] as $key=>$value)
+							   <tr >
+								   <td>{{$key}}</td>
+								   <td>{{$value['Prescription'] }}</td>
+								   <td class="text-center">{{$value['quntity']}}</td>
+								   <td class="text-center">{{(isset($value['unit']))?$value['unit']:''}}</td>
+								   <td class="text-center">{{$value['time']}}</td>
+							  </tr>
+							@endforeach
+			           </tbody>
+			       </table>
+			</div>
+		@endif
 	@endif
 	<br/><br/>
- <?php echo 'dfdsf';exit;?>
 
+	@if(isset($data['referalType']))
 	@if($data['referalType'] != null && $data['crossSelectedValue'] != '')
 		<div style="padding-left: 35px;"> 
 			<div class='col-md-12 text-center'>
@@ -437,6 +476,7 @@
 			@endif
 			</div>
 		@endif
+	@endif
 		
   @endif
   @if($data['printType'] == 'opd_case')

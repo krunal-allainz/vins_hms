@@ -291,7 +291,7 @@
  	*
  	*/
 
- 	public function getOPDCounters($id){
+ 	public function getOPDCounters(){
  		$result = array();
 		// this week results
 		$fromDate =Carbon::now()->subDay(30)->startOfWeek()->toDateString(); // or ->format(..)
