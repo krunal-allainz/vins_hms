@@ -920,9 +920,7 @@
               return 0;
             }
           },
-          saveData(){
-            this 
-          }
+
        },
        created: function() {
              this.$root.$on('SetUhidNo', this.updateUhidNo);
@@ -1366,7 +1364,6 @@
             vm.opdData.uhid_no = uhid;
           },
           prev(){
-            console.log(' parent prev')
             let vm =this;
             vm.$root.$emit('submitNeuroData');
             // setTimeout(function(){

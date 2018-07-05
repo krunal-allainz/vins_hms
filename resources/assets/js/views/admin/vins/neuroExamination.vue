@@ -290,17 +290,20 @@
 				 });
         
 
-         let neuroData = _.cloneDeep(vm.$store.state.Patient.neuroExaminationData);
+         // let neuroData = _.cloneDeep(vm.$store.state.Patient.neuroExaminationData);
          if(neuroData.pain_value){
 
             vm.neuroExaminationData = neuroData; 
          }
          setTimeout(function(){
           vm.examinationChangeImage();
-          
+          vm.initData();
         },1000)
 			 },
 				methods: {
+          initData(){
+            vm.neuroExaminationData = _.cloneDeep(this.$store.state.Patient.neuroExaminationData);
+          },
           submitData(){
 
             let vm =this;
@@ -310,6 +313,8 @@
           },
           prev() {
               let vm =this;
+                   vm.$store.dispatch('saveVascularExamination', _.cloneDeep(vm.vascularExaminationData)) ;
+
               vm.$root.$emit('prev');
           },
 		    GetSelectComponent(componentName) {
@@ -323,6 +328,7 @@
               vm.$store.dispatch('saveNeuroExamination', _.cloneDeep(vm.neuroExaminationData)) ;
               let department = this.$store.state.Users.userDetails.department;
               let doctor = this.$store.state.Users.userDetails.id;
+              
               var oData = {'opdData':this.$store.state.Patient.opdData,'resultData':this.$store.state.Patient.opd_resultData,'doctor':doctor,'department':department,'radioData':this.$store.state.Patient.radioData,'laboratoryData':this.$store.state.Patient.laboratoryData,'vascExaminationData':this.$store.state.Patient.vascExaminationData,'neuroExaminationData':this.$store.state.Patient.neuroExaminationData};
                 
 
