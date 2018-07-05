@@ -1278,7 +1278,7 @@
                     
                     toastr.error('Please select prescription data and must be valid.', 'Prescription error', {timeOut: 5000});
                     return false;
-                }
+              }
                 //console.log( vm.finalPrescriptionData.length);
                 
                   prescriptionName = vm.opdData.prescription;
@@ -1315,9 +1315,9 @@
                     vm.prescription_enable=false;
                 }
 
-              vm.opdData.prescription_quantity = '';
+              vm.opdData.prescription_quantity = '1';
               vm.opdData.prescription_unit = 'TAB.';
-              vm.opdData.prescription_time = '';
+              vm.opdData.prescription_time = '1';
           },
           checkPrescription(prescription){
              let vm =this;
