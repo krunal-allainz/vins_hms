@@ -316,6 +316,7 @@
         </div>
       </div>
     </div>  
+
   @if($data['printType'] == 'lab')
   	<div class='row'>
 		<div class='col-md-12 text-center'>
@@ -333,6 +334,7 @@
   		</div>
   	</div>
   @endif
+
   @if($data['printType'] == 'radiology')
   	<div class='row'>
 		<div class='col-md-12 text-center'>
@@ -350,7 +352,6 @@
                      <th>Qualifier</th>
                      <th>Special request</th>
                      <th>Details</th>
-                     <th>Gallery</th>
                     </tr>
                  </thead>
                  <tbody>
@@ -362,10 +363,7 @@
                             <td>{{$res['qualifier']}}</td>
                             <td>{{$res['special_request']}}</td>
                             <td>{{$res['textData']}}</td>
-                            <td>
-                            	@foreach($res['imgData'] as $data)
-                             <img :src="{{$data['data']}}"  height="100" width="100" >@endforeach</td>
-                            <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->  
+                           
                     </tr>
                     @endforeach
                         </tbody>
@@ -375,13 +373,15 @@
         </div>
   	</div>
   @endif
+  
   @if($data['printType'] == 'prescription')
-  	@if(count($data['priscriptionData']) > 0 || $data['priscriptionData'] != null)
+  	@if(!empty($data['priscriptionData']))
+
 	<div style="padding-left: 35px;min-height: 350px;height: 350px;">
 		<div class='col-md-12 text-center'>
 			<span class='text-center'><b>Prescription</b></span>
 		</div>
-
+		
 		<div class="table-responsive">
 			<table class="table" id="prescription_list">
 			    <thead>
@@ -406,9 +406,10 @@
 		           </tbody>
 		       </table>
 		</div>
-	
-	<br/><br/>
 	@endif
+	<br/><br/>
+ <?php echo 'dfdsf';exit;?>
+
 	@if($data['referalType'] != null && $data['crossSelectedValue'] != '')
 		<div style="padding-left: 35px;"> 
 			<div class='col-md-12 text-center'>
