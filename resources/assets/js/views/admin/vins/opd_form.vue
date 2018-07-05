@@ -1268,7 +1268,7 @@
                     
                     toastr.error('Please select prescription data and must be valid.', 'Prescription error', {timeOut: 5000});
                     return false;
-                }
+              }
                 //console.log( vm.finalPrescriptionData.length);
                 
                   prescriptionName = vm.opdData.prescription;
@@ -1304,6 +1304,7 @@
                 {
                     vm.prescription_enable=false;
                 }
+
 
 
               vm.opdData.prescription_quantity = '1';
@@ -1375,13 +1376,13 @@
                 (response) => {
                   vm.priscriptionAdd = vm.finalPrescriptionData.length;
                   if (!this.errors.any()) {
-                    // if(vm.priscriptionAdd >  0){
+                    if(vm.priscriptionAdd >  0){
                       
                       vm.curStep = vm.curStep+1;
 
                       vm.$store.dispatch('setOpdData',vm.opdData);
                       vm.$store.dispatch('setResData',vm.finalResultData);
-                    // }
+                    }
                   }
                 },
                 (error) => {
