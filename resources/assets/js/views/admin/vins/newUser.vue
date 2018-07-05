@@ -19,7 +19,7 @@
                                         <input type="text" class="form-control" id="firstName"
                                                placeholder="First Name" v-validate="'required|alpha'" v-model="userData.fName" name="firstName">
                                         <i v-show="errors.has('firstName')" class="fa fa-warning"></i>
-                                        <span class="help is-danger" v-show="errors.has('firstName')">First name is required or must be valid.</span>
+                                        <span class="help is-danger" v-show="errors.has('firstName')">Please enter valid first name.</span>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -29,7 +29,7 @@
                                     <div class="col-md-9">
                                         <input type="text" class="form-control" id="lastName" name="lastName" v-validate="'required|alpha'" placeholder="Last Name" v-model="userData.lName">
                                         <i v-show="errors.has('lastName')" class="fa fa-warning"></i>
-                                        <span class="help is-danger" v-show="errors.has('lastName')">Last name is required or must be valid.</span>
+                                        <span class="help is-danger" v-show="errors.has('lastName')">Please enter valid last name.</span>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -63,7 +63,7 @@
                                     <div class="col-md-9">
                                         <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" v-model="userData.email" v-validate="'required|email'">
                                         <i v-show="errors.has('email')" class="fa fa-warning"></i>
-                                        <span class="help is-danger" v-show="errors.has('email')">Email is required or must be valid.</span>
+                                        <span class="help is-danger" v-show="errors.has('email')">Please enter valid email.</span>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -71,9 +71,9 @@
                                     <label for="mobileNo" class="control-label float-right txt_media1">Mobile No :</label>
                                     </div>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" id="mobileNo" placeholder="Mobile Number" v-model="userData.mobileNo" v-validate="'numeric|min:10'" name="mobileNo">
+                                        <input type="text" class="form-control" id="mobileNo" placeholder="Mobile Number" v-model="userData.mobileNo" v-validate="'numeric|min:10|max:10'" name="mobileNo" maxlength="10">
                                         <i v-show="errors.has('mobileNo')" class="fa fa-warning"></i>
-                                        <span class="help is-danger" v-show="errors.has('mobileNo')">Mobile number must be valid.</span>
+                                        <span class="help is-danger" v-show="errors.has('mobileNo')">Please enter valid mobile number.</span>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -92,7 +92,7 @@
                                     <div class="col-md-9">
                                         <input type="password" class="form-control" id="password" name="password" placeholder="Password" v-validate="'required|min:6'" v-model="userData.password">
                                         <i v-show="errors.has('password')" class="fa fa-warning"></i>
-                                         <span class="help is-danger" v-show="errors.has('password')">Password is required or must be valid.</span>
+                                         <span class="help is-danger" v-show="errors.has('password')">Please enter valid password.</span>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -102,7 +102,7 @@
                                     <div class="col-md-9">
                                         <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" v-validate="'required|confirmed:password'" name="confirmPassword" v-model="userData.confirmPassword">
                                         <i v-show="errors.has('confirmPassword')" class="fa fa-warning"></i>
-                                        <span class="help is-danger" v-show="errors.has('confirmPassword')">Confirm password is required or password is not match.</span>
+                                        <span class="help is-danger" v-show="errors.has('confirmPassword')">Confirm password didn't match.</span>
                                     </div>
                                 </div>
                                <!-- <div class="row form-group">
