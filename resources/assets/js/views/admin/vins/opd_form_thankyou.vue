@@ -317,7 +317,7 @@
 		data() {
 			return{
 				'adviceType' :this.$store.state.Patient.opdData.adviceType,
-				'adviceDoctor':'Dr. '+this.$store.state.Users.userDetails.first_name+' '+this.$store.state.Users.userDetails.last_name,
+				'adviceDoctor':this.$store.state.Users.userDetails.first_name+' '+this.$store.state.Users.userDetails.last_name,
 				'referalType':this.$store.state.Patient.opdData.referral,
 				'crossType':this.$store.state.Patient.opdData.cross,
 				'radiologyData':this.$store.state.Patient.opd_resultData,

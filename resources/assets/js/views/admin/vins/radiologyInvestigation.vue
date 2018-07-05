@@ -287,7 +287,6 @@
 	                	{text:'X-Rays',value:'X-Rays'},
 	                	{text:'CT',value:'CT'},
 	                	{text:'MRI',value:'MRI'},
-	                	// {text:'Doppler',value:'doppler'},
 	                	// {text:'Other',value:'other'}
                 	],
                 	'radiologySubType':[
@@ -364,19 +363,7 @@
                       {text:'Dorsal', value:'Dorsal'},
                       {text:'Lumbar', value:'Lumbar'},
                       {text:'Whole spine screening', value:'Whole spine screening'},
-                    ],  
-                	'doppler':'',
-                	'doppler_options':[
-                				{text:'',value:''},
-                			 	 {text:'doppler-Option 1'},
-								 {text:'doppler-Option 2'},
-								 {text:'doppler-Option 3'},
-								 {text:'doppler-Option 4'},
-								 {text:'doppler-Option 5'},
-								 {text:'doppler-Option 6'},
-								 {text:'doppler-Option 7'},
-								 {text:'doppler-Option 8'}
-                			  ],
+                    ],
                 	'others':'',
                 	'others_options':[
                 			 	{text:'',value:''},
