@@ -72,7 +72,7 @@
 							<input class="form-control" type = "text" v-validate="'required|alpha'" id = "first_name" name="first_name" value=""  v-model="patientData.fname" :readonly="patientData.case == 'old'"/>
 							<i v-show="errors.has('first_name')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('first_name')">
-			                	First name is required or must be valid.
+			                	Please enter valid firstname.
 			              	</span>
 		                </div>
 		            </div>
@@ -84,7 +84,7 @@
 							<input class="form-control" type="text" id="middle_name" name="middle_name" value=""  v-model="patientData.mname" :disabled="patientData.case == 'old'"  v-validate="'alpha'"/>
 							<i v-show="errors.has('middle_name')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('middle_name')">
-			                	Middle name must be valid.
+			                	Please enter valid middlename.
 			              	</span>
 		                </div>
 		            </div>	
@@ -98,7 +98,7 @@
 							<input class="form-control" type="text" id="last_name" name="last_name" value="" v-model="patientData.lname" v-validate="'required|alpha'" :disabled="patientData.case == 'old'"/>
 							<i v-show="errors.has('last_name')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('last_name')">
-	            	         	Last name is required or must be valid.
+	            	         	Please enter valid lastname.
 	          				</span>
 	          			</div>
 	      			</div>
@@ -111,7 +111,7 @@
 							<date-picker  :date.sync="patientData.dob" :option="option" id = "date_of_birth" class="" type="text" name="date_of_birth" :limit="limit" v-model="patientData.dob.time" v-validate="'required'" :disabled="patientData.case == 'old'"></date-picker> 
 							<i v-show="errors.has('date_of_birth')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('date_of_birth')">
-		            			Date of birth is required.
+		            			Please select date of birth.
 		            		</span>
 	                    </div>
 	                </div>
@@ -130,7 +130,7 @@
 				          	</select>
 				          	<i v-show="errors.has('gender')" class="fa fa-warning"></i>
 				          	<span class="help is-danger" v-show="errors.has('gender')">
-				            	Gender is required.
+				            	Please select gender.
 				          	</span>	  
 	                    </div>
 	                </div>
@@ -142,7 +142,7 @@
 							<input class="form-control" type="text" id="address" name="address" value="" v-model="patientData.address" v-validate="'required'" :disabled="patientData.case == 'old'"/>
 							<i v-show="errors.has('address')" class="fa fa-warning"></i>
 					      	<span class="help is-danger" v-show="errors.has('address')">
-			                	Address is required.
+			                	Please enter address.
 			                </span>
 			            </div>
 			        </div>
@@ -153,11 +153,11 @@
 	                    	<label class="control-label" for="phone_no">Phone no.: </label>
 	                    </div>
 	                    <div class="col-md-6">
-					      	<input class="form-control" type="text" id="phone_no" name="ph_no" value="" v-validate="'required|numeric'" v-model="patientData.ph_no" :disabled="patientData.case == 'old'" 
+					      	<input class="form-control" type="text" id="phone_no" name="ph_no" value="" v-validate="'numeric'" v-model="patientData.ph_no" :disabled="patientData.case == 'old'" 
 					      	  />
 					      	  <i v-show="errors.has('ph_no')" class="fa fa-warning"></i>
 					      	<span class="help is-danger" v-show="errors.has('ph_no')">
-			                	Phone no. is required or must be valid.
+			                	Please enter valid phone no.
 			                </span>	  
 	                    </div>
 	                </div>
@@ -169,7 +169,7 @@
 					      	<input class="form-control" type="text" id="mobile_no" name="mob_no" value="" v-model="patientData.mob_no" v-validate="'required|numeric|min:10'" :disabled="patientData.case == 'old'" maxlength="10"  />
 					      	<i v-show="errors.has('mob_no')" class="fa fa-warning"></i>
 					      	<span class="help is-danger" v-show="errors.has('mob_no')">
-				               Mobile no. is required or must be valid.
+				               Please enter valid mobile no.
 				            </span>
 	                    </div>
 	                </div>
@@ -206,7 +206,7 @@
               <div class="col-md-6">
                 <input type="text" name="weight" id="weight" class="form-control" v-model="patientData.weight"  placeholder="In kgs"   v-validate="'required|numeric|min_value:1'">
                   <i v-show="errors.has('weight')" class="fa fa-warning"></i> 
-                  <span class="help is-danger" v-show="errors.has('weight')"> Weight is required or must be valid.</span>
+                  <span class="help is-danger" v-show="errors.has('weight')"> Please enter valid weight.</span>
                 </div>
               </div>
               <div class="col-md-6">
@@ -216,7 +216,7 @@
                 <div class="col-md-6">
                   <input type="text" name="height" id="height" class="form-control" placeholder="In cms" v-model="patientData.height"  v-validate="'required|numeric|min_value:1'">
                   <i v-show="errors.has('height')" class="fa fa-warning"></i> 
-                    <span class="help is-danger" v-show="errors.has('height')"> Height is required or must be valid. </span>
+                    <span class="help is-danger" v-show="errors.has('height')"> Please enter valid height. </span>
                   </div>
                 </div>
                 
@@ -237,7 +237,7 @@
                     <div class="col-md-6">
                       <input type="text" name="vitals" id="vitals" class="form-control" v-model="patientData.vitals"  v-validate="'required'">
                       <i v-show="errors.has('vitals')" class="fa fa-warning"></i> 
-                      <span class="help is-danger" v-show="errors.has('vitals')"> Vitals is required. </span>
+                      <span class="help is-danger" v-show="errors.has('vitals')"> Please enter vitals. </span>
                     </div>
                   </div>
                  
@@ -256,7 +256,7 @@
                       
                       </div>
                       <i v-show="errors.has('pulse')" class="fa fa-warning"></i>
-                       <div class="help is-danger" v-show="errors.has('pulse')"> Pulse is required or must be valid.</div>
+                       <div class="help is-danger" v-show="errors.has('pulse')"> Please enter pulse.</div>
                     </div>
                   </div>
                   <div class="col-md-6">
@@ -276,7 +276,7 @@
                       
                       <i v-show="errors.has('bp_systolic')" class="fa fa-warning"></i>
                       <span class="help is-danger" v-show="errors.has('bp_systolic') || errors.has('bp_diastolic')">
-                        BP is required or must be valid.
+                      Please enter valid BP.
                       </span>
                     </div>
                   </div>
@@ -299,7 +299,7 @@
                       </div>
                       <i v-show="errors.has('temp')" class="fa fa-warning"></i>
                       <span class="help is-danger" v-show="errors.has('temp')">
-                         Temprature is required or must be valid.
+                         Please enter proper temp.
                       </span>
                     </div>
                   </div>
@@ -312,7 +312,7 @@
 							<date-picker  :date.sync="patientData.appointment_datetime" :option="option" id = "appointment_datetime" class="" type="text" name="appointment_datetime" :limit="limit2" v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'"></date-picker> 
 							<i v-show="errors.has('appointment_datetime')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('appointment_datetime')">
-		            			Appointment Datetime is required.
+		            			Please select appointment datetime.
 		            		</span>
 	                    </div>
 	                </div>
