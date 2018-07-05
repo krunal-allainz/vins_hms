@@ -302,6 +302,7 @@
 			 },
 				methods: {
           initData(){
+            let vm =this;
             vm.neuroExaminationData = _.cloneDeep(this.$store.state.Patient.neuroExaminationData);
           },
           submitData(){
@@ -324,6 +325,7 @@
           let vm = this;
 		    	this.$validator.validateAll().then(
 	            (response) => {
+                if (!this.errors.any()) {
 	            
               vm.$store.dispatch('saveNeuroExamination', _.cloneDeep(vm.neuroExaminationData)) ;
               let department = this.$store.state.Users.userDetails.department;
@@ -349,10 +351,11 @@
                        vm.$router.push({'name':'opd_form_thankyou'});
              
       },
+
       (error) => {
                   }
       );
-        		    	// }
+        		    	}
         		    },
                 (error) => {
                 }

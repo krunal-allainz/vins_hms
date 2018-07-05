@@ -250,11 +250,12 @@
         var vm =this;
         setTimeout(function(){
           vm.examinationChangeImage();
- 
+          vm.initData();
         },2000)
 			 },
 				methods: {
           initData(){
+            let vm =this;
             vm.vascularExaminationData = _.cloneDeep(this.$store.state.Patient.vascExaminationData);
           },
           examinationChangeImage() {
@@ -303,7 +304,7 @@
           let vm = this;
           this.$validator.validateAll().then(
               (response) => {
-                // if (!this.errors.any()) {
+                if (!this.errors.any()) {
                    // $("body .js-loader").removeClass('d-none');
 
                   vm.$store.dispatch('saveVascularExamination', _.cloneDeep(vm.vascularExaminationData)) ;
@@ -332,6 +333,7 @@
                   (error) => {
                   }
                 );
+                }
                 },
                 (error) => {
                 }
