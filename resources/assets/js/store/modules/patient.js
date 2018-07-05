@@ -17,7 +17,7 @@ const state = {
     'radioData':{},
     'neuroExaminationData':{},
     'vascExaminationData':{},
-    'laboratoryData':{},
+    'laboratoryData':[],
     'saveOpd':false,
 
  }

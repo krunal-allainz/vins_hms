@@ -254,6 +254,9 @@
         },2000)
 			 },
 				methods: {
+          initData(){
+            vm.vascularExaminationData = _.cloneDeep(this.$store.state.Patient.vascExaminationData);
+          },
           examinationChangeImage() {
             var vm =this;
             var canvas = document.getElementById("vasc_signature-pad1");
@@ -292,6 +295,8 @@
           },
           prev() {
               let vm =this;
+              vm.$store.dispatch('saveVascularExamination', _.cloneDeep(vm.vascularExaminationData)) ;
+
               vm.$root.$emit('prev');
           },
           saveVascularExamination() {

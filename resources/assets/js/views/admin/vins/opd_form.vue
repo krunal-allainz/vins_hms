@@ -911,9 +911,7 @@
               return 0;
             }
           },
-          saveData(){
-            this 
-          }
+
        },
        created: function() {
              this.$root.$on('SetUhidNo', this.updateUhidNo);
@@ -1307,9 +1305,11 @@
                     vm.prescription_enable=false;
                 }
 
+
               vm.opdData.prescription_quantity = '1';
               vm.opdData.prescription_unit = 'TAB.';
               vm.opdData.prescription_time = '1';
+
           },
           checkPrescription(prescription){
              let vm =this;
@@ -1356,7 +1356,6 @@
             vm.opdData.uhid_no = uhid;
           },
           prev(){
-            console.log(' parent prev')
             let vm =this;
             vm.$root.$emit('submitNeuroData');
             // setTimeout(function(){
@@ -1375,7 +1374,7 @@
                 this.$validator.validateAll().then(
                 (response) => {
                   vm.priscriptionAdd = vm.finalPrescriptionData.length;
-                  // if (!this.errors.any()) {
+                  if (!this.errors.any()) {
                     // if(vm.priscriptionAdd >  0){
                       
                       vm.curStep = vm.curStep+1;
@@ -1383,7 +1382,7 @@
                       vm.$store.dispatch('setOpdData',vm.opdData);
                       vm.$store.dispatch('setResData',vm.finalResultData);
                     // }
-                  // }
+                  }
                 },
                 (error) => {
                 }
