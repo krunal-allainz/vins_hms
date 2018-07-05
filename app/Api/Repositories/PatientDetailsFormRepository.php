@@ -25,6 +25,7 @@ class PatientDetailsFormRepository
 
 		$result['month'] = PatientDetailsForm::selectRaw('date(created_at) as date, COUNT(*) as count')
 	    ->whereBetween( DB::raw('date(created_at)'), [$fromDate, $tillDate] )
+	    ->where('consultant_id',$id)
 	    ->orderBy('created_at', 'DESC')
 	    ->count();
 		

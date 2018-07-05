@@ -294,8 +294,8 @@ export default {
   getNumberOfPatient(type,id){
     return api.post('patient/total',{'type':type,'id':id});
   },
-  getOPDCounters(id){
-    return api.post('opd/opdtotal',{'id':id});
+  getOPDCounters(){
+    return api.post('opd/opdtotal');
   },
   getPatientListByDoctor(page_url,id){
     return api.post(page_url,{'id':id})
