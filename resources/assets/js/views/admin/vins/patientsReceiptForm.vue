@@ -154,7 +154,8 @@
 						</div>
 						<div class="col-md-6">
 				      		<input class="form-control" type="text" name="chargeAmount" id="chargeAmount"  v-validate="'numeric'" 	v-model="patientData.chargeAmount" />
-				      		<span class="help is-danger" v-show="errors.has('chargeAmount')"> Please Enter Charges with valid numeric value. </span>
+				      		<span class="help is-danger" v-show="errors.has('chargeAmount')">
+				      		 Please enter valid charges. </span>
 						</div>
 					</div>
 					<div class="col-md-6" v-for="data in patientData.select_patient_detail">	
@@ -193,7 +194,8 @@
 						</div>
 						<div class="col-md-6">
 				      		<input class="form-control" type="text" name="procedure_charges" id="procedure_charges"  v-validate="'numeric'" v-model="patientData.procedure_charges" />
-				      		<span class="help is-danger" v-show="errors.has('procedure_charges')"> Please Enter Procedure Charges with valid numeric value. </span> 
+				      		<span class="help is-danger" v-show="errors.has('procedure_charges')"> 
+				      		Please enter valid procedure charges. </span> 
 						</div>
 					</div>
 				</div>
@@ -214,7 +216,8 @@
 						</div>
 						<div class="col-md-6">
 				      		<input class="form-control" type="text" name="other_charges" id="other_charges"  v-validate="'numeric'" 	v-model="patientData.other_charges" />
-				      		<span class="help is-danger" v-show="errors.has('other_charges')"> Please Enter Other Charges with valid numeric value. </span> 
+				      		<span class="help is-danger" v-show="errors.has('other_charges')"> 
+				      			Please enter valid other charges. </span> 
 						</div>
 					</div>
 
@@ -394,7 +397,7 @@
   								if(response.data.data.length != 0){
   									$.each(response.data,function(key,value){
   										let opdId = value.id;
-  										let opdNumber =  value.id;
+  										let opdNumber =  value.opd_id;
   										opdDetail.push({'id':opdId,'text':opdNumber});
   									});
   								vm.patientData.case_detail = opdDetail;

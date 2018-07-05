@@ -63,7 +63,8 @@
               <div class="col-md-6">
                 <input type="text" name="weight" id="weight" class="form-control" v-model="opdData.weight"  placeholder="In kgs"   v-validate="'required|numeric|min_value:1'">
                   <i v-show="errors.has('weight')" class="fa fa-warning"></i> 
-                  <span class="help is-danger" v-show="errors.has('weight')"> Weight is required or must be valid.</span>
+                  <span class="help is-danger" v-show="errors.has('weight')"> 
+                    Please enter valid weight.</span>
                 </div>
               </div>
               <div class="col-md-4">
@@ -73,7 +74,8 @@
                 <div class="col-md-9">
                   <input type="text" name="height" id="height" class="form-control" placeholder="In cms" v-model="opdData.height"  v-validate="'required|numeric|min_value:1'">
                   <i v-show="errors.has('height')" class="fa fa-warning"></i> 
-                    <span class="help is-danger" v-show="errors.has('height')"> Height is required or must be valid. </span>
+                    <span class="help is-danger" v-show="errors.has('height')"> 
+                      Please enter valid height . </span>
                   </div>
                 </div>
                 <div class="col-md-2">
@@ -112,7 +114,8 @@
                     <div class="col-md-6">
                       <input type="text" name="vitals" id="vitals" class="form-control" v-model="opdData.vitals"  v-validate="'required'">
                       <i v-show="errors.has('vitals')" class="fa fa-warning"></i> 
-                      <span class="help is-danger" v-show="errors.has('vitals')"> Vitals is required. </span>
+                      <span class="help is-danger" v-show="errors.has('vitals')">
+                        Please enter valid vitals. </span>
                     </div>
                   </div>
                   <div class="col-md-6">
@@ -128,7 +131,8 @@
                       
                       </div>
                       <i v-show="errors.has('pulse')" class="fa fa-warning"></i>
-                       <div class="help is-danger" v-show="errors.has('pulse')"> Pulse is required or must be valid.</div>
+                       <div class="help is-danger" v-show="errors.has('pulse')"> 
+                        Please enter valid pulse.</div>
                     </div>
                   </div>
                 </div>
@@ -150,7 +154,7 @@
                      
                       <i v-show="errors.has('bp_systolic')" class="fa fa-warning"></i>
                       <span class="help is-danger" v-show="errors.has('bp_systolic') || errors.has('bp_diastolic')">
-                        BP is required or must be valid.
+                        Please enter valid BP.
                       </span>
                     </div>
                   </div>
@@ -173,7 +177,7 @@
                       </div>
                       <i v-show="errors.has('temp')" class="fa fa-warning"></i>
                       <span class="help is-danger" v-show="errors.has('temp')">
-                         Temprature is required or must be valid.
+                         Please enter valid temprature.
                       </span>
                     </div>
                   </div>
@@ -329,7 +333,7 @@
             </div>
             <i v-show="errors.has('prescription_quantity')" class="fa fa-warning" v-if="prescription_enable == true"></i>
           <span class="help is-danger" v-show="errors.has('prescription_quantity')" v-if="prescription_enable == true">
-             Quantity is required and must be valid.
+             Please enter valid quantity.
           </span>
         </div>
       </div>
@@ -348,7 +352,7 @@
           </div>
           <i v-show="errors.has('prescription_time')" class="fa fa-warning" v-if="prescription_enable == true"></i>
           <span class="help is-danger" v-show="errors.has('prescription_time')" v-if="prescription_enable == true">
-            Time for medicine is required or must be valid.
+            Please enter valid time for medicine.
           </span>
       </div>
 
@@ -363,7 +367,7 @@
           </span>
           
             <span class="help is-danger" v-if="prescriptionunique == 1">
-            Prescription already add.
+            Prescription already added.
           </span>
     </div>
   </div>
@@ -707,7 +711,6 @@
                     {text:'X-Rays',value:'X-Rays'},
                     {text:'CT',value:'CT'},
                     {text:'MRI',value:'MRI'},
-                    {text:'Doppler',value:'doppler'},
                     {text:'Other',value:'other'}
                   ],
                   'radiologySubType':[
@@ -781,18 +784,6 @@
                       {text:'Dorsal', value:'Dorsal'},
                       {text:'Lumbar', value:'Lumbar'},
                       {text:'Whole spine screening', value:'Whole spine screening'},
-                  ],   
-                  'doppler':'',
-                  'doppler_options':[
-                    {text:'',value:''},
-                    {text:'doppler-Option 1'},
-                    {text:'doppler-Option 2'},
-                    {text:'doppler-Option 3'},
-                    {text:'doppler-Option 4'},
-                    {text:'doppler-Option 5'},
-                    {text:'doppler-Option 6'},
-                    {text:'doppler-Option 7'},
-                    {text:'doppler-Option 8'}
                   ],
                   'others':'',
                   'others_options':[
@@ -987,15 +978,13 @@
               {
               },
             );
-             /*for laboratory data*/
 
-            
-
-           
-
-           $('#prescription').on("select2:select", function (e) { 
+            $('#prescription').on("select2:select", function (e) {
             // console.log($(this).data()[0].formalation);
             let presId = $('#prescription').select2('data')[0].id;
+            vm.opdData.prescription_quantity = '1';
+            vm.opdData.prescription_unit = 'TAB.';
+            vm.opdData.prescription_time = '1';
             // vm.opdData.prescription = $(this).text();
             _.find(vm.prescriptionOption, function(res) {
                     if(res.id == presId) {
@@ -1274,6 +1263,7 @@
              let vm =this;
              let prescriptionName = '';
              vm.prescription_enable=true;
+
               if(vm.opdData.prescription == '' || vm.opdData.prescription_quantity == '' || vm.opdData.prescription_time =='' || vm.opdData.prescription_quantity<1 ||  vm.opdData.prescription_time<1){
                     
                     toastr.error('Please select prescription data and must be valid.', 'Prescription error', {timeOut: 5000});
@@ -1315,9 +1305,11 @@
                     vm.prescription_enable=false;
                 }
 
-              vm.opdData.prescription_quantity = '';
+
+              vm.opdData.prescription_quantity = '1';
               vm.opdData.prescription_unit = 'TAB.';
-              vm.opdData.prescription_time = '';
+              vm.opdData.prescription_time = '1';
+
           },
           checkPrescription(prescription){
              let vm =this;
