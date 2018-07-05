@@ -1315,9 +1315,9 @@
                     vm.prescription_enable=false;
                 }
 
-              vm.opdData.prescription_quantity = '0';
+              vm.opdData.prescription_quantity = '';
               vm.opdData.prescription_unit = 'TAB.';
-              vm.opdData.prescription_time = '0';
+              vm.opdData.prescription_time = '';
           },
           checkPrescription(prescription){
              let vm =this;
@@ -1382,7 +1382,7 @@
                 this.$validator.validateAll().then(
                 (response) => {
                   vm.priscriptionAdd = vm.finalPrescriptionData.length;
-                  // if (!this.errors.any()) {
+                  if (!this.errors.any()) {
                     // if(vm.priscriptionAdd >  0){
                       
                       vm.curStep = vm.curStep+1;
@@ -1390,7 +1390,7 @@
                       vm.$store.dispatch('setOpdData',vm.opdData);
                       vm.$store.dispatch('setResData',vm.finalResultData);
                     // }
-                  // }
+                  }
                 },
                 (error) => {
                 }
