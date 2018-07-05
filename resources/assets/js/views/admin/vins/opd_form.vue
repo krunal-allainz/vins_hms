@@ -988,7 +988,7 @@
             // vm.opdData.prescription = $(this).text();
             _.find(vm.prescriptionOption, function(res) {
                     if(res.id == presId) {
-                         //vm.opdData.prescription_unit=res.formulation;
+                         vm.opdData.prescription_unit=res.formulation;
                      
                     }
                 });

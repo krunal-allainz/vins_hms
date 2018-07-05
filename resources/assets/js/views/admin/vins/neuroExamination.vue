@@ -90,10 +90,7 @@
           <label for="plantars" class="control-label">Plantars : </label>
         </div>
         <div class="col-md-6">
-					<input class="form-control" type="text" id="plantars" name="plantars" value="" v-model="neuroExaminationData.plantars" v-validate="'required'"/>
-					<span class="help is-danger" v-show="errors.has('plantars')">
-						Field is required
-					</span>
+					<input class="form-control" type="text" id="plantars" name="plantars" value="" v-model="neuroExaminationData.plantars" />
         </div>
       </div>
       <div class="col-md-6">
@@ -101,10 +98,7 @@
           <label for="romberg" class="control-label">Romberg's : </label>
         </div>
         <div class="col-md-6">
-					<input class="form-control" type="text" id="romberg" name="romberg" value="" v-model="neuroExaminationData.romberg" v-validate="'required'"/>
-					<span class="help is-danger" v-show="errors.has('romberg')">
-						Field is required
-					</span>
+					<input class="form-control" type="text" id="romberg" name="romberg" value="" v-model="neuroExaminationData.romberg"/>
         </div>
       </div>
     </div>
@@ -115,10 +109,7 @@
           <label for="gait" class="control-label">Gait</label>
         </div>
         <div class="col-md-6">
-					<input class="form-control" type="text" id="gait" name="gait" value="" v-model="neuroExaminationData.gait" v-validate="'required'"/>
-					<span class="help is-danger" v-show="errors.has('gait')">
-						Field is required
-					</span>
+					<input class="form-control" type="text" id="gait" name="gait" value="" v-model="neuroExaminationData.gait"/>
         </div>
       </div>
       <div class="col-md-6">
@@ -132,9 +123,6 @@
             <option value="appendicular">Appendicular</option>
             <option value="tandemwalking">Tandem Walking</option>
           </select>
-					<span class="help is-danger" v-show="errors.has('cerebellar')">
-						Field is required
-					</span>
         </div>
       </div>
     </div>
@@ -145,10 +133,7 @@
           <label for="neck_stiffness" class="control-label">Neck Stiffness</label>
         </div>
         <div class="col-md-6">
-					<input class="form-control" type="text" id="neck_stiffness" name="neck_stiffness" value="" v-model="neuroExaminationData.neck_stiffness" v-validate="'required'"/>
-					<span class="help is-danger" v-show="errors.has('neck_stiffness')">
-						Field is required
-					</span>
+					<input class="form-control" type="text" id="neck_stiffness" name="neck_stiffness" value="" v-model="neuroExaminationData.neck_stiffness" />
         </div>
       </div>
     </div>
@@ -159,10 +144,7 @@
           <label for="diagnosis" class="control-label">Diagnosis</label>
         </div>
         <div class="col-md-6">
-					<input class="form-control" type="text" id="diagnosis" name="diagnosis" value="" v-model="neuroExaminationData.diagnosis" v-validate="'required'"/>
-					<span class="help is-danger" v-show="errors.has('diagnosis')">
-						Field is required
-					</span>
+					<input class="form-control" type="text" id="diagnosis" name="diagnosis" value="" v-model="neuroExaminationData.diagnosis"/>
         </div>
       </div>
     </div>
@@ -289,12 +271,6 @@
 						placeholder: "Select",
 				 });
         
-
-         // let neuroData = _.cloneDeep(vm.$store.state.Patient.neuroExaminationData);
-         if(neuroData.pain_value){
-
-            vm.neuroExaminationData = neuroData; 
-         }
          setTimeout(function(){
           vm.examinationChangeImage();
           vm.initData();
