@@ -1376,13 +1376,13 @@
                 (response) => {
                   vm.priscriptionAdd = vm.finalPrescriptionData.length;
                   if (!this.errors.any()) {
-                    // if(vm.priscriptionAdd >  0){
+                    if(vm.priscriptionAdd >  0){
                       
                       vm.curStep = vm.curStep+1;
 
                       vm.$store.dispatch('setOpdData',vm.opdData);
                       vm.$store.dispatch('setResData',vm.finalResultData);
-                    // }
+                    }
                   }
                 },
                 (error) => {
