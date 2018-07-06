@@ -184,9 +184,9 @@ class OPDDetailsFromController extends Controller
      * [getOPDCounters description]
      * @return [type] [description]
      */
-    public function getOPDCounters(){
-      
-        $opdTotal =  $this->opdObj->getOPDCounters();
+    public function getOPDCounters(Request $request){
+        $id = $request->id;
+        $opdTotal =  $this->opdObj->getOPDCounters($id);
           if($opdTotal)
             {
                 return ['code' => '200','data'=>$opdTotal, 'message' => 'Record Sucessfully created'];

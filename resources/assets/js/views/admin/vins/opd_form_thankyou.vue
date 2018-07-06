@@ -47,6 +47,19 @@
 			 					<h4>Lab Report</h4>
 			 				</div>
 			 			</div>
+			 			<div class='row' style="padding-left: 15px;padding-right:15px;">
+			 				<div class='col-md-6 text-left'>
+									<span class='text-left'><b>Ref By :</b></span>
+										{{this.adviceDoctor}}
+    	 	 				</div>
+    	 	 				<div class='col-md-6 text-right'>
+    	 	 					<span class='text-right'><b>Date :</b> 
+    	 	 							{{ todayDate }}
+    	 	 					</span>
+    	 	 				</div>
+    	 	 			</div>	
+    	 	 			<br/>
+    	 	 			<br/>
 			 		<div class="row">
 				  		<div class="col-md-12">
 				  			<div class="col-md-6"><span><b>Blood :</b></span>{{labReportData.blood}} </div>
@@ -64,6 +77,19 @@
 			 					<h4>Radiology Report</h4>
 			 				</div>
 			 		</div>
+			 		<div class='row' style="padding-left: 15px;padding-right:15px;">
+			 				<div class='col-md-6 text-left'>
+									<span class='text-left'><b>Ref By :</b></span>
+										{{this.adviceDoctor}}
+    	 	 				</div>
+    	 	 				<div class='col-md-6 text-right'>
+    	 	 					<span class='text-right'><b>Date :</b> 
+    	 	 							{{ todayDate }}
+    	 	 					</span>
+    	 	 				</div>
+    	 	 			</div>	
+    	 	 			<br/>
+    	 	 			<br/>
 			 		<div class="row"  style="min-height: 350px;height: 350px;">
         				<div class="col-md-12">
         					<div class="">
@@ -98,6 +124,19 @@
         			</div>
 			 	</div>
 			 	<div v-if="(printType == 'prescription')"  style="min-height: 350px;height: 350px;">
+			 		<div class='row' style="padding-left: 15px;padding-right:15px;">
+			 				<div class='col-md-6 text-left'>
+									<span class='text-left'><b>Ref By :</b></span>
+										{{this.adviceDoctor}}
+    	 	 				</div>
+    	 	 				<div class='col-md-6 text-right'>
+    	 	 					<span class='text-right'><b>Date :</b> 
+    	 	 							{{ todayDate }}
+    	 	 					</span>
+    	 	 				</div>
+    	 	 			</div>	
+    	 	 			<br/>
+    	 	 			<br/>
 			 		<div v-if="(prescriptiData !== null)" >
     	 	 				<div class='row'>
 				 				<div class='col-md-12 text-center'>

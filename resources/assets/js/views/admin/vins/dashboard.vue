@@ -327,7 +327,7 @@
 		  		},
 		  		getOPDCounters(){
 
-		  			User.getOPDCounters().then(
+		  			User.getOPDCounters(vm.doctor_id).then(
 		  				(response) => {
 		  					this.counterData.dailyOPD = response.data.data.today;
 		  				 	this.counterData.monthlyOPD = response.data.data.month;

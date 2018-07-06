@@ -399,10 +399,7 @@
   @endif
   
   @if($data['printType'] == 'prescription')
-  	@if(isset($data['priscriptionData']))
-	  	@if(!empty($data['priscriptionData']))
-
-		<div style="padding-left: 35px;min-height: 350px;height: 350px;">
+  	<div style="padding-left: 35px;min-height: 350px;height: 350px;">
 			<div class='row' style="padding-left: 15px;padding-right:15px;">
 			    	 <table class="table" align="center" cellspacing=0>	
 		         	<thead>	
@@ -415,6 +412,9 @@
 			    
 		    </div>	
 			<br/><br/>
+  	@if(isset($data['priscriptionData']))
+	  	@if(!empty($data['priscriptionData']))
+
 			<div class='col-md-12 text-center'>
 				<span class='text-center'><b>Prescription</b></span>
 			</div>
