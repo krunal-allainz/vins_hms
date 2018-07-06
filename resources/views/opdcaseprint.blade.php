@@ -427,7 +427,7 @@
 						   <th width="8%">#</th>
 						   <th >Name</th>
 						   <th class="text-center">Quntity</th>
-						   <th class="text-center">Unit</th>
+						  <!--  <th class="text-center">Unit</th> -->
 						   <th class="text-center">Time For Medicine</th>
 					 	</tr>
 						</thead>
@@ -437,7 +437,7 @@
 								   <td>{{$key}}</td>
 								   <td>{{$value['Prescription'] }}</td>
 								   <td class="text-center">{{$value['quntity']}}</td>
-								   <td class="text-center">{{(isset($value['unit']))?$value['unit']:''}}</td>
+								 <!--   <td class="text-center">{{(isset($value['unit']))?$value['unit']:''}}</td> -->
 								   <td class="text-center">{{$value['time']}}</td>
 							  </tr>
 							@endforeach
@@ -545,7 +545,7 @@
 					   <th width="8%">#</th>
 					   <th >Name</th>
 					   <th class="text-center">Quntity</th>
-					   <th class="text-center">Unit</th>
+					  <!--  <th class="text-center">Unit</th> -->
 					   <th class="text-center">Time For Medicine</th>
 				 	</tr>
 					</thead>
@@ -555,7 +555,7 @@
 							   <td>{{$key}}</td>
 							   <td>{{$value['Prescription'] }}</td>
 							   <td class="text-center">{{$value['quntity']}}</td>
-							   <td class="text-center">{{(isset($value['unit']))?$value['unit']:''}}</td>
+							 <!--   <td class="text-center">{{(isset($value['unit']))?$value['unit']:''}}</td> -->
 							   <td class="text-center">{{$value['time']}}</td>
 						  </tr>
 						@endforeach
