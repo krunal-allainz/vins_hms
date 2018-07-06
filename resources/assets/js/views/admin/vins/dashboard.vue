@@ -312,7 +312,9 @@
 	                //this.$set('pagination', pagination)
 	            },
 		  		getPatientCounters(){
-		  			User.getNumberOfPatient(this.type).then(
+                    console.log('test');
+                    var vm =this;
+		  			User.getNumberOfPatient(vm.type,vm.doctor_id).then(
 		  				 (response) => {
 		  				 	this.counterData.dailyPatient = response.data.data.today;
 		  				 	this.counterData.monthlyPatient = response.data.data.month;
@@ -325,7 +327,7 @@
 		  		},
 		  		getOPDCounters(){
 
-		  			User.getOPDCounters().then(
+		  			User.getOPDCounters(vm.doctor_id).then(
 		  				(response) => {
 		  					this.counterData.dailyOPD = response.data.data.today;
 		  				 	this.counterData.monthlyOPD = response.data.data.month;

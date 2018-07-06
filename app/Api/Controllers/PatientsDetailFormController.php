@@ -256,7 +256,8 @@ class PatientsDetailFormController extends Controller
     */
     public function getNumberOfPatient(Request $request){
         $type = $request->type;
-        $patientTotal = $this->patientDetailObj->getNumberOfPatient($type);
+        $id = $request->id;
+        $patientTotal = $this->patientDetailObj->getNumberOfPatient($type,$id);
         if ($patientTotal) {
             return ['code' => '200','data'=>$patientTotal, 'message' => 'Record Sucessfully created'];
         } else {
