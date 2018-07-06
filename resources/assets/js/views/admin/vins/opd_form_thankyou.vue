@@ -102,7 +102,7 @@
 			                            <th>Qualifier</th>
 			                            <th>Special request</th>
 			                            <th>Details</th>
-			                            <th>Gallery</th>
+			                            
                         			</tr>
                        			 </thead>
                        			 <tbody>
@@ -113,7 +113,7 @@
 		                            <td>{{res.qualifier}}</td>
 		                            <td>{{res.special_request}}</td>
 		                            <td>{{res.textData | strLimit}}</td>
-		                            <td> <img v-for="data in res.imgData" :src="data.data"  height="100" width="100" ></td>
+		                            
 		                            <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
 		                            <td></td>
 		                        </tr>

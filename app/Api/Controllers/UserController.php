@@ -78,7 +78,7 @@ class UserController extends BaseController
         $userData['user']['mobile_no']=$data['mobileNo'];
         $userData['user']['user_type']=$data['userType'];
         $userData['user']['department']=$data['department'];
-
+        $userData['user']['status']='Active';
         // We cant Allow untikl its set password
         $userData['user']['password']=$userPassword;
 
