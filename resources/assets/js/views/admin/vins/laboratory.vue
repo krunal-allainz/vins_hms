@@ -323,7 +323,6 @@
          initData() {
           	let vm =this;
           	vm.laboratoryData.blood_report = _.cloneDeep(this.$store.state.Patient.laboratoryData.blood_report);
-          	
           	vm.laboratoryData.urine_report = _.cloneDeep(this.$store.state.Patient.laboratoryData.urine_report);
           	vm.laboratoryData.csf_report = _.cloneDeep(this.$store.state.Patient.laboratoryData.csf_report);
           	vm.laboratoryData.body_fluid_analysis_report = _.cloneDeep(this.$store.state.Patient.laboratoryData.body_fluid_analysis_report);

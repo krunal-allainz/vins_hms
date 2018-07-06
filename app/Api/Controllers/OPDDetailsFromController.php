@@ -43,7 +43,7 @@ class OPDDetailsFromController extends Controller
 
             $details = OpdDetails::with('patientDetails')->where('patient_id',$patientId)->first();
           
-            if ($details) {
+            if ($details==200) {
                 return ['code' => '200','data'=>$details, 'message' => 'Record Sucessfully Generated'];
             } else {
                 return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
@@ -61,7 +61,7 @@ class OPDDetailsFromController extends Controller
         
         $data =  $request->OPDCaseData;
         $url = common::getCurrentSiteUrl();
-
+        // echo "<pre>";print_r($url);exit();
          return view("opdcaseprint",compact('data','url')); 
 
           

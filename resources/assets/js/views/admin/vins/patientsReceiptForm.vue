@@ -255,7 +255,7 @@
     }
     if(localStorage.getItem("ReceiptAdd"))
     {
-        toastr.success('success.', 'Receipt Print successfully', {timeOut: 5000});
+        toastr.success('success.', 'Receipt Saved successfully', {timeOut: 5000});
         localStorage.removeItem("ReceiptAdd");
         //localStorage.clear();
     }
