@@ -291,13 +291,13 @@ export default {
   generateAddOpdDetails(opd_data) {
     return api.post('opd/addOpdDetails',{'data':opd_data})
   },
-  getNumberOfPatient(type){
-    return api.post('patient/total',{'type':type});
+  getNumberOfPatient(type,id){
+    return api.post('patient/total',{'type':type,'id':id});
   },
-  getOPDCounters(){
-    return api.post('opd/opdtotal');
+  getOPDCounters(id){
+    return api.post('opd/opdtotal',{'id':id});
   },
-  getPatientListByDoctor(page_url,id){
+  getPatientListByDoctor(page_url,id){s
     return api.post(page_url,{'id':id})
   }
 }   
