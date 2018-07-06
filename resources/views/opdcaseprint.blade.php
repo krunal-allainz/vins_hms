@@ -476,8 +476,9 @@
 			@endif
 			</div>
 		@endif
+
 	@endif
-		
+
   @endif
   @if($data['printType'] == 'opd_case')
   <div style='min-height: 750px;height: 1050px;'>
@@ -487,18 +488,20 @@
 			
 		</div>
   	</div>
+	<?php echo $data['todayDate'];exit;?>
   	<div class='row' style="padding-left: 15px;padding-right:15px;">
 	    	 <table class="table" align="center" cellspacing=0>	
          	<thead>	
-         		<tr>	
-         			<td class="text-left"><b>Ref By :</b>{{$data['adviceDoctor']}} </td>	
-         			<td class="text-center"><b>Date :</b> 	{{$data['todayDate']}} </td>	
+         		<tr>
+         			<td class="text-left"><b>Ref By :</b>{{$data['adviceDoctor']}} </td>	 
+         			 <td class="text-center"><b>Date :</b> 	{{$data['todayDate']}} </td>	 
          		</tr>	
          	</thead>
          </table>
 	    
     </div>	
 	<br/><br/>
+	
 	@if($data['advice'] != null && $data['adviceType'] == 'text')
 	<div  style="padding-left: 35px;">
 		<div class='col-md-6 text-left'>
@@ -515,7 +518,7 @@
 	</div>
 	<br/><br/>
 	@endif 
-	
+
 	@if($data['adviceType'] != 'text' && $data['adviceScribleValue'] != '')
 	<div  style="padding-left: 35px;">
 		<div class='col-md-6 text-left'>
@@ -564,6 +567,7 @@
 	</div>
 	<br/><br/>
 	@endif
+
 	@if($data['referalType'] != null && $data['crossSelectedValue'] != '')
 	<div style="padding-left: 35px;"> 
 		<div class='col-md-6 text-left'>
@@ -591,6 +595,7 @@
 	</div>
 	@endif
 	@endif
+
 	@if($data['referalType'] == 'radiology' && $data['radiologyData'] != '')
 	<div style="padding-left: 35px;"> 
 		<div class='col-md-6 text-left'>
