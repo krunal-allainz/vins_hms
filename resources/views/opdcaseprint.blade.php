@@ -485,10 +485,8 @@
   	<div class='row'>
 		<div class='col-md-12 text-center'>
 			<h4>OPD CASE </h4>
-			
 		</div>
   	</div>
-	<?php echo $data['todayDate'];exit;?>
   	<div class='row' style="padding-left: 15px;padding-right:15px;">
 	    	 <table class="table" align="center" cellspacing=0>	
          	<thead>	
@@ -619,7 +617,6 @@
 						<td class="text-center">{{$data['radiologyData']['qualifier']}}</td>
 						<td class="text-center">{{$data['radiologyData']['special_request']}}</td>
 					</tr>
-			
 			</tbody>
 		</table>
 	</div>
