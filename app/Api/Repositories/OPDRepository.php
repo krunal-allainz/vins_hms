@@ -32,7 +32,8 @@
  	 */
  	public function getLabpratoryNameById($id)
  	{
- 		return Laboratory::where('id',$id)->first();
+ 		$get_lab=Laboratory::where('id',$id)->first();
+ 		return $get_lab->name;
  	}
  	/**
  	 * [getAllLaboratoryList description]

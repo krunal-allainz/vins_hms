@@ -49,12 +49,12 @@
 			 			</div>
 			 		<div class="row">
 				  		<div class="col-md-12">
-				  			<div class="col-md-6"><span><b>Blood :</b></span>{{labReportData.blood}} </div>
-				  			<div class="col-md-6"><span><b>Body Fluid Analysis :</b>{{labReportData.bodyfluidanalysis}}</span></div>
+				  			<div class="col-md-6"><span><b>Blood :</b></span>{{labReportData.blood_report_val}} </div>
+				  			<div class="col-md-6"><span><b>Body Fluid Analysis :</b>{{labReportData.body_fluid_analysis_report_val}}</span></div>
 				  		</div>
 				  		<div class="col-md-12">
-				  			<div class="col-md-6"><span><b>Urine :</b>{{labReportData.Urine}}</span></div>
-				  			<div class="col-md-6"><span><b>CSF :</b>{{labReportData.csf}}</span></div>
+				  			<div class="col-md-6"><span><b>Urine :</b>{{labReportData.urine_report_val}}</span></div>
+				  			<div class="col-md-6"><span><b>CSF :</b>{{labReportData.csf_report_val}}</span></div>
 				  		</div>
 				  	</div>
 			 	</div>
@@ -328,7 +328,7 @@
 				'advice' : this.$store.state.Patient.opdData.advice,
 				'prescriptiData' : this.$store.state.Patient.opdData.prescriptiData,
 				'radioReportData' : this.$store.state.Patient.radioData, 
-				'labReportData' : this.$store.state.Patient.labReportData,
+				'labReportData' : this.$store.state.Patient.laboratoryData,
 				'consultntId' : this.$store.state.Users.userDetails.id,
 				'consultName' : '',
 				'signatureName' : ''
@@ -354,6 +354,9 @@
 			if(this.adviceType != 'text'){
 				this.adviceScribleValue = this.$store.state.Patient.opdData.signaturePad2_src;
 			}
+
+
+
 			User.generateUserNameById(vm.consultntId).then(
   				(response) => {
 					vm.consultName = response.data;
@@ -429,11 +432,23 @@
 					        var uniqueName = '';/*new Date();	*/
 					         var windowName = '';/*'Print' + uniqueName.getTime();	*/
 					        var printWindow = window.open(windowUrl, windowName, 'left=10,top=10,width=0, height=0');
-					        printWindow.document.write(printContent);	
-				        	printWindow.document.close();	
-				        	printWindow.focus();	
-				        	printWindow.print();	
-				        	printWindow.close();	
+					        var is_chrome = Boolean(mywindow.chrome);
+    						mywindow.document.write(printContent);
+    						mywindow.document.close(); 
+    						 if (is_chrome) {
+						        mywindow.onload = function() { // wait until all resources loaded 
+						            mywindow.focus(); // necessary for IE >= 10
+						            mywindow.print();  // change window to mywindow
+						            mywindow.close();// change window to mywindow
+						        };
+						    }
+						    else {
+						        mywindow.document.close(); // necessary for IE >= 10
+						        mywindow.focus(); // necessary for IE >= 10
+						        mywindow.print();
+						        mywindow.close();
+						    }
+					        	
 				    // 	}	
 				    // catch (e) {	
 				    //     self.print();	

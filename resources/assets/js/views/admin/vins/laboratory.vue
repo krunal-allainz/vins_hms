@@ -131,68 +131,15 @@
                 'laboratoryData': {
 
                 	'checkboxList':[],
-                	'labReportOption': [
-				                	{text:'labReport_1'},
-				                	{text:'labReport_2'},
-				                	{text:'labReport_3'},
-				                	{text:'labReport_4'},
-				                	{text:'labReport_5'},
-				                	{text:'labReport_6'},
-				                	{text:'labReport_7'},
-				                	{text:'labReport_8'},
-				                	{text:'labReport_9'},
-				                	{text:'labReport_10'}
-                				],
                 	'blood_report':'',
-                	'sputum_report':'',
                 	'urine_report':'',
                 	'csf_report':'',
                 	'body_fluid_analysis_report':'',
-                	'stool_report':'',
-                	'demo':'',
-                	'sputum_option':[{text:'Sputum-Option 1'},
-        							 {text:'Sputum-Option 2'},
-        							 {text:'Sputum-Option 3'},
-        							 {text:'Sputum-Option 4'},
-        							 {text:'Sputum-Option 5'},
-        							 {text:'Sputum-Option 6'},
-        							 {text:'Sputum-Option 7'},
-        							 {text:'Sputum-Option 8'},
-        							 {text:'Sputum-Option 9'},
-        							 {text:'Sputum-Option 10'}
-                			],
-                	'stool_option': [{text:'stool-Option 1'},
-        							 {text:'stool-Option 2'},
-        							 {text:'stool-Option 3'},
-        							 {text:'stool-Option 4'},
-        							 {text:'stool-Option 5'},
-        							 {text:'stool-Option 6'},
-        							 {text:'stool-Option 7'},
-        							 {text:'stool-Option 8'},
-        							 {text:'stool-Option 9'},
-        							 {text:'stool-Option 10'}
-        					],
-        			
-					'option_group_1':[{text:'demo-group1-value 1'},
-									{text:'demo-group1-value 2'},
-									{text:'demo-group1-value 3'},
-									{text:'demo-group1-value 4'}
-							],
-					'option_group_2':[{text:'demo-group2-value 1'},
-									{text:'demo-group2-value 2'},
-									{text:'demo-group2-value 3'},
-									{text:'demo-group2-value 4'}
-							],
-					'option_group_3':[{text:'demo-group3-value 1'},
-									{text:'demo-group3-value 2'},
-									{text:'demo-group3-value 3'},
-									{text:'demo-group3-value 4'}
-							],
-					'option_group_4':[{text:'demo-group4-value 1'},
-									{text:'demo-group4-value 2'},
-									{text:'demo-group4-value 3'},
-									{text:'demo-group4-value 4'}
-							],
+                	'blood_report_val':'',
+                	'urine_report_val':'',
+                	'csf_report_val':'',
+                	'body_fluid_analysis_report_val':'',
+                	
                 },
                 'investigationData':{
                 	'radiologyType':[
@@ -275,18 +222,21 @@
 	        /*for lab data start*/
 	        
 			$('#blood_report').on("select2:select", function (e) {
-				vm.laboratoryData.blood_report = $(this).val();  
+				vm.laboratoryData.blood_report = $(this).val();
+				vm.laboratoryData.blood_report_val = $(this).find("option:selected").text();  
 			});
 			$('#urine').on("select2:select", function (e) {
 				vm.laboratoryData.urine_report = $(this).val();
-			
+				vm.laboratoryData.urine_report_val = $(this).find("option:selected").text();
 			});
 			$('#csf').on("select2:select", function (e) {
-				vm.laboratoryData.csf_report = $(this).val();  
+				vm.laboratoryData.csf_report = $(this).val(); 
+				vm.laboratoryData.csf_report_val = $(this).find("option:selected").text(); 
 			
 			});
 			$('#body_fluid_analysis').on("select2:select", function (e) {
-				vm.laboratoryData.body_fluid_analysis_report = $(this).val();  
+				vm.laboratoryData.body_fluid_analysis_report = $(this).val(); 
+				vm.laboratoryData.body_fluid_analysis_report_val = $(this).find("option:selected").text(); 
 				
 			});
 			/*for lab data end*/
