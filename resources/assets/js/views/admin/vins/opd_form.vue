@@ -1184,7 +1184,7 @@
 
                 //vm.investigationData.radiologySubType =  radiologySubType_val;
 
-                if(radiologySubType_val == 'Other'){
+                if(radiologySubType_val == 'Other' || radiologySubType_val =='Joint'){
                     vm.resultData.subtype_text_enable = true;
                     vm.resultData.bodyPart = '';
                 } else {

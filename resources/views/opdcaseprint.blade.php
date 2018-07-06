@@ -373,10 +373,11 @@
         </div>
   	</div>
   @endif
-  
-  @if($data['printType'] == 'prescription')
-  	@if(!empty($data['priscriptionData']))
 
+  @if($data['printType'] == "prescription")
+
+  	@if(!empty($data['priscriptionData']))
+	
 	<div style="padding-left: 35px;min-height: 350px;height: 350px;">
 		<div class='col-md-12 text-center'>
 			<span class='text-center'><b>Prescription</b></span>
@@ -394,12 +395,13 @@
 				 	</tr>
 					</thead>
 					   <tbody>
+					   	
 					   	@foreach($data['priscriptionData'] as $key=>$value)
 						   <tr >
 							   <td>{{$key}}</td>
 							   <td>{{$value['Prescription'] }}</td>
 							   <td class="text-center">{{$value['quntity']}}</td>
-							   <td class="text-center">{{(isset($value['unit']))?$value['unit']:''}}</td>
+							   <td class="text-center">{{(isset($value['unit']))?$value['unit']:''}}</td> 
 							   <td class="text-center">{{$value['time']}}</td>
 						  </tr>
 						@endforeach
@@ -408,7 +410,7 @@
 		</div>
 	@endif
 	<br/><br/>
- <?php echo 'dfdsf';exit;?>
+
 
 	@if($data['referalType'] != null && $data['crossSelectedValue'] != '')
 		<div style="padding-left: 35px;"> 
@@ -437,7 +439,6 @@
 			@endif
 			</div>
 		@endif
-		
   @endif
   @if($data['printType'] == 'opd_case')
   <div style='min-height: 750px;height: 1050px;'>
@@ -447,18 +448,20 @@
 			
 		</div>
   	</div>
+	<?php echo $data['todayDate'];exit;?>
   	<div class='row' style="padding-left: 15px;padding-right:15px;">
 	    	 <table class="table" align="center" cellspacing=0>	
          	<thead>	
-         		<tr>	
-         			<td class="text-left"><b>Ref By :</b>{{$data['adviceDoctor']}} </td>	
-         			<td class="text-center"><b>Date :</b> 	{{$data['todayDate']}} </td>	
+         		<tr>
+         			<td class="text-left"><b>Ref By :</b>{{$data['adviceDoctor']}} </td>	 
+         			 <td class="text-center"><b>Date :</b> 	{{$data['todayDate']}} </td>	 
          		</tr>	
          	</thead>
          </table>
 	    
     </div>	
 	<br/><br/>
+	
 	@if($data['advice'] != null && $data['adviceType'] == 'text')
 	<div  style="padding-left: 35px;">
 		<div class='col-md-6 text-left'>
@@ -475,7 +478,7 @@
 	</div>
 	<br/><br/>
 	@endif 
-	
+
 	@if($data['adviceType'] != 'text' && $data['adviceScribleValue'] != '')
 	<div  style="padding-left: 35px;">
 		<div class='col-md-6 text-left'>
@@ -524,6 +527,7 @@
 	</div>
 	<br/><br/>
 	@endif
+
 	@if($data['referalType'] != null && $data['crossSelectedValue'] != '')
 	<div style="padding-left: 35px;"> 
 		<div class='col-md-6 text-left'>
@@ -551,6 +555,7 @@
 	</div>
 	@endif
 	@endif
+
 	@if($data['referalType'] == 'radiology' && $data['radiologyData'] != '')
 	<div style="padding-left: 35px;"> 
 		<div class='col-md-6 text-left'>
@@ -620,3 +625,4 @@
 </div>
 </body>
 <html>
+	<?php echo'dfsdf';exit; ?>

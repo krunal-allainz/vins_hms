@@ -290,7 +290,7 @@
           },
           prev() {
               let vm =this;
-                   vm.$store.dispatch('saveVascularExamination', _.cloneDeep(vm.vascularExaminationData)) ;
+                   vm.$store.dispatch('saveNeuroExamination', _.cloneDeep(vm.saveNeuroExamination)) ;
 
               vm.$root.$emit('prev');
           },
@@ -309,6 +309,7 @@
               
               var oData = {'opdData':this.$store.state.Patient.opdData,'resultData':this.$store.state.Patient.opd_resultData,'doctor':doctor,'department':department,'radioData':this.$store.state.Patient.radioData,'laboratoryData':this.$store.state.Patient.laboratoryData,'vascExaminationData':this.$store.state.Patient.vascExaminationData,'neuroExaminationData':this.$store.state.Patient.neuroExaminationData};
                 
+                console.log(oData);
 
                  User.generateAddOpdDetails(oData).then((response) => {
                      $("body .js-loader").addClass('d-none');

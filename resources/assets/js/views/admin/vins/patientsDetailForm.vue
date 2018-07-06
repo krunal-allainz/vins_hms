@@ -142,7 +142,7 @@
 							<input class="form-control" type="text" id="address" name="address" value="" v-model="patientData.address" v-validate="'required'" :disabled="patientData.case == 'old'"/>
 							<i v-show="errors.has('address')" class="fa fa-warning"></i>
 					      	<span class="help is-danger" v-show="errors.has('address')">
-			                	Please enter valid Address.
+			                	Please enter valid address.
 
 			                </span>
 			            </div>
@@ -158,7 +158,7 @@
 					      	  />
 					      	  <i v-show="errors.has('ph_no')" class="fa fa-warning"></i>
 					      	<span class="help is-danger" v-show="errors.has('ph_no')">
-			                	Please enter valid phone no..
+			                	Please enter valid phone no.
 			                </span>	  
 	                    </div>
 	                </div>
@@ -243,7 +243,7 @@
                       <input type="text" name="vitals" id="vitals" class="form-control" v-model="patientData.vitals"  v-validate="'required'">
                       <i v-show="errors.has('vitals')" class="fa fa-warning"></i> 
 
-                      <span class="help is-danger" v-show="errors.has('vitals')"> Please enter vitals. </span>
+                      <span class="help is-danger" v-show="errors.has('vitals')"> Please enter valid vitals. </span>
 
                     </div>
                   </div>
@@ -265,7 +265,7 @@
                       <i v-show="errors.has('pulse')" class="fa fa-warning"></i>
 
                        <div class="help is-danger" v-show="errors.has('pulse')"> 
-                       	Please enter valid Pulse.</div>
+                       	Please enter valid pulse.</div>
 
 
                     </div>
