@@ -427,7 +427,7 @@
 						   <th width="8%">#</th>
 						   <th >Name</th>
 						   <th class="text-center">Quntity</th>
-						   <th class="text-center">Unit</th>
+						  <!--  <th class="text-center">Unit</th> -->
 						   <th class="text-center">Time For Medicine</th>
 					 	</tr>
 						</thead>
@@ -437,7 +437,7 @@
 								   <td>{{$key}}</td>
 								   <td>{{$value['Prescription'] }}</td>
 								   <td class="text-center">{{$value['quntity']}}</td>
-								   <td class="text-center">{{(isset($value['unit']))?$value['unit']:''}}</td>
+								 <!--   <td class="text-center">{{(isset($value['unit']))?$value['unit']:''}}</td> -->
 								   <td class="text-center">{{$value['time']}}</td>
 							  </tr>
 							@endforeach
@@ -545,7 +545,7 @@
 					   <th width="8%">#</th>
 					   <th >Name</th>
 					   <th class="text-center">Quntity</th>
-					   <th class="text-center">Unit</th>
+					  <!--  <th class="text-center">Unit</th> -->
 					   <th class="text-center">Time For Medicine</th>
 				 	</tr>
 					</thead>
@@ -555,7 +555,7 @@
 							   <td>{{$key}}</td>
 							   <td>{{$value['Prescription'] }}</td>
 							   <td class="text-center">{{$value['quntity']}}</td>
-							   <td class="text-center">{{(isset($value['unit']))?$value['unit']:''}}</td>
+							 <!--   <td class="text-center">{{(isset($value['unit']))?$value['unit']:''}}</td> -->
 							   <td class="text-center">{{$value['time']}}</td>
 						  </tr>
 						@endforeach
@@ -624,7 +624,7 @@
 	@endif
 	@endif
 	<div style="position:absolute;bottom:250px;width:100%height:200px;right:30px;">
-		<img  :src="{{'/assets/img/signature/'.$data['signatureName']+'.png'}}" height="66" width="182"/>
+		<img  :src="{{'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/>
 
 	</div>	
 	<div style="position:absolute;bottom:200px;width:100%height:50px;right:30px;">
