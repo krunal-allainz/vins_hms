@@ -47,6 +47,7 @@
         	}
         	
         }
+        
         /*patient details*/
         $patientData->first_name=$data['fname'];
 		$patientData->middle_name=$data['mname'];
@@ -60,7 +61,7 @@
 		$patientData->consultant_id=$data['consulting_dr'];
 		$patientData->consultant=$data['consulting_dr'];
 		$patientData->case_type=$data['case'];
-		$patientData->appointment_datetime= Carbon::createFromFormat('d-m-Y', $data['appointment_datetime']['time']);
+		$patientData->appointment_datetime=Carbon::createFromFormat('d-m-Y', $data['appointment_datetime']['time']); 
 		/*for patient details end*/
 		/*for patient details start*/
 		$data_patient_checkup=new PatientCheckUp;
@@ -216,6 +217,26 @@
     public function patientCheckUpDetailsByOpdId($oid)
     {
         return PatientCheckUp::where('opd_id',$oid)->first();
+    }
+
+    /**
+     * [getPatientListBySearch description]
+     * @param  [type] $selectkey   [description]
+     * @param  [type] $selectvalue [description]
+     * @return [type]              [description]
+     */
+    public function getPatientListBySearch($selectkey,$selectvalue)
+    {
+        if($selectkey=='dob')
+        {
+            return PatientDetailsForm::whereDate($selectkey,$selectvalue)->get();
+        }
+        else
+        {
+            return PatientDetailsForm::where($selectkey,$selectvalue)->get();
+        }
+        
+
     }
  }
 ?>

@@ -47,19 +47,6 @@
 			 					<h4>Lab Report</h4>
 			 				</div>
 			 			</div>
-			 			<div class='row' style="padding-left: 15px;padding-right:15px;">
-			 				<div class='col-md-6 text-left'>
-									<span class='text-left'><b>Ref By :</b></span>
-										{{this.adviceDoctor}}
-    	 	 				</div>
-    	 	 				<div class='col-md-6 text-right'>
-    	 	 					<span class='text-right'><b>Date :</b> 
-    	 	 							{{ todayDate }}
-    	 	 					</span>
-    	 	 				</div>
-    	 	 			</div>	
-    	 	 			<br/>
-    	 	 			<br/>
 			 		<div class="row">
 				  		<div class="col-md-12">
 				  			<div class="col-md-6"><span><b>Blood :</b></span>{{labReportData.blood_report_val}} </div>
@@ -77,19 +64,6 @@
 			 					<h4>Radiology Report</h4>
 			 				</div>
 			 		</div>
-			 		<div class='row' style="padding-left: 15px;padding-right:15px;">
-			 				<div class='col-md-6 text-left'>
-									<span class='text-left'><b>Ref By :</b></span>
-										{{this.adviceDoctor}}
-    	 	 				</div>
-    	 	 				<div class='col-md-6 text-right'>
-    	 	 					<span class='text-right'><b>Date :</b> 
-    	 	 							{{ todayDate }}
-    	 	 					</span>
-    	 	 				</div>
-    	 	 			</div>	
-    	 	 			<br/>
-    	 	 			<br/>
 			 		<div class="row"  style="min-height: 350px;height: 350px;">
         				<div class="col-md-12">
         					<div class="">
@@ -124,19 +98,6 @@
         			</div>
 			 	</div>
 			 	<div v-if="(printType == 'prescription')"  style="min-height: 350px;height: 350px;">
-			 		<div class='row' style="padding-left: 15px;padding-right:15px;">
-			 				<div class='col-md-6 text-left'>
-									<span class='text-left'><b>Ref By :</b></span>
-										{{this.adviceDoctor}}
-    	 	 				</div>
-    	 	 				<div class='col-md-6 text-right'>
-    	 	 					<span class='text-right'><b>Date :</b> 
-    	 	 							{{ todayDate }}
-    	 	 					</span>
-    	 	 				</div>
-    	 	 			</div>	
-    	 	 			<br/>
-    	 	 			<br/>
 			 		<div v-if="(prescriptiData !== null)" >
     	 	 				<div class='row'>
 				 				<div class='col-md-12 text-center'>
@@ -471,23 +432,26 @@
 					        var uniqueName = '';/*new Date();	*/
 					         var windowName = '';/*'Print' + uniqueName.getTime();	*/
 					        var printWindow = window.open(windowUrl, windowName, 'left=10,top=10,width=0, height=0');
-					        var is_chrome = Boolean(mywindow.chrome);
-    						mywindow.document.write(printContent);
-    						mywindow.document.close(); 
+					        
+					        var is_chrome = Boolean(printWindow.chrome);
+    						printWindow.document.write(printContent);
+    						printWindow.document.close(); 
     						 if (is_chrome) {
-						        mywindow.onload = function() { // wait until all resources loaded 
-						            mywindow.focus(); // necessary for IE >= 10
-						            mywindow.print();  // change window to mywindow
-						            mywindow.close();// change window to mywindow
-						        };
+						        setTimeout(function () { // wait until all resources loaded 
+						            printWindow.focus(); // necessary for IE >= 10
+						            printWindow.print();  // change window to printWindow
+						            return false;
+						            printWindow.close();// change window to printWindow
+						        }, 250);
 						    }
 						    else {
-						        mywindow.document.close(); // necessary for IE >= 10
-						        mywindow.focus(); // necessary for IE >= 10
-						        mywindow.print();
-						        mywindow.close();
+						         // necessary for IE >= 10
+						        printWindow.focus(); // necessary for IE >= 10
+						        printWindow.print();
+						        printWindow.close();
 						    }
-					        	
+	
+
 				    // 	}	
 				    // catch (e) {	
 				    //     self.print();	

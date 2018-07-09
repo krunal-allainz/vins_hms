@@ -36,6 +36,9 @@
 		          			<option> Select </option>
 		          			<option value="uhidNo">UHID No.</option>
 		          			<option value="mobileNo">Mobile No.</option>
+		          			<option value="firstName">First Name</option>
+		          			<option value="lastName">Last Name</option>
+		          			<option value="dob">DOB</option>
 		          		</select>
 		          		<i v-show="errors.has('select_type')" class="fa fa-warning"></i>
 		            	<span class="help is-danger" v-show="errors.has('select_type')">
@@ -57,12 +60,15 @@
 		              		Please enter valid value.
 		            	</span>
 		        	</div>
-		        	
-		        	
-
 		        </div>
       		</div>
-      		<div  >
+      		 <div class="row form-group" v-if="userlistData.length>0">
+			    <div class="col-md-12">
+			   		 <userlist :userlistData="userlistData" ></userlist>
+			     
+			    </div>
+			  </div>    
+      		<div>
       			<div class="row form-group">
 	      			<div class="col-md-6">
 	      				<div class="col-md-6">
@@ -354,6 +360,7 @@
 //});
 	import User from '../../../api/users.js';
   	import myDatepicker from 'vue-datepicker';
+  	import userlist from './userlistData.vue';
   	/*for consulting dr */
   	let consult_list=[];
 
@@ -364,6 +371,7 @@
                 'currentYear': new Date().getFullYear(),
                 'type':'opd',
                 'deleteConfirmMsg': 'Are you sure you would like to delete this referee? All information associated with this referee will be permanently deleted.',
+                'userlistData':{},
                 'option': {
                     type: 'day',
                     week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
@@ -426,6 +434,7 @@
         },
         components: {
         	'date-picker': myDatepicker,
+        	userlist
         },
         computed: {
           bmi_mod() {
@@ -451,6 +460,7 @@
 		             	vm.patientData.case = $(this).val();
 		             	if($(this).val()=='new')		
 		             	{
+		             		vm.userlistData={};
 		             		vm.initPatientData();
 		             	}
 		             	else
@@ -498,7 +508,39 @@
 	            	 	},
 					);
         },
+        created: function(){
+        	this.$root.$on('patientData',this.setPatientData);
+        },
         methods: {
+        	setPatientData(patientData) {
+        		if(patientData.code==200)
+        		{
+        			let pDetails=patientData.data;
+        			this.patientData.fname = pDetails.first_name;
+            		this.patientData.mname = pDetails.middle_name;
+            		this.patientData.lname = pDetails.last_name;
+            		this.patientData.ph_no = pDetails.ph_no;
+            		this.patientData.mob_no = pDetails.mob_no;
+            		this.patientData.gender = pDetails.gender;
+            		$('#gender').val(pDetails.gender).trigger('change');
+            		this.patientData.address = pDetails.address;
+            		this.patientData.reference_dr = pDetails.references;
+            		this.patientData.dob.time = pDetails.dob;
+            		this.patientData.consulting_dr = pDetails.consultant_id;
+            		$('#gender').val(pDetails.gender).change();
+            		$('#consulting_dr').val(pDetails.consultant_id).change();
+        		}
+        		else if(patientData.code==300)
+        		{
+        			toastr.error('Record not found', 'Error', {timeOut: 5000});
+        			this.initPatientData();
+        		}
+        		else
+        		{
+        			toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
+        			this.initPatientData();
+        		}
+        	},
 		    GetSelectComponent(componentName) {
 		       this.$router.push({name: componentName})
 		    },
@@ -559,25 +601,11 @@
 		     	  $("body .js-loader").removeClass('d-none');
 		     	 
 		     	 let patData = {'select_type':this.patientData.select_type,'select_value':this.patientData.select_value};
-				User.savePatientDetailBySearch(patData).then(
+				User.generatePatientListBySearch(patData).then(
 		                (response) => {
 		                	if(response.data.code == 200) {
 		                		let pData = response.data.data;
-		                		
-		                		this.patientData.fname = pData.first_name;
-		                		this.patientData.mname = pData.middle_name;
-		                		this.patientData.lname = pData.last_name;
-		                		this.patientData.ph_no = pData.ph_no;
-		                		this.patientData.mob_no = pData.mob_no;
-		                		this.patientData.gender = pData.gender;
-		                		$('#gender').val(pData.gender).trigger('change');
-		                		this.patientData.address = pData.address;
-		                		this.patientData.reference_dr = pData.references;
-		                		this.patientData.dob.time = pData.dob;
-		                		this.patientData.consulting_dr = pData.consultant_id;
-		                		$('#gender').val(pData.gender).change();
-		                		$('#consulting_dr').val(pData.consultant_id).change();
-		                		
+		                		vm.userlistData=pData;
 		                	} else if(response.data.code == 300) {
 		                		toastr.error('Record not found', 'Error', {timeOut: 5000});
 		                		vm.initPatientData();

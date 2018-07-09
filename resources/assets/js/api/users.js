@@ -299,6 +299,9 @@ export default {
   },
   getPatientListByDoctor(page_url,id){s
     return api.post(page_url,{'id':id})
+  },
+  generatePatientListBySearch(searchData) {
+      return api.post('patient/getListBySearch',{'searchData':searchData})
   }
 }   
 
