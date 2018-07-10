@@ -302,6 +302,10 @@ export default {
   },
   getUserTypesList(){
     return api.post('user/types');
+  },
+  generatePatientListBySearch(searchData) {
+      return api.post('patient/getListBySearch',{'searchData':searchData})
+
   }
 }   
 

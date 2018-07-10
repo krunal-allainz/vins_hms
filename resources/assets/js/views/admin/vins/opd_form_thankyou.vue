@@ -47,27 +47,14 @@
 			 					<h4>Lab Report</h4>
 			 				</div>
 			 			</div>
-			 			<div class='row' style="padding-left: 15px;padding-right:15px;">
-			 				<div class='col-md-6 text-left'>
-									<span class='text-left'><b>Ref By :</b></span>
-										{{this.adviceDoctor}}
-    	 	 				</div>
-    	 	 				<div class='col-md-6 text-right'>
-    	 	 					<span class='text-right'><b>Date :</b> 
-    	 	 							{{ todayDate }}
-    	 	 					</span>
-    	 	 				</div>
-    	 	 			</div>	
-    	 	 			<br/>
-    	 	 			<br/>
 			 		<div class="row">
 				  		<div class="col-md-12">
-				  			<div class="col-md-6"><span><b>Blood :</b></span>{{labReportData.blood}} </div>
-				  			<div class="col-md-6"><span><b>Body Fluid Analysis :</b>{{labReportData.bodyfluidanalysis}}</span></div>
+				  			<div class="col-md-6"><span><b>Blood :</b></span>{{labReportData.blood_report_val}} </div>
+				  			<div class="col-md-6"><span><b>Body Fluid Analysis :</b>{{labReportData.body_fluid_analysis_report_val}}</span></div>
 				  		</div>
 				  		<div class="col-md-12">
-				  			<div class="col-md-6"><span><b>Urine :</b>{{labReportData.Urine}}</span></div>
-				  			<div class="col-md-6"><span><b>CSF :</b>{{labReportData.csf}}</span></div>
+				  			<div class="col-md-6"><span><b>Urine :</b>{{labReportData.urine_report_val}}</span></div>
+				  			<div class="col-md-6"><span><b>CSF :</b>{{labReportData.csf_report_val}}</span></div>
 				  		</div>
 				  	</div>
 			 	</div>
@@ -77,19 +64,6 @@
 			 					<h4>Radiology Report</h4>
 			 				</div>
 			 		</div>
-			 		<div class='row' style="padding-left: 15px;padding-right:15px;">
-			 				<div class='col-md-6 text-left'>
-									<span class='text-left'><b>Ref By :</b></span>
-										{{this.adviceDoctor}}
-    	 	 				</div>
-    	 	 				<div class='col-md-6 text-right'>
-    	 	 					<span class='text-right'><b>Date :</b> 
-    	 	 							{{ todayDate }}
-    	 	 					</span>
-    	 	 				</div>
-    	 	 			</div>	
-    	 	 			<br/>
-    	 	 			<br/>
 			 		<div class="row"  style="min-height: 350px;height: 350px;">
         				<div class="col-md-12">
         					<div class="">
@@ -123,19 +97,6 @@
         			</div>
 			 	</div>
 			 	<div v-if="(printType == 'prescription')"  style="min-height: 350px;height: 350px;">
-			 		<div class='row' style="padding-left: 15px;padding-right:15px;">
-			 				<div class='col-md-6 text-left'>
-									<span class='text-left'><b>Ref By :</b></span>
-										{{this.adviceDoctor}}
-    	 	 				</div>
-    	 	 				<div class='col-md-6 text-right'>
-    	 	 					<span class='text-right'><b>Date :</b> 
-    	 	 							{{ todayDate }}
-    	 	 					</span>
-    	 	 				</div>
-    	 	 			</div>	
-    	 	 			<br/>
-    	 	 			<br/>
 			 		<div v-if="(prescriptiData !== null)" >
     	 	 				<div class='row'>
 				 				<div class='col-md-12 text-center'>
@@ -366,7 +327,7 @@
 				'advice' : this.$store.state.Patient.opdData.advice,
 				'prescriptiData' : this.$store.state.Patient.opdData.prescriptiData,
 				'radioReportData' : this.$store.state.Patient.radioData, 
-				'labReportData' : this.$store.state.Patient.labReportData,
+				'labReportData' : this.$store.state.Patient.laboratoryData,
 				'consultntId' : this.$store.state.Users.userDetails.id,
 				'consultName' : '',
 				'signatureName' : ''
@@ -392,6 +353,9 @@
 			if(this.adviceType != 'text'){
 				this.adviceScribleValue = this.$store.state.Patient.opdData.signaturePad2_src;
 			}
+
+
+
 			User.generateUserNameById(vm.consultntId).then(
   				(response) => {
 					vm.consultName = response.data;
@@ -467,11 +431,26 @@
 					        var uniqueName = '';/*new Date();	*/
 					         var windowName = '';/*'Print' + uniqueName.getTime();	*/
 					        var printWindow = window.open(windowUrl, windowName, 'left=10,top=10,width=0, height=0');
-					        printWindow.document.write(printContent);	
-				        	printWindow.document.close();	
-				        	printWindow.focus();	
-				        	printWindow.print();	
-				        	printWindow.close();	
+					        
+					        var is_chrome = Boolean(printWindow.chrome);
+    						printWindow.document.write(printContent);
+    						printWindow.document.close(); 
+    						 if (is_chrome) {
+						        setTimeout(function () { // wait until all resources loaded 
+						            printWindow.focus(); // necessary for IE >= 10
+						            printWindow.print();  // change window to printWindow
+						            return false;
+						            printWindow.close();// change window to printWindow
+						        }, 250);
+						    }
+						    else {
+						         // necessary for IE >= 10
+						        printWindow.focus(); // necessary for IE >= 10
+						        printWindow.print();
+						        printWindow.close();
+						    }
+	
+
 				    // 	}	
 				    // catch (e) {	
 				    //     self.print();	

@@ -281,4 +281,38 @@ class PatientsDetailFormController extends Controller
             return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
         }
     }
+
+    /**
+     * [getListBySearch description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getListBySearch(Request $request)
+    {
+        $data = $request->all()['searchData'];
+        $patientId = 0;
+        $select_value=$data['select_value'];
+        if($data['select_type'] == 'uhidNo'){
+            $select_key = 'uhid_no';
+        }else if($data['select_type'] == 'mobileNo'){
+            $select_key = 'mob_no';
+        }else if($data['select_type'] == 'firstName'){
+            $select_key = 'first_name';
+        }else if($data['select_type'] == 'lastName'){
+            $select_key = 'last_name';
+        }else if($data['select_type'] == 'dob'){
+            $select_key = 'dob';
+            $select_value=Carbon::createFromFormat('d-m-Y', $data['select_value'])->format('Y-m-d');
+        }
+        
+        $patientList =$this->patientOBJ->getPatientListBySearch($select_key,$select_value);
+        if(count($patientList)>0) {
+             return ['code' => '200','data'=>$patientList, 'message' => 'Patient record '];
+        } else {
+             //return ['code' => '300','patientData'=>'', 'message' => 'Record not found'];
+             return ['code' => '300','data'=>'', 'message' => 'Something went wrong'];
+        }
+       
+
+    }
 }
