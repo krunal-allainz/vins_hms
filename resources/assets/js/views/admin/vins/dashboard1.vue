@@ -313,9 +313,9 @@
         	let vm =this;
         	$("body .js-loader").removeClass('d-none');
         	// setTimeout(function(){
-        		if(vm.userType == 'Doctor'){
+        		if(vm.userType == 1){
                 		vm.$router.push({'name':'opd_form'});
-	        	} else if(vm.userType == 'Others'){
+	        	} else if(vm.userType != 1){
                         vm.$router.push({'name':'patients_detail_form'});
 	        		// vm.$router.push('nabhReport');
 	        	}
