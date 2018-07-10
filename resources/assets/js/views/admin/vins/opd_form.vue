@@ -34,7 +34,7 @@
                   <label for="selectType">Select Type:</label>
                 </div>
                 <div class="col-md-6">
-                  <select class="form-control" v-validate="'required'" placeholder="Please select" id="select_type" name="select_type"  v-model="opdData.select_type">
+                  <select class="form-control"  placeholder="Please select" id="select_type" name="select_type"  v-model="opdData.select_type">
                     <option> Select </option>
                     <option value="uhidNo">UHID No.</option>
                     <option value="mobileNo">Mobile No.</option>
@@ -42,10 +42,7 @@
                     <option value="lastName">Last Name</option>
                     <option value="dob">DOB</option>
                   </select>
-                  <i v-show="errors.has('select_type')" class="fa fa-warning"></i>
-                  <span class="help is-danger" v-show="errors.has('select_type')">
-                      Please select  search type.
-                  </span>
+                  
                 </div>
             </div>
             <div class="col-md-6">
@@ -53,14 +50,11 @@
                 <label>Value:</label>
               </div>
               <div class="col-md-6" style="display: flex;">
-                <input class="form-control" type="text" id="select_value" name="select_value" v-model="opdData.select_value" v-validate="'required'">
+                <input class="form-control" type="text" id="select_value" name="select_value" v-model="opdData.select_value" >
                   <span  @click="getPatientDetailsBySearch()">
                   <i class="fa fa-search fa-2x red m-1" aria-hidden="true" style="cursor: pointer;" title="search"></i>
                 </span>
-                <i v-show="errors.has('select_value')" class="fa fa-warning"></i>
-                    <span class="help is-danger" v-show="errors.has('select_value')">
-                      Please enter valid value.
-                  </span>
+                
               </div>
             </div>
           </div>
@@ -86,7 +80,7 @@
               </div>
               <div class="col-md-6">
                 <select  class="form-control ls-select2" v-validate="'required'" id = "opd_no" name="opd_no" value="" v-model="opdData.opd_id" > 
-                
+                <option value="">Select</option>
                      <option :value="opd.id" v-for="opd in opdData.opd_option">{{opd.opd_id}}</option>
                   </select> 
                   <i v-show="errors.has('opd_no')" class="fa fa-warning"></i>      
@@ -1386,6 +1380,7 @@
 
             if(patientData.code==200)
             {
+              $('#opd_no').select2('destroy');
               let pDetails=patientData.data;
               //for opd list
                 this.opdData.uhid_no=pDetails.uhid_no;
