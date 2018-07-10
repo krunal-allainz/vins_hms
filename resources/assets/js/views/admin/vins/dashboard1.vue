@@ -1,7 +1,7 @@
 <template>
 
   <div class="container">
-  	<div v-if="userType != 'Doctors' && userType != 'Others'">
+  	<div v-if="userType != 1 && userType != 4">
   			<div class="page-header">
 		<div class="row">
 			<div class="col-md-8">

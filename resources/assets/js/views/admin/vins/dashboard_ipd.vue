@@ -22,10 +22,16 @@
         	// setTimeout(function(){
         		if(vm.userType == 1){
                 		vm.$router.push({'name':'opd_form'});
-	        	} else if(vm.userType != 1){
+	        	} else if(vm.userType == 2){
                         vm.$router.push({'name':'patients_detail_form'});
 	        		// vm.$router.push('nabhReport');
-	        	}
+	        	}else if(vm.userType == 3){
+                        vm.$router.push({'name':'patients_detail_form'});
+                    // vm.$router.push('nabhReport');
+                }else {
+                        vm.$router.push({'name':'patients_detail_form'});
+                    // vm.$router.push('nabhReport');
+                }
 	        	
 	        	$("body .js-loader").addClass('d-none');
         	// },500)
