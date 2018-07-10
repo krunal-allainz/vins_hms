@@ -177,6 +177,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
         $api->post('patient/list','\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientListByDoctor');
 
+           $api->post('user/types','\euro_hms\Api\Controllers\UserController@getUserType');
+
 
         });
         
