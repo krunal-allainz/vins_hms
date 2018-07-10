@@ -999,9 +999,9 @@
 	            <option value="regional">Regional</option>
 	            <option value="general">General</option>
 	          </select>
-						<span class="help is-danger" v-show="errors.has('type_of_anaesthesia_planned')">
-							Field is required
-						</span>
+					<span class="help is-danger" v-show="errors.has('type_of_anaesthesia_planned')">
+						Field is required
+					</span>
 	        </div>
 	      </div>
 	    </div>

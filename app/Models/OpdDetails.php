@@ -9,10 +9,15 @@ class OpdDetails extends Model
     protected $table = 'opd_details';
 
     protected $fillable=[
+      'opd_id',
       'patient_id',
       'uhid_no',
       'admit_datetime',
       'discharge_datetime',
+      'appointment_datetime',
+      'history',
+      'past_history',
+      'advice'
     ];
 
 	public function patientDetails()

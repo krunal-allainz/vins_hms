@@ -1,0 +1,86 @@
+<template>
+	<div class="container">
+		<h4>User Result List</h4>
+		   <div class="table-responsive">
+	        <table class="table table-striped table-bordered" id="user_list">
+	            <thead>
+	            <tr>
+	                <th>#</th>
+	                <th>UHID No.</th>
+	                <th>First Name</th>
+	                <th>Last Name</th>
+	                <th>DOB</th>
+	                <th>Mobile No.</th>
+	                <th>Action</th>
+	            </tr>
+	            </thead>
+	            <tbody>
+	             <tr  v-for="(res,index) in userlistData">
+	                <td>{{++index}}</td>
+	                <td>{{res.uhid_no }}</td>
+	                <td>{{res.first_name}}</td>
+	                <td>{{res.last_name}}</td>
+	                <td>{{res.dob}}</td>
+	                <td>{{res.mob_no}}</td>
+	                <td><button  type="button" class="btn btn-primary" name="search_btn" id="search_btn" @click="getUserDetails(res.id)">Select</button></td>
+	              </tr>
+	            </tbody>
+	        </table>
+	      </div>
+	</div>
+</template>
+<script >
+	import User from '../../../api/users.js';
+	import _ from 'lodash';
+    export default {
+    	computed:{
+
+    	},
+    	props:['userlistData'],
+        data() {
+            return {
+                'userData': {
+
+                	'userlist':this.userlistData,
+                	
+                },
+            }
+        },
+        mounted() {
+        	
+			
+        },
+        methods: {
+         initData() {
+
+          },
+           getUserDetails(id)
+		    {
+		    	$("body .js-loader").removeClass('d-none');
+		    	if(id!=0 && id!="")
+		    	{
+		    		User.generatePatientDetailsByID(id).then(
+		                (response) => {
+		                	let pData = response.data;
+		                	this.$root.$emit('patientData',pData);
+		                	 $("body .js-loader").addClass('d-none');
+		                },
+		                (error) => {
+		                	 $("body .js-loader").addClass('d-none');
+		                	 toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
+
+		        	});
+		    	}
+		    	else
+		    	{
+		    		toastr.error('Record not found', 'Error', {timeOut: 5000});
+		    		vm.initData();
+		    	}
+		    },
+		  GetSelectComponent(componentName) {
+		    this.$router.push({name: componentName})
+		  },
+		    
+		  }
+    }
+</script>

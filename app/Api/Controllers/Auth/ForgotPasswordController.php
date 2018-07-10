@@ -11,6 +11,8 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use euro_hms\Models\User;
+use euro_hms\Models\MailNotification;
+use euro_hms\Custom\Helper\Common;
 use DB;
 use Mail;
 use App\Mail\EmailVerification;
@@ -42,7 +44,7 @@ class ForgotPasswordController extends Controller
 
      public function resetLink(Request $request )
     {   
-      //Common::sendMail($email_details, $recipient, $email_msg, $email_templates);
+      
     	$this->validate($request, ['email' => 'required|email']);
     	/*$valodator = Validator::make($request->all(), 
 			array(
@@ -55,29 +57,64 @@ class ForgotPasswordController extends Controller
 
     	  /*if( ! $validator->fails() )
 		    {*/
-		        if( $user = User::where('email', $request->input('email') )->first() )
+                $reseEmail =  $request->input('email');
+                
+		        if( $user = User::where('email',$reseEmail)->first() )
 		        {
 		            $token = str_random(64);
                     
                     $password_reset = \DB::table('password_resets')->where('email',  $user->email)->first();
                     
                     if(empty($password_reset)){ 
-    		            DB::table(config('auth.passwords.users.table'))->insert([
-    		                'email' => $user->email, 
-    		                'token' => $token,
-    		                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-              				'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-    		            ]);
+    		             DB::table(config('auth.passwords.users.table'))->insert([
+    		                 'email' => $user->email, 
+    		                 'token' => $token,
+    		                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+              				 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+    		           ]);
 
                     }else{  
                           DB::table(config('auth.passwords.users.table'))->where('email',$user->email)->
                               update([
                                 'token'=>$token,
                                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')]);
+                                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+                            ]);
                     }
+                     $url = '';
+                $url = common::getCurrentSiteUrl();
+                $resetLink = '';
+                $resetLink  = $url.'/password/reset/'.$token.'?email='. $user->email;
+                $type = 'password_reset_link';
+               $emailData  = [ 
+                   'NAME'  => $user->first_name.' '.$user->last_name, 
+                    'EMAIL' => $user->email,   
+                    'LINK'  => $resetLink, 
+                    'SUBJECT' => 'Reset Password Link',    
+                    'WITH-ATTECHMENT'  => 'no' 
+                ];
+              //   MailNotification::mailSendDetail($type,$emailData);
 
-                 $data = ['status' => 200 , 'token' => $token , 'email' =>  $user->email];
+
+                 
+
+           //  if($userObj->is_mobile_user == 1) {
+           // //   $email_templates = 'emails.users.mobile_create';
+           //    $email_msg = 'Euro-Sportring email verification';
+           //    $email_details['is_mobile_user'] = 1;
+           //  }
+            // Common::sendMail($email_details, $recipient, $email_msg, $email_templates);
+               $data = [
+                    'status' => 200 ,
+                    'token' => $token , 
+                    'email' =>  $user->email ,
+                    'link' => $resetLink,
+                    'msg'   => 'Reset password link send to your mail id'
+                  ];
+
+
+
+                //Common::sendMail($email_details, $recipient, $email_msg, $email_templates);
                 
               }else{
                 $data = ['status' =>404 ,  'email' =>  $request->input('email')];

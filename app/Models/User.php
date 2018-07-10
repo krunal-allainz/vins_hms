@@ -22,6 +22,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
      *
      * @var array
      */
+    protected $table = 'users';
     protected $fillable = [
         
         'user_image',
@@ -39,7 +40,8 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
         'first_name',
         'last_name',
         'user_type',
-        'department'
+        'department',
+        'status'
     ];
 
     /**
@@ -148,4 +150,6 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
         }
         $this->notify(new ResetPasswordNotification($token, $name,$this->email,$send_otp, $subject));
     }
+
+    
 }

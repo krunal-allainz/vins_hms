@@ -48,7 +48,7 @@
                                     <div class="row">
                                         <div class="col-sm-12 mt-3 ">
                                             <div class="form-group">
-                                         <h2> Invalide Request</h2>
+                                         <h2 class=""> Invalide Request</h2>
                                             </div>
                                         </div>
                                       

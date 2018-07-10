@@ -93,7 +93,7 @@
 						<label>Diet : </label>
 					</div>
 					<div class="col-md-6">
-						<select class="form-control  ls-select2" name="diet" v-model="NutritionalAssessmentForm.diet" v-validate="'required'" value="">
+						<select class="form-control  ls-select2" name="diet" v-model="NutritionalAssessmentForm.diet"  value="">
 							<option value="Vegetarian">Vegetarian</option>
 							<option value="Non-Vegetarian">Non-Vegetarian</option>
 							<option value="Ovatarian">Ovatarian</option>
@@ -115,7 +115,7 @@
 						<label>Vomiting : </label>
 					</div>
 					<div class="col-md-6">
-						<select class="form-control  ls-select2" name="vomiting" v-model="NutritionalAssessmentForm.vomiting" v-validate="'required'" value="">
+						<select class="form-control  ls-select2" name="vomiting" v-model="NutritionalAssessmentForm.vomiting"  value="">
 							<option value="Absent">Absent</option>
 							<option value="Present">Present</option>
 						</select>
@@ -129,7 +129,7 @@
 						<label>Diarrhea : </label>
 					</div>
 					<div class="col-md-6">
-						<select class="form-control  ls-select2" name="diarrhea" v-model="NutritionalAssessmentForm.diarrhea" v-validate="'required'" value="">
+						<select class="form-control  ls-select2" name="diarrhea" v-model="NutritionalAssessmentForm.diarrhea"  value="">
 							<option value="Absent">Absent</option>
 							<option value="Present">Present</option>
 						</select>
@@ -146,7 +146,7 @@
 						<label>Constipation : </label>
 					</div>
 					<div class="col-md-6">
-						<select class="form-control  ls-select2" name="constipation" v-model="NutritionalAssessmentForm.constipation" v-validate="'required'" value="">
+						<select class="form-control  ls-select2" name="constipation" v-model="NutritionalAssessmentForm.constipation"  value="">
 							<option value="Absent">Absent</option>
 							<option value="Present">Present</option>
 						</select>
@@ -160,7 +160,7 @@
 						<label>Mouth Ulcer : </label>
 					</div>
 					<div class="col-md-6">
-						<select class="form-control  ls-select2" name="mouth_ulcer" v-model="NutritionalAssessmentForm.mouth_ulcer" v-validate="'required'" value="">
+						<select class="form-control  ls-select2" name="mouth_ulcer" v-model="NutritionalAssessmentForm.mouth_ulcer"  value="">
 							<option value="Absent">Absent</option>
 							<option value="Present">Present</option>
 						</select>
@@ -177,7 +177,7 @@
 						<label>Food Intake : </label>
 					</div>
 					<div class="col-md-6">
-						<select class="form-control  ls-select2" name="food_intake" v-model="NutritionalAssessmentForm.food_intake" v-validate="'required'" value="">
+						<select class="form-control  ls-select2" name="food_intake" v-model="NutritionalAssessmentForm.food_intake"  value="">
 							<option value="Adequate">Adequate</option>
 							<option value="Inadequate">Inadequate</option>
 						</select>
@@ -191,7 +191,7 @@
 						<label>Fluid Intake : </label>
 					</div>
 					<div class="col-md-6">
-						<select class="form-control  ls-select2" name="fluid_intake" v-model="NutritionalAssessmentForm.fluid_intake" v-validate="'required'" value="">
+						<select class="form-control  ls-select2" name="fluid_intake" v-model="NutritionalAssessmentForm.fluid_intake"  value="">
 							<option value="Adequate">Adequate</option>
 							<option value="Inadequate">Inadequate</option>
 						</select>
@@ -208,7 +208,7 @@
 						<label>Nutritional Need : </label>
 					</div>
 					<div class="col-md-6">
-						<select class="form-control  ls-select2" name="nutritional_need" v-model="NutritionalAssessmentForm.nutritional_need" v-validate="'required'" value="">
+						<select class="form-control  ls-select2" name="nutritional_need" v-model="NutritionalAssessmentForm.nutritional_need"  value="">
 							<option value="Low">Low</option>
 							<option value="Medium">Medium</option>
 							<option value="High">High</option>
@@ -226,7 +226,7 @@
 						<label>Life Style : </label>
 					</div>
 					<div class="col-md-6">
-						<select class="form-control  ls-select2" name="life_style" v-model="NutritionalAssessmentForm.life_style" v-validate="'required'" value="">
+						<select class="form-control  ls-select2" name="life_style" v-model="NutritionalAssessmentForm.life_style"  value="">
 							<option value="Sedentary">Sedentary</option>
 							<option value="Moderate">Moderate</option>
 							<option value="Heavy">Heavy</option>
@@ -244,7 +244,7 @@
 						<label>Mode of feed : </label>
 					</div>
 					<div class="col-md-6">
-						<select class="form-control  ls-select2" name="mode_of_feed" v-model="NutritionalAssessmentForm.mode_of_feed" v-validate="'required'" value="">
+						<select class="form-control  ls-select2" name="mode_of_feed" v-model="NutritionalAssessmentForm.mode_of_feed"  value="">
 							<option value="Self Feed">Self Feed</option>
 							<option value="With Assisstance">With Assisstance</option>
 							<option value="Tube Feed">Tube Feed</option>
@@ -262,11 +262,10 @@
 						<label>Height : </label>
 					</div>
 					<div class="col-md-6">
-						<input class="form-control" type="text" name="height" v-model="NutritionalAssessmentForm.height" v-validate="'required'" value=""/>
+						<input class="form-control" type="text" name="height" v-model="NutritionalAssessmentForm.height"  value=""/>
 						<span class="help is-danger" v-show="errors.has('height')">
 							Field is required
 						</span>
-
 					</div>
 				</div>
 				<div class="col-md-6">
@@ -274,11 +273,10 @@
 						<label>Weight : </label>
 					</div>
 					<div class="col-md-6">
-						<input class="form-control" type="text" name="weight" v-model="NutritionalAssessmentForm.weight" v-validate="'required'" value=""/>
+						<input class="form-control" type="text" name="weight" v-model="NutritionalAssessmentForm.weight"  value=""/>
 						<span class="help is-danger" v-show="errors.has('weight')">
 							Field is required
 						</span>
-
 					</div>
 				</div>
 			</div>
@@ -289,7 +287,7 @@
 						<label>BMI : </label>
 					</div>
 					<div class="col-md-6">
-						<select class="form-control  ls-select2" name="bmi" v-model="NutritionalAssessmentForm.bmi" v-validate="'required'" value="">
+						<select class="form-control  ls-select2" name="bmi" v-model="NutritionalAssessmentForm.bmi"  value="">
 							<option value="30">  30</option>
 							<option value="24">  24</option>
 							<option value="18.5-24">18.5 - 24</option>
@@ -305,7 +303,7 @@
 						<label>Diet Recall : </label>
 					</div>
 					<div class="col-md-6">
-						<select class="form-control  ls-select2" name="diet_recall" v-model="NutritionalAssessmentForm.diet_recall" v-validate="'required'" value="">
+						<select class="form-control  ls-select2" name="diet_recall" v-model="NutritionalAssessmentForm.diet_recall"  value="">
 							<option value="Adequate Nutrional Intake">Adequate Nutritional Intake</option>
 							<option value="Less Nutrional Intake">Less Nutritional Intake</option>
 							<option value="No Nutrional Intake for >5 days">No Nutritional Intake for > 5 days</option>
@@ -324,7 +322,7 @@
 						<label>Has food intake declined in the last 3-6 months : </label>
 					</div>
 					<div class="col-md-6">
-						<select class="form-control  ls-select2" name="food_intake_decline" v-model="NutritionalAssessmentForm.food_intake_decline" v-validate="'required'" value="">
+						<select class="form-control  ls-select2" name="food_intake_decline" v-model="NutritionalAssessmentForm.food_intake_decline"  value="">
 							<option value="Yes">Yes</option>
 							<option value="No">No</option>
 						</select>
@@ -338,7 +336,7 @@
 						<label>If yes, reason thereof : </label>
 					</div>
 					<div class="col-md-6">
-						<select class="form-control  ls-select2" name="food_intake_decline_reason" v-model="NutritionalAssessmentForm.food_intake_decline_reason" v-validate="'required'" value="">
+						<select class="form-control  ls-select2" name="food_intake_decline_reason" v-model="NutritionalAssessmentForm.food_intake_decline_reason"  value="">
 							<option value="Loss of apetite">Loss of apetite</option>
 							<option value="Digestive Problem">Digestive Problem</option>
 							<option value="Chewing or Swallowing">Chewing or Swallowing</option>
@@ -437,7 +435,7 @@
 						<label>Risk to patient : </label>
 					</div>
 					<div class="col-md-6">
-						<select class="form-control  ls-select2" name="risk_type" v-model="NutritionalAssessmentForm.risk_type" v-validate="'required'" value="">
+						<select class="form-control  ls-select2" name="risk_type" v-model="NutritionalAssessmentForm.risk_type" value="">
 							<option value="Low risk">Low Risk</option>
 							<option value="	Medium Risk">Medium Risk</option>
 							<option value="High Risk">High Risk</option>
@@ -463,7 +461,7 @@
 						<label>Diet Suggested to patient : </label>
 					</div>
 					<div class="col-md-6">
-						<select class="form-control  ls-select2" name="diet_suggested" v-model="NutritionalAssessmentForm.diet_suggested" v-validate="'required'" value="">
+						<select class="form-control  ls-select2" name="diet_suggested" v-model="NutritionalAssessmentForm.diet_suggested" value="">
 							<option value="FD">FD</option>
 							<option value="ADD">ADD</option>
 							<option value="SRD">SRD</option>
@@ -508,7 +506,7 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td><input class="form-control ls-datepicker" type="text" name="date_table" v-model="NutritionalAssessmentForm.date_table" v-validate="'required'" value=""/>
+							<td><input class="form-control ls-datepicker" type="text" name="date_table" v-model="NutritionalAssessmentForm.date_table"  value=""/>
 						<span class="help is-danger" v-show="errors.has('date_table')">
 							Field is required
 						</span>
@@ -608,16 +606,17 @@
 			 SelectPatientModal,
 		},
 		mounted() {
+			let vm =this;
         	$('.ls-datepicker').datepicker({
          		format: 'dd/mm/yyyy',
          		'autoclose': true
      		})
-        	// if(this.ipd_id == 0){
+        	if(this.ipd_id == 0){
 	     		   $('#delete_modal').modal('show');
-	    	// }
+	    	}
 		 	$('.ls-datepicker').datepicker().on('changeDate',function(){
 				if (this.id == 'date_table') {
-					vm.NutritionalAssessmentForm.date_table = this.value;
+					vm.NutritionalAssessmentForm.date_table = '02-05-2018';
 			 	}
 			})
 			$('.ls-select2').select2({
