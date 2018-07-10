@@ -10,7 +10,7 @@
 
     <form action="" method="post" enctype="multipart/formdata">
       <div v-if="curStep == 1">
-        <div class="row form-group">
+        <div class="row form-group" v-show="patient_select_enable==true">
           <div class="col-md-6">
             <div class="col-md-6 ">
               <label for="patient">Select Patient:</label>
@@ -26,22 +26,78 @@
                 </span> 
             </div>
           </div>
-          <div class="col-md-6" >
-            <div class="col-md-6 ">
-              <label for="opd_no">Select OPD No.:</label>
+          </div>
+
+          <div class="row form-group" v-show="patient_select_enable==false">
+            <div class="col-md-6" >
+              <div class="col-md-6 ">
+                  <label for="selectType">Select Type:</label>
+                </div>
+                <div class="col-md-6">
+                  <select class="form-control" v-validate="'required'" placeholder="Please select" id="select_type" name="select_type"  v-model="opdData.select_type">
+                    <option> Select </option>
+                    <option value="uhidNo">UHID No.</option>
+                    <option value="mobileNo">Mobile No.</option>
+                    <option value="firstName">First Name</option>
+                    <option value="lastName">Last Name</option>
+                    <option value="dob">DOB</option>
+                  </select>
+                  <i v-show="errors.has('select_type')" class="fa fa-warning"></i>
+                  <span class="help is-danger" v-show="errors.has('select_type')">
+                      Please select  search type.
+                  </span>
+                </div>
             </div>
             <div class="col-md-6">
-              <select  class="form-control ls-select2" v-validate="'required'" id = "opd_no" name="opd_no" value="" v-model="opdData.opd_id" > 
-              
-                   <option :value="opd.id" v-for="opd in opdData.opd_option">{{opd.opd_id}}</option>
-                </select> 
-                <i v-show="errors.has('opd_no')" class="fa fa-warning"></i>      
-                 <span class="help is-danger" v-show="errors.has('opd_no')">
-                  Please Select OPD Number.
-                </span> 
+              <div class="col-md-6">
+                <label>Value:</label>
+              </div>
+              <div class="col-md-6" style="display: flex;">
+                <input class="form-control" type="text" id="select_value" name="select_value" v-model="opdData.select_value" v-validate="'required'">
+                  <span  @click="getPatientDetailsBySearch()">
+                  <i class="fa fa-search fa-2x red m-1" aria-hidden="true" style="cursor: pointer;" title="search"></i>
+                </span>
+                <i v-show="errors.has('select_value')" class="fa fa-warning"></i>
+                    <span class="help is-danger" v-show="errors.has('select_value')">
+                      Please enter valid value.
+                  </span>
+              </div>
             </div>
           </div>
+           <div class="row form-group" v-if="userlistData.length>0">
+            <div class="col-md-12">
+             <userlist :userlistData="userlistData" ></userlist>
           </div>
+        </div>
+          <div class="row form-group">
+            <div class="col-md-6" v-if="patient_select_enable==true">
+              <div class="col-md-6">
+                <button type="button" class="btn btn-primary" @click="patient_select_change(true)">Search Patient By Another</button>
+              </div>
+            </div>
+            <div class="col-md-6" v-if="patient_select_enable==false">
+              <div class="col-md-6">
+                <button type="button" class="btn btn-primary" @click="patient_select_change(false)">Select Patient</button>
+              </div>
+            </div>
+            <div class="col-md-6" >
+              <div class="col-md-6 ">
+                <label for="opd_no">Select OPD No.:</label>
+              </div>
+              <div class="col-md-6">
+                <select  class="form-control ls-select2" v-validate="'required'" id = "opd_no" name="opd_no" value="" v-model="opdData.opd_id" > 
+                
+                     <option :value="opd.id" v-for="opd in opdData.opd_option">{{opd.opd_id}}</option>
+                  </select> 
+                  <i v-show="errors.has('opd_no')" class="fa fa-warning"></i>      
+                   <span class="help is-danger" v-show="errors.has('opd_no')">
+                    Please Select OPD Number.
+                  </span> 
+              </div>
+            </div>
+          </div>
+
+          
           <div class="row form-group">
             <div class="col-md-12">
                  <div class="col-md-6"  v-if="opdData.uhid_no!=''">
@@ -683,6 +739,7 @@
   import neuroExamination from './neuroExamination.vue';
   import SignaturePad from 'signature_pad';
   import laboratory from './laboratory.vue';
+  import userlist from './userlistData.vue';
   import _ from 'lodash';
     import card from "./card.vue"
       var  medicine ;
@@ -702,6 +759,8 @@
               'prescriptionOption':'',
               'finalResultData':{},
               'finalPrescriptionData' : [],
+              'userlistData':{},
+              'patient_select_enable':true,
               'priscriptionAdd':{},
               'prescription_enable':true,
               'prescriptionunique' : 0,
@@ -890,6 +949,8 @@
                 'urine_report_opd':'',
                 'csf_report_opd':'',
                 'body_fluid_analysis_report_opd':'',
+                'select_type':'',
+                'select_value':'',
 
               }
             }
@@ -900,6 +961,7 @@
          neuroExamination,
          laboratory,
          card,
+         userlist,
        },
         computed: {
           bmi_mod() {
@@ -917,7 +979,9 @@
              this.$root.$on('SetUhidNo', this.updateUhidNo);
              this.$root.$on('prev', this.prev);
              this.$root.$on('next', this.next);
+             this.$root.$on('patientData',this.setPatientData);
         },
+        
         mounted(){
        
           $('.ls-select2').select2({
@@ -1023,7 +1087,7 @@
                     },
                 );
                 //for opd list
-                
+               
                 User.generateOpdIdByPatirntID(patientId).then(
                     (response) => {
                       opd_list_new=[];
@@ -1105,10 +1169,6 @@
                       },
                   );
             }
-
-           
-            
-
             
             if(this.id == 'radiology_type_opd') {
                //console.log('sdasd');
@@ -1226,6 +1286,12 @@
             }
 
           });
+          $('#select_type').on("select2:select", function (e) {
+                   vm.opdData.select_type=$(this).val();
+          });
+          $('#patient').on("select2:select", function (e) {
+                   vm.opdData.patientlist=$(this).val();
+          });
           $(document).on('hidden.bs.modal','#createPatientDetail', function () {
             $('#case_type').val('old').trigger('change.select2');
             vm.opdData.case_type = 'old';
@@ -1237,8 +1303,129 @@
         },500)
         },
         methods: {
+          patient_select_change(val)
+          {
+             
+              
+              this.userlistData={};
+              $('#opd_no').val('').trigger('change.select2');
+              this.opdData.uhid_no="";
+              this.opdData.weight="";
+              this.opdData.height="";
+              this.opdData.bmi="";
+              this.opdData.vitals="";
+              this.opdData.pulse="";
+              this.opdData.bp_systolic="";
+              this.opdData.bp_diastolic="";
+              this.opdData.temp="";
+              this.opdData.select_value="";
+              this.opdData.opd_option={};
+              if(val==true)
+              {
+                this.patient_select_enable=false;
+               $('#patient').select2('destroy');
+                 
+                 setTimeout(function(){
+
+                  $('#select_type').select2({
+                    placeholder: "Select",
+                    tags:false 
+                  });
+
+                },500);
+                
+              
+              }
+              else
+              {
+                this.patient_select_enable=true;
+                 $('#select_type').select2('destroy');
+                setTimeout(function(){
+                  $('#patient').select2({
+                    placeholder: "Select",
+                    tags:false 
+                  });
+                },500);
+              }
+
+          },
+          getPatientDetailsBySearch(){
+            var vm =this;
+            
+             if(this.opdData.select_type == '' || this.opdData.select_value == '') {
+                  toastr.error('Please select search type & value.', 'Search error', {timeOut: 5000});
+                  return false;
+             }
+              $("body .js-loader").removeClass('d-none');
+             
+             let patData = {'select_type':this.opdData.select_type,'select_value':this.opdData.select_value,'user_id':this.doctor_id};
+            User.generatePatientListBySearch(patData).then(
+                      (response) => {
+                        $("body .js-loader").addClass('d-none');
+                        if(response.data.code == 200) {
+                          let pData = response.data.data;
+                          vm.userlistData=pData;
+                        } else if(response.data.code == 300) {
+                          toastr.error('Record not found', 'Error', {timeOut: 5000});
+                          
+                        } else{
+                          toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
+                          
+                        }
+                         
+                      },
+                      (error) => {
+                         $("body .js-loader").addClass('d-none');
+
+              });
+          },
             pain_value(pain){
             this.opdData.pain_value = pain;
+          },
+          setPatientData(patientData) {
+
+            if(patientData.code==200)
+            {
+              let pDetails=patientData.data;
+              //for opd list
+                this.opdData.uhid_no=pDetails.uhid_no;
+                let opd_list_new=[];
+                User.generateOpdIdByPatirntID(pDetails.id).then(
+                    (response) => {
+                      opd_list_new=[];
+                     $.each(response.data.data, function(key,value) {
+
+                         opd_list_new.push({
+                           'id' : value.id,
+                           'opd_id' : value.opd_id,
+                        });
+                      });
+                       setTimeout(function(){
+                              $('#opd_no').select2({
+                                placeholder: "Select",
+                                tags:false 
+                              }); 
+
+                      },500);
+                       
+                       this.opdData.opd_option=opd_list_new;
+                      },
+                      (error) => {
+                      },
+                );
+
+              
+            }
+            else if(patientData.code==300)
+            {
+              toastr.error('Record not found', 'Error', {timeOut: 5000});
+              this.initPatientData();
+            }
+            else
+            {
+              toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
+              this.initPatientData();
+            }
           },
           saveReport() {
                 // var resData1=[];
@@ -1329,7 +1516,6 @@
             return presRes;
           },
           initData() {
-                let vm =this;
                 
                 vm.resultData = {
                    'id':'',
@@ -1344,10 +1530,10 @@
                     'textData': '',
                     'subtype_text_enable':false,
                     'special_request':'',
-                    'removed':false
-
+                    'removed':false,
                 };
                 // vm.imgGallery = '';
+                
                 $('#radio_div1 .ls-select2').val(null).trigger('change');
                 // $('.ls-select2').select2().val('');
 

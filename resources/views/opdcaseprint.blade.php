@@ -4,6 +4,7 @@
     <title>Vins Administration</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="print">
 <style type="text/css">
+
 	@media print { 
 		html {
 		    -ms-overflow-style: scrollbar;
@@ -147,6 +148,10 @@
     .letter-head img{
     width:30%;
     }
+
+    img {
+	filter: grayscale(1);
+}
 	
     
 	}
@@ -337,12 +342,12 @@
 			<br/><br/>
   	<div class="row" style="min-height: 350px;height: 350px;">
   		<div class="col-md-12">
-  			<div class="col-md-6"><span><b>Blood :</b></span>{{$data['labReportData']['blood']}} </div>
-  			<div class="col-md-6"><span><b>Body Fluid Analysis :</b>{{$data['labReportData']['bodyfluidanalysis']}}</span></div>
+  			<div class="col-md-6"><span><b>Blood :</b></span>{{$data['labReportData']['blood_report_val']}} </div>
+  			<div class="col-md-6"><span><b>Body Fluid Analysis :</b>{{$data['labReportData']['body_fluid_analysis_report_val']}}</span></div>
   		</div>
   		<div class="col-md-12">
-  			<div class="col-md-6"><span><b>Urine :</b>{{$data['labReportData']['Urine']}}</span></div>
-  			<div class="col-md-6"><span><b>CSF :</b>{{$data['labReportData']['csf']}}</span></div>
+  			<div class="col-md-6"><span><b>Urine :</b>{{$data['labReportData']['urine_report_val']}}</span></div>
+  			<div class="col-md-6"><span><b>CSF :</b>{{$data['labReportData']['csf_report_val']}}</span></div>
   		</div>
   	</div>
   @endif
@@ -370,7 +375,7 @@
                 <table class="table table-striped table-bordered" id="radio_list">
                   <thead>
                     <tr>
-                     <th>#</th>
+                    <!--  <th>#</th> -->
                      <th>Type</th>
                      <th>Body parts</th>
                      <th>Qualifier</th>
@@ -381,7 +386,7 @@
                  <tbody>
                  @foreach($data['radioReportData'] as $index=>$res)
                  <tr>
-                            <td>{{++$index}}</td>
+                            <!-- <td>{{++$index}}</td> -->
                             <td>{{$res['type']}}</td>
                             <td>{{$res['bodyPart']}}</td>
                             <td>{{$res['qualifier']}}</td>
@@ -437,7 +442,7 @@
 								   <td>{{$key}}</td>
 								   <td>{{$value['Prescription'] }}</td>
 								   <td class="text-center">{{$value['quntity']}}</td>
-								   <td class="text-center">{{(isset($value['unit']))?$value['unit']:''}}</td>
+								<!--    <td class="text-center">{{(isset($value['unit']))?$value['unit']:''}}</td> -->
 								   <td class="text-center">{{$value['time']}}</td>
 							  </tr>
 							@endforeach
@@ -545,7 +550,7 @@
 					   <th width="8%">#</th>
 					   <th >Name</th>
 					   <th class="text-center">Quntity</th>
-					   <th class="text-center">Unit</th>
+					 <!--   <th class="text-center">Unit</th> -->
 					   <th class="text-center">Time For Medicine</th>
 				 	</tr>
 					</thead>
@@ -555,7 +560,7 @@
 							   <td>{{$key}}</td>
 							   <td>{{$value['Prescription'] }}</td>
 							   <td class="text-center">{{$value['quntity']}}</td>
-							   <td class="text-center">{{(isset($value['unit']))?$value['unit']:''}}</td>
+							   <!-- <td class="text-center">{{(isset($value['unit']))?$value['unit']:''}}</td> -->
 							   <td class="text-center">{{$value['time']}}</td>
 						  </tr>
 						@endforeach
@@ -624,7 +629,7 @@
 	@endif
 	@endif
 	<div style="position:absolute;bottom:250px;width:100%height:200px;right:30px;">
-		<img  :src="{{'/assets/img/signature/'.$data['signatureName']+'.png'}}" height="66" width="182"/>
+		<img  :src="{{'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/>
 
 	</div>	
 	<div style="position:absolute;bottom:200px;width:100%height:50px;right:30px;">

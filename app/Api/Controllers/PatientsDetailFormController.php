@@ -281,4 +281,14 @@ class PatientsDetailFormController extends Controller
             return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
         }
     }
+
+    /**
+     * [getListBySearch description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getListBySearch(Request $request)
+    {
+        return $this->patientOBJ->getPatientListBySearch($request);
+    }
 }

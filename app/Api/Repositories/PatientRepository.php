@@ -47,6 +47,7 @@
         	}
         	
         }
+        
         /*patient details*/
         $patientData->first_name=$data['fname'];
 		$patientData->middle_name=$data['mname'];
@@ -60,7 +61,7 @@
 		$patientData->consultant_id=$data['consulting_dr'];
 		$patientData->consultant=$data['consulting_dr'];
 		$patientData->case_type=$data['case'];
-		$patientData->appointment_datetime= Carbon::createFromFormat('d-m-Y', $data['appointment_datetime']['time']);
+		$patientData->appointment_datetime=Carbon::createFromFormat('d-m-Y', $data['appointment_datetime']['time']); 
 		/*for patient details end*/
 		/*for patient details start*/
 		$data_patient_checkup=new PatientCheckUp;
@@ -216,6 +217,51 @@
     public function patientCheckUpDetailsByOpdId($oid)
     {
         return PatientCheckUp::where('opd_id',$oid)->first();
+    }
+
+    /**
+     * [getPatientListBySearch description]
+     * @param  [type] $selectkey   [description]
+     * @param  [type] $selectvalue [description]
+     * @return [type]              [description]
+     */
+    public function getPatientListBySearch($request)
+    {
+       $data = $request->all()['searchData'];
+        $select_value=$data['select_value'];
+        $user_id=$data['user_id'];
+        if($data['select_type'] == 'uhidNo'){
+            $select_key = 'uhid_no';
+        }else if($data['select_type'] == 'mobileNo'){
+            $select_key = 'mob_no';
+        }else if($data['select_type'] == 'firstName'){
+            $select_key = 'first_name';
+        }else if($data['select_type'] == 'lastName'){
+            $select_key = 'last_name';
+        }else if($data['select_type'] == 'dob'){
+            $select_key = 'dob';
+            $select_value=Carbon::createFromFormat('d-m-Y', $data['select_value'])->format('Y-m-d');
+        }
+
+        if($select_key=='dob' && $user_id!=0)
+        {
+            $patientList= PatientDetailsForm::whereDate($select_key,$select_value)->where('consultant_id',$user_id)->get();
+        }
+        else if($user_id!=0)
+        {
+            $patientList= PatientDetailsForm::where($select_key,$select_value)->where('consultant_id',$user_id)->get();
+        }
+        else 
+        {
+            $patientList= PatientDetailsForm::where($select_key,$select_value)->get();
+        }
+        
+        if(count($patientList)>0) {
+             return ['code' => '200','data'=>$patientList, 'message' => 'Patient record '];
+        } else {
+             //return ['code' => '300','patientData'=>'', 'message' => 'Record not found'];
+             return ['code' => '300','data'=>'', 'message' => 'Something went wrong'];
+        }
     }
  }
 ?>
