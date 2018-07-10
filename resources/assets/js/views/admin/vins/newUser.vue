@@ -38,13 +38,13 @@
                                     </div>
                                     <div class="col-md-9">
                                         <select class="form-control ls-select2" id="userType" v-model="userData.userType" name="userType" v-validate="'required'">
-                                            <option :value="type.text" v-for="type in userData.userTypeOption">{{type.text}}</option>
+                                            <option :value="type.id" v-for="type in userData.userTypeOption">{{type.name}}</option>
                                         </select> 
                                         <i v-show="errors.has('userType')" class="fa fa-warning"></i>
                                         <span class="help is-danger" v-show="errors.has('userType')">Please select User type.</span>
                                     </div>
                                 </div>
-                                <div class="row form-group" v-if="userData.userType == 'Doctor'" >
+                                <div class="row form-group" v-if="userData.userType == 1" >
                                     <div class="col-md-3">
                                     <label for="department " class="control-label float-right txt_media1">Department :</label>
                                     </div>
@@ -149,11 +149,7 @@ if(localStorage.getItem("user_add"))
                                 'confirmPassword':'',
                             	'mobileNo': '',
                             	'address': '',
-                                'userTypeOption': [
-                                            {text:''},
-                                             {text:'Doctor'},
-                                             {text:'Others'}
-                                            ],
+                                'userTypeOption':'',
                                 'userType': '',
                                 'departmentOption':[{text:'Neurology'},
                                               {text:'Neurosurgery'},
@@ -170,14 +166,31 @@ if(localStorage.getItem("user_add"))
         },
         mounted() {
             var vm = this;
+            let user_type = [] ;
             //setTimeout(function(){
                 $('.ls-select2').select2({
                     placeholder: "Select"
                 });
 
+                User.getUserTypesList().then(
+                     (response) => {
+                    $.each(response.data.data, function(key,value) {
+
+                       user_type.push({
+                         'id' : value.id,
+                         'name' : value.name,
+                      });
+                    });
+
+                    vm.userData.userTypeOption=user_type;
+                    
+                  },
+                      (error) => {
+                  },
+                );
                   $('#userType').on('select2:selecting', function(e) {
-                    vm.userData.userType =  e.params.args.data.text;
-                    if(e.params.args.data.text=='Doctor')
+                    vm.userData.userType =  e.params.args.data.id;
+                    if(e.params.args.data.id==1)
                     {
                         setTimeout(function(){
                             $('#department').select2({

@@ -299,6 +299,9 @@ export default {
   },
   getPatientListByDoctor(page_url,id){s
     return api.post(page_url,{'id':id})
+  },
+  getUserTypesList(){
+    return api.post('user/types');
   }
 }   
 

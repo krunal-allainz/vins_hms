@@ -312,7 +312,7 @@
     <div class=""> 
        <div class="row">
         <div class="col-md-12">
-            <img src="{{$url.'/assets/img/nabh_vins_logo.png'}}" id="logo-desk" alt="NABH Logo" class="hidden-sm-down">
+            <img src="{{$url.'/assets/img/nabh_vins_logo.png'}}" id="logo-desk" alt="NABH Logo" class="hidden-sm-down" height="" width="30%">
         </div>
       </div>
     </div>  
@@ -361,7 +361,6 @@
 		         		</tr>	
 		         	</thead>
 		         </table>
-			    
 		    </div>	
 			<br/><br/>
 		<div class="row"  style="min-height: 350px;height: 350px;">

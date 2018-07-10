@@ -113,7 +113,6 @@
 		                            <td>{{res.qualifier}}</td>
 		                            <td>{{res.special_request}}</td>
 		                            <td>{{res.textData | strLimit}}</td>
-		                            
 		                            <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
 		                            <td></td>
 		                        </tr>
