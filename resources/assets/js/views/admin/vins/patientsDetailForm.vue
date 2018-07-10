@@ -65,7 +65,6 @@
       		 <div class="row form-group" v-if="userlistData.length>0">
 			    <div class="col-md-12">
 			   		 <userlist :userlistData="userlistData" ></userlist>
-			     
 			    </div>
 			  </div>    
       		<div>
@@ -600,7 +599,7 @@
 		     	 }
 		     	  $("body .js-loader").removeClass('d-none');
 		     	 
-		     	 let patData = {'select_type':this.patientData.select_type,'select_value':this.patientData.select_value};
+		     	 let patData = {'select_type':this.patientData.select_type,'select_value':this.patientData.select_value,'user_id':0};
 				User.generatePatientListBySearch(patData).then(
 		                (response) => {
 		                	if(response.data.code == 200) {
