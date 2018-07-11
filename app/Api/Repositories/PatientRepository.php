@@ -54,6 +54,8 @@
 		$patientData->last_name=$data['lname'];
 		$patientData->dob= Carbon::createFromFormat('d-m-Y', $data['dob']['time']);
 		$patientData->gender=$data['gender'];
+        $patientData->age=$data['age'];
+        $patientData->type=$data['type'];
 		$patientData->address=$data['address'];
 		$patientData->ph_no=$data['ph_no'];
 		$patientData->mob_no=$data['mob_no'];
@@ -61,7 +63,7 @@
 		$patientData->consultant_id=$data['consulting_dr'];
 		$patientData->consultant=$data['consulting_dr'];
 		$patientData->case_type=$data['case'];
-		$patientData->appointment_datetime=Carbon::createFromFormat('d-m-Y', $data['appointment_datetime']['time']); 
+		$patientData->appointment_datetime=Carbon::createFromFormat('d-m-Y H:i:s', $data['appointment_datetime']['time']); 
 		/*for patient details end*/
 		/*for patient details start*/
 		$data_patient_checkup=new PatientCheckUp;

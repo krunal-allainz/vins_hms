@@ -32,8 +32,7 @@
  	 */
  	public function getLabpratoryNameById($id)
  	{
- 		$get_lab=Laboratory::where('id',$id)->first();
- 		return $get_lab->name;
+ 		return Laboratory::where('id',$id)->first();
  	}
  	/**
  	 * [getAllLaboratoryList description]
@@ -67,10 +66,6 @@
  		
  		
  		$opd_id_org=$data['opd_id'];
- 		if($opd_id_org==0 && $opd_id_org=='')
- 		{
- 			return 300;
- 		}
  		//print_r($data);exit;
  		//patient check up
  		$data_patient_checkup=PatientCheckUp::findOrFail($opd_id_org);
@@ -84,10 +79,6 @@
 		$data_patient_checkup->pain=$data['pain_value'];
 		$data_patient_checkup->updated_at=Carbon::now();
 		$data_patient_checkup->save();
-		if($data_patient_checkup->id==0 && $data_patient_checkup=='')
-		{
-			return 300;
-		}
 		//opd details
  		$opdData=OpdDetails::findOrFail($opd_id_org);
  		if($data['adviceType']=='text')
@@ -121,7 +112,6 @@
  		$opdData->history=$history_final;
  		$opdData->past_history=$past_history_final;
  		$opdData->save();
-
  		//save prescription
  		if(!empty($prescription_data))
  		{
@@ -181,10 +171,6 @@
 	 			}
 	 		
 	 			$radiology_obj->save();
-	 			if($radiology_obj->id==0 && $radiology_obj=='')
-				{
-					return 300;
-				}
 	 			$radiology_id=$radiology_obj->id;
 	 			$reference_obj->radiology_id=$radiology_id;
 	 		}
@@ -206,39 +192,27 @@
 	 			//$reference_obj->lab_id=$lab_obj->id;
 	 		}
 	 		$reference_obj->save();
-	 		if($reference_obj->id==0 && $reference_obj=='')
-			{
-				return 300;
-			}
 
  		}
 
  		/*for form -2 library*/
  		if(!empty($labdata))
  		{
- 			if(isset($labdata['blood_report']) && isset($labdata['urine_report']) && isset($labdata['body_fluid_analysis_report']) && isset($labdata['csf_report']))
- 			{
- 				$type_2=array('blood'=>$labdata['blood_report'],'urine'=>$labdata['urine_report'],'bfa'=>$labdata['body_fluid_analysis_report'],'csf'=>$labdata['csf_report']);
+ 			$type_2=array('blood'=>$labdata['blood_report'],'urine'=>$labdata['urine_report'],'bfa'=>$labdata['body_fluid_analysis_report'],'csf'=>$labdata['csf_report']);
 	 			
 	 			foreach($type_2 as $key => $value)
 	 			{
-	 				if($value!='')
-	 				{
-	 					$lab_obj_2=new LaboratoryDetails();
-		 				$lab_obj_2->opd_id=$opd_id_org;
-		 				$lab_obj_2->user_id=$user_id;
-		 				$lab_obj_2->lab_type=$key;
-		 				$lab_obj_2->report=$value;
-		 				$lab_obj_2->refrences=1;
-		 				$lab_obj_2->save();
-	 				}
-	 				
+	 				$lab_obj_2=new LaboratoryDetails();
+	 				$lab_obj_2->opd_id=$opd_id_org;
+	 				$lab_obj_2->user_id=$user_id;
+	 				$lab_obj_2->lab_type=$key;
+	 				$lab_obj_2->report=$value;
+	 				$lab_obj_2->refrences=1;
+	 				$lab_obj_2->save();
 	 			}
- 			}
- 			
  		}
  		/*for form -2 library*/
- 		
+
  		/*for radiology */
  		if(!empty($radiology_data))
  		{
@@ -301,28 +275,14 @@
  			foreach($examinationData as $key=>$value)
  			{
  				$exam[$key]=$value;
- 				if($value!=null && $value!='')
- 				{
- 					$examination_data[]=$exam;
- 				}
- 				
+ 				$examination_data[]=$exam;
  			}
  			//print_r($examination_data);exit;
  			$examination_obj->examination_data=json_encode($examination_data);
- 			if(!empty($examination_data))
- 			{
- 				$examination_obj->save();
- 				if($examination_obj->id==0 && $examination_obj=='')
-				{
-					return 300;
-				}
- 			}
-
-
- 			
+ 			$examination_obj->save();
  		}
  		
- 		return 200;
+ 		return $opd_id_org;
  	}
 
  	/**
@@ -336,6 +296,7 @@
 		// this week results
 		$fromDate =Carbon::now()->subDay(30)->startOfWeek()->toDateString(); // or ->format(..)
 		$tillDate = Carbon::now()->toDateString();
+		
 		
 		$result['today'] = OpdDetails::selectRaw('date(created_at) as date, COUNT(*) as count')
         ->where( DB::raw('date(created_at)'), [$tillDate] )

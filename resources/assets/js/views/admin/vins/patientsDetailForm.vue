@@ -125,7 +125,7 @@
 	                    </div>
 	                    <div class="col-md-6">
 							
-							<date-picker  :date.sync="patientData.dob" :option="option" id = "date_of_birth" class="" type="text" name="date_of_birth" :limit="limit" v-model="patientData.dob.time" v-validate="'required'" :disabled="patientData.case == 'old'"></date-picker> 
+							<date-picker  :date.sync="patientData.dob" :option="option" id = "date_of_birth" class="" type="text" name="date_of_birth" :limit="limit" v-model="patientData.dob.time" v-validate="'required'" :disabled="patientData.case == 'old'" v-on:change="getAgeCal()"></date-picker> 
 							<i v-show="errors.has('date_of_birth')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('date_of_birth')">
 		            			Please enter valid date of birth.
@@ -133,6 +133,21 @@
 	                    </div>
 	                </div>
 
+	           	</div>
+	           	<div class="row form-group">
+	           			<div class="col-md-6">
+	           				 <div class="col-md-6">
+	                        	<label for="age">Age: </label>
+	                		 </div>
+	                		  <div class="col-md-6">
+								<input class="form-control" type="numeric" id="age" name="age" value="" v-model="patientData.age" v-validate="'required|numeric|min:1|max:4'" @change="getBirthYear()"/>
+								<i v-show="errors.has('age')" class="fa fa-warning"></i>
+								<span class="help is-danger" v-show="errors.has('age')">
+			            			Please enter your age.
+			            		</span>
+			            	</div>
+	                    </div>
+	                   <div class="col-md-6"></div>
 	           	</div>
 	           	<div class="row form-group">
 	           		 <div class="col-md-6">
@@ -341,8 +356,7 @@
 	                        <label for="appointment_datetime">Appointment Date-time: </label>
 	                    </div>
 	                    <div class="col-md-6">
-							
-							<date-picker  :date.sync="patientData.appointment_datetime" :option="option" id = "appointment_datetime" class="" type="text" name="appointment_datetime" :limit="limit2" v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" :format="'MMMM Do YYYY, h:mm:ss a'"></date-picker> 
+							<date-picker  :date.sync="patientData.appointment_datetime" :option="timeoption" id = "appointment_datetime" class="" type="date" name="appointment_datetime" :limit="limit2" v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" ></date-picker> 
 							<i v-show="errors.has('appointment_datetime')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('appointment_datetime')">
 
@@ -383,11 +397,28 @@
 				'patient_type_option': [{id:'opd',text:'OPD'}, {id:'ipd',text:'IPD'}] ,
                 'deleteConfirmMsg': 'Are you sure you would like to delete this referee? All information associated with this referee will be permanently deleted.',
                 'userlistData':{},
+                timeoption: {
+			        type: 'min',
+			        week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+			        month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+			        format: 'YYYY-MM-DD H:i:s',
+			        placeholder: 'when?',
+			        inputStyle: {
+			          'display': 'inline-block',
+			          'padding': '6px',
+			          'line-height': '22px',
+			          'font-size': '16px',
+			          'border': '2px solid #fff',
+			          'box-shadow': '0 1px 3px 0 rgba(0, 0, 0, 0.2)',
+			          'border-radius': '2px',
+			          'color': '#5F5F5F'
+			      		}
+			      },
                 'option': {
                     type: 'day',
                     week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
                     month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                    format: 'DD-MM-YYYY',
+                    format: 'YYYY-MM-DD',
                     placeholder: 'Select Date',
                     inputStyle: {
                         'display': 'inline-block',
@@ -412,9 +443,15 @@
 			        type: 'fromto',
 			       	from: new Date()
 			      }],
+			       startTime: {
+				        time: ''
+				      },
+				      endtime: {
+				        time: ''
+				      },
                 'patientData' : {
                 	'case': '',
-                	 'type' : '',
+                	'type' : '',
                 	'select_type': '',
                 	'select_value':'',
                 	'fname':'',
@@ -438,6 +475,7 @@
                 	'bp_systolic':'',
                 	'bp_diastolic':'',
                 	'temp':'',
+                	'age' : '',
                 	'appointment_datetime': {
                 		time:''
                 	}
@@ -462,11 +500,18 @@
           }
        },
         mounted() {
-		$('.ls-select2').select2({
+				$('.ls-select2').select2({
 					placeholder: "Select",
 					tags: false,
 				});
 				let vm =this;
+					// $('#date_of_birth').datepicker().on('changeDate',function(){
+	 				
+	 			// 		console.log('test');
+	 			// 		
+	 			// });
+	
+   		
 	          	$('.ls-select2').on("select2:select", function (e) {
 		             if(this.id == 'case'){
 		             	vm.patientData.case = $(this).val();
@@ -498,11 +543,13 @@
 		             else if(this.id == 'gender') {
 		             	vm.patientData.gender = $(this).val();		
 
+		             } else if(this.id == 'type') {
+		             	vm.patientData.type = $(this).val();		
+
 		             }
 		             else{
 		             	vm.patientData.consulting_dr = $(this).val();			
 		             }
-
 				});
 
 			/*for consulting dr */
@@ -524,6 +571,19 @@
         	this.$root.$on('patientData',this.setPatientData);
         },
         methods: {
+        	  getAgeCal () {
+        	  	let vm =this;;
+		        vm.handleDOBChanged();
+		      },
+		      getBirthYear(){
+		      	 let getYearForage = 0;
+		      	if(this.patientData.dob.time == ''){
+		      		let patientAge = this.patientData.age;
+		      	     getYearForage =   this.currentYear - patientAge - 1;
+		      	      this.patientData.age = getYearForage;
+		      	}
+		      	 return this.patientData.age;
+		      },
         	setPatientData(patientData) {
         		if(patientData.code==200)
         		{
@@ -556,6 +616,84 @@
 		    GetSelectComponent(componentName) {
 		       this.$router.push({name: componentName})
 		    },
+		    handleDOBChanged() { 	
+				   // $('#dob').on('change', function () {	
+				   			
+				      if (this.isDate(this.patientData.dob.time)) {
+				        var ageCal = this.calculateAge(this.parseDate(this.patientData.dob.time), new Date());	
+				      	//$("#age").html(age); 
+				      	this.patientData.age = ageCal; 	
+				      }     	
+				  //  });	
+				},	
+	
+				//convert the date string in the format of dd/mm/yyyy into a JS date object	
+				parseDate(dateStr) { 	
+				  var dateParts = dateStr.split("-");
+				  
+				  return new Date(dateParts[2], (dateParts[1] - 1), dateParts[0]);	
+				},	
+	
+				//is valid date format	
+				calculateAge (dateOfBirth, dateToCalculate) {	
+				    var calculateYear = dateToCalculate.getFullYear();	
+				    var calculateMonth = dateToCalculate.getMonth();	
+				    var calculateDay = dateToCalculate.getDate();	
+	
+				    var birthYear = dateOfBirth.getFullYear();	
+				    var birthMonth = dateOfBirth.getMonth();	
+				    var birthDay = dateOfBirth.getDate();	
+					
+				    var age = calculateYear - birthYear;	
+				    var ageMonth = calculateMonth - birthMonth;	
+				    var ageDay = calculateDay - birthDay;	
+				    if (ageMonth < 0 || (ageMonth == 0 && ageDay < 0)) {	
+			        age = parseInt(age) - 1;	
+				    }	
+				    if(age > 1){	
+				    	return age;
+				    }	
+				   	if(age == 1){	
+						 return age;	
+					}else if(ageMonth != 0){	
+						return ageMonth;	
+					}else{	
+						return ageDay;	
+					}	
+				},	
+	
+				isDate(txtDate) {	
+				  var currVal = moment(txtDate).format('DD/MM/YYYY');
+
+				  if (currVal == '')	
+				    return true;	
+	
+				  //Declare Regex	
+				  var rxDatePattern = /^(\d{1,2})(\/|-)(\d{1,2})(\/|-)(\d{4})$/;	
+				  var dtArray = currVal.match(rxDatePattern); // is format OK?	
+					 
+				  if (dtArray == null)	
+				    return false;	
+	
+				  //Checks for dd/mm/yyyy format.	
+				  var dtDay = dtArray[1];	
+				  var dtMonth = dtArray[3];	
+				  var dtYear = dtArray[5];	
+	
+				  if (dtMonth < 1 || dtMonth > 12)	 
+				    return false;	
+				  else if (dtDay < 1 || dtDay > 31)	 
+				    return false;	
+				  else if ((dtMonth == 4 || dtMonth == 6 || dtMonth == 9 || dtMonth == 11) && dtDay == 31)	
+				    return false;	
+				  else if (dtMonth == 2) {	 
+				    var isleap = (dtYear % 4 == 0 && (dtYear % 100 != 0 || dtYear % 400 == 0));	
+				    if (dtDay > 29 || (dtDay == 29 && !isleap))	
+				      return false;	
+				  }	
+	
+				  return true;	
+				},	
 			isNumber: function(evt) {
 				console.log(evt,'evt',window.event);
 			      evt = (evt) ? evt : window.event;
@@ -583,6 +721,8 @@
 		    	vm.patientData.bmi = '';
 		    	vm.patientData.vitals = '';
 		    	vm.patientData.pulse = '';
+		    	vm.patientData.age = '';
+		    	vm.patientData.type = '';
 		    	vm.patientData.bp_diastolic = '';
 		    	vm.patientData.bp_systolic = '';
 		    	vm.patientData.temp = '';
@@ -638,7 +778,7 @@
 	            (response) => {
 	            	if (!this.errors.any()) {
 	            		 $("body .js-loader").removeClass('d-none');
-	            		 var pData = {'patientData':this.patientData,'patientType':'opd'};
+	            		 var pData = {'patientData':this.patientData,'patientType':this.patientData.type};
 				    	User.savePatient(pData).then(
 		                (response) => {
 		                	if(response.data.code == 200) {
