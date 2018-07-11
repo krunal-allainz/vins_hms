@@ -317,7 +317,7 @@
     <div class=""> 
        <div class="row">
         <div class="col-md-12">
-            <img src="{{$url.'/assets/img/nabh_vins_logo.png'}}" id="logo-desk" alt="NABH Logo" class="hidden-sm-down">
+            <img src="{{$url.'/assets/img/nabh_vins_logo.png'}}" id="logo-desk" alt="NABH Logo" class="hidden-sm-down" height="" width="30%">
         </div>
       </div>
     </div>  
@@ -366,7 +366,6 @@
 		         		</tr>	
 		         	</thead>
 		         </table>
-			    
 		    </div>	
 			<br/><br/>
 		<div class="row"  style="min-height: 350px;height: 350px;">
@@ -432,7 +431,7 @@
 						   <th width="8%">#</th>
 						   <th >Name</th>
 						   <th class="text-center">Quntity</th>
-						   <th class="text-center">Unit</th>
+						  <!--  <th class="text-center">Unit</th> -->
 						   <th class="text-center">Time For Medicine</th>
 					 	</tr>
 						</thead>
@@ -442,7 +441,9 @@
 								   <td>{{$key}}</td>
 								   <td>{{$value['Prescription'] }}</td>
 								   <td class="text-center">{{$value['quntity']}}</td>
-								<!--    <td class="text-center">{{(isset($value['unit']))?$value['unit']:''}}</td> -->
+
+								 <!--   <td class="text-center">{{(isset($value['unit']))?$value['unit']:''}}</td> -->
+
 								   <td class="text-center">{{$value['time']}}</td>
 							  </tr>
 							@endforeach
@@ -550,7 +551,11 @@
 					   <th width="8%">#</th>
 					   <th >Name</th>
 					   <th class="text-center">Quntity</th>
+<<<<<<< HEAD
+					  <!--  <th class="text-center">Unit</th> -->
+=======
 					 <!--   <th class="text-center">Unit</th> -->
+>>>>>>> 11074554789f74b08f9cc4c3c805d80751a4ad2e
 					   <th class="text-center">Time For Medicine</th>
 				 	</tr>
 					</thead>
@@ -560,7 +565,11 @@
 							   <td>{{$key}}</td>
 							   <td>{{$value['Prescription'] }}</td>
 							   <td class="text-center">{{$value['quntity']}}</td>
+<<<<<<< HEAD
+							 <!--   <td class="text-center">{{(isset($value['unit']))?$value['unit']:''}}</td> -->
+=======
 							   <!-- <td class="text-center">{{(isset($value['unit']))?$value['unit']:''}}</td> -->
+>>>>>>> 11074554789f74b08f9cc4c3c805d80751a4ad2e
 							   <td class="text-center">{{$value['time']}}</td>
 						  </tr>
 						@endforeach

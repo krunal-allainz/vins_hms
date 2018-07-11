@@ -7,7 +7,7 @@
                 <div class="nav_profile">
                     <!-- <profile></profile> -->
                 </div>
-                <div v-if="userRole == 'Doctor'">
+                <div v-if="userRole == 1">
                 <vmenu>
                     <vmenu-item link="/NewUser" icon="ti-layout">
                         &nbsp; New User
@@ -18,7 +18,7 @@
                      <vmenu-item link="/opd_form" icon="ti-layout">
                         &nbsp; OPD Form
                     </vmenu-item>
-                    <!-- <vmenu-item link="/patient_list" icon="ti-layout">
+                   <!--  <vmenu-item link="/patient_list" icon="ti-layout">
                         &nbsp; Patient List
                     </vmenu-item> -->
                 </vmenu>

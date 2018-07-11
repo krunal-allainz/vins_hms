@@ -177,11 +177,15 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
         $api->post('patient/list','\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientListByDoctor');
 
+
+           $api->post('user/types','\euro_hms\Api\Controllers\UserController@getUserType');
+
         //get patient list by search
         $api->post('patient/getListBySearch', '\euro_hms\Api\Controllers\PatientsDetailFormController@getListBySearch');  
 
          //for getting laboratoey list  By children
         $api->post('opd/getLabListByChildren', '\euro_hms\Api\Controllers\OPDDetailsFromController@getLabListByChildren');
+
 
 
         });

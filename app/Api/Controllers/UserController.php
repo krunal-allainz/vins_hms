@@ -11,8 +11,10 @@ use Illuminate\Http\Request;
 // use euro_hms\Api\Contracts\UserContract;
 use JWTAuth;
 use euro_hms\Models\User;
+use euro_hms\Models\UserTypes;
 use euro_hms\Models\Role;
 use euro_hms\Api\Repositories\UserRepository;
+use euro_hms\Api\Repositories\UserTypesRepository;
 use euro_hms\Custom\Helper\Common;
 use Hash;
 /**
@@ -208,5 +210,20 @@ class UserController extends BaseController
         return $this->userRepoObj->getUserDetaileById($id);
     }
 
+    /**
+    *
+    *
+    * @return list of user types
+    *
+    */
     
+    public function getUserType(){
+         $this->userTypeRepoObj = new UserTypesRepository();
+         $userTypesList = $this->userTypeRepoObj->getUserType();
+         if ($userTypesList) {
+            return ['code' => '200','data'=>$userTypesList, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+    }
 }
