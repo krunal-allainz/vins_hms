@@ -44,6 +44,43 @@
  		return Laboratory::get();
  	}
 
+ 	/**
+ 	 * [getLabListByChildren description]
+ 	 * @return [type] [description]
+ 	 */
+ 	public function getLabListByChildren()
+ 	{
+ 		$data_lab=Laboratory::get();
+ 		foreach($data_lab as $lab)
+ 		{
+ 			
+ 			$types=explode(',', $lab['type']);
+ 			if(in_array(1,$types))
+ 			{
+ 				$blood_array[]=array('id'=>$lab['id'],'text'=>$lab['name']);
+ 			}
+ 			if(in_array(2,$types))
+ 			{
+ 				$urine_array[]=array('id'=>$lab['id'],'text'=>$lab['name']);
+ 			}
+ 			if(in_array(3,$types))
+ 			{
+ 				$csf_array[]=array('id'=>$lab['id'],'text'=>$lab['name']);
+ 			}
+ 			if(in_array(4,$types))
+ 			{
+ 				$bfa_array[]=array('id'=>$lab['id'],'text'=>$lab['name']);
+ 			}
+ 			
+ 		}
+ 		$lab_array[0]=array('id'=>'1','text'=>'Blood','children'=>$blood_array,'element'=>'HTMLOptGroupElement');
+ 		$lab_array[1]=array('id'=>'2','text'=>'Urine','children'=>$urine_array,'element'=>'HTMLOptGroupElement');
+ 		$lab_array[2]=array('id'=>'3','text'=>'CSF','children'=>$csf_array,'element'=>'HTMLOptGroupElement');
+ 		$lab_array[3]=array('id'=>'4','text'=>'BFA','children'=>$bfa_array,'element'=>'HTMLOptGroupElement');
+ 		return $lab_array;
+
+ 	}
+
 
  	public function store($request)
  	{

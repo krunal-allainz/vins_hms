@@ -180,6 +180,9 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         //get patient list by search
         $api->post('patient/getListBySearch', '\euro_hms\Api\Controllers\PatientsDetailFormController@getListBySearch');  
 
+         //for getting laboratoey list  By children
+        $api->post('opd/getLabListByChildren', '\euro_hms\Api\Controllers\OPDDetailsFromController@getLabListByChildren');
+
 
         });
         

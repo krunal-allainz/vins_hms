@@ -302,6 +302,10 @@ export default {
   },
   generatePatientListBySearch(searchData) {
       return api.post('patient/getListBySearch',{'searchData':searchData})
-  }
+  },
+  generateAllLaboratoryListByChild() {
+    return api.post('opd/getLabListByChildren');
+  },
+
 }   
 
