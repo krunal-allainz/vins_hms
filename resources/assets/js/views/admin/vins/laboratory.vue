@@ -10,64 +10,60 @@
 		<h4>Lab Report</h4>
 		<form method = "post" >
 			<div class="row form-group">
-				<div class="col-md-6">
+				<div class="col-md-12">
 					<div class = "row">
-					<div class="col-md-6">
-						<label class="control-label" for="label_1">Blood </label>
+					<div class="col-md-3">
+						<label class="control-label" for="label_1">Laboratory </label>
 					</div>
-					<div class="col-md-6">
-							<select class="form-control ls-select2"  id="blood_report" name="blood_report"  v-model="laboratoryData.blood_report">
-								 <option :value="opt.id" v-for="opt in labData" v-if="opt.l_type.includes('1')">{{opt.text}}</option>
+					<div class="col-md-9">
+							<select class="form-control ls-select2"  id="laboratory_report" name="laboratory_report[]" multiple="multiple">
 							</select>
 					</div>
 				</div>
 				</div>
-
-				<div class="col-md-6">
-					<div class = "row">
-						<div class="col-md-6">
-							<label class="control-label" for="urine">Urine </label>
-						</div>
-						<div class="col-md-6">
-								<select class="form-control ls-select2" id="urine" name="urine"  v-model="laboratoryData.urine_report">
-									 <option :value="urinesample.id" v-for="urinesample in labData" v-if="urinesample.l_type.includes('2')">{{urinesample.text}}</option>
-								</select>
-						</div>
-				</div>
-				</div>
-
-				
 			</div>
-
-			<div class = "row form-group">
-				<div class="col-md-6">
-					<div class = "row">
-					<div class="col-md-6">
-						<label class="control-label" for="label_2">Body Fluid Analysis </label>
-					</div>
-					<div class="col-md-6">
-
-							<select class="form-control ls-select2" id="body_fluid_analysis" name="body_fluid_analysis"  v-model="laboratoryData.body_fluid_analysis_report">
-									 <option :value="bfa.id" v-for="bfa in labData" v-if="bfa.l_type.includes('4')">{{bfa.text}}</option>
-								</select>
+			<div id="TextBoxContainer">
+    				<!--Textboxes will be added here -->
+			</div>
+			<div v-if='lab_val_size>0'>
+				<div class="row form-group">
+					<div class="col-md-12">
+						<div class="col-md-12">
+							<input type="button" name="add_lab" class="btn btn-primary" value="Add" @click="saveLaboratoryTable()">
+						</div>
 					</div>
 				</div>
-				</div>
-				
-				<div class="col-md-6">
-					<div class = "row">
-						<div class="col-md-6">
-							<label class="control-label" for="stone">CSF </label>
-							</div>
-						<div class="col-md-6">
-								<select class="form-control ls-select2" id="csf" name="csf"  v-model="laboratoryData.csf_report">
-									 <option :value="csf_opt.id" v-for="csf_opt in labData" v-if="csf_opt.l_type.includes('3')">{{csf_opt.text}}</option>
-								</select>
-						</div>
-				</div>
-				</div>
 			</div>
+			<div class="form-group" v-if="finalLaboratoryData.length>0">
+			    <div class="col-md-12">
+			      <div class="table-responsive">
+			        <table class="table table-striped table-bordered" id="laboratory_table_list">
+			            <thead>
+			            <tr>
+			                <th>#</th>
+			                <th>Name</th>
+			                <th>Date</th>
+			                <th>Result</th>
+			                <th>Assigning Dr</th>
+			                <!-- <th>Action</th> -->
+			            </tr>
+			            </thead>
+			            <tbody>
+			             <tr v-if="res.removed == false" :id="res.tr_id" v-for="(res,index) in finalLaboratoryData">
+			                <td>{{res.id}}</td> 
+			                <td>{{res.name }}</td>
+			                <td>{{res.date}}</td>
+			                <td>{{res.result}}</td>
+			                <td>{{res.assigning_dr}}</td>
+			                <!-- <td> <i class="fa fa-remove" @click="removeLaboratory(res.id)"></i></td> -->
+			              </tr>
 
+			            </tbody>
+			        </table>
+			      </div>
+			      
+			    </div>
+			  </div>
 			
 		</form>
 
@@ -87,12 +83,14 @@
 <script >
 	import User from '../../../api/users.js';
 	import Radiology from './radiologyInvestigation.vue';
+	import myDatepicker from 'vue-datepicker';
 	import _ from 'lodash';
     export default {
     	computed:{
 
     	},
     	components: {
+    		'date-picker': myDatepicker,
     		Radiology
     	},
     	props:['labData'],
@@ -101,6 +99,32 @@
             	'notValid':false,
                 'footer' : 'footer',
                 'currentYear': new Date().getFullYear(),
+                'lab_val_size':0,
+                'finalLaboratoryData':[],
+                'option': {
+                    type: 'day',
+                    week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+                    month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    format: 'DD-MM-YYYY',
+                    placeholder: 'Select Date',
+                    inputStyle: {
+                        'display': 'inline-block',
+                        'padding': '6px',
+                        'line-height': '22px',
+                        'font-size': '16px',
+                        'border': '2px solid #fff',
+                        'box-shadow': '0 1px 3px 0 rgba(0, 0, 0, 0.2)',
+                        'border-radius': '2px',
+                        'color': '#5F5F5F',
+                        'width':'100%',
+                    },
+
+                  },
+			      limit: [
+			      {
+			        type: 'fromto',
+			       	to: new Date()
+			      }],
                 'resultData': {
                 	'type': '',
                 	'subType': ''
@@ -129,17 +153,13 @@
                 	},
                 },
                 'laboratoryData': {
-
                 	'checkboxList':[],
-                	'blood_report':'',
-                	'urine_report':'',
-                	'csf_report':'',
-                	'body_fluid_analysis_report':'',
-                	'blood_report_val':'',
-                	'urine_report_val':'',
-                	'csf_report_val':'',
-                	'body_fluid_analysis_report_val':'',
-                	
+                	'laboratory_report':[],
+                	'laboratory_report_val':[],
+                	'lab_date':[],
+                	'lab_name':[],
+                	'lab_result':[],
+                	'lab_assigning_dr':[],
                 },
                 'investigationData':{
                 	'radiologyType':[
@@ -217,28 +237,21 @@
 
 			  });
 
-
+			$('#laboratory_report').select2({data:this.labData});
 
 	        /*for lab data start*/
 	        
-			$('#blood_report').on("select2:select", function (e) {
-				vm.laboratoryData.blood_report = $(this).val();
-				vm.laboratoryData.blood_report_val = $(this).find("option:selected").text();  
+			$('#laboratory_report').on("select2:select", function (e) {
+				vm.laboratoryData.laboratory_report=$(this).val();
+				vm.labDataDetails($(this).val());
+				  
 			});
-			$('#urine').on("select2:select", function (e) {
-				vm.laboratoryData.urine_report = $(this).val();
-				vm.laboratoryData.urine_report_val = $(this).find("option:selected").text();
-			});
-			$('#csf').on("select2:select", function (e) {
-				vm.laboratoryData.csf_report = $(this).val(); 
-				vm.laboratoryData.csf_report_val = $(this).find("option:selected").text(); 
-			
-			});
-			$('#body_fluid_analysis').on("select2:select", function (e) {
-				vm.laboratoryData.body_fluid_analysis_report = $(this).val(); 
-				vm.laboratoryData.body_fluid_analysis_report_val = $(this).find("option:selected").text(); 
-				
-			});
+			$('#laboratory_report').on("select2:unselecting", function (e) {
+				 var  unselected_value= e.params.args.data.id;
+				 $('#lab_div_'+unselected_value).remove();
+				 $('#lab_tr_'+unselected_value).remove();
+			}).trigger('change');
+
 			/*for lab data end*/
 			setTimeout(function(){
 				vm.initData();
@@ -256,6 +269,83 @@
         	}
         },
         methods: {
+        	labDataDetails(lab_val)
+        	{
+        		let vm =this;
+        		if(lab_val.length>0)
+        		{
+        			vm.lab_val_size=lab_val.length;
+        			
+        				let div = document.createElement('DIV');
+        				let lab_final_val=lab_val[lab_val.length-1];
+    					div.innerHTML = this.getDynamicTextBox(lab_final_val);
+    					document.getElementById("TextBoxContainer").appendChild(div);
+        			
+        		}
+        	},
+        	getDynamicTextBox(value)
+        	{
+        		var lab_name= $("#laboratory_report option[value='"+value+"']").text();
+        		let lab_data='<div id="lab_div_'+value+'"> <div class="row form-group"> <div class="col-md-3"> <div class="col-md-12"> <label class="control-label" for="label_1">Name </label> </div> <div class="col-md-12"> <input type="text"  name="lab_name[]" id="lab_name_id" value="'+lab_name+'" class="form-control lab_name" readonly="readonly"> </div> </div> <div class="col-md-3"> <div class="col-md-12"> <label class="control-label" for="label_1">Date </label> </div> <div class="col-md-12"> <date-picker :date.sync="laboratoryData.lab_date"  :option="option" id = "lab_date_id" class="lab_date" type="text" name="lab_date[]" :limit="limit"></date-picker> </div> </div> <div class="col-md-3"> <div class="col-md-12"> <label class="control-label" for="label_1">Result </label> </div> <div class="col-md-12"> <input type="text"   name="lab_result[]" id="lab_result_id" class="form-control lab_result" > </div> </div> <div class="col-md-3"> <div class="col-md-12"> <label class="control-label" for="label_1">Assign Dr </label> </div> <div class="col-md-12"> <input type="text" name="lab_assign_dr[]"   id="lab_assign_dr_id" class="form-control lab_assign_dr" v-model="opdData.lab_assign_dr"> </div> </div>  </div>'; return lab_data; 
+        	},
+        	 saveLaboratoryTable() {
+             	let vm =this;
+                let lab_report_array=[];
+                lab_report_array=vm.laboratoryData.laboratory_report;
+                let i=0;
+                //for lab date
+                let lab_date_array=[];
+				$('.lab_date').each(function(){
+						lab_date_array.push($(this).val());
+				});
+        		vm.laboratoryData.lab_date=lab_date_array;
+        		let lab_date_val_array=vm.laboratoryData.lab_date;
+        		//for lab result
+        		let lab_result_array=[];
+				$('.lab_result').each(function(){
+						lab_result_array.push($(this).val());
+				});
+        		vm.laboratoryData.lab_result=lab_result_array;
+        		let lab_result_val_array=vm.laboratoryData.lab_result;
+        		//for assigning dr
+        		let lab_assigning_dr_array=[];
+				$('.lab_assign_dr').each(function(){
+						lab_assigning_dr_array.push($(this).val());
+				});
+        		vm.laboratoryData.lab_assigning_dr=lab_assigning_dr_array;
+        		let lab_assigning_dr_val_array=vm.laboratoryData.lab_assigning_dr;
+
+                if(lab_report_array.length>0)
+                {
+                	let finalLaboratoryDataAll=[];
+                	for(i=0;i<lab_report_array.length;i++)
+                	{
+
+						var lab_text= $("#laboratory_report option[value='"+lab_report_array[i]+"']").text();
+                		finalLaboratoryDataAll.push({
+                            'id' : lab_report_array[i],
+                            'name' : lab_text,
+                            'date' : lab_date_val_array[i],
+                            'result' : lab_result_val_array[i],
+                            'assigning_dr'  :lab_assigning_dr_val_array[i],
+                            'removed': false,
+                            'tr_id': 'lab_tr_'+lab_report_array[i],
+                		});
+                		vm.finalLaboratoryData=finalLaboratoryDataAll;
+                	}
+                }
+          },
+          removeLaboratory(did) {
+                let vm =this;
+                _.find(vm.finalLaboratoryData, function(res) {
+                    if(res.id == did) {
+                      var index = vm.finalLaboratoryData.indexOf(res);
+                      vm.finalLaboratoryData.splice(index, 1);
+                      $('#lab_div_'+res.id).remove();
+                      //$('#laboratory_report').select2('val', res.id);
+                    }
+                });
+          },
 			prev() {
               let vm =this;
 			vm.$store.dispatch('saveLabReportData',vm.laboratoryData);

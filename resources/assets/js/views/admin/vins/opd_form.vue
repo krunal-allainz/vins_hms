@@ -631,49 +631,12 @@
         <div class="row form-group" v-show="opdData.referral == 'laboratory' ">
           <div class="col-md-6">
           <div class="col-md-12">
-            <label class="control-label" for="label_1">Blood </label>
+            <label class="control-label" for="label_1">Laboratory </label>
           </div>
           <div class="col-md-12">
-              <select class="form-control ls-select2"  id="blood_report_opd" name="blood_report_opd"  v-model="opdData.blood_report_opd">
-                 <option :value="opt.id" v-for="opt in opdData.laboratoryALLData"  v-if="opt.l_type.includes('1')">{{opt.text}}</option>
+              <select class="form-control ls-select2"  id="laboratory_report_opd" name="laboratory_report_opd"  v-model="opdData.laboratory_report_opd">
               </select>
           </div>
-        
-        </div>
-
-        <div class="col-md-6">
-            <div class="col-md-12">
-              <label class="control-label" for="urine">Urine </label>
-            </div>
-            <div class="col-md-12">
-                <select class="form-control ls-select2" id="urine_opd" name="urine_opd"  v-model="opdData.urine_report_opd">
-                   <option :value="urinesampleopd.id" v-for="urinesampleopd in opdData.laboratoryALLData"  v-if="urinesampleopd.l_type.includes('2')">{{urinesampleopd.text}}</option>
-                </select>
-            </div>
-        </div>
-      </div>
-       <div class="row form-group" v-show="opdData.referral == 'laboratory' ">
-          <div class="col-md-6">
-          <div class="col-md-12">
-            <label class="control-label" for="label_1">Body Fluid Analysis </label>
-          </div>
-          <div class="col-md-12">
-              <select class="form-control ls-select2" id="body_fluid_analysis_opd" name="body_fluid_analysis_opd"  v-model="opdData.body_fluid_analysis_report_opd">
-                   <option :value="bfa_opd.id" v-for="bfa_opd in opdData.laboratoryALLData"  v-if="bfa_opd.l_type.includes('4')">{{bfa_opd.text}}</option>
-                </select>
-          </div>
-        
-        </div>
-
-        <div class="col-md-6">
-            <div class="col-md-12">
-              <label class="control-label" for="urine">CSF </label>
-            </div>
-            <div class="col-md-12">
-                <select class="form-control ls-select2" id="csf_opd" name="csf_opd"  v-model="opdData.csf_report_opd">
-                   <option :value="csf_opt_opd.id" v-for="csf_opt_opd in opdData.laboratoryALLData" v-if="csf_opt_opd.l_type.includes('3')">{{csf_opt_opd.text}}</option>
-                </select>
-            </div>
         </div>
       </div>
       <!-- for laboratory -->
@@ -939,10 +902,7 @@
                 'bp_diastolic':'',
                 'temp':'',
                 'laboratoryALLData':[],
-                'blood_report_opd':'',
-                'urine_report_opd':'',
-                'csf_report_opd':'',
-                'body_fluid_analysis_report_opd':'',
+                'laboratory_report_opd':{},
                 'select_type':'',
                 'select_value':'',
 
@@ -982,7 +942,7 @@
             placeholder: "Select",
             tags:false 
           });
-
+          
          var vm =this;  
          let patient_list_new=[];
          let opd_list_new=[];
@@ -1018,19 +978,10 @@
 
           /*for laboratory data*/
             let labpratory_all_data=[];
-            User.generateAllLaboratoryList().then(
+            User.generateAllLaboratoryListByChild().then(
               (response) => {
                 let lab_data = response.data.data;
-                
-                $.each(lab_data, function(key, value) {
-                    let name = value.name;
-                    let id  = value.id ;
-                    let old_type=value.type;
-                    let array_old=old_type.split(',');
-                    let l_type=array_old;
-                    labpratory_all_data.push({text:name, id:id ,l_type:l_type}); 
-                });
-               vm.opdData.laboratoryALLData = labpratory_all_data;
+                vm.opdData.laboratoryALLData = lab_data;
               },
               (error) => 
               {
@@ -1553,22 +1504,22 @@
           next() {
             let vm =this;
 
-                this.$validator.validateAll().then(
-                (response) => {
-                  vm.priscriptionAdd = vm.finalPrescriptionData.length;
-                  if (!this.errors.any()) {
-                    if(vm.priscriptionAdd >  0){
+                //this.$validator.validateAll().then(
+                //(response) => {
+                 // vm.priscriptionAdd = vm.finalPrescriptionData.length;
+                  //if (!this.errors.any()) {
+                    //if(vm.priscriptionAdd >  0){
                       
                       vm.curStep = vm.curStep+1;
 
                       vm.$store.dispatch('setOpdData',vm.opdData);
                       vm.$store.dispatch('setResData',vm.finalResultData);
-                    }
-                  }
-                },
-                (error) => {
+                    //}
+                  //}
+                //},
+                /*(error) => {
                 }
-                )
+                )*/
             
           },
           initLastData(){

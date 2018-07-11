@@ -304,8 +304,12 @@ export default {
     return api.post('user/types');
   },
   generatePatientListBySearch(searchData) {
-      return api.post('patient/getListBySearch',{'searchData':searchData})
-
+      return api.post('patient/getListBySearch',{'searchData':searchData});
+  },
+  generateAllLaboratoryListByChild() {
+    return api.post('opd/getLabListByChildren');
   }
-}   
+  
+  }
+   
 

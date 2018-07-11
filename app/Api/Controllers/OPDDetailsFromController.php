@@ -148,10 +148,32 @@ class OPDDetailsFromController extends Controller
         
     }
 
+    /**
+     * [getAllLaboratoryList description]
+     * @return [type] [description]
+     */
     public function getAllLaboratoryList()
     {
         
             $get_list=$this->opdObj->getAllLaboratoryList();
+            if($get_list)
+            {
+                return ['code' => '200','data'=>$get_list, 'message' => 'Record Sucessfully created'];
+            }
+            else
+            {
+                return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+            }
+    }
+
+    /**
+     * [getLabListByChildren description]
+     * @return [type] [description]
+     */
+    public function getLabListByChildren()
+    {
+        
+            $get_list=$this->opdObj->getLabListByChildren();
             if($get_list)
             {
                 return ['code' => '200','data'=>$get_list, 'message' => 'Record Sucessfully created'];
