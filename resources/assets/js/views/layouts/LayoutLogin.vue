@@ -89,8 +89,14 @@ export default {
                                 if(vm.$store.state.Users.userDetails.user_type == 1){
                                     
                                         vm.$router.push({'name':'dashboard'});
-                                } else if(vm.$store.state.Users.userDetails.user_type != 1 ) {
+                                } else if(vm.$store.state.Users.userDetails.user_type == 2 ) {
                                         vm.$router.push({'name':'patients_detail_form'});
+
+                                }else if(vm.$store.state.Users.userDetails.user_type ==  3) {
+                                        vm.$router.push({'name':'patients_detail_form'});
+
+                                }else{
+                                     vm.$router.push({'name':'patients_detail_form'});
 
                                 }
 

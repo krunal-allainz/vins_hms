@@ -25,6 +25,18 @@
 		            	</span>
 		          	</div>
 		        </div>
+
+				<div class="col-md-6">
+			    	<div class="col-md-6">
+					 	<label for="date">Patient Type:</label>
+					</div>
+					<div class="col-md-6">
+				    	<select class="form-control ls-select2"  id = "type" name="type" value="" v-model="patientData.type">
+				    		<option :value="patient_type.id" v-for="patient_type in patient_type_option">{{patient_type.text}}</option>
+				    	</select>
+				   <span class="help is-danger" v-show="errors.has('type')"> Please Select Patient Type. </span>
+				    </div>
+			    </div>
       		</div>
       		<div class="row form-group" v-if="patientData.case == 'old'" >
       			<div class="col-md-6" >
@@ -330,7 +342,7 @@
 	                    </div>
 	                    <div class="col-md-6">
 							
-							<date-picker  :date.sync="patientData.appointment_datetime" :option="option" id = "appointment_datetime" class="" type="text" name="appointment_datetime" :limit="limit2" v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'"></date-picker> 
+							<date-picker  :date.sync="patientData.appointment_datetime" :option="option" id = "appointment_datetime" class="" type="text" name="appointment_datetime" :limit="limit2" v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" :format="'MMMM Do YYYY, h:mm:ss a'"></date-picker> 
 							<i v-show="errors.has('appointment_datetime')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('appointment_datetime')">
 
@@ -368,7 +380,7 @@
             return {
                 'footer' : 'footer',
                 'currentYear': new Date().getFullYear(),
-                'type':'opd',
+				'patient_type_option': [{id:'opd',text:'OPD'}, {id:'ipd',text:'IPD'}] ,
                 'deleteConfirmMsg': 'Are you sure you would like to delete this referee? All information associated with this referee will be permanently deleted.',
                 'userlistData':{},
                 'option': {
@@ -402,6 +414,7 @@
 			      }],
                 'patientData' : {
                 	'case': '',
+                	 'type' : '',
                 	'select_type': '',
                 	'select_value':'',
                 	'fname':'',
