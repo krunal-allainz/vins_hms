@@ -387,27 +387,85 @@
           </span>
         </div>
       </div>
-
+  </div>
+   <div class="row form-group">
       <div class="col-md-3">
-         <div class="col-md-12">
-          <label for="prescription_time">Time For Medicine:</label>
+        <div class="col-md-12">
+          <label for="prescription">Clock:</label>
         </div>
         <div class="col-md-12">
-          <div class=" input-group">
-            <input type="text" name="prescription_time" id="prescription_time" class="form-control" v-model="opdData.prescription_time"  v-validate="'required|numeric'"> 
-            <div class="input-group-append">
-                <span class="input-group-text "> hourly</span>
-            </div>
-          
+         <div class="input-group clockpicker" >
+            <input type="text" class="form-control" name="clock_time" value="09:32" v-model="opdData.clock_time">
+            <span class="input-group-addon">
+                <span class="fa fa-clock-o"></span>
+            </span>
           </div>
-          <i v-show="errors.has('prescription_time')" class="fa fa-warning" v-if="prescription_enable == true"></i>
-          <span class="help is-danger" v-show="errors.has('prescription_time')" v-if="prescription_enable == true">
-            Please enter valid time for medicine.
-          </span>
+          
+        </div>
       </div>
-
+      <div class="col-md-3">
+        <div class="col-md-12">
+          <label for="prescription">Quantity:</label>
+        </div>
+        <div class="col-md-12">
+          <input type="text" name="clock_quantity" id="clock_quantity" class="form-control"  v-validate="'required|numeric'" v-model="opdData.clock_quantity">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="col-md-12">
+          <label for="prescription">Suggetion:</label>
+        </div>
+        <div class="col-md-12">
+            <label class="col-md-6">
+              <input type="checkbox" class="form-check-input"  v-model="opdData.clock_suggest" value="empty_stomach">Empty Stomach
+            </label>
+            <label class="col-md-5">
+              <input type="checkbox" class="form-check-input" v-model="opdData.clock_suggest" value="full_stomach">Full Stomach
+            </label> 
+        </div>
+      </div>
+       <div class="col-md-2">
+        <div class="col-md-12"> </div>
+        <div class="col-md-12">
+          <button type="button" class="btn btn-primary btn-lg "  @click="saveClockResult()">Add</button>
+        </div>
+      </div>
     </div>
-    <div class="col-md-3">
+     <div class="row form-group clock_result">
+        <div class="col-md-2">
+          <div class="col-md-12">
+            <div class="well"><span>{{opdData.quantity_1}}</span></div>
+          </div>
+        </div>
+      <div class="col-md-2">
+        <div class="col-md-12">
+          <div class="well"><span>{{opdData.quantity_2}}</span></div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="col-md-12">
+          <div class="well"><span>{{opdData.quantity_3}}</span></div>
+        </div>
+      </div>
+       <div class="col-md-2">
+        <div class="col-md-12">
+          <div class="well"><span>{{opdData.clock_time_1}}</span></div>
+        </div>
+      </div>
+       <div class="col-md-2">
+        <div class="col-md-12">
+          <div class="well"><span>{{opdData.clock_time_2}}</span></div>
+        </div>
+      </div>
+       <div class="col-md-2">
+        <div class="col-md-12">
+          <div class="well"><span>{{opdData.clock_time_3}}</span></div>
+        </div>
+      </div>
+      
+    </div>
+    <div class="row form-group">
+        <div class="col-md-3">
             <div class="col-md-12"><br></div>
              <div class="col-md-12">
                    <button type="button" class="btn btn-primary btn-lg " :disabled="(opdData.prescriptionOption == '' || opdData.prescription_quantity == '' || opdData.prescription_time == '' )" @click="savePrescription()">Add</button>
@@ -703,6 +761,7 @@
       var  timeList ;
       var patient_list = [];
       var prescription_index  = 0;
+      let clocktimedata=[];
 
     export default {
         data() {
@@ -905,6 +964,15 @@
                 'laboratory_report_opd':{},
                 'select_type':'',
                 'select_value':'',
+                'clock_quantity':'',
+                'clock_time':'',
+                'clock_suggest':'',
+                'quantity_1':'',
+                'quantity_2':'',
+                'quantity_3':'',
+                'clock_time_1':'',
+                'clock_time_2':'',
+                'clock_time_3':'',
 
               }
             }
@@ -941,6 +1009,11 @@
           $('.ls-select2').select2({
             placeholder: "Select",
             tags:false 
+          });
+
+          $('.clockpicker').clockpicker({donetext: 'Done'});
+          $('.clockpicker').clockpicker().find('input').change(function(){
+              vm.opdData.clock_time=this.value;
           });
           
          var vm =this;  
@@ -1250,8 +1323,6 @@
         methods: {
           patient_select_change(val)
           {
-             
-              
               this.userlistData={};
               $('#opd_no').val('').trigger('change.select2');
               this.opdData.uhid_no="";
@@ -1372,6 +1443,49 @@
               toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
               this.initPatientData();
             }
+          },
+          saveClockResult()
+          {
+            let vm =this;
+            let prescriptionName = '';
+            if(vm.opdData.prescription == '' || vm.opdData.prescription_quantity == '' ||  vm.opdData.prescription_quantity<1 ){
+                  toastr.error('Please select prescription data and must be valid.', 'Prescription error', {timeOut: 5000});
+                  return false; 
+            }
+            if(vm.opdData.clock_quantity == '' || vm.opdData.clock_time == '' ||  vm.opdData.clock_quantity<1 ){
+                  toastr.error('Please enter valid quantity and time.', 'Prescription error', {timeOut: 5000});
+                  return false; 
+            }
+
+            clocktimedata.push({'timing':vm.opdData.clock_time,'quantity':vm.opdData.clock_quantity});
+            clocktimedata.sort(function(a, b) {
+                  var nameA = a.timing; // ignore upper and lowercase
+                  var nameB = b.timing; // ignore upper and lowercase
+                  if (nameA < nameB) {
+                    return -1;
+                  }
+                  if (nameA > nameB) {
+                    return 1;
+                  }
+
+                  // names must be equal
+                  return 0;
+                });
+            console.log(clocktimedata);
+            if(clocktimedata.length>3)
+            {
+                 toastr.error('Please enter medicines at only three times a day.', 'Prescription error', {timeOut: 5000});
+                  return false; 
+            }
+            vm.opdData.clock_time_1=clocktimedata[0]['timing'];
+            vm.opdData.clock_time_2=clocktimedata[1]['timing'];
+            vm.opdData.clock_time_3=clocktimedata[2]['timing'];
+             vm.opdData.quantity_1=clocktimedata[0]['quantity'];
+            vm.opdData.quantity_2=clocktimedata[1]['quantity'];
+            vm.opdData.quantity_3=clocktimedata[2]['quantity'];
+            /*vm.opdData.quantity_1=vm.opdData.clock_quantity;
+            vm.opdData.clock_time_1=vm.opdData.clock_time;*/
+
           },
           saveReport() {
                 // var resData1=[];
