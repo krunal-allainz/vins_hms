@@ -125,7 +125,7 @@
 	                    </div>
 	                    <div class="col-md-6">
 							
-							<date-picker  :date.sync="patientData.dob" :option="option" id = "date_of_birth" class="" type="text" name="date_of_birth" :limit="limit" v-model="patientData.dob.time" v-validate="'required'" :disabled="patientData.case == 'old'" v-on:change="getAgeCal()"></date-picker> 
+							<date-picker  :date.sync="patientData.dob" :option="option" id = "date_of_birth" class="" type="date" name="date_of_birth" :limit="limit" v-model="patientData.dob.time" v-validate="'required'" :disabled="patientData.case == 'old'" v-on:change="getAgeCal()"></date-picker> 
 							<i v-show="errors.has('date_of_birth')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('date_of_birth')">
 		            			Please enter valid date of birth.
@@ -356,7 +356,7 @@
 	                        <label for="appointment_datetime">Appointment Date-time: </label>
 	                    </div>
 	                    <div class="col-md-6">
-							<date-picker  :date.sync="patientData.appointment_datetime" :option="timeoption" id = "appointment_datetime" class="" type="date" name="appointment_datetime" :limit="limit2" v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" ></date-picker> 
+							<date-picker  :date.sync="patientData.appointment_datetime" :option="timeoption" id = "appointment_datetime" class="" type="datetime" name="appointment_datetime" :limit="limit2" v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" ></date-picker> 
 							<i v-show="errors.has('appointment_datetime')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('appointment_datetime')">
 
@@ -401,7 +401,7 @@
 			        type: 'min',
 			        week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
 			        month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-			        format: 'YYYY-MM-DD H:i:s',
+			        format: 'YYYY-MM-DD  H:mm:ss',
 			        placeholder: 'when?',
 			        inputStyle: {
 			          'display': 'inline-block',
@@ -443,12 +443,7 @@
 			        type: 'fromto',
 			       	from: new Date()
 			      }],
-			       startTime: {
-				        time: ''
-				      },
-				      endtime: {
-				        time: ''
-				      },
+			     
                 'patientData' : {
                 	'case': '',
                 	'type' : '',
@@ -571,11 +566,11 @@
         	this.$root.$on('patientData',this.setPatientData);
         },
         methods: {
-        	  getAgeCal () {
+        	  getAgeCal () { 
         	  	let vm =this;;
 		        vm.handleDOBChanged();
 		      },
-		      getBirthYear(){
+		      getBirthYear(){ 
 		      	 let getYearForage = 0;
 		      	if(this.patientData.dob.time == ''){
 		      		let patientAge = this.patientData.age;
@@ -618,9 +613,10 @@
 		    },
 		    handleDOBChanged() { 	
 				   // $('#dob').on('change', function () {	
-				   			
-				      if (this.isDate(this.patientData.dob.time)) {
+				   		
+				      if (this.isDate(this.patientData.dob.time)) { 
 				        var ageCal = this.calculateAge(this.parseDate(this.patientData.dob.time), new Date());	
+				       
 				      	//$("#age").html(age); 
 				      	this.patientData.age = ageCal; 	
 				      }     	
@@ -628,58 +624,63 @@
 				},	
 	
 				//convert the date string in the format of dd/mm/yyyy into a JS date object	
-				parseDate(dateStr) { 	
-				  var dateParts = dateStr.split("-");
-				  
-				  return new Date(dateParts[2], (dateParts[1] - 1), dateParts[0]);	
+				parseDate(dateStr) {
+				 
+				  var dateParts = dateStr.split("-");	
+				
+				  return new Date(dateParts[0], (dateParts[1] - 1), dateParts[2]);	
 				},	
 	
 				//is valid date format	
-				calculateAge (dateOfBirth, dateToCalculate) {	
+				calculateAge (dateOfBirth, dateToCalculate) {
+				
 				    var calculateYear = dateToCalculate.getFullYear();	
 				    var calculateMonth = dateToCalculate.getMonth();	
 				    var calculateDay = dateToCalculate.getDate();	
-	
+					//console.log(calculateYear +'/'+ calculateMonth +'/'+ calculateDay);
 				    var birthYear = dateOfBirth.getFullYear();	
 				    var birthMonth = dateOfBirth.getMonth();	
 				    var birthDay = dateOfBirth.getDate();	
-					
+					//console.log(birthYear +'/'+ birthMonth +'/'+ birthDay);
 				    var age = calculateYear - birthYear;	
 				    var ageMonth = calculateMonth - birthMonth;	
 				    var ageDay = calculateDay - birthDay;	
+				  
 				    if (ageMonth < 0 || (ageMonth == 0 && ageDay < 0)) {	
 			        age = parseInt(age) - 1;	
 				    }	
 				    if(age > 1){	
-				    	return age;
+				    	return age - 1;
 				    }	
 				   	if(age == 1){	
 						 return age;	
-					}else if(ageMonth != 0){	
+					}else{
+						return 1;
+					}/*else if(ageMonth != 0){	
 						return ageMonth;	
 					}else{	
 						return ageDay;	
-					}	
+					}	*/
 				},	
 	
 				isDate(txtDate) {	
-				  var currVal = moment(txtDate).format('DD/MM/YYYY');
+				  var currVal =txtDate;
 
 				  if (currVal == '')	
 				    return true;	
-	
+					
 				  //Declare Regex	
-				  var rxDatePattern = /^(\d{1,2})(\/|-)(\d{1,2})(\/|-)(\d{4})$/;	
+				  var rxDatePattern = /^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/;	
 				  var dtArray = currVal.match(rxDatePattern); // is format OK?	
 					 
 				  if (dtArray == null)	
 				    return false;	
 	
 				  //Checks for dd/mm/yyyy format.	
-				  var dtDay = dtArray[1];	
+				  var dtDay = dtArray[5];	
 				  var dtMonth = dtArray[3];	
-				  var dtYear = dtArray[5];	
-	
+				  var dtYear = dtArray[1];	
+					
 				  if (dtMonth < 1 || dtMonth > 12)	 
 				    return false;	
 				  else if (dtDay < 1 || dtDay > 31)	 

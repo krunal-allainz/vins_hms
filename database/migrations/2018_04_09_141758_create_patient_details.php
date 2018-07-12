@@ -19,7 +19,7 @@ class CreatePatientDetails extends Migration
             $table->string('first_name')->nullable();
             $table->string('middle_name')->nullable();
             $table->string('last_name')->nullable();
-            $table->string('dob')->nullable();
+            $table->date('dob')->nullable();
             $table->string('type')->nullable();
             $table->integer('age')->nullable();
             $table->enum('gender', ['M', 'F'])->nullable();
