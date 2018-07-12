@@ -291,4 +291,14 @@ class PatientsDetailFormController extends Controller
     {
         return $this->patientOBJ->getPatientListBySearch($request);
     }
+
+    /**
+    *
+    *@param  Request $request [description]
+    *
+    */
+
+    public function savePatientCheckup(request $request){
+         return $this->patientOBJ->addPatientCheckup($request);
+    }
 }

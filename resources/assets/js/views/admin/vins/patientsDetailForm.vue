@@ -353,15 +353,13 @@
                   </div>
                   <div class="col-md-6">
 	                	<div class="col-md-6">
-	                        <label for="appointment_datetime">Appointment Date-time: </label>
+	                      <label for="appointment_datetime">Appointment Date-time: </label>
 	                    </div>
 	                    <div class="col-md-6">
 							<date-picker  :date.sync="patientData.appointment_datetime" :option="timeoption" id = "appointment_datetime" class="" type="datetime" name="appointment_datetime" :limit="limit2" v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" ></date-picker> 
 							<i v-show="errors.has('appointment_datetime')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('appointment_datetime')">
-
 		            			Please enter valid appointment datetime.
-
 		            		</span>
 	                    </div>
 	                </div>
