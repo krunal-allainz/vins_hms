@@ -105,10 +105,6 @@ export default {
                             jQuery('.js-loader').addClass('d-none');
 
                         }
-                        
-                        
-                         
-
                     })
                 )}
                 else {
