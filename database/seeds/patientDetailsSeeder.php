@@ -23,6 +23,8 @@ class patientDetailsSeeder extends Seeder
             'last_name' => 'Marley',
             'dob' => '10/04/2018',
             'gender' => 'M',
+            'type' => 'opd',
+            'age' => '1',
             'address' => 'Street 4',
             'ph_no' => '1233551123',
             'mob_no' => '1233551123',
