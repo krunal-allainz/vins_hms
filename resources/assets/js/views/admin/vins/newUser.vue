@@ -232,9 +232,9 @@ if(localStorage.getItem("user_add"))
                                     if(response.data.status_code == 200){
                                         this.initialState();
                                         localStorage.setItem("user_add",1)
-                                        window.location.reload();
+                                       // window.location.reload();
                                     } else if (response.data.status_code == 301) {
-                                        this.initialState();
+                                        //this.initialState();
                                         toastr.error('User already exist.', 'Add User', {timeOut: 5000});
 
                                     }

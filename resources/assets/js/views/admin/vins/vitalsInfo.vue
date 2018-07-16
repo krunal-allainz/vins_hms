@@ -51,7 +51,6 @@
 	                  <i class="fa fa-search fa-2x red m-1" aria-hidden="true" style="cursor: pointer;" title="search"></i>
 	                </span>
 	              </div>
-	           
           </div>
       </div>
             <div class="row form-group" v-if="userlistData.length>0">
