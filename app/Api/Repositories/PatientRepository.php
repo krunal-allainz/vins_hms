@@ -65,19 +65,6 @@
 		$patientData->case_type=$data['case'];
 		$patientData->appointment_datetime=$data['appointment_datetime']['time']; 
 		/*for patient details end*/
-		/*for patient details start*/
-		$data_patient_checkup=new PatientCheckUp;
-		$data_patient_checkup->user_id=$data['consulting_dr'];
-		$data_patient_checkup->height=$data['height'];
-		$data_patient_checkup->weight=$data['weight'];
-		$data_patient_checkup->bmi=$data['bmi'];
-		$data_patient_checkup->vitals=$data['vitals'];
-		$data_patient_checkup->pulse=$data['pulse'];
-		$data_patient_checkup->bp=$data['bp_systolic'].'/'.$data['bp_diastolic'];
-		$data_patient_checkup->temp=$data['temp'];
-		$data_patient_checkup->created_at=Carbon::now();
-		$data_patient_checkup->updated_at=Carbon::now();
-        /*to add data */
 
         if($data['case'] == 'new') {
            $patientD =  PatientDetailsForm::orderBy('id', 'desc')->first();
@@ -123,12 +110,6 @@
                     'appointment_datetime'=>$patientData->appointment_datetime 
                 ]);
 
-                /*for patient check up start*/
-				$data_patient_checkup->opd_id=$caseData->id;
-				$data_patient_checkup->patient_id=$patientId;
-				$data_patient_checkup->save();
-				/*for patient check up end*/
-
                 if ($caseData) {
                     return ['code' => '200','data'=>['patientId'=> $patientId,'opdId' => $caseData->id,'uhid_no'=>$patientData->uhid_no], 'message' => 'Record Sucessfully created'];
                 } else {
@@ -153,9 +134,6 @@
                      'appointment_datetime'=>$patientData->appointment_datetime
                 ]);
                 /*for patient check up start*/
-				$data_patient_checkup->opd_id=$caseData->id;
-				$data_patient_checkup->patient_id=$patientId;
-				$data_patient_checkup->save();
 				/*for patient check up end*/
                 if ($caseData) {
                     return ['code' => '200','data'=>['patientId'=> $patientId,'ipdId' => $caseData->id,'uhid_no'=>$patientData->uhid_no], 'message' => 'Record Sucessfully created'];
@@ -264,6 +242,34 @@
              //return ['code' => '300','patientData'=>'', 'message' => 'Record not found'];
              return ['code' => '300','data'=>'', 'message' => 'Something went wrong'];
         }
+    }
+
+    public function addPatientCheckup($request){
+        
+            /*for patient details start*/
+        $data = $request->all()['pData']['patientData'];
+        $userId = $request->all()['pData']['userId'];
+        $data_patient_checkup=new PatientCheckUp;
+        $data_patient_checkup->user_id=$userId;
+        $data_patient_checkup->height=$data['height'];
+        $data_patient_checkup->weight=$data['weight'];
+        $data_patient_checkup->bmi=$data['bmi'];
+        $data_patient_checkup->vitals=$data['vitals'];
+        $data_patient_checkup->pulse=$data['pulse'];
+        $data_patient_checkup->bp=$data['bp_systolic'].'/'.$data['bp_diastolic'];
+        $data_patient_checkup->temp=$data['temp'];
+        $data_patient_checkup->pain=$data['pain_value'];
+        $data_patient_checkup->opd_id=$data['opd_id'];
+        $data_patient_checkup->patient_id=$data['patient_id'];
+        $data_patient_checkup->created_at=Carbon::now();
+        $data_patient_checkup->updated_at=Carbon::now();
+        $data_patient_checkup->save();
+        if ($data_patient_checkup) {
+            return ['code' => '200','data'=>$data_patient_checkup, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '400','data'=>'', 'message' => 'Something goes wrong'];
+        }
+        /*to add data */
     }
  }
 ?>

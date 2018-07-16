@@ -308,6 +308,9 @@ export default {
   },
   generateAllLaboratoryListByChild() {
     return api.post('opd/getLabListByChildren');
+  },
+  savePatientCheckup(pData){
+     return api.post('patient/save_patient_checkup_data',{'pData':pData});
   }
   
   }

@@ -186,6 +186,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
          //for getting laboratoey list  By children
         $api->post('opd/getLabListByChildren', '\euro_hms\Api\Controllers\OPDDetailsFromController@getLabListByChildren');
 
+        $api->post('patient/save_patient_checkup_data','\euro_hms\Api\Controllers\PatientsDetailFormController@savePatientCheckup');
 
 
         });

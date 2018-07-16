@@ -147,11 +147,7 @@
 			            		</span>
 			            	</div>
 	                    </div>
-	                   <div class="col-md-6"></div>
-	           	</div>
-	           	<div class="row form-group">
-	           		 <div class="col-md-6">
-	                    <div class="col-md-6">
+	                   <div class="col-md-6"> <div class="col-md-6">
 	                       	<label class="control-label" for="sex">Gender: </label>
 	                    </div>
 	                    <div class="col-md-6">
@@ -164,21 +160,7 @@
 				          	<span class="help is-danger" v-show="errors.has('gender')">
 				            	Please select gender.
 				          	</span>	  
-	                    </div>
-	                </div>
-	           		<div class="col-md-6">
-			        	<div class="col-md-6">
-			               <label for="address">Address: </label>
-			            </div>
-			            <div class="col-md-6">
-							<input class="form-control" type="text" id="address" name="address" value="" v-model="patientData.address" v-validate="'required'" :disabled="patientData.case == 'old'"/>
-							<i v-show="errors.has('address')" class="fa fa-warning"></i>
-					      	<span class="help is-danger" v-show="errors.has('address')">
-			                	Please enter valid address.
-
-			                </span>
-			            </div>
-			        </div>
+	                    </div></div>
 	           	</div>
 	           	<div class="row form-group">
 	           		<div class="col-md-6">
@@ -231,137 +213,35 @@
 					</div>
 				</div>
            	</div>
-           	<div class="row form-group">
-            <div class="col-md-6">
-              <div class="col-md-6">
-                <label for="date">Weight:</label>
-              </div>
-              <div class="col-md-6">
-                <input type="text" name="weight" id="weight" class="form-control" v-model="patientData.weight"  placeholder="In kgs"   v-validate="'required|numeric|min_value:1'">
-                  <i v-show="errors.has('weight')" class="fa fa-warning"></i> 
-
-                  <span class="help is-danger" v-show="errors.has('weight')"> Please enter valid weight.</span>
-
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="col-md-6">
-                  <label for="date">Height:</label>
-                </div>
-                <div class="col-md-6">
-                  <input type="text" name="height" id="height" class="form-control" placeholder="In cms" v-model="patientData.height"  v-validate="'required|numeric|min_value:1'">
-                  <i v-show="errors.has('height')" class="fa fa-warning"></i> 
-
-                    <span class="help is-danger" v-show="errors.has('height')"> Please enter valid height. </span>
-
-                  </div>
-                </div>
-                
-                </div>
-                <div class="row form-group">
-				  <div class="col-md-6">
-                  <div class="col-md-6">
-                    <label for="date">BMI:</label>
-                  </div>
-                  <div class="col-md-6">
-                    <input type="text" name="bmi" id="bmi" class="form-control" readonly="" v-model="bmi_mod">
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="col-md-6">
-                      <label for="date">Vitals:</label>
-                    </div>
-                    <div class="col-md-6">
-                      <input type="text" name="vitals" id="vitals" class="form-control" v-model="patientData.vitals"  v-validate="'required'">
-                      <i v-show="errors.has('vitals')" class="fa fa-warning"></i> 
-
-                      <span class="help is-danger" v-show="errors.has('vitals')"> Please enter valid vitals. </span>
-
-                    </div>
-                  </div>
+           
+             
+               
                  
-                </div>
-                <div class="row form-group">
-                	 <div class="col-md-6">
-                    <div class="col-md-6">
-                      <label for="date">Pulse:</label>
-                    </div>
-                    <div class="col-md-6" >
-                      <div class=" input-group">
-                        <input type="text" name="pulse" id="pulse" class="form-control" v-model="patientData.pulse"  v-validate="'required|numeric|min_value:1'"> 
-                        <div class="input-group-append">
-                            <span class="input-group-text ">/mm</span>
-                        </div>
-                      
-                      </div>
-                      <i v-show="errors.has('pulse')" class="fa fa-warning"></i>
-
-                       <div class="help is-danger" v-show="errors.has('pulse')"> 
-                       	Please enter valid pulse.</div>
-
-
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="col-md-6">
-                      <label for="date">BP:</label>
-                    </div>
-                    <div class="col-md-6">
-                      <div class=" input-group">
-
-                      <input type="text" name="bp_systolic" id="bp_systolic" class="form-control"  v-model="patientData.bp_systolic"  v-validate="'required|numeric|min_value:1'" maxlength="3" > 
-                        <div class="input-group-append">
-                            <span class="input-group-text ">/</span>
-                        </div>
-                        <input type="text" name="bp_diastolic" id="bp_diastolic" class="form-control"  v-model="patientData.bp_diastolic"  v-validate="'required|numeric|min_value:1'" maxlength="3">
-                      
-                      </div>
-                      
-                      <i v-show="errors.has('bp_systolic')" class="fa fa-warning"></i>
-                      <span class="help is-danger" v-show="errors.has('bp_systolic') || errors.has('bp_diastolic')">
-
-                        Please enter valid BP.
-
-                      </span>
-                    </div>
-                  </div>
-            
-                </div>
 
                 <div class="row form-group">
+                	<div class="col-md-6">
+			        	<div class="col-md-6">
+			               <label for="address">Address: </label>
+			            </div>
+			            <div class="col-md-6">
+							<input class="form-control" type="text" id="address" name="address" value="" v-model="patientData.address" v-validate="'required'" :disabled="patientData.case == 'old'"/>
+							<i v-show="errors.has('address')" class="fa fa-warning"></i>
+					      	<span class="help is-danger" v-show="errors.has('address')">
+			                	Please enter valid address.
 
-                  <div class="col-md-6">
-                    <div class="col-md-6">
-                      <label for="date">Temp:</label>
-                    </div>
-                    <div class="col-md-6">
-                      <div class=" input-group">
-                      <input type="text" name="temp" id="temp" class="form-control"  v-model="patientData.temp" v-validate="'required|numeric|min_value:1'" maxlength="3">
-                        <div class="input-group-append">
-                            <span class="input-group-text ">°F</span>
-                        </div>
-                      
-                      </div>
-                      <i v-show="errors.has('temp')" class="fa fa-warning"></i>
-                      <span class="help is-danger" v-show="errors.has('temp')">
-
-                         Please enter valid temprature.
-
-
-                      </span>
-                    </div>
-                  </div>
+			                </span>
+			            </div>
+			        </div>
+                 
                   <div class="col-md-6">
 	                	<div class="col-md-6">
-	                        <label for="appointment_datetime">Appointment Date-time: </label>
+	                      <label for="appointment_datetime">Appointment Date-time: </label>
 	                    </div>
 	                    <div class="col-md-6">
 							<date-picker  :date.sync="patientData.appointment_datetime" :option="timeoption" id = "appointment_datetime" class="" type="datetime" name="appointment_datetime" :limit="limit2" v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" ></date-picker> 
 							<i v-show="errors.has('appointment_datetime')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('appointment_datetime')">
-
 		            			Please enter valid appointment datetime.
-
 		            		</span>
 	                    </div>
 	                </div>
@@ -462,14 +342,6 @@
                 	'reference_dr': '',
                 	'consulting_dr':'',
                 	'consulting_dr_option':consult_list,
-                	'weight':'',
-                	'height': '',
-                	'bmi':'',
-                	'vitals':'',
-                	'pulse':'',
-                	'bp_systolic':'',
-                	'bp_diastolic':'',
-                	'temp':'',
                 	'age' : '',
                 	'appointment_datetime': {
                 		time:''
@@ -481,32 +353,12 @@
         	'date-picker': myDatepicker,
         	userlist
         },
-        computed: {
-          bmi_mod() {
-            if(this.patientData.weight!='' && this.patientData.height!=''){
-              var height_met = this.patientData.height / 100;
-              var bmiVal = (this.patientData.weight )/(height_met * height_met);
-              var bmi_final_val=bmiVal.toFixed(1);
-              this.patientData.bmi=bmi_final_val;
-              return bmi_final_val;
-            } else {
-              return 0;
-            }
-          }
-       },
         mounted() {
 				$('.ls-select2').select2({
 					placeholder: "Select",
 					tags: false,
 				});
 				let vm =this;
-					// $('#date_of_birth').datepicker().on('changeDate',function(){
-	 				
-	 			// 		console.log('test');
-	 			// 		
-	 			// });
-	
-   		
 	          	$('.ls-select2').on("select2:select", function (e) {
 		             if(this.id == 'case'){
 		             	vm.patientData.case = $(this).val();
@@ -717,16 +569,8 @@
 		    	vm.patientData.mob_no = '';
 		    	vm.patientData.reference_dr = '';
 		    	vm.patientData.consulting_dr = '';
-		    	vm.patientData.weight = '';
-		    	vm.patientData.height = '';
-		    	vm.patientData.bmi = '';
-		    	vm.patientData.vitals = '';
-		    	vm.patientData.pulse = '';
 		    	vm.patientData.age = '';
 		    	vm.patientData.type = '';
-		    	vm.patientData.bp_diastolic = '';
-		    	vm.patientData.bp_systolic = '';
-		    	vm.patientData.temp = '';
 		    	vm.patientData.appointment_datetime.time = '';
 		    	$("#gender").val('').trigger('change.select2');
 		    	$("#consulting_dr").val('').trigger('change.select2');
