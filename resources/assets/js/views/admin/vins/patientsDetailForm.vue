@@ -235,7 +235,8 @@
                  
                   <div class="col-md-6">
 	                	<div class="col-md-6">
-	                      <label for="appointment_datetime">Appointment Date-time: </label>
+	                      <label for="appointment_datetime">Appointment Date-time:
+	                     </label>
 	                    </div>
 	                    <div class="col-md-6">
 							<date-picker  :date.sync="patientData.appointment_datetime" :option="timeoption" id = "appointment_datetime" class="" type="datetime" name="appointment_datetime" :limit="limit2" v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" ></date-picker> 
@@ -278,7 +279,7 @@
                 'deleteConfirmMsg': 'Are you sure you would like to delete this referee? All information associated with this referee will be permanently deleted.',
                 'userlistData':{},
                 timeoption: {
-			        type: 'min',
+			        type: 'fromto',
 			        week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
 			        month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
 			        format: 'YYYY-MM-DD  H:mm:ss',
@@ -401,7 +402,7 @@
 
 			/*for consulting dr */
 
-				    User.generateUserDetailsByType('All','Active').then(
+				    User.generateUserDetailsByType(1,'Active').then(
 				    	 (response) => {
 	               	 		let consult_data  = response.data.data;
 	               	 		$.each(consult_data, function(key, value) {
