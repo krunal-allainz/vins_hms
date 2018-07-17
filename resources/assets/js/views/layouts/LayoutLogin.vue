@@ -90,7 +90,7 @@ export default {
                                     
                                         vm.$router.push({'name':'dashboard'});
                                 } else if(vm.$store.state.Users.userDetails.user_type == 2 ) {
-                                        vm.$router.push({'name':'patients_detail_form'});
+                                        vm.$router.push({'name':'vitalsinfo'});
 
                                 }else if(vm.$store.state.Users.userDetails.user_type ==  3) {
                                         vm.$router.push({'name':'patients_detail_form'});
@@ -105,10 +105,6 @@ export default {
                             jQuery('.js-loader').addClass('d-none');
 
                         }
-                        
-                        
-                         
-
                     })
                 )}
                 else {

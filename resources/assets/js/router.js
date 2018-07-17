@@ -101,6 +101,8 @@ import opdformthankyou from './views/admin/vins/opd_form_thankyou.vue'
 import vinsletterheadheaderpart from './views/admin/vins/vins_letter_header.vue'
 import vinsletterheadfooterpart from './views/admin/vins/vins_letter_footer.vue'
 import patientList from './views/admin/vins/patientList.vue'
+import vitalsinfo from './views/admin/vins/vitalsInfo.vue'
+
 
 //for opd recipt list
 import opdreceiptlist from './views/admin/vins/opd_receipt_list.vue'
@@ -566,6 +568,12 @@ const routes = [
                 component: receipt,
                 meta: { requiresAuth: true },
                 name: 'receipt'
+            },
+             {
+                path: '/vitalsinfo',
+                component: vitalsinfo,
+                meta: { requiresAuth: true },
+                name: 'vitalsinfo'
             }
             ]
     },
