@@ -9,7 +9,7 @@
               
                         <thead>
                         <tr>
-                            <!-- <th>#</th> -->
+                            <th>#</th>
                             <th>Type</th>
                             <th>Body parts</th>
                             <th>Qualifier</th>
@@ -21,7 +21,7 @@
                         </thead>
                         <tbody>
                         <tr v-if="res.removed == false" v-for="(res,index) in finalResultData">
-                           <!--  <td>{{++index}}</td> -->
+                            <td>{{++index}}</td>
                             <td>{{res.type}}</td>
                             <td>{{res.bodyPart}}</td>
                             <td>{{res.qualifier}}</td>

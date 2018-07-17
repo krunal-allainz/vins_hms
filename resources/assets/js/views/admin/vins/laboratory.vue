@@ -24,8 +24,52 @@
 			</div>
 			<div id="TextBoxContainer">
     				<!--Textboxes will be added here -->
+                    <div :id="'lab_div_'+index" v-for="(lab, index) in laboratoryData.laboratory_report">
+                         <div class="row form-group">
+                            <div class="col-md-3"> 
+                                <div class="col-md-12"> 
+                                    <label class="control-label" for="label_1" >Name </label> 
+                                </div> 
+                                <div class="col-md-12"> 
+                                    <input type="text"  :name="'lab_name'+index" :id="'lab_name_id'+index" :value="lab.text" class="form-control lab_name" readonly="readonly"> 
+                                </div> 
+                            </div> 
+                            <div class="col-md-3"> 
+                                <div class="col-md-12"> 
+                                    <label class="control-label" for="label_1">Date </label> 
+                                </div> 
+                                <div class="col-md-12"> 
+                                     <date-picker :date.sync="lab.lab_date"  :option="option" id = "lab_date_id" class="lab_date" type="text" :name="'lab_date'+index"  :limit="limit" v-model="lab.lab_date.time" :value="lab.lab_date.time"   ></date-picker>
+                                       
+                                </div> 
+                            </div>  
+                            <div class="col-md-3"> 
+                                <div class="col-md-12"> 
+                                    <label class="control-label" for="label_1">Result </label> 
+                                </div> 
+                                <div class="col-md-12"> 
+                                    <input type="text"   :name="'lab_result'+index" id="lab_result_id" v-model="lab.result" class="form-control lab_result"  v-validate="'required'" > 
+                                    <span class="help is-danger" v-show="errors.has('lab_result'+index)">
+                                        Field is required
+                                    </span>
+                                </div> 
+                            </div> 
+                            <div class="col-md-3"> 
+                                <div class="col-md-12"> 
+                                    <label class="control-label" for="label_1">Assign Dr </label> 
+                                </div> 
+                                <div class="col-md-12"> 
+                                    <input type="text" :name="'lab_assign_dr'+index"   id="lab_assign_dr_id" v-model="lab.assign" class="form-control lab_assign_dr"  v-validate="'required'"> 
+                                    <span class="help is-danger" v-show="errors.has('lab_assign_dr'+index)">
+                                        Field is required
+                                    </span>
+                                </div> 
+                            </div>  
+                        </div>
+                    </div>
+
 			</div>
-			<div v-if='lab_val_size>0'>
+			<div >
 				<div class="row form-group">
 					<div class="col-md-12">
 						<div class="col-md-12">
@@ -50,11 +94,11 @@
 			            </thead>
 			            <tbody>
 			             <tr v-if="res.removed == false" :id="res.tr_id" v-for="(res,index) in finalLaboratoryData">
-			                <td>{{res.id}}</td> 
-			                <td>{{res.name }}</td>
-			                <td>{{res.date}}</td>
+			                <td>{{++index}}</td> 
+			                <td>{{res.text }}</td>
+			                <td>{{res.lab_date.time}}</td>
 			                <td>{{res.result}}</td>
-			                <td>{{res.assigning_dr}}</td>
+			                <td>{{res.assign}}</td>
 			                <!-- <td> <i class="fa fa-remove" @click="removeLaboratory(res.id)"></i></td> -->
 			              </tr>
 
@@ -156,7 +200,9 @@
                 	'checkboxList':[],
                 	'laboratory_report':[],
                 	'laboratory_report_val':[],
-                	'lab_date':[],
+                	'lab_date':{
+                        time:''
+                    },
                 	'lab_name':[],
                 	'lab_result':[],
                 	'lab_assigning_dr':[],
@@ -203,30 +249,8 @@
                 			 {text:'Other', value:'other'},
                 			 {text:'Protocol', value:'protocol'}
                 		 ],
-                	'doppler':'',
-                	'doppler_options':[
-                				{text:'',value:''},
-                			 	 {text:'doppler-Option 1'},
-								 {text:'doppler-Option 2'},
-								 {text:'doppler-Option 3'},
-								 {text:'doppler-Option 4'},
-								 {text:'doppler-Option 5'},
-								 {text:'doppler-Option 6'},
-								 {text:'doppler-Option 7'},
-								 {text:'doppler-Option 8'}
-                			  ],
-                	'others':'',
-                	'others_options':[
-                			 	{text:'',value:''},
-                			 	 {text:'other-Option 1'},
-								 {text:'other-Option 2'},
-								 {text:'other-Option 3'},
-								 {text:'other-Option 4'},
-								 {text:'other-Option 5'},
-								 {text:'other-Option 6'},
-								 {text:'other-Option 7'},
-								 {text:'other-Option 8'}
-                			 ]
+                	
+                	
                 }
             }
         },
@@ -242,14 +266,19 @@
 	        /*for lab data start*/
 	        
 			$('#laboratory_report').on("select2:select", function (e) {
-				vm.laboratoryData.laboratory_report=$(this).val();
-				vm.labDataDetails($(this).val());
-				  
-			});
-			$('#laboratory_report').on("select2:unselecting", function (e) {
-				 var  unselected_value= e.params.args.data.id;
-				 $('#lab_div_'+unselected_value).remove();
-				 $('#lab_tr_'+unselected_value).remove();
+              // vm.labDataDetails($(this).val());
+                // var labData = $('#laboratory_report').select2('data');
+                // labData['lab_time'] = labItem;
+                vm.laboratoryData.laboratory_report=$('#laboratory_report').select2('data');
+            	vm.setLabData();
+            });
+			$('#laboratory_report').on("select2:unselect", function (e) {
+                 
+                vm.laboratoryData.laboratory_report=$('#laboratory_report').select2('data');
+                vm.saveLaboratoryTable();
+
+				 // $('#lab_div_'+unselected_value).remove();
+				 // $('#lab_tr_'+unselected_value).remove();
 			}).trigger('change');
 
 			/*for lab data end*/
@@ -269,71 +298,93 @@
         	}
         },
         methods: {
+            setLabData(){
+                let vm =this;
+                _.forEach(vm.laboratoryData.laboratory_report, function(rep,index) {
+                  let cl = typeof  rep.lab_date;
+                  console.log(cl,'types');
+                    if(typeof rep.lab_date === 'undefined' ) {
+                        rep['lab_date'] ={'time':''};
+                        rep['removed'] = false;
+                    }
+                  // vm.laboratoryData.laboratory_report[index].lab_date.time='';
+                });
+            },
         	labDataDetails(lab_val)
         	{
-        		let vm =this;
+                let vm =this;
         		if(lab_val.length>0)
         		{
         			vm.lab_val_size=lab_val.length;
         			
         				let div = document.createElement('DIV');
         				let lab_final_val=lab_val[lab_val.length-1];
-    					div.innerHTML = this.getDynamicTextBox(lab_final_val);
-    					document.getElementById("TextBoxContainer").appendChild(div);
+    					// div.innerHTML = this.getDynamicTextBox(lab_final_val);
+    					// document.getElementById("TextBoxContainer").appendChild(div);
         			
         		}
         	},
         	getDynamicTextBox(value)
         	{
         		var lab_name= $("#laboratory_report option[value='"+value+"']").text();
-        		let lab_data='<div id="lab_div_'+value+'"> <div class="row form-group"> <div class="col-md-3"> <div class="col-md-12"> <label class="control-label" for="label_1">Name </label> </div> <div class="col-md-12"> <input type="text"  name="lab_name[]" id="lab_name_id" value="'+lab_name+'" class="form-control lab_name" readonly="readonly"> </div> </div> <div class="col-md-3"> <div class="col-md-12"> <label class="control-label" for="label_1">Date </label> </div> <div class="col-md-12"> <date-picker :date.sync="laboratoryData.lab_date"  :option="option" id = "lab_date_id" class="lab_date" type="text" name="lab_date[]" :limit="limit"></date-picker> </div> </div> <div class="col-md-3"> <div class="col-md-12"> <label class="control-label" for="label_1">Result </label> </div> <div class="col-md-12"> <input type="text"   name="lab_result[]" id="lab_result_id" class="form-control lab_result" > </div> </div> <div class="col-md-3"> <div class="col-md-12"> <label class="control-label" for="label_1">Assign Dr </label> </div> <div class="col-md-12"> <input type="text" name="lab_assign_dr[]"   id="lab_assign_dr_id" class="form-control lab_assign_dr" v-model="opdData.lab_assign_dr"> </div> </div>  </div>'; return lab_data; 
+        		// let lab_data='<div id="lab_div_'+value+'"> <div class="row form-group"> <div class="col-md-3"> <div class="col-md-12"> <label class="control-label" for="label_1">Name </label> </div> <div class="col-md-12"> <input type="text"  name="lab_name[]" id="lab_name_id" value="'+lab_name+'" class="form-control lab_name" readonly="readonly"> </div> </div> <div class="col-md-3"> <div class="col-md-12"> <label class="control-label" for="label_1">Date </label> </div> <div class="col-md-12"> <date-picker :date.sync="laboratoryData.lab_date"  :option="option" id = "lab_date_id" class="lab_date" type="text" name="lab_date[]" :limit="limit"></date-picker> </div> </div> <div class="col-md-3"> <div class="col-md-12"> <label class="control-label" for="label_1">Result </label> </div> <div class="col-md-12"> <input type="text"   name="lab_result[]" id="lab_result_id" class="form-control lab_result" > </div> </div> <div class="col-md-3"> <div class="col-md-12"> <label class="control-label" for="label_1">Assign Dr </label> </div> <div class="col-md-12"> <input type="text" name="lab_assign_dr[]"   id="lab_assign_dr_id" class="form-control lab_assign_dr" v-model="opdData.lab_assign_dr"> </div> </div>  </div>'; return lab_data; 
         	},
         	 saveLaboratoryTable() {
              	let vm =this;
-                let lab_report_array=[];
-                lab_report_array=vm.laboratoryData.laboratory_report;
-                let i=0;
-                //for lab date
-                let lab_date_array=[];
-				$('.lab_date').each(function(){
-						lab_date_array.push($(this).val());
-				});
-        		vm.laboratoryData.lab_date=lab_date_array;
-        		let lab_date_val_array=vm.laboratoryData.lab_date;
-        		//for lab result
-        		let lab_result_array=[];
-				$('.lab_result').each(function(){
-						lab_result_array.push($(this).val());
-				});
-        		vm.laboratoryData.lab_result=lab_result_array;
-        		let lab_result_val_array=vm.laboratoryData.lab_result;
-        		//for assigning dr
-        		let lab_assigning_dr_array=[];
-				$('.lab_assign_dr').each(function(){
-						lab_assigning_dr_array.push($(this).val());
-				});
-        		vm.laboratoryData.lab_assigning_dr=lab_assigning_dr_array;
-        		let lab_assigning_dr_val_array=vm.laboratoryData.lab_assigning_dr;
-
-                if(lab_report_array.length>0)
-                {
-                	let finalLaboratoryDataAll=[];
-                	for(i=0;i<lab_report_array.length;i++)
-                	{
-
-						var lab_text= $("#laboratory_report option[value='"+lab_report_array[i]+"']").text();
-                		finalLaboratoryDataAll.push({
-                            'id' : lab_report_array[i],
-                            'name' : lab_text,
-                            'date' : lab_date_val_array[i],
-                            'result' : lab_result_val_array[i],
-                            'assigning_dr'  :lab_assigning_dr_val_array[i],
-                            'removed': false,
-                            'tr_id': 'lab_tr_'+lab_report_array[i],
-                		});
-                		vm.finalLaboratoryData=finalLaboratoryDataAll;
-                	}
+                this.$validator.validateAll().then(
+                    (response) => {
+                    // vm.priscriptionAdd = vm.finalPrescriptionData.length;
+                    if (!this.errors.any()) {
+                        vm.finalLaboratoryData = vm.laboratoryData.laboratory_report;
+                    }
+                },
+                (error) => {
                 }
+                )
+    //             let lab_report_array=[];
+    //             lab_report_array=vm.laboratoryData.laboratory_report;
+    //             let i=0;
+    //             //for lab date
+    //             let lab_date_array=[];
+				// $('.lab_date').each(function(){
+				// 		lab_date_array.push($(this).val());
+				// });
+    //     		vm.laboratoryData.lab_date=lab_date_array;
+    //     		let lab_date_val_array=vm.laboratoryData.lab_date;
+    //     		//for lab result
+    //     		let lab_result_array=[];
+				// $('.lab_result').each(function(){
+				// 		lab_result_array.push($(this).val());
+				// });
+    //     		vm.laboratoryData.lab_result=lab_result_array;
+    //     		let lab_result_val_array=vm.laboratoryData.lab_result;
+    //     		//for assigning dr
+    //     		let lab_assigning_dr_array=[];
+				// $('.lab_assign_dr').each(function(){
+				// 		lab_assigning_dr_array.push($(this).val());
+				// });
+    //     		vm.laboratoryData.lab_assigning_dr=lab_assigning_dr_array;
+    //     		let lab_assigning_dr_val_array=vm.laboratoryData.lab_assigning_dr;
+
+    //             if(lab_report_array.length>0)
+    //             {
+    //             	let finalLaboratoryDataAll=[];
+    //             	for(i=0;i<lab_report_array.length;i++)
+    //             	{
+
+				// 		var lab_text= $("#laboratory_report option[value='"+lab_report_array[i]+"']").text();
+    //             		finalLaboratoryDataAll.push({
+    //                         'id' : lab_report_array[i],
+    //                         'name' : lab_text,
+    //                         'date' : lab_date_val_array[i],
+    //                         'result' : lab_result_val_array[i],
+    //                         'assigning_dr'  :lab_assigning_dr_val_array[i],
+    //                         'removed': false,
+    //                         'tr_id': 'lab_tr_'+lab_report_array[i],
+    //             		});
+    //             		vm.finalLaboratoryData=finalLaboratoryDataAll;
+    //             	}
+    //             }
           },
           removeLaboratory(did) {
                 let vm =this;
@@ -350,7 +401,7 @@
               let vm =this;
 			vm.$store.dispatch('saveLabReportData',vm.laboratoryData);
 
-              vm.$root.$emit('prev');
+              vm.$root.$emit('prev','test');
           },
           next() {
 
