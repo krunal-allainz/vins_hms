@@ -405,13 +405,14 @@
           {
               let vm =this;
               let clock_suggest='--';
-              if(vm.prescriptFinalData.clock_suggest!="")
+
+              if(vm.prescriptFinalData.clock_suggest)
               {
                 clock_suggest=vm.prescriptFinalData.clock_suggest;
               }
              
 
-
+              
                clocktimedata.push({'pid':vm.prescriptFinalData.prescription_id,'name':vm.prescriptFinalData.prescription,'timing':vm.prescriptFinalData.clock_time,'quantity':vm.prescriptFinalData.clock_quantity,'clock_suggest':clock_suggest,'remove':'false'});
                clocktimedata= _.sortBy(clocktimedata, [function(o) { return o.timing; }]);
                   
@@ -450,7 +451,7 @@
                                   i++;
                               }
                           }
-                          
+                          console.log(vm.prescriptFinalData.prescriptionNameList);
                             
                         });  
                       
@@ -461,7 +462,7 @@
 
             let vm=this;
             let clock_suggest='--';
-              if(vm.prescriptFinalData.clock_suggest!="")
+              if(vm.prescriptFinalData.clock_suggest)
               {
                 clock_suggest=vm.prescriptFinalData.clock_suggest;
               }
