@@ -352,227 +352,7 @@
             </div>  
         </div>
     </div>
-    <div class="row form-group">
-      <div class="col-md-3">
-        <div class="col-md-12">
-          <label for="prescription">Prescription:</label>
-        </div>
-        <div class="col-md-12">
-          <select class="form-control ls-select2"  name="prescription" id="prescription" v-validate="'required'"  v-model="opdData.prescription">
-            <option value="">Select</option>
-            <option v-for="pres in prescriptionOption"  :value="pres.id">{{pres.name}}</option>
-          </select>
-          <i v-show="errors.has('prescription')" class="fa fa-warning"></i>
-          <span class="help is-danger" v-show="errors.has('prescription')">
-            Please select prescription.
-          </span>
-        </div>
-      </div>
-
-      <div class="col-md-3">
-        <div class="col-md-12">
-          <label for="quantity">Total Quantity:</label>
-        </div>
-        <div class="col-md-12">
-          <div class=" input-group">
-            <input type="text" name="prescription_quantity" id="prescription_quantity" class="form-control" v-model="opdData.prescription_quantity" v-validate="'required|numeric'">
-              <div class="input-group-append">
-                  <span class="input-group-text ">{{opdData.prescription_unit}}</span>
-              </div>
-            
-            </div>
-            <i v-show="errors.has('prescription_quantity')" class="fa fa-warning" v-if="prescription_enable == true"></i>
-          <span class="help is-danger" v-show="errors.has('prescription_quantity')" v-if="prescription_enable == true">
-             Please enter valid quantity.
-          </span>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="col-md-12">
-          <label for="quantity">Total Prescription Days:</label>
-        </div>
-        <div class="col-md-12">
-          <div class=" input-group">
-            <input type="text" name="total_prescription_days" id="total_prescription_days" class="form-control" v-model="opdData.total_prescription_days" v-validate="'required|numeric'">
-              <div class="input-group-append">
-                  <span class="input-group-text ">Day</span>
-              </div>
-            
-            </div>
-            <i v-show="errors.has('total_prescription_days')" class="fa fa-warning" v-if="prescription_enable == true"></i>
-          <span class="help is-danger" v-show="errors.has('total_prescription_days')" v-if="prescription_enable == true">
-             Please enter valid quantity.
-          </span>
-        </div>
-      </div>
-  </div>
-   <div class="row form-group">
-      <div class="col-md-3">
-        <div class="col-md-12">
-          <label for="prescription">Clock:</label>
-        </div>
-        <div class="col-md-12">
-         <div class="input-group clockpicker" >
-            <input type="text" class="form-control" name="clock_time" value="09:32" v-model="opdData.clock_time">
-            <span class="input-group-addon">
-                <span class="fa fa-clock-o"></span>
-            </span>
-          </div>
-          
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="col-md-12">
-          <label for="prescription">Quantity:</label>
-        </div>
-        <div class="col-md-12">
-          <input type="text" name="clock_quantity" id="clock_quantity" class="form-control"  v-validate="'required|numeric'" v-model="opdData.clock_quantity">
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="col-md-12">
-          <label for="prescription">Suggetion:</label>
-        </div>
-        <div class="col-md-12">
-            <label class="col-md-6">
-              <input type="radio" class="form-check-input"  name="suggest" v-model="opdData.clock_suggest" value="empty_stomach">Empty Stomach
-            </label>
-            <label class="col-md-5">
-              <input type="radio" class="form-check-input" name="suggest" v-model="opdData.clock_suggest" value="full_stomach">Full Stomach
-            </label> 
-        </div>
-      </div>
-       <div class="col-md-2">
-        <div class="col-md-12"> </div>
-        <div class="col-md-12">
-          <button type="button" class="btn btn-primary btn-lg "  @click="saveClockResult()">Add</button>
-        </div>
-      </div>
-    </div>
-    <br/>
-    <div class="row form-group" v-if="opdData.prescriptionNameList.length>0">
-      <div class="col-md-3">
-          <div class="col-md-12">
-             <label for="prescription">Prescription Name</label>
-          </div>
-      </div>
-      <div class="col-md-2">
-          <div class="col-md-12">
-             <label for="prescription">Quantity</label>
-          </div>
-      </div>
-      <div class="col-md-3">
-          <div class="col-md-12">
-             <label for="prescription">Clock Time</label>
-          </div>
-      </div>
-      <div class="col-md-3">
-          <div class="col-md-12">
-             <label for="prescription">Suggetion</label>
-          </div>
-      </div>
-
-    </div>
-    <div v-for="pres_clock in opdData.prescriptionNameList">
-       <div class="row form-group clock_result">
-          <div class="col-md-3">
-              <div class="col-md-12">
-                <div class=" input-group">
-                <div class="input-group-append">
-                    <span class="input-group-text ">{{(pres_clock.name==''?'Prescription Name':pres_clock.name)}}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-2">
-            <div class="col-md-12" >
-              <div class=" input-group">
-                <div class="input-group-append" >
-                    <span class="input-group-text" >{{pres_clock.clock_quantity_1}}</span>
-                </div>
-                <div class="input-group-append" >
-                    <span class="input-group-text" >{{pres_clock.clock_quantity_2}}</span>
-                </div>
-                <div class="input-group-append" >
-                    <span class="input-group-text" >{{pres_clock.clock_quantity_3}}</span>
-                </div>
-              </div>  
-            </div>
-          </div>
-       
-         <div class="col-md-3">
-          <div class="col-md-12">
-            <div class=" input-group">
-              <div class="input-group-append">
-                  <span class="input-group-text " v-if="">{{pres_clock.clock_time_1}}</span>
-              </div>
-              <div class="input-group-append">
-                  <span class="input-group-text " v-if="">{{pres_clock.clock_time_2}}</span>
-              </div>
-              <div class="input-group-append">
-                  <span class="input-group-text " v-if="">{{pres_clock.clock_time_3}}</span>
-              </div>
-              </div>  
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="col-md-12">
-             <div class=" input-group">
-                <div class="input-group-append">
-                    <span class="input-group-text ">{{(pres_clock.clock_suggest==''?'--':pres_clock.clock_suggest)}}</span>
-                </div>
-              </div>
-          </div>
-        </div>
-      </div>
-  </div>
-    <div class="row form-group">
-        <div class="col-md-3">
-            <div class="col-md-12"><br></div>
-             <div class="col-md-12">
-                   <button type="button" class="btn btn-primary btn-lg " :disabled="(opdData.prescriptionOption == '' || opdData.prescription_quantity == '' || opdData.prescription_time == '' )" @click="savePrescription()">Add</button>
-      </div>
-         <span class="help is-danger" v-if="priscriptionAdd == 0">
-            Please add prescription.
-          </span>
-          
-            <span class="help is-danger" v-if="prescriptionunique == 1">
-            Prescription already added.
-          </span>
-    </div>
-  </div>
-  <div class="form-group" v-if="finalPrescriptionData.length>0">
-  <!-- <div class="form-group"> -->
-    <div class="col-md-12">
-      <card title="<i class='ti-layout-cta-left'></i> Prescription" class="filterable">
-      <div class="table-responsive">
-        <table class="table table-striped table-bordered" id="prescription_list">
-            <thead>
-            <tr>
-                <!-- <th>#</th> -->
-                <th>Name</th>
-                <th>Quntity</th>
-                <th>Unit</th>
-                <th>Time For Medicine</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-             <tr v-if="res.removed == false"  v-for="(res,index) in finalPrescriptionData">
-              <!--   <td>{{res.id}}</td> -->
-                <td>{{res.Prescription }}</td>
-                <td>{{res.quntity}}</td>
-                <td>{{res.unit}}</td>
-                <td>{{res.time}}</td>
-                <td> <i class="fa fa-remove" @click="removePrescription(res.id)"></i></td>
-              </tr>
-
-            </tbody>
-        </table>
-      </div>
-      </card>
-    </div>
-  </div>    
+    <prescriptionData :department="department"> </prescriptionData>
     <div class="row form-group">
       <div class="col-md-6">
         <div class="col-md-12">
@@ -817,13 +597,14 @@
   import SignaturePad from 'signature_pad';
   import laboratory from './laboratory.vue';
   import userlist from './userlistData.vue';
+  import prescriptionData from './prescriptionData.vue';
   import _ from 'lodash';
     import card from "./card.vue"
       var  medicine ;
       var  timeList ;
       var patient_list = [];
       var prescription_index  = 0;
-      let clocktimedata=[];
+      
       
 
     export default {
@@ -835,13 +616,9 @@
               'doctor':this.$store.state.Users.userDetails.first_name + " "+ this.$store.state.Users.userDetails.last_name ,
               'doctor_id':this.$store.state.Users.userDetails.id,
               'department':this.$store.state.Users.userDetails.department,
-              'prescriptionOption':'',
               'finalResultData':{},
-              'finalPrescriptionData' : [],
               'userlistData':{},
               'patient_select_enable':true,
-              'priscriptionAdd':{},
-              'prescription_enable':true,
               'prescriptionunique' : 0,
               'investigationData':{
                   'radiologyType':[
@@ -1027,23 +804,14 @@
                 'laboratory_report_opd':{},
                 'select_type':'',
                 'select_value':'',
-                'clock_quantity':'',
-                'clock_time':'',
-                'clock_suggest':'',
-                'quantity_1':'0',
-                'quantity_2':'0',
-                'quantity_3':'0',
-                'clock_time_1':'00:00',
-                'clock_time_2':'00:00',
-                'clock_time_3':'00:00',
-                'medicine_qty':1,
-                'prescriptionNameList':[],
-                'total_prescription_days':0,
+                
+                
 
               }
             }
         }, 
         components: {
+         prescriptionData,
          createPatientDetail,
          vascularExamination,
          neuroExamination,
@@ -1076,12 +844,6 @@
             placeholder: "Select",
             tags:false 
           });
-
-          $('.clockpicker').clockpicker({donetext: 'Done',autoclose: true});
-          $('.clockpicker').clockpicker().find('input').change(function(){
-              vm.opdData.clock_time=this.value;
-          });
-          
          var vm =this;  
          let patient_list_new=[];
          let opd_list_new=[];
@@ -1127,24 +889,9 @@
               },
             );
 
-            $('#prescription').on("select2:select", function (e) {
-            // console.log($(this).data()[0].formalation);
-            let presId = $('#prescription').select2('data')[0].id;
-            vm.opdData.prescription_quantity = '1';
-            vm.opdData.prescription_unit = 'TAB.';
-            vm.opdData.prescription_time = '1';
-            // vm.opdData.prescription = $(this).text();
-            _.find(vm.prescriptionOption, function(res) {
-                    if(res.id == presId) {
-                         vm.opdData.prescription_unit=res.formulation;
-                     
-                    }
-                });
-           });
+           
 
-          // $('#prescription_time').on("select2:select",function(e){
-          //   timeList = $(this).val().join(',');
-          // });
+         
           $(document).on("select2:select",'.ls-select2', function (e) { 
             if(this.id == 'referral'){
               vm.opdData.referral=$(this).val();
@@ -1210,9 +957,6 @@
             }
             else if(this.id == 'external'){
               vm.opdData.cross_type_ext=$(this).val();
-            }
-            else if(this.id == 'prescription'){
-              vm.opdData.prescription=$(this).select2('data')[0].text;
             }
             else if(this.id == 'case_type'){
               vm.opdData.case_type = $(this).val(); 
@@ -1382,8 +1126,6 @@
           });
         setTimeout(function(){
           vm.examinationChangeImage();
-           
-            vm.getPrescriptionList();
         },500)
         },
         methods: {
@@ -1510,207 +1252,7 @@
               this.initPatientData();
             }
           },
-          saveClockResult()
-          {
-            let vm =this;
-            
-            if(vm.opdData.prescription == '' || vm.opdData.prescription_quantity == '' ||  vm.opdData.prescription_quantity<1 ){
-                  toastr.error('Please select prescription data and must be valid.', 'Prescription error', {timeOut: 5000});
-                  return false; 
-            }
-            if(vm.opdData.clock_quantity == '' || vm.opdData.clock_time == '' ||  vm.opdData.clock_quantity<1 ){
-                  toastr.error('Please enter valid quantity and time.', 'Prescription error', {timeOut: 5000});
-                  return false; 
-            }
-            let check_p=vm.checkClcokPrescription();
-            if(check_p=='okay')
-            {
-                  
-                  return false; 
-                 
-            }
-            else 
-            {
-              
-                //toastr.error(check_p, 'Prescription error', {timeOut: 5000});
-                return false;
-            }
-
-          },
-          checkClcokPrescription()
-          {
-            let vm=this;
-            let message="";
-            if(vm.opdData.prescriptionNameList.length > 0){
-              //console.log(vm.opdData.prescriptionNameList ,"||");
-                 _.find(vm.opdData.prescriptionNameList, function(res) {
-                    //console.log(res ," {} ");
-                    var str=res.name.trim();
-                    var str2=vm.opdData.prescription.trim();
-                    var check_name=  vm.checkName(str2,vm.opdData.prescriptionNameList);
-                    
-                    if(str==str2 && check_name!=0) {
-                        
-                        var check_clocktime=vm.checkClockTime(vm.opdData.clock_time,res.clock_time_1,res.clock_time_2,res.clock_time_3);
-                        
-                        if(res.clock_time_1!="00:00" && res.clock_time_2!="00:00" && res.clock_time_3!="00:00")
-                        {
-                          toastr.error('Prescription already exist.', 'Prescription error', {timeOut: 5000});
-                            return false;
-                        }
-                        else if(check_clocktime=='yes')
-                        {
-                            toastr.error('Clock time already exist.', 'Prescription error', {timeOut: 5000});
-                            return false;
-                        }
-                        else 
-                        {
-                          vm.editMedicinOntime(res,clocktimedata);
-                          return false;
-                        }
-                    }
-                    else if(check_name==0)
-                    {
-                        vm.addMedicinOntime();
-                        return false;
-                    }
-                });
-            }else{
-                
-               vm.addMedicinOntime();
-               return 'okay';
-            }
-
-          },
-          checkName(name,array)
-          {
-              var length=0;
-              var i=0;
-              for(i=0;i<array.length;i++)
-              {
-                  if(array[i]['name']==name)
-                  {
-                      length++;
-                  }
-              }
-              return length;
-          },
-          editMedicinOntime(array,clocktimedata)
-          {
-              let vm =this;
-              let clock_suggest='Empty Stomach';
-              if(vm.opdData.clock_suggest=='full_stomach')
-              {
-                clock_suggest='Full Stomach';
-              }
-
-
-               clocktimedata.push({'name':vm.opdData.prescription,'timing':vm.opdData.clock_time,'quantity':vm.opdData.clock_quantity});
-              //console.log(clocktimedata);
-              clocktimedata.sort(function(a, b) {
-                        var nameA = a.timing; // ignore upper and lowercase
-                        var nameB = b.timing; // ignore upper and lowercase
-                        if (nameA < nameB) {
-                          return -1;
-                        }
-                        if (nameA > nameB) {
-                          return 1;
-                        }
-
-                        // names must be equal
-                        return 0;
-                      });
-                    
-                      let i=0;
-                      let objIndex = vm.opdData.prescriptionNameList.findIndex((obj => obj.name == vm.opdData.prescription));
-                        vm.opdData.prescriptionNameList[objIndex].clock_suggest=clock_suggest;
-                        vm.opdData.prescriptionNameList[objIndex].prescription_quantity=vm.opdData.prescription_quantity;
-                        vm.opdData.prescriptionNameList[objIndex].total_prescription_days=vm.opdData.total_prescription_days;
-                      _.find(clocktimedata, function(res) {
-                          if(res.name==vm.opdData.prescription)
-                          {
-                              if(i==0)
-                              {
-                                  vm.opdData.prescriptionNameList[objIndex].clock_time_1 = res.timing; 
-                                  vm.opdData.prescriptionNameList[objIndex].clock_quantity_1 = res.quantity; 
-                              }
-                              if(i==1)
-                              {
-                                  vm.opdData.prescriptionNameList[objIndex].clock_time_2 = res.timing; 
-                                  vm.opdData.prescriptionNameList[objIndex].clock_quantity_2 = res.quantity; 
-                              }
-                              if(i==2)
-                              {
-                                  vm.opdData.prescriptionNameList[objIndex].clock_time_3 = res.timing; 
-                                  vm.opdData.prescriptionNameList[objIndex].clock_quantity_3 = res.quantity; 
-                              }
-                              i++;
-                          }
-                            
-                        });  
-                      
-                       return 'okay'; 
-          },
-          addMedicinOntime()
-          {
-
-            let vm=this;
-            let clock_suggest='Empty Stomach';
-              if(vm.opdData.clock_suggest=='full_stomach')
-              {
-                clock_suggest='Full Stomach';
-              }
-            
-            clocktimedata.push({'name':vm.opdData.prescription,'timing':vm.opdData.clock_time,'quantity':vm.opdData.clock_quantity});
-                let i=0;
-                var clock_time_1="00:00",clock_time_2="00:00",clock_time_3="00:00";
-                var clock_quantity_1=0,clock_quantity_2=0,clock_quantity_3=0;
-               
-                      for(i=0;i<clocktimedata.length;i++)
-                      { 
-                        
-                        if(clocktimedata[i]['name']==vm.opdData.prescription)
-                        {
-                            clock_time_1 = clocktimedata[i]['timing']; 
-                            clock_quantity_1 = clocktimedata[i]['quantity'];
-                        }
-
-                         
-                          
-                      }
-
-              vm.opdData.prescriptionNameList.push({'name':vm.opdData.prescription,'total_quantity':vm.opdData.prescription_quantity,'clock_time_1':clock_time_1,'clock_quantity_1':clock_quantity_1,'clock_time_2':clock_time_2,'clock_quantity_2':clock_quantity_2,'clock_time_3':clock_time_3,'clock_quantity_3':clock_quantity_3,'clock_suggest':clock_suggest,'total_prescription_days':vm.opdData.total_prescription_days});
-                  return vm.opdData.prescriptionNameList;
-                },
-          getLength(name,array)
-          {
-              var length=0;
-              var i=0;
-              for(i=0;i<array.length;i++)
-              {
-                  if(array[i]['name']==name)
-                  {
-                      length=array[i]['clock_time'].length;
-                  }
-              }
-              return length;
-          },
-          checkClockTime(time,clock1,clock2,clock3)
-          {
-              if(clock1==time)
-              {
-                return 'yes';
-              }
-              else if(clock2==time)
-              {
-                  return 'yes';
-              }
-              else if(clock3==time)
-              {
-                  return 'yes';
-              }
-              return 'no';
-          },
+          
           saveReport() {
                 // var resData1=[];
                 let vm =this;
@@ -1728,76 +1270,6 @@
 
                 vm.initData();
                 // vm.setRadioData();
-          },
-          savePrescription() {
-
-             let vm =this;
-             let prescriptionName = '';
-             vm.prescription_enable=true;
-
-              if(vm.opdData.prescription == '' || vm.opdData.prescription_quantity == '' || vm.opdData.prescription_time =='' || vm.opdData.prescription_quantity<1 ||  vm.opdData.prescription_time<1){
-                    
-                    toastr.error('Please select prescription data and must be valid.', 'Prescription error', {timeOut: 5000});
-                    return false;
-              }
-                //console.log( vm.finalPrescriptionData.length);
-                
-                  prescriptionName = vm.opdData.prescription;
-                  var test = this.checkPrescription(prescriptionName);
-              if(this.checkPrescription(prescriptionName) == true){
-                
-                /*let prescription_index_new=0;
-                if(vm.finalPrescriptionData.length > 0){
-                   prescription_index_new = vm.finalPrescriptionData.length + 1;
-                  
-                }*/
-                //console.log(prescription_index_new);
-                vm.finalPrescriptionData.last_prescription_index=prescription_index+1;
-                prescription_index=vm.finalPrescriptionData.last_prescription_index;
-                 //vm.finalPrescriptionData.last_prescription_index=prescription_index;
-                vm.finalPrescriptionData.push({
-                            'id' : vm.finalPrescriptionData.last_prescription_index,
-                            'Prescription' : vm.opdData.prescription,
-                            'quntity' : vm.opdData.prescription_quantity,
-                            'unit' : vm.opdData.prescription_unit,
-                            'time'  : vm.opdData.prescription_time,
-                            'removed': false,
-                });
-               
-                vm.prescriptionunique = 0;
-              }else{
-                vm.prescriptionunique = 1;
-              }
-
-               vm.opdData.prescriptiData  =  _.cloneDeep(vm.finalPrescriptionData);
-                vm.priscriptionAdd =  vm.finalPrescriptionData.length;
-                if( vm.priscriptionAdd>=1)
-                {
-                    vm.prescription_enable=false;
-                }
-
-
-
-              vm.opdData.prescription_quantity = '1';
-              vm.opdData.prescription_unit = 'TAB.';
-              vm.opdData.prescription_time = '1';
-
-          },
-          checkPrescription(prescription){
-             let vm =this;
-             let presRes = true;
-             if(vm.finalPrescriptionData.length > 0){
-                 _.find(vm.finalPrescriptionData, function(res) {
-                    if(res.Prescription == prescription) {
-                      
-                          presRes = false;
-                    }
-                });
-            }else{
-               presRes = true;
-
-            }
-            return presRes;
           },
           initData() {
                 
@@ -1882,43 +1354,6 @@
                          res.removed = true;
                     }
                 });
-          },
-          removePrescription(did) {
-                let vm =this;
-                _.find(vm.finalPrescriptionData, function(res) {
-                    if(res.id == did) {
-                      var index = vm.finalPrescriptionData.indexOf(res);
-                      vm.finalPrescriptionData.splice(index, 1);
-                    }
-                });
-                vm.finalPrescriptionData.last_prescription_index=vm.finalPrescriptionData.last_prescription_index-1;
-                vm.priscriptionAdd =  vm.finalPrescriptionData.length;
-          },
-          getPrescriptionList() {
-
-            let vm =this;
-            let userDepartment = vm.department;
-            jQuery('.js-loader').removeClass('d-none');
-
-            User.getPrescription(userDepartment).then( 
-              (response)=> {
-                  if(response.status == 200){
-                    vm.prescriptionOption = response.data.data;
-                    $("#prescription").select2('destroy'); 
-                     
-                     setTimeout(function(){
-                      $('#prescription').select2();
-                       jQuery('.js-loader').addClass('d-none');
-                     },1000)
-
-                  }
-                },
-                (error)=>{
-                    jQuery('.js-loader').addClass('d-none');
-                }
-
-              )
-           
           },
           setHistoryType(res,type){
             var vm =this;

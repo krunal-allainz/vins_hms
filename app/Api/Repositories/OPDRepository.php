@@ -87,7 +87,7 @@
  		$data = $request->all()['data']['opdData'];
  		$user_id=$request->all()['data']['doctor'];
  		$department=$request->all()['data']['department'];
- 		$prescription_data=$request->all()['data']['opdData']['prescriptiData'];
+ 		$prescription_data=$request->all()['data']['prescriptionData'];
  		$radiology_data=$request->all()['data']['radioData'];
  		$resultdata=$request->all()['data']['resultData'];
  		$labdata=$request->all()['data']['laboratoryData'];
@@ -156,10 +156,19 @@
 	 		{
 	 			$prescription_obj=new PrescriptionDetails();
 	 			$prescription_obj->opd_id=$opd_id_org;
-	 			$prescription_obj->prescription_drug_id=$prescription['id'];
-	 			$prescription_obj->quantity=$prescription['quntity'];
-	 			$prescription_obj->medicine_time=$prescription['time'];
 	 			$prescription_obj->user_id=$user_id;
+	 			$prescription_obj->prescription_drug_id=$prescription['id'];
+	 			$prescription_obj->total_quantity=$prescription['total_quantity'];
+	 			$prescription_obj->clock_quantity_1=$prescription['clock_quantity_1'];
+	 			$prescription_obj->clock_quantity_2=$prescription['clock_quantity_2'];
+	 			$prescription_obj->clock_quantity_3=$prescription['clock_quantity_3'];
+	 			$prescription_obj->clock_time_1=$prescription['clock_time_1'];
+	 			$prescription_obj->clock_time_2=$prescription['clock_time_2'];
+	 			$prescription_obj->clock_time_3=$prescription['clock_time_3'];
+	 			$prescription_obj->clock_suggest_1=$prescription['clock_suggest_1'];
+	 			$prescription_obj->clock_suggest_2=$prescription['clock_suggest_2'];
+	 			$prescription_obj->clock_suggest_3=$prescription['clock_suggest_3'];
+	 			$prescription_obj->remove=$prescription['remove'];
 	 			$prescription_obj->save();
 	 		}
  		}
