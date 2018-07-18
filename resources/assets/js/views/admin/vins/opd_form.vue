@@ -352,107 +352,7 @@
             </div>  
         </div>
     </div>
-    <div class="row form-group">
-      <div class="col-md-3">
-        <div class="col-md-12">
-          <label for="prescription">Prescription:</label>
-        </div>
-        <div class="col-md-12">
-          <select class="form-control ls-select2"  name="prescription" id="prescription" v-validate="'required'"  v-model="opdData.prescription">
-            <option value="">Select</option>
-            <option v-for="pres in prescriptionOption"  :value="pres.id">{{pres.name}}</option>
-          </select>
-          <i v-show="errors.has('prescription')" class="fa fa-warning"></i>
-          <span class="help is-danger" v-show="errors.has('prescription')">
-            Please select prescription.
-          </span>
-        </div>
-      </div>
-
-      <div class="col-md-3">
-        <div class="col-md-12">
-          <label for="quantity">Quantity:</label>
-        </div>
-        <div class="col-md-12">
-          <div class=" input-group">
-            <input type="text" name="prescription_quantity" id="prescription_quantity" class="form-control" v-model="opdData.prescription_quantity" v-validate="'required|numeric'">
-              <div class="input-group-append">
-                  <span class="input-group-text ">{{opdData.prescription_unit}}</span>
-              </div>
-            
-            </div>
-            <i v-show="errors.has('prescription_quantity')" class="fa fa-warning" v-if="prescription_enable == true"></i>
-          <span class="help is-danger" v-show="errors.has('prescription_quantity')" v-if="prescription_enable == true">
-             Please enter valid quantity.
-          </span>
-        </div>
-      </div>
-
-      <div class="col-md-3">
-         <div class="col-md-12">
-          <label for="prescription_time">Time For Medicine:</label>
-        </div>
-        <div class="col-md-12">
-          <div class=" input-group">
-            <input type="text" name="prescription_time" id="prescription_time" class="form-control" v-model="opdData.prescription_time"  v-validate="'required|numeric'"> 
-            <div class="input-group-append">
-                <span class="input-group-text "> hourly</span>
-            </div>
-          
-          </div>
-          <i v-show="errors.has('prescription_time')" class="fa fa-warning" v-if="prescription_enable == true"></i>
-          <span class="help is-danger" v-show="errors.has('prescription_time')" v-if="prescription_enable == true">
-            Please enter valid time for medicine.
-          </span>
-      </div>
-
-    </div>
-    <div class="col-md-3">
-            <div class="col-md-12"><br></div>
-             <div class="col-md-12">
-                   <button type="button" class="btn btn-primary btn-lg " :disabled="(opdData.prescriptionOption == '' || opdData.prescription_quantity == '' || opdData.prescription_time == '' )" @click="savePrescription()">Add</button>
-      </div>
-         <span class="help is-danger" v-if="priscriptionAdd == 0">
-            Please add prescription.
-          </span>
-          
-            <span class="help is-danger" v-if="prescriptionunique == 1">
-            Prescription already added.
-          </span>
-    </div>
-  </div>
-  <div class="form-group" v-if="finalPrescriptionData.length>0">
-  <!-- <div class="form-group"> -->
-    <div class="col-md-12">
-      <card title="<i class='ti-layout-cta-left'></i> Prescription" class="filterable">
-      <div class="table-responsive">
-        <table class="table table-striped table-bordered" id="prescription_list">
-            <thead>
-            <tr>
-                <!-- <th>#</th> -->
-                <th>Name</th>
-                <th>Quntity</th>
-                <th>Unit</th>
-                <th>Time For Medicine</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-             <tr v-if="res.removed == false"  v-for="(res,index) in finalPrescriptionData">
-              <!--   <td>{{res.id}}</td> -->
-                <td>{{res.Prescription }}</td>
-                <td>{{res.quntity}}</td>
-                <td>{{res.unit}}</td>
-                <td>{{res.time}}</td>
-                <td> <i class="fa fa-remove" @click="removePrescription(res.id)"></i></td>
-              </tr>
-
-            </tbody>
-        </table>
-      </div>
-      </card>
-    </div>
-  </div>    
+    <prescriptionData :department="department"> </prescriptionData>
     <div class="row form-group">
       <div class="col-md-6">
         <div class="col-md-12">
@@ -697,12 +597,15 @@
   import SignaturePad from 'signature_pad';
   import laboratory from './laboratory.vue';
   import userlist from './userlistData.vue';
+  import prescriptionData from './prescriptionData.vue';
   import _ from 'lodash';
     import card from "./card.vue"
       var  medicine ;
       var  timeList ;
       var patient_list = [];
       var prescription_index  = 0;
+      
+      
 
     export default {
         data() {
@@ -713,13 +616,9 @@
               'doctor':this.$store.state.Users.userDetails.first_name + " "+ this.$store.state.Users.userDetails.last_name ,
               'doctor_id':this.$store.state.Users.userDetails.id,
               'department':this.$store.state.Users.userDetails.department,
-              'prescriptionOption':'',
               'finalResultData':{},
-              'finalPrescriptionData' : [],
               'userlistData':{},
               'patient_select_enable':true,
-              'priscriptionAdd':{},
-              'prescription_enable':true,
               'prescriptionunique' : 0,
               'investigationData':{
                   'radiologyType':[
@@ -905,11 +804,14 @@
                 'laboratory_report_opd':{},
                 'select_type':'',
                 'select_value':'',
+                
+                
 
               }
             }
         }, 
         components: {
+         prescriptionData,
          createPatientDetail,
          vascularExamination,
          neuroExamination,
@@ -942,7 +844,6 @@
             placeholder: "Select",
             tags:false 
           });
-          
          var vm =this;  
          let patient_list_new=[];
          let opd_list_new=[];
@@ -988,24 +889,9 @@
               },
             );
 
-            $('#prescription').on("select2:select", function (e) {
-            // console.log($(this).data()[0].formalation);
-            let presId = $('#prescription').select2('data')[0].id;
-            vm.opdData.prescription_quantity = '1';
-            vm.opdData.prescription_unit = 'TAB.';
-            vm.opdData.prescription_time = '1';
-            // vm.opdData.prescription = $(this).text();
-            _.find(vm.prescriptionOption, function(res) {
-                    if(res.id == presId) {
-                         vm.opdData.prescription_unit=res.formulation;
-                     
-                    }
-                });
-           });
+           
 
-          // $('#prescription_time').on("select2:select",function(e){
-          //   timeList = $(this).val().join(',');
-          // });
+         
           $(document).on("select2:select",'.ls-select2', function (e) { 
             if(this.id == 'referral'){
               vm.opdData.referral=$(this).val();
@@ -1071,9 +957,6 @@
             }
             else if(this.id == 'external'){
               vm.opdData.cross_type_ext=$(this).val();
-            }
-            else if(this.id == 'prescription'){
-              vm.opdData.prescription=$(this).select2('data')[0].text;
             }
             else if(this.id == 'case_type'){
               vm.opdData.case_type = $(this).val(); 
@@ -1243,15 +1126,11 @@
           });
         setTimeout(function(){
           vm.examinationChangeImage();
-           
-            vm.getPrescriptionList();
         },500)
         },
         methods: {
           patient_select_change(val)
           {
-             
-              
               this.userlistData={};
               $('#opd_no').val('').trigger('change.select2');
               this.opdData.uhid_no="";
@@ -1373,6 +1252,7 @@
               this.initPatientData();
             }
           },
+          
           saveReport() {
                 // var resData1=[];
                 let vm =this;
@@ -1390,76 +1270,6 @@
 
                 vm.initData();
                 // vm.setRadioData();
-          },
-          savePrescription() {
-
-             let vm =this;
-             let prescriptionName = '';
-             vm.prescription_enable=true;
-
-              if(vm.opdData.prescription == '' || vm.opdData.prescription_quantity == '' || vm.opdData.prescription_time =='' || vm.opdData.prescription_quantity<1 ||  vm.opdData.prescription_time<1){
-                    
-                    toastr.error('Please select prescription data and must be valid.', 'Prescription error', {timeOut: 5000});
-                    return false;
-              }
-                //console.log( vm.finalPrescriptionData.length);
-                
-                  prescriptionName = vm.opdData.prescription;
-                  var test = this.checkPrescription(prescriptionName);
-              if(this.checkPrescription(prescriptionName) == true){
-                
-                /*let prescription_index_new=0;
-                if(vm.finalPrescriptionData.length > 0){
-                   prescription_index_new = vm.finalPrescriptionData.length + 1;
-                  
-                }*/
-                //console.log(prescription_index_new);
-                vm.finalPrescriptionData.last_prescription_index=prescription_index+1;
-                prescription_index=vm.finalPrescriptionData.last_prescription_index;
-                 //vm.finalPrescriptionData.last_prescription_index=prescription_index;
-                vm.finalPrescriptionData.push({
-                            'id' : vm.finalPrescriptionData.last_prescription_index,
-                            'Prescription' : vm.opdData.prescription,
-                            'quntity' : vm.opdData.prescription_quantity,
-                            'unit' : vm.opdData.prescription_unit,
-                            'time'  : vm.opdData.prescription_time,
-                            'removed': false,
-                });
-               
-                vm.prescriptionunique = 0;
-              }else{
-                vm.prescriptionunique = 1;
-              }
-
-               vm.opdData.prescriptiData  =  _.cloneDeep(vm.finalPrescriptionData);
-                vm.priscriptionAdd =  vm.finalPrescriptionData.length;
-                if( vm.priscriptionAdd>=1)
-                {
-                    vm.prescription_enable=false;
-                }
-
-
-
-              vm.opdData.prescription_quantity = '1';
-              vm.opdData.prescription_unit = 'TAB.';
-              vm.opdData.prescription_time = '1';
-
-          },
-          checkPrescription(prescription){
-             let vm =this;
-             let presRes = true;
-             if(vm.finalPrescriptionData.length > 0){
-                 _.find(vm.finalPrescriptionData, function(res) {
-                    if(res.Prescription == prescription) {
-                      
-                          presRes = false;
-                    }
-                });
-            }else{
-               presRes = true;
-
-            }
-            return presRes;
           },
           initData() {
                 
@@ -1544,43 +1354,6 @@
                          res.removed = true;
                     }
                 });
-          },
-          removePrescription(did) {
-                let vm =this;
-                _.find(vm.finalPrescriptionData, function(res) {
-                    if(res.id == did) {
-                      var index = vm.finalPrescriptionData.indexOf(res);
-                      vm.finalPrescriptionData.splice(index, 1);
-                    }
-                });
-                vm.finalPrescriptionData.last_prescription_index=vm.finalPrescriptionData.last_prescription_index-1;
-                vm.priscriptionAdd =  vm.finalPrescriptionData.length;
-          },
-          getPrescriptionList() {
-
-            let vm =this;
-            let userDepartment = vm.department;
-            jQuery('.js-loader').removeClass('d-none');
-
-            User.getPrescription(userDepartment).then( 
-              (response)=> {
-                  if(response.status == 200){
-                    vm.prescriptionOption = response.data.data;
-                    $("#prescription").select2('destroy'); 
-                     
-                     setTimeout(function(){
-                      $('#prescription').select2();
-                       jQuery('.js-loader').addClass('d-none');
-                     },1000)
-
-                  }
-                },
-                (error)=>{
-                    jQuery('.js-loader').addClass('d-none');
-                }
-
-              )
-           
           },
           setHistoryType(res,type){
             var vm =this;
