@@ -144,7 +144,7 @@
                 'footer' : 'footer',
                 'currentYear': new Date().getFullYear(),
                 'lab_val_size':0,
-                'finalLaboratoryData':[],
+                'finalLaboratoryData':{},
                 'option': {
                     type: 'day',
                     week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
@@ -198,7 +198,7 @@
                 },
                 'laboratoryData': {
                 	'checkboxList':[],
-                	'laboratory_report':[],
+                	'laboratory_report':{},
                 	'laboratory_report_val':[],
                 	'lab_date':{
                         time:''
@@ -266,19 +266,28 @@
 	        /*for lab data start*/
 	        
 			$('#laboratory_report').on("select2:select", function (e) {
-              // vm.labDataDetails($(this).val());
-                // var labData = $('#laboratory_report').select2('data');
-                // labData['lab_time'] = labItem;
-                vm.laboratoryData.laboratory_report=$('#laboratory_report').select2('data');
+            var labDataRes = $('#laboratory_report').select2('data');
+                var labRes = [];
+                _.forEach( $('#laboratory_report').select2('data'), function(rep,index) {
+                    let labFind = false;
+                    _.find(vm.laboratoryData.laboratory_report, function(res) {
+                        if(res.id == rep.id){
+                            labRes.push(res);
+                            labFind = true;
+                            return false;
+                        } 
+                    });
+                    if(labFind == false) {
+                        labRes.push({'assign':'','id':rep.id,'lab_date':rep.lab_date,'result':'','text':rep.text});
+                    }
+                });
+                vm.laboratoryData.laboratory_report= labRes;
             	vm.setLabData();
             });
 			$('#laboratory_report').on("select2:unselect", function (e) {
                  
-                vm.laboratoryData.laboratory_report=$('#laboratory_report').select2('data');
+                vm.laboratoryData.laboratory_report =  _.cloneDeep($('#laboratory_report').select2('data'));
                 vm.saveLaboratoryTable();
-
-				 // $('#lab_div_'+unselected_value).remove();
-				 // $('#lab_tr_'+unselected_value).remove();
 			}).trigger('change');
 
 			/*for lab data end*/
@@ -334,24 +343,24 @@
                     (response) => {
                     // vm.priscriptionAdd = vm.finalPrescriptionData.length;
                     if (!this.errors.any()) {
-                        vm.finalLaboratoryData = vm.laboratoryData.laboratory_report;
+                        vm.finalLaboratoryData =  _.cloneDeep(vm.laboratoryData.laboratory_report);
                     }
                 },
                 (error) => {
                 }
                 )
           },
-          removeLaboratory(did) {
-                let vm =this;
-                _.find(vm.finalLaboratoryData, function(res) {
-                    if(res.id == did) {
-                      var index = vm.finalLaboratoryData.indexOf(res);
-                      vm.finalLaboratoryData.splice(index, 1);
-                      $('#lab_div_'+res.id).remove();
-                      //$('#laboratory_report').select2('val', res.id);
-                    }
-                });
-          },
+          // removeLaboratory(did) {
+          //       let vm =this;
+          //       _.find(vm.finalLaboratoryData, function(res) {
+          //           if(res.id == did) {
+          //             var index = vm.finalLaboratoryData.indexOf(res);
+          //             vm.finalLaboratoryData.splice(index, 1);
+          //             $('#lab_div_'+res.id).remove();
+          //             //$('#laboratory_report').select2('val', res.id);
+          //           }
+          //       });
+          // },
 			prev() {
               let vm =this;
 			vm.$store.dispatch('saveLabReportData',vm.laboratoryData);
@@ -359,9 +368,8 @@
               vm.$root.$emit('prev','test');
           },
           next() {
-
-          	let vm =this;
-			vm.$store.dispatch('saveLabReportData',vm.laboratoryData);
+            let vm =this;
+			vm.$store.dispatch('saveLabReportData',vm.finalLaboratoryData);
           	
               vm.$root.$emit('next');
 
@@ -376,6 +384,8 @@
           	$('#urine').val(this.$store.state.Patient.laboratoryData.urine_report).trigger('change');
           	$('#csf').val(this.$store.state.Patient.laboratoryData.csf_report).trigger('change');
           	$('#body_fluid_analysis').val(this.$store.state.Patient.laboratoryData.body_fluid_analysis_report).trigger('change');
+            vm.finalLaboratoryData = _.cloneDeep(vm.$store.state.Patient.laboratoryData);
+            vm.laboratoryData.laboratory_report = _.cloneDeep(vm.$store.state.Patient.laboratoryData);
 
 
 
