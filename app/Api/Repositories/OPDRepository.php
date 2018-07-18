@@ -87,7 +87,7 @@
  		$data = $request->all()['data']['opdData'];
  		$user_id=$request->all()['data']['doctor'];
  		$department=$request->all()['data']['department'];
- 		$prescription_data=$request->all()['data']['opdData']['prescriptiData'];
+ 		$prescription_data=$request->all()['data']['prescriptionData'];
  		$radiology_data=$request->all()['data']['radioData'];
  		$resultdata=$request->all()['data']['resultData'];
  		$labdata=$request->all()['data']['laboratoryData'];
@@ -152,14 +152,24 @@
  		//save prescription
  		if(!empty($prescription_data))
  		{
+
  			foreach($prescription_data as $prescription)
 	 		{
 	 			$prescription_obj=new PrescriptionDetails();
 	 			$prescription_obj->opd_id=$opd_id_org;
-	 			$prescription_obj->prescription_drug_id=$prescription['id'];
-	 			$prescription_obj->quantity=$prescription['quntity'];
-	 			$prescription_obj->medicine_time=$prescription['time'];
 	 			$prescription_obj->user_id=$user_id;
+	 			$prescription_obj->prescription_drug_id=$prescription['pid'];
+	 			$prescription_obj->total_quantity=$prescription['total_quantity'];
+	 			$prescription_obj->clock_quantity_1=$prescription['clock_quantity_1'];
+	 			$prescription_obj->clock_quantity_2=$prescription['clock_quantity_2'];
+	 			$prescription_obj->clock_quantity_3=$prescription['clock_quantity_3'];
+	 			$prescription_obj->clock_time_1=$prescription['clock_time_1'];
+	 			$prescription_obj->clock_time_2=$prescription['clock_time_2'];
+	 			$prescription_obj->clock_time_3=$prescription['clock_time_3'];
+	 			$prescription_obj->clock_suggest_1=$prescription['clock_suggest_1'];
+	 			$prescription_obj->clock_suggest_2=$prescription['clock_suggest_2'];
+	 			$prescription_obj->clock_suggest_3=$prescription['clock_suggest_3'];
+	 			$prescription_obj->remove=$prescription['remove'];
 	 			$prescription_obj->save();
 	 		}
  		}
@@ -235,18 +245,26 @@
  		/*for form -2 library*/
  		if(!empty($labdata))
  		{
- 			$type_2=array('blood'=>$labdata['blood_report'],'urine'=>$labdata['urine_report'],'bfa'=>$labdata['body_fluid_analysis_report'],'csf'=>$labdata['csf_report']);
+
+ 			if(isset($labdata['blood_report']) && isset($labdata['urine_report']) && isset($labdata['body_fluid_analysis_report']) && isset($labdata['csf_report']))
+ 			{
+ 				$type_2=array('blood'=>$labdata['blood_report'],'urine'=>$labdata['urine_report'],'bfa'=>$labdata['body_fluid_analysis_report'],'csf'=>$labdata['csf_report']);
 	 			
 	 			foreach($type_2 as $key => $value)
 	 			{
-	 				$lab_obj_2=new LaboratoryDetails();
-	 				$lab_obj_2->opd_id=$opd_id_org;
-	 				$lab_obj_2->user_id=$user_id;
-	 				$lab_obj_2->lab_type=$key;
-	 				$lab_obj_2->report=$value;
-	 				$lab_obj_2->refrences=1;
-	 				$lab_obj_2->save();
+	 				if($value!='')
+	 				{
+	 					$lab_obj_2=new LaboratoryDetails();
+		 				$lab_obj_2->opd_id=$opd_id_org;
+		 				$lab_obj_2->user_id=$user_id;
+		 				$lab_obj_2->lab_type=$key;
+		 				$lab_obj_2->report=$value;
+		 				$lab_obj_2->refrences=1;
+		 				$lab_obj_2->save();
+	 				}
+	 				
 	 			}
+ 			}
  		}
  		/*for form -2 library*/
 

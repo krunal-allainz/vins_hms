@@ -19,6 +19,7 @@ const state = {
     'vascExaminationData':{},
     'laboratoryData':[],
     'saveOpd':false,
+    'prescriptionData':{},
 
  }
 
@@ -93,7 +94,11 @@ const actions = {
   saveOpdData({commit,state}) {
     
 
-  }
+  },
+  setPrescriptionData({commit},prescriptionData) {
+      commit(types.SET_PRESCRIPTION_DATA,prescriptionData);
+    
+  },
 }
 
 // mutations
@@ -149,12 +154,17 @@ const mutations = {
       state.opdData = {};
       state.opd_resultData = {};
       state.radioData = {};
+      state.prescriptionData = {};
   },
   [types.SAVE_OPD_DATA] (state) {
     // console.log(patientData)
   },
   [types.SAVE_OPD] (state,oData) {
     state.saveOpd = oData;
+    // console.log(patientData)
+  },
+  [types.SET_PRESCRIPTION_DATA] (state,pData) {
+    state.prescriptionData = pData;
     // console.log(patientData)
   },
   
