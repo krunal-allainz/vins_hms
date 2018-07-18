@@ -27,7 +27,9 @@ class CreatePatientDetails extends Migration
             $table->string('ph_no')->nullable();
             $table->string('mob_no')->nullable();
             $table->text('references')->nullable();
-            $table->string('consultant')->nullable();
+            $table->integer('consultant')->nullable();
+            $table->integer('consultant_id')->nullable();
+            $table->string('uhid_no')->after('id');
             $table->string('case_type')->nullable();
             $table->dateTime('appointment_datetime')->nullable();
 
