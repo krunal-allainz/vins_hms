@@ -654,17 +654,7 @@
       <div class="col-md-2" @click="pain_value(8)"><img src="/assets/img/pain/P5.png"   v-bind:class="[opdData.pain_value==8 ? 'pain_select': '', 'pain_img'  ]"></div>
       <div class="col-md-2" @click="pain_value(10)"><img src="/assets/img/pain/P6.png"   v-bind:class="[opdData.pain_value==10 ? 'pain_select': '', 'pain_img'  ]"></div>
     </div>
-
-
-
-
       </div>
-
-        
-    
-       
-      
-       
       <div class="row" v-if="curStep == 2"> 
           <laboratory :labData="opdData.laboratoryALLData" ></laboratory>
         </div>
@@ -1638,8 +1628,6 @@
                    var vm=this;
                     this.$store.dispatch('SetDoctorId',vm.doctor_id);
                    let res= vm.$store.dispatch('saveOpdData');
-                  
-
                    if(res=='success')
                    {
                    }
