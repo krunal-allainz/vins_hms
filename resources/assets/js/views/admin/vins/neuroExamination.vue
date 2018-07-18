@@ -11,20 +11,30 @@
   <form action>
     <div class="row">
       <div class="col-md-6" style="padding: 0px;">
-        <div style="border: 1px solid;height: 100%;border-right:0px; ">
+        <!-- <div style="border: 1px solid;height: 100%;border-right:0px; ">
           <div class="text-center" style="font-size: 20px;font-weight: bold;background-color:gray;border-bottom:1px solid;height:35px;"><b>Motor Examination</b></div>
             <canvas id="neuro_signature-pad" height="100%" width="100%" style="background: url('/assets/img/froms/examination_small_2.png') no-repeat; max-width:100%; max-height:100%;width: 90%;height:85%"></canvas>
+        </div> -->
+          <div class="col-md-6">
+          <label for="plantars" class="control-label">Motor Examination : </label>
+        </div>
+        <div class="col-md-6">
+          <textarea  class="form-control"  id="motor_examination" name="motor_examination" value="" v-model="neuroExaminationData.motor_examination"  ></textarea>
         </div>
       </div>
       <div class="col-md-6" style="padding: 0px;">
-        <div style="border: 1px solid;height: 100%">
+       <!--  <div style="border: 1px solid;height: 100%">
           <div class="text-center"  style="font-size: 20px;font-weight: bold;border-bottom:1px solid;height:35px;"><b>Sensory Examination</b></div>
         <canvas id="neuro_signature-pad1" height="100%" width="100%" style="background: url('/assets/img/froms/examination_small_2.png') no-repeat; max-width:100%; max-height:100%;width: 90%;height:85%"></canvas>
-      </div>
-
+      </div> -->
+        <div class="col-md-6">
+          <label for="plantars" class="control-label">Sensory Examination : </label>
+        </div>
+        <div class="col-md-6">
+          <textarea  class="form-control"  id="sensory_examination" name="sensory_examination" value="" v-model="neuroExaminationData.sensory_examination"></textarea>
+        </div>
       </div>
     </div>
-
     <hr />
 
     <div class="row">
@@ -248,9 +258,12 @@
                   'cerebellar' : '',
                   'neck_stiffness' : '',
                   'diagnosis' : '',
+                  'motor_examination' : '',
+                  'sensory_examination' : '',
                   'signaturePad1':{},
                   'signaturePad2':{},
                   'signaturePad3':{},
+
                   'follow_up':''
 
 
@@ -341,30 +354,30 @@
 			   },
       examinationChangeImage() {
             var vm =this;
-            var canvas = document.getElementById("neuro_signature-pad");
-            var canvas1 = document.getElementById("neuro_signature-pad1");
-            // var canvas2 = document.getElementById("doc_signature");
+            // var canvas = document.getElementById("neuro_signature-pad");
+            // var canvas1 = document.getElementById("neuro_signature-pad1");
+            // // var canvas2 = document.getElementById("doc_signature");
 
-            var clear_neuro_scribble = document.getElementById("clear_doctor_signature");
+            // var clear_neuro_scribble = document.getElementById("clear_doctor_signature");
             // var clear_neuro_scribble1 = document.getElementById("clear_neuro_scribble");
 
 
-            vm.neuroExaminationData.signaturePad1 = new SignaturePad(canvas, {
-              backgroundColor: 'rgb(255, 255, 255)',
-            });
-            vm.neuroExaminationData.signaturePad2 = new SignaturePad(canvas1, {
-              backgroundColor: 'rgb(255, 255, 255)',
-            });
+            // vm.neuroExaminationData.signaturePad1 = new SignaturePad(canvas, {
+            //   backgroundColor: 'rgb(255, 255, 255)',
+            // });
+            // vm.neuroExaminationData.signaturePad2 = new SignaturePad(canvas1, {
+            //   backgroundColor: 'rgb(255, 255, 255)',
+            // });
             // vm.neuroExaminationData.signaturePad3 = new SignaturePad(canvas2, {
             //   backgroundColor: 'rgb(255, 255, 255)',
             // });
-            window.onresize = vm.resizeCanvas;
-            vm.resizeCanvas(canvas);
-            vm.resizeCanvas(canvas1);
+            // window.onresize = vm.resizeCanvas;
+            // vm.resizeCanvas(canvas);
+            // vm.resizeCanvas(canvas1);
             // vm.resizeCanvas(canvas2);
-            clear_neuro_scribble.addEventListener("click", function (event) {
-              vm.neuroExaminationData.signaturePad3.clear();
-            });
+            // clear_neuro_scribble.addEventListener("click", function (event) {
+            //   vm.neuroExaminationData.signaturePad3.clear();
+            // });
               // if (signaturePad.isEmpty()) {
               //   alert("Please provide a signature first.");
               // } else {resizeCanvas

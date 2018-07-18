@@ -396,14 +396,14 @@
                   
                 </div>
               </div>
-                <div class="col-md-6" v-show="resultData.type == 'X-Rays'">
+              <!--   <div class="col-md-6" v-show="resultData.type == 'X-Rays'">
                   <div class="col-md-12">
                     <label> Select Type:</label>
                     <select class="form-control ls-select2" id="xray_type_opd" name="xray_type_opd" v-model="resultData.x_ray_type">
                       <option v-for="type in investigationData.xray_type_options" :value="type.value">{{type.text}}</option>
                     </select>
                   </div>
-                </div>
+                </div> -->
               <!-- </div>  -->
             </div>
             <div class="row form-group">
@@ -636,10 +636,10 @@
                       {text:'Tumor protocol',value:'tumor_protocol'}
                   ],
                   'X-Rays':'',
-                  'xray_type_options': [
-                      {text:'Fixed',value:'fixed','selected':true},
-                      {text:'Portable',value:'portable','selected':false}
-                  ],
+                  // 'xray_type_options': [
+                  //     {text:'Fixed',value:'fixed','selected':true},
+                  //     {text:'Portable',value:'portable','selected':false}
+                  // ],
                   'X-Rays_options':[
                       {text:'',value:''},
                       {text:'HIP',value:'hip'},
@@ -722,7 +722,7 @@
                     'bodyPart':'',
                     'qualifierPart':'',
                     'type': '',
-                    'x_ray_type':'fixed',
+                    // 'x_ray_type':'fixed',
                     'spine_option_value':'',
                     'subType': '',
                     'qualifier':'',
@@ -794,9 +794,6 @@
                 'laboratory_report_opd':{},
                 'select_type':'',
                 'select_value':'',
-                
-                
-
               }
             }
         }, 
@@ -963,9 +960,9 @@
             else if(this.id == 'body_fluid_analysis_opd'){
               vm.opdData.body_fluid_analysis_report_opd = $(this).val(); 
             }
-            else if(this.id == 'xray_type_opd'){
-              vm.resultData.x_ray_type = $(this).val(); 
-            }
+            // else if(this.id == 'xray_type_opd'){
+            //   vm.resultData.x_ray_type = $(this).val(); 
+            // }
             else if(this.id == 'opd_no')
             {
                  let opdID = $(this).val();
@@ -1268,7 +1265,7 @@
                     'uploadType':'image',
                     'bodyPart':'',
                     'type': '',
-                    'x_ray_type':'fixed',
+                    // 'x_ray_type':'fixed',
                     'spine_option_value':'',
                     'subType': '',
                     'qualifier':'',

@@ -213,11 +213,6 @@
 					</div>
 				</div>
            	</div>
-           
-             
-               
-                 
-
                 <div class="row form-group">
                 	<div class="col-md-6">
 			        	<div class="col-md-6">
@@ -279,10 +274,10 @@
                 'deleteConfirmMsg': 'Are you sure you would like to delete this referee? All information associated with this referee will be permanently deleted.',
                 'userlistData':{},
                 timeoption: {
-			        type: 'fromto',
+			        type: 'min',
 			        week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
 			        month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-			        format: 'YYYY-MM-DD  H:mm:ss',
+			        format: 'DD-MM-YYYY  H:mm:ss',
 			        placeholder: 'when?',
 			        inputStyle: {
 			          'display': 'inline-block',
@@ -299,7 +294,7 @@
                     type: 'day',
                     week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
                     month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                    format: 'YYYY-MM-DD',
+                    format: 'DD-MM-YYYY',
                     placeholder: 'Select Date',
                     inputStyle: {
                         'display': 'inline-block',
@@ -469,7 +464,7 @@
 				   		
 				      if (this.isDate(this.patientData.dob.time)) { 
 				        var ageCal = this.calculateAge(this.parseDate(this.patientData.dob.time), new Date());	
-				       
+				     
 				      	//$("#age").html(age); 
 				      	this.patientData.age = ageCal; 	
 				      }     	
@@ -478,10 +473,9 @@
 	
 				//convert the date string in the format of dd/mm/yyyy into a JS date object	
 				parseDate(dateStr) {
-				 
 				  var dateParts = dateStr.split("-");	
 				
-				  return new Date(dateParts[0], (dateParts[1] - 1), dateParts[2]);	
+				   return new Date(dateParts[2], (dateParts[1] - 1), dateParts[0]);		
 				},	
 	
 				//is valid date format	
@@ -521,18 +515,18 @@
 
 				  if (currVal == '')	
 				    return true;	
-					
+
 				  //Declare Regex	
-				  var rxDatePattern = /^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/;	
+				  var rxDatePattern = /^(\d{1,2})(\/|-)(\d{1,2})(\/|-)(\d{4})$/;	
 				  var dtArray = currVal.match(rxDatePattern); // is format OK?	
 					 
 				  if (dtArray == null)	
 				    return false;	
 	
 				  //Checks for dd/mm/yyyy format.	
-				  var dtDay = dtArray[5];	
+				  var dtDay = dtArray[1];	
 				  var dtMonth = dtArray[3];	
-				  var dtYear = dtArray[1];	
+				  var dtYear = dtArray[5];	
 					
 				  if (dtMonth < 1 || dtMonth > 12)	 
 				    return false;	

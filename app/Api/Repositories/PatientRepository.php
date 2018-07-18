@@ -13,6 +13,10 @@
  class PatientRepository 
  {
 
+    public function __construct(){
+        $this->patientDetailObj = new PatientDetailsForm();
+    }
+
  	public function patient_add($request) 	
  	{
  		$data = $request->all()['patientData']['patientData'];
@@ -47,12 +51,12 @@
         	}
         	
         }
-        
+      
         /*patient details*/
         $patientData->first_name=$data['fname'];
 		$patientData->middle_name=$data['mname'];
 		$patientData->last_name=$data['lname'];
-        $patientData->dob=  $data['dob']['time'];
+        $patientData->dob= $this->patientDetailObj->setDobDateAttribute($data['dob']['time']);
 		$patientData->gender=$data['gender'];
         $patientData->age=$data['age'];
         $patientData->type=$data['type'];
@@ -63,7 +67,7 @@
 		$patientData->consultant_id=$data['consulting_dr'];
 		$patientData->consultant=$data['consulting_dr'];
 		$patientData->case_type=$data['case'];
-		$patientData->appointment_datetime=$data['appointment_datetime']['time']; 
+		$patientData->appointment_datetime=$this->patientDetailObj->setDateTimeAttribute($data['appointment_datetime']['time']); 
 		/*for patient details end*/
 
         if($data['case'] == 'new') {

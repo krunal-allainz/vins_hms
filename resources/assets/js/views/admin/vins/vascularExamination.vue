@@ -135,11 +135,19 @@
           </label>
         </div>
       </div>
-
       <hr />
       <div class="row form-group" >
-        <div class="col-md-4">
-        <canvas id="vasc_signature-pad1" height="300" width="600" style="background: url('/assets/img/froms/varicose_vein_1_small_new.png') no-repeat; max-width:100%; max-height:100%;"></canvas>
+          <div class="col-md-4">
+            <textarea  class="form-control"  id="vasculartext1" name="vasculartext1" value="" v-model="vascularExaminationData.vasculartext1"  ></textarea>
+          </div>
+           <div class="col-md-4">
+             <textarea  class="form-control"  id="vasculartext2" name="vasculartext2" value="" v-model="vascularExaminationData.vasculartext2"  ></textarea>
+          </div>
+          <div class="col-md-4">
+             <textarea  class="form-control"  id="vasculartext3" name="vasculartext3" value="" v-model="vascularExaminationData.vasculartext3"  ></textarea>
+          </div>
+       <!--   <div class="col-md-4">
+       <canvas id="vasc_signature-pad1" height="300" width="600" style="background: url('/assets/img/froms/varicose_vein_1_small_new.png') no-repeat; max-width:100%; max-height:100%;"></canvas>
               <div><button type="button" id="clear_vasc_signature" class="btn btn-sm btn-danger">Clear</button></div>
       </div>
        <div class="col-md-4">
@@ -151,7 +159,7 @@
         <canvas id="vasc_signature-pad3" height="300" width="600" style="background: url('/assets/img/froms/varicose_vein_3_small_new.png') no-repeat; max-width:100%; max-height:100%;"></canvas>
               <div><button type="button" id="clear_vasc_signature2" class="btn btn-sm btn-danger">Clear</button></div>
        
-      </div>
+      </div> -->
     </div>
 
       <div class="row form-group">
@@ -234,6 +242,9 @@
                   'both' : '',
                   'ipv' : '',
                   'clinical_diagnosis' : '',
+                  'vasculartext1' : '',
+                  'vasculartext2' : '',
+                  'vasculartext3' : '',
                   'signaturePad1':{},
                   'signaturePad2':{},
                   'signaturePad3':{},
