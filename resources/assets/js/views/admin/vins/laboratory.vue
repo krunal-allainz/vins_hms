@@ -198,7 +198,7 @@
                 },
                 'laboratoryData': {
                 	'checkboxList':[],
-                	'laboratory_report':[],
+                	'laboratory_report':{},
                 	'laboratory_report_val':[],
                 	'lab_date':{
                         time:''
@@ -267,20 +267,29 @@
 	        /*for lab data start*/
 	        
 			$('#laboratory_report').on("select2:select", function (e) {
-              // vm.labDataDetails($(this).val());
-                // var labData = $('#laboratory_report').select2('data');
-                // labData['lab_time'] = labItem;
-                vm.laboratoryData.laboratory_report=$('#laboratory_report').select2('data');
+            var labDataRes = $('#laboratory_report').select2('data');
+                var labRes = [];
+                _.forEach( $('#laboratory_report').select2('data'), function(rep,index) {
+                    let labFind = false;
+                    _.find(vm.laboratoryData.laboratory_report, function(res) {
+                        if(res.id == rep.id){
+                            labRes.push(res);
+                            labFind = true;
+                            return false;
+                        } 
+                    });
+                    if(labFind == false) {
+                        labRes.push({'assign':'','id':rep.id,'lab_date':rep.lab_date,'result':'','text':rep.text});
+                    }
+                });
+                vm.laboratoryData.laboratory_report= labRes;
             	vm.setLabData();
             });
 			$('#laboratory_report').on("select2:unselect", function (e) {
                  
-                vm.laboratoryData.laboratory_report=$('#laboratory_report').select2('data');
+                vm.laboratoryData.laboratory_report =  _.cloneDeep($('#laboratory_report').select2('data'));
                 vm.saveLaboratoryTable();
 
-
-				 // $('#lab_div_'+unselected_value).remove();
-				 // $('#lab_tr_'+unselected_value).remove();
 			}).trigger('change');
 
 			/*for lab data end*/
@@ -329,7 +338,6 @@
         	getDynamicTextBox(value)
         	{
         		var lab_name= $("#laboratory_report option[value='"+value+"']").text();
-        		// let lab_data='<div id="lab_div_'+value+'"> <div class="row form-group"> <div class="col-md-3"> <div class="col-md-12"> <label class="control-label" for="label_1">Name </label> </div> <div class="col-md-12"> <input type="text"  name="lab_name[]" id="lab_name_id" value="'+lab_name+'" class="form-control lab_name" readonly="readonly"> </div> </div> <div class="col-md-3"> <div class="col-md-12"> <label class="control-label" for="label_1">Date </label> </div> <div class="col-md-12"> <date-picker :date.sync="laboratoryData.lab_date"  :option="option" id = "lab_date_id" class="lab_date" type="text" name="lab_date[]" :limit="limit"></date-picker> </div> </div> <div class="col-md-3"> <div class="col-md-12"> <label class="control-label" for="label_1">Result </label> </div> <div class="col-md-12"> <input type="text"   name="lab_result[]" id="lab_result_id" class="form-control lab_result" > </div> </div> <div class="col-md-3"> <div class="col-md-12"> <label class="control-label" for="label_1">Assign Dr </label> </div> <div class="col-md-12"> <input type="text" name="lab_assign_dr[]"   id="lab_assign_dr_id" class="form-control lab_assign_dr" v-model="opdData.lab_assign_dr"> </div> </div>  </div>'; return lab_data; 
         	},
         	 saveLaboratoryTable() {
              	let vm =this;
@@ -337,25 +345,27 @@
                     (response) => {
                     // vm.priscriptionAdd = vm.finalPrescriptionData.length;
                     if (!this.errors.any()) {
-                        vm.finalLaboratoryData = _.cloneDeep(vm.laboratoryData.laboratory_report);
-                        // vm.laboratoryData.labFinalData = _.cloneDeep(vm.finalLaboratoryData);
+
+                        vm.finalLaboratoryData =  _.cloneDeep(vm.laboratoryData.laboratory_report);
+
                     }
                 },
                 (error) => {
                 }
                 )
+
           },
-          removeLaboratory(did) {
-                let vm =this;
-                _.find(vm.finalLaboratoryData, function(res) {
-                    if(res.id == did) {
-                      var index = vm.finalLaboratoryData.indexOf(res);
-                      vm.finalLaboratoryData.splice(index, 1);
-                      $('#lab_div_'+res.id).remove();
-                      //$('#laboratory_report').select2('val', res.id);
-                    }
-                });
-          },
+         // removeLaboratory(did) {
+          //       let vm =this;
+          //       _.find(vm.finalLaboratoryData, function(res) {
+          //           if(res.id == did) {
+          //             var index = vm.finalLaboratoryData.indexOf(res);
+          //             vm.finalLaboratoryData.splice(index, 1);
+          //             $('#lab_div_'+res.id).remove();
+          //             //$('#laboratory_report').select2('val', res.id);
+          //           }
+          //       });
+          // },
 			prev() {
               let vm =this;
 			vm.$store.dispatch('saveLabReportData',vm.finalLaboratoryData);
@@ -364,10 +374,9 @@
           },
           next() {
 
-          	let vm =this;
-            console.log(vm.finalLaboratoryData,'labdata');
-            let labDataRes =  _.cloneDeep(vm.finalLaboratoryData);
-			vm.$store.dispatch('saveLabReportData',labDataRes);
+            let vm =this;
+			vm.$store.dispatch('saveLabReportData',vm.finalLaboratoryData);
+
           	
               // vm.$root.$emit('next');
 
@@ -382,6 +391,8 @@
           	$('#urine').val(this.$store.state.Patient.laboratoryData.urine_report).trigger('change');
           	$('#csf').val(this.$store.state.Patient.laboratoryData.csf_report).trigger('change');
           	$('#body_fluid_analysis').val(this.$store.state.Patient.laboratoryData.body_fluid_analysis_report).trigger('change');
+            vm.finalLaboratoryData = _.cloneDeep(vm.$store.state.Patient.laboratoryData);
+            vm.laboratoryData.laboratory_report = _.cloneDeep(vm.$store.state.Patient.laboratoryData);
 
 
 
