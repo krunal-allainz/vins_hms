@@ -91,6 +91,7 @@
  		$radiology_data=$request->all()['data']['radioData'];
  		$resultdata=$request->all()['data']['resultData'];
  		$labdata=$request->all()['data']['laboratoryData'];
+ 		$lab_opd_data=$request->all()['data']['opdData']['laboratory_report_opd'];
 
  		if($department=='Vascular')
  		{
@@ -223,20 +224,20 @@
 	 		}
 	 		else if($data['referral']=='laboratory')
 	 		{
-	 			$type=array('blood'=>$data['blood_report_opd'],'urine'=>$data['urine_report_opd'],'bfa'=>$data['body_fluid_analysis_report_opd'],'csf'=>$data['csf_report_opd']);
-	 			
-	 			foreach($type as $key => $value)
+	 			if(!empty($lab_opd_data))
 	 			{
-	 				$lab_obj=new LaboratoryDetails();
-	 				$lab_obj->opd_id=$opd_id_org;
-	 				$lab_obj->user_id=$user_id;
-	 				$lab_obj->lab_type=$key;
-	 				$lab_obj->report=$value;
-	 				$lab_obj->refrences=0;
-	 				$lab_obj->save();
+	 				foreach($lab_opd_data as $lab_opd)
+	 				{
+			 			$lab_obj=new LaboratoryDetails();
+		 				$lab_obj->opd_id=$opd_id_org;
+		 				$lab_obj->user_id=$user_id;
+		 				$lab_obj->laboratory_id=$lab_opd;
+		 				$lab_obj->remove='false';
+		 				$lab_obj->save();
+		 			}
 	 			}
 	 			
-	 			//$reference_obj->lab_id=$lab_obj->id;
+	 			
 	 		}
 	 		$reference_obj->save();
 
@@ -245,26 +246,23 @@
  		/*for form -2 library*/
  		if(!empty($labdata))
  		{
-
- 			if(isset($labdata['blood_report']) && isset($labdata['urine_report']) && isset($labdata['body_fluid_analysis_report']) && isset($labdata['csf_report']))
+ 			//print_r($labdata);exit;
+ 			foreach($labdata['type'] as $lab)
  			{
- 				$type_2=array('blood'=>$labdata['blood_report'],'urine'=>$labdata['urine_report'],'bfa'=>$labdata['body_fluid_analysis_report'],'csf'=>$labdata['csf_report']);
-	 			
-	 			foreach($type_2 as $key => $value)
-	 			{
-	 				if($value!='')
-	 				{
-	 					$lab_obj_2=new LaboratoryDetails();
-		 				$lab_obj_2->opd_id=$opd_id_org;
-		 				$lab_obj_2->user_id=$user_id;
-		 				$lab_obj_2->lab_type=$key;
-		 				$lab_obj_2->report=$value;
-		 				$lab_obj_2->refrences=1;
-		 				$lab_obj_2->save();
-	 				}
-	 				
-	 			}
+ 				
+				$lab_obj_2=new LaboratoryDetails();
+ 				$lab_obj_2->opd_id=$opd_id_org;
+ 				$lab_obj_2->user_id=$user_id;
+ 				$lab_obj_2->laboratory_id=$lab['id'];
+ 				$lab_obj_2->date=Carbon::createFromFormat('d-m-Y', $lab['lab_date']['time'])->format('Y-m-d');
+ 				$lab_obj_2->result=$lab['result'];
+ 				$lab_obj_2->assign_dr=$lab['assign'];
+ 				$lab_obj_2->remove='false';
+ 				$lab_obj_2->save();
+ 				
+ 				
  			}
+ 			
  		}
  		/*for form -2 library*/
 

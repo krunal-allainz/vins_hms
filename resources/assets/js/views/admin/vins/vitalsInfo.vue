@@ -25,40 +25,9 @@
             		</div>
             	</div>
 			 </div>
-			 <div class="row form-group" v-show="patient_select_enable==false">
-           		 <div class="col-md-6" >
-	              	<div class="col-md-6 ">
-	                  <label for="selectType">Select Type:</label>
-	                </div>
-	                <div class="col-md-6">
-	                 <select class="form-control"  placeholder="Please select" id="select_type" name="select_type"  v-model="patientData.select_type">
-	                    <option> Select </option>
-	                    <option value="uhidNo">UHID No.</option>
-	                    <option value="mobileNo">Mobile No.</option>
-	                    <option value="firstName">First Name</option>
-	                    <option value="lastName">Last Name</option>
-	                    <option value="dob">DOB</option>
-	                  </select>
-	             </div>
-	              </div>
-	            <div class="col-md-6">
-	              <div class="col-md-6">
-	                <label>Value:</label>
-	              </div>
-	              <div class="col-md-6" style="display: flex;">
-	                <input class="form-control" type="text" id="select_value" name="select_value" v-model="patientData.select_value" >
-	                  <span  @click="getPatientDetailsBySearch()">
-	                  <i class="fa fa-search fa-2x red m-1" aria-hidden="true" style="cursor: pointer;" title="search"></i>
-	                </span>
-	              </div>
-	           
-          </div>
-      </div>
-            <div class="row form-group" v-if="userlistData.length>0">
-	            <div class="col-md-12">
-	             <userlist :userlistData="userlistData" ></userlist>
-	          </div>
-	       </div>
+       <div v-if="isPatientSearch">
+			   <patientSearch v-show="patient_select_enable==false" ref="opd_form"></patientSearch>
+        </div>
 	        <div class="row form-group">
 	            <div class="col-md-6" v-if="patient_select_enable==true">
 	              <div class="col-md-6">
@@ -235,14 +204,14 @@
 </template>
 <script >
 	import User from '../../../api/users.js';
-	  import userlist from './userlistData.vue';
+	import patientSearch from './patientSearchData.vue';
 	let list=[];
 	 export default {
         data() {
             return {
             	 'user_id':this.$store.state.Users.userDetails.id,
-            	  'userlistData':{},
              	 'patient_select_enable':true,
+               'isPatientSearch':true,
             	 'patientData' : {
             	 	'pain_value':0,
                 	'patient_id':'',
@@ -264,7 +233,7 @@
             }
         },
       components: {
-         userlist,
+         patientSearch,
        },
          mounted(){
 
@@ -341,9 +310,7 @@
 	          		 let opdId = $(this).val();
                 	vm.patientData.opd_id=opdId;
 	          });
-	          $(document).on("select2:select",'#select_type', function (e) {
-                   vm.patientData.select_type=$(this).val();
-          });
+	          
          	},
          computed: {
           bmi_mod() {
@@ -368,7 +335,7 @@
             if(patientData.code==200)
             {
               $('#opd_no').select2('destroy');
-              let pDetails=patientData.data;
+              let pDetails=patientData.searchdata;
               //for opd list
                 this.patientData.uhid_no=pDetails.uhid_no;
                 let opd_list_new=[];
@@ -409,74 +376,39 @@
               this.initPatientData();
             }
           },
-       		getPatientDetailsBySearch(){
-	            var vm =this;
-
-	             if(this.patientData.select_type == '' || this.patientData.select_value == '') {
-	                  toastr.error('Please select search type & value.', 'Search error', {timeOut: 5000});
-	                  return false;
-	             }
-	              $("body .js-loader").removeClass('d-none');
-	             
-	             let patData = {'select_type':this.patientData.select_type,'select_value':this.patientData.select_value,'user_id':0};
-	            User.generatePatientListBySearch(patData).then(
-	                      (response) => {
-	                        $("body .js-loader").addClass('d-none');
-	                        if(response.data.code == 200) {
-	                          let pData = response.data.data;
-	                          vm.userlistData=pData;
-	                        } else if(response.data.code == 300) {
-	                          toastr.error('Record not found', 'Error', {timeOut: 5000});
-	                          
-	                        } else{
-	                          toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
-	                          
-	                        }
-	                         
-	                      },
-	                      (error) => {
-	                         $("body .js-loader").addClass('d-none');
-
-	              });
-	          },
 	       	 patient_select_change(val)
 	          {
-	              this.userlistData={};
+              let vm =this;
+	              vm.userlistData={};
 	              $('#opd_no').val('').trigger('change.select2');
-	              this.patientData.weight="";
-	              this.patientData.height="";
-	              this.patientData.bmi="";
-	              this.patientData.vitals="";
-	              this.patientData.pulse="";
-	              this.patientData.bp_systolic="";
-	              this.patientData.bp_diastolic="";
-	              this.patientData.temp="";
-	              this.patientData.select_value="";
-	              this.patientData.opd_option={};
+                $('#patient').val('').trigger('change.select2');
+	              vm.patientData.weight="";
+	              vm.patientData.height="";
+	              vm.patientData.bmi="";
+	              vm.patientData.vitals="";
+	              vm.patientData.pulse="";
+	              vm.patientData.bp_systolic="";
+	              vm.patientData.bp_diastolic="";
+	              vm.patientData.temp="";
+	              vm.patientData.select_value="";
+	              vm.patientData.opd_option={};
 	              if(val==true)
 	              {
-	                this.patient_select_enable=false;
-	               $('#patient').select2('destroy');
-	                 
-	                 setTimeout(function(){
-
-	                  $('#select_type').select2({
-	                    placeholder: "Select",
-	                    tags:false 
-	                  });
-
-	                },500);
+                  //$('#patient').select2('destroy');
+	                vm.patient_select_enable=false;
 	              }
 	              else
 	              {
-	                this.patient_select_enable=true;
-	                 $('#select_type').select2('destroy');
-	                setTimeout(function(){
-	                  $('#patient').select2({
-	                    placeholder: "Select",
-	                    tags:false 
-	                  });
-	                },500);
+                  vm.isPatientSearch =false;
+                  setTimeout(function(){
+                    vm.isPatientSearch  =true;
+                  },500);
+                  /*$('#patient').select2({
+                    placeholder: "Select",
+                    tags:false 
+                  }); */
+
+	                vm.patient_select_enable=true;
 	              }
 	          },
 	       	 pain_value(pain){

@@ -10,7 +10,7 @@
 
     <form action="" method="post" enctype="multipart/formdata">
       <div v-if="curStep == 1">
-        <div class="row form-group" v-show="patient_select_enable==true">
+        <div class="row form-group" v-if="patient_select_enable==true">
           <div class="col-md-6">
             <div class="col-md-6 ">
               <label for="patient">Select Patient:</label>
@@ -27,42 +27,11 @@
             </div>
           </div>
           </div>
-
-          <div class="row form-group" v-show="patient_select_enable==false">
-            <div class="col-md-6" >
-              <div class="col-md-6 ">
-                  <label for="selectType">Select Type:</label>
-                </div>
-                <div class="col-md-6">
-                  <select class="form-control"  placeholder="Please select" id="select_type" name="select_type"  v-model="opdData.select_type">
-                    <option> Select </option>
-                    <option value="uhidNo">UHID No.</option>
-                    <option value="mobileNo">Mobile No.</option>
-                    <option value="firstName">First Name</option>
-                    <option value="lastName">Last Name</option>
-                    <option value="dob">DOB</option>
-                  </select>
-                  
-                </div>
-            </div>
-            <div class="col-md-6">
-              <div class="col-md-6">
-                <label>Value:</label>
-              </div>
-              <div class="col-md-6" style="display: flex;">
-                <input class="form-control" type="text" id="select_value" name="select_value" v-model="opdData.select_value" >
-                  <span  @click="getPatientDetailsBySearch()">
-                  <i class="fa fa-search fa-2x red m-1" aria-hidden="true" style="cursor: pointer;" title="search"></i>
-                </span>
-                
-              </div>
-            </div>
+          
+          <div v-if="isPatientSearch">
+            <patientSearch v-if="patient_select_enable==false" ref="opd_form"></patientSearch>
           </div>
-           <div class="row form-group" v-if="userlistData.length>0">
-            <div class="col-md-12">
-             <userlist :userlistData="userlistData" ></userlist>
-          </div>
-        </div>
+         
           <div class="row form-group">
             <div class="col-md-6" v-if="patient_select_enable==true">
               <div class="col-md-6">
@@ -534,7 +503,7 @@
             <label class="control-label" for="label_1">Laboratory </label>
           </div>
           <div class="col-md-12">
-              <select class="form-control ls-select2"  id="laboratory_report_opd" name="laboratory_report_opd"  v-model="opdData.laboratory_report_opd">
+             <select class="form-control ls-select2"  id="laboratory_report_opd" name="laboratory_report_opd[]" multiple="multiple">
               </select>
           </div>
         </div>
@@ -596,7 +565,7 @@
   import neuroExamination from './neuroExamination.vue';
   import SignaturePad from 'signature_pad';
   import laboratory from './laboratory.vue';
-  import userlist from './userlistData.vue';
+  import patientSearch from './patientSearchData.vue';
   import prescriptionData from './prescriptionData.vue';
   import _ from 'lodash';
     import card from "./card.vue"
@@ -617,8 +586,8 @@
               'doctor_id':this.$store.state.Users.userDetails.id,
               'department':this.$store.state.Users.userDetails.department,
               'finalResultData':{},
-              'userlistData':{},
               'patient_select_enable':true,
+              'isPatientSearch':true,
               'prescriptionunique' : 0,
               'investigationData':{
                   'radiologyType':[
@@ -817,7 +786,7 @@
          neuroExamination,
          laboratory,
          card,
-         userlist,
+         patientSearch,
        },
         computed: {
           bmi_mod() {
@@ -883,13 +852,17 @@
               (response) => {
                 let lab_data = response.data.data;
                 vm.opdData.laboratoryALLData = lab_data;
+                $('#laboratory_report_opd').select2({data:lab_data});
               },
               (error) => 
               {
               },
             );
 
-           
+           $('#laboratory_report_opd').on("select2:select", function (e) {
+              vm.opdData.laboratory_report_opd=$('#laboratory_report_opd').select2('data');
+              vm.setLabData();
+            });
 
          
           $(document).on("select2:select",'.ls-select2', function (e) { 
@@ -1114,9 +1087,7 @@
             }
 
           });
-          $('#select_type').on("select2:select", function (e) {
-                   vm.opdData.select_type=$(this).val();
-          });
+         
           $('#patient').on("select2:select", function (e) {
                    vm.opdData.patientlist=$(this).val();
           });
@@ -1124,86 +1095,54 @@
             $('#case_type').val('old').trigger('change.select2');
             vm.opdData.case_type = 'old';
           });
-        setTimeout(function(){
-          vm.examinationChangeImage();
-        },500)
+          setTimeout(function(){
+            vm.examinationChangeImage();
+          },500);
+          
+
+
+
         },
         methods: {
           patient_select_change(val)
           {
-              this.userlistData={};
+            let vm =this;
               $('#opd_no').val('').trigger('change.select2');
-              this.opdData.uhid_no="";
-              this.opdData.weight="";
-              this.opdData.height="";
-              this.opdData.bmi="";
-              this.opdData.vitals="";
-              this.opdData.pulse="";
-              this.opdData.bp_systolic="";
-              this.opdData.bp_diastolic="";
-              this.opdData.temp="";
-              this.opdData.select_value="";
-              this.opdData.opd_option={};
+              //$('#patient').select2('destroy');
+             //$('#patient').val('').trigger('change.select2');
+              vm.opdData.uhid_no="";
+              vm.opdData.weight="";
+              vm.opdData.height="";
+              vm.opdData.bmi="";
+              vm.opdData.vitals="";
+              vm.opdData.pulse="";
+              vm.opdData.bp_systolic="";
+              vm.opdData.bp_diastolic="";
+              vm.opdData.temp="";
+              vm.opdData.select_value="";
+              vm.opdData.opd_option={};
               if(val==true)
               {
-                this.patient_select_enable=false;
-               $('#patient').select2('destroy');
-                 
-                 setTimeout(function(){
-
-                  $('#select_type').select2({
-                    placeholder: "Select",
-                    tags:false 
-                  });
-
-                },500);
                 
-              
+                vm.patient_select_enable=false;
               }
               else
               {
-                this.patient_select_enable=true;
-                 $('#select_type').select2('destroy');
                 setTimeout(function(){
-                  $('#patient').select2({
+                $('#patient').select2({
                     placeholder: "Select",
                     tags:false 
                   });
+                 },500);
+                vm.isPatientSearch =false;
+                setTimeout(function(){
+                  vm.isPatientSearch  =true;
                 },500);
+                vm.patient_select_enable=true;
               }
 
           },
-          getPatientDetailsBySearch(){
-            var vm =this;
-            
-             if(this.opdData.select_type == '' || this.opdData.select_value == '') {
-                  toastr.error('Please select search type & value.', 'Search error', {timeOut: 5000});
-                  return false;
-             }
-              $("body .js-loader").removeClass('d-none');
-             
-             let patData = {'select_type':this.opdData.select_type,'select_value':this.opdData.select_value,'user_id':this.doctor_id};
-            User.generatePatientListBySearch(patData).then(
-                      (response) => {
-                        $("body .js-loader").addClass('d-none');
-                        if(response.data.code == 200) {
-                          let pData = response.data.data;
-                          vm.userlistData=pData;
-                        } else if(response.data.code == 300) {
-                          toastr.error('Record not found', 'Error', {timeOut: 5000});
-                          
-                        } else{
-                          toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
-                          
-                        }
-                         
-                      },
-                      (error) => {
-                         $("body .js-loader").addClass('d-none');
-
-              });
-          },
-            pain_value(pain){
+          pain_value(pain){
             this.opdData.pain_value = pain;
           },
           setPatientData(patientData) {
@@ -1211,7 +1150,7 @@
             if(patientData.code==200)
             {
               $('#opd_no').select2('destroy');
-              let pDetails=patientData.data;
+              let pDetails=patientData.searchdata;
               //for opd list
                 this.opdData.uhid_no=pDetails.uhid_no;
                 let opd_list_new=[];

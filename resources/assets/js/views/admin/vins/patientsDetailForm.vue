@@ -38,47 +38,9 @@
 				    </div>
 			    </div>
       		</div>
-      		<div class="row form-group" v-if="patientData.case == 'old'" >
-      			<div class="col-md-6" >
-		        	<div class="col-md-6 ">
-		            	<label for="selectType">Select Type:</label>
-		          	</div>
-		          	<div class="col-md-6">
-		          		<select class="form-control ls-select2" v-validate="'required'" placeholder="Please select" id="select_type" name="select_type" v-model="patientData.select_type">
-		          			<option> Select </option>
-		          			<option value="uhidNo">UHID No.</option>
-		          			<option value="mobileNo">Mobile No.</option>
-		          			<option value="firstName">First Name</option>
-		          			<option value="lastName">Last Name</option>
-		          			<option value="dob">DOB</option>
-		          		</select>
-		          		<i v-show="errors.has('select_type')" class="fa fa-warning"></i>
-		            	<span class="help is-danger" v-show="errors.has('select_type')">
-		              		Please select  search type.
-		            	</span>
-		          	</div>
-		        </div>
-		        <div class="col-md-6">
-		        	<div class="col-md-6">
-		        		<label>Value:</label>
-		        	</div>
-		        	<div class="col-md-6" style="display: flex;">
-		        		<input class="form-control" type="text" id="select_value" name="select_value" v-model="patientData.select_value" v-validate="'required'">
-		            	<span  @click="getPatientDetailsBySearch()">
-			        		<i class="fa fa-search fa-2x red m-1" aria-hidden="true" style="cursor: pointer;" title="search"></i>
-			        	</span>
-			        	<i v-show="errors.has('select_value')" class="fa fa-warning"></i>
-		               	<span class="help is-danger" v-show="errors.has('select_value')">
-		              		Please enter valid value.
-		            	</span>
-		        	</div>
-		        </div>
-      		</div>
-      		 <div class="row form-group" v-if="userlistData.length>0">
-			    <div class="col-md-12">
-			   		 <userlist :userlistData="userlistData" ></userlist>
-			    </div>
-			  </div>    
+      		
+      		<patientSearch v-if="patientData.case == 'old'" ref="patientDetailForm"></patientSearch>
+      		
       		<div>
       			<div class="row form-group">
 	      			<div class="col-md-6">
@@ -265,7 +227,7 @@
 //});
 	import User from '../../../api/users.js';
   	import myDatepicker from 'vue-datepicker';
-  	import userlist from './userlistData.vue';
+  	import patientSearch from './patientSearchData.vue';
   	/*for consulting dr */
   	let consult_list=[];
 
@@ -276,7 +238,6 @@
                 'currentYear': new Date().getFullYear(),
 				'patient_type_option': [{id:'opd',text:'OPD'}, {id:'ipd',text:'IPD'}] ,
                 'deleteConfirmMsg': 'Are you sure you would like to delete this referee? All information associated with this referee will be permanently deleted.',
-                'userlistData':{},
                 timeoption: {
 			        type: 'min',
 			        week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
@@ -298,7 +259,7 @@
                     type: 'day',
                     week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
                     month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                    format: 'YYYY-MM-DD',
+                    format: 'DD-MM-YYYY',
                     placeholder: 'Select Date',
                     inputStyle: {
                         'display': 'inline-block',
@@ -327,8 +288,6 @@
                 'patientData' : {
                 	'case': '',
                 	'type' : '',
-                	'select_type': '',
-                	'select_value':'',
                 	'fname':'',
                 	'dob': {
                 		time:''
@@ -345,13 +304,15 @@
                 	'age' : '',
                 	'appointment_datetime': {
                 		time:''
-                	}
+                	},
+                	'select_type':'',
+                	'select_value':''
                 }
             }
         },
         components: {
         	'date-picker': myDatepicker,
-        	userlist
+        	patientSearch
         },
         mounted() {
 				$('.ls-select2').select2({
@@ -364,28 +325,9 @@
 		             	vm.patientData.case = $(this).val();
 		             	if($(this).val()=='new')		
 		             	{
-		             		vm.userlistData={};
+		             		//vm.userlistData={};
 		             		vm.initPatientData();
 		             	}
-		             	else
-		             	{
-		             		setTimeout(function(){
-		             			$('#select_type').select2({
-									placeholder: "Select",
-									tags: false,
-								});
-
-		             			$('#select_type').on("select2:select", function (e) {
-		             				vm.patientData.select_type=$(this).val();
-		             			});
-
-		             		},1000);
-
-		             	}	
-		             }
-		             else if(this.id == 'select_type'){
-
-		             	vm.patientData.select_type = $(this).val();
 		             }
 		             else if(this.id == 'gender') {
 		             	vm.patientData.gender = $(this).val();		
@@ -416,14 +358,21 @@
         },
         created: function(){
         	this.$root.$on('patientData',this.setPatientData);
+        	this.$root.$on('patientEmpty',this.patientEmpty);
         },
         methods: {
+        	patientEmpty(p_val)
+        	{
+        		this.initPatientData();
+        	},
         	  getAgeCal () { 
         	  	let vm =this;;
 		        vm.handleDOBChanged();
 		      },
 		      getBirthYear(){ 
+
 		      	 let getYearForage = 0;
+
 		      	if(this.patientData.dob.time == ''){
 		      		let patientAge = this.patientData.age;
 		      	     getYearForage =   this.currentYear - patientAge - 1;
@@ -434,7 +383,9 @@
         	setPatientData(patientData) {
         		if(patientData.code==200)
         		{
-        			let pDetails=patientData.data;
+        			let pDetails=patientData.searchdata;
+        			this.patientData.select_type = patientData.select_type;
+        			this.patientData.select_value = patientData.select_value;
         			this.patientData.fname = pDetails.first_name;
             		this.patientData.mname = pDetails.middle_name;
             		this.patientData.lname = pDetails.last_name;
@@ -448,14 +399,17 @@
             		this.patientData.consulting_dr = pDetails.consultant_id;
             		$('#gender').val(pDetails.gender).change();
             		$('#consulting_dr').val(pDetails.consultant_id).change();
+            		this.getAgeCal();
         		}
         		else if(patientData.code==300)
         		{
+        			vm.userlistData={};
         			toastr.error('Record not found', 'Error', {timeOut: 5000});
         			this.initPatientData();
         		}
         		else
         		{
+        			vm.userlistData={};
         			toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
         			this.initPatientData();
         		}
@@ -465,8 +419,9 @@
 		    },
 		    handleDOBChanged() { 	
 				   // $('#dob').on('change', function () {	
-				   		
+				   		console.log(this.isDate(this.patientData.dob.time));
 				      if (this.isDate(this.patientData.dob.time)) { 
+
 				        var ageCal = this.calculateAge(this.parseDate(this.patientData.dob.time), new Date());	
 				       
 				      	//$("#age").html(age); 
@@ -576,47 +531,7 @@
 		    	$("#consulting_dr").val('').trigger('change.select2');
 		    },
 		    deleteConfirmed() {
-
-		        // Tournament.removeReferee(this.refereeId).then(
-		        //   (response) => {
-		        //        toastr['success']('Referee has been removed successfully', 'Success');
-		        //        $('#delete_modal').modal('hide')
-		        //        $('#refreesModal').modal('hide')
-		        //         this.$store.dispatch('getAllReferee',this.$store.state.Tournament.tournamentId);
-		        //        // this.$root.$emit('setRefereeReset')
-		        //        // this.$root.$emit('setPitchPlanTab','refereeTab')
-		        //   }
-		        //   )
 		      },
-		     getPatientDetailsBySearch(){
-		     	var vm =this;
-		     	
-		     	 if(this.patientData.select_type == '' || this.patientData.select_value == '') {
-		            toastr.error('Please select search type & value.', 'Search error', {timeOut: 5000});
-		            return false;
-		     	 }
-		     	  $("body .js-loader").removeClass('d-none');
-		     	 
-		     	 let patData = {'select_type':this.patientData.select_type,'select_value':this.patientData.select_value,'user_id':0};
-				User.generatePatientListBySearch(patData).then(
-		                (response) => {
-		                	if(response.data.code == 200) {
-		                		let pData = response.data.data;
-		                		vm.userlistData=pData;
-		                	} else if(response.data.code == 300) {
-		                		toastr.error('Record not found', 'Error', {timeOut: 5000});
-		                		vm.initPatientData();
-		                	} else{
-		                	 	toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
-		                		vm.initPatientData();
-		                	}
-		                	 $("body .js-loader").addClass('d-none');
-		                },
-		                (error) => {
-		                	 $("body .js-loader").addClass('d-none');
-
-		        })
-		     },
 		    savePatient() {
 		     	// return false;
 		    	this.$validator.validateAll().then(
