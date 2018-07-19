@@ -175,11 +175,6 @@
 					</div>
 				</div>
            	</div>
-           
-             
-               
-                 
-
                 <div class="row form-group">
                 	<div class="col-md-6">
 			        	<div class="col-md-6">
@@ -197,10 +192,11 @@
                  
                   <div class="col-md-6">
 	                	<div class="col-md-6">
-	                      <label for="appointment_datetime">Appointment Date-time: </label>
+	                      <label for="appointment_datetime">Appointment Date-time:
+	                     </label>
 	                    </div>
 	                    <div class="col-md-6">
-							<date-picker  :date.sync="patientData.appointment_datetime" :option="timeoption" id = "appointment_datetime" class="" type="datetime" name="appointment_datetime" :limit="limit2" v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" ></date-picker> 
+							<date-picker  :date.sync="patientData.appointment_datetime" :option="timeoption" id = "appointment_datetime" class="" type="datetime" name="appointment_datetime"   v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" ></date-picker> 
 							<i v-show="errors.has('appointment_datetime')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('appointment_datetime')">
 		            			Please enter valid appointment datetime.
@@ -227,7 +223,11 @@
 //});
 	import User from '../../../api/users.js';
   	import myDatepicker from 'vue-datepicker';
+// <<<<<<< HEAD
+//   	import userlist from './userlistData.vue';
+  	import moment from 'moment';
   	import patientSearch from './patientSearchData.vue';
+
   	/*for consulting dr */
   	let consult_list=[];
 
@@ -239,10 +239,10 @@
 				'patient_type_option': [{id:'opd',text:'OPD'}, {id:'ipd',text:'IPD'}] ,
                 'deleteConfirmMsg': 'Are you sure you would like to delete this referee? All information associated with this referee will be permanently deleted.',
                 timeoption: {
-			        type: 'min',
+                	type : 'min',
 			        week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
 			        month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-			        format: 'YYYY-MM-DD  H:mm:ss',
+			        format: 'DD-MM-YYYY  H:mm:ss',
 			        placeholder: 'when?',
 			        inputStyle: {
 			          'display': 'inline-block',
@@ -315,6 +315,7 @@
         	patientSearch
         },
         mounted() {
+		       
 				$('.ls-select2').select2({
 					placeholder: "Select",
 					tags: false,
@@ -343,7 +344,7 @@
 
 			/*for consulting dr */
 
-				    User.generateUserDetailsByType('All','Active').then(
+				    User.generateUserDetailsByType(1,'Active').then(
 				    	 (response) => {
 	               	 		let consult_data  = response.data.data;
 	               	 		$.each(consult_data, function(key, value) {
@@ -361,10 +362,16 @@
         	this.$root.$on('patientEmpty',this.patientEmpty);
         },
         methods: {
+
+        	 customFormatter(date) {
+		      		return moment(date).format('MMMM Do YYYY, h:mm:ss a');
+		    	},
+
         	patientEmpty(p_val)
         	{
         		this.initPatientData();
         	},
+
         	  getAgeCal () { 
         	  	let vm =this;;
 		        vm.handleDOBChanged();
@@ -423,7 +430,7 @@
 				      if (this.isDate(this.patientData.dob.time)) { 
 
 				        var ageCal = this.calculateAge(this.parseDate(this.patientData.dob.time), new Date());	
-				       
+				     
 				      	//$("#age").html(age); 
 				      	this.patientData.age = ageCal; 	
 				      }     	
@@ -432,10 +439,9 @@
 	
 				//convert the date string in the format of dd/mm/yyyy into a JS date object	
 				parseDate(dateStr) {
-				 
 				  var dateParts = dateStr.split("-");	
 				
-				  return new Date(dateParts[0], (dateParts[1] - 1), dateParts[2]);	
+				   return new Date(dateParts[2], (dateParts[1] - 1), dateParts[0]);		
 				},	
 	
 				//is valid date format	
@@ -475,18 +481,18 @@
 
 				  if (currVal == '')	
 				    return true;	
-					
+
 				  //Declare Regex	
-				  var rxDatePattern = /^(\d{4})(\/|-)(\d{1,2})(\/|-)(\d{1,2})$/;	
+				  var rxDatePattern = /^(\d{1,2})(\/|-)(\d{1,2})(\/|-)(\d{4})$/;	
 				  var dtArray = currVal.match(rxDatePattern); // is format OK?	
 					 
 				  if (dtArray == null)	
 				    return false;	
 	
 				  //Checks for dd/mm/yyyy format.	
-				  var dtDay = dtArray[5];	
+				  var dtDay = dtArray[1];	
 				  var dtMonth = dtArray[3];	
-				  var dtYear = dtArray[1];	
+				  var dtYear = dtArray[5];	
 					
 				  if (dtMonth < 1 || dtMonth > 12)	 
 				    return false;	

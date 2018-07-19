@@ -25,9 +25,45 @@
             		</div>
             	</div>
 			 </div>
+<!-- <<<<<<< HEAD
+			 <div class="row form-group" v-show="patient_select_enable==false">
+           		 <div class="col-md-6" >
+	              	<div class="col-md-6 ">
+	                  <label for="selectType">Select Type:</label>
+	                </div>
+	                <div class="col-md-6">
+	                 <select class="form-control"  placeholder="Please select" id="select_type" name="select_type"  v-model="patientData.select_type">
+	                    <option> Select </option>
+	                    <option value="uhidNo">UHID No.</option>
+	                    <option value="mobileNo">Mobile No.</option>
+	                    <option value="firstName">First Name</option>
+	                    <option value="lastName">Last Name</option>
+	                    <option value="dob">DOB</option>
+	                  </select>
+	             </div>
+	              </div>
+	            <div class="col-md-6">
+	              <div class="col-md-6">
+	                <label>Value:</label>
+	              </div>
+	              <div class="col-md-6" style="display: flex;">
+	                <input class="form-control" type="text" id="select_value" name="select_value" v-model="patientData.select_value" >
+	                  <span  @click="getPatientDetailsBySearch()">
+	                  <i class="fa fa-search fa-2x red m-1" aria-hidden="true" style="cursor: pointer;" title="search"></i>
+	                </span>
+	              </div>
+          </div>
+      </div>
+            <div class="row form-group" v-if="userlistData.length>0">
+	            <div class="col-md-12">
+	             <userlist :userlistData="userlistData" ></userlist>
+	          </div>
+	       </div>
+======= -->
        <div v-if="isPatientSearch">
 			   <patientSearch v-show="patient_select_enable==false" ref="opd_form"></patientSearch>
         </div>
+
 	        <div class="row form-group">
 	            <div class="col-md-6" v-if="patient_select_enable==true">
 	              <div class="col-md-6">

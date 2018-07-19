@@ -206,7 +206,8 @@
 	 			$radiology_obj->referance=0;
 	 			if($resultdata['type']=='X-Rays')
 	 			{
-	 				$radiology_obj->subtype=$resultdata['x_ray_type'];
+	 				// $radiology_obj->subtype=$resultdata['x_ray_type'];
+	 				$radiology_obj->subtype = '';
 	 			}
 	 			else if($resultdata['type']=='MRI')
 	 			{
@@ -282,7 +283,8 @@
 	 			$image_data=$r_data['imgData'];
 	 			if($r_data['type']=='X-Rays')
 	 			{
-	 				$radiology_obj_2->subtype=$r_data['x_ray_type'];
+	 				// $radiology_obj_2->subtype=$r_data['x_ray_type'];
+	 				$radiology_obj_2->subtype = '';
 	 			}
 	 			else if($r_data['type']=='MRI')
 	 			{

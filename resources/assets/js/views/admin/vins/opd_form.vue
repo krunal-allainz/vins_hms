@@ -365,14 +365,14 @@
                   
                 </div>
               </div>
-                <div class="col-md-6" v-show="resultData.type == 'X-Rays'">
+              <!--   <div class="col-md-6" v-show="resultData.type == 'X-Rays'">
                   <div class="col-md-12">
                     <label> Select Type:</label>
                     <select class="form-control ls-select2" id="xray_type_opd" name="xray_type_opd" v-model="resultData.x_ray_type">
                       <option v-for="type in investigationData.xray_type_options" :value="type.value">{{type.text}}</option>
                     </select>
                   </div>
-                </div>
+                </div> -->
               <!-- </div>  -->
             </div>
             <div class="row form-group">
@@ -523,17 +523,7 @@
       <div class="col-md-2" @click="pain_value(8)"><img src="/assets/img/pain/P5.png"   v-bind:class="[opdData.pain_value==8 ? 'pain_select': '', 'pain_img'  ]"></div>
       <div class="col-md-2" @click="pain_value(10)"><img src="/assets/img/pain/P6.png"   v-bind:class="[opdData.pain_value==10 ? 'pain_select': '', 'pain_img'  ]"></div>
     </div>
-
-
-
-
       </div>
-
-        
-    
-       
-      
-       
       <div class="row" v-if="curStep == 2"> 
           <laboratory :labData="opdData.laboratoryALLData" ></laboratory>
         </div>
@@ -615,10 +605,10 @@
                       {text:'Tumor protocol',value:'tumor_protocol'}
                   ],
                   'X-Rays':'',
-                  'xray_type_options': [
-                      {text:'Fixed',value:'fixed','selected':true},
-                      {text:'Portable',value:'portable','selected':false}
-                  ],
+                  // 'xray_type_options': [
+                  //     {text:'Fixed',value:'fixed','selected':true},
+                  //     {text:'Portable',value:'portable','selected':false}
+                  // ],
                   'X-Rays_options':[
                       {text:'',value:''},
                       {text:'HIP',value:'hip'},
@@ -701,7 +691,7 @@
                     'bodyPart':'',
                     'qualifierPart':'',
                     'type': '',
-                    'x_ray_type':'fixed',
+                    // 'x_ray_type':'fixed',
                     'spine_option_value':'',
                     'subType': '',
                     'qualifier':'',
@@ -773,9 +763,6 @@
                 'laboratory_report_opd':{},
                 'select_type':'',
                 'select_value':'',
-                
-                
-
               }
             }
         }, 
@@ -946,9 +933,9 @@
             else if(this.id == 'body_fluid_analysis_opd'){
               vm.opdData.body_fluid_analysis_report_opd = $(this).val(); 
             }
-            else if(this.id == 'xray_type_opd'){
-              vm.resultData.x_ray_type = $(this).val(); 
-            }
+            // else if(this.id == 'xray_type_opd'){
+            //   vm.resultData.x_ray_type = $(this).val(); 
+            // }
             else if(this.id == 'opd_no')
             {
                  let opdID = $(this).val();
@@ -1217,7 +1204,7 @@
                     'uploadType':'image',
                     'bodyPart':'',
                     'type': '',
-                    'x_ray_type':'fixed',
+                    // 'x_ray_type':'fixed',
                     'spine_option_value':'',
                     'subType': '',
                     'qualifier':'',
@@ -1350,8 +1337,6 @@
                    var vm=this;
                     this.$store.dispatch('SetDoctorId',vm.doctor_id);
                    let res= vm.$store.dispatch('saveOpdData');
-                  
-
                    if(res=='success')
                    {
                    }
