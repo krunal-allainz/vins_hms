@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
-		<h4>User Result List</h4>
-		   <div class="table-responsive">
+		<h4>Patient List</h4>
+		   <div class="table-responsive" v-if="userlistData.length>0">
 	        <table class="table table-striped table-bordered" id="user_list">
 	            <thead>
 	            <tr>
@@ -15,7 +15,8 @@
 	            </tr>
 	            </thead>
 	            <tbody>
-	             <tr  v-for="(res,index) in userlistData">
+	            	
+	             <tr  v-for="(res,index) in userlistData[0].searchdata">
 	                <td>{{++index}}</td>
 	                <td>{{res.uhid_no }}</td>
 	                <td>{{res.first_name}}</td>
@@ -61,7 +62,8 @@
 		    	{
 		    		User.generatePatientDetailsByID(id).then(
 		                (response) => {
-		                	let pData = response.data;
+		                	//let pData = response.data;
+		                	let pData = {'searchdata':response.data.data,'code':response.data.code,'select_type':this.userlistData[0].select_type,'select_value':this.userlistData[0].select_value};
 		                	this.$root.$emit('patientData',pData);
 		                	 $("body .js-loader").addClass('d-none');
 		                },

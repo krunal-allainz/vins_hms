@@ -52,9 +52,10 @@ class PatientDetailsForm extends Model
 
     public function setDobDateAttribute($value)
     {
-      dd($value);
+      //dd($value);
         $new_val = $value['time']." 00:00:00";
-        $this->attributes['dob'] =   Carbon::createFromFormat('d-m-Y', $value);
+        //$this->attributes['dob'] =   Carbon::createFromFormat('d-m-Y', $value);
+        $this->attributes['dob'] =   Carbon::createFromFormat('Y-m-d', $value);
 
     }
 

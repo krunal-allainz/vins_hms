@@ -17,7 +17,7 @@ const state = {
     'radioData':{},
     'neuroExaminationData':{},
     'vascExaminationData':{},
-    'laboratoryData':[],
+    'laboratoryData':{},
     'saveOpd':false,
     'prescriptionData':{},
 
@@ -146,8 +146,9 @@ const mutations = {
     // console.log(patientData)
       state.vascExaminationData = vascData;
   },
-  [types.SET_LAB_REPORT_DATA](state, laboratoryData){
-      state.laboratoryData = laboratoryData;
+  [types.SET_LAB_REPORT_DATA](state, labData){
+
+      state.laboratoryData = {'type':labData};
   },
     [types.RESET_OPD_FORM] (state) {
     // console.log(patientData)

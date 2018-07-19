@@ -21,7 +21,7 @@ class patientDetailsSeeder extends Seeder
             'first_name' => 'Bob',
             'middle_name' => '',
             'last_name' => 'Marley',
-            'dob' => '10/04/2018',
+            'dob' => '2016-04-02',
             'gender' => 'M',
             'type' => 'opd',
             'age' => '1',

@@ -144,7 +144,7 @@
                 'footer' : 'footer',
                 'currentYear': new Date().getFullYear(),
                 'lab_val_size':0,
-                'finalLaboratoryData':[],
+                'finalLaboratoryData':{},
                 'option': {
                     type: 'day',
                     week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
@@ -206,6 +206,7 @@
                 	'lab_name':[],
                 	'lab_result':[],
                 	'lab_assigning_dr':[],
+                    'labFinalData':[],
                 },
                 'investigationData':{
                 	'radiologyType':[
@@ -277,6 +278,7 @@
                 vm.laboratoryData.laboratory_report=$('#laboratory_report').select2('data');
                 vm.saveLaboratoryTable();
 
+
 				 // $('#lab_div_'+unselected_value).remove();
 				 // $('#lab_tr_'+unselected_value).remove();
 			}).trigger('change');
@@ -302,7 +304,7 @@
                 let vm =this;
                 _.forEach(vm.laboratoryData.laboratory_report, function(rep,index) {
                   let cl = typeof  rep.lab_date;
-                  console.log(cl,'types');
+                  // console.log(cl,'types');
                     if(typeof rep.lab_date === 'undefined' ) {
                         rep['lab_date'] ={'time':''};
                         rep['removed'] = false;
@@ -335,56 +337,13 @@
                     (response) => {
                     // vm.priscriptionAdd = vm.finalPrescriptionData.length;
                     if (!this.errors.any()) {
-                        vm.finalLaboratoryData = vm.laboratoryData.laboratory_report;
+                        vm.finalLaboratoryData = _.cloneDeep(vm.laboratoryData.laboratory_report);
+                        // vm.laboratoryData.labFinalData = _.cloneDeep(vm.finalLaboratoryData);
                     }
                 },
                 (error) => {
                 }
                 )
-    //             let lab_report_array=[];
-    //             lab_report_array=vm.laboratoryData.laboratory_report;
-    //             let i=0;
-    //             //for lab date
-    //             let lab_date_array=[];
-				// $('.lab_date').each(function(){
-				// 		lab_date_array.push($(this).val());
-				// });
-    //     		vm.laboratoryData.lab_date=lab_date_array;
-    //     		let lab_date_val_array=vm.laboratoryData.lab_date;
-    //     		//for lab result
-    //     		let lab_result_array=[];
-				// $('.lab_result').each(function(){
-				// 		lab_result_array.push($(this).val());
-				// });
-    //     		vm.laboratoryData.lab_result=lab_result_array;
-    //     		let lab_result_val_array=vm.laboratoryData.lab_result;
-    //     		//for assigning dr
-    //     		let lab_assigning_dr_array=[];
-				// $('.lab_assign_dr').each(function(){
-				// 		lab_assigning_dr_array.push($(this).val());
-				// });
-    //     		vm.laboratoryData.lab_assigning_dr=lab_assigning_dr_array;
-    //     		let lab_assigning_dr_val_array=vm.laboratoryData.lab_assigning_dr;
-
-    //             if(lab_report_array.length>0)
-    //             {
-    //             	let finalLaboratoryDataAll=[];
-    //             	for(i=0;i<lab_report_array.length;i++)
-    //             	{
-
-				// 		var lab_text= $("#laboratory_report option[value='"+lab_report_array[i]+"']").text();
-    //             		finalLaboratoryDataAll.push({
-    //                         'id' : lab_report_array[i],
-    //                         'name' : lab_text,
-    //                         'date' : lab_date_val_array[i],
-    //                         'result' : lab_result_val_array[i],
-    //                         'assigning_dr'  :lab_assigning_dr_val_array[i],
-    //                         'removed': false,
-    //                         'tr_id': 'lab_tr_'+lab_report_array[i],
-    //             		});
-    //             		vm.finalLaboratoryData=finalLaboratoryDataAll;
-    //             	}
-    //             }
           },
           removeLaboratory(did) {
                 let vm =this;
@@ -399,16 +358,18 @@
           },
 			prev() {
               let vm =this;
-			vm.$store.dispatch('saveLabReportData',vm.laboratoryData);
+			vm.$store.dispatch('saveLabReportData',vm.finalLaboratoryData);
 
               vm.$root.$emit('prev','test');
           },
           next() {
 
           	let vm =this;
-			vm.$store.dispatch('saveLabReportData',vm.laboratoryData);
+            console.log(vm.finalLaboratoryData,'labdata');
+            let labDataRes =  _.cloneDeep(vm.finalLaboratoryData);
+			vm.$store.dispatch('saveLabReportData',labDataRes);
           	
-              vm.$root.$emit('next');
+              // vm.$root.$emit('next');
 
           },
          initData() {

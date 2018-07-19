@@ -11,9 +11,11 @@ class LaboratoryDetails extends Model
 
         protected $fillable=[
               'opd_id',
-              'lab_type',
-              'report',
               'user_id',
-              'refrences',
+              'laboratory_id',
+              'date',
+              'result',
+              'assign_dr',
+              'remove',
         ];
 }
