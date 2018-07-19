@@ -156,6 +156,7 @@ const mutations = {
       state.opd_resultData = {};
       state.radioData = {};
       state.prescriptionData = {};
+      state.laboratoryData = {};
   },
   [types.SAVE_OPD_DATA] (state) {
     // console.log(patientData)

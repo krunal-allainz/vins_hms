@@ -246,16 +246,17 @@
  		/*for form -2 library*/
  		if(!empty($labdata))
  		{
- 			foreach($labdata as $lab)
+ 			//print_r($labdata);exit;
+ 			foreach($labdata['type'] as $lab)
  			{
  				
 				$lab_obj_2=new LaboratoryDetails();
  				$lab_obj_2->opd_id=$opd_id_org;
  				$lab_obj_2->user_id=$user_id;
- 				$lab_obj_2->laboratory_id=$lab['laboratory_id'];
- 				$lab_obj_2->date=$lab['date'];
+ 				$lab_obj_2->laboratory_id=$lab['id'];
+ 				$lab_obj_2->date=Carbon::createFromFormat('d-m-Y', $lab['lab_date']['time'])->format('Y-m-d');
  				$lab_obj_2->result=$lab['result'];
- 				$lab_obj_2->assign_dr=$lab['assign_dr'];
+ 				$lab_obj_2->assign_dr=$lab['assign'];
  				$lab_obj_2->remove='false';
  				$lab_obj_2->save();
  				
