@@ -91,7 +91,7 @@
  		$radiology_data=$request->all()['data']['radioData'];
  		$resultdata=$request->all()['data']['resultData'];
  		$labdata=$request->all()['data']['laboratoryData'];
- 		$lab_opd_data=$request->all()['data']['opdData']['laboratory_report_opd'];
+ 		$lab_opd_data=$request->all()['data']['opdData']['laboratory_report_opd_data'];
 
  		if($department=='Vascular')
  		{
@@ -229,6 +229,7 @@
 	 				foreach($lab_opd_data as $lab_opd)
 	 				{
 			 			$lab_obj=new LaboratoryDetails();
+			 			$lab_obj->referance=0;
 		 				$lab_obj->opd_id=$opd_id_org;
 		 				$lab_obj->user_id=$user_id;
 		 				$lab_obj->laboratory_id=$lab_opd;
@@ -251,6 +252,7 @@
  			{
  				
 				$lab_obj_2=new LaboratoryDetails();
+				$lab_obj_2->referance=1;
  				$lab_obj_2->opd_id=$opd_id_org;
  				$lab_obj_2->user_id=$user_id;
  				$lab_obj_2->laboratory_id=$lab['id'];

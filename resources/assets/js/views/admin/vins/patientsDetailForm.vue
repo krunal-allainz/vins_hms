@@ -242,7 +242,7 @@
 			        type: 'min',
 			        week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
 			        month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-			        format: 'YYYY-MM-DD  H:mm:ss',
+			        format: 'DD-MM-YYYY  HH:mm:ss',
 			        placeholder: 'when?',
 			        inputStyle: {
 			          'display': 'inline-block',
@@ -253,7 +253,8 @@
 			          'box-shadow': '0 1px 3px 0 rgba(0, 0, 0, 0.2)',
 			          'border-radius': '2px',
 			          'color': '#5F5F5F'
-			      		}
+			      		},
+			      	
 			      },
                 'option': {
                     type: 'day',
@@ -282,7 +283,7 @@
 			      limit2: [
 			      {
 			        type: 'fromto',
-			       	from: new Date()
+			       	from: new Date(2016, 0, 5)
 			      }],
 			     
                 'patientData' : {

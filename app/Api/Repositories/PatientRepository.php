@@ -63,7 +63,7 @@
     		$patientData->consultant_id=$data['consulting_dr'];
     		$patientData->consultant=$data['consulting_dr'];
     		$patientData->case_type=$data['case'];
-		    $patientData->appointment_datetime=$data['appointment_datetime']['time']; 
+		    $patientData->appointment_datetime=Carbon::createFromFormat('d-m-Y H:m:s', $data['appointment_datetime']['time'])->format('Y-m-d H:i:s'); 
 		    /*for patient details end*/
 
         if($data['case'] == 'new') {

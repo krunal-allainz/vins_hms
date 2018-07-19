@@ -23,6 +23,7 @@ class CreateTableLaboratoryDetails extends Migration
             $table->string('result')->nullable();
             $table->string('assign_dr')->nullable();
             $table->string('remove')->nullable();
+            $table->tinyInteger('referance')->nullable();
             $table->timestamps();
         });
     }
