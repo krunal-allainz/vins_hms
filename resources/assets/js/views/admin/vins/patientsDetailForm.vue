@@ -234,7 +234,7 @@
 	                     </label>
 	                    </div>
 	                    <div class="col-md-6">
-							<date-picker  :date.sync="patientData.appointment_datetime" :option="timeoption" id = "appointment_datetime" class="" type="datetime" name="appointment_datetime" :limit="limit2" v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" ></date-picker> 
+							<date-picker  :date.sync="patientData.appointment_datetime" :option="timeoption" id = "appointment_datetime" class="" type="datetime" name="appointment_datetime"   v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" ></date-picker> 
 							<i v-show="errors.has('appointment_datetime')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('appointment_datetime')">
 		            			Please enter valid appointment datetime.
@@ -262,6 +262,7 @@
 	import User from '../../../api/users.js';
   	import myDatepicker from 'vue-datepicker';
   	import userlist from './userlistData.vue';
+  	import moment from 'moment';
   	/*for consulting dr */
   	let consult_list=[];
 
@@ -274,7 +275,7 @@
                 'deleteConfirmMsg': 'Are you sure you would like to delete this referee? All information associated with this referee will be permanently deleted.',
                 'userlistData':{},
                 timeoption: {
-			        type: 'min',
+                	type : 'min',
 			        week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
 			        month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
 			        format: 'DD-MM-YYYY  H:mm:ss',
@@ -350,6 +351,7 @@
         	userlist
         },
         mounted() {
+		       
 				$('.ls-select2').select2({
 					placeholder: "Select",
 					tags: false,
@@ -414,6 +416,9 @@
         	this.$root.$on('patientData',this.setPatientData);
         },
         methods: {
+        	 customFormatter(date) {
+		      		return moment(date).format('MMMM Do YYYY, h:mm:ss a');
+		    	},
         	  getAgeCal () { 
         	  	let vm =this;;
 		        vm.handleDOBChanged();

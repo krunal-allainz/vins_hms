@@ -53,13 +53,13 @@
         }
       
         /*patient details*/
-        $patientData->first_name=$data['fname'];
+    $patientData->first_name=$data['fname'];
 		$patientData->middle_name=$data['mname'];
 		$patientData->last_name=$data['lname'];
-        $patientData->dob= $this->patientDetailObj->setDobDateAttribute($data['dob']['time']);
+    $patientData->dob= $this->patientDetailObj->setDobDateAttribute($data['dob']['time']);
 		$patientData->gender=$data['gender'];
-        $patientData->age=$data['age'];
-        $patientData->type=$data['type'];
+    $patientData->age=$data['age'];
+    $patientData->type=$data['type'];
 		$patientData->address=$data['address'];
 		$patientData->ph_no=$data['ph_no'];
 		$patientData->mob_no=$data['mob_no'];
