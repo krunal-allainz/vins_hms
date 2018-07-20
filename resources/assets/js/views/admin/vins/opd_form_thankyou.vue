@@ -120,10 +120,23 @@
         			</div>
 			 	</div>
 			 	<div v-if="(printType == 'prescription' && prescriptiData.length != '')"  style="min-height: 350px;height: 350px;">
+			 			<div class='row' style="padding-left: 15px;padding-right:15px;">
+			 				<div class='col-md-6 text-left'>
+									<span class='text-left'><b>Ref By :</b></span>
+										{{this.adviceDoctor}}
+    	 	 				</div>
+    	 	 				<div class='col-md-6 text-right'>
+    	 	 					<span class='text-right'><b>Date :</b> 
+    	 	 							{{ todayDate }}
+    	 	 					</span>
+    	 	 				</div>
+    	 	 			</div>	
+    	 	 			<br/>
+    	 	 			<br/>
 			 		<div v-if="(prescriptiData != null)" >
     	 	 				<div class='row' v-show="(prescriptiData.length != '')">
 				 				<div class='col-md-12 text-center'>
-				 					<h4>Prescription </h4>
+				 					<span class='text-center'><b>Prescription</b></span>
 				 				</div>
 			 				</div>
 							<div class="table-responsive">
@@ -477,7 +490,7 @@
 					        //var windowName = 'Print' + uniqueName.getTime();	
 					        var uniqueName = '';/*new Date();	*/
 					         var windowName = '';/*'Print' + uniqueName.getTime();	*/
-					        var printWindow = window.open(windowUrl, windowName, 'left=10,top=10,width=0, height=0');
+					        var printWindow = window.open('','','left=0,top=0,width=950,height=600,toolbar=0,scrollbars=0,status=0,addressbar=0');
 					        
 					        var is_chrome = Boolean(printWindow.chrome);
     						printWindow.document.write(printContent);
