@@ -577,10 +577,10 @@
               (response)=> {
                   if(response.status == 200){
                     vm.prescriptionOption = response.data.data;
-                    $("#prescription").select2('destroy'); 
+                    //$("#prescription").select2('destroy'); 
                      
                      setTimeout(function(){
-                      $('#prescription').select2();
+                      $('#prescription').select2({placeholder: 'Select'});
                        jQuery('.js-loader').addClass('d-none');
                      },1000)
 
