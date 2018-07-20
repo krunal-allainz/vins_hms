@@ -19,7 +19,7 @@
     	 	 	<div class="col-md-4"> 
     	 	 		<button type="button" class="btn btn-primary btn-submit text-right " data-toggle="modal" href="#printModal"  @click="printReferal()">Referal</button>-->
 
-    	 	 		<button  v-if="(labReportData != '')" type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('lab')" >Lab Report</button>
+    	 	 		<button  v-if="(labReportData)" type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('lab')" >Lab Report</button>
 
     	 	 		<button  v-if="(radioReportData != null)" type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('radiology')" >Radiology Report</button>
 
@@ -39,24 +39,48 @@
 			 					<div  id="printContent">
 			 					</div>
 			 					<vinsletterheadheaderpart></vinsletterheadheaderpart>
+
+								 	<div v-if="(printType == 'lab')" style="min-height: 350px;height: 350px;">
+								 		<div class='row'>
+								 				<div class='col-md-12 text-center'>
+								 					<h4>Lab Report</h4>
+								 				</div>
+								 			</div>
+								 			   <div class="form-group" v-if="labReportData.length>0">
+									                <div class="col-md-12">
+									                  <div class="table-responsive">
+									                    <table class="table table-striped table-bordered" id="laboratory_table_list">
+									                        <thead>
+									                        <tr>
+									                            <th>#</th>
+									                            <th>Name</th>
+									                            <th>Date</th>
+									                            <th>Result</th>
+									                            <th>Assigning Dr</th>
+									                            <!-- <th>Action</th> -->
+									                        </tr>
+									                        </thead>
+									                        <tbody>
+									                         <tr v-if="res.removed == false" :id="res.tr_id" v-for="(res,index) in labReportData">
+									                            <td>{{++index}}</td> 
+									                            <td>{{res.text }}</td>
+									                            <td>{{res.lab_date.time}}</td>
+									                            <td>{{res.result}}</td>
+									                            <td>{{res.assign}}</td>
+									                            <!-- <td> <i class="fa fa-remove" @click="removeLaboratory(res.id)"></i></td> -->
+									                          </tr>
+
+									                        </tbody>
+									                    </table>
+									                  </div>
+									                  
+									                </div>
+									              </div>
+								 	</div>
+
 			 <div>	
-			 	<div v-if="(printType == 'lab')" style="min-height: 350px;height: 350px;">
-			 		<div class='row'>
-			 				<div class='col-md-12 text-center'>
-			 					<h4>Lab Report</h4>
-			 				</div>
-			 			</div>
-			 		<div class="row">
-				  		<div class="col-md-12">
-				  			<div class="col-md-6"><span><b>Blood :</b></span>{{labReportData.blood_report_val}} </div>
-				  			<div class="col-md-6"><span><b>Body Fluid Analysis :</b>{{labReportData.body_fluid_analysis_report_val}}</span></div>
-				  		</div>
-				  		<div class="col-md-12">
-				  			<div class="col-md-6"><span><b>Urine :</b>{{labReportData.urine_report_val}}</span></div>
-				  			<div class="col-md-6"><span><b>CSF :</b>{{labReportData.csf_report_val}}</span></div>
-				  		</div>
-				  	</div>
-			 	</div>
+			
+
 			 	<div v-if="(printType == 'radiology')">
 			 		<div class='row'>
 			 				<div class='col-md-12 text-center'>
@@ -334,7 +358,7 @@
 				'advice' : this.$store.state.Patient.opdData.advice,
 				'prescriptiData' : this.$store.state.Patient.prescriptionData,
 				'radioReportData' : this.$store.state.Patient.radioData, 
-				'labReportData' : this.$store.state.Patient.laboratoryData,
+				'labReportData' : this.$store.state.Patient.laboratoryData.type,
 				'consultntId' : this.$store.state.Users.userDetails.id,
 				'consultName' : '',
 				'signatureName' : '',
@@ -350,7 +374,6 @@
        },
        mounted(){
 			let vm =this;
-
        		if(this.referalType == 'cross'){
 				if(this.crossType == 'internal'){
 					this.crossSelectedValue = this.$store.state.Patient.opdData.cross_type_int;

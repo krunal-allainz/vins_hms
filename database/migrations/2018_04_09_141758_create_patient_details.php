@@ -15,7 +15,7 @@ class CreatePatientDetails extends Migration
     {
         Schema::create('patient_details', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
+            $table->string('uhid_no')->nullable();
             $table->string('first_name')->nullable();
             $table->string('middle_name')->nullable();
             $table->string('last_name')->nullable();
@@ -29,9 +29,9 @@ class CreatePatientDetails extends Migration
             $table->text('references')->nullable();
             $table->integer('consultant')->nullable();
             $table->integer('consultant_id')->nullable();
-            $table->string('uhid_no')->after('id');
             $table->string('case_type')->nullable();
             $table->dateTime('appointment_datetime')->nullable();
+            $table->timestamps();
 
         });
     }
