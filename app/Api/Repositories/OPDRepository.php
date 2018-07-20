@@ -102,21 +102,29 @@
  			$examinationData=$request->all()['data']['neuroExaminationData'];
  		}
  		
- 		
  		$opd_id_org=$data['opd_id'];
- 		//print_r($data);exit;
- 		//patient check up
- 		$data_patient_checkup=PatientCheckUp::findOrFail($opd_id_org);
-		$data_patient_checkup->height=$data['height'];
-		$data_patient_checkup->weight=$data['weight'];
-		$data_patient_checkup->bmi=$data['bmi'];
-		$data_patient_checkup->vitals=$data['vitals'];
-		$data_patient_checkup->pulse=$data['pulse'];
-		$data_patient_checkup->bp=$data['bp_systolic'].'/'.$data['bp_diastolic'];
-		$data_patient_checkup->temp=$data['temp'];
-		$data_patient_checkup->pain=$data['pain_value'];
-		$data_patient_checkup->updated_at=Carbon::now();
-		$data_patient_checkup->save();
+ 		
+ 		
+ 		//for patient check up
+ 		if($opd_id_org){
+ 			$data_patient_checkup=array();
+			$data_patient_checkup['height']=$data['height'];
+			$data_patient_checkup['weight']=$data['weight'];
+			if(isset($data['bmi']))
+			{
+				$data_patient_checkup['bmi']=$data['bmi'];
+			}
+			$data_patient_checkup['vitals']=$data['vitals'];
+			$data_patient_checkup['pulse']=$data['pulse'];
+			$data_patient_checkup['bp']=$data['bp_systolic'].'/'.$data['bp_diastolic'];
+			$data_patient_checkup['temp']=$data['temp'];
+			$data_patient_checkup['pain']=$data['pain_value'];
+			$data_patient_checkup['updated_at']=Carbon::now();
+			$data_patient_checkup=PatientCheckUp::where('opd_id',$opd_id_org)->update($data_patient_checkup);
+ 		}
+		
+ 		
+		
 		//opd details
  		$opdData=OpdDetails::findOrFail($opd_id_org);
  		if($data['adviceType']=='text')
