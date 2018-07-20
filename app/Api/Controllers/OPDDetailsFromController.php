@@ -190,7 +190,7 @@ class OPDDetailsFromController extends Controller
      */
     public function addDetails(Request $request)
     {
-            
+        
             $opd_id=$this->opdObj->store($request);
             if($opd_id)
             {
