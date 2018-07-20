@@ -196,7 +196,7 @@
 	                     </label>
 	                    </div>
 	                    <div class="col-md-6">
-							<date-picker  :date.sync="patientData.appointment_datetime" :option="timeoption" id = "appointment_datetime" class="" type="datetime" name="appointment_datetime"   v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" ></date-picker> 
+							<date-picker  :date.sync="patientData.appointment_datetime" :option="timeoption" id = "appointment_datetime" class="" type="datetime" name="appointment_datetime"   v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" :limit="limit2"></date-picker> 
 							<i v-show="errors.has('appointment_datetime')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('appointment_datetime')">
 		            			Please enter valid appointment datetime.
