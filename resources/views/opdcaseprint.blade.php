@@ -640,7 +640,6 @@
 	@endif
 	<div style="position:absolute;bottom:230px;width:100%height:200px;right:30px;">
 		<img  :src="{{'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/>
-		
 	</div>	
 	<div style="position:absolute;bottom:230px;width:100%height:200px;right:30px;">
 	 	<img  :src="{{'/assets/img/timestamp/'.$data['timeStamp'].'.png'}}" height="66" width="182"/>
