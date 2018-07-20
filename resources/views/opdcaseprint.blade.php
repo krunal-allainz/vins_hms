@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<meta charset="utf-8" />
     <title>Vins Administration</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="print">
 <style type="text/css">
@@ -149,8 +150,8 @@
     width:30%;
     }
 
-    img {
-	filter: grayscale(1);
+   img {
+    -webkit-print-color-adjust: exact;
 }
 	
     
@@ -298,7 +299,9 @@
    		 width:30%;
    		 -webkit-print-color-adjust: exact; 
     }
-	
+	img {
+    -webkit-print-color-adjust: exact;
+	}
      @page{
     	margin: 0px;
     	 size: portrait;
@@ -316,7 +319,7 @@
 	<div class="container" style="padding:15px;">
     <div class=""> 
        <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12" style="padding:25px;">
             <img src="{{$url.'/assets/img/nabh_vins_logo.png'}}" id="logo-desk" alt="NABH Logo" class="hidden-sm-down" height="" width="30%">
         </div>
       </div>

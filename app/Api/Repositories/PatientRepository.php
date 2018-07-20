@@ -22,7 +22,7 @@
  		$data = $request->all()['patientData']['patientData'];
         $patientType = $request->all()['patientData']['patientType'];
         $a_time=$data['appointment_datetime']['time'];
- 		$uhid="VM";
+ 		   $uhid="VN";
         $year = date('y');
         $insertedPatientId="";
 		
