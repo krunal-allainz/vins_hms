@@ -51,10 +51,28 @@ class PatientDetailsForm extends Model
     }
 
     public function setDobDateAttribute($value)
-    {
-      dd($value);
-        $new_val = $value['time']." 00:00:00";
-        $this->attributes['dob'] =   Carbon::createFromFormat('d-m-Y', $value);
+
+    { //dd($value);
+         if(isset($value['time'])){
+          $new_val = $value['time']." 00:00:00";
+        }
+        return $this->attributes['dob'] =   Carbon::createFromFormat('d-m-Y', $value);
+
+    }
+
+     public function setDateTimeAttribute($value)
+    { //dd($value);
+         if(isset($value['time'])){
+          $new_val = $value['time']." 00:00:00";
+        }
+        return $this->attributes['dob'] =   Carbon::createFromFormat('d-m-Y H:i:s', $value);
+// =======
+//     {
+//       //dd($value);
+//         $new_val = $value['time']." 00:00:00";
+//         //$this->attributes['dob'] =   Carbon::createFromFormat('d-m-Y', $value);
+//         $this->attributes['dob'] =   Carbon::createFromFormat('Y-m-d', $value);
+// >>>>>>> f4372cfad0367e50626684d0db5ab3d6e3243f8e
 
     }
 
