@@ -330,8 +330,14 @@
         created: function() {
         	  this.$root.$on('SetUhidNo', this.updateUhidNo);
         	  this.$root.$on('patientData',this.setPatientData);
+            this.$root.$on('patientEmpty',this.patientEmpty);
         },
        methods: {
+         patientEmpty()
+          {
+              let vm =this;
+              $('#opd_no').val('').trigger('change.select2');
+          },
        	 setPatientData(patientData) {
 
             if(patientData.code==200)

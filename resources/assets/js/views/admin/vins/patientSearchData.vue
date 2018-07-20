@@ -128,6 +128,8 @@
             getPatientDetailsBySearch(){
                 var vm =this;
                 var select_val="";
+                 vm.$root.$emit('patientEmpty',1);
+                 
                 if(vm.patientSearchData.select_type=='dob')
                 {
                     vm.patientSearchData.select_value=vm.patientSearchData.select_type_dob.time;
