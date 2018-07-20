@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<meta charset="utf-8" />
     <title>Vins Administration</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="print">
 <style type="text/css">
@@ -149,8 +150,8 @@
     width:30%;
     }
 
-    img {
-	filter: grayscale(1);
+   img {
+    -webkit-print-color-adjust: exact;
 }
 	
     
@@ -298,7 +299,9 @@
    		 width:30%;
    		 -webkit-print-color-adjust: exact; 
     }
-	
+	img {
+    -webkit-print-color-adjust: exact;
+	}
      @page{
     	margin: 0px;
     	 size: portrait;
@@ -316,7 +319,7 @@
 	<div class="container" style="padding:15px;">
     <div class=""> 
        <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12" style="padding:25px;">
             <img src="{{$url.'/assets/img/nabh_vins_logo.png'}}" id="logo-desk" alt="NABH Logo" class="hidden-sm-down" height="" width="30%">
         </div>
       </div>
@@ -425,7 +428,7 @@
   @endif
   
   @if($data['printType'] == 'prescription')
-  	<div style="padding-left: 35px;min-height: 350px;height: 350px;">
+  	<div style="min-height: 350px;height: 350px;">
 			<div class='row' style="padding-left: 15px;padding-right:15px;">
 			    	 <table class="table" align="center" cellspacing=0>	
 		         	<thead>	
@@ -661,10 +664,10 @@
 	@endif
 	@endif
 	<div style="position:absolute;bottom:230px;width:100%height:200px;right:30px;">
-		<img  :src="{{'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/>
+		<img  :src="{{$url.'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/>
 	</div>	
 	<div style="position:absolute;bottom:230px;width:100%height:200px;right:30px;">
-	 	<img  :src="{{'/assets/img/timestamp/'.$data['timeStamp'].'.png'}}" height="66" width="182"/>
+	 	<img  :src="{{$url.'/assets/img/timestamp/'.$data['timeStamp'].'.png'}}" height="66" width="182"/>
 	</div>
 	<div style="position:absolute;bottom:200px;width:100%height:50px;right:30px;">
 	<div class="row" style="padding-right:20px;font-size: 15px;right:0px;">
