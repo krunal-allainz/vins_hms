@@ -1159,7 +1159,7 @@
             {
               
                this.opdData.opd_option={};
-              $('#opd_no').select2('destroy');
+              //$('#opd_no').select2('destroy');
               let pDetails=patientData.searchdata;
               //for opd list
                 this.opdData.uhid_no=pDetails.uhid_no;
