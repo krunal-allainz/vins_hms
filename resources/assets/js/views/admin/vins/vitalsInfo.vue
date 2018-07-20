@@ -474,7 +474,7 @@
 			                	 
 				    			},
 			                	  (error) => {
-                            console.log('fdsfds');
+                            
 			                	 $("body .js-loader").addClass('d-none');
 
 			               		 }
@@ -482,7 +482,7 @@
 			    	}
 			    },
                 (error) => {
-                	console.log('fdsfds2');
+                	
                 }
                 )
 			}
