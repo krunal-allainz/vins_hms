@@ -283,7 +283,6 @@
         },
         mounted() {
             let vm=this;
-
              $('#prescription').on("select2:select", function (e) {
             // console.log($(this).data()[0].formalation);
             let presId = $('#prescription').select2('data')[0].id;
@@ -308,15 +307,35 @@
                 vm.prescriptFinalData.clock_quantity=1;
                 jQuery('input:radio[name="clock_suggest"]').filter('[value="ES"]').attr('checked', true);
             });
-            
+            /*for lab data end*/
+            setTimeout(function(){
+                vm.initData();
+            },1000) 
 			
         },
         filters:{
         	
         },
         methods: {
-
-            saveClockResult()
+          initData()
+          {
+            let vm =this;
+            let all_prescription=_.cloneDeep(vm.$store.state.Patient.prescriptionData);
+            
+            if(all_prescription)
+            {
+                if(all_prescription.length)
+                {
+                  
+                  //vm.prescriptFinalData.prescriptionNameList = all_prescription
+                  vm.prescriptFinalData.finalPrescriptionAllData = all_prescription
+                  //vm.priscription_add_disabled=true;
+                  vm.show_prescription_result_data_enable=true;
+                }
+                
+            }
+          },
+          saveClockResult()
           {
             let vm =this;
             
