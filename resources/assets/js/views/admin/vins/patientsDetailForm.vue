@@ -283,7 +283,7 @@
 			      limit2: [
 			      {
 			        type: 'fromto',
-			       	from: new Date(2016, 0, 5)
+			       	from: moment().subtract(1, 'days').startOf('day')
 			      }],
 			     
                 'patientData' : {
