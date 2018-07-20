@@ -49,7 +49,7 @@
               </div>
               <div class="col-md-6">
                 <select  class="form-control ls-select2" v-validate="'required'" id = "opd_no" name="opd_no" value="" v-model="opdData.opd_id" > 
-                <option value="">Select</option>
+                     <option value="">Select</option>
                      <option :value="opd.id" v-for="opd in opdData.opd_option">{{opd.opd_id}}</option>
                   </select> 
                   <i v-show="errors.has('opd_no')" class="fa fa-warning"></i>      
@@ -790,6 +790,7 @@
              this.$root.$on('prev', this.prev);
              this.$root.$on('next', this.next);
              this.$root.$on('patientData',this.setPatientData);
+             this.$root.$on('patientEmpty',this.patientEmpty);
         },
         
         mounted(){
@@ -1130,6 +1131,23 @@
               }
 
           },
+          patientEmpty()
+          {
+              let vm =this;
+              $('#opd_no').val('').trigger('change.select2');
+              vm.opdData.patientlist="";
+              vm.opdData.uhid_no="";
+              vm.opdData.weight="";
+              vm.opdData.height="";
+              vm.opdData.bmi="";
+              vm.opdData.vitals="";
+              vm.opdData.pulse="";
+              vm.opdData.bp_systolic="";
+              vm.opdData.bp_diastolic="";
+              vm.opdData.temp="";
+              vm.opdData.select_value="";
+              vm.opdData.opd_option={};
+          },
           pain_value(pain){
             this.opdData.pain_value = pain;
           },
@@ -1137,7 +1155,9 @@
 
             if(patientData.code==200)
             {
-              $('#opd_no').select2('destroy');
+              
+               this.opdData.opd_option={};
+              //$('#opd_no').select2('destroy');
               let pDetails=patientData.searchdata;
               //for opd list
                 this.opdData.uhid_no=pDetails.uhid_no;
@@ -1241,22 +1261,22 @@
           next() {
             let vm =this;
 
-                //this.$validator.validateAll().then(
-                //(response) => {
-                 // vm.priscriptionAdd = vm.finalPrescriptionData.length;
-                  //if (!this.errors.any()) {
-                    //if(vm.priscriptionAdd >  0){
+                this.$validator.validateAll().then(
+                (response) => {
+                 //vm.priscriptionAdd = vm.finalPrescriptionData.length;
+                  if (!this.errors.any()) {
+                    // if(vm.priscriptionAdd >  0){
                       
                       vm.curStep = vm.curStep+1;
 
                       vm.$store.dispatch('setOpdData',vm.opdData);
                       vm.$store.dispatch('setResData',vm.finalResultData);
-                    //}
-                  //}
-                //},
-                /*(error) => {
+                    // }
+                  }
+                },
+                (error) => {
                 }
-                )*/
+                )
             
           },
           initLastData(){
