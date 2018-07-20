@@ -54,6 +54,7 @@
       
         /*patient details*/
 
+
     $patientData->first_name=$data['fname'];
 		$patientData->middle_name=$data['mname'];
 		$patientData->last_name=$data['lname'];
@@ -70,24 +71,7 @@
 		$patientData->case_type=$data['case'];
 		$patientData->appointment_datetime=$this->patientDetailObj->setDateTimeAttribute($data['appointment_datetime']['time']); 
 		/*for patient details end*/
-// =======
-//         $patientData->first_name=$data['fname'];
-//     		$patientData->middle_name=$data['mname'];
-//     		$patientData->last_name=$data['lname'];
-//         $patientData->dob= Carbon::createFromFormat('d-m-Y', $data['dob']['time'])->format('Y-m-d');
-//     		$patientData->gender=$data['gender'];
-//         $patientData->age=$data['age'];
-//         $patientData->type=$data['type'];
-//     		$patientData->address=$data['address'];
-//     		$patientData->ph_no=$data['ph_no'];
-//     		$patientData->mob_no=$data['mob_no'];
-//     		$patientData->references=$data['reference_dr'];
-//     		$patientData->consultant_id=$data['consulting_dr'];
-//     		$patientData->consultant=$data['consulting_dr'];
-//     		$patientData->case_type=$data['case'];
-// 		    $patientData->appointment_datetime=$data['appointment_datetime']['time']; 
-// 		    /*for patient details end*/
-// >>>>>>> f4372cfad0367e50626684d0db5ab3d6e3243f8e
+
 
         if($data['case'] == 'new') {
            $patientD =  PatientDetailsForm::orderBy('id', 'desc')->first();

@@ -17,5 +17,6 @@ class LaboratoryDetails extends Model
               'result',
               'assign_dr',
               'remove',
+              'referance'
         ];
 }

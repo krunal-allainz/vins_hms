@@ -343,16 +343,38 @@
 			    
 		    </div>	
 			<br/><br/>
-  	<div class="row" style="min-height: 350px;height: 350px;">
-  		<div class="col-md-12">
-  			<div class="col-md-6"><span><b>Blood :</b></span>{{$data['labReportData']['blood_report_val']}} </div>
-  			<div class="col-md-6"><span><b>Body Fluid Analysis :</b>{{$data['labReportData']['body_fluid_analysis_report_val']}}</span></div>
-  		</div>
-  		<div class="col-md-12">
-  			<div class="col-md-6"><span><b>Urine :</b>{{$data['labReportData']['urine_report_val']}}</span></div>
-  			<div class="col-md-6"><span><b>CSF :</b>{{$data['labReportData']['csf_report_val']}}</span></div>
-  		</div>
-  	</div>
+			  <div class="form-group">
+                <div class="col-md-12">
+                  <div class="table-responsive">
+                    <table class="table table-striped table-bordered" id="laboratory_table_list">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Date</th>
+                            <th>Result</th>
+                            <th>Assigning Dr</th>
+                            <!-- <th>Action</th> -->
+                        </tr>
+                        </thead>
+                        <tbody>
+                       	@foreach($data['labReportData'] as $index=>$res)
+                         <tr class="text-center">
+                            <td>{{++$index}}</td> 
+                            <td>{{$res['text'] }}</td>
+                            <td>{{$res['lab_date']['time']}}</td>
+                            <td>{{$res['result']}}</td>
+                            <td>{{$res['assign']}}</td>
+                            <!-- <td> <i class="fa fa-remove" @click="removeLaboratory(res.id)"></i></td> -->
+                          </tr>
+						 @endforeach
+                        </tbody>
+                    </table>
+                  </div>
+                  
+                </div>
+              </div>
+  	
   @endif
 
   @if($data['printType'] == 'radiology')

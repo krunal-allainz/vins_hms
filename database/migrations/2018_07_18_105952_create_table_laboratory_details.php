@@ -13,7 +13,7 @@ class CreateTableLaboratoryDetails extends Migration
      */
     public function up()
     {
-        Schema::drop('laboratory_details');
+        //Schema::drop('laboratory_details');
         Schema::create('laboratory_details', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('opd_id')->nullable();
@@ -23,6 +23,7 @@ class CreateTableLaboratoryDetails extends Migration
             $table->string('result')->nullable();
             $table->string('assign_dr')->nullable();
             $table->string('remove')->nullable();
+            $table->tinyInteger('referance')->nullable();
             $table->timestamps();
         });
     }

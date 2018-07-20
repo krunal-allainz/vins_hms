@@ -10,14 +10,14 @@
 
     <form action="" method="post" enctype="multipart/formdata">
       <div v-if="curStep == 1">
-        <div class="row form-group" v-if="patient_select_enable==true">
+        <div class="row form-group" v-show="patient_select_enable==true">
           <div class="col-md-6">
             <div class="col-md-6 ">
               <label for="patient">Select Patient:</label>
             </div>
             <div class="col-md-6">
               <select  class="form-control ls-select2" v-validate="'required'" id = "patient" name="patient" value="" v-model="opdData.patientlist" > 
-              
+                    <option value="">Select </option>
                    <option :value="pat.id" v-for="pat in opdData.patient_option">{{pat.name}}</option>
                 </select> 
                 <i v-show="errors.has('patient')" class="fa fa-warning"></i>      
@@ -26,7 +26,7 @@
                 </span> 
             </div>
           </div>
-          </div>
+        </div>
           
           <div v-if="isPatientSearch">
             <patientSearch v-if="patient_select_enable==false" ref="opd_form"></patientSearch>
@@ -760,7 +760,7 @@
                 'bp_diastolic':'',
                 'temp':'',
                 'laboratoryALLData':[],
-                'laboratory_report_opd':{},
+                'laboratory_report_opd_data':{},
                 'select_type':'',
                 'select_value':'',
               }
@@ -839,7 +839,10 @@
               (response) => {
                 let lab_data = response.data.data;
                 vm.opdData.laboratoryALLData = lab_data;
-                $('#laboratory_report_opd').select2({data:lab_data});
+                $('#laboratory_report_opd').select2({
+                  placeholder: 'Select',
+                  data:lab_data
+                });
               },
               (error) => 
               {
@@ -847,8 +850,9 @@
             );
 
            $('#laboratory_report_opd').on("select2:select", function (e) {
-              vm.opdData.laboratory_report_opd=$('#laboratory_report_opd').select2('data');
-              vm.setLabData();
+              let selections = $(this).val();
+              vm.opdData.laboratory_report_opd_data=selections;
+              //vm.setLabData();
             });
 
          
@@ -864,43 +868,6 @@
                   }); 
                 },500)  
               }
-            }
-            else if(this.id == 'patient'){
-                let patientId = $(this).val();
-                vm.opdData.patientlist=patientId;
-                //for uhid
-                User.generatePatientDetailsByID(patientId).then(
-                    (response) => {
-                      let patient_data=response.data.data;
-                      vm.opdData.uhid_no =patient_data.uhid_no;
-                    },
-                    (error) => {
-                    },
-                );
-                //for opd list
-               
-                User.generateOpdIdByPatirntID(patientId).then(
-                    (response) => {
-                      opd_list_new=[];
-                     $.each(response.data.data, function(key,value) {
-
-                         opd_list_new.push({
-                           'id' : value.id,
-                           'opd_id' : value.opd_id,
-                        });
-                      });
-                       setTimeout(function(){
-                              $('#opd_no').select2({
-                                placeholder: "Select",
-                                tags:false 
-                              }); 
-
-                      },500);
-                       vm.opdData.opd_option=opd_list_new;
-                      },
-                      (error) => {
-                      },
-                );
             }
             else if(this.id == 'radiology'){
               vm.opdData.radiology=$(this).val();
@@ -959,12 +926,6 @@
             }
             
             if(this.id == 'radiology_type_opd') {
-               //console.log('sdasd');
-               
-
-                
-               //$('#radiology_subtype_opd').select2("destroy");
-
                 vm.resultData.type = $("#radiology_type_opd").select2().val();
                 let type_opd_val=$("#radiology_type_opd").select2().val();
 
@@ -1074,9 +1035,49 @@
             }
 
           });
-         
+          setTimeout(function(){
+                  $('#patient').select2({
+                    placeholder: "Select",
+                    tags:false 
+                  });
+                },500);
           $('#patient').on("select2:select", function (e) {
-                   vm.opdData.patientlist=$(this).val();
+                 vm.opdData.patientlist=$(this).val();
+                 let patientId = $(this).val();
+                vm.opdData.patientlist=patientId;
+                //for uhid
+                User.generatePatientDetailsByID(patientId).then(
+                    (response) => {
+                      let patient_data=response.data.data;
+                      vm.opdData.uhid_no =patient_data.uhid_no;
+                    },
+                    (error) => {
+                    },
+                );
+                //for opd list
+               
+                User.generateOpdIdByPatirntID(patientId).then(
+                    (response) => {
+                      opd_list_new=[];
+                     $.each(response.data.data, function(key,value) {
+
+                         opd_list_new.push({
+                           'id' : value.id,
+                           'opd_id' : value.opd_id,
+                        });
+                      });
+                       setTimeout(function(){
+                              $('#opd_no').select2({
+                                placeholder: "Select",
+                                tags:false 
+                              }); 
+
+                      },500);
+                       vm.opdData.opd_option=opd_list_new;
+                      },
+                      (error) => {
+                      },
+                );
           });
           $(document).on('hidden.bs.modal','#createPatientDetail', function () {
             $('#case_type').val('old').trigger('change.select2');
@@ -1095,8 +1096,7 @@
           {
             let vm =this;
               $('#opd_no').val('').trigger('change.select2');
-              //$('#patient').select2('destroy');
-             //$('#patient').val('').trigger('change.select2');
+              vm.opdData.patientlist="";
               vm.opdData.uhid_no="";
               vm.opdData.weight="";
               vm.opdData.height="";
@@ -1110,22 +1110,25 @@
               vm.opdData.opd_option={};
               if(val==true)
               {
-                
                 vm.patient_select_enable=false;
+                $('#patient').val('').trigger('change.select2');
+                $('#patient').select2('destroy');
               }
               else
               {
-                setTimeout(function(){
-                $('#patient').select2({
-                    placeholder: "Select",
-                    tags:false 
-                  });
-                 },500);
+                
                 vm.isPatientSearch =false;
                 setTimeout(function(){
                   vm.isPatientSearch  =true;
                 },500);
                 vm.patient_select_enable=true;
+                 setTimeout(function(){
+                  $('#patient').select2({
+                    placeholder: "Select",
+                    tags:false 
+                  });
+                },500);
+              
               }
 
           },
