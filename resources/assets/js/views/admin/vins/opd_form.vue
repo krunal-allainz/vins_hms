@@ -1265,7 +1265,7 @@
 
                 this.$validator.validateAll().then(
                 (response) => {
-                 vm.priscriptionAdd = vm.finalPrescriptionData.length;
+                 //vm.priscriptionAdd = vm.finalPrescriptionData.length;
                   if (!this.errors.any()) {
                     // if(vm.priscriptionAdd >  0){
                       
