@@ -33,14 +33,13 @@
      <div id="printModal" class="modal fade">
      	<div class="modal-dialog" >
 		 		<div class="modal-content" >
-		 			<!--<div class="modal-header">
-		 				
-		 			</div>-->
+		 			<!--<div class="modal-header"></div>-->
 		 			<div class="modal-body">
 		 				<div id="printData">
 			 					<div  id="printContent">
 			 					</div>
 			 					<vinsletterheadheaderpart></vinsletterheadheaderpart>
+
 								 	<div v-if="(printType == 'lab')" style="min-height: 350px;height: 350px;">
 								 		<div class='row'>
 								 				<div class='col-md-12 text-center'>
@@ -78,6 +77,10 @@
 									                </div>
 									              </div>
 								 	</div>
+
+			 <div>	
+			
+
 			 	<div v-if="(printType == 'radiology')">
 			 		<div class='row'>
 			 				<div class='col-md-12 text-center'>
@@ -116,37 +119,28 @@
         				</div>
         			</div>
 			 	</div>
-			 	<div v-if="(printType == 'prescription')"  style="min-height: 350px;height: 350px;">
-			 		<div v-if="(prescriptiData !== null)" >
-    	 	 				<div class='row'>
+			 	<div v-if="(printType == 'prescription' && prescriptiData.length != '')"  style="min-height: 350px;height: 350px;">
+			 		<div v-if="(prescriptiData != null)" >
+    	 	 				<div class='row' v-show="(prescriptiData.length != '')">
 				 				<div class='col-md-12 text-center'>
-				 					<h4>Prescription</h4>
+				 					<h4>Prescription </h4>
 				 				</div>
 			 				</div>
 							<div class="table-responsive">
 							        <table class="table" id="prescription_list">
-							            <thead>
-							            <tr>
-							                <th width="8%">#</th>
-							                <th>Name</th>
-							                <th class="text-center">Quntity</th>
-							                <th class="text-center">Unit</th>
-							                <th class="text-center">Time For Medicine</th>
-							            </tr>
-							            </thead>
+							        
 							            <tbody>
-							             <tr  v-for="(res,index) in prescriptiData">
-							                <td>{{++index}}</td>
-							                <td>{{res.Prescription }}</td>
-							                <td class="text-center">{{res.quntity}}</td>
-							                <td class="text-center">{{res.unit}}</td>
-							                <td class="text-center">{{res.time}}</td>
-							              </tr>
-
+							              <tr v-for="(res,index) in prescriptiData" v-if="res.remove=='false'" :id="res.pid">
+    			                <td>{{++index}}]  {{res.name}} :  ORAL {{res.clock_quantity_1}}___{{res.clock_quantity_2}}___{{res.clock_quantity_3}} [ {{res.clock_time_1}}__ {{res.clock_time_2}}___{{res.clock_time_3}} ] [ {{res.clock_suggest_1}}___{{res.clock_suggest_2}}___{{res.clock_suggest_3}} ]
+    			                 <i class="fa fa-close"></i> 
+                                 <span v-if="res.total_prescription_days!=''">{{res.total_prescription_days}} DAYS </span>
+                                <span v-else>TO BE CONTINUE</span>
+                            </td>
+                           </td> 
+			              </tr>
 							            </tbody>
 							        </table>
 							      </div>
-       
     	 	 			</div>
     	 	 			<br/><br/>
     	 	 			<div v-if="(referalType == 'cross' && crossSelectedValue != '')">
@@ -211,7 +205,18 @@
 							</div>
     	 	 			</div>
     	 	 			<br/><br/>
-    	 	 			<div v-if="(prescriptiData !== null)">
+    	 	 			
+    	 	 			<div v-if="(followup != '')">
+    	 	 				<div class='col-md-6 text-left'>
+				 				<span class='text-left'><b>FollowUp :-</b></span>
+				 			</div>
+				 			<div>
+			 					<div class='col-md-12 text-left'>
+						           {{followup}}
+						        </div>  
+							</div>
+    	 	 			</div>
+    	 	 			<!-- <div v-if="(prescriptiData !== null)">
     	 	 				<div class='col-md-6 text-left'>
 				 				<span class='text-left'><b>Prescription :-</b></span>
 				 			</div>
@@ -240,9 +245,9 @@
 							      </div>
        
     	 	 			</div>
-    	 	 			<br/><br/>
+    	 	 			<br/><br/> -->
     	 	 			
-			 			<div v-if="(referalType == 'cross' && crossSelectedValue != '')">
+			 			<!-- <div v-if="(referalType == 'cross' && crossSelectedValue != '')">
 			 				<div v-if="(referalType !== null)"> 
 					 			<div class='col-md-6 text-left'>
 					 				<span class='text-left'><b>Referal :-</b></span>
@@ -262,8 +267,8 @@
 			 			{{this.$store.state.Patient.opdData.cross_type_ext}}
 			 						</div>
 			 				</div>
-				 		</div>
-			 		<div  v-if="(referalType == 'radiology' && radiologyData != '')" class="col-md-12 text-left">
+				 		</div> -->
+			 	<!-- 	<div  v-if="(referalType == 'radiology' && radiologyData != '')" class="col-md-12 text-left">
 			 			<div v-if="(referalType !== null && radiologyData != null)"> 
 					 		<div class='col-md-6 text-left'>
 					 			<span class='text-left'><b>Referal :-</b></span>
@@ -275,30 +280,34 @@
 			                      <th>Type</th>
 			                      <th>Body parts</th>
 			                      <th>Qualifier</th>
-			                      <th>Special request</th>
+			                      <th>Special request</th> -->
 			                      <!-- <th>Details</th> -->
 			                      <!-- <th>Gallery</th> -->
-			                  </tr>
+			                 <!--  </tr>
 			                  </thead>
 			                  <tbody>
 			                  <tr>
 			                      <td>{{radiologyData.type}}</td>
 			                      <td>{{radiologyData.bodyPart}}</td>
 			                      <td>{{radiologyData.qualifier}}</td>
-			                      <td>{{radiologyData.special_request}}</td>
+			                      <td>{{radiologyData.special_request}}</td> -->
 			                      <!-- <td>{{res.textData | strLimit}}</td> -->
 			                      <!-- <td><a href="javascript:void(0)" @click="viewGallery(res.id)" class="red">View</a></td> -->
 			                      <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
-			                      
+			               <!--        
 			                  </tr>
 			                  </tbody>
 			            </table>
 
-		 			</div>
+		 			</div> -->
 		 		</div>
 
 		 	<div style="position:absolute;bottom:150px;width:100%height:200px;right:30px;">
-		 		<img  :src="'/assets/img/signature/'+signatureName+'.png'" height="66" width="182"/></div>	
+		 		<img  :src="'/assets/img/signature/'+signatureName+'.png'" height="66" width="182"/>
+		 	</div>	
+		 	<div style="position:absolute;bottom:150px;width:100%height:200px;right:30px;">
+		 		<img  :src="'/assets/img/timestamp/'+timeStamp+'.png'" height="66" width="182"/>
+		 	</div>	
 		 	<div style="position:absolute;bottom:120px;width:100%height:50px;right:30px;">
 		 			<div class="row" style="padding-bottom: 10px;padding-right:20px;font-size: 15px;  ">
             				<div class='col-md-12 text-right'>
@@ -306,6 +315,7 @@
 				 			</div>
 				 	</div>	
 				</div>
+			</div>
 				<vinsletterheadfooterpart></vinsletterheadfooterpart>
 			</div>
 			</div>
@@ -313,7 +323,7 @@
 				
 				<button  type="button" class="btn btn-primary"  @click="ClickHereToPrint()">Print</button>	
 			
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>	
+               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>	
 
              <!--  <button type="button" class="btn btn-primary">Save</button>-->	
             </div>	
@@ -326,6 +336,7 @@
 	import User from '../../../api/users.js';
 	import vinsletterheadheaderpart from './vins_letter_header.vue';
 	import vinsletterheadfooterpart from './vins_letter_footer.vue';
+	import prescriptionData from './prescriptionData.vue';
 	import moment from 'moment';
 	var myDate = new Date();
 				var month = ('0' + (myDate.getMonth() + 1)).slice(-2);
@@ -345,12 +356,14 @@
 				'crossSelectedValue' : '',
 				'adviceScribleValue' : '',
 				'advice' : this.$store.state.Patient.opdData.advice,
-				'prescriptiData' : this.$store.state.Patient.opdData.prescriptiData,
+				'prescriptiData' : this.$store.state.Patient.prescriptionData,
 				'radioReportData' : this.$store.state.Patient.radioData, 
 				'labReportData' : this.$store.state.Patient.laboratoryData.type,
 				'consultntId' : this.$store.state.Users.userDetails.id,
 				'consultName' : '',
-				'signatureName' : ''
+				'signatureName' : '',
+				'timeStamp' : '',
+				'followup' : this.$store.state.Patient.neuroExaminationData.follow_up,
 				
 
 			}
@@ -373,42 +386,55 @@
 				this.adviceScribleValue = this.$store.state.Patient.opdData.signaturePad2_src;
 			}
 
-
-
 			User.generateUserNameById(vm.consultntId).then(
   				(response) => {
 					vm.consultName = response.data;
 					if(vm.consultntId == 1){
 						vm.signatureName = 'rakesh_shah';
+						vm.timeStamp = 'rakesh_shah';
 					}
 					else if (vm.consultntId == 2){
 						vm.signatureName = 'anand_vaishnav';	
+						vm.timeStamp = 'anand_vaishnav';
 					}else if (vm.consultntId == 3){
 						vm.signatureName = 'suvorit_bhowmick';	
+						vm.timeStamp = 'anand_vaishnav';
 					}else if (vm.consultntId == 4){
 						vm.signatureName = 'monish_malhotra';	
+						vm.timeStamp = 'anand_vaishnav';
 					}else if (vm.consultntId == 5){
 						vm.signatureName = 'suresh_nayak';	
+						vm.timeStamp = 'anand_vaishnav';
 					}else if (vm.consultntId == 6){
 						vm.signatureName = 'viral_mehta';	
+						vm.timeStamp = 'anand_vaishnav';
 					}else if (vm.consultntId == 7){
 						vm.signatureName = 'rakesh_jasani';	
+						vm.timeStamp = 'anand_vaishnav';
 					}else if (vm.consultntId == 8){
 						vm.signatureName = 'vijay_thakore';	
+						vm.timeStamp = 'anand_vaishnav';
 					}else if (vm.consultntId == 9){
-						vm.signatureName = 'kaushik_trivedi';	
+						vm.signatureName = 'kaushik_trivedi';
+						vm.timeStamp = 'anand_vaishnav';	
 					}else if (vm.consultntId == 10){
 						vm.signatureName = 'hemant_mathur';	
+						vm.timeStamp = 'anand_vaishnav';
 					}else if (vm.consultntId == 11){
 						vm.signatureName = 'mihir_acharya';	
+						vm.timeStamp = 'anand_vaishnav';
 					}else if (vm.consultntId == 12){
 						vm.signatureName = 'sumit_kapadia';	
+						vm.timeStamp = 'anand_vaishnav';
 					}else if (vm.consultntId == 13){
 						vm.signatureName = 'ketan_kapashi';	
+						vm.timeStamp = 'anand_vaishnav';
 					}else if (vm.consultntId == 14){
 						vm.signatureName = 'rajesh_kantharia';	
+						vm.timeStamp = 'anand_vaishnav';
 					}else{
-						vm.signatureName = 'test_signature';	
+						vm.signatureName = 'test_signature';
+						vm.timeStamp = 'test_timestamp';	
 					}
 				},
 			    (error) => {
@@ -435,7 +461,9 @@
 							'printType' : this.printType,
 							'radioReportData' : this.radioReportData,
 							'labReportData' : this.labReportData,
-							'signatureName' : this.signatureName
+							'signatureName' : this.signatureName,
+							'timeStamp' : this.timeStamp,
+							'followup' : this.followup
 						};
 
 				      	User.printOPDCaseData(OPDCaseData).then(	

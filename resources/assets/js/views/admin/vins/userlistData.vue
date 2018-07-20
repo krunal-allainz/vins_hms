@@ -70,7 +70,6 @@
 		                (error) => {
 		                	 $("body .js-loader").addClass('d-none');
 		                	 toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
-
 		        	});
 		    	}
 		    	else

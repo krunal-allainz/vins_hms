@@ -449,25 +449,18 @@
 			<div class="table-responsive">
 				<table class="table" id="prescription_list">
 				    <thead>
-					    <tr>
-						   <th width="8%">#</th>
-						   <th >Name</th>
-						   <th class="text-center">Quntity</th>
-						  <!--  <th class="text-center">Unit</th> -->
-						   <th class="text-center">Time For Medicine</th>
-					 	</tr>
 						</thead>
 						   <tbody>
-						   	@foreach($data['priscriptionData'] as $key=>$value)
-							   <tr >
-								   <td>{{$key}}</td>
-								   <td>{{$value['Prescription'] }}</td>
-								   <td class="text-center">{{$value['quntity']}}</td>
-
-								 <!--   <td class="text-center">{{(isset($value['unit']))?$value['unit']:''}}</td> -->
-
-								   <td class="text-center">{{$value['time']}}</td>
-							  </tr>
+						   	@foreach($data['priscriptionData'] as $key=>$res)
+							 <tr>
+							   <td>{{++$key}}]  {{$res['name']}} :  ORAL {{$res['clock_quantity_1']}}___{{$res['clock_quantity_2']}}___{{$res['clock_quantity_3']}} [ {{$res['clock_time_1']}}__ {{$res['clock_time_2']}}___{{$res['clock_time_3']}} ] [ {{$res['clock_suggest_1']}}___{{$res['clock_suggest_2']}}___{{$res['clock_suggest_3']}} ] 
+							   	@if($res['total_prescription_days'] !='')
+                                 <span >{{$res['total_prescription_days']}} DAYS </span>
+                                @else
+                                <span >TO BE CONTINUE</span>
+                                @endif
+                            </td>
+                        </tr>
 							@endforeach
 			           </tbody>
 			       </table>
@@ -486,7 +479,7 @@
 		@if($data['referalType'] == 'cross')
 				<div style="padding-left: 40px;">
 				@if($data['crossType'] == 'internal')
-					<div class='row' style="padding-left: 15px;padding-right:15px;">
+					<div class='row' >
 					 	<div class='col-md-6 text-left'>
 					 		<span class='text-left'><b>{{$data['crossType']}}</b></span> {{$data['crossSelectedValue']}}
 					 	</div>
@@ -524,7 +517,6 @@
          		</tr>	
          	</thead>
          </table>
-	    
     </div>	
 	<br/><br/>
 	
@@ -558,9 +550,22 @@
 		</div>
 	</div>
 	<br/><br/>
+	@endif
+	@if($data['followup'] != '')
+	<div  style="padding-left: 35px;">
+		<div class='col-md-6 text-left'>
+			<span class='text-left'><b>Followup :-</b></span>
+		</div>
+		<div >
+				<div class='col-md-12 text-left'>
+				   {{$data['followup']}}
+				</div> 
+		</div>
+	</div>
+	<br/><br/>
 	@endif 
 	
-	@if(count($data['priscriptionData']) > 0 || $data['priscriptionData'] != null)
+	<!-- @if(count($data['priscriptionData']) > 0 || $data['priscriptionData'] != null)
 	<div style="padding-left: 35px;">
 		<div class='col-md-6 text-left'>
 			<span class='text-left'><b>Prescription :-</b></span>
@@ -572,13 +577,11 @@
 				    <tr>
 					   <th width="8%">#</th>
 					   <th >Name</th>
-					   <th class="text-center">Quntity</th>
-<<<<<<< HEAD
+					   <th class="text-center">Quntity</th> -->
+
 					  <!--  <th class="text-center">Unit</th> -->
-=======
-					 <!--   <th class="text-center">Unit</th> -->
->>>>>>> 11074554789f74b08f9cc4c3c805d80751a4ad2e
-					   <th class="text-center">Time For Medicine</th>
+
+					<!--    <th class="text-center">Time For Medicine</th>
 				 	</tr>
 					</thead>
 					   <tbody>
@@ -586,13 +589,11 @@
 						   <tr >
 							   <td>{{$key}}</td>
 							   <td>{{$value['Prescription'] }}</td>
-							   <td class="text-center">{{$value['quntity']}}</td>
-<<<<<<< HEAD
+							   <td class="text-center">{{$value['quntity']}}</td> -->
+
 							 <!--   <td class="text-center">{{(isset($value['unit']))?$value['unit']:''}}</td> -->
-=======
-							   <!-- <td class="text-center">{{(isset($value['unit']))?$value['unit']:''}}</td> -->
->>>>>>> 11074554789f74b08f9cc4c3c805d80751a4ad2e
-							   <td class="text-center">{{$value['time']}}</td>
+
+							<!--    <td class="text-center">{{$value['time']}}</td>
 						  </tr>
 						@endforeach
 		           </tbody>
@@ -655,14 +656,15 @@
 					</tr>
 			</tbody>
 		</table>
-	</div>
+	</div> -->
 </div>
 	@endif
 	@endif
-	<div style="position:absolute;bottom:250px;width:100%height:200px;right:30px;">
+	<div style="position:absolute;bottom:230px;width:100%height:200px;right:30px;">
 		<img  :src="{{'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/>
-
+		<img  :src="{{'/assets/img/timestamp/'.$data['timeStamp'].'.png'}}" height="66" width="182"/>
 	</div>	
+	
 	<div style="position:absolute;bottom:200px;width:100%height:50px;right:30px;">
 	<div class="row" style="padding-right:20px;font-size: 15px;right:0px;">
 		<div class='col-md-12 text-right'>

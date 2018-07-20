@@ -12,10 +12,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use euro_hms\Notifications\MyOwnResetPassword as ResetPasswordNotification;
 use euro_hms\Models\UserOtp;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable implements HasRoleAndPermissionContract, CanResetPassword
 {
-    use Notifiable, HasRoleAndPermission, SoftDeletes;
+    use Notifiable,HasApiTokens, HasRoleAndPermission, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.

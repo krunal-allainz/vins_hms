@@ -35,6 +35,7 @@ class PatientsDetailFormController extends Controller
     public function index()
     {
         //
+       
     }
 
     /**
