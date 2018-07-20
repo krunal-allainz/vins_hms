@@ -6,7 +6,7 @@
                     <label for="selectType">Select Type:</label>
                 </div>
                 <div class="col-md-6">
-                    <select class="form-control ls-select2" v-validate="'required'" placeholder="Please select" id="select_type" name="select_type" v-model="patientSearchData.select_type">
+                    <select class="form-control ls-select2"  placeholder="Please select" id="select_type" name="select_type" v-model="patientSearchData.select_type">
                         <option> Select </option>
                         <option value="uhidNo">UHID No.</option>
                         <option value="mobileNo">Mobile No.</option>
@@ -26,9 +26,9 @@
                 </div>
 
                 <div class="col-md-6" style="display: flex;">
-                    <date-picker  :date.sync="patientSearchData.select_type_dob" :option="option" id = "select_type_dob" class="" type="date" name="select_value" :limit="limit" v-model="patientSearchData.select_type_dob.time" v-validate="'required'" :disabled="patientSearchData.case == 'old'" v-if="patientSearchData.select_type=='dob'"></date-picker>
+                    <date-picker  :date.sync="patientSearchData.select_type_dob" :option="option" id = "select_type_dob" class="" type="date" name="select_value" :limit="limit" v-model="patientSearchData.select_type_dob.time"  :disabled="patientSearchData.case == 'old'" v-if="patientSearchData.select_type=='dob'"></date-picker>
                     
-                    <input class="form-control" type="text" id="select_value" name="select_value" v-model="patientSearchData.select_value" v-validate="'required'" v-else>
+                    <input class="form-control" type="text" id="select_value" name="select_value" v-model="patientSearchData.select_value" v-else>
                     
                     <span  @click="getPatientDetailsBySearch()">
                         <i class="fa fa-search fa-2x red m-1" aria-hidden="true" style="cursor: pointer;" title="search"></i>

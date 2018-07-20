@@ -16,14 +16,11 @@
               <label for="patient">Select Patient:</label>
             </div>
             <div class="col-md-6">
-              <select  class="form-control ls-select2" v-validate="'required'" id = "patient" name="patient" value="" v-model="opdData.patientlist" > 
+              <select  class="form-control ls-select2"  id = "patient" name="patient" value="" v-model="opdData.patientlist" > 
                     <option value="">Select </option>
                    <option :value="pat.id" v-for="pat in opdData.patient_option">{{pat.name}}</option>
                 </select> 
-                <i v-show="errors.has('patient')" class="fa fa-warning"></i>      
-                 <span class="help is-danger" v-show="errors.has('patient')">
-                  Please Select patient.
-                </span> 
+                
             </div>
           </div>
         </div>
@@ -906,6 +903,7 @@
             // }
             else if(this.id == 'opd_no')
             {
+              
                  let opdID = $(this).val();
                      vm.opdData.opd_id=opdID;
                      User.generatePatientCheckUpDetails(opdID).then(
@@ -1181,7 +1179,7 @@
                               }); 
 
                       },500);
-                       
+                       //this.opdData.patientlist = pDetails.id;
                        this.opdData.opd_option=opd_list_new;
                       },
                       (error) => {

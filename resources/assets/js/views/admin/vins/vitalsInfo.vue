@@ -14,7 +14,7 @@
               			<label for="patient">Select Patient:</label>
             		</div>
            			<div class="col-md-6">
-           				<select  class="form-control ls-select2" v-validate="'required'" id = "patient" name="patient" value="" > 
+           				<select  class="form-control ls-select2" id = "patient" name="patient" value="" > 
            					 <option value="">Select</option>
                    				<option :value="pat.id" v-for="pat in patientData.patient_option">{{pat.name}}</option>
                 		</select> 
@@ -358,7 +358,7 @@
                               }); 
 
                       },500);
-                       
+                       this.patientData.patient_id = pDetails.id;
                        this.patientData.opd_option=opd_list_new;
                       },
                       (error) => {
@@ -444,8 +444,10 @@
 	          },
        		savePatientCheckup :function(e){ 
        			var vm =this;
+
        			this.$validator.validateAll().then(
 	            	(response) => { 	
+                  
 	            		if (!this.errors.any()) { 
 	            		 $("body .js-loader").removeClass('d-none');
 	            		 var pData = {'patientData':this.patientData,'userId':this.user_id};
@@ -466,6 +468,7 @@
 			                	 
 				    			},
 			                	  (error) => {
+                            console.log('fdsfds');
 			                	 $("body .js-loader").addClass('d-none');
 
 			               		 }
@@ -473,7 +476,7 @@
 			    	}
 			    },
                 (error) => {
-                	
+                	console.log('fdsfds2');
                 }
                 )
 			}
