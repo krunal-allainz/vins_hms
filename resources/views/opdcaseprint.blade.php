@@ -428,7 +428,7 @@
   @endif
   
   @if($data['printType'] == 'prescription')
-  	<div style="padding-left: 35px;min-height: 350px;height: 350px;">
+  	<div style="min-height: 350px;height: 350px;">
 			<div class='row' style="padding-left: 15px;padding-right:15px;">
 			    	 <table class="table" align="center" cellspacing=0>	
 		         	<thead>	
@@ -664,10 +664,10 @@
 	@endif
 	@endif
 	<div style="position:absolute;bottom:230px;width:100%height:200px;right:30px;">
-		<img  :src="{{'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/>
+		<img  :src="{{$url.'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/>
 	</div>	
 	<div style="position:absolute;bottom:230px;width:100%height:200px;right:30px;">
-	 	<img  :src="{{'/assets/img/timestamp/'.$data['timeStamp'].'.png'}}" height="66" width="182"/>
+	 	<img  :src="{{$url.'/assets/img/timestamp/'.$data['timeStamp'].'.png'}}" height="66" width="182"/>
 	</div>
 	<div style="position:absolute;bottom:200px;width:100%height:50px;right:30px;">
 	<div class="row" style="padding-right:20px;font-size: 15px;right:0px;">
