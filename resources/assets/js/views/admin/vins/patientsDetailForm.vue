@@ -198,7 +198,7 @@
 	                     </label>
 	                    </div>
 	                    <div class="col-md-6">
-							<date-picker  :date.sync="patientData.appointment_datetime" :option="timeoption" id = "appointment_datetime" class="" type="datetime" name="appointment_datetime"   v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" :limit="limit2"></date-picker> 
+							<date-picker  :date.sync="patientData.appointment_datetime" :option="timeoption" id = "appointment_datetime" class="" type="datetime" name="appointment_datetime"   v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" :limit="limit2" ></date-picker> 
 							<i v-show="errors.has('appointment_datetime')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('appointment_datetime')">
 		            			Please enter valid appointment datetime.
@@ -242,7 +242,6 @@
                 'deleteConfirmMsg': 'Are you sure you would like to delete this referee? All information associated with this referee will be permanently deleted.',
                 timeoption: {
                 	type : 'min',
-                	start : new Date(),
 			        week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
 			        month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
 			        format: 'DD-MM-YYYY  H:mm:ss',
@@ -368,15 +367,13 @@
         	this.$root.$on('patientEmpty',this.patientEmpty);
         },
         methods: {
-        	compairNumbers(){ console.log('test');
+        	compairNumbers(){ 
+        		
         		if(this.patientData.ph_no == this.patientData.mob_no){
-        			
-        		 this.validatenumber = 'Mobile number and phone number must be different';
+        		 this.patientData.validatenumber = 'Mobile number and phone number must be different';
 
-        		}else{
-        			this.validatenumber = '';
-        		}
-        		return this.validatenumber;
+        		}	
+        		return this.patientData.validatenumber;
 
         	},
         	 customFormatter(date) {
