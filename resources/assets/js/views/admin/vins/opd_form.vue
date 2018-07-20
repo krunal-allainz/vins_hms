@@ -55,9 +55,7 @@
                   </span> 
               </div>
             </div>
-          </div>
-
-          
+          </div>         
           <div class="row form-group">
             <div class="col-md-12">
                  <div class="col-md-6"  v-if="opdData.uhid_no!=''">
@@ -125,7 +123,7 @@
                   <div class="row form-group">
                   <div class="col-md-6">
                     <div class="col-md-6">
-                      <label for="date">Vitals:</label>
+                      <label for="date">RESP/SPO2:</label>
                     </div>
                     <div class="col-md-6">
                       <input type="text" name="vitals" id="vitals" class="form-control" v-model="opdData.vitals"  v-validate="'required'">
