@@ -326,10 +326,10 @@
             {
                 if(all_prescription.length)
                 {
-                  
-                  //vm.prescriptFinalData.prescriptionNameList = all_prescription
+                  //console.log('dasd');
+                  vm.prescriptFinalData.prescriptionNameList = all_prescription
                   vm.prescriptFinalData.finalPrescriptionAllData = all_prescription
-                  //vm.priscription_add_disabled=true;
+                  vm.priscription_add_disabled=true;
                   vm.show_prescription_result_data_enable=true;
                 }
                 
