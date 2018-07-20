@@ -52,7 +52,7 @@
                   Field is required
                 </span>
                     </div>
-                    <div class="col-md-6" v-show="resultData.type == 'X-Rays'">
+                   <!--  <div class="col-md-6" v-show="resultData.type == 'X-Rays'">
                         <label> Select Type:</label>   
                         <select class = "form-control ls-select2" id = "xray_type" name = "xray_type" v-model="resultData.x_ray_type" v-validate="'required'">
                             <option v-for="type in investigationData.xray_type_options" :value="type.value" >{{type.text}}</option>
@@ -60,7 +60,7 @@
                         <span class="help is-danger" v-show="errors.has('xray_type')">
                   Field is required
                         </span>              
-    		      </div>
+    		      </div> -->
                 </div>
                 <div class="row form-group">
 
@@ -242,7 +242,7 @@
                     'bodyPart':'',
                     'bodyPart_others':'',
                 	'type': '',
-                    'x_ray_type':'fixed',
+                    // 'x_ray_type':'fixed',
                     'spine_option_value':'',
                 	'subType': '',
                     'qualifier':'',
@@ -322,11 +322,11 @@
                       {text:'Other',value:'Other'},
                   ],
                 	'X-Rays':'',
-                    'xray_type_options': [
-                        {text:'',value:''},
-                        {text:'Fixed',value:'fixed','selected':true},
-                        {text:'Portable',value:'portable','selected':false}
-                    ],
+                    // 'xray_type_options': [
+                    //     {text:'',value:''},
+                    //     {text:'Fixed',value:'fixed','selected':true},
+                    //     {text:'Portable',value:'portable','selected':false}
+                    // ],
                 	'X-Rays_options':[
 						    {text:'',value:''},
                             {text:'HIP',value:'hip'},
@@ -577,7 +577,7 @@
                     'bodyPart':'',
                     'bodyPart_others':'',
                     'type': '',
-                    'x_ray_type':'fixed',
+                    // 'x_ray_type':'fixed',
                     'spine_option_value':'',
                     'subType': '',
                     'qualifier':'',

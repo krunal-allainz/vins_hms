@@ -13,6 +13,10 @@
  class PatientRepository 
  {
 
+    public function __construct(){
+        $this->patientDetailObj = new PatientDetailsForm();
+    }
+
  	public function patient_add($request) 	
  	{
  		$data = $request->all()['patientData']['patientData'];
@@ -47,15 +51,16 @@
         	}
         	
         }
-        
+      
         /*patient details*/
-        $patientData->first_name=$data['fname'];
+
+    $patientData->first_name=$data['fname'];
 		$patientData->middle_name=$data['mname'];
 		$patientData->last_name=$data['lname'];
-        $patientData->dob=  $data['dob']['time'];
+    $patientData->dob= $this->patientDetailObj->setDobDateAttribute($data['dob']['time']);
 		$patientData->gender=$data['gender'];
-        $patientData->age=$data['age'];
-        $patientData->type=$data['type'];
+    $patientData->age=$data['age'];
+    $patientData->type=$data['type'];
 		$patientData->address=$data['address'];
 		$patientData->ph_no=$data['ph_no'];
 		$patientData->mob_no=$data['mob_no'];
@@ -63,8 +68,26 @@
 		$patientData->consultant_id=$data['consulting_dr'];
 		$patientData->consultant=$data['consulting_dr'];
 		$patientData->case_type=$data['case'];
-		$patientData->appointment_datetime=$data['appointment_datetime']['time']; 
+		$patientData->appointment_datetime=$this->patientDetailObj->setDateTimeAttribute($data['appointment_datetime']['time']); 
 		/*for patient details end*/
+// =======
+//         $patientData->first_name=$data['fname'];
+//     		$patientData->middle_name=$data['mname'];
+//     		$patientData->last_name=$data['lname'];
+//         $patientData->dob= Carbon::createFromFormat('d-m-Y', $data['dob']['time'])->format('Y-m-d');
+//     		$patientData->gender=$data['gender'];
+//         $patientData->age=$data['age'];
+//         $patientData->type=$data['type'];
+//     		$patientData->address=$data['address'];
+//     		$patientData->ph_no=$data['ph_no'];
+//     		$patientData->mob_no=$data['mob_no'];
+//     		$patientData->references=$data['reference_dr'];
+//     		$patientData->consultant_id=$data['consulting_dr'];
+//     		$patientData->consultant=$data['consulting_dr'];
+//     		$patientData->case_type=$data['case'];
+// 		    $patientData->appointment_datetime=$data['appointment_datetime']['time']; 
+// 		    /*for patient details end*/
+// >>>>>>> f4372cfad0367e50626684d0db5ab3d6e3243f8e
 
         if($data['case'] == 'new') {
            $patientD =  PatientDetailsForm::orderBy('id', 'desc')->first();
@@ -84,9 +107,9 @@
 			/*for patient details end*/
         } else {
 	        /*for patient details start*/
-			$patientData->updated_at=Carbon::now();
-			$patientData->save();
-			/*for patient details end*/
+    			$patientData->updated_at=Carbon::now();
+    			$patientData->save();
+    			/*for patient details end*/
         }
 
         if ($patientId) {
@@ -117,19 +140,21 @@
                 }    
             }
             else{
-            	$ipd_prefix="OPD";
+            	$ipd_prefix="IPD";
         		$year = date('y');
-		        $ipdId =  OpdDetails::orderBy('id', 'desc')->first();
+		        $ipdId =  IpdDetails::orderBy('id', 'desc')->first();
 		        if($ipdId == null){   
 		            $lastIPD = 1; 
 		        }else{  
 		            $lastIPD = $ipdId->id + 1;  
 		        }
 		       	$newPatIPDNo = sprintf("%04d",$lastIPD);
-           		$insertedIPDId=$ipdId.$year.$newPatIPDNo;
+           		$insertedIPDId=$ipd_prefix.$year.$newPatIPDNo;
+              
                  $caseData = IpdDetails::create([
                  	'ipd_id'=>$insertedIPDId,
                     'patient_id'=> $patientId,
+                    'uhid_no'=> $patientData->uhid_no,
                     'admit_datetime' =>  Carbon::now(),
                      'appointment_datetime'=>$patientData->appointment_datetime
                 ]);
@@ -219,8 +244,9 @@
         }else if($data['select_type'] == 'lastName'){
             $select_key = 'last_name';
         }else if($data['select_type'] == 'dob'){
-            $select_key = 'dob';
-            $select_value=Carbon::createFromFormat('d-m-Y', $data['select_value'])->format('Y-m-d');
+           $select_key = 'dob';
+           $select_value=Carbon::createFromFormat('d-m-Y', $data['select_value'])->format('Y-m-d');
+           //$select_value=$data['select_value'];
         }
 
         if($select_key=='dob' && $user_id!=0)

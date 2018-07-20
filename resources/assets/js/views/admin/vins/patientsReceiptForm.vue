@@ -423,9 +423,6 @@
   							 	(response) => { 
   							 		//console.log( response.data.data);
   							 		if(response.data.code == 200){
-  							 			
-  							 			
-
   							 			let patientDetails = response.data.data.patient_details;
   							 			//console.log(patientDetails);
   							 			let name = patientDetails.first_name +' '+patientDetails.last_name;
