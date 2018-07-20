@@ -449,11 +449,11 @@
 
 	@if(isset($data['referalType']))
 	@if($data['referalType'] != null && $data['crossSelectedValue'] != '')
-		<div style="padding-left: 35px;"> 
+	 
 			<div class='col-md-12 text-center'>
 				<span class='text-center'><b>Cross Referal</b></span>
 			</div>
-		</div>
+		
 		@if($data['referalType'] == 'cross')
 				<div style="padding-left: 40px;">
 				@if($data['crossType'] == 'internal')
