@@ -41,7 +41,7 @@
                                 <div class="col-md-12"> 
                                      <date-picker :date.sync="lab.lab_date"  :option="option" id = "lab_date_id" class="lab_date" type="text" :name="'lab_date'+index"  :limit="limit" v-model="lab.lab_date.time" :value="lab.lab_date.time"   ></date-picker>
                                        
-                                </div> 
+                                </div>  
                             </div>  
                             <div class="col-md-3"> 
                                 <div class="col-md-12"> 
