@@ -16,14 +16,11 @@
               <label for="patient">Select Patient:</label>
             </div>
             <div class="col-md-6">
-              <select  class="form-control ls-select2" v-validate="'required'" id = "patient" name="patient" value="" v-model="opdData.patientlist" > 
+              <select  class="form-control ls-select2"  id = "patient" name="patient" value="" v-model="opdData.patientlist" > 
                     <option value="">Select </option>
                    <option :value="pat.id" v-for="pat in opdData.patient_option">{{pat.name}}</option>
                 </select> 
-                <i v-show="errors.has('patient')" class="fa fa-warning"></i>      
-                 <span class="help is-danger" v-show="errors.has('patient')">
-                  Please Select patient.
-                </span> 
+                
             </div>
           </div>
         </div>
@@ -58,9 +55,7 @@
                   </span> 
               </div>
             </div>
-          </div>
-
-          
+          </div>         
           <div class="row form-group">
             <div class="col-md-12">
                  <div class="col-md-6"  v-if="opdData.uhid_no!=''">
@@ -128,7 +123,7 @@
                   <div class="row form-group">
                   <div class="col-md-6">
                     <div class="col-md-6">
-                      <label for="date">Vitals:</label>
+                      <label for="date">RESP/SPO2:</label>
                     </div>
                     <div class="col-md-6">
                       <input type="text" name="vitals" id="vitals" class="form-control" v-model="opdData.vitals"  v-validate="'required'">
@@ -906,6 +901,7 @@
             // }
             else if(this.id == 'opd_no')
             {
+              
                  let opdID = $(this).val();
                      vm.opdData.opd_id=opdID;
                      User.generatePatientCheckUpDetails(opdID).then(
@@ -1159,7 +1155,7 @@
             {
               
                this.opdData.opd_option={};
-              $('#opd_no').select2('destroy');
+              //$('#opd_no').select2('destroy');
               let pDetails=patientData.searchdata;
               //for opd list
                 this.opdData.uhid_no=pDetails.uhid_no;
@@ -1181,7 +1177,7 @@
                               }); 
 
                       },500);
-                       
+                       //this.opdData.patientlist = pDetails.id;
                        this.opdData.opd_option=opd_list_new;
                       },
                       (error) => {
@@ -1265,7 +1261,7 @@
 
                 this.$validator.validateAll().then(
                 (response) => {
-                 vm.priscriptionAdd = vm.finalPrescriptionData.length;
+                 //vm.priscriptionAdd = vm.finalPrescriptionData.length;
                   if (!this.errors.any()) {
                     // if(vm.priscriptionAdd >  0){
                       

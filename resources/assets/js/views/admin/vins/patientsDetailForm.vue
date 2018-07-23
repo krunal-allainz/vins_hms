@@ -87,7 +87,7 @@
 	                    </div>
 	                    <div class="col-md-6">
 							
-							<date-picker  :date.sync="patientData.dob" :option="option" id = "date_of_birth" class="" type="date" name="date_of_birth" :limit="limit" v-model="patientData.dob.time" v-validate="'required'" :disabled="patientData.case == 'old'" v-on:change="getAgeCal()"></date-picker> 
+							<date-picker  :date.sync="patientData.dob" :option="option" id = "date_of_birth" class="" type="date" name="date_of_birth" :limit="limit" v-model="patientData.dob.time" :disabled="patientData.case == 'old'" @change="getAgeCal()" ></date-picker> 
 							<i v-show="errors.has('date_of_birth')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('date_of_birth')">
 		            			Please enter valid date of birth.
@@ -102,7 +102,7 @@
 	                        	<label for="age">Age: </label>
 	                		 </div>
 	                		  <div class="col-md-6">
-								<input class="form-control" type="numeric" id="age" name="age" value="" v-model="patientData.age" v-validate="'required|numeric|min:1|max:4'" @change="getBirthYear()"/>
+								<input class="form-control" type="numeric" id="age" name="age" value="" v-model="patientData.display_age" v-validate="'required|numeric|min:1|max:3'" @change="getBirthYear()"/>
 								<i v-show="errors.has('age')" class="fa fa-warning"></i>
 								<span class="help is-danger" v-show="errors.has('age')">
 			            			Please enter your age.
@@ -131,11 +131,12 @@
 	                    </div>
 	                    <div class="col-md-6">
 					      	<input class="form-control" type="text" id="phone_no" name="ph_no" value="" v-validate="'numeric'" v-model="patientData.ph_no" :disabled="patientData.case == 'old'" 
-					      	  />
+					      	   @change="compairNumbers()"/>
 					      	  <i v-show="errors.has('ph_no')" class="fa fa-warning"></i>
 					      	<span class="help is-danger" v-show="errors.has('ph_no')">
 			                	Please enter valid phone no.
 			                </span>	  
+			                <span class="help is-danger">{{patientData.validatenumber}}</span>
 	                    </div>
 	                </div>
 	           		<div class="col-md-6">
@@ -143,11 +144,12 @@
 	                    	<label class="control-label" for="mobile_no">Mobile no.: </label>
 	                    </div>
 	                    <div class="col-md-6">
-					      	<input class="form-control" type="text" id="mobile_no" name="mob_no" value="" v-model="patientData.mob_no" v-validate="'required|numeric|min:10|max:10'" :disabled="patientData.case == 'old'" maxlength="10"  />
+					      	<input class="form-control" type="text" id="mobile_no" name="mob_no" value="" v-model="patientData.mob_no" v-validate="'required|numeric|min:10|max:10'" :disabled="patientData.case == 'old'" maxlength="10" @change="compairNumbers()" />
 					      	<i v-show="errors.has('mob_no')" class="fa fa-warning"></i>
 					      	<span class="help is-danger" v-show="errors.has('mob_no')">
 				               Please enter valid mobile no.
 				            </span>
+				            	<span class="help is-danger">{{patientData.validatenumber}}</span>
 	                    </div>
 	                </div>
 	           	</div>
@@ -196,7 +198,7 @@
 	                     </label>
 	                    </div>
 	                    <div class="col-md-6">
-							<date-picker  :date.sync="patientData.appointment_datetime" :option="timeoption" id = "appointment_datetime" class="" type="datetime" name="appointment_datetime"   v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" :limit="limit2"></date-picker> 
+							<date-picker  :date.sync="patientData.appointment_datetime" :option="timeoption" id = "appointment_datetime" class="" type="datetime" name="appointment_datetime"   v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" :limit="limit2" ></date-picker> 
 							<i v-show="errors.has('appointment_datetime')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('appointment_datetime')">
 		            			Please enter valid appointment datetime.
@@ -303,11 +305,13 @@
                 	'consulting_dr':'',
                 	'consulting_dr_option':consult_list,
                 	'age' : '',
+                	'display_age' : '',
                 	'appointment_datetime': {
                 		time:''
                 	},
                 	'select_type':'',
-                	'select_value':''
+                	'select_value':'',
+                	'validatenumber' : ''
                 }
             }
         },
@@ -363,7 +367,15 @@
         	this.$root.$on('patientEmpty',this.patientEmpty);
         },
         methods: {
+        	compairNumbers(){ 
+        		
+        		if(this.patientData.ph_no == this.patientData.mob_no){
+        		 this.patientData.validatenumber = 'Mobile number and phone number must be different';
 
+        		}	
+        		return this.patientData.validatenumber;
+
+        	},
         	 customFormatter(date) {
 		      		return moment(date).format('MMMM Do YYYY, h:mm:ss a');
 		    	},
@@ -374,7 +386,7 @@
         	},
 
         	  getAgeCal () { 
-        	  	let vm =this;;
+        	  	let vm =this;
 		        vm.handleDOBChanged();
 		      },
 		      getBirthYear(){ 
@@ -382,11 +394,14 @@
 		      	 let getYearForage = 0;
 
 		      	if(this.patientData.dob.time == ''){
-		      		let patientAge = this.patientData.age;
+		      		let patientAge = this.patientData.display_age;
 		      	     getYearForage =   this.currentYear - patientAge - 1;
 		      	      this.patientData.age = getYearForage;
+		      	      
 		      	}
+		      		this.patientData.dob.time = '';
 		      	 return this.patientData.age;
+		      	
 		      },
         	setPatientData(patientData) {
         		if(patientData.code==200)
@@ -427,13 +442,13 @@
 		    },
 		    handleDOBChanged() { 	
 				   // $('#dob').on('change', function () {	
-				   		console.log(this.isDate(this.patientData.dob.time));
+				   		
 				      if (this.isDate(this.patientData.dob.time)) { 
 
 				        var ageCal = this.calculateAge(this.parseDate(this.patientData.dob.time), new Date());	
 				     
 				      	//$("#age").html(age); 
-				      	this.patientData.age = ageCal; 	
+				      	this.patientData.display_age = ageCal; 	
 				      }     	
 				  //  });	
 				},	
