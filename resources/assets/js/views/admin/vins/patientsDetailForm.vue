@@ -102,11 +102,11 @@
 	                        	<label for="age">Age: </label>
 	                		 </div>
 	                		  <div class="col-md-6">
-								<input class="form-control" type="numeric" id="age" name="age" value="" v-model="patientData.display_age" v-validate="'required|numeric|min:1|max:3'" @change="getBirthYear()"/>
+								<input class="form-control" type="numeric" id="age" name="age" value="" v-model="patientData.display_age" v-validate="'required|numeric|min:1|max:3'" @change="getBirthYear()" />
 								<i v-show="errors.has('age')" class="fa fa-warning"></i>
 								<span class="help is-danger" v-show="errors.has('age')">
 			            			Please enter your age.
-			            		</span>
+			            		</span> 
 			            	</div>
 	                    </div>
 	                   <div class="col-md-6"> <div class="col-md-6">
@@ -393,12 +393,12 @@
 
 		      	 let getYearForage = 0;
 
-		      	if(this.patientData.dob.time == ''){
+		      	
 		      		let patientAge = this.patientData.display_age;
 		      	     getYearForage =   this.currentYear - patientAge - 1;
 		      	      this.patientData.age = getYearForage;
 		      	      
-		      	}
+		      
 		      		this.patientData.dob.time = '';
 		      	 return this.patientData.age;
 		      	
@@ -414,19 +414,21 @@
             		this.patientData.lname = pDetails.last_name;
             		this.patientData.ph_no = pDetails.ph_no;
             		this.patientData.mob_no = pDetails.mob_no;
+            		this.patientData.type = pDetails.type;
             		this.patientData.gender = pDetails.gender;
             		$('#gender').val(pDetails.gender).trigger('change');
             		this.patientData.address = pDetails.address;
             		this.patientData.reference_dr = pDetails.references;
             		this.patientData.dob.time = pDetails.dob;
             		this.patientData.consulting_dr = pDetails.consultant_id;
+            		this.patientData.appointment_datetime.time = pDetails.appointment_datetime;
             		$('#gender').val(pDetails.gender).change();
             		$('#consulting_dr').val(pDetails.consultant_id).change();
             		this.getAgeCal();
         		}
         		else if(patientData.code==300)
         		{
-        			vm.userlistData={};
+        			vm.userlistData={};	
         			toastr.error('Record not found', 'Error', {timeOut: 5000});
         			this.initPatientData();
         		}
@@ -561,6 +563,7 @@
 	            	if (!this.errors.any()) {
 	            		 $("body .js-loader").removeClass('d-none');
 	            		 var pData = {'patientData':this.patientData,'patientType':this.patientData.type};
+
 				    	User.savePatient(pData).then(
 		                (response) => {
 		                	if(response.data.code == 200) {

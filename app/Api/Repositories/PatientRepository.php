@@ -18,11 +18,11 @@
     }
 
  	public function patient_add($request) 	
- 	{
+ 	{ 
  		$data = $request->all()['patientData']['patientData'];
         $patientType = $request->all()['patientData']['patientType'];
         $a_time=$data['appointment_datetime']['time'];
- 		   $uhid="VN";
+ 		    $uhid="VN";
         $year = date('y');
         $insertedPatientId="";
 		
@@ -35,14 +35,22 @@
         	$patientId = 0;
 	          if($data['select_type'] == 'uhidNo'){
 	            $select_key = 'uhid_no';
-	          }else {
+	          }else if ($data['select_type'] == 'firstName'){
+              $select_key = 'first_name';
+            }else if ($data['select_type'] == 'lastName'){
+              $select_key = 'last_name';
+            }else if ($data['select_type'] == 'dob'){
+              $select_key = 'dob';
+            }else {
 	            $select_key = 'mob_no';
 	          }
         	$patientdetails = PatientDetailsForm::where($select_key,$data['select_value'])->get()->first();
+          
         	if($patientdetails)
         	{
         		$patientData=PatientDetailsForm::findOrFail($patientdetails->id);
         		$patientId = $patientdetails->id;
+
 
         	}
         	else
@@ -53,13 +61,11 @@
         }
       
         /*patient details*/
-
-
     $patientData->first_name=$data['fname'];
 		$patientData->middle_name=$data['mname'];
 		$patientData->last_name=$data['lname'];
     if($data['dob']['time'] != ''){
-     $patientData->dob= $this->patientDetailObj->setDobDateAttribute($data['dob']['time']);
+     $patientData->dob= $data['dob']['time'];
     }
 		$patientData->gender=$data['gender'];
     $patientData->age=$data['age'];
@@ -72,7 +78,7 @@
 		$patientData->consultant=$data['consulting_dr'];
 		$patientData->case_type=$data['case'];
     if($data['appointment_datetime']['time'] != ''){
-		  $patientData->appointment_datetime=$this->patientDetailObj->setDateTimeAttribute($data['appointment_datetime']['time']); 
+		  $patientData->appointment_datetime=$data['appointment_datetime']['time']; 
     }
 		/*for patient details end*/
 
