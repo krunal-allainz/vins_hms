@@ -31,9 +31,10 @@
 					 	<label for="date">Patient Type:</label>
 					</div>
 					<div class="col-md-6">
-				    	<select class="form-control ls-select2"  id = "type" name="type" value="" v-model="patientData.type">
+				    	<select class="form-control ls-select2"  id = "type" name="type" value="" v-model="patientData.type" v-validate="'required'">
 				    		<option :value="patient_type.id" v-for="patient_type in patient_type_option">{{patient_type.text}}</option>
 				    	</select>
+				    <i v-show="errors.has('type')" class="fa fa-warning"></i>
 				   <span class="help is-danger" v-show="errors.has('type')"> Please Select Patient Type. </span>
 				    </div>
 			    </div>
@@ -311,7 +312,8 @@
                 	},
                 	'select_type':'',
                 	'select_value':'',
-                	'validatenumber' : ''
+                	'validatenumber' : '',
+                	'patient_id':''
                 }
             }
         },
@@ -407,6 +409,7 @@
         		if(patientData.code==200)
         		{
         			let pDetails=patientData.searchdata;
+        			this.patientData.patient_id=pDetails.id;
         			this.patientData.select_type = patientData.select_type;
         			this.patientData.select_value = patientData.select_value;
         			this.patientData.fname = pDetails.first_name;
@@ -420,9 +423,12 @@
             		this.patientData.reference_dr = pDetails.references;
             		this.patientData.dob.time = pDetails.dob;
             		this.patientData.consulting_dr = pDetails.consultant_id;
+            		this.patientData.type = pDetails.type;
+            		$('#type').val(pDetails.type).trigger('change');
             		$('#gender').val(pDetails.gender).change();
             		$('#consulting_dr').val(pDetails.consultant_id).change();
-            		this.getAgeCal();
+            		this.patientData.display_age=pDetails.age;
+            		//this.getAgeCal();
         		}
         		else if(patientData.code==300)
         		{
@@ -536,6 +542,7 @@
 			    },
 		    initPatientData(){
 		    	var vm = this;
+		    	vm.patientData.patient_id = '';
 		    	vm.patientData.fname = '';
 		    	vm.patientData.mname = '';
 		    	vm.patientData.lname = '';
@@ -574,7 +581,7 @@
     							window.location.reload(); 
     							//this.$router.go();
 		                	} else if(response.data.code == 300) {
-		                		toastr.error('Record not found.Please enter valid search value.', 'Error', {timeOut: 5000});
+		                		toastr.error('Something goes wrong.', 'Error', {timeOut: 5000});
 		                	} else{
 		                		
 		                	 toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
