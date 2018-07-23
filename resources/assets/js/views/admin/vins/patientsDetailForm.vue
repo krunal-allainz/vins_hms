@@ -394,21 +394,41 @@
 		      getBirthYear(){ 
 
 		      	 let getYearForage = 0;
-
+		      	 this.patientData.dob.time = null;
 		      	
 		      		let patientAge = this.patientData.display_age;
 		      	     getYearForage =   this.currentYear - patientAge - 1;
 		      	      this.patientData.age = getYearForage;
-		      	      
-		      
-		      		this.patientData.dob.time = '';
-		      	 return this.patientData.age;
+		      		
+		      	 return true;
 		      	
 		      },
+		      getAgeFromYear(year){
+				
+		      	let getYear = 0;
+		      	this.patientData.display_age = 1;
+		      	getYear = this.currentYear - year - 1;
+		      	console.log(getYear);
+		      	if(getYear != 0){
+		      		this.patientData.display_age = getYear;
+		      	}
+		      },
         	setPatientData(patientData) {
+
         		if(patientData.code==200)
         		{
+        			
         			let pDetails=patientData.searchdata;
+        			
+        			if(pDetails.dob == null){
+        				console.log(pDetails.age);
+            			this.getAgeFromYear(pDetails.age);
+            			
+            		}else{
+            			this.patientData.display_age=pDetails.age;
+            			this.patientData.age = pDetails.age;
+            			
+            		}
         			this.patientData.patient_id=pDetails.id;
         			this.patientData.select_type = patientData.select_type;
         			this.patientData.select_value = patientData.select_value;
@@ -430,7 +450,7 @@
 
             		$('#gender').val(pDetails.gender).change();
             		$('#consulting_dr').val(pDetails.consultant_id).change();
-            		this.patientData.display_age=pDetails.age;
+            		
             		//this.getAgeCal();
         		}
         		else if(patientData.code==300)
@@ -451,13 +471,15 @@
 		    },
 		    handleDOBChanged() { 	
 				   // $('#dob').on('change', function () {	
-				   		
+				   		this.patientData.age = '';
 				      if (this.isDate(this.patientData.dob.time)) { 
 
 				        var ageCal = this.calculateAge(this.parseDate(this.patientData.dob.time), new Date());	
 				     
 				      	//$("#age").html(age); 
 				      	this.patientData.display_age = ageCal; 	
+				      	this.patientData.age = ageCal; 	
+				        	
 				      }     	
 				  //  });	
 				},	

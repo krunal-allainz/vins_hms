@@ -48,24 +48,40 @@ class PatientDetailsForm extends Model
 
     public function getDobAttribute($value)
     {
-        return Carbon::parse($value)->format('d-m-Y');
+      if($value != null){
+          return Carbon::parse($value)->format('d-m-Y');
+      }else{
+        return null;
+      }
     }
 
     public function setDobAttribute($value)
 
     { 
+      if($value != ''){
         return $this->attributes['dob'] =   Carbon::createFromFormat('d-m-Y', $value);
+      }else{
+         return $this->attributes['dob'] = null;
+      }
 
     }
 
      public function getAppointmentDatetimeAttribute($value)
     { 
-        return Carbon::parse($value)->format('d-m-Y H:i:s');
+        if($value != null){
+         return Carbon::parse($value)->format('d-m-Y H:i:s');
+       }else{
+        return null;
+       }
     }
 
      public function setAppointmentDatetimeAttribute($value)
     { 
-      return $this->attributes['appointment_datetime'] =   Carbon::createFromFormat('d-m-Y H:i:s', $value);
+        if($value != ''){
+        return $this->attributes['appointment_datetime'] =   Carbon::createFromFormat('d-m-Y H:i:s', $value);
+        }else{
+           return $this->attributes['appointment_datetime'] = null;
+        }
     }
 
       public function getIpdDetails()
