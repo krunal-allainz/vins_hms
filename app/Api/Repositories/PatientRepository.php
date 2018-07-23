@@ -32,24 +32,13 @@
         }
         else
         {
-        	$patientId = 0;
-	          if($data['select_type'] == 'uhidNo'){
-	            $select_key = 'uhid_no';
-	          }else if ($data['select_type'] == 'firstName'){
-              $select_key = 'first_name';
-            }else if ($data['select_type'] == 'lastName'){
-              $select_key = 'last_name';
-            }else if ($data['select_type'] == 'dob'){
-              $select_key = 'dob';
-            }else {
-	            $select_key = 'mob_no';
-	          }
-        	$patientdetails = PatientDetailsForm::where($select_key,$data['select_value'])->get()->first();
-          
-        	if($patientdetails)
+
+        	$patientId =$data['patient_id'];
+	          
+        	if($patientId!=0 && $patientId!="")
+
         	{
-        		$patientData=PatientDetailsForm::findOrFail($patientdetails->id);
-        		$patientId = $patientdetails->id;
+        		$patientData=PatientDetailsForm::findOrFail($patientId);
 
 
         	}
@@ -67,8 +56,9 @@
     if($data['dob']['time'] != ''){
      $patientData->dob= $data['dob']['time'];
     }
+    
 		$patientData->gender=$data['gender'];
-    $patientData->age=$data['age'];
+    $patientData->age=$data['display_age'];
     $patientData->type=$data['type'];
 		$patientData->address=$data['address'];
 		$patientData->ph_no=$data['ph_no'];
