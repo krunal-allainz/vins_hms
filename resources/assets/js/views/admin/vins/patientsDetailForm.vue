@@ -137,7 +137,7 @@
 					      	<span class="help is-danger" v-show="errors.has('ph_no')">
 			                	Please enter valid phone no.
 			                </span>	  
-			                <span class="help is-danger">{{patientData.validatenumber}}</span>
+			                <span class="help is-danger" v-if="(patientData.ph_no == patientData.mob_no)">{{patientData.validatenumber}}</span>
 	                    </div>
 	                </div>
 	           		<div class="col-md-6">
@@ -150,7 +150,7 @@
 					      	<span class="help is-danger" v-show="errors.has('mob_no')">
 				               Please enter valid mobile no.
 				            </span>
-				            	<span class="help is-danger">{{patientData.validatenumber}}</span>
+				            	<span class="help is-danger" v-if="(patientData.ph_no == patientData.mob_no)">{{patientData.validatenumber}}</span>
 	                    </div>
 	                </div>
 	           	</div>
@@ -414,7 +414,7 @@
 		      	}
 		      },
         	setPatientData(patientData) {
-
+        		
         		if(patientData.code==200)
         		{
         			
