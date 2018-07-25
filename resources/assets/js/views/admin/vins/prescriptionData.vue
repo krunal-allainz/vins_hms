@@ -99,7 +99,7 @@
               </div>
             </div>
             <br/>
-            <div class="row form-group" v-if="original_length>0">
+            <div class="row form-group" v-if="prescriptFinalData.prescriptionNameList.length>0">
               <div class="col-md-3">
                   <div class="col-md-12">
                      <label for="prescription">Prescription Name</label>

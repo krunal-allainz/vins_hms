@@ -3,10 +3,12 @@
 namespace euro_hms\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class OpdDetails extends Model
 {
     protected $table = 'opd_details';
+     protected $appointment_datetime = 'd-m-Y H:i:s';
 
     protected $fillable=[
       'opd_id',
@@ -23,5 +25,15 @@ class OpdDetails extends Model
 	public function patientDetails()
     {
         return $this->belongsTo('euro_hms\Models\PatientDetailsForm','patient_id');
+    }
+
+     public function getAppointmentDatetimeAttribute($value)
+    { 
+        return Carbon::parse($value)->format('d-m-Y H:i:s');
+    }
+
+     public function setAppointmentDatetimeAttribute($value)
+    { 
+      return $this->attributes['appointment_datetime'] =   Carbon::createFromFormat('d-m-Y H:i:s', $value);
     }
 }

@@ -182,7 +182,7 @@
           <div class="col-md-12">
             <textarea class="form-control" type="text" name="follow_up" id="follow_up" v-model="neuroExaminationData.follow_up"  v-validate="'required'" /></textarea>
               <i v-show="errors.has('follow_up')" class="fa fa-warning"></i>
-                  <span class="help is-danger" v-show="errors.has('case')">
+                  <span class="help is-danger" v-show="errors.has('follow_up')">
                       Please fill follow up.
                   </span>
           </div>

@@ -31,9 +31,10 @@
 					 	<label for="date">Patient Type:</label>
 					</div>
 					<div class="col-md-6">
-				    	<select class="form-control ls-select2"  id = "type" name="type" value="" v-model="patientData.type">
+				    	<select class="form-control ls-select2"  id = "type" name="type" value="" v-model="patientData.type" v-validate="'required'">
 				    		<option :value="patient_type.id" v-for="patient_type in patient_type_option">{{patient_type.text}}</option>
 				    	</select>
+				    <i v-show="errors.has('type')" class="fa fa-warning"></i>
 				   <span class="help is-danger" v-show="errors.has('type')"> Please Select Patient Type. </span>
 				    </div>
 			    </div>
@@ -102,11 +103,11 @@
 	                        	<label for="age">Age: </label>
 	                		 </div>
 	                		  <div class="col-md-6">
-								<input class="form-control" type="numeric" id="age" name="age" value="" v-model="patientData.display_age" v-validate="'required|numeric|min:1|max:3'" @change="getBirthYear()"/>
+								<input class="form-control" type="numeric" id="age" name="age" value="" v-model="patientData.display_age" v-validate="'required|numeric|min:1|max:3'" @change="getBirthYear()" />
 								<i v-show="errors.has('age')" class="fa fa-warning"></i>
 								<span class="help is-danger" v-show="errors.has('age')">
 			            			Please enter your age.
-			            		</span>
+			            		</span> 
 			            	</div>
 	                    </div>
 	                   <div class="col-md-6"> <div class="col-md-6">
@@ -136,7 +137,7 @@
 					      	<span class="help is-danger" v-show="errors.has('ph_no')">
 			                	Please enter valid phone no.
 			                </span>	  
-			                <span class="help is-danger">{{patientData.validatenumber}}</span>
+			                <span class="help is-danger" v-if="(patientData.ph_no == patientData.mob_no)">{{patientData.validatenumber}}</span>
 	                    </div>
 	                </div>
 	           		<div class="col-md-6">
@@ -149,7 +150,7 @@
 					      	<span class="help is-danger" v-show="errors.has('mob_no')">
 				               Please enter valid mobile no.
 				            </span>
-				            	<span class="help is-danger">{{patientData.validatenumber}}</span>
+				            	<span class="help is-danger" v-if="(patientData.ph_no == patientData.mob_no)">{{patientData.validatenumber}}</span>
 	                    </div>
 	                </div>
 	           	</div>
@@ -311,7 +312,8 @@
                 	},
                 	'select_type':'',
                 	'select_value':'',
-                	'validatenumber' : ''
+                	'validatenumber' : '',
+                	'patient_id':''
                 }
             }
         },
@@ -392,21 +394,42 @@
 		      getBirthYear(){ 
 
 		      	 let getYearForage = 0;
-
-		      	if(this.patientData.dob.time == ''){
+		      	 this.patientData.dob.time = null;
+		      	
 		      		let patientAge = this.patientData.display_age;
 		      	     getYearForage =   this.currentYear - patientAge - 1;
 		      	      this.patientData.age = getYearForage;
-		      	      
-		      	}
-		      		this.patientData.dob.time = '';
-		      	 return this.patientData.age;
+		      		
+		      	 return true;
 		      	
 		      },
+		      getAgeFromYear(year){
+				
+		      	let getYear = 0;
+		      	this.patientData.display_age = 1;
+		      	getYear = this.currentYear - year - 1;
+		      	console.log(getYear);
+		      	if(getYear != 0){
+		      		this.patientData.display_age = getYear;
+		      	}
+		      },
         	setPatientData(patientData) {
+        		
         		if(patientData.code==200)
         		{
+        			
         			let pDetails=patientData.searchdata;
+        			
+        			if(pDetails.dob == null){
+        				console.log(pDetails.age);
+            			this.getAgeFromYear(pDetails.age);
+            			
+            		}else{
+            			this.patientData.display_age=pDetails.age;
+            			this.patientData.age = pDetails.age;
+            			
+            		}
+        			this.patientData.patient_id=pDetails.id;
         			this.patientData.select_type = patientData.select_type;
         			this.patientData.select_value = patientData.select_value;
         			this.patientData.fname = pDetails.first_name;
@@ -414,19 +437,25 @@
             		this.patientData.lname = pDetails.last_name;
             		this.patientData.ph_no = pDetails.ph_no;
             		this.patientData.mob_no = pDetails.mob_no;
+            		this.patientData.type = pDetails.type;
             		this.patientData.gender = pDetails.gender;
             		$('#gender').val(pDetails.gender).trigger('change');
             		this.patientData.address = pDetails.address;
             		this.patientData.reference_dr = pDetails.references;
             		this.patientData.dob.time = pDetails.dob;
             		this.patientData.consulting_dr = pDetails.consultant_id;
+            		this.patientData.appointment_datetime.time = pDetails.appointment_datetime;
+            		this.patientData.type = pDetails.type;
+            		$('#type').val(pDetails.type).trigger('change');
+
             		$('#gender').val(pDetails.gender).change();
             		$('#consulting_dr').val(pDetails.consultant_id).change();
-            		this.getAgeCal();
+            		
+            		//this.getAgeCal();
         		}
         		else if(patientData.code==300)
         		{
-        			vm.userlistData={};
+        			vm.userlistData={};	
         			toastr.error('Record not found', 'Error', {timeOut: 5000});
         			this.initPatientData();
         		}
@@ -442,13 +471,15 @@
 		    },
 		    handleDOBChanged() { 	
 				   // $('#dob').on('change', function () {	
-				   		
+				   		this.patientData.age = '';
 				      if (this.isDate(this.patientData.dob.time)) { 
 
 				        var ageCal = this.calculateAge(this.parseDate(this.patientData.dob.time), new Date());	
 				     
 				      	//$("#age").html(age); 
 				      	this.patientData.display_age = ageCal; 	
+				      	this.patientData.age = ageCal; 	
+				        	
 				      }     	
 				  //  });	
 				},	
@@ -536,6 +567,7 @@
 			    },
 		    initPatientData(){
 		    	var vm = this;
+		    	vm.patientData.patient_id = '';
 		    	vm.patientData.fname = '';
 		    	vm.patientData.mname = '';
 		    	vm.patientData.lname = '';
@@ -561,6 +593,7 @@
 	            	if (!this.errors.any()) {
 	            		 $("body .js-loader").removeClass('d-none');
 	            		 var pData = {'patientData':this.patientData,'patientType':this.patientData.type};
+
 				    	User.savePatient(pData).then(
 		                (response) => {
 		                	if(response.data.code == 200) {
@@ -574,7 +607,7 @@
     							window.location.reload(); 
     							//this.$router.go();
 		                	} else if(response.data.code == 300) {
-		                		toastr.error('Record not found.Please enter valid search value.', 'Error', {timeOut: 5000});
+		                		toastr.error('Something goes wrong.', 'Error', {timeOut: 5000});
 		                	} else{
 		                		
 		                	 toastr.error('Something goes wrong', 'Error', {timeOut: 5000});

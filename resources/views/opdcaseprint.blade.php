@@ -409,7 +409,7 @@
                  </thead>
                  <tbody>
                  @foreach($data['radioReportData'] as $index=>$res)
-                 <tr>
+                 <tr class="text-center">
                             <!-- <td>{{++$index}}</td> -->
                             <td>{{$res['type']}}</td>
                             <td>{{$res['bodyPart']}}</td>
