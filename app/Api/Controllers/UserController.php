@@ -226,4 +226,35 @@ class UserController extends BaseController
             return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
         }
     }
+
+    /**
+
+
+    */
+
+    public function getImagefromUrl(Request $request){
+        $url = $request->url;
+
+        $image = file_get_contents($url);
+       $imageData = base64_encode($image);
+       $header =  get_headers($url,1);
+       $imagePath = 'data:'.$header['Content-Type'].';base64,'.$imageData;
+        
+       
+        //echo '<img src="data:image/jpeg;base64,'.$imageData.'">';
+
+          if ($image) {
+          
+            return response()->json(['status' => 200,'message' => 'Record Sucessfully created',
+               'data' =>$imagePath]);
+        } else {
+              return response()->json([
+                'status' => 300,
+                'message' => 'Something goes wrong',
+               'data' =>''
+            ]
+        );
+        }
+
+    }
 }

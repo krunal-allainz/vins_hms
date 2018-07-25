@@ -311,6 +311,9 @@ export default {
   },
   savePatientCheckup(pData){
      return api.post('patient/save_patient_checkup_data',{'pData':pData});
+  },
+  getImagefromUrl(url){
+    return  api.post('user/getimagefromurl',{'url':url})
   }
   
   }

@@ -141,6 +141,7 @@
                     <div class="col-md-6"  v-if="(resultData.type != '' && resultData.bodyPart != '')"  >
                         <label>Select upload type:</label><br>
                         <select class = "form-control " id = "upload_type" name = "upload_type" v-model="resultData.uploadType"  >
+                            <option value="image_web">Image From Web</option>
                             <option value="image">Image</option>
                             <option value="video">Video</option>
                         </select>
@@ -152,14 +153,19 @@
                                 Select File
                             </label>
                              <br>
-                            <div tabindex="500" class="btn btn-primary " id="btn-img-file"  >
+                            <div tabindex="500" class="btn btn-primary " id="btn-img-file" >
                                 <i class="fa fa-folder-open"></i>  
                                 <span class="hidden-xs">Browse …</span>
-                                
                             </div>
                             <input type="file" name="img_upload_video[]" id="img_upload_video" multiple class="file_multi_video" @change="previewFile('video')" accept="video/*" style="display: none;">
 
                             <input id="img_upload_file" name="imgupload[]" type="file" multiple class="btn btn-info  "  @change="previewFile('img')"  accept="image/*" style="display: none;">                        
+                        </div>
+                        <div v-if="(resultData.uploadType == 'image_web')">
+                              <label class="control-label txt_media" for="input-21">
+                                Enter Url:
+                            </label>
+                             <input type="text" name="img_upload_web[]" id="img_upload_web" multiple class="form-control" @change="previewFile('image_web')" placeholder="Enter image url">
                         </div>
                     </div>
                     <!-- <div class="col-md-2">
@@ -618,7 +624,29 @@
                         x++;
                     })
                     
-                 } else {
+                 }else if(ptype == 'image_web') {
+                      let url = document.querySelector('input[id=img_upload_web]').value;
+                         var x= 1;var y=1; 
+                   // jQuery(urllist).each(function(i){
+                      //  let url = document.querySelector('input[id=img_upload_file]').value[i];
+                        var tm = 100*x;
+                        let imageData = '';
+                         User.getImagefromUrl(url).then(
+                         (response) => {
+                            imageData =   response.data.data;
+                            setTimeout(function(){
+
+                                imgData.push({'id':y,'data':imageData,'remove':false,'view':false,'type':'image'});
+                            ++y;             
+                        },tm)
+                        x++;
+                         },
+                         (error) => {
+
+                        }
+                            );
+
+                 }else {
                     var fileList = document.querySelector('input[id=img_upload_video]').files;
                     var x= 1;var y=1; 
                     jQuery(fileList).each(function(i){
