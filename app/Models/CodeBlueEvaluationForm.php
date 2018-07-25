@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class CodeBlueEvaluationForm extends Model
 {
     //
-    protected $table = 'codeblue_evaluation_form';
+    // protected $table = 'codeblue_evaluation_form';
 
     protected $fillable=[
                 'drill',

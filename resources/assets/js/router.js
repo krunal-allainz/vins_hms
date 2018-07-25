@@ -88,7 +88,7 @@ import informationForm from './views/admin/vins/informationForm.vue'
 import investigationSheet from './views/admin/vins/investigationSheet.vue'
 import intraoperativeEventManagement from './views/admin/vins/intraoperativeEventManagement.vue'
 import infusionTherapyChart from './views/admin/vins/infusionTherapyChart.vue'
-// import doctorsInitialAssessment from './views/admin/vins/doctorsInitialAssessment.vue'
+import doctorsInitialAssessment from './views/admin/vins/doctorsInitialAssessment.vue'
 import centralLineBundleChecklist from './views/admin/vins/centralLineBundleChecklist.vue'
 import MARFlowSheet from './views/admin/vins/MARFlowSheet.vue'
 import opdForm from './views/admin/vins/opd_form.vue'
@@ -96,11 +96,24 @@ import laboratory from './views/admin/vins/laboratory.vue'
 import NewUser from './views/admin/vins/newUser.vue'
 import vascularExamination from './views/admin/vins/vascularExamination.vue'
 import neuroExamination from './views/admin/vins/neuroExamination.vue'
-//import provisionalDiagnosis from './views/admin/vins/provisionalDiagnosis.vue'
+import provisionalDiagnosis from './views/admin/vins/provisionalDiagnosis.vue'
+import opdformthankyou from './views/admin/vins/opd_form_thankyou.vue'
+import vinsletterheadheaderpart from './views/admin/vins/vins_letter_header.vue'
+import vinsletterheadfooterpart from './views/admin/vins/vins_letter_footer.vue'
+import patientList from './views/admin/vins/patientList.vue'
+import vitalsinfo from './views/admin/vins/vitalsInfo.vue'
+
+
+//for opd recipt list
+import opdreceiptlist from './views/admin/vins/opd_receipt_list.vue'
+
+import receipt from './views/admin/vins/receipt.vue'
+
+
 
 //import changePwd from './views/emails/ChangePwd.vue'
 
-import UserList from './views/admin/vins/userList.vue'
+import UserList from './views/admin/vins/UserList.vue'
 
 import investigations from './components/investigations.vue'
 
@@ -143,12 +156,42 @@ const routes = [
                 meta: { requiresAuth: true },
                 name: 'opd_form'
             },
-                       // {
-            // {
-            //     path: '/doctorsInitialAssessment',
-            //     component: doctorsInitialAssessment,
-            //     name: 'doctorsInitialAssessment'
-            // },
+             {
+                path: '/patient_list',
+                component: patientList,
+                meta: { requiresAuth: true },
+                name: 'patient_list'
+            },
+            {
+                path: '/opd_form_thankyou',
+                component: opdformthankyou,
+                meta: { requiresAuth: true },
+                name: 'opd_form_thankyou'
+            },
+             {
+                path: '/opd_receipt_list',
+                component: opdreceiptlist,
+                meta: { requiresAuth: true },
+                name: 'opd_receipt_list'
+            },
+            {
+                path: '/vins_letterhead_Header',
+                component: vinsletterheadheaderpart,
+                meta: { requiresAuth: true },
+                name: 'vins_letterhead_Header'
+            },
+             {
+                path: '/vins_letterhead_footer',
+                component: vinsletterheadfooterpart,
+                meta: { requiresAuth: true },
+                name: 'vins_letterhead_footer'
+            },
+            {
+                path: '/doctorsInitialAssessment',
+                component: doctorsInitialAssessment,
+                name: 'doctorsInitialAssessment'
+            },
+
             {
                 path: '/patients_detail_form',
                 component: patientsDetailForm,
@@ -364,12 +407,12 @@ const routes = [
                 name: 'pre_OT_checklist'
             },
 
-            // {
-            //     path: '/provisional_diagnosis',
-            //     component: provisionalDiagnosis,
-            //     meta: { requiresAuth: true },
-            //     name: 'provisional_diagnosis'
-            // },
+            {
+                path: '/provisional_diagnosis',
+                component: provisionalDiagnosis,
+                // meta: { requiresAuth: true },
+                name: 'provisional_diagnosis'
+            },
 
             {
                 path: '/provisional_discharge_summary',
@@ -519,6 +562,18 @@ const routes = [
                 component: UserList,
                 meta: { requiresAuth: true },
                 name: 'UserList'
+            },
+            {
+                path: '/receipt',
+                component: receipt,
+                meta: { requiresAuth: true },
+                name: 'receipt'
+            },
+             {
+                path: '/vitalsinfo',
+                component: vitalsinfo,
+                meta: { requiresAuth: true },
+                name: 'vitalsinfo'
             }
             ]
     },
@@ -548,7 +603,6 @@ const routes = [
         path: '/login', component: LayoutLogin,
 
     },
-
     {
 
         path: '/forgotpassword',

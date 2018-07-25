@@ -9,10 +9,12 @@ class IpdDetails extends Model
    protected $table = 'ipd_details';
 
     protected $fillable=[
+      'ipd_id',
       'patient_id',
       'uhid_no',
       'admit_datetime',
       'discharge_datetime',
+      'appointment_datetime',
     ];
 
 	public function patientDetails()

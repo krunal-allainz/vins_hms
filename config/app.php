@@ -51,7 +51,18 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://127.0.0.1:8000'),
+    'url' => env('APP_URL', 'http://127.0.0.1'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | site URL
+    |--------------------------------------------------------------------------
+    |
+    | This url is used for site url
+    |
+    */
+
+    'site_url' => env('SITE_URL', 'http://127.0.0.1:8000'),
 
     /*
     |--------------------------------------------------------------------------
@@ -179,6 +190,7 @@ return [
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         Dingo\Api\Provider\LaravelServiceProvider::class,
         Duro85\Roles\RolesServiceProvider::class,
+        euro_hms\Api\Providers\ReceiptServiceProvider::class,
 
        
 
@@ -238,6 +250,7 @@ return [
         //'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
         // 'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'ReceiptService' =>  euro_hms\Api\Providers\ReceiptServiceProvider::class,
    ],
 
 ];
