@@ -102,6 +102,7 @@ import vinsletterheadheaderpart from './views/admin/vins/vins_letter_header.vue'
 import vinsletterheadfooterpart from './views/admin/vins/vins_letter_footer.vue'
 import patientList from './views/admin/vins/patientList.vue'
 import vitalsinfo from './views/admin/vins/vitalsInfo.vue'
+import physiotherapyForm from './views/admin/vins/physiotherapyForm.vue'
 
 
 //for opd recipt list
@@ -574,6 +575,12 @@ const routes = [
                 component: vitalsinfo,
                 meta: { requiresAuth: true },
                 name: 'vitalsinfo'
+            },
+            {
+                path: '/physiotherapyForm',
+                component: physiotherapyForm,
+                meta: { requiresAuth: true },
+                name: 'physiotherapyForm'
             }
             ]
     },

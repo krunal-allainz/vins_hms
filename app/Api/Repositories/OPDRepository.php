@@ -10,6 +10,7 @@
  use euro_hms\Models\PatientCheckUp;
  use euro_hms\Models\Examination;
  use euro_hms\Models\RadiologyAttachments;
+ use euro_hms\Models\PhysiotherapyDetails;
  use Carbon\Carbon;
  use DB;
 
@@ -373,6 +374,49 @@
 	    ->orderBy('created_at', 'DESC')
 	    ->count();	
 		return $result;
+
+ 	}
+
+ 	public function savePhysiotherapy($request)
+ 	{
+ 		$data=$request->all()['physioData'];
+ 		//print_r($data);exit;
+ 		$physio_details=new PhysiotherapyDetails();
+ 		//$physio_details->opd_id=$data['opd_id'];
+ 		$physio_details->user_id=$data['user_id'];
+ 		$physio_details->patient_id=$data['patient_id'];
+ 		$physio_details->uhid_no=$data['uhid_no'];
+ 		$physio_details->name=$data['name'];
+ 		$physio_details->age=$data['age'];
+ 		if($data['doa']['time']!='')
+ 			$physio_details->date_of_assessment=Carbon::createFromFormat('d-m-Y', $data['doa']['time'])->format('Y-m-d');
+ 		$physio_details->chief_complaints=$data['chief_complaints'];
+ 		$physio_details->history=$data['history'];
+ 		$physio_details->observation_gait=$data['observation_gait'];
+ 		$physio_details->observation_posture=$data['observation_posture'];
+ 		$physio_details->palpation_tenderness=$data['palpation_tenderness'];
+ 		$physio_details->palpation_muscle=$data['palpation_muscle'];
+ 		$physio_details->palpation_trigger=$data['palpation_trigger'];
+ 		$physio_details->pain_type=$data['pain_type'];
+ 		$physio_details->pain_site=$data['pain_site'];
+ 		$physio_details->pain_aggravating=$data['pain_aggravating'];
+ 		$physio_details->pain_relieving=$data['pain_relieving'];
+ 		$physio_details->pain_wrong=$data['pain_wrong'];
+ 		$physio_details->sensory_assessment=$data['sensory_assessment'];
+ 		$physio_details->rom=$data['rom'];
+ 		$physio_details->balance_examination=$data['balance_examination'];
+ 		$physio_details->diagnosis=$data['diagnosis'];
+ 		$physio_details->treatment_plan=$data['treatment_plan'];
+ 		if($data['nfd']['time']!='')
+ 			$physio_details->follow_date=Carbon::createFromFormat('d-m-Y', $data['nfd']['time'])->format('Y-m-d');
+ 		$physio_details->signature_therapist=$data['signature_therapist'];
+ 		$physio_details->name_therapist=$data['name_therapist'];
+ 		if($data['fd']['time']!='')
+ 			$physio_details->form_date=Carbon::createFromFormat('d-m-Y', $data['fd']['time'])->format('Y-m-d');
+ 		$physio_details->form_time=$data['form_time'];
+ 		$physio_details->save();
+
+ 		return $physio_details->id;
 
  	}
  	
