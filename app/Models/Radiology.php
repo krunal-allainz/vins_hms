@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Radiology extends Model
 {
     //
-        protected $table = 'radiology';
+        protected $table = 'radiology_details';
 
         protected $fillable=[
               'opd_id',
+              'user_id',
               'type',
               'subtype',
               'bodyparts',

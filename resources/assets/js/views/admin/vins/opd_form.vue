@@ -324,9 +324,11 @@
         </div>
         <div class="col-md-12">
           <select class="form-control ls-select2" name="referral" id="referral" v-model="opdData.referral">
+            <option value="" selected>Select </option>
             <option value="cross">Cross</option>
             <option value="radiology">Radiology</option>
             <option value="laboratory">Laboratory</option>
+            <option value="physiotherapy">Physiotherapy</option>
           </select>
         </div>
       </div>
@@ -337,7 +339,7 @@
           <label for="internal">Cross Reference:</label>
         </div>
         <div class="col-md-12">
-          <select class="form-control ls-select2" name="cross" id="cross" v-model="opdData.cross">
+          <select class="form-control ls-select2" name="cross" id="cross"  multiple="">
             <option value="internal">Internal</option>
             <option value="external">External</option>
           </select>
@@ -350,25 +352,14 @@
             <div class="row form-group">
                <div class="col-md-6"> 
                 <div class="col-md-12">
-               
                   <label>Select Radiology:</label>
-                   
                   <br>
-                  <select class="form-control ls-select2" id="radiology_type_opd" name="radiology_type_opd" >
+                  <select class="form-control ls-select2" id="radiology_type_opd" name="radiology_type_opd">
                     <option v-for="type in investigationData.radiologyType" :value="type.value">{{type.text}}</option>
                   </select>
                   
                 </div>
               </div>
-              <!--   <div class="col-md-6" v-show="resultData.type == 'X-Rays'">
-                  <div class="col-md-12">
-                    <label> Select Type:</label>
-                    <select class="form-control ls-select2" id="xray_type_opd" name="xray_type_opd" v-model="resultData.x_ray_type">
-                      <option v-for="type in investigationData.xray_type_options" :value="type.value">{{type.text}}</option>
-                    </select>
-                  </div>
-                </div> -->
-              <!-- </div>  -->
             </div>
             <div class="row form-group">
               <div class="col-md-6">
@@ -376,7 +367,7 @@
                 <div class="col-md-12">
                   <label>Body Parts:</label>
                   <br>
-                  <select class="form-control ls-select2" id="radiology_subtype_opd" name="radiology_subtype_opd"  v-model="opdData.radiology_subtype_opd">
+                  <select class="form-control ls-select2" id="radiology_subtype_opd" name="radiology_subtype_opd">
                     <option v-for="obj in investigationData.radiologySubType" :value="obj.text">{{obj.text}}</option>
                   </select>
                 </div>
@@ -397,8 +388,6 @@
             </div>
             <div class="row form-group">
               <div class="col-md-6">
-
-              
                  <div class="col-md-12">
                     <label>Select Qualifires:</label>
                     <br>  
@@ -406,12 +395,8 @@
                         <option v-for="obj in investigationData.radiologyQualifier" :value="obj.text">{{obj.text}}</option>
                       </select>
                       <input type="text" name="qualifier_opd" id="qualifier_opd" class="form-control" v-model="resultData.qualifier" v-else>
-                    </div>
-                
-         
-
-              
-              <div class="col-md-12" v-if="resultData.type == 'MRI'">
+                </div>
+                <div class="col-md-12" v-if="resultData.type == 'MRI'">
                     <label>Select Special request:</label>
                     <br>
                       <select class="form-control ls-select2" id="radiology_special_request_opd" name="radiology_special_request_opd" v-model="resultData.special_request">
@@ -424,65 +409,37 @@
                   <input type="text" name="special_request_opd" id="special_request_opd" class="form-control" v-model="resultData.special_request">
               </div>
               </div>
-               <div class="col-md-6">
+              <div class="col-md-6">
                 <div class="col-md-12" v-if="resultData.qualifier_text_enable">
                   <label> Other Parts</label>
                   <input type="text" name="qualifier_text_opd" id="qualifier_text_opd" class="form-control" v-model="resultData.qualifier">
                 </div>
               </div>
             </div>
-             <div class="row form-group">
-              <div class="col-md-12">
-                   <button type="button" class="btn btn-primary btn-lg " :disabled="(resultData.type == '' || resultData.bodyPart == '')" @click="saveReport()">Add</button>
-              </div>
-          </div>                   
-              
-           
-          </div>
-          <div class="col-md-12">
-          <card title="<i class='ti-layout-cta-left'></i> Reports"  class="filterable">
-           <div class="table-responsive">
-              <table class="table table-striped table-bordered" id="radio_list">
-                  <thead>
-                  <tr>
-                      <th>Type</th>
-                      <th>Body parts</th>
-                      <th>Qualifier</th>
-                      <th>Special request</th>
-                      <!-- <th>Details</th> -->
-                      <!-- <th>Gallery</th> -->
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr >
-                      <td>{{finalResultData.type}}</td>
-                      <td>{{finalResultData.bodyPart}}</td>
-                      <td>{{finalResultData.qualifier}}</td>
-                      <td>{{finalResultData.special_request}}</td>
-                  </tr>
-                  
-                  </tbody>
-              </table>
+            <div class="row form-group">
+                <div class="col-md-6" >
+                   <div class="col-md-12">
+                      <label>Report details:</label><br>
+                      <textarea class="form-control" cols="50" rows="5" v-model="resultData.textData"></textarea>
+                    </div>
+                </div>
             </div>
-          </card>
           </div>
-          
         </div>
-
-      
       </div>
+    
       <div class="row form-group">
-        <div class="col-md-6" v-show="opdData.referral == 'cross' && opdData.cross == 'internal'">
+        <div class="col-md-6" v-show="cross_internal=='true'">
           <div class="col-md-12">
             <label for="internal">Internal Reference:</label>
           </div>
           <div class="col-md-12">
-            <select class="form-control ls-select2" name="internal" v-model="opdData.cross_type_int" id="internal">
+            <select class="form-control ls-select2" name="internal" id="internal" multiple="">
               <option :value="doc.name" v-for="doc in doctorOption">{{doc.name}}</option>
             </select>
           </div>
         </div>
-        <div class="col-md-6" v-show="opdData.referral == 'cross'&& opdData.cross == 'external'">
+        <div class="col-md-6" v-show="cross_external=='true'" multiple="">
           <div class="col-md-12">
             <label for="external">External Reference:</label>
           </div>
@@ -504,6 +461,97 @@
         </div>
       </div>
       <!-- for laboratory -->
+       
+         <div class="row form-group">
+          <div class="col-md-12">
+               <button type="button" class="btn btn-primary btn-lg " v-if="opdData.referral!='physiotherapy'" @click="saveReport()">Add</button>
+          </div>
+       </div> 
+      <!-- for cross table -->  
+      <div class="col-md-12" v-if="opdData.reffreal_cross_array.length>0">
+         <card title="<i class='ti-layout-cta-left'></i> Cross"  class="filterable">
+           <div class="table-responsive">
+              <table class="table table-striped table-bordered" id="">
+                  <thead>
+                  <tr>
+                      <th>#</th>
+                      <th>Type</th>
+                      <th>Sub Type</th>
+                      <th>Value</th>
+                      <th>Action</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(cross_arr, index) in opdData.reffreal_cross_array">
+                        <td>{{cross_arr.id}}</td>
+                        <td>{{cross_arr.type}}</td>
+                        <td>{{cross_arr.subtype}}</td>
+                        <td>{{cross_arr.value}}</td>
+                        <td><i class="fa fa-remove" @click="removeCrossRef(cross_arr.id)"></i></td>
+                    </tr>
+                  </tbody>
+              </table>
+            </div>
+          </card>
+      </div>
+      <!-- for cross table -->
+       <!-- for laboratory table -->  
+      <div class="col-md-12" v-if="opdData.reffreal_laboratory_array.length>0">
+        <card title="<i class='ti-layout-cta-left'></i> Laboratory"  class="filterable">
+           <div class="table-responsive">
+              <table class="table table-striped table-bordered" id="">
+                  <thead>
+                  <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Action</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(lab_arr, index) in opdData.reffreal_laboratory_array">
+                        <td>{{lab_arr.id}}</td>
+                        <td>{{lab_arr.name}}</td>
+                        <td><i class="fa fa-remove" @click="removeLabRef(lab_arr.id)"></i></td>
+                    </tr>
+                  </tbody>
+              </table>
+            </div>
+            </card>
+      </div>
+      <!-- for laboratory table -->
+      <!-- for radiology table -->  
+      <div class="col-md-12" v-if="opdData.reffreal_radiology_array.length>0">
+          <card title="<i class='ti-layout-cta-left'></i> Radiology"  class="filterable">
+           <div class="table-responsive">
+              <table class="table table-striped table-bordered" id="radio_list">
+                  <thead>
+                  <tr>
+                      <th>#</th>
+                      <th>Type</th>
+                      <th>Body parts</th>
+                      <th>Qualifier</th>
+                      <th>Special request</th>
+                      <th>Details</th>
+                      <th>Action</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr v-for="(radio_arr, index) in opdData.reffreal_radiology_array">
+                      <td>{{radio_arr.id}}</td>
+                      <td>{{radio_arr.type}}</td>
+                      <td>{{radio_arr.bodyPart}}</td>
+                      <td>{{radio_arr.qualifier}}</td>
+                      <td>{{radio_arr.special_request}}</td>
+                      <td>{{radio_arr.textData}}</td>
+                      <td><i class="fa fa-remove" @click="removeRadioRef(radio_arr.id)"></i></td>
+                  </tr>
+                  
+                  </tbody>
+              </table>
+            </div>
+          </card>
+          </div>
+      <!-- for radiology table -->  
       <div class="row">
       <div class="col-md-6">
         <h3>Pain Assessment</h3>
@@ -559,8 +607,6 @@
       var patient_list = [];
       var prescription_index  = 0;
       
-      
-
     export default {
         data() {
             return {
@@ -574,6 +620,15 @@
               'patient_select_enable':true,
               'isPatientSearch':true,
               'prescriptionunique' : 0,
+              'cross_internal':'false',
+              'cross_external':'false',
+              'cross_array':{},
+              'cross':{},
+              'internal_array':{},
+              'laboratory_array':{},
+              'ref_cross_array':[],
+              'ref_lab_array':[],
+              'ref_radio_array':[],
               'investigationData':{
                   'radiologyType':[
                     {text:'',value:''},
@@ -714,6 +769,9 @@
                   {'name':'Hemant Mathur'},
               ],
               'opdData': {
+                'reffreal_cross_array':[],
+                'reffreal_laboratory_array':[],
+                'reffreal_radiology_array':[],
                 'pain_value':0,
                 'patientlist':'',
                 'patient_option':[],
@@ -737,9 +795,6 @@
                 'advice':'',
                 'adviceType': 'scribble',
                 'referral':'',
-                'cross':'',
-                'cross_type_int':'',
-                'cross_type_ext':'',
                 'laboratory':'',
                 'signaturePad':{},
                 'signaturePad_src':'',
@@ -851,10 +906,11 @@
               //vm.setLabData();
             });
 
-         
+          
           $(document).on("select2:select",'.ls-select2', function (e) { 
             if(this.id == 'referral'){
               vm.opdData.referral=$(this).val();
+
               vm.finalResultData = '';
               if($(this).val() == 'cross') {
                 setTimeout(function(){
@@ -862,7 +918,7 @@
                     placeholder: "Select",
                     tags:false 
                   }); 
-                },500)  
+                },20)  
               }
             }
             else if(this.id == 'radiology'){
@@ -871,15 +927,27 @@
             else if(this.id == 'laboratory'){
               vm.opdData.laboratory=$(this).val();
             }
-
             else if(this.id == 'cross'){
-              vm.opdData.cross=$(this).val();
+              var cross_array=$(this).val();
+              vm.cross=cross_array;
+              if(cross_array.includes("internal"))
+              {
+                  vm.cross_internal='true';
+              }
+              if(cross_array.includes("external"))
+              {
+                  vm.cross_external='true';
+              }
+              
+
             }
             else if(this.id == 'internal'){
-              vm.opdData.cross_type_int=$(this).val();
+              var val_cross_array=$(this).val();
+              vm.internal_array=val_cross_array;
             }
-            else if(this.id == 'external'){
-              vm.opdData.cross_type_ext=$(this).val();
+            else if(this.id == 'laboratory_report_opd'){
+              var val_lab_array=$(this).val();
+              vm.laboratory_array=val_lab_array;
             }
             else if(this.id == 'case_type'){
               vm.opdData.case_type = $(this).val(); 
@@ -1032,6 +1100,20 @@
             }
 
           });
+          $(document).on("select2:unselect",'.ls-select2', function (e) {
+               if(this.id == 'cross')
+              {
+                  if(e.params.data.id=='external')
+                  {
+                      vm.cross_external='false';
+                  }
+                  if(e.params.data.id=='internal')
+                  {
+                      vm.cross_internal='false';
+                  }
+              }
+          });
+         
           setTimeout(function(){
                   $('#patient').select2({
                     placeholder: "Select",
@@ -1201,29 +1283,53 @@
           saveReport() {
                 // var resData1=[];
                 let vm =this;
-                 // resData1.push= vm.finalResultData;
-                $('#radiology_qualifier_opd').select2("destroy");
-                $('#radiology_special_request_opd').select2("destroy");
-                if(vm.resultData.type == '' || vm.resultData.bodyPart == '' ){
-                    toastr.error('Please select report data.', 'Report error', {timeOut: 5000});
-                    return false;
+                if(vm.opdData.referral=='cross')
+                {
+                    vm.saveCrossReport();
                 }
-                vm.resultData.id = resData1.length;
-                // resData1.push(vm.resultData);
-                
-                vm.finalResultData = vm.resultData;
-
-                vm.initData();
-                // vm.setRadioData();
+                if(vm.opdData.referral=='laboratory')
+                {
+                    vm.saveLabReport();
+                }
+                if(vm.opdData.referral=='radiology')
+                {
+                    vm.saveRadiologyReport();
+                }
+                return false;
+                 
           },
-          initData() {
-                
-                vm.resultData = {
+           saveRadiologyReport()
+          {
+              let vm =this;
+              if(vm.resultData.type == '' || vm.resultData.bodyPart == '' ){
+                  toastr.error('Please select report data.', 'Report error', {timeOut: 5000});
+                  return false;
+              }
+              
+               let matches=_.some(vm.ref_radio_array,{'type':vm.resultData.type,'bodyPart':vm.resultData.bodyPart,'qualifier':vm.resultData.qualifier,'special_request':vm.resultData.special_request});
+              if(matches)
+              {
+                  vm.setRadioReferral();
+                  toastr.error('This record already exist', 'Error', {timeOut: 5000});
+                  return false;
+              }
+              vm.resultData.id = vm.ref_radio_array.length+1;
+              vm.ref_radio_array.push(vm.resultData);
+              vm.opdData.reffreal_radiology_array = _.cloneDeep(vm.ref_radio_array);
+              vm.setRadioReferral();
+              return false;
+          },
+           setRadioReferral()
+          {
+               let vm =this;
+              $('#referral').val('').trigger('change.select2');
+              $('#radiology_qualifier_opd').select2("destroy");
+              $('#radiology_special_request_opd').select2("destroy");
+              vm.resultData = {
                    'id':'',
                     'uploadType':'image',
                     'bodyPart':'',
                     'type': '',
-                    // 'x_ray_type':'fixed',
                     'spine_option_value':'',
                     'subType': '',
                     'qualifier':'',
@@ -1233,12 +1339,117 @@
                     'special_request':'',
                     'removed':false,
                 };
-                // vm.imgGallery = '';
-                
                 $('#radio_div1 .ls-select2').val(null).trigger('change');
-                // $('.ls-select2').select2().val('');
+                vm.opdData.referral="";
+          },
+          removeRadioRef(rid)
+          {
+              let vm =this;
+              _.remove(vm.ref_radio_array, function(o) {
+                  return o.id==rid;
+                });
+              vm.opdData.reffreal_radiology_array= _.cloneDeep(vm.ref_radio_array);
+          },
+          saveLabReport()
+          {
+              let vm =this;
+              if(vm.laboratory_array.length>0)
+              {
 
-            },
+                 _.forEach(vm.laboratory_array, function(value, key) {
+                    let matches=_.some(vm.ref_lab_array,['lab_id',value]);
+                    if(matches)
+                    {
+                        vm.setLabReferral();
+                        toastr.error('This record already exist', 'Error', {timeOut: 5000});
+                        return false;
+                    }
+                    else
+                    {
+                      var lab_name= $("#laboratory_report_opd option[value='"+value+"']").text();
+                      vm.ref_lab_array.push({'id':vm.ref_lab_array.length+1,'name':lab_name,'lab_id':value});
+                    }
+                    
+                  });
+              }
+              vm.opdData.reffreal_laboratory_array=vm.ref_lab_array;
+              vm.setLabReferral();
+              return false;
+          },
+          setLabReferral()
+          {
+               let vm =this;
+              $('#referral').val('').trigger('change.select2');
+              $('#laboratory_report_opd').val('').trigger('change.select2');
+              vm.opdData.referral="";
+              vm.laboratory_array=[];
+          },
+          removeLabRef(lid)
+          {
+              let vm =this;
+              _.remove(vm.ref_lab_array, function(o) {
+                  return o.id==lid;
+                });
+              vm.opdData.reffreal_laboratory_array= _.cloneDeep(vm.ref_lab_array);
+          },
+          saveCrossReport()
+          {
+                let vm =this;
+                let matches2=_.some(vm.ref_cross_array,['value',vm.opdData.cross_type_ext]);
+                if(matches2)
+                {
+                    vm.setCrossReferral();
+                    toastr.error('This record already exist', 'Error', {timeOut: 5000});
+                    return false;
+                }
+                if(vm.internal_array.length>0)
+                {
+
+                   _.forEach(vm.internal_array, function(value, key) {
+                      let matches=_.some(vm.ref_cross_array,['value',value]);
+                      if(matches)
+                      {
+                          vm.setCrossReferral();
+                          toastr.error('This record already exist', 'Error', {timeOut: 5000});
+                          return false;
+                      }
+                      else
+                      {
+                        vm.ref_cross_array.push({'id':vm.ref_cross_array.length+1,'type':vm.opdData.referral,'subtype':'Internal','value':value});
+                      }
+                      
+                    });
+                }
+                if(vm.opdData.cross_type_ext)
+                {
+                    vm.ref_cross_array.push({'id':vm.ref_cross_array.length+1,'type':vm.opdData.referral,'subtype':'External','value':vm.opdData.cross_type_ext});
+                }
+                vm.opdData.reffreal_cross_array=vm.ref_cross_array;
+                vm.setCrossReferral();
+                return false;
+
+          },
+          setCrossReferral()
+          {
+               let vm =this;
+              $('#referral').val('').trigger('change.select2');
+              $('#cross').val('').trigger('change.select2');
+              $('#internal').val('').trigger('change.select2');
+              vm.opdData.referral="";
+              vm.opdData.cross_type_ext="";
+              vm.internal_array=[];
+              vm.cross_internal='false';
+              vm.cross_external='false';
+          },
+          removeCrossRef(cid)
+          {
+              let vm =this;
+              _.remove(vm.ref_cross_array, function(o) {
+                  return o.id==cid;
+                });
+              vm.opdData.reffreal_cross_array= _.cloneDeep(vm.ref_cross_array);
+          },
+        
           updateUhidNo(uhid) {
             let vm = this;
             vm.opdData.uhid_no = uhid;
@@ -1269,6 +1480,7 @@
 
                       vm.$store.dispatch('setOpdData',vm.opdData);
                       vm.$store.dispatch('setResData',vm.finalResultData);
+
                     // }
                   }
                 },
