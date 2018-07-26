@@ -816,6 +816,7 @@
               }
             }
         }, 
+
         components: {
          prescriptionData,
          createPatientDetail,
