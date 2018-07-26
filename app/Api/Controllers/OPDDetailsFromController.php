@@ -218,6 +218,24 @@ class OPDDetailsFromController extends Controller
                 return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
             }
     }
+
+    /**
+     * [savePhysiotherapy description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function savePhysiotherapy(Request $request)
+    {
+            $result=$this->opdObj->savePhysiotherapy($request);
+            if($result)
+            {
+                return ['code' => '200','data'=>$result, 'message' => 'Record Sucessfully created'];
+            }
+            else
+            {
+                return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+            }
+    }
     
 
    

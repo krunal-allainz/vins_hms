@@ -311,7 +311,10 @@ export default {
   },
   savePatientCheckup(pData){
      return api.post('patient/save_patient_checkup_data',{'pData':pData});
-  }
+  },
+  savePhysioTherapy(physioData) {
+      return api.post('opd/savePhysiotherapy',{'physioData':physioData})
+  },
   
   }
    
