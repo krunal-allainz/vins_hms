@@ -62,4 +62,42 @@ class Common {
              return config('app.url');
           }
       }
+
+    static function getImagefromUrl($url)
+    {
+       
+        $msg = '';
+        $status = 200;
+        $data = array();
+
+        $image = file_get_contents($url);
+        $imageData = base64_encode($image);
+        $header =  get_headers($url,1);
+        $imagePath = 'data:'.$header['Content-Type'].';base64,'.$imageData;
+
+
+        if (filter_var($url, FILTER_VALIDATE_URL)) {
+            $isImage = explode("/", $header['Content-Type']);
+
+             if($isImage[0] == 'image'){
+                /* It contains 'image/' as the content type */
+                  $status = 200;
+                  $msg = "Record Sucessfully created";
+            }else{
+               /* no match with 'image/' */
+                $msg = "url is not a valid URL";
+                $status = 201;
+            }
+        }
+
+        $data = 
+         [ 'imagePath' => $imagePath,
+          'msg' => $msg,
+          'status' =>  $status
+        ];
+
+
+
+        return  $data;
+    }
 }

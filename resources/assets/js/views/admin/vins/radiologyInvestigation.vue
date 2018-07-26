@@ -165,7 +165,10 @@
                               <label class="control-label txt_media" for="input-21">
                                 Enter Url:
                             </label>
-                             <input type="text" name="img_upload_web[]" id="img_upload_web" multiple class="form-control" @change="previewFile('image_web')" placeholder="Enter image url">
+                             <input type="text" name="img_upload_web[]" id="img_upload_web" multiple class="form-control" @change="previewFile('image_web')" placeholder="Enter image url" />
+                               <span class="help is-danger" v-if="(resultData.errorUrl != '')">
+                                {{resultData.errorUrl}}
+                            </span>   
                         </div>
                     </div>
                     <!-- <div class="col-md-2">
@@ -593,7 +596,8 @@
                     'qualifier_radio_text_enable':false,
                     'special_request':'',
                     'removed':false,
-                    'qualifierOtherPart':''
+                    'qualifierOtherPart':'',
+                    'errorUrl' : ''
                 };
                 vm.imgGallery = '';
                 $('#radio_div .ls-select2').val(null).trigger('change');
@@ -624,27 +628,38 @@
                         x++;
                     })
                     
-                 }else if(ptype == 'image_web') {
+                 }else if(ptype == 'image_web') { 
                       let url = document.querySelector('input[id=img_upload_web]').value;
-                         var x= 1;var y=1; 
-                   // jQuery(urllist).each(function(i){
-                      //  let url = document.querySelector('input[id=img_upload_file]').value[i];
-                        var tm = 100*x;
-                        let imageData = '';
-                         User.getImagefromUrl(url).then(
-                         (response) => {
-                            imageData =   response.data.data;
-                            setTimeout(function(){
+                      var x= 1;var y=1; 
+                         
+                    if(url != ''){
 
-                                imgData.push({'id':y,'data':imageData,'remove':false,'view':false,'type':'image'});
-                            ++y;             
-                        },tm)
-                        x++;
-                         },
-                         (error) => {
+                            var tm = 100*x;
+                            let imageData = '';
+                             User.getImagefromUrl(url).then(
+                             (response) => {
+                                vm.resultData.errorUrl = '';
+                                imageData =   response.data.data;
+                                if(response.data.status == 200){
+                                    setTimeout(function(){
 
-                        }
+                                        imgData.push({'id':y,'data':imageData,'remove':false,'view':false,'type':'image'});
+                                        ++y;             
+                                    },tm)
+                                    x++;
+                                }else if(response.data.status == 201){
+                                     vm.resultData.errorUrl =  response.data.message;
+                                }else{
+                                    vm.resultData.errorUrl = 'Something wrong';
+                                }
+                             },
+                             (error) => {
+
+                            }
                             );
+                    }else{
+                         vm.resultData.errorUrl = 'Please enter url.';
+                    }
 
                  }else {
                     var fileList = document.querySelector('input[id=img_upload_video]').files;

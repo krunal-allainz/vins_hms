@@ -189,7 +189,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         $api->post('patient/save_patient_checkup_data','\euro_hms\Api\Controllers\PatientsDetailFormController@savePatientCheckup');
 
 
-         $api->post('user/getimagefromurl', '\euro_hms\Api\Controllers\UserController@getImagefromUrl');
+         $api->post('user/getimagefromurl', '\euro_hms\Api\Controllers\CustomersController@getImagefromUrl');
 
 
         });
