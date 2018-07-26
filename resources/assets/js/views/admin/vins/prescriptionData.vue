@@ -1,6 +1,6 @@
 <template>
-	<div class="container">
-		 <div class="row form-group">
+  <div class="container">
+     <div class="row form-group">
               <div class="col-md-3">
                 <div class="col-md-12">
                   <label for="prescription">Prescription:</label>
@@ -54,40 +54,49 @@
                 </div>
               </div>
           </div>
-           <div class="row form-group">
-              <div class="col-md-3">
-                <div class="col-md-12">
-                  <label for="prescription">Clock:</label>
-                </div>
-                <div class="col-md-12">
-                 <div class="input-group clockpicker" >
-                    <input type="text" class="form-control" id="clock_time" name="clock_time" value="09:32" v-model="prescriptFinalData.clock_time" readonly="">
-                    <span class="input-group-addon">
-                        <span class="fa fa-clock-o"></span>
-                    </span>
+          <div v-if="prescriptFinalData.prescription_report.length>0" :id="'presp_div_'+index" v-for="(presp, index) in prescriptFinalData.prescription_report">
+           <div class="row form-group" >
+                <div class="col-md-3">
+                  <div class="col-md-12">
+                    <label for="prescription">Clock:</label>
                   </div>
-                  
+                  <div class="col-md-12">
+                   <div class="input-group clockpicker" >
+                      <input type="text" class="form-control clock_time" :name="'presp_clock_time'+index" :id="'presp_clock_time_id'+index" v-model="presp.clock_time">
+                      <span class="input-group-addon">
+                          <span class="fa fa-clock-o"></span>
+                      </span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="col-md-3">
-                <div class="col-md-12">
-                  <label for="prescription">Quantity:</label>
+                <div class="col-md-3">
+                  <div class="col-md-12">
+                    <label for="prescription">Quantity:</label>
+                  </div>
+                  <div class="col-md-12">
+                    <input type="text"  v-validate="'required|numeric'" v-model="presp.clock_quantity" :name="'presp_clock_quantity'+index" id="presp_clock_quantity_id" class="form-control clock_quantity">
+                  </div>
                 </div>
-                <div class="col-md-12">
-                  <input type="text" name="clock_quantity" id="clock_quantity" class="form-control"  v-validate="'required|numeric'" v-model="prescriptFinalData.clock_quantity">
+                <div class="col-md-4">
+                  <div class="col-md-12">
+                    <label for="prescription">Suggetion:</label>
+                  </div>
+                  <div class="col-md-12">
+                      <label class="col-md-6">
+                        <input type="radio" class="form-check-input clock_suggest" :id="'presp_suggest_empty'+index"  :name="'presp_suggest'+index" v-model="presp.clock_suggest" value="ES" checked="checked">Empty Stomach
+                      </label>
+                      <label class="col-md-5">
+                        <input type="radio" class="form-check-input clock_suggest" :id="'presp_suggest_full'+index"  :name="'presp_suggest'+index" v-model="presp.clock_suggest" value="ES">Full Stomach
+                      </label> 
+                  </div>
                 </div>
-              </div>
-              <div class="col-md-4">
+            </div>
+          </div>
+            <div class="row form-group">
+              <div class="col-md-2">
+                <div class="col-md-12"> </div>
                 <div class="col-md-12">
-                  <label for="prescription">Suggetion:</label>
-                </div>
-                <div class="col-md-12">
-                    <label class="col-md-6">
-                      <input type="radio" class="form-check-input" id="suggest_empty"  name="clock_suggest" v-model="prescriptFinalData.clock_suggest" value="ES" checked="checked">Empty Stomach
-                    </label>
-                    <label class="col-md-5">
-                      <input type="radio" class="form-check-input" id="suggest_full" name="clock_suggest" v-model="prescriptFinalData.clock_suggest" value="FS">Full Stomach
-                    </label> 
+                  <i class="fa fa-plus-circle" @click="multipleClockResult()"></i>
                 </div>
               </div>
                <div class="col-md-2">
@@ -220,27 +229,28 @@
      <div class="row" v-if="show_prescription_result_data_enable==true"> 
         <prescriptionPrint :prescriptData="prescriptFinalData.finalPrescriptionAllData"> </prescriptionPrint>
     </div>  
-			
-	</div>
+      
+  </div>
 </template>
 <script >
-	import User from '../../../api/users.js';
-	import myDatepicker from 'vue-datepicker';
-	import _ from 'lodash';
+  import User from '../../../api/users.js';
+  import myDatepicker from 'vue-datepicker';
+  import _ from 'lodash';
     import prescriptionPrint from './prescriptionPrint.vue';
     let clocktimedata=[];
+    var prespRes = [];
     export default {
-    	computed:{
+      computed:{
 
-    	},
-    	components: {
-    		'date-picker': myDatepicker,
+      },
+      components: {
+        'date-picker': myDatepicker,
             prescriptionPrint
-    	},
-    	props:['department'],
+      },
+      props:['department'],
         data() {
             return {
-            	'notValid':false,
+              'notValid':false,
                 'footer' : 'footer',
                 'currentYear': new Date().getFullYear(),
                 'lab_val_size':0,
@@ -253,6 +263,17 @@
                 'class_type':'ADD',
                 'prescriptFinalData' :{
                     'prescriptDataPage': [],
+                    prescription_report: [
+                      {
+                        name : '',
+                        pid : '',
+                        clock_time: '', 
+                        clock_quantity: '', 
+                        clock_suggest: '', 
+                        remove: 'false',
+                        //end: 'education[0][end]'
+                      }
+                    ],
                     'clock_quantity':'',
                     'clock_time':'',
                     'quantity_1':'0',
@@ -311,10 +332,10 @@
             setTimeout(function(){
                 vm.initData();
             },1000) 
-			
+      
         },
         filters:{
-        	
+          
         },
         methods: {
           initData()
@@ -335,6 +356,42 @@
                 
             }
           },
+          clearPrespData()
+          {
+              vm.prescriptFinalData.prescription="";
+              vm.prescriptFinalData.prescription_id="";
+              vm.prescriptFinalData.prescription_quantity="";
+              vm.prescriptFinalData.total_prescription_days="";
+              vm.prescriptFinalData.clock_time="";
+              vm.prescriptFinalData.clock_quantity="";
+              vm.prescriptFinalData.clock_suggest="";
+              vm.priscription_add_disabled=true;
+              $('#prescription').val(null).trigger('change'); 
+
+          },
+          multipleClockResult()
+          { 
+            console.log('fdfsdf');
+              let p_name=this.prescriptFinalData.prescription;
+              let p_id=this.prescriptFinalData.prescription_id;
+              console.log(this.prescriptFinalData.prescription_report);
+              let check_name=this.checkPrescriptionById(p_id,this.prescriptFinalData.prescription_report);
+             
+              if(p_id=='' || p_id==0)
+              {
+                  toastr.error('Please select prescription name.', 'Prescription error', {timeOut: 5000});
+                  return false; 
+              }  
+              else if(check_name==3 && this.prescriptFinalData.prescription_report.length>2)
+              {
+                  toastr.error('You can add clock time only three times.', 'Prescription error', {timeOut: 5000});
+                  return false; 
+              }
+              prespRes.push({'name':p_name,'pid':p_id,'clock_time':'','clock_quantity':'','clock_suggest':'','remove':'false'});
+                    this.prescriptFinalData.prescription_report=prespRes;
+              return false;
+              
+          },
           saveClockResult()
           {
             let vm =this;
@@ -349,16 +406,8 @@
             }
             
             let check_p=vm.checkClcokPrescription();
-            vm.prescriptFinalData.prescription="";
-            vm.prescriptFinalData.prescription_id="";
-            vm.prescriptFinalData.prescription_quantity="";
-            vm.prescriptFinalData.total_prescription_days="";
-            vm.prescriptFinalData.clock_time="";
-            vm.prescriptFinalData.clock_quantity="";
-            vm.prescriptFinalData.clock_suggest="";
-            //vm.show_prescription_result_data_enable=false;
-            vm.priscription_add_disabled=true;
-            $('#prescription').val(null).trigger('change');
+            //ghgfh
+            vm.clearPrespData();
             return false;
           },
           checkClcokPrescription()
@@ -733,22 +782,18 @@
                             
                     });  
                     vm.class_type='ADD';
-                    vm.prescriptFinalData.prescription="";
-                    vm.prescriptFinalData.prescription_id="";
-                    vm.prescriptFinalData.prescription_quantity="";
-                    vm.prescriptFinalData.total_prescription_days="";
-                    vm.prescriptFinalData.clock_time="";
-                    vm.prescriptFinalData.clock_quantity="";
-                    vm.prescriptFinalData.clock_suggest="";
-                    //vm.show_prescription_result_data_enable=false;
-                    vm.priscription_add_disabled=true;
-                    $('#prescription').val(null).trigger('change');
+                    vm.clearPrespData();
                     return false;   
             }
            
             return false;
         },
-        	
-		  }
+          
+      }
     }
 </script>
+<style>
+.fa{
+  font-size: 30px;
+} 
+</style>

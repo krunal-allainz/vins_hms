@@ -485,7 +485,7 @@
                 }
             }
         },
-        components: {
+        components: { 
         	'date-picker': myDatepicker,
         },
         mounted() {

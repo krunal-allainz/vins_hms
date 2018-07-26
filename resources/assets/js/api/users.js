@@ -314,8 +314,10 @@ export default {
   },
   getImagefromUrl(url){
     return  api.post('user/getimagefromurl',{'url':url})
+  },
+  savePhysioTherapy(physioData) {
+      return api.post('opd/savePhysiotherapy',{'physioData':physioData})
   }
-  
-  }
+}
    
 
