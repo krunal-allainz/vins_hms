@@ -319,5 +319,3 @@ export default {
       return api.post('opd/savePhysiotherapy',{'physioData':physioData})
   }
 }
-   
-

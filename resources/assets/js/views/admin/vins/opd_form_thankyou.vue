@@ -11,7 +11,8 @@
     	 <div class="row form-group text-center">
     	 	 <div class="col-md-12">
     	 	 	<!-- <div class="col-md-4"> -->
-    	 	 		<button type="button" class="btn btn-primary btn-submit text-right " data-toggle="modal" data-backdrop="static" href="#printModal"  @click = "printReport('opd_case')">OPD Case</button>
+    	 	 		<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  @click = "printReport('opd_case')" v-if="(opdReport == true)" id="opd_case_btn">OPD Case</button>
+    	 	 		<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#generateModal"  @click="printReport('generate_case')" v-if="(opdReport == false)">Generate Report</button>
     	 	 <!-- 	</div>
     	 	 	<div class="col-md-4">
     	 	 		<button type="button" class="btn btn-primary btn-submit text-right " data-toggle="modal" href="#printModal"  @click="printPriscription()">Prescription</button>
@@ -30,6 +31,27 @@
     	 	 </div>
     	 </div>
     </form>
+    <div id="generateModal" class="modal fade">
+    	<div class="modal-dialog" >
+    		<div class="modal-content" >
+    			<div class="modal-body">
+					<div id="demo">
+						<label><b>Select Report:</b></label>
+						<ul>		
+							<li v-for="mainCat in reportList">
+								<input type="checkbox" :value="mainCat.reportListId" id="mainCat.reportListId" v-model="checkedreportList" @click="check($event)"> {{mainCat.reportListId}}
+						    </li>
+						</ul>
+						<span class="help is-danger" v-show="(reportListSelect == 1)">
+                  			Please select any report Type.
+                		</span> 
+					</div>
+					<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  @click = "printReport('opd_case')" >OPD Case</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+    </div>
      <div id="printModal" class="modal fade">
      	<div class="modal-dialog" >
 		 		<div class="modal-content" >
@@ -90,7 +112,6 @@
 									                </div>
 									              </div>
 								 	</div>
-
 			 <div>	
 			
 
@@ -210,6 +231,7 @@
 			 					<h4>OPD CASE</h4>
 			 				</div>
 			 			</div>
+				 		
 			 			<div class='row' style="padding-left: 15px;padding-right:15px;">
 			 				<div class='col-md-6 text-left'>
 									<span class='text-left'><b>Ref By :</b></span>
@@ -223,6 +245,7 @@
     	 	 			</div>	
     	 	 			<br/>
     	 	 			<br/>
+    	 	 			<div v-if="(checkedreportList.includes('Advice + follow ups'))">
     	 	 			<div v-if="(adviceType == 'text' && advice != '')">
     	 	 				<div class='col-md-6 text-left'>
 				 				<span class='text-left'><b>Advice :-</b></span>
@@ -255,90 +278,106 @@
 						        </div>  
 							</div>
     	 	 			</div>
-    	 	 			<!-- <div v-if="(prescriptiData !== null)">
-    	 	 				<div class='col-md-6 text-left'>
-				 				<span class='text-left'><b>Prescription :-</b></span>
-				 			</div>
+    	 	 		</div>
+    	 	 		<div v-if="(checkedreportList.includes('Radiology'))">
+    	 	 			<div class='row'>
+			 				<div class='col-md-12 text-center'>
+			 					<h4>Radiology Report</h4>
+			 				</div>
+			 		</div>
+			 		<div class="row"  style="min-height: 350px;height: 350px;padding-left: 15px;padding-right:15px;">
+        				<div class="col-md-12">
+        					<div class="table-responsive"">
+                    			<table class="table table-striped table-bordered" id="radio_list">
+                        		<thead>
+                        			<tr>
+                            			<th>#</th>
+                            			<th>Type</th>
+                            			<th>Body parts</th>
+			                            <th>Qualifier</th>
+			                            <th>Special request</th>
+			                            <th>Details</th>
+			                            
+                        			</tr>
+                       			 </thead>
+                       			 <tbody>
+		                        <tr v-if="res.removed == false" v-for="(res,index) in radioReportData">
+		                            <td>{{++index}}</td>
+		                            <td>{{res.type}}</td>
+		                            <td>{{res.bodyPart}}</td>
+		                            <td>{{res.qualifier}}</td>
+		                            <td>{{res.special_request}}</td>
+		                            <td>{{res.textData | strLimit}}</td>
+		                            <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
+		                            <td></td>
+		                        </tr>
+                        		</tbody>
+                    			</table>
+                			</div>
+        				</div>
+        			</div>
+    	 	 		</div>
+    	 	 		<div v-if="(checkedreportList.includes('Laboratory'))">
+    	 	 			<div class='row'>
+								 				<div class='col-md-12 text-center'>
+								 					<h4>Lab Report</h4>
+								 				</div>
+								 			</div>
+								 			   <div class="form-group" v-if="labReportData.length>0">
+									                <div class="col-md-12">
+									                  <div class="table-responsive">
+									                    <table class="table table-striped table-bordered" id="laboratory_table_list">
+									                        <thead>
+									                        <tr>
+									                            <th>#</th>
+									                            <th>Name</th>
+									                            <th>Date</th>
+									                            <th>Result</th>
+									                            <th>Assigning Dr</th>
+									                            <!-- <th>Action</th> -->
+									                        </tr>
+									                        </thead>
+									                        <tbody>
+									                         <tr v-if="res.removed == false" :id="res.tr_id" v-for="(res,index) in labReportData">
+									                            <td>{{++index}}</td> 
+									                            <td>{{res.text }}</td>
+									                            <td>{{res.lab_date.time}}</td>
+									                            <td>{{res.result}}</td>
+									                            <td>{{res.assign}}</td>
+									                            <!-- <td> <i class="fa fa-remove" @click="removeLaboratory(res.id)"></i></td> -->
+									                          </tr>
+
+									                        </tbody>
+									                    </table>
+									                  </div>
+									                  
+									                </div>
+									              </div>
+    	 	 		</div>
+    	 	 		<div v-if="(checkedreportList.includes('Prescription'))">
+    	 	 			<div v-if="(prescriptiData != null)" >
+    	 	 				<div class='row' v-show="(prescriptiData.length != '')">
+				 				<div class='col-md-12 text-center'>
+				 					<span class='text-center'><b>Prescription</b></span>
+				 				</div>
+			 				</div>
 							<div class="table-responsive">
 							        <table class="table" id="prescription_list">
-							            <thead>
-							            <tr>
-							                <th width="8%">#</th>
-							                <th>Name</th>
-							                <th class="text-center">Quntity</th>
-							                <th class="text-center">Unit</th>
-							                <th class="text-center">Time For Medicine</th>
-							            </tr>
-							            </thead>
+							        
 							            <tbody>
-							             <tr  v-for="(res,index) in prescriptiData">
-							                <td>{{++index}}</td>
-							                <td>{{res.Prescription }}</td>
-							                <td class="text-center">{{res.quntity}}</td>
-							                <td class="text-center">{{res.unit}}</td>
-							                <td class="text-center">{{res.time}}</td>
-							              </tr>
-
+							              <tr v-for="(res,index) in prescriptiData" v-if="res.remove=='false'" :id="res.pid">
+    			                <td>{{++index}}]  {{res.name}} :  ORAL {{res.clock_quantity_1}}___{{res.clock_quantity_2}}___{{res.clock_quantity_3}} [ {{res.clock_time_1}}__ {{res.clock_time_2}}___{{res.clock_time_3}} ] [ {{res.clock_suggest_1}}___{{res.clock_suggest_2}}___{{res.clock_suggest_3}} ]
+    			                 <i class="fa fa-close"></i> 
+                                 <span v-if="res.total_prescription_days!=''">{{res.total_prescription_days}} DAYS </span>
+                                <span v-else>TO BE CONTINUE</span>
+                            </td>
+                           </td> 
+			              </tr>
 							            </tbody>
 							        </table>
 							      </div>
-       
     	 	 			</div>
-    	 	 			<br/><br/> -->
-    	 	 			
-			 			<!-- <div v-if="(referalType == 'cross' && crossSelectedValue != '')">
-			 				<div v-if="(referalType !== null)"> 
-					 			<div class='col-md-6 text-left'>
-					 				<span class='text-left'><b>Referal :-</b></span>
-					 			</div>
-				 			</div>
-			 				<div v-if="(crossType == 'internal')">
-			 					
-			 						<div class='col-md-6 text-left'>
-			 							<span class='text-left'><b>Internal</b></span> {{this.$store.state.Patient.opdData.cross_type_int}}
-			 						</div>
-			 				</div>
-			 				<div v-if="(crossType == 'external')">
-			 					<div class='col-md-6 text-left'>
-			 						<span class='text-left text-capitalize' style='padding-left:30px;padding-right;20px'>
-			 							<b>External</b>
-			 						</span>
-			 			{{this.$store.state.Patient.opdData.cross_type_ext}}
-			 						</div>
-			 				</div>
-				 		</div> -->
-			 	<!-- 	<div  v-if="(referalType == 'radiology' && radiologyData != '')" class="col-md-12 text-left">
-			 			<div v-if="(referalType !== null && radiologyData != null)"> 
-					 		<div class='col-md-6 text-left'>
-					 			<span class='text-left'><b>Referal :-</b></span>
-					 		</div>
-				 		</div>	
-		 				<table class="table" id="radio_list">
-			                  <thead>
-			                  <tr>
-			                      <th>Type</th>
-			                      <th>Body parts</th>
-			                      <th>Qualifier</th>
-			                      <th>Special request</th> -->
-			                      <!-- <th>Details</th> -->
-			                      <!-- <th>Gallery</th> -->
-			                 <!--  </tr>
-			                  </thead>
-			                  <tbody>
-			                  <tr>
-			                      <td>{{radiologyData.type}}</td>
-			                      <td>{{radiologyData.bodyPart}}</td>
-			                      <td>{{radiologyData.qualifier}}</td>
-			                      <td>{{radiologyData.special_request}}</td> -->
-			                      <!-- <td>{{res.textData | strLimit}}</td> -->
-			                      <!-- <td><a href="javascript:void(0)" @click="viewGallery(res.id)" class="red">View</a></td> -->
-			                      <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
-			               <!--        
-			                  </tr>
-			                  </tbody>
-			            </table>
-
-		 			</div> -->
+    	 	 		</div>
 		 		</div>
 
 		 	<div style="position:absolute;bottom:150px;width:100%height:200px;right:30px;">
@@ -403,8 +442,18 @@
 				'signatureName' : '',
 				'timeStamp' : '',
 				'followup' : this.$store.state.Patient.neuroExaminationData.follow_up,
-				
-
+				'checkedreportList': {},
+	    		'reportList': [{
+		       		 'reportListId': 'Advice + follow ups'
+		      		}, {
+		      		  'reportListId': 'Radiology'
+		      		}, {
+		      		  'reportListId': 'Laboratory'
+		      		}, {
+		      		  'reportListId': 'Prescription'
+		      		}] ,
+		      	'opdReport' : false,
+		      	'reportListSelect' : 0,
 			}
 		},
 		components: {
@@ -481,8 +530,27 @@
   			); 
        },
 		methods: {
+
+			 check: function(e) {
+	     		 if (e.target.checked) {
+	      		  console.log(e.target.value)
+	     		 }
+	   		 },
 			printReport(type){
-				this.printType = type;
+				let vm = this;
+				if(type == 'opd_case'){
+						if(vm.checkedreportList.length  == 0){
+							vm.reportListSelect = 1;
+							return false;
+						}else{
+							vm.reportListSelect = 0;
+							vm.printType = type;
+							return true;
+						}
+				}else{
+					vm.printType = type;
+					return true;
+				}
 			},
 			ClickHereToPrint() {	
 				
@@ -515,7 +583,7 @@
 					       // var uniqueName = new Date();	
 					        //var windowName = 'Print' + uniqueName.getTime();	
 					        var uniqueName = '';/*new Date();	*/
-					         var windowName = '';/*'Print' + uniqueName.getTime();	*/
+					        var windowName = '';/*'Print' + uniqueName.getTime();	*/
 					        var printWindow = window.open('','','left=0,top=0,width=950,height=600,toolbar=0,scrollbars=0,status=0,addressbar=0');
 					        
 					        var is_chrome = Boolean(printWindow.chrome);
