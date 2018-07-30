@@ -30,4 +30,8 @@ const app = new Vue({
     }
 }).$mount('#app')
 
+
+
+
+
 // document.addEventListener('contextmenu', event => event.preventDefault());

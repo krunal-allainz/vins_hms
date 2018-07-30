@@ -225,5 +225,5 @@ class UserController extends BaseController
         } else {
             return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
         }
-    }
+    }   
 }
