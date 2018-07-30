@@ -1,50 +1,58 @@
 <template>
-	<div >
-		<div class="row form-group" >
-            <div class="col-md-6" >
-                <div class="col-md-6 ">
-                    <label for="selectType">Select Type:</label>
+	<div class="border">
+	  <div class="row form-group border">
+        <div class="col-md-6">
+                <div class="col-md-6">
+                    <label for="name" class="control-label">Name : </label>
                 </div>
                 <div class="col-md-6">
-                    <select class="form-control ls-select2"  placeholder="Please select" id="select_type" name="select_type" v-model="patientSearchData.select_type">
-                        <option> Select </option>
-                        <option value="uhidNo">UHID No.</option>
-                        <option value="mobileNo">Mobile No.</option>
-                        <option value="firstName">First Name</option>
-                        <option value="lastName">Last Name</option>
-                        <option value="dob">DOB</option>
-                    </select>
-                    <i v-show="errors.has('select_type')" class="fa fa-warning"></i>
-                    <span class="help is-danger" v-show="errors.has('select_type')">
-                        Please select  search type.
-                    </span>
+                    <input class="form-control" type = "text" id = "name" name="name" value=""  v-model="patientSearchData.name"/>
+                   
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="col-md-6">
-                    <label>Value:</label>
+                    <label for="name" class="control-label">Date of Birth : </label>
                 </div>
-
-                <div class="col-md-6" style="display: flex;">
-                    <date-picker  :date.sync="patientSearchData.select_type_dob" :option="option" id = "select_type_dob" class="" type="date" name="select_value" :limit="limit" v-model="patientSearchData.select_type_dob.time"  :disabled="patientSearchData.case == 'old'" v-if="patientSearchData.select_type=='dob'"></date-picker>
-                    
-                    <input class="form-control" type="text" id="select_value" name="select_value" v-model="patientSearchData.select_value" v-else>
-                    
-                    <span  @click="getPatientDetailsBySearch()">
-                        <i class="fa fa-search fa-2x red m-1" aria-hidden="true" style="cursor: pointer;" title="search"></i>
-                    </span>
-                    <i v-show="errors.has('select_value')" class="fa fa-warning"></i>
-                    <span class="help is-danger" v-show="errors.has('select_value')">
-                        Please enter valid value.
-                    </span>
+                <div class="col-md-6">
+                    <date-picker  :date.sync="patientSearchData.select_type_dob" :option="option" id = "select_type_dob" class="" type="date" name="select_value" :limit="limit" v-model="patientSearchData.select_type_dob.time"></date-picker>
                 </div>
             </div>
         </div>
-         <div class="row form-group" v-if="userListLength>0">
-            <div class="col-md-12">
-                 <userlist :userlistData="userlistData" ></userlist>
+        <div class="row form-group">
+            <div class="col-md-6">
+                <div class="col-md-6">
+                    <label for="uhid_no" class="control-label">UHID No : </label>
+                </div>
+                <div class="col-md-6">
+                    <input class="form-control" type = "text" id = "uhid_no" name="uhid_no" value=""  v-model="patientSearchData.uhid_no"/>
+                   
+                </div>
             </div>
-          </div>
+            <div class="col-md-6">
+                <div class="col-md-6">
+                    <label for="uhid_no" class="control-label">Mobile No : </label>
+                </div>
+                <div class="col-md-6">
+                    <input class="form-control" type = "text" id = "mobile_no" name="mobile_no" value=""  v-model="patientSearchData.mobile_no"/>
+                   
+                </div>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <button type="button"  class="btn btn-primary" @click="getPatientDetailsBySearch()">
+                         Search
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row form-group" v-if="userListLength>0">
+            <div class="col-md-12">
+                <userlist :userlistData="userlistData" ></userlist>
+            </div>
+        </div>
 	</div>
 </template>
 <script >
@@ -61,7 +69,7 @@
     		'date-picker': myDatepicker,
              userlist,
     	},
-    	props:[],
+    	props:['user_id'],
         data() {
             return {
             	'notValid':false,
@@ -94,8 +102,9 @@
                     to: new Date()
                   }],
                   'patientSearchData' : {
-                    'select_type': '',
-                    'select_value':'',
+                    'uhid_no': '',
+                    'mobile_no': '',
+                    'name': '',
                     'select_type_dob': {
                         time:''
                     },
@@ -104,49 +113,31 @@
             }
         },
         mounted() {
-            $('.ls-select2').select2({
-                    placeholder: "Select",
-                    tags: false,
-                });
-                let vm =this;
-                $('#select_type').select2({
-                                    placeholder: "Select",
-                                    tags: false,
-                                });
-                $('#select_type').on("select2:select", function (e) {
-                    vm.userlistData={};
-                    vm.$root.$emit('patientEmpty',1);
-                    vm.patientSearchData.select_value="";
-                    vm.patientSearchData.select_type=$(this).val();
-                });
-			
+            
         },
         filters:{
         	
         },
         methods: {
+            initSearchData(){
+                var vm =this;
+                vm.patientSearchData.uhid_no="";
+                vm.patientSearchData.mobile_no="";
+                vm.patientSearchData.name="";
+                vm.patientSearchData.select_type_dob.time="";
+            },
             getPatientDetailsBySearch(){
                 var vm =this;
                 var select_val="";
                  vm.$root.$emit('patientEmpty',1);
-                 
-                if(vm.patientSearchData.select_type=='dob')
-                {
-                    vm.patientSearchData.select_value=vm.patientSearchData.select_type_dob.time;
-                }
-                
-                 if(vm.patientSearchData.select_type == '' || vm.patientSearchData.select_value == '') {
-                    toastr.error('Please select search type & value.', 'Search error', {timeOut: 5000});
-                    return false;
-                 }
                   $("body .js-loader").removeClass('d-none');
-                 
-                 let patData = {'select_type':vm.patientSearchData.select_type,'select_value':vm.patientSearchData.select_value,'user_id':0};
+                    
+                 let patData = {'search_data':vm.patientSearchData,'user_id':vm.user_id};
                 User.generatePatientListBySearch(patData).then(
                         (response) => {
+                            this.initSearchData();
                             vm.userlistData={};
                             if(response.data.code == 200) {
-                                let pData = {};
                                 var pData = [{"searchdata": response.data.data,'select_type':vm.patientSearchData.select_type,'select_value':vm.patientSearchData.select_value}];
                                 vm.userListLength=_.size(pData[0].searchdata);
                                 vm.userlistData=pData;
@@ -165,7 +156,7 @@
                 })
              },
               GetSelectComponent(componentName) {
-            this.$router.push({name: componentName})
+                this.$router.push({name: componentName})
           },
         	
 		  }

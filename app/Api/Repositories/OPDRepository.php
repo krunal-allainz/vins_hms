@@ -257,7 +257,7 @@
  				$lab_obj_2->laboratory_id=$lab['id'];
  				$lab_obj_2->date=Carbon::createFromFormat('d-m-Y', $lab['lab_date']['time'])->format('Y-m-d');
  				$lab_obj_2->result=$lab['result'];
- 				$lab_obj_2->assign_dr=$lab['assign'];
+ 				//$lab_obj_2->assign_dr=$lab['assign'];
  				$lab_obj_2->remove='false';
  				$lab_obj_2->save();
  				
