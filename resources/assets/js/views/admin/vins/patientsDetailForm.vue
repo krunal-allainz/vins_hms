@@ -11,7 +11,7 @@
 			<div class="row form-group">
 		    	<div class="col-md-6">
 		        	<div class="col-md-6 ">
-		            	<label for="case">Case type:</label>
+		            	<label for="case">Patient Type:</label>
 		          	</div>
 		          	<div class="col-md-6">
 		            	<select  class="form-control ls-select2" v-validate="'required'" id = "case" name="case" value="" v-model="patientData.case">
@@ -28,7 +28,7 @@
 
 				<div class="col-md-6">
 			    	<div class="col-md-6">
-					 	<label for="date">Patient Type:</label>
+					 	<label for="date">Senction:</label>
 					</div>
 					<div class="col-md-6">
 				    	<select class="form-control ls-select2"  id = "type" name="type" value="" v-model="patientData.type" v-validate="'required'">
@@ -207,6 +207,26 @@
 	                    </div>
 	                </div>
                 </div>
+                <div class="row form-group">
+                	<div class="col-md-6">
+			        	<div class="col-md-6 ">
+			            	<label for="caseType">Case Type:</label>
+			          	</div>
+		          	<div class="col-md-6">
+		            	<select  class="form-control ls-select2" v-validate="'required'" id = "caseType" name="caseType" value="" v-model="patientData.case_type">
+		            		<option> Select </option>
+		              		<option value="cross_reference">Cross Reference</option>
+		              		<option value="reports">Reports</option>
+		              		<option value="follow_ups">Follow ups</option>
+		              		<option value="new_consult">New Consult</option>
+		            	</select>
+		            	<i v-show="errors.has('case')" class="fa fa-warning"></i>
+		            	<span class="help is-danger" v-show="errors.has('case')">
+		              		Please select case type.
+		            	</span>
+		          	</div>
+		        </div>
+                </div>
        		<div class="form-group text-center">
 				<button class="btn btn-success" type="button" @click="savePatient()">Submit</button>
 			</div>
@@ -313,7 +333,8 @@
                 	'select_type':'',
                 	'select_value':'',
                 	'validatenumber' : '',
-                	'patient_id':''
+                	'patient_id':'',
+                	'case_type' : ''
                 }
             }
         },
