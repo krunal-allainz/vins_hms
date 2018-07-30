@@ -27,7 +27,7 @@
 			 </div>
 
        <div v-if="isPatientSearch">
-			   <patientSearch v-show="patient_select_enable==false" ref="opd_form"></patientSearch>
+			   <patientSearch v-show="patient_select_enable==false" :user_id="user_id" ref="vitals_info"></patientSearch>
         </div>
 
 	        <div class="row form-group">

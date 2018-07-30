@@ -7,6 +7,7 @@
 				</div>
 			</div>
 		</div>
+
 		<form method = "post">
 			<div class="row form-group">
 		    	<div class="col-md-6">
@@ -40,7 +41,7 @@
 			    </div>
       		</div>
       		
-      		<patientSearch v-if="patientData.case == 'old'" ref="patientDetailForm"></patientSearch>
+      		<patientSearch v-if="patientData.case == 'old'" :user_id="0" ref="patientDetailForm"></patientSearch>
       		
       		<div>
       			<div class="row form-group">
@@ -330,8 +331,6 @@
                 	'appointment_datetime': {
                 		time:''
                 	},
-                	'select_type':'',
-                	'select_value':'',
                 	'validatenumber' : '',
                 	'patient_id':'',
                 	'case_type' : ''
@@ -451,8 +450,6 @@
             			
             		}
         			this.patientData.patient_id=pDetails.id;
-        			this.patientData.select_type = patientData.select_type;
-        			this.patientData.select_value = patientData.select_value;
         			this.patientData.fname = pDetails.first_name;
             		this.patientData.mname = pDetails.middle_name;
             		this.patientData.lname = pDetails.last_name;

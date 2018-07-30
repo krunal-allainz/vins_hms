@@ -6,6 +6,7 @@
  use euro_hms\Models\PrescriptionDetails;
  use euro_hms\Models\OPDReferences;
  use euro_hms\Models\Radiology;
+ use euro_hms\Models\CrossDetails;
  use euro_hms\Models\LaboratoryDetails;
  use euro_hms\Models\PatientCheckUp;
  use euro_hms\Models\Examination;
@@ -92,7 +93,9 @@
  		$radiology_data=$request->all()['data']['radioData'];
  		$resultdata=$request->all()['data']['resultData'];
  		$labdata=$request->all()['data']['laboratoryData'];
- 		$lab_opd_data=$request->all()['data']['opdData']['laboratory_report_opd_data'];
+ 		$cross_opd_data=$request->all()['data']['opdData']['reffreal_cross_array'];
+ 		$lab_opd_data=$request->all()['data']['opdData']['reffreal_laboratory_array'];
+ 		$radio_opd_data=$request->all()['data']['opdData']['reffreal_radiology_array'];
 
  		if($department=='Vascular')
  		{
@@ -184,74 +187,60 @@
 	 		}
  		}
  		
- 		//opd references 
- 		if($data['referral']!='')
- 		{
- 			$reference_obj=new OPDReferences();
-	 		$reference_obj->opd_id=$opd_id_org;
-	 		$reference_obj->user_id=$user_id;
-	 		$reference_obj->reference_type=$data['referral'];
-	 		
-	 		if($data['referral']=='cross')
-	 		{
-	 			$reference_obj->cross_type=$data['cross'];
-	 			if($data['cross']=='internal')
-	 			{
-	 				$reference_obj->cross_value=$data['cross_type_int'];
-	 			}
-	 			else
-	 			{
-	 				$reference_obj->cross_value=$data['cross_type_ext'];
-	 			}
-	 		}
-	 		else if($data['referral']=='radiology')
-	 		{
-	 			$radiology_obj=new Radiology();
+ 		//opd cross references 
+ 		if(!empty($cross_opd_data))
+ 		{	
+ 			foreach($cross_opd_data as $cross)
+ 			{
+ 				$cross_obj=new CrossDetails();
+ 				$cross_obj->opd_id=$opd_id_org;
+ 				$cross_obj->user_id=$user_id;
+ 				$cross_obj->cross_type=$cross['subtype'];
+ 				$cross_obj->cross_value=$cross['value'];
+ 				$cross_obj->save();
+ 			}
+ 		}
+ 		//opd laboratory references 
+ 		if(!empty($lab_opd_data))
+ 		{	
+ 			foreach($lab_opd_data as $lab)
+ 			{
+ 				$lab_obj=new LaboratoryDetails();
+	 			$lab_obj->referance=0;
+ 				$lab_obj->opd_id=$opd_id_org;
+ 				$lab_obj->user_id=$user_id;
+ 				$lab_obj->laboratory_id=$lab['lab_id'];
+ 				$lab_obj->remove='false';
+ 				$lab_obj->save();
+ 			}
+ 		}
+ 		//opd radiology references 
+ 		if(!empty($radio_opd_data))
+ 		{	
+ 			foreach($radio_opd_data as $radio)
+ 			{
+ 				$radiology_obj=new Radiology();
 	 			$radiology_obj->opd_id=$opd_id_org;
-	 			$radiology_obj->type=$resultdata['type'];
-	 			$radiology_obj->bodyparts=$resultdata['bodyPart'];
-	 			$radiology_obj->qualifiers=$resultdata['qualifier'];
-	 			$radiology_obj->special_request=$resultdata['special_request'];
-	 			$radiology_obj->referance=0;
-	 			if($resultdata['type']=='X-Rays')
+	 			$radiology_obj->user_id=$user_id;
+	 			$radiology_obj->type=$radio['type'];
+	 			$radiology_obj->bodyparts=$radio['bodyPart'];
+	 			$radiology_obj->qualifiers=$radio['qualifier'];
+	 			$radiology_obj->special_request=$radio['special_request'];
+	 			$radiology_obj->referance=1;
+	 			$radiology_obj->details=$radio['textData'];
+	 			if($radio['type']=='X-Rays')
 	 			{
-	 				// $radiology_obj->subtype=$resultdata['x_ray_type'];
 	 				$radiology_obj->subtype = '';
 	 			}
-	 			else if($resultdata['type']=='MRI')
+	 			else if($radio['type']=='MRI')
 	 			{
 	 				if($radiology_obj->bodyparts=='Spine')
 	 				{
-	 					$radiology_obj->subtype=$resultdata['spine_option_value'];
+	 					$radiology_obj->subtype=$radio['spine_option_value'];
 	 				}
-
-	 				
 	 			}
-	 		
 	 			$radiology_obj->save();
-	 			$radiology_id=$radiology_obj->id;
-	 			$reference_obj->radiology_id=$radiology_id;
-	 		}
-	 		else if($data['referral']=='laboratory')
-	 		{
-	 			if(!empty($lab_opd_data))
-	 			{
-	 				foreach($lab_opd_data as $lab_opd)
-	 				{
-			 			$lab_obj=new LaboratoryDetails();
-			 			$lab_obj->referance=0;
-		 				$lab_obj->opd_id=$opd_id_org;
-		 				$lab_obj->user_id=$user_id;
-		 				$lab_obj->laboratory_id=$lab_opd;
-		 				$lab_obj->remove='false';
-		 				$lab_obj->save();
-		 			}
-	 			}
-	 			
-	 			
-	 		}
-	 		$reference_obj->save();
-
+ 			}
  		}
 
  		/*for form -2 library*/
@@ -268,7 +257,7 @@
  				$lab_obj_2->laboratory_id=$lab['id'];
  				$lab_obj_2->date=Carbon::createFromFormat('d-m-Y', $lab['lab_date']['time'])->format('Y-m-d');
  				$lab_obj_2->result=$lab['result'];
- 				$lab_obj_2->assign_dr=$lab['assign'];
+ 				//$lab_obj_2->assign_dr=$lab['assign'];
  				$lab_obj_2->remove='false';
  				$lab_obj_2->save();
  				
@@ -285,12 +274,13 @@
  			{
  				$radiology_obj_2=new Radiology();
 	 			$radiology_obj_2->opd_id=$opd_id_org;
+	 			$radiology_obj_2->user_id=$user_id;
 	 			$radiology_obj_2->type=$r_data['type'];
 	 			$radiology_obj_2->bodyparts=$r_data['bodyPart'];
 	 			$radiology_obj_2->qualifiers=$r_data['qualifier'];
 	 			$radiology_obj_2->special_request=$r_data['special_request'];
 	 			$radiology_obj_2->referance=1;
-	 			$radiology_obj_2->details=$r_data['special_request'];
+	 			$radiology_obj_2->details=$r_data['textData'];
 	 			$image_data=$r_data['imgData'];
 	 			if($r_data['type']=='X-Rays')
 	 			{
