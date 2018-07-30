@@ -12,7 +12,7 @@
                     <vmenu-item link="/NewUser" icon="ti-layout">
                         &nbsp; New User
                     </vmenu-item>
-                     <vmenu-item link="/patients_detail_form" icon="ti-layout">
+                     <vmenu-item link="/patients_detail_form" icon="ti-layout" v-if="userRole==3">
                         &nbsp; Patients Detail Form
                     </vmenu-item>
                      <vmenu-item link="/opd_form" icon="ti-layout">

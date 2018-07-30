@@ -54,17 +54,17 @@
                                     </span>
                                 </div> 
                             </div> 
-                            <div class="col-md-3"> 
-                                <div class="col-md-12"> 
-                                    <label class="control-label" for="label_1">Assign Dr </label> 
-                                </div> 
-                                <div class="col-md-12"> 
-                                    <input type="text" :name="'lab_assign_dr'+index"   id="lab_assign_dr_id" v-model="lab.assign" class="form-control lab_assign_dr"  v-validate="'required'"> 
-                                    <span class="help is-danger" v-show="errors.has('lab_assign_dr'+index)">
-                                        Field is required
-                                    </span>
-                                </div> 
-                            </div>  
+                         <!--    <div class="col-md-3"> 
+                              <div class="col-md-12"> 
+                                  <label class="control-label" for="label_1">Assign Dr </label> 
+                              </div> 
+                              <div class="col-md-12"> 
+                                  <input type="text" :name="'lab_assign_dr'+index"   id="lab_assign_dr_id" v-model="lab.assign" class="form-control lab_assign_dr"  v-validate="'required'"> 
+                                  <span class="help is-danger" v-show="errors.has('lab_assign_dr'+index)">
+                                      Field is required
+                                  </span>
+                              </div> 
+                          </div>  --> 
                         </div>
                     </div>
 
@@ -88,7 +88,7 @@
                             <th>Name</th>
                             <th>Date</th>
                             <th>Result</th>
-                            <th>Assigning Dr</th>
+                            <!-- <th>Assigning Dr</th> -->
                             <!-- <th>Action</th> -->
                         </tr>
                         </thead>
@@ -98,7 +98,7 @@
                             <td>{{res.text }}</td>
                             <td>{{res.lab_date.time}}</td>
                             <td>{{res.result}}</td>
-                            <td>{{res.assign}}</td>
+                            <!-- <td>{{res.assign}}</td> -->
                             <!-- <td> <i class="fa fa-remove" @click="removeLaboratory(res.id)"></i></td> -->
                           </tr>
 
@@ -205,7 +205,7 @@
                     },
                     'lab_name':[],
                     'lab_result':[],
-                    'lab_assigning_dr':[],
+                    //'lab_assigning_dr':[],
                 },
                 'investigationData':{
                     'radiologyType':[
@@ -279,7 +279,7 @@
                         } 
                     });
                     if(labFind == false) {
-                        labRes.push({'assign':'','id':rep.id,'lab_date':rep.lab_date,'result':'','text':rep.text});
+                        labRes.push({'id':rep.id,'lab_date':rep.lab_date,'result':'','text':rep.text});
                     }
                 });
                 vm.laboratoryData.laboratory_report= labRes;
