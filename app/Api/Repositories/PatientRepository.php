@@ -25,14 +25,15 @@
  		    $uhid="VN";
         $year = date('y');
         $insertedPatientId="";
+
+     //   $patientCaseData = new PatientCaseManagment();
+      //  $tokenDataData     = new TokenManagment();
 		
         if($data['case'] == 'new') {
         	$patientData=new PatientDetailsForm();
-
         }
         else
         {
-
         	$patientId =$data['patient_id'];
 	          
         	if($patientId!=0 && $patientId!="")
@@ -48,7 +49,7 @@
         	}
         	
         }
-     
+    // dd($data);
         /*patient details*/
     $patientData->first_name=$data['fname'];
 		$patientData->middle_name=$data['mname'];
@@ -67,7 +68,6 @@
 		$patientData->appointment_datetime=$data['appointment_datetime']['time']; 
 
 		/*for patient details end*/
-
 
         if($data['case'] == 'new') {
            $patientD =  PatientDetailsForm::orderBy('id', 'desc')->first();
