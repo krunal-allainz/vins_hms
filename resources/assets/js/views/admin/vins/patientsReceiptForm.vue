@@ -1,100 +1,83 @@
 <template>
-   <div class="container">
-   	   <div class="page-header">
-      	  <div class="row">
-             <div class="col-md-6">
-               <h3>Patient Receipt form </h3>
-             </div>
-          </div>
-       </div>	
+   <div class="">
        <form action="" method="post" enctype="multipart/formdata" @submit="receiptPrintView">
-    	   <div class="row form-group">	
-
-    	   		
+       		
+    	   <div class="row form-group">
     	   		<div class="col-md-6">
-    	   			<div class="col-md-6">
+    	   			<div class="col-md-9">
 			          <label for="date">Select Patient:</label>
 			        </div>
     	   		
 
-    	   		<div class="col-md-6">
-	          		<select  class="form-control ls-select2" v-validate="'required'" id = "patient" name="patient" value="" v-model="patientData.patient_id"   v-on:change="myFunction()">
-	            		 <option :value="patient.id" v-for="patient in patientData.patient_option">{{patient.text}}</option>
-	          		</select>	
-         							
-	          		<span class="help is-danger" v-show="errors.has('patient')">
-	            		Please Select Patient.
-	          		</span>
+    	   		<div class="col-md-9">
+    	   			<input class="form-control" type = "text" id = "name" name="name"  v-model="patientReceiptData.patient_name" readonly=""/>
+    	   			<input class="form-control" type = "hidden" id = "patient" name="patient"  v-model="patientReceiptData.patient_id" />
 	          	</div>
 	          </div>
 
 	          <div class="col-md-6">
-			        <div class="col-md-6">
+			        <div class="col-md-9">
 			          <label for="date">OPD CASE NO:</label>
 			        </div>
-			        <div class="col-md-6">
-			           <select  class="form-control ls-select2"  v-validate="'required'" id="case_no" name="case_no" v-model="patientData.case_no" value="">
-			           <option :value="case_no.id" v-for="case_no in patientData.case_detail">{{case_no.text}}</option>
-			          </select>
-			          <span class="help is-danger" v-show="errors.has('case_no')">
-			            Please Select OPD Case No.
-			          </span>
-			        
+			        <div class="col-md-9">
+			        	<input class="form-control" type = "text" id = "case_no" name="case_no"  v-model="patientReceiptData.case_no" readonly=""/>
 			        </div>
 			     </div>
 			   </div>
-	          	 <div  v-for="data in patientData.select_patient_detail">
+	          	 
 	          	 	 <div class="row form-group" >
 	          	 	 	<div class="col-md-6">	
-	          	 	 	 	<div class="col-md-6">
+	          	 	 	 	<div class="col-md-9">
 	          	 	 	 		 <label for="date"><b>Gender:</b></label>
 	          	 	 	 	 </div>
-		          	 	 	<div class="col-md-6">	
-							        <span  v-if="data.gender=='M'">	
-							             Male 	
-							        </span>	
-							        <span  v-if="data.gender=='F'">	
-						             Female	
-							        </span>	
-							      
-							     </div>	
-							     <div class="col-md-6">
+		          	 	 	<div class="col-md-9">	
+							       <span>{{patientOPDDetails.gender}}</span>
+							</div>
+						</div>
+						<div class="col-md-6">		
+							     <div class="col-md-9">
 	          	 	 	 		 <label for="date"><b>Age:</b></label>
 	          	 	 	 	 </div>
-	          	 	 	 	 <div class="col-md-6">
-	          	 	 	 	  <span id="age">{{patientData.age}}</span>	
+	          	 	 	 	 <div class="col-md-9">
+	          	 	 	 	  <span>{{patientOPDDetails.age}}</span>	
 	          	 	 	 	</div>
-						 </div>	
-							  <div class="col-md-6">	
-						 	<div class="col-md-6" v-for="data in patientData.select_patient_detail">	
-										
-							     	 <label class="control-label" for="consulting_dr"><b>Consulting Dr.:</b> </label>	
-							     </div>	
-							      <div class="col-md-6">	
-										{{patientData.consult}}	
-							</div>	
-							</div>	
+					 	</div>
 					</div>
-				</div>
+					 <div class="row form-group" >
+						<div class="col-md-6">	
+				 			<div class="col-md-9">
+					     	 	<label class="control-label" for="consulting_dr"><b>Consulting Dr.:</b> </label>	
+					     	</div>	
+					      	<div class="col-md-9">	
+								<span>{{patientOPDDetails.consultant}}</span>	
+							</div>	
+						</div>	
+						<div class="col-md-6">	
+			 				<div class="col-md-9">	
+			 					<label for="date"><b>Department:</b></label>	
+			 				</div>	
+			 				<div class="col-md-9">	
+			 					{{patientOPDDetails.department}}	
+			 				</div>	
+			 			</div>
+			 		</div>
+				
 						<div class="row form-group" >	
 				 		 	
 				 			<div class="col-md-6">
-			    	   			<div class="col-md-6">
+			    	   			<div class="col-md-9">
 						         	<label for="date">Case Type:</label>
 						        </div>
-						        <div class="col-md-6">
-				    	   			<select class="form-control ls-select2"  id = "case_type" name="case_type" value="" v-model="patientData.case_type">
-				    	   				<option :value="case_type.id" v-for="case_type in patientData.case_type_option">{{case_type.text}}</option>
-				    	   			</select>
-				    	   			<!-- <span class="help is-danger" v-show="errors.has('case_type')"> Please Select Case Type. </span> -->
+						        <div class="col-md-9">
+				    	   			<span>OPD</span>
 				    	   		</div>
 			    	   		</div>
 				 	 	<div class="col-md-6">	
-				          <div class="col-md-6">	
+				          <div class="col-md-9">	
 				            <label><b>Date :</b></label>	
 				         </div>	
-				         <div class="col-md-6">
-			       				<date-picker  :date.sync="patientData.date_receipt" :option="option" id = "date_receipt" class="" type="text" name="date_receipt" :limit="limit" v-model="patientData.date_receipt.time" ></date-picker> 
+				         <div class="col-md-9">
+			       				<date-picker  :date.sync="patientReceiptData.date_receipt" :option="option" id = "date_receipt" class="" type="text" name="date_receipt" :limit="limit" v-model="patientReceiptData.date_receipt.time" ></date-picker> 
 							
 			           	</div>	
 			        </div>	
@@ -102,22 +85,22 @@
 				
 				<div class="row form-group" >	
 					<div class="col-md-6">	
-							<div class="col-md-6">	
+							<div class="col-md-9">	
 								<label for="charges"><b>Charges Type:</b></label>
 							</div>	
-							<div class="col-md-6">
-								<select  class="form-control ls-select2" id = "charges_type" name="charges_type" v-model="patientData.charges_type"   v-on:change="ChargesTypeFunction()">
-	            		 			<option :value="charges_type.id" v-for="charges_type in patientData.charges_type_option">{{charges_type.text}}</option>
+							<div class="col-md-9">
+								<select  class="form-control ls-select2" id = "charges_type" name="charges_type" v-model="patientReceiptData.charges_type"   v-on:change="ChargesTypeFunction()">
+	            		 			<option :value="charges_type.id" v-for="charges_type in patientReceiptData.charges_type_option">{{charges_type.text}}</option>
 	          					</select>	
-								<!-- <span class="help is-danger" v-show="errors.has('charges_type')"> Please Select Charges Type. </span>  -->
+								
 							</div>
 				 	</div>
-				 			<div class="col-md-6" v-if="patientData.charges_type == '1'">
-						<div class="col-md-6">
+				 			<div class="col-md-6" v-if="patientReceiptData.charges_type == '1'">
+						<div class="col-md-9">
 							<label class="control-label" for="consultation_type">Consultation Charges: </label>
 						</div>
-						<div class="col-md-6">
-							<select class="form-control ls-select2"  id="consultation_type" name="consultation_type"  v-model="patientData.consultation_type">
+						<div class="col-md-9">
+							<select class="form-control ls-select2"  id="consultation_type" name="consultation_type"  v-model="patientReceiptData.consultation_type">
     								
   									<optgroup label="Super Specialists" value="1">
     									<option class="level_0" value="1">First</option>
@@ -131,69 +114,71 @@
   								 </optgroup>
 								
 							</select>
-							<!-- <span class="help is-danger" v-show="errors.has('consultation_type')"> Please Select Consultation Charges. </span> -->
+							
 						</div>
 					</div>
-				 	<div class="col-md-6" v-if="patientData.charges_type == '2'">
-						<div class="col-md-6">
+				 	<div class="col-md-6" v-if="patientReceiptData.charges_type == '2'">
+						<div class="col-md-9">
 				      		<label class="control-label" for="emergency_type">Emergency Charges: </label>
 						</div>
-						<div class="col-md-6">
-				      		<select class="form-control ls-select2"  id="emergency_type" name="emergency_type"  v-model="patientData.emergency_type" >
-								 <option :value="emergency_type.id" v-for="emergency_type in patientData.emergency_type_option">{{emergency_type.text}}</option>
+						<div class="col-md-9">
+				      		<select class="form-control ls-select2"  id="emergency_type" name="emergency_type"  v-model="patientReceiptData.emergency_type" >
+								 <option :value="emergency_type.id" v-for="emergency_type in patientReceiptData.emergency_type_option">{{emergency_type.text}}</option>
 				      		</select>
-				      		<!-- <span class="help is-danger" v-show="errors.has('emergency_type')"> Please Select Emergency Charges. </span> -->
+				      		
 						</div>
 					</div>
 			 
 				</div>
 				<div class="row form-group" >	
 					<div class="col-md-6">
-						<div class="col-md-6">
+						<div class="col-md-9">
 				      		<label class="control-label" for="chargeAmount">Charges: </label>
 						</div>
-						<div class="col-md-6">
-				      		<input class="form-control" type="text" name="chargeAmount" id="chargeAmount"  v-validate="'numeric'" 	v-model="patientData.chargeAmount" />
+						<div class="col-md-9">
+				      		<input class="form-control" type="text" name="chargeAmount" id="chargeAmount"  v-validate="'numeric'" 	v-model="patientReceiptData.chargeAmount" />
 				      		<span class="help is-danger" v-show="errors.has('chargeAmount')">
 				      		 Please enter valid charges. </span>
 						</div>
 					</div>
-					<div class="col-md-6" v-for="data in patientData.select_patient_detail">	
-		 				<div class="col-md-6">	
-		 					<label for="date"><b>Department:</b></label>	
-		 				</div>	
-		 				<div class="col-md-6">	
-		 					{{patientData.department}}	
-		 				</div>	
-		 			</div> 	
+					 	
 				</div>
-				<div class="row form-group" >	
-					<div class="col-md-6" v-if="patientData.department=='Neurology'">
-						<div class="col-md-6">
+				<div class="row form-group">	
+					<div class="col-md-6" v-if="patientOPDDetails.department=='Neurology'">
+						<div class="col-md-9">
 				      		<label class="control-label" for="neurological_procedures">Neurological Procedures: </label>
 						</div>
-						<div class="col-md-6">
-				      		<select class="form-control ls-select2"  id="neurological_procedures" name="neurological_procedures"  v-model="patientData.neurological_procedures" >
-								 <option :value="neurological_procedures.id" v-for="neurological_procedures in patientData.neurological_procedures_option">{{neurological_procedures.text}}</option>
+						<div class="col-md-9">
+				      		<select class="form-control ls-select2"  id="neurological_procedures" name="neurological_procedures"  v-model="patientReceiptData.neurological_procedures" >
+								 <option :value="neurological_procedures.id" v-for="neurological_procedures in patientReceiptData.neurological_procedures_option">{{neurological_procedures.text}}</option>
 				      		</select>
 						</div>
 					</div>
-					<div class="col-md-6" v-if="patientData.department=='Vascular'">
-						<div class="col-md-6">
+					<div class="col-md-6" v-if="patientOPDDetails.department=='Vascular'">
+						<div class="col-md-9">
 				      		<label class="control-label" for="vascular_procedures">Vascular Procedures: </label>
 						</div>
-						<div class="col-md-6">
-				      		<select class="form-control ls-select2"  id="vascular_procedures" name="vascular_procedures"  v-model="patientData.vascular_procedures" >
-								 <option :value="vascular_procedures.id" v-for="vascular_procedures in patientData.vascular_procedures_option">{{vascular_procedures.text}}</option>
+						<div class="col-md-9">
+				      		<select class="form-control ls-select2"  id="vascular_procedures" name="vascular_procedures"  v-model="patientReceiptData.vascular_procedures" >
+								 <option :value="vascular_procedures.id" v-for="vascular_procedures in patientReceiptData.vascular_procedures_option">{{vascular_procedures.text}}</option>
+				      		</select>
+						</div>
+					</div>	
+					<div class="col-md-6" v-if="patientOPDDetails.department=='Physiotherapy'">
+						<div class="col-md-9">
+				      		<label class="control-label" for="physiotherapy_procedures">Physiotherapy And Rehabilitation Procedures: </label>
+						</div>
+						<div class="col-md-9">
+				      		<select class="form-control ls-select2"  id="physiotherapy_procedures" name="physiotherapy_procedures"  v-model="patientReceiptData.physiotherapy_procedures" >
 				      		</select>
 						</div>
 					</div>	
 					<div class="col-md-6">
-						<div class="col-md-6">
+						<div class="col-md-9">
 				      		<label class="control-label" for="procedure_charges">Procedure Charges: </label>
 						</div>
-						<div class="col-md-6">
-				      		<input class="form-control" type="text" name="procedure_charges" id="procedure_charges"  v-validate="'numeric'" v-model="patientData.procedure_charges" />
+						<div class="col-md-9">
+				      		<input class="form-control" type="text" name="procedure_charges" id="procedure_charges"  v-validate="'numeric'" v-model="patientReceiptData.procedure_charges" />
 				      		<span class="help is-danger" v-show="errors.has('procedure_charges')"> 
 				      		Please enter valid procedure charges. </span> 
 						</div>
@@ -201,21 +186,20 @@
 				</div>
 				<div class="row form-group" >
 					<div class="col-md-6">
-						<div class="col-md-6">
-					      		<label class="control-label" for="other_charges_category">Other Charges Category: </label>
+						<div class="col-md-9">
+					      		<label class="control-label" for="other_charges_category">Other Procedure Charges Category: </label>
 							</div>
-							<div class="col-md-6">
-					      		<select class="form-control ls-select2"  id="other_charges_category" name="other_charges_category"  v-model="patientData.other_charges_category" >
-									 <option :value="other_charges_category.id" v-for="other_charges_category in patientData.other_charges_category_option">{{other_charges_category.text}}</option>
+							<div class="col-md-9">
+					      		<select class="form-control ls-select2"  id="other_charges_category" name="other_charges_category"  v-model="patientReceiptData.other_charges_category" >
 					      		</select>
 							</div>
 					</div>
 					<div class="col-md-6">
-						<div class="col-md-6">
-				      		<label class="control-label" for="other_charges">Other Charges: </label>
+						<div class="col-md-9">
+				      		<label class="control-label" for="other_charges">Other Procedure Charges: </label>
 						</div>
-						<div class="col-md-6">
-				      		<input class="form-control" type="text" name="other_charges" id="other_charges"  v-validate="'numeric'" 	v-model="patientData.other_charges" />
+						<div class="col-md-9">
+				      		<input class="form-control" type="text" name="other_charges" id="other_charges"  v-validate="'numeric'" 	v-model="patientReceiptData.other_charges" />
 				      		<span class="help is-danger" v-show="errors.has('other_charges')"> 
 				      			Please enter valid other charges. </span> 
 						</div>
@@ -228,20 +212,9 @@
 					 	<button class="btn btn-primary pull-left" type="submit" id="modellink" >Save Receipt</button>
 					</div>
 				</div>
+       		
 		</form>
-			<div id="receiptModal" class="modal fade">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header"> </div>
-						<div class="modal-body" id="printContent"> </div>
-						<div class="modal-footer">
-							<button  type="button" class="btn btn-primary"  @click="ClickHereToPrint()">Print</button>
-							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>	
-							<!-- <button type="button" class="btn btn-primary">Save</button>	 -->
-						</div>	
-					</div>	
-				</div>	
-			</div> 		
+				
 		</div>
 	 </template>
 	<script>
@@ -266,10 +239,13 @@
 		let list=[];
 		let charges_list=[];
 		var patientId = '';
-		
+		var other_option=[{id: '1', text: 'Procedure Charges', children: [ {id:1,text:'Dressing'}, {id:2,text:'Special dressing'}, {id:3,text:'Strip Method RBS	'}, {id:4,text:'ECG'}, {id:5,text:'Enema'}, {id:6,text:'Urine Sugar (Per Test)'}, {id:7,text:'Suture Removal'}, {id:8,text:'Ambulance Charge (Within city limits only)'}, {id:9,text:'Escort with Ventilator (per hour)'}, {id:10,text:'Escort without Ventilator (per hour)'} ], "element": HTMLOptGroupElement }, {id: '2', text: 'Wound Care', children: [ {id:11,text:'Dressing - Minor'}, {id:12,text:'Dressing - Major'}, {id:13,text:'Vac (per session + actual expenditure)'}, {id:14,text:'Special Dressing'} ], "element": HTMLOptGroupElement } ];
+		/*for physiotherapy*/
+		var physio_option=[{id: '1', text: 'Pain Management',children: [ {id:1,text:'Evaluation + Exercise Therapy (Daily)'}, {id:2,text:'Evaluation + Exercise Therapy + Electro Therapy (One Modality) (Daily)'}, {id:3,text:'Evaluation + Exercise Therapy + Electro Therapy (Two Modalities) (Daily)'}, {id:4,text:'Evaluation + Exercise Therapy (Weekly)'}, {id:5,text:'Evaluation + Exercise Therapy + Electro Therapy (One Modality) (Weekly)'}, {id:6,text:'Evaluation + Exercise therapy + Electro Therapy (Two Modalities) (Weekly)'} ], "element": HTMLOptGroupElement }, {id: '2', text: 'Rehabilitation', children: [ {id:7,text:'Evaluation + Exercise Therapy (Daily)'}, {id:8,text:'Evaluation + Exercise Therapy + Assist Modality (Any One)[FES/MEntamove/Treadmill/Tilt Table/Cycling] (Daily)'}, {id:9,text:'Evaluation + Exercise Therapy + Assist Modality (2 Assist Modalities)(Daily)'}, {id:10,text:'Evaluation + Exercise Therapy + Assist Modality (All Assist Modalities)(Daily)'},{id:11,text:'Evaluation + Exercise Therapy (Weekly)'}, {id:12,text:'Evaluation + Exercise Therapy + Assist Modality (Any One)[FES/MEntamove/Treadmill/Tilt Table/Cycling] (Weekly)'}, {id:13,text:'Evaluation + Exercise Therapy + Assist Modality (2 Assist Modalities)(Weekly)'}, {id:14,text:'Evaluation + Exercise Therapy + Assist Modality (All Assist Modalities)(Weekly)'} ], "element": HTMLOptGroupElement } ];
 		
 
 		export default {
+			props:['patientOPDDetails'],
 			data() {
 				return {
 					post: null,
@@ -300,7 +276,7 @@
 				        type: 'fromto',
 				       	to: new Date()
 				      }],
-					 'patientData' : {
+					 'patientReceiptData' : {
 					 		'fullname' : '',
 					 		'gender': '',
 					 		'case_no': '',
@@ -310,6 +286,7 @@
                 			'age' : '',
 		                	'reference_dr': '',
 		                	'patient_id':'',
+		                	'patient_name':'',
 		                	'date_receipt': {
                 				time:''
                 			},
@@ -317,7 +294,7 @@
                  			'case_detail':{},
                  			'consult' : '',
                  			'charges_type':'',
-                 			'charges_type_option':charges_list,
+                 			'charges_type_option':{},
                  			'chargeAmount' : '',
                  			'select_patient_detail':{},
 		                	'consultation_type':'',
@@ -354,19 +331,7 @@
 								{id:7,text:'Photo Plethysmography'},
 							],
 							'other_charges_category':'',
-		                	'other_charges_category_option': [
-								{id:1,text:'Dressing'},
-								{id:2,text:'Special dressing'},
-								{id:3,text:'Strip Method RBS	'},
-								{id:4,text:'ECG'},
-								{id:5,text:'Enema'},
-								{id:6,text:'Urine Sugar (Per Test)'},
-								{id:7,text:'Suture Removal'},
-								{id:8,text:'Ambulance Charge (Within city limits only)'},
-								{id:9,text:'Escort with Ventilator (per hour)'},
-								{id:10,text:'Escort without Ventilator (per hour)'},
-
-								],
+		                	'other_charges_category_option':{},
 							'other_charges':'',
 							'procedure_charges':'',
 		                	'department':''
@@ -378,466 +343,388 @@
 	       			 'date-picker': myDatepicker,	
 	         	},
 	          mounted(){
-	          	 $('.ls-select2').select2({
-	          	 	 placeholder: "Select"
-	          	  }); 
+	          	
+		          	 $('.ls-select2').select2({
+		          	 	 placeholder: "Select",
+		          	 	 dropdownParent: $("#receiptAddModel")
+		          	  }); 
+		         
 	          	   let vm =this;
-	          	  
-
-	          	    	
-
-	          	    $('#patient').on("select2:select", function (e) { 
-	          	    patientId = $(this).val();
-	          	    vm.patientData.patient_id = patientId;
-  					let opdDetail=[];
-  					User.getPatientOPDDetail(patientId).then(
-  						(response) => { 
-  							if(response.data.code == 200){
-  								vm.patientData.case_detail = opdDetail;
-  								if(response.data.data.length != 0){
-  									$.each(response.data,function(key,value){
-  										let opdId = value.id;
-  										let opdNumber =  value.opd_id;
-  										opdDetail.push({'id':opdId,'text':opdNumber});
-  									});
-  								vm.patientData.case_detail = opdDetail;
-  								setTimeout(function(){
-  									$('#case_no').select2({
-  										placeholder: 'Select'
-  									});
-
-  								},500)
-  								}
-  							}
-  						},
-  					 	(error) => {
-  					 	},
-  					  	);
-  					});
-
-	          	    
-  					$('#case_no').on("select2:select", function (e) {
-  						let patient_data_detail = [];
-
-  							 User.getPatientOPDDetail(patientId).then(
-  							 	(response) => { 
-  							 		//console.log( response.data.data);
-  							 		if(response.data.code == 200){
-  							 			let patientDetails = response.data.data.patient_details;
-  							 			//console.log(patientDetails);
-  							 			let name = patientDetails.first_name +' '+patientDetails.last_name;
-  							 			let pid  = patientDetails.id ;
-  							 			let address  = patientDetails.address ;
-  							 			let dob  = patientDetails.dob ;
-  							 			//let caseType  = patientDetails.case_type ;
-  							 			let consulatant  = patientDetails.consultant ;
-  							 			let gender  = patientDetails.gender ;
-  							 			let mob  = patientDetails.mob_no ;
-  							 			let phone  = patientDetails.ph_no;
-  							 			let references  = patientDetails.references ;
-  							 			let uhid_no  = patientDetails.uhid_no ;
-  							 			let consult_name =" ";
-  							 			User.generateUserNameById(patientDetails.consultant_id).then(
-  							 				(response) => {
-
-  							 					vm.patientData.consult = response.data;
-  							 				},
-				               				(error) => {
-				            	 			},
-  										); 
-
-  							 			patient_data_detail.push({
-
-  							 				 'name' : name,
-  							 				 'id' : pid,
-  							 				 'add' : address,
-  							 				 //'case_type' : caseType,
-  							 				 //'consult' : consult_name,
-  							 				 'gender' : gender,
-  							 				 'mob' : mob,
-  							 				 'phone' : phone,
-  							 				 'references' : references,
-  							 				 'uhid_no' : uhid_no
-  							 			});
-  							 			
-  							 	vm.patientData.select_patient_detail=patient_data_detail;
-  							 	vm.patientData.dob = dob;
-  							 	vm.patientData.fullname = name;
-  							 	vm.patientData.case_no = $(this).val();
-  							 	vm.patientData.gender = gender;
-  							 	
-  							 	//vm.patientData.patient_id = pid;
-  							 	vm.patientData.reference_dr = consulatant;
-  							 	vm.patientData.consult_id = patientDetails.consultant_id;
-
-  							 	
-  							 	}
-  							    vm.handleDOBChanged();
-  							    //vm.ChargesTypeFunction();
-  							   /*for getting department*/
-  							   //console.log(vm.patientData.consult_id);
-						  		 User.getDrDepartmentById(vm.patientData.consult_id).then(
-  							 	(response) => { 
-  							 		let dept_name=response.data;
-  							 		let dept_val  = dept_name.department;
-  							 		vm.patientData.department=dept_val;
-
-  							 		/*procedures for deopartment*/
-  							 		/*for charges type end*/	
-						  				/*for procedures*/
-						  			setTimeout(function(){
-						  				$('#neurological_procedures').select2({
-							          	 	 placeholder: "Select"
-							          	  });
-						  				 $('#neurological_procedures').on("select2:select", function (e) { 
-						          	    	let neurological_procedures_val=$(this).val();
-						          	    	vm.patientData.neurological_procedures=neurological_procedures_val;
-						          	    	if(neurological_procedures_val==1)
-						          	    	{
-						          	    		vm.patientData.procedure_charges=1500;
-						          	    	}
-						          	    	else if(neurological_procedures_val==2)
-						          	    	{
-
-						          	    		vm.patientData.procedure_charges=3000;
-						          	    	}
-						          	    	else if(neurological_procedures_val==3)
-						          	    	{
-						          	    		vm.patientData.procedure_charges=1200;
-						          	    	}
-						          	    	else if(neurological_procedures_val==4)
-						          	    	{
-						          	    		vm.patientData.procedure_charges=1000;
-						          	    	}
-						          	    	else if(neurological_procedures_val==5)
-						          	    	{
-						          	    		vm.patientData.procedure_charges=3500;
-						          	    	}	
-						          	    	else if(neurological_procedures_val==6)
-						          	    	{
-						          	    		vm.patientData.procedure_charges=2500;
-						          	    	}
-						          	    	else if(neurological_procedures_val==7)
-						          	    	{
-						          	    		vm.patientData.procedure_charges=2000;
-						          	    	}
-						          	    	else if(neurological_procedures_val==8)
-						          	    	{
-						          	    		vm.patientData.procedure_charges=2000;
-						          	    	}
-						          	    	else if(neurological_procedures_val==9)
-						          	    	{
-						          	    		vm.patientData.procedure_charges=2000;
-						          	    	}
-						          	    	else if(neurological_procedures_val==10)
-						          	    	{
-						          	    		vm.patientData.procedure_charges=1500;
-						          	    	}
-						          	    	else if(neurological_procedures_val==11)
-						          	    	{
-						          	    		vm.patientData.procedure_charges=1500;
-						          	    	}
-						          	    	else if(neurological_procedures_val==12)
-						          	    	{
-						          	    		vm.patientData.procedure_charges=2000;
-						          	    	}
-						          	    	else if(neurological_procedures_val==13)
-						          	    	{
-						          	    		vm.patientData.procedure_charges=1200;
-						          	    	}
-						          	    	else if(neurological_procedures_val==14)
-						          	    	{
-						          	    		vm.patientData.procedure_charges=6000;
-						          	    	}
-						          	    	else if(neurological_procedures_val==15)
-						          	    	{
-						          	    		vm.patientData.procedure_charges=3500;
-						          	    	}
-						          	    	else if(neurological_procedures_val==16)
-						          	    	{
-						          	    		vm.patientData.procedure_charges=2500;
-						          	    	}
-						          	    	else if(neurological_procedures_val==17)
-						          	    	{
-						          	    		vm.patientData.procedure_charges=5000;
-						          	    	}
-						          	    	
-										});
-			               	 			$('#vascular_procedures').select2({
-							          	 	 placeholder: "Select"
-							          	  });
-			               	 			$('#vascular_procedures').on("select2:select", function (e) { 
-						          	    	let vascular_procedures_val=$(this).val();
-						          	    	vm.patientData.vascular_procedures=vascular_procedures_val;
-						          	    	if(vascular_procedures_val==1)
-						          	    	{
-						          	    		vm.patientData.procedure_charges=2400;
-						          	    	}
-						          	    	else if(vascular_procedures_val==2)
-						          	    	{
-						          	    		vm.patientData.procedure_charges=2400;
-						          	    	}
-						          	    	else if(vascular_procedures_val==3)
-						          	    	{
-						          	    		vm.patientData.procedure_charges=1200;
-						          	    	}
-						          	    	else if(vascular_procedures_val==4)
-						          	    	{
-						          	    		vm.patientData.procedure_charges=1200;
-						          	    	}
-						          	    	else if(vascular_procedures_val==5)
-						          	    	{
-						          	    		vm.patientData.procedure_charges=1200;
-						          	    	}	
-						          	    	else if(vascular_procedures_val==6)
-						          	    	{
-						          	    		vm.patientData.procedure_charges=1200;
-						          	    	}
-						          	    	else if(vascular_procedures_val==7)
-						          	    	{
-						          	    		vm.patientData.procedure_charges=1800;
-						          	    	}
-						          	    	
-						          	    	
-										});
-
-  							 	},
-				               	(error) => {
-				            	 	},
-  								);
-  							    
-						  	},2000);	
-  								
-  							 	},	
-				    		(error) => {	
-				   			 },
-				     		);	
-	               	});
-
-	              $('#case_type').on("select2:select", function (e) { 
-						let case_type_val=$(this).val();
-						vm.patientData.case_type =  case_type_val;
-					});
-  					/*for receipt charges types start*/
+	          	   
+	          	   vm.patientReceiptData.patient_name=vm.patientOPDDetails.p_name;
+	          	   vm.patientReceiptData.patient_id=vm.patientOPDDetails.patient_id;
+	          	   vm.patientReceiptData.case_no=vm.patientOPDDetails.opd_id;
+	          	   vm.patientReceiptData.department=vm.patientOPDDetails.department;
+	          	   vm.patientReceiptData.consult=vm.patientOPDDetails.consult_id;
+	          	   /*for receipt charges types start*/
+	          	   
 				    User.getChargesTypes().then(
 				    	 (response) => {
-               	 		let charges_type_data ;
-               	 		charges_type_data = response.data;
-
-               	 		$.each(charges_type_data, function(key, value) {
-               	 			//console.log(value);
-	               	 		let name = value.name;
-	               	 		let id  = value.id ;
-	               	 		
-	               	 		charges_list.push({
-	               	 				text:name,
-	               	 				id:id,
-	               	 				
+	               	 		let charges_type_data ;
+	               	 		charges_type_data = response.data;
+	               	 		let charges_list_new=[];
+	               	 		$.each(charges_type_data, function(key, value) {
+	               	 			//console.log(value);
+		               	 		let name = value.name;
+		               	 		let id  = value.id ;
+		               	 		
+		               	 		charges_list_new.push({
+		               	 				text:name,
+		               	 				id:id,
+		               	 				
+		               	 		});
 	               	 		});
-               	 		});
-               	 			//setTimeout(function(){ 
-			               	 			
-           	 			$('#charges_type').select2({
-			          	 	 placeholder: "Select"
-			          	  });
-			          	   /*for charges type start*/
-								$('#charges_type').on("select2:select", function (e) { 
-									let charges_type_val=$(this).val();
-									vm.patientData.charges_type=charges_type_val;
-									
-					  			 if(charges_type_val==2)		
-					  			 {
-					  			 	setTimeout(function(){
-								    	/*for emergency type*/
-				       	 				$('#emergency_type').select2({
-						          	 	 placeholder: "Select"
-						          	    });
-						          	    $('#emergency_type').on("select2:select", function (e) {
-						          	    	let emergency_type_val=$(this).val();
-						          	    	vm.patientData.emergency_type=emergency_type_val;
-						          	    	if(emergency_type_val==1)
-						          	    	{
-						          	    		vm.patientData.chargeAmount=4000;
-						          	    	}
-						          	    	else if(emergency_type_val==2)
-						          	    	{
-						          	    		vm.patientData.chargeAmount=6000;
-						          	    	} 
+	               	 		vm.patientReceiptData.charges_type_option=charges_list_new;
 
-						          	    });
-				       	 			
-				           	 		},500);
-					  			 }
-					  			 else
-					  			 {
-					  			 	setTimeout(function(){
+	               	 	},
+	               		(error) => {
+	            	 	},
+	               	);
+				    //setTimeout(function(){
+		               	/*$('#neurological_procedures').select2({
+		          	 	 	placeholder: "Select",
+		          	 	 	dropdownParent: $("#receiptAddModel")
+		          	    });
+		          	    $('#vascular_procedures').select2({
+			          	 	 placeholder: "Select",
+			          	 	 dropdownParent: $("#receiptAddModel")
+			          	  });*/
+		          	    $('#other_charges_category').select2({
+							 placeholder: "Select",
+							 dropdownParent: $("#receiptAddModel"),
+							 data:other_option
+						});
+						$('#physiotherapy_procedures').select2({
+							 placeholder: "Select",
+							 dropdownParent: $("#receiptAddModel"),
+							 data:physio_option
+						});
+					//},2000);
+	          	    $(document).on("select2:select",'.ls-select2', function (e) { 
+			            if(this.id == 'vascular_procedures'){
+			             	let vascular_procedures_val=$(this).val();
+		          	    	vm.patientReceiptData.vascular_procedures=vascular_procedures_val;
+		          	    	if(vascular_procedures_val==1)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=2400;
+		          	    	}
+		          	    	else if(vascular_procedures_val==2)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=2400;
+		          	    	}
+		          	    	else if(vascular_procedures_val==3)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=1200;
+		          	    	}
+		          	    	else if(vascular_procedures_val==4)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=1200;
+		          	    	}
+		          	    	else if(vascular_procedures_val==5)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=1200;
+		          	    	}	
+		          	    	else if(vascular_procedures_val==6)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=1200;
+		          	    	}
+		          	    	else if(vascular_procedures_val==7)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=1800;
+		          	    	}
+			            }
+			            else if(this.id == 'neurological_procedures')
+			            {
+			            	let neurological_procedures_val=$(this).val();
+		          	    	vm.patientReceiptData.neurological_procedures=neurological_procedures_val;
+		          	    	if(neurological_procedures_val==1)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=1500;
+		          	    	}
+		          	    	else if(neurological_procedures_val==2)
+		          	    	{
+
+		          	    		vm.patientReceiptData.procedure_charges=3000;
+		          	    	}
+		          	    	else if(neurological_procedures_val==3)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=1200;
+		          	    	}
+		          	    	else if(neurological_procedures_val==4)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=1000;
+		          	    	}
+		          	    	else if(neurological_procedures_val==5)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=3500;
+		          	    	}	
+		          	    	else if(neurological_procedures_val==6)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=2500;
+		          	    	}
+		          	    	else if(neurological_procedures_val==7)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=2000;
+		          	    	}
+		          	    	else if(neurological_procedures_val==8)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=2000;
+		          	    	}
+		          	    	else if(neurological_procedures_val==9)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=2000;
+		          	    	}
+		          	    	else if(neurological_procedures_val==10)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=1500;
+		          	    	}
+		          	    	else if(neurological_procedures_val==11)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=1500;
+		          	    	}
+		          	    	else if(neurological_procedures_val==12)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=2000;
+		          	    	}
+		          	    	else if(neurological_procedures_val==13)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=1200;
+		          	    	}
+		          	    	else if(neurological_procedures_val==14)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=6000;
+		          	    	}
+		          	    	else if(neurological_procedures_val==15)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=3500;
+		          	    	}
+		          	    	else if(neurological_procedures_val==16)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=2500;
+		          	    	}
+		          	    	else if(neurological_procedures_val==17)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=5000;
+		          	    	}
+			            }
+			            else if(this.id == 'physiotherapy_procedures')
+			            {
+			            	let physiotherapy_procedures_val=$(this).val();
+		          	    	vm.patientReceiptData.physiotherapy_procedures=physiotherapy_procedures_val;
+		          	    	if(physiotherapy_procedures_val==1)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=300;
+		          	    	}
+		          	    	else if(physiotherapy_procedures_val==2)
+		          	    	{
+
+		          	    		vm.patientReceiptData.procedure_charges=400;
+		          	    	}
+		          	    	else if(physiotherapy_procedures_val==3)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=500;
+		          	    	}
+		          	    	else if(physiotherapy_procedures_val==4)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=1200;
+		          	    	}
+		          	    	else if(physiotherapy_procedures_val==5)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=2000;
+		          	    	}	
+		          	    	else if(physiotherapy_procedures_val==6)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=2500;
+		          	    	}
+		          	    	else if(physiotherapy_procedures_val==7)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=500;
+		          	    	}
+		          	    	else if(physiotherapy_procedures_val==8)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=600;
+		          	    	}
+		          	    	else if(physiotherapy_procedures_val==9)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=700;
+		          	    	}
+		          	    	else if(physiotherapy_procedures_val==10)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=900;
+		          	    	}
+		          	    	else if(physiotherapy_procedures_val==11)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=2200;
+		          	    	}
+		          	    	else if(physiotherapy_procedures_val==12)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=3500;
+		          	    	}
+		          	    	else if(physiotherapy_procedures_val==13)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=3800;
+		          	    	}
+		          	    	else if(physiotherapy_procedures_val==14)
+		          	    	{
+		          	    		vm.patientReceiptData.procedure_charges=5500;
+		          	    	}
+			            }
+			            else if(this.id == 'case_type')
+			            {
+			            	let case_type_val=$(this).val();
+							vm.patientReceiptData.case_type =  case_type_val;
+			            }
+			            else if(this.id == 'charges_type')
+			            {
+			            	let charges_type_val=$(this).val();
+							vm.patientReceiptData.charges_type=charges_type_val;
+							if(charges_type_val==1)
+							{
+								setTimeout(function(){
 								    	 /*for consultation type*/
 				       	 				$('#consultation_type').select2({
-						          	 	 placeholder: "Select"
-						          	 	});		
-						          	    $('#consultation_type').on("select2:select", function (e) { 
-						          	    	let consultation_type_val=$(this).val();
-						          	    	vm.patientData.consultation_type=consultation_type_val;
-						          	    	if(consultation_type_val==1)
-						          	    	{
-						          	    		vm.patientData.chargeAmount=800;
-						          	    	}
-						          	    	else if(consultation_type_val==2)
-						          	    	{
-						          	    		vm.patientData.chargeAmount=400;
-						          	    	}
-						          	    	else if(consultation_type_val==3)
-						          	    	{
-						          	    		vm.patientData.chargeAmount=2000;
-						          	    	}
-						          	    	else if(consultation_type_val==4)
-						          	    	{
-						          	    		vm.patientData.chargeAmount=500;
-						          	    	}
-						          	    	else if(consultation_type_val==5)
-						          	    	{
-						          	    		vm.patientData.chargeAmount=250;
-						          	    	}	
-						          	    	else if(consultation_type_val==6)
-						          	    	{
-						          	    		vm.patientData.chargeAmount=1000;
-						          	    	}
-
-						          	    	
-						          	    });
-				           	 		},500);
-					  			 }
-								    
-								});
-           	 		//},2000);
-               	 		
-               	 		
-               	 	 },
-               	 	 (error) => {
-            	 	},
-					);
-  							 				
-					/*for receipt charges types end*/
-					/*for other cagory*/
-					$('#other_charges_category').select2({
-						 placeholder: "Select"
-					});
-
-       	 			$('#other_charges_category').on("select2:select", function (e) { 
-	          	    	let other_charges_category_val=$(this).val();
-	          	    	vm.patientData.other_charges_category=other_charges_category_val;
-	          	    	if(other_charges_category_val==1)
-	          	    	{
-	          	    		vm.patientData.other_charges=400;
-	          	    	}
-	          	    	else if(other_charges_category_val==2)
-	          	    	{
-	          	    		vm.patientData.other_charges=600;
-	          	    	}
-	          	    	else if(other_charges_category_val==3)
-	          	    	{
-	          	    		vm.patientData.other_charges=100;
-	          	    	}
-	          	    	else if(other_charges_category_val==4)
-	          	    	{
-	          	    		vm.patientData.other_charges=400;
-	          	    	}
-	          	    	else if(other_charges_category_val==5)
-	          	    	{
-	          	    		vm.patientData.other_charges=200;
-	          	    	}	
-	          	    	else if(other_charges_category_val==6)
-	          	    	{
-	          	    		vm.patientData.other_charges=100;
-	          	    	}
-	          	    	else if(other_charges_category_val==7)
-	          	    	{
-	          	    		vm.patientData.other_charges=400;
-	          	    	}
-	          	    	else if(other_charges_category_val==8)
-	          	    	{
-	          	    		vm.patientData.other_charges=500;
-	          	    	}
-	          	    	else if(other_charges_category_val==9)
-	          	    	{
-	          	    		vm.patientData.other_charges=3000;
-	          	    	}
-	          	    	else if(other_charges_category_val==10)
-	          	    	{
-	          	    		vm.patientData.other_charges=1800;
-	          	    	}
-	          	    	
-	          	    	
-					});
-					/*for other category end*/
-	               	 User.getAllPatientName().then(
-
-	               	 (response) => {
-	               	 		let patien_data ;
-	               	 		patien_data = response.data;
-	               	 		$.each(response.data.data, function(key, value) {
-	               	 		let name = value.first_name +' '+value.last_name;
-	               	 		let pid  = value.id ;
-	               	 		let address  = value.address ;
-	               	 		let caseType  = value.case_type ;	
-	               	 		let consulatant  = value.consultant ;
-	               	 		let gender  = value.gender ;
-	               	 		let mob  = value.mob_no ;
-	               	 		let phone  = value.ph_no ;
-	               	 		let references  = value.references ;
-	               	 		let uhid_no  = value.uhid_no ;
-	               	 		list.push({
-	               	 				text:name,
-	               	 				id:pid,
-	               	 				add:address,
-	               	 				case_type:caseType,
-	               	 				consult:consulatant,
-	               	 				gender:gender,
-	               	 				mob:mob,
-	               	 				phone:phone,
-	               	 				references:references,
-	               	 				uhid_no:uhid_no
-	               	 				 });
-	               	 	  
-	               	 	});
-	               	 		setTimeout(function(){
-	               	 			$('#patient').select2({
-					          	 	 placeholder: "Select"
-					          	  });		
-	               	 		},500)
-	               	 	 
-	               	 		
-	               	 	 },
-	               	 	 	(error) => {
-	            	 	},
-	               	 );
+						          	 	 	placeholder: "Select",
+						          	 	 	dropdownParent: $("#receiptAddModel")
+						          	 	});
+				           	 	},500);
+							}
+							else if(charges_type_val==2)
+							{
+								setTimeout(function(){
+							    	/*for emergency type*/
+			       	 				$('#emergency_type').select2({
+					          	 	 placeholder: "Select",
+					          	 	 dropdownParent: $("#receiptAddModel")
+					          	    });
+				           	 	},500);
+							}
+			            }
+			            else if(this.id == 'emergency_type')
+			            {
+			            	let emergency_type_val=$(this).val();
+		          	    	vm.patientReceiptData.emergency_type=emergency_type_val;
+		          	    	if(emergency_type_val==1)
+		          	    	{
+		          	    		vm.patientReceiptData.chargeAmount=4000;
+		          	    	}
+		          	    	else if(emergency_type_val==2)
+		          	    	{
+		          	    		vm.patientReceiptData.chargeAmount=6000;
+		          	    	} 
+			            }
+			            else if(this.id == 'consultation_type')
+			            {
+			            	let consultation_type_val=$(this).val();
+		          	    	vm.patientReceiptData.consultation_type=consultation_type_val;
+		          	    	if(consultation_type_val==1)
+		          	    	{
+		          	    		vm.patientReceiptData.chargeAmount=800;
+		          	    	}
+		          	    	else if(consultation_type_val==2)
+		          	    	{
+		          	    		vm.patientReceiptData.chargeAmount=400;
+		          	    	}
+		          	    	else if(consultation_type_val==3)
+		          	    	{
+		          	    		vm.patientReceiptData.chargeAmount=2000;
+		          	    	}
+		          	    	else if(consultation_type_val==4)
+		          	    	{
+		          	    		vm.patientReceiptData.chargeAmount=500;
+		          	    	}
+		          	    	else if(consultation_type_val==5)
+		          	    	{
+		          	    		vm.patientReceiptData.chargeAmount=250;
+		          	    	}	
+		          	    	else if(consultation_type_val==6)
+		          	    	{
+		          	    		vm.patientReceiptData.chargeAmount=1000;
+		          	    	}
+			            }
+			            else if(this.id == 'other_charges_category')
+			            {
+			            		let other_charges_category_val=$(this).val();
+			          	    	vm.patientReceiptData.other_charges_category=other_charges_category_val;
+			          	    	if(other_charges_category_val==1)
+			          	    	{
+			          	    		vm.patientReceiptData.other_charges=400;
+			          	    	}
+			          	    	else if(other_charges_category_val==2)
+			          	    	{
+			          	    		vm.patientReceiptData.other_charges=600;
+			          	    	}
+			          	    	else if(other_charges_category_val==3)
+			          	    	{
+			          	    		vm.patientReceiptData.other_charges=100;
+			          	    	}
+			          	    	else if(other_charges_category_val==4)
+			          	    	{
+			          	    		vm.patientReceiptData.other_charges=400;
+			          	    	}
+			          	    	else if(other_charges_category_val==5)
+			          	    	{
+			          	    		vm.patientReceiptData.other_charges=200;
+			          	    	}	
+			          	    	else if(other_charges_category_val==6)
+			          	    	{
+			          	    		vm.patientReceiptData.other_charges=100;
+			          	    	}
+			          	    	else if(other_charges_category_val==7)
+			          	    	{
+			          	    		vm.patientReceiptData.other_charges=400;
+			          	    	}
+			          	    	else if(other_charges_category_val==8)
+			          	    	{
+			          	    		vm.patientReceiptData.other_charges=500;
+			          	    	}
+			          	    	else if(other_charges_category_val==9)
+			          	    	{
+			          	    		vm.patientReceiptData.other_charges=3000;
+			          	    	}
+			          	    	else if(other_charges_category_val==10)
+			          	    	{
+			          	    		vm.patientReceiptData.other_charges=1800;
+			          	    	}
+			          	    	else if(other_charges_category_val==11)
+			          	    	{
+			          	    		vm.patientReceiptData.other_charges=200;
+			          	    	}
+			          	    	else if(other_charges_category_val==12)
+			          	    	{
+			          	    		vm.patientReceiptData.other_charges=400;
+			          	    	}
+			          	    	else if(other_charges_category_val==13)
+			          	    	{
+			          	    		vm.patientReceiptData.other_charges=2400;
+			          	    	}
+			          	    	else if(other_charges_category_val==14)
+			          	    	{
+			          	    		vm.patientReceiptData.other_charges=600;
+			          	    	}
+			            }
+			        });
+  					
+	             
+  					
 	         },
 	         methods: {
 	         receiptPrintView: function (e) {
+	         	let vm=this;
 		    	this.$validator.validateAll().then(  	
 	            (response) => { 
 	            	
 	            	if (!this.errors.any()) {
 	            		let content = [];
-	            		User.generateReceiptData(this.patientData).then(	
+	            		User.generateReceiptData(this.patientReceiptData).then(	
 		                (response) => {
 		                	$("body .js-loader").removeClass('d-none');
 		                	$('#printContent').html('');
 		                	if(response.data.html!="")
 		                	{
 		                		
-		                		if(this.patientData.chargeAmount != '' || this.patientData.procedure_charges != ''|| this.patientData.other_charges != ''){
-		                			$("body .js-loader").addClass('d-none');
-		                			$('#receiptModal').modal('show');
-			                	 	if ($("#printContent .printReceiptPage" ).length == 0){	
-			                			$('#printContent').append(response.data.html);	
-				                	}else{	
-				                		$('#printContent').append(response.data.html);	
-				                	}
-				                	$('#receiptModal').on('hidden.bs.modal', function () {
-				                		localStorage.setItem("ReceiptAdd",1)
-    									window.location.reload();
-									});
+		                		$("body .js-loader").addClass('d-none');
+		                		if(this.patientReceiptData.chargeAmount != '' || this.patientReceiptData.procedure_charges != ''|| this.patientReceiptData.other_charges != ''){
+				                	vm.$root.$emit('printReceipt',response.data.html);
 			                	}
 			                	else
 			                	{
@@ -868,106 +755,12 @@
                 }	
                )	
 				e.preventDefault();
-			},	
-				handleDOBChanged() { 	
-				   // $('#dob').on('change', function () {	
-				   		
-				      if (this.isDate(this.patientData.dob)) {	
-				        var ageCal = this.calculateAge(this.parseDate(this.patientData.dob), new Date());	
-				      	//$("#age").html(age); 
-				      	this.patientData.age = ageCal; 	
-				      }     	
-				  //  });	
-				},	
-	
-				//convert the date string in the format of dd/mm/yyyy into a JS date object	
-				parseDate(dateStr) { 	
-				  var dateParts = dateStr.split("-");
-				  
-				  return new Date(dateParts[2], (dateParts[1] - 1), dateParts[0]);	
-				},	
-	
-				//is valid date format	
-				calculateAge (dateOfBirth, dateToCalculate) {	
-				    var calculateYear = dateToCalculate.getFullYear();	
-				    var calculateMonth = dateToCalculate.getMonth();	
-				    var calculateDay = dateToCalculate.getDate();	
-	
-				    var birthYear = dateOfBirth.getFullYear();	
-				    var birthMonth = dateOfBirth.getMonth();	
-				    var birthDay = dateOfBirth.getDate();	
-					
-				    var age = calculateYear - birthYear;	
-				    var ageMonth = calculateMonth - birthMonth;	
-				    var ageDay = calculateDay - birthDay;	
-				    if (ageMonth < 0 || (ageMonth == 0 && ageDay < 0)) {	
-			        age = parseInt(age) - 1;	
-				    }	
-				    if(age > 1){	
-				    	return age+' Years';	
-				    }	
-				   	if(age == 1){	
-						 return age+' Year';	
-					}else if(ageMonth != 0){	
-						return ageMonth +' Month';	
-					}else{	
-						return ageDay + ' Days';	
-					}	
-				},	
-	
-				isDate(txtDate) {	
-				  var currVal = txtDate;	
-				  if (currVal == '')	
-				    return true;	
-	
-				  //Declare Regex	
-				  var rxDatePattern = /^(\d{1,2})(\/|-)(\d{1,2})(\/|-)(\d{4})$/;	
-				  var dtArray = currVal.match(rxDatePattern); // is format OK?	
-	
-				  if (dtArray == null)	
-				    return false;	
-	
-				  //Checks for dd/mm/yyyy format.	
-				  var dtDay = dtArray[1];	
-				  var dtMonth = dtArray[3];	
-				  var dtYear = dtArray[5];	
-	
-				  if (dtMonth < 1 || dtMonth > 12)	
-				    return false;	
-				  else if (dtDay < 1 || dtDay > 31)	
-				    return false;	
-				  else if ((dtMonth == 4 || dtMonth == 6 || dtMonth == 9 || dtMonth == 11) && dtDay == 31)	
-				    return false;	
-				  else if (dtMonth == 2) {	
-				    var isleap = (dtYear % 4 == 0 && (dtYear % 100 != 0 || dtYear % 400 == 0));	
-				    if (dtDay > 29 || (dtDay == 29 && !isleap))	
-				      return false;	
-				  }	
-	
-				  return true;	
-				},	
-				ClickHereToPrint() {	
-				    try {	
-				    	var  printContent = '';	
-				        printContent = document.getElementById('printContent').innerHTML;	
-					        var windowUrl = '';	
-					        var uniqueName = new Date();	
-					        var windowName = 'Print' + uniqueName.getTime();	
-					        var printWindow = window.open(windowUrl, windowName, 'left=5000,top=5000,width=0,height=0');	
-					        printWindow.document.write(printContent);	
-	
-				        printWindow.document.close();	
-				        printWindow.focus();	
-				        printWindow.print();	
-	
-				        printWindow.close();	
-				    }	
-				    catch (e) {	
-				        self.print();	
-				    }	
-				},	
-	
-				
+			},
+			 GetSelectComponent(componentName) {
+                this.$router.push({name: componentName})
+          },
 		  },
      }	
 </script>
+
+

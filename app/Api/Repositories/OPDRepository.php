@@ -12,11 +12,22 @@
  use euro_hms\Models\Examination;
  use euro_hms\Models\RadiologyAttachments;
  use euro_hms\Models\PhysiotherapyDetails;
+ use euro_hms\Api\Repositories\PatientRepository;
+ use euro_hms\Api\Repositories\UserRepository;
  use Carbon\Carbon;
  use DB;
 
  class OPDRepository 
  {
+
+ 	/**
+ 	 * [__construct description]
+ 	 */
+ 	public function __construct(){
+        $this->objPatient = new PatientRepository();
+        $this->objUser = new UserRepository();
+    }
+    //
 
  	/**
  	 * [getLaboratoryByType description]
@@ -130,38 +141,42 @@
  		
 		
 		//opd details
- 		$opdData=OpdDetails::findOrFail($opd_id_org);
- 		if($data['adviceType']=='text')
- 		{
- 			$advice=array('type'=>$data['adviceType'],'value'=>$data['advice']);
- 		}
- 		else
- 		{
- 			$advice=array('type'=>$data['adviceType'],'value'=>$data['signaturePad2_src']);
- 		}
- 		if($data['historyType']=='text')
- 		{
- 			$history=array('type'=>$data['historyType'],'value'=>$data['history']);
- 		}
- 		else
- 		{
- 			$history=array('type'=>$data['historyType'],'value'=>$data['signaturePad_src']);
- 		}
- 		if($data['pastHistoryType']=='text')
- 		{
- 			$past_history=array('type'=>$data['pastHistoryType'],'value'=>$data['past_history']);
- 		}
- 		else
- 		{
- 			$past_history=array('type'=>$data['pastHistoryType'],'value'=>$data['signaturePad1_src']);
- 		}
- 		$advice_final=json_encode($advice);
- 		$history_final=json_encode($history);
- 		$past_history_final=json_encode($past_history);
- 		$opdData->advice=$advice_final;
- 		$opdData->history=$history_final;
- 		$opdData->past_history=$past_history_final;
- 		$opdData->save();
+		if($opd_id_org)
+		{
+			$opdData=OpdDetails::findOrFail($opd_id_org);
+ 		
+		 		if($data['adviceType']=='text')
+		 		{
+		 			$advice=array('type'=>$data['adviceType'],'value'=>$data['advice']);
+		 		}
+		 		else
+		 		{
+		 			$advice=array('type'=>$data['adviceType'],'value'=>$data['signaturePad2_src']);
+		 		}
+		 		if($data['historyType']=='text')
+		 		{
+		 			$history=array('type'=>$data['historyType'],'value'=>$data['history']);
+		 		}
+		 		else
+		 		{
+		 			$history=array('type'=>$data['historyType'],'value'=>$data['signaturePad_src']);
+		 		}
+		 		if($data['pastHistoryType']=='text')
+		 		{
+		 			$past_history=array('type'=>$data['pastHistoryType'],'value'=>$data['past_history']);
+		 		}
+		 		else
+		 		{
+		 			$past_history=array('type'=>$data['pastHistoryType'],'value'=>$data['signaturePad1_src']);
+		 		}
+		 		$advice_final=json_encode($advice);
+		 		$history_final=json_encode($history);
+		 		$past_history_final=json_encode($past_history);
+		 		$opdData->advice=$advice_final;
+		 		$opdData->history=$history_final;
+		 		$opdData->past_history=$past_history_final;
+		 		$opdData->save();
+		}
  		//save prescription
  		if(!empty($prescription_data))
  		{
@@ -337,8 +352,31 @@
  			$examination_obj->examination_data=json_encode($examination_data);
  			$examination_obj->save();
  		}
+ 		$patient_data=array();
+ 		if($opd_id_org!=0 && $opd_id_org!='')
+ 		{
+ 			$opd_details=OpdDetails::with('patientDetails')->where('id',$opd_id_org)->first();
+ 			$patient_data['patient_id']=$opd_details->patient_id;
+ 			$patient_data['opd_id']=$opd_details->opd_id;
+ 			$patient_data['p_name']=$opd_details['patientDetails']->first_name.' '.$opd_details['patientDetails']->last_name;
+ 			if($opd_details['patientDetails']->gender=='M')
+ 				$patient_data['gender']='Male';
+ 			else
+ 				$patient_data['gender']='Female';
+ 			$patient_data['age']=$opd_details['patientDetails']->age;
+ 			$patient_data['consultant']=$this->objUser->getUserNameById($opd_details['patientDetails']->consultant_id);
+ 			$patient_data['consult_id']=$opd_details['patientDetails']->consultant_id;
+ 			$patient_data['department']=$this->objUser->getDepartmentById($opd_details['patientDetails']->consultant_id);
+ 		}
+ 		if(count($patient_data)>0)
+ 		{
+ 			return ['code' => '200','data'=>$patient_data, 'message' => 'Record Sucessfully created'];
+ 		}
+ 		else
+ 		{
+ 			return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+ 		}
  		
- 		return $opd_id_org;
  	}
 
  	/**

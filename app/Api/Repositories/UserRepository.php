@@ -137,7 +137,8 @@ class UserRepository {
      * @return [department]     [description]
      */
     public function getDepartmentById($id) {
-        return User::select('department')->where('id', $id)->first();
+        $dept=User::select('department')->where('id', $id)->first();
+        return $dept->department;
     }
 
     /**
@@ -147,7 +148,7 @@ class UserRepository {
      */
     public function getUserNameById($id) {
         $record=User::where('id', $id)->first();
-        return $record->first_name.'_'.$record->last_name;
+        return $record->first_name.' '.$record->last_name;
     }
 
     /**
