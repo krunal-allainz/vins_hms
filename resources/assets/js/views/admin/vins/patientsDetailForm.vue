@@ -211,21 +211,29 @@
                 <div class="row form-group">
                 	<div class="col-md-6">
 			        	<div class="col-md-6 ">
-			            	<label for="caseType">Case Type:</label>
+			            	<label for="case_type">Case Type:</label>
 			          	</div>
 		          	<div class="col-md-6">
-		            	<select  class="form-control ls-select2" v-validate="'required'" id = "caseType" name="caseType" value="" v-model="patientData.case_type">
-		            		<option> Select </option>
+		            	<select  class="form-control ls-select2" v-validate="'required'" id = "case_type" name="case_type" value="" v-model="patientData.case_type">
+		            		<option value=""> Select </option>
 		              		<option value="cross_reference">Cross Reference</option>
 		              		<option value="reports">Reports</option>
 		              		<option value="follow_ups">Follow ups</option>
 		              		<option value="new_consult">New Consult</option>
 		            	</select>
-		            	<i v-show="errors.has('case')" class="fa fa-warning"></i>
-		            	<span class="help is-danger" v-show="errors.has('case')">
+		            	<i v-show="errors.has('case_type')" class="fa fa-warning"></i>
+		            	<span class="help is-danger" v-show="errors.has('case_type')">
 		              		Please select case type.
 		            	</span>
 		          	</div>
+		        </div>
+		        <div class="col-md-6">
+		        	<div class="col-md-6 ">
+			        	<label for="case_type">Token No:</label>
+			        </div>
+			        <div class="col-md-6 ">
+			        	<input class="form-control" type="text" id="token_no" name="token_no" value="" v-model="patientData.token_no" />
+			        </div>
 		        </div>
                 </div>
        		<div class="form-group text-center">
@@ -333,7 +341,8 @@
                 	},
                 	'validatenumber' : '',
                 	'patient_id':'',
-                	'case_type' : ''
+                	'case_type' : '',
+                	'token_no' : ''
                 }
             }
         },
@@ -362,6 +371,8 @@
 
 		             } else if(this.id == 'type') {
 		             	vm.patientData.type = $(this).val();		
+		             } else if(this.id == 'case_type') {
+		             	vm.patientData.case_type = $(this).val();		
 
 		             }
 		             else{
