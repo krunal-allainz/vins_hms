@@ -66,6 +66,7 @@
              	</tr>	
             @endif
             @if($data['procedures_charges']!=0 && $data['procedures_charges']!='')
+            
                 <tr height=""> 
                     <td class="text-center"><span class="text-uppercase text-center">
                         <?php
@@ -174,6 +175,65 @@
                                 }
 
                             }
+                            else if($data['department']=='Physiotherapy')
+                            {
+                                if($data['procedures_val']==1)
+                                {
+                                    $procedure_val="(Procedure Charges) Evaluation + Exercise Therapy (Daily)";
+                                }
+                                if($data['procedures_val']==2)
+                                {
+                                    $procedure_val="(Procedure Charges)Evaluation + Exercise Therapy + Electro Therapy (One Modality) (Daily)";
+                                }
+                                if($data['procedures_val']==3)
+                                {
+                                    $procedure_val="(Procedure Charges) Evaluation + Exercise Therapy + Electro Therapy (Two Modalities) (Daily)";
+                                }
+                                if($data['procedures_val']==4)
+                                {
+                                    $procedure_val="(Procedure Charges) Evaluation + Exercise Therapy (Weekly)";
+                                }
+                                if($data['procedures_val']==5)
+                                {
+                                    $procedure_val="(Procedure Charges) Evaluation + Exercise Therapy + Electro Therapy (One Modality) (Weekly)";
+                                }
+                                if($data['procedures_val']==6)
+                                {
+                                    $procedure_val="(Procedure Charges) Evaluation + Exercise therapy + Electro Therapy (Two Modalities) (Weekly)";
+                                }
+                                if($data['procedures_val']==7)
+                                {
+                                    $procedure_val="(Rehabilitation) Evaluation + Exercise Therapy (Daily)";
+                                }
+                                if($data['procedures_val']==8)
+                                {
+                                    $procedure_val="(Rehabilitation) Evaluation + Exercise Therapy + Assist Modality (Any One)[FES/MEntamove/Treadmill/Tilt Table/Cycling] (Daily)";
+                                }
+                                if($data['procedures_val']==9)
+                                {
+                                    $procedure_val="(Rehabilitation) Evaluation + Exercise Therapy + Assist Modality (2 Assist Modalities)(Daily)";
+                                }
+                                if($data['procedures_val']==10)
+                                {
+                                    $procedure_val="(Rehabilitation) Evaluation + Exercise Therapy + Assist Modality (All Assist Modalities)(Daily)";
+                                }
+                                if($data['procedures_val']==11)
+                                {
+                                    $procedure_val="(Rehabilitation) Evaluation + Exercise Therapy (Weekly)";
+                                }
+                                if($data['procedures_val']==12)
+                                {
+                                    $procedure_val="(Rehabilitation) Evaluation + Exercise Therapy + Assist Modality (Any One)[FES/MEntamove/Treadmill/Tilt Table/Cycling] (Weekly)";
+                                }
+                                if($data['procedures_val']==13)
+                                {
+                                    $procedure_val="(Rehabilitation) Evaluation + Exercise Therapy + Assist Modality (2 Assist Modalities)(Weekly)";
+                                }
+                                if($data['procedures_val']==14)
+                                {
+                                    $procedure_val="(Rehabilitation) Evaluation + Exercise Therapy + Assist Modality (All Assist Modalities)(Weekly)";
+                                }
+                            }
                         ?>
                         <b>{{$procedure_val}}</b>
                         </span></td>    
@@ -187,42 +247,70 @@
                             $other_category="";
                             if($data['other_charges_category']==1)
                             {
-                                $other_category="Dressing";
+                                $other_category="(Procedure Charges) Dressing";
                             }
                             else if($data['other_charges_category']==2)
                             {
-                                $other_category="Special dressing";
+                                $other_category="(Procedure Charges) Special dressing";
                             } else if($data['other_charges_category']==3)
                             {
                                 $other_category="Strip Method RBS   ";
                             }
                              else if($data['other_charges_category']==4)
                             {
-                                $other_category="ECG";
+                                $other_category="(Procedure Charges) ECG";
                             }
                              else if($data['other_charges_category']==5)
                             {
-                                $other_category="Enema";
+                                $other_category="(Procedure Charges) Enema";
                             }
                              else if($data['other_charges_category']==6)
                             {
-                                $other_category="Urine Sugar (Per Test)";
+                                $other_category="(Procedure Charges) Urine Sugar (Per Test)";
                             }
                              else if($data['other_charges_category']==7)
                             {
-                                $other_category="Suture Removal";
+                                $other_category="(Procedure Charges) Suture Removal";
                             }
                              else if($data['other_charges_category']==8)
                             {
-                                $other_category="Ambulance Charge (Within city limits only)";
+                                $other_category="(Procedure Charges) Ambulance Charge (Within city limits only)";
                             }
                              else if($data['other_charges_category']==9)
                             {
-                                $other_category="Escort with Ventilator (per hour)";
+                                $other_category="(Procedure Charges) Escort with Ventilator (per hour)";
                             }
                              else if($data['other_charges_category']==10)
                             {
-                                $other_category="Escort without Ventilator (per hour)";
+                                $other_category="(Procedure Charges) Escort without Ventilator (per hour)";
+                            }
+                             else if($data['other_charges_category']==10)
+                            {
+                                $other_category="(Procedure Charges) Escort without Ventilator (per hour)";
+                            }
+                             else if($data['other_charges_category']==10)
+                            {
+                                $other_category="(Procedure Charges) Escort without Ventilator (per hour)";
+                            }
+                             else if($data['other_charges_category']==10)
+                            {
+                                $other_category="(Procedure Charges) Escort without Ventilator (per hour)";
+                            }
+                            else if($data['other_charges_category']==11)
+                            {
+                                $other_category="('Wound Care) Dressing - Minor";
+                            }
+                            else if($data['other_charges_category']==12)
+                            {
+                                $other_category="('Wound Care) Dressing - Major";
+                            }
+                            else if($data['other_charges_category']==13)
+                            {
+                                $other_category="('Wound Care) Vac (per session + actual expenditure)";
+                            }
+                            else if($data['other_charges_category']==14)
+                            {
+                                $other_category="('Wound Care) Special Dressing";
                             }
                             
 

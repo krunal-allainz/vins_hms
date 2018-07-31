@@ -216,6 +216,38 @@
   </form>
 
   <!-- <select-patient-modal @confirmed="deleteConfirmed()"></select-patient-modal> -->
+   <div id="receiptAddModel" class="modal hide" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Patient Receipt Form</h4>
+            </div>
+            <div class="modal-body">
+                <patientReceiptForm :patientOPDDetails="patient_opd_details" v-if="modal_enabled=='true'"></patientReceiptForm>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="closem btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div id="receiptPrintModal" class="modal hide">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header"> </div>
+            <div class="modal-body"><div id="printContent"></div> </div>
+            <div class="modal-footer">
+              <button  type="button" class="btn btn-primary"  @click="ClickHereToPrint()">Print</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+              <!-- <button type="button" class="btn btn-primary">Save</button>   -->
+            </div>  
+          </div>  
+        </div>  
+      </div> 
 </div>
 
 
@@ -225,6 +257,7 @@
 	import User from '../../../api/users.js'
 	import addressograph from './addressograph.vue';
 	import SelectPatientModal from '../../../components/SelectPatientModal.vue';
+   import patientReceiptForm from './patientsReceiptForm.vue';
   import SignaturePad from 'signature_pad';
   import moment from 'moment';
   import _ from 'lodash';
@@ -236,7 +269,7 @@
             return {
                 'footer' : 'footer',
                 'currentDatetime': moment().format('DD-MM-YYYY hh:mm A'),
-
+                'modal_enabled':'false',
 								'type': 'neuroExamination',
                 'patient_id': this.$store.state.Patient.patientId,
                	'ipd_id': this.$store.state.Patient.ipdId,
@@ -276,11 +309,14 @@
         },
 				components: {
 					 addressograph,
-					 SelectPatientModal
+					 SelectPatientModal,
+           patientReceiptForm,
 			 },
       
        created: function() {
+             this.$root.$on('printReceipt', this.printReceipt);
              this.$root.$on('submitNeuroData',this.submitData);
+
         },
 			 mounted() {
         let vm =this;
@@ -291,9 +327,49 @@
          setTimeout(function(){
           vm.examinationChangeImage();
           vm.initData();
-        },1000)
+        },1000);
+          $('.closem').click(function () {
+              vm.$router.push({'name':'opd_form_thankyou'});
+            });
 			 },
 				methods: {
+          ClickHereToPrint() {  
+            try { 
+              var  printContent = ''; 
+                printContent = document.getElementById('printContent').innerHTML; 
+                  var windowUrl = ''; 
+                  var uniqueName = new Date();  
+                  var windowName = 'Print' + uniqueName.getTime();  
+                  var printWindow = window.open(windowUrl, windowName, 'left=5000,top=5000,width=0,height=0');  
+                  printWindow.document.write(printContent); 
+  
+                printWindow.document.close(); 
+                printWindow.focus();  
+                printWindow.print();  
+  
+                printWindow.close();  
+            } 
+            catch (e) { 
+                self.print(); 
+            } 
+          },
+          printReceipt(all_data)
+          {
+              let vm=this;
+              vm.modal_val=1;
+              $('#receiptAddModel').modal('hide');
+              $('#receiptPrintModal').modal('show');
+              $('#printContent').html('');
+              /*if ($("#printContent .printReceiptPage" ).length == 0){ 
+                $('#printContent').html(all_data);  
+              }else{  
+                $('#printContent').html(all_data);  
+              }*/
+              $('#printContent').html(all_data);  
+              $('#receiptPrintModal').on('hidden.bs.modal', function () {
+                  vm.$router.push({'name':'opd_form_thankyou'});
+              });
+          },
           initData(){
             let vm =this;
             vm.neuroExaminationData = _.cloneDeep(this.$store.state.Patient.neuroExaminationData);
@@ -331,29 +407,27 @@
                  User.generateAddOpdDetails(oData).then((response) => {
                      $("body .js-loader").addClass('d-none');
                      if(response.data.code == 200) {
-                       vm.$router.push({'name':'opd_form_thankyou'});
-                        toastr.success('OPD details saved successfully', 'OPD Report', {timeOut: 2000});
+                       //vm.$router.push({'name':'opd_form_thankyou'});
+                        //toastr.success('OPD details saved successfully', 'OPD Report', {timeOut: 2000});
+                        vm.modal_enabled='true';
+                        vm.patient_opd_details=response.data.data;
+                         $('#receiptAddModel').modal('show');
                       } else if(response.data.code == 300) {
-                       vm.$router.push({'name':'opd_form_thankyou'});
+                        toastr.error('Record not added.', 'Error', {timeOut: 5000});
+                       //vm.$router.push({'name':'opd_form_thankyou'});
 
-                        toastr.error('Record not found.Please enter valid search value.', 'Error', {timeOut: 5000});
                       } else{
-                       vm.$router.push({'name':'opd_form_thankyou'});
-                       
                        toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
                       }
-                       vm.$router.push({'name':'opd_form_thankyou'});
-             
-      },
-
-      (error) => {
-                  }
-      );
-        		    	}
-        		    },
-                (error) => {
-                }
-                )
+                      // vm.$router.push({'name':'opd_form_thankyou'}); 
+              },
+              (error) => {toastr.error('Something goes wrong', 'Error', {timeOut: 5000});}
+            );
+        	}
+		    },
+        (error) => {
+        }
+        )
 
 			   },
       examinationChangeImage() {

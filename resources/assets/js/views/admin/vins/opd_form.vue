@@ -1471,10 +1471,10 @@
           next() {
             let vm =this;
 
-                this.$validator.validateAll().then(
-                (response) => {
+                //this.$validator.validateAll().then(
+                //(response) => {
                  //vm.priscriptionAdd = vm.finalPrescriptionData.length;
-                  if (!this.errors.any()) {
+                  //if (!this.errors.any()) {
                     // if(vm.priscriptionAdd >  0){
                       
                       vm.curStep = vm.curStep+1;
@@ -1483,11 +1483,11 @@
                       vm.$store.dispatch('setResData',vm.finalResultData);
 
                     // }
-                  }
-                },
-                (error) => {
-                }
-                )
+                  //}
+                //},
+               //(error) => {
+                //}
+               // )
             
           },
           initLastData(){

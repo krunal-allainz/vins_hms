@@ -1,14 +1,14 @@
 <template>
-	<div class="container">
-		<div class="page-header">
-			<div class="row">
-				<div class="col-md-6">
-				<h3>Examination</h3>
-				</div>
-			</div>
-		</div>
+  <div class="container">
+    <div class="page-header">
+      <div class="row">
+        <div class="col-md-6">
+        <h3>Examination</h3>
+        </div>
+      </div>
+    </div>
 
-		<form action="" method="post">
+    <form action="" method="post">
       <div class="row form-group">
          <div class="col-md-6">
           <div class="col-md-6">
@@ -195,25 +195,62 @@
         </div>
       </div>
 
-		</form>
-		  <!-- <select-patient-modal @confirmed="deleteConfirmed()"></select-patient-modal> -->
-	</div>
+    </form>
+      <!-- <select-patient-modal @confirmed="deleteConfirmed()"></select-patient-modal> -->
+      <div id="receiptAddModel" class="modal hide" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Patient Receipt Form</h4>
+            </div>
+            <div class="modal-body">
+                <patientReceiptForm :patientOPDDetails="patient_opd_details" v-if="modal_enabled=='true'"></patientReceiptForm>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="closem btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div id="receiptPrintModal" class="modal hide">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header"> </div>
+            <div class="modal-body"><div id="printContent"></div> </div>
+            <div class="modal-footer">
+              <button  type="button" class="btn btn-primary"  @click="ClickHereToPrint()">Print</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+              <!-- <button type="button" class="btn btn-primary">Save</button>   -->
+            </div>  
+          </div>  
+        </div>  
+      </div> 
+
+
+  </div>
 </template>
 <script >
-	import User from '../../../api/users.js'
-	import addressograph from './addressograph.vue';
-	// import SelectPatientModal from '../../../components/SelectPatientModal.vue';
+  import User from '../../../api/users.js'
+  import addressograph from './addressograph.vue';
+  import patientReceiptForm from './patientsReceiptForm.vue';
   import SignaturePad from 'signature_pad';
   import _ from 'lodash';
     export default {
         data() {
             return {
+                'modal_val':0,
                 'footer' : 'footer',
                 'currentYear': new Date().getFullYear(),
-								'type': 'vascularExamination',
+                'type': 'vascularExamination',
                 'patient_id': this.$store.state.Patient.patientId,
-               	'ipd_id': this.$store.state.Patient.ipdId,
-								'vascularExaminationData': {
+                'ipd_id': this.$store.state.Patient.ipdId,
+                'patient_opd_details':[],
+                'modal_enabled':'false',
+                'vascularExaminationData': {
                   'vitals' : '',
                   'temp' : '',
                   'pulse' : '',
@@ -254,21 +291,68 @@
                   'signaturePad3':{},
                   'follow_up':''
 
-								}
+                }
             }
         },
-				components: {
-					 addressograph,
-					 // SelectPatientModal
-			 },
-			 mounted() {
+        components: {
+           addressograph,
+           patientReceiptForm,
+           // SelectPatientModal
+       },
+       created: function() {
+          this.$root.$on('printReceipt', this.printReceipt);
+        },
+       mounted() {
         var vm =this;
         setTimeout(function(){
           vm.examinationChangeImage();
           vm.initData();
-        },2000)
-			 },
-				methods: {
+        },2000);
+        
+            $('.closem').click(function () {
+              vm.$router.push({'name':'opd_form_thankyou'});
+            });
+        
+        
+       },
+        methods: {
+          ClickHereToPrint() {  
+            try { 
+              var  printContent = ''; 
+                printContent = document.getElementById('printContent').innerHTML; 
+                  var windowUrl = ''; 
+                  var uniqueName = new Date();  
+                  var windowName = 'Print' + uniqueName.getTime();  
+                  var printWindow = window.open(windowUrl, windowName, 'left=5000,top=5000,width=0,height=0');  
+                  printWindow.document.write(printContent); 
+  
+                printWindow.document.close(); 
+                printWindow.focus();  
+                printWindow.print();  
+  
+                printWindow.close();  
+            } 
+            catch (e) { 
+                self.print(); 
+            } 
+          },
+          printReceipt(all_data)
+          {
+              let vm=this;
+              vm.modal_val=1;
+              $('#receiptAddModel').modal('hide');
+              $('#receiptPrintModal').modal('show');
+              $('#printContent').html('');
+              /*if ($("#printContent .printReceiptPage" ).length == 0){ 
+                $('#printContent').html(all_data);  
+              }else{  
+                $('#printContent').html(all_data);  
+              }*/
+              $('#printContent').html(all_data);  
+              $('#receiptPrintModal').on('hidden.bs.modal', function () {
+                  vm.$router.push({'name':'opd_form_thankyou'});
+              });
+          },
           initData(){
             let vm =this;
             vm.vascularExaminationData = _.cloneDeep(this.$store.state.Patient.vascExaminationData);
@@ -299,20 +383,10 @@
             vm.resizeCanvas(canvas);
             vm.resizeCanvas(canvas1);
             vm.resizeCanvas(canvas2);
-            
-           
-              // if (signaturePad.isEmpty()) {
-              //   alert("Please provide a signature first.");
-              // } else {resizeCanvas
-              //   console.log(dataURL);resizeCanvas
-              //   // download(dataURL, "signature.png");
-              // }
-            // });
           },
           prev() {
               let vm =this;
               vm.$store.dispatch('saveVascularExamination', _.cloneDeep(vm.vascularExaminationData)) ;
-
               vm.$root.$emit('prev');
           },
           saveVascularExamination() {
@@ -326,26 +400,25 @@
                   let department = this.$store.state.Users.userDetails.department;
                   let doctor =this.$store.state.Users.userDetails.id;
                   
-                  //var oData = {'opdData':this.opdData,'resultData':this.resultData,'doctor':this.doctor_id,'department':this.department};
+                  
                   var oData = {'opdData':this.$store.state.Patient.opdData,'resultData':this.$store.state.Patient.opd_resultData,'doctor':doctor,'department':department,'radioData':this.$store.state.Patient.radioData,'laboratoryData':this.$store.state.Patient.laboratoryData,'vascExaminationData':this.$store.state.Patient.vascExaminationData,'neuroExaminationData':this.$store.state.Patient.neuroExaminationData,'prescriptionData':this.$store.state.Patient.prescriptionData};
                   User.generateAddOpdDetails(oData).then((response) => {
                      $("body .js-loader").addClass('d-none');
                      if(response.data.code == 200) {
-                       vm.$router.push({'name':'opd_form_thankyou'});
-                        toastr.success('OPD details saved successfully', 'OPD Report', {timeOut: 2000});
+                        //vm.$router.push({'name':'opd_form_thankyou'});
+                        //toastr.success('OPD details saved successfully', 'OPD Report', {timeOut: 2000});
+                        //console.log(response.data.data);
+                        vm.modal_enabled='true';
+                        vm.patient_opd_details=response.data.data;
+                        $('#receiptAddModel').modal('show');
                       } else if(response.data.code == 300) {
-                        toastr.error('Record not found.Please enter valid search value.', 'Error', {timeOut: 5000});
-                       vm.$router.push({'name':'opd_form_thankyou'});
-
-
+                        toastr.error('Record not added.', 'Error', {timeOut: 5000});
                       } else{
-                       vm.$router.push({'name':'opd_form_thankyou'});
-                       
                        toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
                       }
-                       vm.$router.push({'name':'opd_form_thankyou'}); 
                   },
                   (error) => {
+                    toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
                   }
                 );
                 }
@@ -375,11 +448,11 @@
               return new Blob([uInt8Array], { type: contentType });
             },
 
-		    GetSelectComponent(componentName) {
-		       this.$router.push({name: componentName})
-		    },
+        GetSelectComponent(componentName) {
+           this.$router.push({name: componentName})
+        },
 
-		  },
+      },
 
     }
 </script>

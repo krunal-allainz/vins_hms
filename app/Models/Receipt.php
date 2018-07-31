@@ -28,6 +28,7 @@ class Receipt extends Model
       'charges',
       'department',
       'neurological_procedures_id',
+      'physiotherapy_procedures_id',
       'vascular_procedures_id',
       'procedures_charges',
       'other_charges_id',
