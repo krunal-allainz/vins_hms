@@ -3,6 +3,7 @@
 namespace euro_hms\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class TokenManagment extends Model
 {
@@ -27,7 +28,6 @@ class TokenManagment extends Model
     }
 
     public function setDateAttribute($value)
-
     { 
       if($value != ''){
         return $this->attributes['date'] =   Carbon::createFromFormat('d-m-Y H:i:s', $value);
@@ -36,5 +36,15 @@ class TokenManagment extends Model
       }
 
     }
+
+        public function getIpdDetails()
+      {
+          return $this->hasMany('euro_hms\Models\IpdDetails');
+      }
+
+      public function getOpdDetails(){
+
+        return $this->hasMany('euro_hms\Models\OpdDetails');
+      }
 
 }

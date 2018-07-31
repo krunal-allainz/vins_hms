@@ -17,7 +17,7 @@ class CreateTokenManagmentTable extends Migration
             $table->increments('id');
             $table->string('token')->nullable();
             $table->dateTime('date')->nullable();  
-            $table->integer('opd_id')->nullable()->references('opd_id')
+            $table->string('opd_id')->nullable()->references('opd_id')
             ->on('opd_details');
             $table->integer('patient_id')->nullable()->references('id')
             ->on('patient_details');
