@@ -344,10 +344,13 @@
 	         	},
 	          mounted(){
 	          	
-		          	 $('.ls-select2').select2({
-		          	 	 placeholder: "Select",
-		          	 	 dropdownParent: $("#receiptAddModel")
-		          	  }); 
+		          	$('.ls-select2').select2({
+	          	 	 	placeholder: "Select",
+	          	 	 	dropdownParent: $("#receiptAddModel"),
+	          	 	 	show: true, 
+			        	backdrop: 'static',
+			        	keyboard: true
+		          	}); 
 		         
 	          	   let vm =this;
 	          	   
@@ -584,7 +587,10 @@
 								    	 /*for consultation type*/
 				       	 				$('#consultation_type').select2({
 						          	 	 	placeholder: "Select",
-						          	 	 	dropdownParent: $("#receiptAddModel")
+						          	 	 	dropdownParent: $("#receiptAddModel"),
+						          	 	 	show: true, 
+			        						backdrop: 'static',
+			        						keyboard: true
 						          	 	});
 				           	 	},500);
 							}
@@ -593,8 +599,11 @@
 								setTimeout(function(){
 							    	/*for emergency type*/
 			       	 				$('#emergency_type').select2({
-					          	 	 placeholder: "Select",
-					          	 	 dropdownParent: $("#receiptAddModel")
+					          	 		placeholder: "Select",
+					          	 	 	dropdownParent: $("#receiptAddModel"),
+					          	 	 	show: true, 
+			        					backdrop: 'static',
+			        					keyboard: true
 					          	    });
 				           	 	},500);
 							}
@@ -730,7 +739,7 @@
 			                	{
 			                		$("body .js-loader").addClass('d-none');
 			                		localStorage.setItem("Receipt",1)
-    								window.location.reload();
+    								vm.$root.$emit('printReceipt',response.data.html);
 			                	}
 			                	
 		                	}
