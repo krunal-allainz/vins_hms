@@ -191,6 +191,9 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         /*for saving physiotherapy assistant*/
         $api->post('opd/savePhysiotherapy','\euro_hms\Api\Controllers\OPDDetailsFromController@savePhysiotherapy');
 
+         $api->post('user/getimagefromurl', '\euro_hms\Api\Controllers\CustomersController@getImagefromUrl');
+
+
         });
         
 
