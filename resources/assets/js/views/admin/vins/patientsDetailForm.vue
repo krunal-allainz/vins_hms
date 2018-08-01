@@ -241,7 +241,7 @@
 			            	<label for="token_status">Token Status:</label>
 			          	</div>
 		          	<div class="col-md-6">
-		            	<select  class="form-control" v-validate="'required'" id = "token_status" name="token_status" value="" v-model="patientData.token_type">
+		            	<select  class="form-control" v-validate="'required'" id = "token_status" name="token_status" value="" v-model="patientData.token_status">
 		              		<option value="waiting" selected="selected">waiting</option>
 		              		<option value="pending">pending</option>
 		            	</select>

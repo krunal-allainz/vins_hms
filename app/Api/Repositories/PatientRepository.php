@@ -29,7 +29,7 @@
         $insertedPatientId="";
         $sectionId = '';
 
-        $patientCaseData = new PatientCaseManagment();
+      
 		
         if($data['case'] == 'new') {
         	$patientData=new PatientDetailsForm();
@@ -51,7 +51,6 @@
         	}
         	
         }
-   
         /*patient details*/
     $patientData->first_name=$data['fname'];
 		$patientData->middle_name=$data['mname'];
@@ -127,6 +126,20 @@
                     'patient_id' =>$patientId,
                     'status' =>$data['token_status'],
                    ]);
+
+                   /* start add case management data */
+                  PatientCaseManagment::create([
+                    'case_type' =>$data['case_type'],
+                    'section_type' => $patientType,
+                    'section_id' => $sectionId,
+                    'patient_id' =>$patientId,
+                    'status' =>true,
+                    'created_at' =>Carbon::now(),
+                    'updated_at' =>Carbon::now(),
+
+                 ]);
+            
+            /* end add case management data */
  
                 if ($caseData) {
                     return ['code' => '200','data'=>['patientId'=> $patientId,'opdId' => $caseData->id,'uhid_no'=>$patientData->uhid_no], 'message' => 'Record Sucessfully created'];
@@ -153,24 +166,28 @@
                     'admit_datetime' =>  Carbon::now(),
                      'appointment_datetime'=>$patientData->appointment_datetime
                 ]);
-                /*for patient check up start*/
-				/*for patient check up end*/
+
+                    /* start add case management data */
+                  PatientCaseManagment::create([
+                    'case_type' =>$data['case_type'],
+                    'section_type' => $patientType,
+                    'section_id' => $sectionId,
+                    'patient_id' =>$patientId,
+                    'status' =>true,
+                    'created_at' =>Carbon::now(),
+                    'updated_at' =>Carbon::now(),
+
+                 ]);
+            
+                /* end add case management data */
+              
                 if ($caseData) {
                     return ['code' => '200','data'=>['patientId'=> $patientId,'ipdId' => $caseData->id,'uhid_no'=>$patientData->uhid_no], 'message' => 'Record Sucessfully created'];
                 } else {
                     return ['code' => '400','data'=>'', 'message' => 'Something goes wrong'];
                 }
             }
-             /* start add case management data */
-              $patientCaseData->case_type = $data['case_type'];
-              $patientCaseData->section_type = $patientType;
-              $patientCaseData->section_id   = $sectionId;
-              $patientCaseData->patient_id   = $patientId;
-              $patientCaseData->status      = true;
-              $patientCaseData->created_at=Carbon::now();
-              $patientCaseData->updated_at=Carbon::now();
-              $patientCaseData->save();
-            /* end add case management data */
+            
 
         }
         return ['code' => '400','data'=>'', 'message' => 'Something goes wrong'];
