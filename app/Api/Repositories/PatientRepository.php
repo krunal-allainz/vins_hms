@@ -28,22 +28,26 @@
         $year = date('y');
         $insertedPatientId="";
         $sectionId = '';
+        $opdInsert = 0;
 
       
-		
         if($data['case'] == 'new') {
         	$patientData=new PatientDetailsForm();
+           $opdInsert  = 1;
         }
         else
         {
         	$patientId =$data['patient_id'];
-	          
+           if($data['case_type']  == 'new_consult'){
+              $opdInsert = 1;
+          }else{
+             $opdData =  $this->getLastOPDIdByPatientId($patientId);
+             $opdInsert = 0;
+          }
         	if($patientId!=0 && $patientId!="")
 
         	{
         		$patientData=PatientDetailsForm::findOrFail($patientId);
-
-
         	}
         	else
         	{
@@ -96,30 +100,30 @@
         }
 
         if ($patientId) {
+
             if($patientType == "opd"){
-            	
-            	/*to get OPD Id*/
-		    	    $opd_prefix="OPD";
-		          $opdId =  OpdDetails::orderBy('id', 'desc')->first();
-		          if($opdId == null){   
-		            $lastOPD = 1; 
-		          }else{  
-		            $lastOPD = $opdId->id + 1;  
-		          }
+              if($opdInsert == 1){ 
+                  $opd_prefix="OPD";
+                  $opdId =  OpdDetails::orderBy('id', 'desc')->first();
+                  if($opdId == null){   
+                    $lastOPD = 1; 
+                  }else{  
+                    $lastOPD = $opdId->id + 1;  
+                  }
 
-		       	  $newPatOPDNo = sprintf("%04d",$lastOPD);
-		   		    $insertedOPDId=$opd_prefix.$year.$newPatOPDNo;
-              $sectionId = $insertedOPDId;
+                  $newPatOPDNo = sprintf("%04d",$lastOPD);
+                  $insertedOPDId=$opd_prefix.$year.$newPatOPDNo;
+                  $sectionId = $insertedOPDId;
 
-                $caseData = OpdDetails::create([
-                	'opd_id'=>$insertedOPDId,
-                    'patient_id'=> $patientId,
-                    'uhid_no'=> $patientData->uhid_no,
-                    'admit_datetime' =>  Carbon::now(),
-                    'appointment_datetime'=>$patientData->appointment_datetime 
-                ]);
+                    $caseData = OpdDetails::create([
+                      'opd_id'=>$insertedOPDId,
+                        'patient_id'=> $patientId,
+                        'uhid_no'=> $patientData->uhid_no,
+                        'admit_datetime' =>  Carbon::now(),
+                        'appointment_datetime'=>$patientData->appointment_datetime 
+                    ]);
 
-                  TokenManagment::create([
+                       $tokenInsert =  TokenManagment::create([
                     'token'=>$data['token_no'],
                     'date' =>  date('d-m-Y H:i:s'),
                     'opd_id'=>$insertedOPDId,
@@ -128,7 +132,7 @@
                    ]);
 
                    /* start add case management data */
-                  PatientCaseManagment::create([
+                  $patientCaseInsert = PatientCaseManagment::create([
                     'case_type' =>$data['case_type'],
                     'section_type' => $patientType,
                     'section_id' => $sectionId,
@@ -138,14 +142,50 @@
                     'updated_at' =>Carbon::now(),
 
                  ]);
-            
-            /* end add case management data */
- 
+
+
                 if ($caseData) {
                     return ['code' => '200','data'=>['patientId'=> $patientId,'opdId' => $caseData->id,'uhid_no'=>$patientData->uhid_no], 'message' => 'Record Sucessfully created'];
                 } else {
                     return ['code' => '400','data'=>'', 'message' => 'Something goes wrong'];
-                }    
+                }   
+
+              }else{ 
+                $insertedOPDId = $opdData->opd_id;
+                 $sectionId    = $opdData->opd_id;
+
+
+                   $tokenInsert =  TokenManagment::create([
+                    'token'=>$data['token_no'],
+                    'date' =>  date('d-m-Y H:i:s'),
+                    'opd_id'=>$insertedOPDId,
+                    'patient_id' =>$patientId,
+                    'status' =>$data['token_status'],
+                   ]);
+
+                   /* start add case management data */
+                  $patientCaseInsert = PatientCaseManagment::create([
+                    'case_type' =>$data['case_type'],
+                    'section_type' => $patientType,
+                    'section_id' => $sectionId,
+                    'patient_id' =>$patientId,
+                    'status' =>true,
+                    'created_at' =>Carbon::now(),
+                    'updated_at' =>Carbon::now(),
+
+                 ]);
+
+                  if ($tokenInsert && $patientCaseInsert) {
+                    return ['code' => '200','data'=>['token'=> $data['token_no'],'opdId' => $insertedOPDId,'uhid_no'=>$patientData->uhid_no], 'message' => 'Record Sucessfully created'];
+                } else {
+                    return ['code' => '400','data'=>'', 'message' => 'Something goes wrong'];
+                }   
+
+              }
+            	/*to get OPD Id*/
+
+            /* end add case management data */
+  
             }
             else{
             	 $ipd_prefix="IPD";
@@ -157,6 +197,7 @@
 		             $lastIPD = $ipdId->id + 1;  
 		           }
 		       	    $newPatIPDNo = sprintf("%04d",$lastIPD);
+                
            		  $insertedIPDId=$ipd_prefix.$year.$newPatIPDNo;
                 $sectionId = $insertedIPDId;
                    $caseData = IpdDetails::create([
@@ -203,6 +244,17 @@
  		$get_patient_details=PatientDetailsForm::where('id',$id)->first();
  		return $get_patient_details;
  	}
+
+
+   /**
+     * [getOPDIdByPatientId description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+    public function getLastOPDIdByPatientId($pid)
+    {
+        return OpdDetails::where('patient_id',$pid)->first();
+    }
 
     /**
      * [getOPDIdByPatientId description]
@@ -364,6 +416,11 @@
             return ['code' => '400','data'=>'', 'message' => 'Something goes wrong'];
         }
         /*to add data */
+    }
+
+    public function tokenExist($token){
+      $date =  date('d-m-Y');
+      return TokenManagment::where('date','like',$date.'%')->Where('token',$token)->count();
     }
  }
 ?>
