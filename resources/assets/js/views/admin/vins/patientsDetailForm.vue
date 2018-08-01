@@ -215,7 +215,6 @@
 			          	</div>
 		          	<div class="col-md-6">
 		            	<select  class="form-control ls-select2" v-validate="'required'" id = "case_type" name="case_type" value="" v-model="patientData.case_type">
-		            		<option value=""> Select </option>
 		              		<option value="cross_reference">Cross Reference</option>
 		              		<option value="reports">Reports</option>
 		              		<option value="follow_ups">Follow ups</option>
@@ -235,7 +234,20 @@
 			        	<input class="form-control" type="text" id="token_no" name="token_no" value="" v-model="patientData.token_no" />
 			        </div>
 		        </div>
-                </div>
+            </div>
+            <div class="row form-group">
+            	<div class="col-md-6">
+			        	<div class="col-md-6 ">
+			            	<label for="token_status">Token Status:</label>
+			          	</div>
+		          	<div class="col-md-6">
+		            	<select  class="form-control" v-validate="'required'" id = "token_status" name="token_status" value="" v-model="patientData.token_status">
+		              		<option value="waiting" selected="selected">waiting</option>
+		              		<option value="pending">pending</option>
+		            	</select>
+		          	</div>
+		        </div>
+            </div>
        		<div class="form-group text-center">
 				<button class="btn btn-success" type="button" @click="savePatient()">Submit</button>
 			</div>
@@ -342,7 +354,8 @@
                 	'validatenumber' : '',
                 	'patient_id':'',
                 	'case_type' : '',
-                	'token_no' : ''
+                	'token_no' : '',
+                	'token_status' : ''
                 }
             }
         },
