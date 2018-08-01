@@ -214,8 +214,12 @@
 			        	<label for="case_type">Token No:</label>
 			        </div>
 			        <div class="col-md-6 ">
-			        	<input class="form-control" type="text" id="token_no" name="token_no" value="" v-model="patientData.token_no"  @change="checkExistingToken()"  />
+			        	<input class="form-control" type="text" id="token_no" name="token_no" value="" v-model="patientData.token_no"  @change=" checkExistingToken()"  />
 			        </div>
+			        <i v-show="errors.has('token_no')" class="fa fa-warning"></i>
+							<span class="help is-danger" v-if="(patientData.token_validation =! 0)">
+		            			Please enter another token number it's already exist.
+		            		</span>
 		        </div>
             	<div class="col-md-6" >
 			        	<div class="col-md-6 ">
@@ -355,7 +359,8 @@
                 	'patient_id':'',
                 	'case_type' : '',
                 	'token_no' : '',
-                	'token_status' : ''
+                	'token_status' : '',
+                	'token_validation' : 0
                 }
             }
         },
@@ -449,9 +454,10 @@
 		      },
 		      checkExistingToken(){
 		      	let vm =this;
+		      	vm.patientData.token_validation = 0;
 		      	User.getExistingToken(vm.patientData.token_no).then(
 	  				(response) => {
-	  					console.log(response.data);
+	  					vm.patientData.token_validation = response.data;
 	  				},
 	  				(error)=>{
 
