@@ -16,11 +16,12 @@ class CreatePatientCaseManagmentTable extends Migration
         Schema::create('patient_case_managment', function (Blueprint $table) {
              $table->increments('id');
              $table->string('case_type')->nullable();
-             $table->integer('opd_id')->nullable()->references('opd_id')
+             $table->string('section_type')->nullable();
+             $table->string('section_id')->nullable()->references('opd_id')
             ->on('opd_details');
             $table->integer('patient_id')->nullable()->references('id')
             ->on('patient_details');
-            $table->string('status')->nullable();
+            $table->boolean('status')->nullable();
             $table->timestamps();
         });
     }
