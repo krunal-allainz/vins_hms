@@ -208,10 +208,35 @@
 	                    </div>
 	                </div>
                 </div>
-                <div class="row form-group">
+            <div class="row form-group">
+            	 <div class="col-md-6">
+		        	<div class="col-md-6 ">
+			        	<label for="case_type">Token No:</label>
+			        </div>
+			        <div class="col-md-6 ">
+			        	<input class="form-control" type="text" id="token_no" name="token_no" value="" v-model="patientData.token_no"  @change=" checkExistingToken()"  />
+			        </div>
+			        <i v-show="errors.has('token_no')" class="fa fa-warning"></i>
+							<span class="help is-danger" v-if="(patientData.token_validation != 0)">
+		            			Please enter another token number it's already exist.
+		            		</span>
+		        </div>
+            	<div class="col-md-6" >
+			        	<div class="col-md-6 ">
+			            	<label for="token_status">Token Status:</label>
+			          	</div>
+		          	<div class="col-md-6">
+		            	<select  class="form-control" v-validate="'required'" id = "token_status" name="token_status" value="" v-model="patientData.token_status">
+		              		<option value="waiting" selected="selected">waiting</option>
+		              		<option value="pending">pending</option>
+		            	</select>
+		          	</div>
+		        </div>
+            </div>
+              <div class="row form-group" v-if="(patientData.case == 'old')" >
                 	<div class="col-md-6">
 			        	<div class="col-md-6 ">
-			            	<label for="case_type">Case Type:</label>
+			            	<label for="case_type" >Case Type:</label>
 			          	</div>
 		          	<div class="col-md-6">
 		            	<select  class="form-control ls-select2" v-validate="'required'" id = "case_type" name="case_type" value="" v-model="patientData.case_type">
@@ -224,27 +249,6 @@
 		            	<span class="help is-danger" v-show="errors.has('case_type')">
 		              		Please select case type.
 		            	</span>
-		          	</div>
-		        </div>
-		        <div class="col-md-6">
-		        	<div class="col-md-6 ">
-			        	<label for="case_type">Token No:</label>
-			        </div>
-			        <div class="col-md-6 ">
-			        	<input class="form-control" type="text" id="token_no" name="token_no" value="" v-model="patientData.token_no" />
-			        </div>
-		        </div>
-            </div>
-            <div class="row form-group">
-            	<div class="col-md-6">
-			        	<div class="col-md-6 ">
-			            	<label for="token_status">Token Status:</label>
-			          	</div>
-		          	<div class="col-md-6">
-		            	<select  class="form-control" v-validate="'required'" id = "token_status" name="token_status" value="" v-model="patientData.token_status">
-		              		<option value="waiting" selected="selected">waiting</option>
-		              		<option value="pending">pending</option>
-		            	</select>
 		          	</div>
 		        </div>
             </div>
@@ -355,7 +359,8 @@
                 	'patient_id':'',
                 	'case_type' : '',
                 	'token_no' : '',
-                	'token_status' : ''
+                	'token_status' : '',
+                	'token_validation' : 0
                 }
             }
         },
@@ -446,6 +451,18 @@
 		      		
 		      	 return true;
 		      	
+		      },
+		      checkExistingToken(){
+		      	let vm =this;
+		      	vm.patientData.token_validation = 0;
+		      	User.getExistingToken(vm.patientData.token_no).then(
+	  				(response) => {
+	  					vm.patientData.token_validation = response.data;
+	  				},
+	  				(error)=>{
+
+	  				}
+  				);
 		      },
 		      getAgeFromYear(year){
 				
