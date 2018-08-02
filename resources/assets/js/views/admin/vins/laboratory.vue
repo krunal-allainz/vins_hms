@@ -54,17 +54,7 @@
                                     </span>
                                 </div> 
                             </div> 
-                         <!--    <div class="col-md-3"> 
-                              <div class="col-md-12"> 
-                                  <label class="control-label" for="label_1">Assign Dr </label> 
-                              </div> 
-                              <div class="col-md-12"> 
-                                  <input type="text" :name="'lab_assign_dr'+index"   id="lab_assign_dr_id" v-model="lab.assign" class="form-control lab_assign_dr"  v-validate="'required'"> 
-                                  <span class="help is-danger" v-show="errors.has('lab_assign_dr'+index)">
-                                      Field is required
-                                  </span>
-                              </div> 
-                          </div>  --> 
+
                         </div>
                     </div>
 
@@ -88,19 +78,15 @@
                             <th>Name</th>
                             <th>Date</th>
                             <th>Result</th>
-                            <!-- <th>Assigning Dr</th> -->
-                            <!-- <th>Action</th> -->
                         </tr>
                         </thead>
                         <tbody>
-                         <tr v-if="res.removed == false" :id="res.tr_id" v-for="(res,index) in finalLaboratoryData">
-                            <td>{{++index}}</td> 
-                            <td>{{res.text }}</td>
-                            <td>{{res.lab_date.time}}</td>
-                            <td>{{res.result}}</td>
-                            <!-- <td>{{res.assign}}</td> -->
-                            <!-- <td> <i class="fa fa-remove" @click="removeLaboratory(res.id)"></i></td> -->
-                          </tr>
+                            <tr v-if="res.removed == false" :id="res.tr_id" v-for="(res,index) in finalLaboratoryData">
+                                <td>{{++index}}</td> 
+                                <td>{{res.text }}</td>
+                                <td>{{res.lab_date.time}}</td>
+                                <td>{{res.result}}</td>
+                            </tr>
 
                         </tbody>
                     </table>
@@ -111,17 +97,16 @@
             
         </form>
 
-        <br><br>
+        <br>
+        <br>
 
-    <radiology></radiology>
+        <radiology></radiology>
         <div class="row form-group">
         <div class="col-md-6">
           <button type="button" class="btn btn-primary btn-submit text-right " @click="prev()" >Previous</button>
           <button type="button" class="btn btn-primary btn-submit text-right ml-10" @click="next()" >Next</button>
-         <!--  <button type="button" class="btn btn-primary btn-submit text-right " v-if="curStep==3" @click="saveInformation()">Submit</button> -->
-        </div>
+         </div>
       </div>
-
     </div>
 </template>
 <script >
@@ -130,6 +115,7 @@
     import myDatepicker from 'vue-datepicker';
     import _ from 'lodash';
     export default {
+        name:'radiology',
         computed:{
 
         },
@@ -164,11 +150,12 @@
                     },
 
                   },
-                  limit: [
+                limit: [
                   {
                     type: 'fromto',
                     to: new Date()
-                  }],
+                  }
+                ],
                 'resultData': {
                     'type': '',
                     'subType': ''
