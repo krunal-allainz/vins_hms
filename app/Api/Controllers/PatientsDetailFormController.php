@@ -303,4 +303,9 @@ class PatientsDetailFormController extends Controller
     public function savePatientCheckup(request $request){
          return $this->patientOBJ->addPatientCheckup($request);
     }
+
+    public function tokenExist(request $request){
+        $token = $request->token;
+        return $this->patientOBJ->tokenExist($token); 
+    }
 }

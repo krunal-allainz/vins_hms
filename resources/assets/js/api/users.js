@@ -317,5 +317,8 @@ export default {
   },
   savePhysioTherapy(physioData) {
       return api.post('opd/savePhysiotherapy',{'physioData':physioData})
+  },
+  getExistingToken(token){
+      return api.post('patient/token_exist',{'token':token});
   }
 }

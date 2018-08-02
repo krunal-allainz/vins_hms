@@ -193,6 +193,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
          $api->post('user/getimagefromurl', '\euro_hms\Api\Controllers\CustomersController@getImagefromUrl');
 
+        $api->post('patient/token_exist','\euro_hms\Api\Controllers\PatientsDetailFormController@tokenExist');
 
         });
         
