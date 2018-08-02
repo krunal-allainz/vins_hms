@@ -196,7 +196,7 @@
       </div>
 
     </form>
-      <!-- <select-patient-modal @confirmed="deleteConfirmed()"></select-patient-modal> -->
+      <OPDConfirmModal :deleteConfirmMsg="deleteConfirmMsg"></OPDConfirmModal>
       <div id="receiptAddModel" class="modal hide" role="dialog">
         <div class="modal-dialog modal-lg">
 
@@ -209,7 +209,7 @@
                 <patientReceiptForm :patientOPDDetails="patient_opd_details" v-if="modal_enabled=='true'"></patientReceiptForm>
             </div>
             <div class="modal-footer">
-              <button type="button" class="closem btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="closem btn btn-default" @click="confirm_popup()">Close</button>
             </div>
           </div>
 
@@ -238,12 +238,15 @@
   import addressograph from './addressograph.vue';
   import patientReceiptForm from './patientsReceiptForm.vue';
   import SignaturePad from 'signature_pad';
+  import OPDConfirmModal from '../../../components/OPDConfirmModal.vue';
+
   import _ from 'lodash';
     export default {
         data() {
             return {
                 'modal_val':0,
                 'footer' : 'footer',
+                'deleteConfirmMsg':'Are you sure you want to exit from receipt form?',
                 'currentYear': new Date().getFullYear(),
                 'type': 'vascularExamination',
                 'patient_id': this.$store.state.Patient.patientId,
@@ -297,10 +300,11 @@
         components: {
            addressograph,
            patientReceiptForm,
-           // SelectPatientModal
+           OPDConfirmModal
        },
        created: function() {
           this.$root.$on('printReceipt', this.printReceipt);
+          this.$root.$on('confirmed', this.confirm_opd);
         },
        mounted() {
         var vm =this;
@@ -308,14 +312,30 @@
           vm.examinationChangeImage();
           vm.initData();
         },2000);
-        
-            $('.closem').click(function () {
-              vm.$router.push({'name':'opd_form_thankyou'});
-            });
-        
-        
+         $.fn.modal.Constructor.prototype.enforceFocus = function () {
+                var that = this;
+                $(document).on('#receiptAddModel', function (e) {
+                   if ($(e.target).hasClass('select2-input')) {
+                      return true;
+                   }
+
+                   if (that.$element[0] !== e.target && !that.$element.has(e.target).length) {
+                      that.$element.focus();
+                   }
+                });
+             };
        },
         methods: {
+          confirm_opd(){
+               $('#confirm_modal').modal('hide');
+               $('#receiptAddModel').modal('show'); 
+          },
+          confirm_popup()
+          {
+            //$('#receiptAddModel').on('hidden.bs.modal', function () {});
+            $('#receiptAddModel').modal('hide'); 
+            $('#confirm_modal').modal('show'); 
+          },
           ClickHereToPrint() {  
             try { 
               var  printContent = ''; 
@@ -336,22 +356,24 @@
                 self.print(); 
             } 
           },
-          printReceipt(all_data)
+          printReceipt(all_data,test_val)
           {
               let vm=this;
-              vm.modal_val=1;
               $('#receiptAddModel').modal('hide');
-              $('#receiptPrintModal').modal('show');
-              $('#printContent').html('');
-              /*if ($("#printContent .printReceiptPage" ).length == 0){ 
-                $('#printContent').html(all_data);  
-              }else{  
-                $('#printContent').html(all_data);  
-              }*/
-              $('#printContent').html(all_data);  
-              $('#receiptPrintModal').on('hidden.bs.modal', function () {
+              if(test_val==1)
+              {
+                  $('#receiptPrintModal').modal('show');
+                  $('#printContent').html('');
+                  $('#printContent').html(all_data);  
+                  $('#receiptPrintModal').on('hidden.bs.modal', function () {
+                      vm.$router.push({'name':'opd_form_thankyou'});
+                  });
+              }
+              else
+              {
                   vm.$router.push({'name':'opd_form_thankyou'});
-              });
+              }
+              
           },
           initData(){
             let vm =this;

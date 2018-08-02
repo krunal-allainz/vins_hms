@@ -346,11 +346,9 @@
 	          	
 		          	$('.ls-select2').select2({
 	          	 	 	placeholder: "Select",
-	          	 	 	dropdownParent: $("#receiptAddModel"),
-	          	 	 	show: true, 
-			        	backdrop: 'static',
-			        	keyboard: true
+	          	 	 	dropdownParent: $("#receiptAddModel")
 		          	}); 
+		          	
 		         
 	          	   let vm =this;
 	          	   
@@ -733,27 +731,26 @@
 		                		
 		                		$("body .js-loader").addClass('d-none');
 		                		if(this.patientReceiptData.chargeAmount != '' || this.patientReceiptData.procedure_charges != ''|| this.patientReceiptData.other_charges != ''){
-				                	vm.$root.$emit('printReceipt',response.data.html);
+				                	vm.$root.$emit('printReceipt',response.data.html,1);
 			                	}
 			                	else
 			                	{
-			                		$("body .js-loader").addClass('d-none');
-			                		localStorage.setItem("Receipt",1)
-    								vm.$root.$emit('printReceipt',response.data.html);
+			                		localStorage.setItem("Receipt",1);
+    								vm.$root.$emit('printReceipt',response.data.html,2);
 			                	}
 			                	
 		                	}
-		                	 
 			                else{
-			                	 toastr.error('Please fill require data.', 'receipt error', {timeOut: 5000});
-                   						 return false;
+			                	$("body .js-loader").addClass('d-none');
+			                	toastr.error('Please fill require data.', 'receipt error', {timeOut: 5000});
+                   				return false;
 			                }	
 		                		
 	
 		            	},	
 		                (error) => {	
 		                	 $("body .js-loader").addClass('d-none');	
-	
+							toastr.error('Something Went wrong.', 'receipt error', {timeOut: 5000});	
 		                }	
 		                )	
 				    	
