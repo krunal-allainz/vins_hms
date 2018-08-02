@@ -9,6 +9,8 @@
  use euro_hms\Api\Repositories\UserRepository;
  use euro_hms\Models\OpdDetails;
  use euro_hms\Models\IpdDetails;
+ use euro_hms\Models\PatientCaseManagment;
+ use euro_hms\Models\TokenManagment;
 
  class PatientRepository 
  {
@@ -25,9 +27,9 @@
  		    $uhid="VN";
         $year = date('y');
         $insertedPatientId="";
+        $sectionId = '';
 
-     //   $patientCaseData = new PatientCaseManagment();
-      //  $tokenDataData     = new TokenManagment();
+      
 		
         if($data['case'] == 'new') {
         	$patientData=new PatientDetailsForm();
@@ -49,7 +51,6 @@
         	}
         	
         }
-    // dd($data);
         /*patient details*/
     $patientData->first_name=$data['fname'];
 		$patientData->middle_name=$data['mname'];
@@ -68,9 +69,7 @@
 		$patientData->consultant_id=$data['consulting_dr'];
 		$patientData->consultant=$data['consulting_dr'];
 		$patientData->case_type=$data['case'];
-   
-		  $patientData->appointment_datetime=$data['appointment_datetime']['time']; 
-
+    $patientData->appointment_datetime=$data['appointment_datetime']['time']; 
 		/*for patient details end*/
 
         if($data['case'] == 'new') {
@@ -100,15 +99,18 @@
             if($patientType == "opd"){
             	
             	/*to get OPD Id*/
-		    	$opd_prefix="OPD";
-		        $opdId =  OpdDetails::orderBy('id', 'desc')->first();
-		        if($opdId == null){   
+		    	    $opd_prefix="OPD";
+		          $opdId =  OpdDetails::orderBy('id', 'desc')->first();
+		          if($opdId == null){   
 		            $lastOPD = 1; 
-		        }else{  
+		          }else{  
 		            $lastOPD = $opdId->id + 1;  
-		        }
-		       	$newPatOPDNo = sprintf("%04d",$lastOPD);
-		   		$insertedOPDId=$opd_prefix.$year.$newPatOPDNo;
+		          }
+
+		       	  $newPatOPDNo = sprintf("%04d",$lastOPD);
+		   		    $insertedOPDId=$opd_prefix.$year.$newPatOPDNo;
+              $sectionId = $insertedOPDId;
+
                 $caseData = OpdDetails::create([
                 	'opd_id'=>$insertedOPDId,
                     'patient_id'=> $patientId,
@@ -117,6 +119,28 @@
                     'appointment_datetime'=>$patientData->appointment_datetime 
                 ]);
 
+                  TokenManagment::create([
+                    'token'=>$data['token_no'],
+                    'date' =>  date('d-m-Y H:i:s'),
+                    'opd_id'=>$insertedOPDId,
+                    'patient_id' =>$patientId,
+                    'status' =>$data['token_status'],
+                   ]);
+
+                   /* start add case management data */
+                  PatientCaseManagment::create([
+                    'case_type' =>$data['case_type'],
+                    'section_type' => $patientType,
+                    'section_id' => $sectionId,
+                    'patient_id' =>$patientId,
+                    'status' =>true,
+                    'created_at' =>Carbon::now(),
+                    'updated_at' =>Carbon::now(),
+
+                 ]);
+            
+            /* end add case management data */
+ 
                 if ($caseData) {
                     return ['code' => '200','data'=>['patientId'=> $patientId,'opdId' => $caseData->id,'uhid_no'=>$patientData->uhid_no], 'message' => 'Record Sucessfully created'];
                 } else {
@@ -124,32 +148,46 @@
                 }    
             }
             else{
-            	$ipd_prefix="IPD";
-        		$year = date('y');
-		        $ipdId =  IpdDetails::orderBy('id', 'desc')->first();
-		        if($ipdId == null){   
-		            $lastIPD = 1; 
-		        }else{  
-		            $lastIPD = $ipdId->id + 1;  
-		        }
-		       	$newPatIPDNo = sprintf("%04d",$lastIPD);
-           		$insertedIPDId=$ipd_prefix.$year.$newPatIPDNo;
-              
-                 $caseData = IpdDetails::create([
-                 	'ipd_id'=>$insertedIPDId,
+            	 $ipd_prefix="IPD";
+        		   $year = date('y');
+		           $ipdId =  IpdDetails::orderBy('id', 'desc')->first();
+		           if($ipdId == null){   
+		              $lastIPD = 1; 
+		           }else{  
+		             $lastIPD = $ipdId->id + 1;  
+		           }
+		       	    $newPatIPDNo = sprintf("%04d",$lastIPD);
+           		  $insertedIPDId=$ipd_prefix.$year.$newPatIPDNo;
+                $sectionId = $insertedIPDId;
+                   $caseData = IpdDetails::create([
+                 	  'ipd_id'=>$insertedIPDId,
                     'patient_id'=> $patientId,
                     'uhid_no'=> $patientData->uhid_no,
                     'admit_datetime' =>  Carbon::now(),
                      'appointment_datetime'=>$patientData->appointment_datetime
                 ]);
-                /*for patient check up start*/
-				/*for patient check up end*/
+
+                    /* start add case management data */
+                  PatientCaseManagment::create([
+                    'case_type' =>$data['case_type'],
+                    'section_type' => $patientType,
+                    'section_id' => $sectionId,
+                    'patient_id' =>$patientId,
+                    'status' =>true,
+                    'created_at' =>Carbon::now(),
+                    'updated_at' =>Carbon::now(),
+
+                 ]);
+            
+                /* end add case management data */
+              
                 if ($caseData) {
                     return ['code' => '200','data'=>['patientId'=> $patientId,'ipdId' => $caseData->id,'uhid_no'=>$patientData->uhid_no], 'message' => 'Record Sucessfully created'];
                 } else {
                     return ['code' => '400','data'=>'', 'message' => 'Something goes wrong'];
                 }
             }
+            
 
         }
         return ['code' => '400','data'=>'', 'message' => 'Something goes wrong'];

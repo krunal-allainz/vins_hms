@@ -11,7 +11,8 @@ class PatientCaseManagment extends Model
 
         protected $fillable=[
               'case_type',
-              'opd_id',
+              'section_type',
+              'section_id',
               'patient_id',
               'status',
         ];
