@@ -62,31 +62,34 @@
 			 			</div>
 			 		</div>
 				
-						<div class="row form-group" >	
-				 		 	
-				 			<div class="col-md-6">
-			    	   			<div class="col-md-9">
-						         	<label for="date">Case Type:</label>
-						        </div>
-						        <div class="col-md-9">
-				    	   			<span>OPD</span>
-				    	   		</div>
+					<div class="row form-group" >	
+			 		 	
+			 			<div class="col-md-6">
+		    	   			<div class="col-md-9">
+					         	<label for="date"><b>Case Type:</b></label>
+					        </div>
+					        <div class="col-md-9">
+			    	   			<span>OPD</span>
 			    	   		</div>
-				 	 	<div class="col-md-6">	
+		    	   		</div>
+			 		</div>
+			 		<div class="row form-group">
+			 			<div class="col-md-6">	
 				          <div class="col-md-9">	
-				            <label><b>Date :</b></label>	
+				            <label>Date :</label>	
 				         </div>	
 				         <div class="col-md-9">
 			       				<date-picker  :date.sync="patientReceiptData.date_receipt" :option="option" id = "date_receipt" class="" type="text" name="date_receipt" :limit="limit" v-model="patientReceiptData.date_receipt.time" ></date-picker> 
 							
 			           	</div>	
-			        </div>	
-				 </div>
+			        </div>
+			 		</div>
+			 			
 				
 				<div class="row form-group" >	
 					<div class="col-md-6">	
 							<div class="col-md-9">	
-								<label for="charges"><b>Charges Type:</b></label>
+								<label for="charges">Charges Type:</label>
 							</div>	
 							<div class="col-md-9">
 								<select  class="form-control ls-select2" id = "charges_type" name="charges_type" v-model="patientReceiptData.charges_type"   v-on:change="ChargesTypeFunction()">
@@ -711,7 +714,7 @@
 			            }
 			        });
   					
-	             
+	             	
   					
 	         },
 	         methods: {
