@@ -298,19 +298,19 @@
                             }
                             else if($data['other_charges_category']==11)
                             {
-                                $other_category="('Wound Care) Dressing - Minor";
+                                $other_category="(Wound Care) Dressing - Minor";
                             }
                             else if($data['other_charges_category']==12)
                             {
-                                $other_category="('Wound Care) Dressing - Major";
+                                $other_category="(Wound Care) Dressing - Major";
                             }
                             else if($data['other_charges_category']==13)
                             {
-                                $other_category="('Wound Care) Vac (per session + actual expenditure)";
+                                $other_category="(Wound Care) Vac (per session + actual expenditure)";
                             }
                             else if($data['other_charges_category']==14)
                             {
-                                $other_category="('Wound Care) Special Dressing";
+                                $other_category="(Wound Care) Special Dressing";
                             }
                             
 

@@ -439,9 +439,7 @@
  			$physio_details->follow_date=Carbon::createFromFormat('d-m-Y', $data['nfd']['time'])->format('Y-m-d');
  		$physio_details->signature_therapist=$data['signature_therapist'];
  		$physio_details->name_therapist=$data['name_therapist'];
- 		if($data['fd']['time']!='')
- 			$physio_details->form_date=Carbon::createFromFormat('d-m-Y', $data['fd']['time'])->format('Y-m-d');
- 		$physio_details->form_time=$data['form_time'];
+ 		$physio_details->form_date=Carbon::createFromFormat('d-m-Y h:ia', $data['form_date'])->format('Y-m-d H:i:s');
  		$physio_details->save();
 
  		return $physio_details->id;

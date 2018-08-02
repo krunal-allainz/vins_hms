@@ -16,7 +16,7 @@ class CreateReceiptTable extends Migration
          Schema::create('receipt', function (Blueprint $table) {    
             $table->increments('id');  
             $table->integer('receipt_id')->nullable(); 
-             $table->string('receipt_number')->nullable(); 
+            $table->string('receipt_number')->nullable(); 
             $table->integer('patient_id')->nullable(); 
             $table->string('case_no')->nullable(); 
             $table->string('charges_name')->nullable();    

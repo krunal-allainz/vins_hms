@@ -9,7 +9,7 @@
         </div>
         <form method = "post">
             
-            <patientSearch ref="physiotherapyForm"></patientSearch>
+            <patientSearch ref="physiotherapyForm" :user_id="physiotherapyData.user_id"></patientSearch>
             
             <div class="row form-group">
                 <div class="col-md-12">
@@ -315,22 +315,10 @@
                         <label for="form_date">Date:</label>
                       </div>
                       <div class="col-md-12">
-                        <date-picker  :date.sync="physiotherapyData.fd" :option="option" id = "form_date" class="" type="date" name="form_date" :limit="limit" v-model="physiotherapyData.fd.time"></date-picker>
+                        
+                        <input class="form-control" type="text" id="form_date" name="form_date" value="" v-model="physiotherapyData.form_date" readonly="" />
                       </div>  
                     </div>
-                </div>
-                 <div class="col-md-6">
-                  <div class="col-md-12">
-                    <label for="prescription">Time:</label>
-                  </div>
-                  <div class="col-md-6">
-                   <div class="input-group clockpicker" >
-                      <input type="text" class="form-control" name="form_time" id="form_time" v-model="physiotherapyData.form_time">
-                      <span class="input-group-addon">
-                          <span class="fa fa-clock-o"></span>
-                      </span>
-                    </div>
-                  </div>
                 </div>
             </div>
           
@@ -417,10 +405,7 @@
                     },
                     'signature_therapist':'',
                     'name_therapist':'',
-                    'fd': {
-                        time:''
-                    },
-                    'form_time':'',
+                    'form_date': moment().format('DD-MM-YYYY hh:mm A'),
                 }
             }
         },
@@ -435,10 +420,9 @@
                     tags: false,
                 });
                 let vm =this;
+
                 $('.clockpicker').clockpicker({donetext: 'Done',autoclose: true});
-                $('.clockpicker').clockpicker().find('input').change(function(){
-                    vm.physiotherapyData.form_time=this.value;
-                });
+                
                 
             
         },
