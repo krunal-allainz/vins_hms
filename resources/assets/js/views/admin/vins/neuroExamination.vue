@@ -215,7 +215,7 @@
     </div>
   </form>
 
-  <!-- <select-patient-modal @confirmed="deleteConfirmed()"></select-patient-modal> -->
+  <OPDConfirmModal :deleteConfirmMsg="deleteConfirmMsg"></OPDConfirmModal>
    <div id="receiptAddModel" class="modal hide" role="dialog">
         <div class="modal-dialog modal-lg">
 
@@ -228,7 +228,7 @@
                 <patientReceiptForm :patientOPDDetails="patient_opd_details" v-if="modal_enabled=='true'"></patientReceiptForm>
             </div>
             <div class="modal-footer">
-              <button type="button" class="closem btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="closem btn btn-default" @click="confirm_popup()">Close</button>
             </div>
           </div>
 
@@ -261,6 +261,7 @@
   import SignaturePad from 'signature_pad';
   import moment from 'moment';
   import _ from 'lodash';
+  import OPDConfirmModal from '../../../components/OPDConfirmModal.vue';
 
    
     export default {
@@ -269,6 +270,7 @@
             return {
                 'footer' : 'footer',
                 'currentDatetime': moment().format('DD-MM-YYYY hh:mm A'),
+                'deleteConfirmMsg':'Are you sure you want to exit from receipt form?',
                 'modal_enabled':'false',
 								'type': 'neuroExamination',
                 'patient_id': this.$store.state.Patient.patientId,
@@ -311,11 +313,13 @@
 					 addressograph,
 					 SelectPatientModal,
            patientReceiptForm,
+           OPDConfirmModal
 			 },
       
        created: function() {
              this.$root.$on('printReceipt', this.printReceipt);
              this.$root.$on('submitNeuroData',this.submitData);
+             this.$root.$on('confirmed', this.confirm_opd);
 
         },
 			 mounted() {
@@ -328,11 +332,19 @@
           vm.examinationChangeImage();
           vm.initData();
         },1000);
-          $('.closem').click(function () {
-              vm.$router.push({'name':'opd_form_thankyou'});
-            });
+         
 			 },
 				methods: {
+           confirm_opd(){
+               $('#confirm_modal').modal('hide');
+               $('#receiptAddModel').modal('show'); 
+          },
+          confirm_popup()
+          {
+            //$('#receiptAddModel').on('hidden.bs.modal', function () {});
+            $('#receiptAddModel').modal('hide'); 
+            $('#confirm_modal').modal('show'); 
+          },
           ClickHereToPrint() {  
             try { 
               var  printContent = ''; 
@@ -353,22 +365,23 @@
                 self.print(); 
             } 
           },
-          printReceipt(all_data)
+          printReceipt(all_data,test_val)
           {
               let vm=this;
-              vm.modal_val=1;
               $('#receiptAddModel').modal('hide');
-              $('#receiptPrintModal').modal('show');
-              $('#printContent').html('');
-              /*if ($("#printContent .printReceiptPage" ).length == 0){ 
-                $('#printContent').html(all_data);  
-              }else{  
-                $('#printContent').html(all_data);  
-              }*/
-              $('#printContent').html(all_data);  
-              $('#receiptPrintModal').on('hidden.bs.modal', function () {
+              if(test_val==1)
+              {
+                  $('#receiptPrintModal').modal('show');
+                  $('#printContent').html('');
+                  $('#printContent').html(all_data);  
+                  $('#receiptPrintModal').on('hidden.bs.modal', function () {
+                      vm.$router.push({'name':'opd_form_thankyou'});
+                  });
+              }
+              else
+              {
                   vm.$router.push({'name':'opd_form_thankyou'});
-              });
+              }
           },
           initData(){
             let vm =this;

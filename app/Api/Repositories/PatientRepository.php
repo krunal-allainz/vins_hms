@@ -28,22 +28,26 @@
         $year = date('y');
         $insertedPatientId="";
         $sectionId = '';
+        $opdInsert = 0;
 
       
-		
         if($data['case'] == 'new') {
         	$patientData=new PatientDetailsForm();
+           $opdInsert  = 1;
         }
         else
         {
         	$patientId =$data['patient_id'];
-	          
+           if($data['case_type']  == 'new_consult'){
+              $opdInsert = 1;
+          }else{
+             $opdData =  $this->getLastOPDIdByPatientId($patientId);
+             $opdInsert = 0;
+          }
         	if($patientId!=0 && $patientId!="")
 
         	{
         		$patientData=PatientDetailsForm::findOrFail($patientId);
-
-
         	}
         	else
         	{
@@ -55,10 +59,7 @@
     $patientData->first_name=$data['fname'];
 		$patientData->middle_name=$data['mname'];
 		$patientData->last_name=$data['lname'];
-  
-     $patientData->dob= $data['dob']['time'];
-  
-    
+    $patientData->dob= $data['dob']['time'];
 		$patientData->gender=$data['gender'];
     $patientData->age=$data['age'];
     $patientData->type=$data['type'];
@@ -69,7 +70,7 @@
 		$patientData->consultant_id=$data['consulting_dr'];
 		$patientData->consultant=$data['consulting_dr'];
 		$patientData->case_type=$data['case'];
-    $patientData->appointment_datetime=$data['appointment_datetime']['time']; 
+		$patientData->appointment_datetime=$data['appointment_datetime']['time'];
 		/*for patient details end*/
 
         if($data['case'] == 'new') {
@@ -96,30 +97,30 @@
         }
 
         if ($patientId) {
+
             if($patientType == "opd"){
-            	
-            	/*to get OPD Id*/
-		    	    $opd_prefix="OPD";
-		          $opdId =  OpdDetails::orderBy('id', 'desc')->first();
-		          if($opdId == null){   
-		            $lastOPD = 1; 
-		          }else{  
-		            $lastOPD = $opdId->id + 1;  
-		          }
+              if($opdInsert == 1){ 
+                  $opd_prefix="OPD";
+                  $opdId =  OpdDetails::orderBy('id', 'desc')->first();
+                  if($opdId == null){   
+                    $lastOPD = 1; 
+                  }else{  
+                    $lastOPD = $opdId->id + 1;  
+                  }
 
-		       	  $newPatOPDNo = sprintf("%04d",$lastOPD);
-		   		    $insertedOPDId=$opd_prefix.$year.$newPatOPDNo;
-              $sectionId = $insertedOPDId;
+                  $newPatOPDNo = sprintf("%04d",$lastOPD);
+                  $insertedOPDId=$opd_prefix.$year.$newPatOPDNo;
+                  $sectionId = $insertedOPDId;
 
-                $caseData = OpdDetails::create([
-                	'opd_id'=>$insertedOPDId,
-                    'patient_id'=> $patientId,
-                    'uhid_no'=> $patientData->uhid_no,
-                    'admit_datetime' =>  Carbon::now(),
-                    'appointment_datetime'=>$patientData->appointment_datetime 
-                ]);
+                    $caseData = OpdDetails::create([
+                      'opd_id'=>$insertedOPDId,
+                        'patient_id'=> $patientId,
+                        'uhid_no'=> $patientData->uhid_no,
+                        'admit_datetime' =>  Carbon::now(),
+                        'appointment_datetime'=>$patientData->appointment_datetime 
+                    ]);
 
-                  TokenManagment::create([
+                       $tokenInsert =  TokenManagment::create([
                     'token'=>$data['token_no'],
                     'date' =>  date('d-m-Y H:i:s'),
                     'opd_id'=>$insertedOPDId,
@@ -128,7 +129,7 @@
                    ]);
 
                    /* start add case management data */
-                  PatientCaseManagment::create([
+                  $patientCaseInsert = PatientCaseManagment::create([
                     'case_type' =>$data['case_type'],
                     'section_type' => $patientType,
                     'section_id' => $sectionId,
@@ -138,14 +139,50 @@
                     'updated_at' =>Carbon::now(),
 
                  ]);
-            
-            /* end add case management data */
- 
+
+
                 if ($caseData) {
                     return ['code' => '200','data'=>['patientId'=> $patientId,'opdId' => $caseData->id,'uhid_no'=>$patientData->uhid_no], 'message' => 'Record Sucessfully created'];
                 } else {
                     return ['code' => '400','data'=>'', 'message' => 'Something goes wrong'];
-                }    
+                }   
+
+              }else{ 
+                $insertedOPDId = $opdData->opd_id;
+                 $sectionId    = $opdData->opd_id;
+
+
+                   $tokenInsert =  TokenManagment::create([
+                    'token'=>$data['token_no'],
+                    'date' =>  date('d-m-Y H:i:s'),
+                    'opd_id'=>$insertedOPDId,
+                    'patient_id' =>$patientId,
+                    'status' =>$data['token_status'],
+                   ]);
+
+                   /* start add case management data */
+                  $patientCaseInsert = PatientCaseManagment::create([
+                    'case_type' =>$data['case_type'],
+                    'section_type' => $patientType,
+                    'section_id' => $sectionId,
+                    'patient_id' =>$patientId,
+                    'status' =>true,
+                    'created_at' =>Carbon::now(),
+                    'updated_at' =>Carbon::now(),
+
+                 ]);
+
+                  if ($tokenInsert && $patientCaseInsert) {
+                    return ['code' => '200','data'=>['token'=> $data['token_no'],'opdId' => $insertedOPDId,'uhid_no'=>$patientData->uhid_no], 'message' => 'Record Sucessfully created'];
+                } else {
+                    return ['code' => '400','data'=>'', 'message' => 'Something goes wrong'];
+                }   
+
+              }
+            	/*to get OPD Id*/
+
+            /* end add case management data */
+  
             }
             else{
             	 $ipd_prefix="IPD";
@@ -157,6 +194,7 @@
 		             $lastIPD = $ipdId->id + 1;  
 		           }
 		       	    $newPatIPDNo = sprintf("%04d",$lastIPD);
+                
            		  $insertedIPDId=$ipd_prefix.$year.$newPatIPDNo;
                 $sectionId = $insertedIPDId;
                    $caseData = IpdDetails::create([
@@ -203,6 +241,17 @@
  		$get_patient_details=PatientDetailsForm::where('id',$id)->first();
  		return $get_patient_details;
  	}
+
+
+   /**
+     * [getOPDIdByPatientId description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+    public function getLastOPDIdByPatientId($pid)
+    {
+        return OpdDetails::where('patient_id',$pid)->first();
+    }
 
     /**
      * [getOPDIdByPatientId description]
@@ -256,23 +305,17 @@
         $data = $request->all()['searchData'];
         $search_data=$request->all()['searchData']['search_data'];
         $user_id=$data['user_id'];
-
+        
         $date="";
         if($search_data['select_type_dob']['time']!="")
           $date=Carbon::createFromFormat('d-m-Y', $search_data['select_type_dob']['time'])->format('Y-m-d');
 
         $patientList=array();
         $tes_query=0;
-        
-        if($search_data['name']!='' || $search_data['uhid_no']!='' || $date!='' || $search_data['mobile_no']!='')
+       if($user_id!=0 && $user_id!='')
         {
-
-            $patientList= PatientDetailsForm::where(function ($query) use ($search_data,$date,$tes_query,$user_id) {
-                if($user_id!=0 && $user_id!='' && $tes_query==0)
-                {
-                    $query->where('consultant_id',$user_id);
-                    
-                }
+             $patientList= PatientDetailsForm::where('consultant_id',$user_id)->where(function ($query) use ($search_data,$date,$tes_query,$user_id) {
+                
                 $string = preg_replace('/\s+/',',',$search_data['name']);
 
                 if($search_data['name']!='' && $tes_query==0)
@@ -295,16 +338,71 @@
                       ->orWhere('last_name', 'like', '%'.$string.'%')
                       ->orWhereRaw("LOCATE (last_name, ?)", [$string]);
                 }
-                if($search_data['uhid_no']!=0 && $search_data['uhid_no']!='' && $tes_query==0)
+                if($search_data['uhid_no']!='' && $tes_query==0)
                 {
-
-                    $query->where('uhid_no', 'like', '%'.$search_data['uhid_no'].'%');
+                    
+                    $query->where('uhid_no',$search_data['uhid_no']);
                     $tes_query=1;
                 }
-                else if($search_data['uhid_no']!='' && $search_data['uhid_no']!=0)
+                else if($search_data['uhid_no']!='')
+                {
+                    $query->orWhere('uhid_no',$search_data['uhid_no']);
+                }
+                 if($date!='' && $tes_query==0)
+                 {
+                     $query->whereDate('dob', $date);
+                     $tes_query=1;
+                 }
+                 else if($date!='')
+                {
+                     $query->orWhereRaw("DATE(dob) = ?", [$date]);
+                } 
+                 if($search_data['mobile_no']!=''  && $tes_query==0)   
+                 {
+                    $query->where('mob_no', 'like', '%'.$search_data['mobile_no'].'%');
+                    $tes_query=1;
+                 }
+                 else if($search_data['mobile_no']!='')
+                 {
+                    $query->orWhere('mob_no', 'like', '%'.$search_data['mobile_no'].'%');
+                 }
+            })->get();
+            //dd($patientList);
+        }
+        else if($search_data['name']!='' || $search_data['uhid_no']!='' || $date!='' || $search_data['mobile_no']!='')
+        {
+
+            $patientList= PatientDetailsForm::where(function ($query) use ($search_data,$date,$tes_query,$user_id) {
+                 $string = preg_replace('/\s+/',',',$search_data['name']);
+                if($search_data['name']!='' && $tes_query==0)
+                {
+                   $query->where('first_name', 'like', '%'.$string.'%')
+                      ->orWhereRaw("LOCATE (first_name, ?)", [$string])
+                      ->orWhere('middle_name', 'like', '%'.$string.'%')
+                      ->orWhereRaw("LOCATE (middle_name, ?)", [$string])
+                      ->orWhere('last_name', 'like', '%'.$string.'%')
+                      ->orWhereRaw("LOCATE (last_name, ?)", [$string]);
+                      $tes_query=1;
+                }
+                else if($search_data['name']!='')
                 {
 
-                    $query->orWhere('uhid_no', 'like', '%'.$search_data['uhid_no'].'%');
+                    $query->orWhere('first_name', 'like', '%'.$string.'%')
+                       ->orWhereRaw("LOCATE (first_name, ?)", [$string])
+                      ->orWhere('middle_name', 'like', '%'.$string.'%')
+                      ->orWhereRaw("LOCATE (middle_name, ?)", [$string])
+                      ->orWhere('last_name', 'like', '%'.$string.'%')
+                      ->orWhereRaw("LOCATE (last_name, ?)", [$string]);
+                }
+                if($search_data['uhid_no']!='' && $tes_query==0)
+                {
+                    
+                    $query->where('uhid_no',$search_data['uhid_no']);
+                    $tes_query=1;
+                }
+                else if($search_data['uhid_no']!='')
+                {
+                    $query->orWhere('uhid_no',$search_data['uhid_no']);
                 }
                  if($date!='' && $tes_query==0)
                  {
@@ -364,6 +462,11 @@
             return ['code' => '400','data'=>'', 'message' => 'Something goes wrong'];
         }
         /*to add data */
+    }
+
+    public function tokenExist($token){
+      $date =  date('Y-m-d');
+      return TokenManagment::where('date','like',$date.'%')->Where('token',$token)->count();
     }
  }
 ?>
