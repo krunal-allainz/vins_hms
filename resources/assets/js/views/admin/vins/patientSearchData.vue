@@ -42,8 +42,11 @@
         <div class="row form-group">
             <div class="col-md-12">
                 <div class="col-md-6">
-                    <button type="button"  class="btn btn-primary" @click="getPatientDetailsBySearch()">
+                    <button type="button"  class="btn btn-primary" @click="getPatientDetailsBySearch('All')">
                          Search
+                    </button>
+                    <button type="button"  v-if="patientSearchData.user_type!='3'" class="btn btn-warning" @click="getPatientDetailsBySearch('last_week')">
+                         Last Week
                     </button>
                 </div>
             </div>
@@ -102,6 +105,7 @@
                     to: new Date()
                   }],
                   'patientSearchData' : {
+                    'user_type':this.$store.state.Users.userDetails.user_type,
                     'uhid_no': '',
                     'mobile_no': '',
                     'name': '',
@@ -126,13 +130,13 @@
                 vm.patientSearchData.name="";
                 vm.patientSearchData.select_type_dob.time="";
             },
-            getPatientDetailsBySearch(){
+            getPatientDetailsBySearch(search_by){
                 var vm =this;
                 var select_val="";
                  vm.$root.$emit('patientEmpty',1);
                   $("body .js-loader").removeClass('d-none');
                     
-                 let patData = {'search_data':vm.patientSearchData,'user_id':vm.user_id};
+                 let patData = {'search_data':vm.patientSearchData,'user_id':vm.user_id,'search_by':search_by};
                 User.generatePatientListBySearch(patData).then(
                         (response) => {
                             this.initSearchData();

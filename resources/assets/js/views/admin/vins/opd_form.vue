@@ -40,7 +40,15 @@
                 <button type="button" class="btn btn-primary" @click="patient_select_change(false)">Select Patient</button>
               </div>
             </div>
-            <div class="col-md-6" >
+            <div class="col-md-6" v-show="(opdData.last_vist != '')">
+              <div class="col-md-6 ">
+                <label for="opd_no">Last Vist:</label>
+              </div>
+              <div class="col-md-6 ">
+                <span>{{last_vist}}</span>
+              </div>
+            </div>
+            <!-- <div class="col-md-6" >
               <div class="col-md-6 ">
                 <label for="opd_no">Select OPD No.:</label>
               </div>
@@ -54,7 +62,7 @@
                     Please Select OPD Number.
                   </span> 
               </div>
-            </div>
+            </div> -->
           </div>         
           <div class="row form-group">
             <div class="col-md-12">
@@ -813,6 +821,7 @@
                 'laboratory_report_opd_data':{},
                 'select_type':'',
                 'select_value':'',
+                'last_vist' : ''
               }
             }
         }, 
@@ -981,9 +990,13 @@
                         vm.opdData.bmi =patient_checkup_details.bmi;
                         vm.opdData.vitals =patient_checkup_details.vitals;
                         vm.opdData.pulse =patient_checkup_details.pulse;
-                        let bp =patient_checkup_details.bp.split("/");
-                        vm.opdData.bp_systolic =bp[0];
-                        vm.opdData.bp_diastolic =bp[1];
+                        if(patient_checkup_details.bp!="")
+                        {
+                          let bp =patient_checkup_details.bp.split("/");
+                          vm.opdData.bp_systolic =bp[0];
+                          vm.opdData.bp_diastolic =bp[1];
+                        }
+                        
                         vm.opdData.temp =patient_checkup_details.temp;
                       },
                       (error) => {
@@ -1188,6 +1201,7 @@
               vm.opdData.temp="";
               vm.opdData.select_value="";
               vm.opdData.opd_option={};
+              vm.opdData.last_vist = "";
               if(val==true)
               {
                 vm.patient_select_enable=false;
@@ -1228,6 +1242,7 @@
               vm.opdData.temp="";
               vm.opdData.select_value="";
               vm.opdData.opd_option={};
+              vm.opdData.last_vist = "";
           },
           pain_value(pain){
             this.opdData.pain_value = pain;
