@@ -226,7 +226,7 @@
 			            	<label for="token_status">Token Status:</label>
 			          	</div>
 		          	<div class="col-md-6">
-		            	<select  class="form-control" v-validate="'required'" id = "token_status" name="token_status" value="" v-model="patientData.token_status">
+		            	<select  class="form-control  ls-select2" v-validate="'required'" id = "token_status" name="token_status" value="" v-model="patientData.token_status">
 		              		<option value="waiting" selected="selected">waiting</option>
 		              		<option value="pending">pending</option>
 		            	</select>
@@ -503,7 +503,7 @@
             		this.patientData.reference_dr = pDetails.references;
             		this.patientData.dob.time = pDetails.dob;
             		this.patientData.consulting_dr = pDetails.consultant_id;
-            		this.patientData.appointment_datetime.time = pDetails.appointment_datetime;
+            		
             		this.patientData.type = pDetails.type;
             		$('#type').val(pDetails.type).trigger('change');
 
