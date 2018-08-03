@@ -504,3 +504,6 @@ span.select2-container.select2-container2-container--default.select2-container--
 .ml-10 {
     margin-left:10px;
 }
+input.number-with-validation:invalid {
+  color: red;
+}

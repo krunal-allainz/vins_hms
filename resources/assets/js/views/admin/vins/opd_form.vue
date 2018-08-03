@@ -40,7 +40,15 @@
                 <button type="button" class="btn btn-primary" @click="patient_select_change(false)">Select Patient</button>
               </div>
             </div>
-            <div class="col-md-6" >
+            <div class="col-md-6" v-show="(opdData.last_vist != '')">
+              <div class="col-md-6 ">
+                <label for="opd_no">Last Vist:</label>
+              </div>
+              <div class="col-md-6 ">
+                <span>{{last_vist}}</span>
+              </div>
+            </div>
+            <!-- <div class="col-md-6" >
               <div class="col-md-6 ">
                 <label for="opd_no">Select OPD No.:</label>
               </div>
@@ -54,7 +62,7 @@
                     Please Select OPD Number.
                   </span> 
               </div>
-            </div>
+            </div> -->
           </div>         
           <div class="row form-group">
             <div class="col-md-12">
@@ -183,7 +191,7 @@
                     </div>
                     <div class="col-md-6">
                       <div class=" input-group">
-                      <input type="text" name="temp" id="temp" class="form-control"  v-model="opdData.temp" v-validate="'required|numeric|min_value:1'" maxlength="3">
+                      <input type="text" name="temp" id="temp" class="form-control"  v-model="opdData.temp" v-validate="'required|numeric|min_value:1'" pattern="\d{1,3}(\.\d{0,1})?" >
                         <div class="input-group-append">
                             <span class="input-group-text ">°F</span>
                         </div>
@@ -815,6 +823,7 @@
                 'laboratory_report_opd_data':{},
                 'select_type':'',
                 'select_value':'',
+                'last_vist' : ''
               }
             }
         }, 
@@ -1190,6 +1199,7 @@
               vm.opdData.temp="";
               vm.opdData.select_value="";
               vm.opdData.opd_option={};
+              vm.opdData.last_vist = "";
               if(val==true)
               {
                 vm.patient_select_enable=false;
@@ -1230,6 +1240,7 @@
               vm.opdData.temp="";
               vm.opdData.select_value="";
               vm.opdData.opd_option={};
+              vm.opdData.last_vist = "";
           },
           pain_value(pain){
             this.opdData.pain_value = pain;
