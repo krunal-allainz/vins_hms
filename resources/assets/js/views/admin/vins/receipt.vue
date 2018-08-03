@@ -59,11 +59,8 @@
 		 			<div class="modal-body" id="printContent">	
             		</div>	
 	       		<div class="modal-footer">	
-		
 					<button  type="button" class="btn btn-primary"  @click="ClickHereToPrint()">Print</button>		      	
-				
 	                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>	
-	             <!--  <button type="button" class="btn btn-primary">Save</button>-->	
 	            </div>	
             </div>	
           </div>	
@@ -75,8 +72,6 @@
 <script>
 	import User from '../../../api/users.js';
 	import moment from 'moment';
-//	import Pagination from './pagination/Pagination';
-
 	let  receptDataArrays = [];
 	export default{
 		data (){

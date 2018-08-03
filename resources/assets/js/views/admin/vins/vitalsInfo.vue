@@ -166,18 +166,13 @@
                     </div>
                     <div class="col-md-6">
                       <div class=" input-group">
-                      <input type="text" name="temp" id="temp" class="form-control"  v-model="patientData.temp" v-validate="'required|numeric|min_value:1'" maxlength="3">
+                      <input type="text" name="temp" id="temp" class="form-control number-with-validation"  v-model="patientData.temp" v-validate="'required|numeric|min_value:1'" pattern="\d{1,3}(\.\d{0,1})?" >
                         <div class="input-group-append">
                             <span class="input-group-text ">°F</span>
                         </div>
                       
                       </div>
-                      <i v-show="errors.has('temp')" class="fa fa-warning"></i>
-                      <span class="help is-danger" v-show="errors.has('temp')">
-
-                         Please enter valid temprature.
-
-
+                     
                       </span>
                     </div>
               	</div>
@@ -245,6 +240,7 @@
 		            placeholder: "Select",
 		            tags:false 
 		          });
+    
          	 	 User.getAllPatientName().then(
 
 	               	 (response) => {
@@ -268,7 +264,6 @@
 
 	                      },500);
 	               	 	 vm.patientData.patient_option = list;
-	               	 		
 	               	 	 },
 	               	 	 	(error) => {
 	            	 	},
