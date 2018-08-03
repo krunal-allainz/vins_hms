@@ -305,6 +305,8 @@
         $data = $request->all()['searchData'];
         $search_data=$request->all()['searchData']['search_data'];
         $user_id=$data['user_id'];
+        $search_by=$data['search_by'];
+       $user_type=$search_data['user_type'];
         
         $date="";
         if($search_data['select_type_dob']['time']!="")
@@ -312,31 +314,54 @@
 
         $patientList=array();
         $tes_query=0;
-       if($user_id!=0 && $user_id!='')
-        {
-             $patientList= PatientDetailsForm::where('consultant_id',$user_id)->where(function ($query) use ($search_data,$date,$tes_query,$user_id) {
+        
+        
+        //echo $temptable;exit;
+        //if($search_data['name']!='' || $search_data['uhid_no']!='' || $date!='' || $search_data['mobile_no']!='')
+        //{  
+             $patientList= DB::table('patient_details')->join('opd_details', 'opd_details.patient_id', '=', 'patient_details.id')
+             ->where(function ($query1) use ($search_by,$user_type) {
+                  
+                  if(($user_type==1 ||  $user_type==2) && ($search_by=='All'))
+                  {
+                      $query1->whereDate('opd_details.appointment_datetime',Carbon::today()->format('Y-m-d'))->orderBy('opd_details.id','desc')->limit(1);
+                  }
+                  if(($user_type==1 ||  $user_type==2) && ($search_by=='last_week'))
+                  {
+                      $to=Carbon::now()->startOfWeek()->format('Y-m-d');
+                      $from=Carbon::now()->endOfWeek()->format('Y-m-d');
+                      $query1->whereBetween('opd_details.appointment_datetime',[$from,$to])->orderBy('opd_details.id','desc')->limit(1);
+                  }
+            })
+             ->where(function ($query2) use ($user_id) {
+                  if($user_id!=0 && $user_id!="")
+                  {
+                      $query2->where('consultant_id',$user_id);
+                  }
+            })
+             ->where(function ($query) use ($search_data,$date,$tes_query,$user_id) {
                 
                 $string = preg_replace('/\s+/',',',$search_data['name']);
 
                 if($search_data['name']!='' && $tes_query==0)
                 {
                    $query->where('first_name', 'like', '%'.$string.'%')
-                      ->orWhereRaw("LOCATE (first_name, ?)", [$string])
+                      //->orWhereRaw("LOCATE (first_name, ?)", [$string])
                       ->orWhere('middle_name', 'like', '%'.$string.'%')
-                      ->orWhereRaw("LOCATE (middle_name, ?)", [$string])
-                      ->orWhere('last_name', 'like', '%'.$string.'%')
-                      ->orWhereRaw("LOCATE (last_name, ?)", [$string]);
+                      //->orWhereRaw("LOCATE (middle_name, ?)", [$string])
+                      ->orWhere('last_name', 'like', '%'.$string.'%');
+                      //->orWhereRaw("LOCATE (last_name, ?)", [$string]);
                       $tes_query=1;
                 }
                 else if($search_data['name']!='')
                 {
 
                     $query->orWhere('first_name', 'like', '%'.$string.'%')
-                       ->orWhereRaw("LOCATE (first_name, ?)", [$string])
+                       //->orWhereRaw("LOCATE (first_name, ?)", [$string])
                       ->orWhere('middle_name', 'like', '%'.$string.'%')
-                      ->orWhereRaw("LOCATE (middle_name, ?)", [$string])
-                      ->orWhere('last_name', 'like', '%'.$string.'%')
-                      ->orWhereRaw("LOCATE (last_name, ?)", [$string]);
+                      //->orWhereRaw("LOCATE (middle_name, ?)", [$string])
+                      ->orWhere('last_name', 'like', '%'.$string.'%');
+                      //->orWhereRaw("LOCATE (last_name, ?)", [$string]);
                 }
                 if($search_data['uhid_no']!='' && $tes_query==0)
                 {
@@ -366,66 +391,11 @@
                  {
                     $query->orWhere('mob_no', 'like', '%'.$search_data['mobile_no'].'%');
                  }
-            })->get();
-            //dd($patientList);
-        }
-        else if($search_data['name']!='' || $search_data['uhid_no']!='' || $date!='' || $search_data['mobile_no']!='')
-        {
-
-            $patientList= PatientDetailsForm::where(function ($query) use ($search_data,$date,$tes_query,$user_id) {
-                 $string = preg_replace('/\s+/',',',$search_data['name']);
-                if($search_data['name']!='' && $tes_query==0)
-                {
-                   $query->where('first_name', 'like', '%'.$string.'%')
-                      ->orWhereRaw("LOCATE (first_name, ?)", [$string])
-                      ->orWhere('middle_name', 'like', '%'.$string.'%')
-                      ->orWhereRaw("LOCATE (middle_name, ?)", [$string])
-                      ->orWhere('last_name', 'like', '%'.$string.'%')
-                      ->orWhereRaw("LOCATE (last_name, ?)", [$string]);
-                      $tes_query=1;
-                }
-                else if($search_data['name']!='')
-                {
-
-                    $query->orWhere('first_name', 'like', '%'.$string.'%')
-                       ->orWhereRaw("LOCATE (first_name, ?)", [$string])
-                      ->orWhere('middle_name', 'like', '%'.$string.'%')
-                      ->orWhereRaw("LOCATE (middle_name, ?)", [$string])
-                      ->orWhere('last_name', 'like', '%'.$string.'%')
-                      ->orWhereRaw("LOCATE (last_name, ?)", [$string]);
-                }
-                if($search_data['uhid_no']!='' && $tes_query==0)
-                {
-                    
-                    $query->where('uhid_no',$search_data['uhid_no']);
-                    $tes_query=1;
-                }
-                else if($search_data['uhid_no']!='')
-                {
-                    $query->orWhere('uhid_no',$search_data['uhid_no']);
-                }
-                 if($date!='' && $tes_query==0)
-                 {
-                     $query->whereDate('dob', $date);
-                     $tes_query=1;
-                 }
-                 else if($date!='')
-                {
-                     $query->orWhereRaw("DATE(dob) = ?", [$date]);
-                } 
-                 if($search_data['mobile_no']!=''  && $tes_query==0)   
-                 {
-                    $query->where('mob_no', 'like', '%'.$search_data['mobile_no'].'%');
-                    $tes_query=1;
-                 }
-                 else if($search_data['mobile_no']!='')
-                 {
-                    $query->orWhere('mob_no', 'like', '%'.$search_data['mobile_no'].'%');
-                 }
-            })->get();
-            //dd($patientList);
-            
-        }
+            })
+            ->groupBy('opd_details.patient_id') 
+            ->get();
+            //echo ($patientList); 
+       // }
 
         
         if(count($patientList)>0) {

@@ -992,9 +992,13 @@
                         vm.opdData.bmi =patient_checkup_details.bmi;
                         vm.opdData.vitals =patient_checkup_details.vitals;
                         vm.opdData.pulse =patient_checkup_details.pulse;
-                        let bp =patient_checkup_details.bp.split("/");
-                        vm.opdData.bp_systolic =bp[0];
-                        vm.opdData.bp_diastolic =bp[1];
+                        if(patient_checkup_details.bp!="")
+                        {
+                          let bp =patient_checkup_details.bp.split("/");
+                          vm.opdData.bp_systolic =bp[0];
+                          vm.opdData.bp_diastolic =bp[1];
+                        }
+                        
                         vm.opdData.temp =patient_checkup_details.temp;
                       },
                       (error) => {
