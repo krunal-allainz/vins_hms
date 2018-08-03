@@ -191,7 +191,7 @@
                     </div>
                     <div class="col-md-6">
                       <div class=" input-group">
-                      <input type="text" name="temp" id="temp" class="form-control"  v-model="opdData.temp" v-validate="'required|numeric|min_value:1'" pattern="\d{1,3}(\.\d{0,1})?" >
+                      <input type="text" name="temp" id="temp" class="form-control number-with-validation"  v-model="opdData.temp" v-validate="'required|numeric|min_value:1'" pattern="\d{1,3}(\.\d{0,1})?" >
                         <div class="input-group-append">
                             <span class="input-group-text ">°F</span>
                         </div>
@@ -472,9 +472,7 @@
        
          <div class="row form-group">
           <div class="col-md-12">
-              <div class="col-md-6">
-                <button type="button" class="btn btn-primary btn-lg " v-if="opdData.referral!='physiotherapy'" @click="saveReport()">Add</button>
-              </div>
+               <button type="button" class="btn btn-primary btn-lg " v-if="opdData.referral!='physiotherapy'" @click="saveReport()">Add</button>
           </div>
        </div> 
       <!-- for cross table -->  
@@ -505,6 +503,30 @@
           </card>
       </div>
       <!-- for cross table -->
+       <!-- for laboratory table -->  
+      <div class="col-md-12" v-if="opdData.reffreal_laboratory_array.length>0">
+        <card title="<i class='ti-layout-cta-left'></i> Laboratory"  class="filterable">
+           <div class="table-responsive">
+              <table class="table table-striped table-bordered" id="">
+                  <thead>
+                  <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Action</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(lab_arr, index) in opdData.reffreal_laboratory_array">
+                        <td>{{lab_arr.id}}</td>
+                        <td>{{lab_arr.name}}</td>
+                        <td><i class="fa fa-remove" @click="removeLabRef(lab_arr.id)"></i></td>
+                    </tr>
+                  </tbody>
+              </table>
+            </div>
+            </card>
+      </div>
+      <!-- for laboratory table -->
       <!-- for radiology table -->  
       <div class="col-md-12" v-if="opdData.reffreal_radiology_array.length>0">
           <card title="<i class='ti-layout-cta-left'></i> Radiology"  class="filterable">
@@ -537,31 +559,7 @@
             </div>
           </card>
           </div>
-      <!-- for radiology table --> 
-      <!-- for laboratory table -->  
-      <div class="col-md-12" v-if="opdData.reffreal_laboratory_array.length>0">
-        <card title="<i class='ti-layout-cta-left'></i> Laboratory"  class="filterable">
-           <div class="table-responsive">
-              <table class="table table-striped table-bordered" id="">
-                  <thead>
-                  <tr>
-                      <th>#</th>
-                      <th>Name</th>
-                      <th>Action</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(lab_arr, index) in opdData.reffreal_laboratory_array">
-                        <td>{{lab_arr.id}}</td>
-                        <td>{{lab_arr.name}}</td>
-                        <td><i class="fa fa-remove" @click="removeLabRef(lab_arr.id)"></i></td>
-                    </tr>
-                  </tbody>
-              </table>
-            </div>
-            </card>
-      </div>
-      <!-- for laboratory table --> 
+      <!-- for radiology table -->  
       <div class="row">
       <div class="col-md-6">
         <h3>Pain Assessment</h3>

@@ -225,5 +225,20 @@ class UserController extends BaseController
         } else {
             return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
         }
-    }   
+    }
+
+    /**
+    *
+    *  check user existing status
+    *
+    */   
+
+    public function checkExistUser (Request $request){
+        $type = $request->type;
+        $value = $request->value;
+
+       $result = $this->userRepoObj->checkExistUser($type,$value);
+      
+       return  $result;
+    }
 }

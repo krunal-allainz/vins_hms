@@ -61,9 +61,10 @@
                                     <label for="email" class="control-label float-right txt_media1">EmailId :</label>
                                     </div>
                                     <div class="col-md-9">
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" v-model="userData.email" v-validate="'required|email'">
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" v-model="userData.email" v-validate="'required|email'" @input="checkExistUser('email')">
                                         <i v-show="errors.has('email')" class="fa fa-warning"></i>
                                         <span class="help is-danger" v-show="errors.has('email')">Please enter valid email.</span>
+                                         <span class="help is-danger" v-show="userEmailExist != ''">{{userEmailExist}}</span>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -71,9 +72,10 @@
                                     <label for="mobileNo" class="control-label float-right txt_media1">Mobile No :</label>
                                     </div>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" id="mobileNo" placeholder="Mobile Number" v-model="userData.mobileNo" v-validate="'numeric|min:10|max:10'" name="mobileNo" maxlength="10">
+                                        <input type="text" class="form-control" id="mobileNo" placeholder="Mobile Number" v-model="userData.mobileNo" v-validate="'numeric|min:10|max:10'" name="mobileNo" maxlength="10" @input="checkExistUser('mobile_no')">
                                         <i v-show="errors.has('mobileNo')" class="fa fa-warning"></i>
                                         <span class="help is-danger" v-show="errors.has('mobileNo')">Please enter valid mobile number.</span>
+                                         <span class="help is-danger" v-show="userMobileExist != ''">{{userMobileExist}}</span>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -161,7 +163,9 @@ if(localStorage.getItem("user_add"))
                                             ],
                                 'department':''
                            // 	'userIamge': ''
-                    }
+                    },
+                    'userEmailExist' : '',
+                    'userMobileExist' : ''
                 }
         },
         mounted() {
@@ -217,7 +221,38 @@ if(localStorage.getItem("user_add"))
                 this.$data.userData.mobileNo ='',
                 this.$data.userData.address ='',
                 this.$data.userData.department ='',
-                this.$data.userData.userType =''
+                this.$data.userData.userType =''    
+            },
+            checkExistUser(type){ 
+                let vm = this;
+                if(type == 'email'){
+                    var value = vm.userData.email;
+                }else{
+                    var value = vm.userData.mobileNo;
+                }
+
+                 User.checkExistUser(type,value).then(
+                    (responce) => {
+                        if(responce.data > 0){
+                              if(type == 'email'){
+                                 vm.userEmailExist = 'Email already exist';
+                                }else{
+                                    vm.userMobileExist = 'Mobile no already exist';
+                                }
+                              
+                             }else{
+                                    vm.userEmailExist ='';
+                                    vm.userMobileExist = '';
+                                    
+                             }
+                    },
+                    (error) => {
+
+                    }
+
+                 );
+
+             
             },
             validateBeforeSubmit() {
                
