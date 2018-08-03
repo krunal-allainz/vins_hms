@@ -40,15 +40,7 @@
                 <button type="button" class="btn btn-primary" @click="patient_select_change(false)">Select Patient</button>
               </div>
             </div>
-            <div class="col-md-6" v-show="(opdData.last_vist != '')">
-              <div class="col-md-6 ">
-                <label for="opd_no">Last Vist:</label>
-              </div>
-              <div class="col-md-6 ">
-                <span>{{last_vist}}</span>
-              </div>
-            </div>
-            <!-- <div class="col-md-6" >
+           <!--  <div class="col-md-6" >
               <div class="col-md-6 ">
                 <label for="opd_no">Select OPD No.:</label>
               </div>
@@ -821,7 +813,6 @@
                 'laboratory_report_opd_data':{},
                 'select_type':'',
                 'select_value':'',
-                'last_vist' : ''
               }
             }
         }, 
@@ -990,13 +981,9 @@
                         vm.opdData.bmi =patient_checkup_details.bmi;
                         vm.opdData.vitals =patient_checkup_details.vitals;
                         vm.opdData.pulse =patient_checkup_details.pulse;
-                        if(patient_checkup_details.bp!="")
-                        {
-                          let bp =patient_checkup_details.bp.split("/");
-                          vm.opdData.bp_systolic =bp[0];
-                          vm.opdData.bp_diastolic =bp[1];
-                        }
-                        
+                        let bp =patient_checkup_details.bp.split("/");
+                        vm.opdData.bp_systolic =bp[0];
+                        vm.opdData.bp_diastolic =bp[1];
                         vm.opdData.temp =patient_checkup_details.temp;
                       },
                       (error) => {
@@ -1152,13 +1139,33 @@
                 User.generateOpdIdByPatirntID(patientId).then(
                     (response) => {
                       opd_list_new=[];
+                       let opdID ;
                      $.each(response.data.data, function(key,value) {
 
-                         opd_list_new.push({
-                           'id' : value.id,
-                           'opd_id' : value.opd_id,
-                        });
+                        //  opd_list_new.push({
+                        //    'id' : value.id,
+                        //    'opd_id' : value.opd_id,
+                        // });
+                        opdID = value.opd_id;
                       });
+
+                     vm.opdData.opd_id=opdID;
+                     User.generatePatientCheckUpDetails(opdID).then(
+                      (response) => {
+                        let patient_checkup_details=response.data.data;
+                        vm.opdData.height =patient_checkup_details.height;
+                        vm.opdData.weight =patient_checkup_details.weight;
+                        vm.opdData.bmi =patient_checkup_details.bmi;
+                        vm.opdData.vitals =patient_checkup_details.vitals;
+                        vm.opdData.pulse =patient_checkup_details.pulse;
+                        let bp =patient_checkup_details.bp.split("/");
+                        vm.opdData.bp_systolic =bp[0];
+                        vm.opdData.bp_diastolic =bp[1];
+                        vm.opdData.temp =patient_checkup_details.temp;
+                      },
+                      (error) => {
+                      },
+                  );
                        setTimeout(function(){
                               $('#opd_no').select2({
                                 placeholder: "Select",
@@ -1201,7 +1208,6 @@
               vm.opdData.temp="";
               vm.opdData.select_value="";
               vm.opdData.opd_option={};
-              vm.opdData.last_vist = "";
               if(val==true)
               {
                 vm.patient_select_enable=false;
@@ -1242,7 +1248,6 @@
               vm.opdData.temp="";
               vm.opdData.select_value="";
               vm.opdData.opd_option={};
-              vm.opdData.last_vist = "";
           },
           pain_value(pain){
             this.opdData.pain_value = pain;
