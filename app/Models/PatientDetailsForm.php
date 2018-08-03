@@ -46,6 +46,11 @@ class PatientDetailsForm extends Model
         return $this->belongsTo('euro_hms\Models\User','consultant_id');
     }
 
+    public function opdDetails()
+    {
+        return $this->belongsTo('euro_hms\Models\OpdDetails','patient_id');
+    }
+
     public function getDobAttribute($value)
     {
       if($value != null){
