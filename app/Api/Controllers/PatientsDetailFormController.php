@@ -244,6 +244,7 @@ class PatientsDetailFormController extends Controller
     public function patientCheckUpDetails(Request $request)
     {
         $oid=$request->opd_id;
+        
         $checkupdetails =  $this->patientOBJ->patientCheckUpDetailsByOpdId($oid);
         if ($checkupdetails) {
             return ['code' => '200','data'=>$checkupdetails, 'message' => 'Record Sucessfully created'];
