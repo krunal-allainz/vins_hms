@@ -392,7 +392,6 @@
                     $query->orWhere('mob_no', 'like', '%'.$search_data['mobile_no'].'%');
                  }
             })
-            ->groupBy('opd_details.patient_id') 
             ->get();
             //echo ($patientList); 
        // }

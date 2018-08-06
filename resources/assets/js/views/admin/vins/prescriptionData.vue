@@ -54,6 +54,38 @@
                 </div>
               </div>
           </div>
+          <div class="row form-group">
+              <div class="col-md-3">
+                <div class="col-md-12">
+                  <label for="how_many_times">How many times:</label>
+                </div>
+                <div class="col-md-12">
+                  <select class="form-control ls-select2"  name="how_many_times" id="how_many_times" v-validate="'required'"  v-model="prescriptFinalData.how_many_times">
+                    <option value="">Select</option>
+                    <option v-for="hmt in HMTOption"  :value="hmt.id">{{hmt.text}}</option>
+                  </select>
+                  <i v-show="errors.has('how_many_times')" class="fa fa-warning"></i>
+                  <span class="help is-danger" v-show="errors.has('how_many_times')">
+                    Please select how many times.
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-3" v-if="prescriptFinalData.how_many_times=='QHRS'">
+                <div class="col-md-12">
+                  <label for="qhrs">Q-Hrs:</label>
+                </div>
+                <div class="col-md-12">
+                  <select class="form-control ls-select2"  name="qhrs" id="qhrs" v-validate="'required'"  v-model="prescriptFinalData.qhrs">
+                    <option value="">Select</option>
+                    <option v-for="qhrsop in qhrsOption"  :value="qhrsop.id">{{qhrsop.text}}</option>
+                  </select>
+                  <i v-show="errors.has('qhrs')" class="fa fa-warning"></i>
+                  <span class="help is-danger" v-show="errors.has('qhrs')">
+                    Please select prescription.
+                  </span>
+                </div>
+              </div>
+          </div>
           <div v-if="prescriptFinalData.prescription_report.length>0" :id="'presp_div_'+index" v-for="(presp, index) in prescriptFinalData.prescription_report">
            <div class="row form-group" >
                 <div class="col-md-3">
@@ -93,12 +125,12 @@
             </div>
           </div>
             <div class="row form-group">
-              <div class="col-md-2">
+              <!-- <div class="col-md-2">
                 <div class="col-md-12"> </div>
                 <div class="col-md-12">
                   <i class="fa fa-plus-circle" @click="multipleClockResult()"></i>
                 </div>
-              </div>
+              </div> -->
                <div class="col-md-2">
                 <div class="col-md-12"> </div>
                 <div class="col-md-12">
@@ -261,19 +293,31 @@
                 'priscriptionAdd':{},
                 'prescription_enable':true,
                 'class_type':'ADD',
+                'HMTOption':[
+                    {'id':'OD','text':'OD'},
+                    {'id':'BD','text':'BD'},
+                    {'id':'TDS','text':'TDS'},
+                    {'id':'QDS','text':'QDS'},
+                    {'id':'HS','text':'HS'},
+                    {'id':'QHRS','text':'Q-Hrs'},
+                ],
+                'qhrsOption':[
+                    {'id':'1','text':'1'},
+                    {'id':'2','text':'2'},
+                    {'id':'3','text':'3'},
+                    {'id':'4','text':'4'},
+                    {'id':'5','text':'5'},
+                    {'id':'6','text':'6'},
+                    {'id':'7','text':'7'},
+                    {'id':'8','text':'8'},
+                    {'id':'9','text':'9'},
+                    {'id':'10','text':'10'},
+                    {'id':'11','text':'11'},
+                    {'id':'12','text':'12'},
+                ],
                 'prescriptFinalData' :{
                     'prescriptDataPage': [],
-                    prescription_report: [
-                      {
-                        name : '',
-                        pid : '',
-                        clock_time: '', 
-                        clock_quantity: '', 
-                        clock_suggest: '', 
-                        remove: 'false',
-                        //end: 'education[0][end]'
-                      }
-                    ],
+                    'prescription_report': [],
                     'clock_quantity':'',
                     'clock_time':'',
                     'quantity_1':'0',
@@ -295,6 +339,9 @@
                     'clock_type':'',
                     'clock_value':'',
                     'old_clock_value':'',
+                    'how_many_times':'',
+                    'qhrs':''
+
                 }
                 
             }
@@ -328,6 +375,19 @@
                 vm.prescriptFinalData.clock_quantity=1;
                 jQuery('input:radio[name="clock_suggest"]').filter('[value="ES"]').attr('checked', true);
             });
+            $('#how_many_times').on("select2:select", function (e) {
+                vm.prescriptFinalData.how_many_times=$(this).val();
+                  setTimeout(function(){
+                    $('#qhrs').select2({
+                      placeholder: 'Select' 
+                    });
+                  },500);
+                  vm.multipleClockResult($(this).val());
+              });
+             $('#qhrs').on("select2:select", function (e) {
+                vm.prescriptFinalData.qhrs=$(this).val();
+              });
+             
             /*for lab data end*/
             setTimeout(function(){
                 vm.initData();
@@ -369,12 +429,11 @@
               $('#prescription').val(null).trigger('change'); 
 
           },
-          multipleClockResult()
+          multipleClockResult(how_val)
           { 
-            console.log('fdfsdf');
+            
               let p_name=this.prescriptFinalData.prescription;
               let p_id=this.prescriptFinalData.prescription_id;
-              console.log(this.prescriptFinalData.prescription_report);
               let check_name=this.checkPrescriptionById(p_id,this.prescriptFinalData.prescription_report);
              
               if(p_id=='' || p_id==0)
@@ -387,8 +446,12 @@
                   toastr.error('You can add clock time only three times.', 'Prescription error', {timeOut: 5000});
                   return false; 
               }
-              prespRes.push({'name':p_name,'pid':p_id,'clock_time':'','clock_quantity':'','clock_suggest':'','remove':'false'});
-                    this.prescriptFinalData.prescription_report=prespRes;
+              if(how_val=='OD')
+              {
+                  prespRes.push({'name':p_name,'pid':p_id,'clock_time':'','clock_quantity':'','clock_suggest':'','remove':'false'});
+              }
+              
+              this.prescriptFinalData.prescription_report=prespRes;
               return false;
               
           },
