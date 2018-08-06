@@ -309,4 +309,18 @@ class PatientsDetailFormController extends Controller
         $token = $request->token;
         return $this->patientOBJ->tokenExist($token); 
     }
+    /*
+     *  @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getLastOPDIdByPatientId(Request $request)
+    {
+        $pid=$request->patient_id;
+        $opdDetails =  $this->patientOBJ->getLastOPDIdByPatientId($pid);
+        if ($opdDetails) {
+            return ['code' => '200','data'=>$opdDetails, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+    }
 }

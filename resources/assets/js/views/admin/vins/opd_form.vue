@@ -974,9 +974,10 @@
             else if(this.id == 'body_fluid_analysis_opd'){
               vm.opdData.body_fluid_analysis_report_opd = $(this).val(); 
             }
-            // else if(this.id == 'xray_type_opd'){
-            //   vm.resultData.x_ray_type = $(this).val(); 
-            // }
+
+             else if(this.id == 'xray_type_opd'){
+              vm.resultData.x_ray_type = $(this).val(); 
+            }
             // else if(this.id == 'opd_no')
             // {
               
@@ -1144,35 +1145,34 @@
                 );
                 //for opd list
                
-                User.generateOpdIdByPatirntID(patientId).then(
+                User.getLastOPDIdByPatientId(patientId).then(
                     (response) => {
                       opd_list_new=[];
-                       let opdID ;
-                       let lastVist;
-                     $.each(response.data.data, function(key,value) {
-
-                        //  opd_list_new.push({
-                        //    'id' : value.id,
-                        //    'opd_id' : value.opd_id,
-                        // });
-                         opdID = value.id;
-                         lastVist = value.appointment_datetime;
-                      });
+                      let opdID ;
+                      let lastVist;
+                      opdID = response.data.data.id;
+                      lastVist = response.data.data.appointment_datetime;
 
                      vm.opdData.opd_id=opdID;
                      vm.opdData.last_vist=lastVist;
                      User.generatePatientCheckUpDetails(opdID).then(
-                      (response) => {
-                        let patient_checkup_details=response.data.data;
-                        vm.opdData.height =patient_checkup_details.height;
-                        vm.opdData.weight =patient_checkup_details.weight;
-                        vm.opdData.bmi =patient_checkup_details.bmi;
-                        vm.opdData.vitals =patient_checkup_details.vitals;
-                        vm.opdData.pulse =patient_checkup_details.pulse;
-                        let bp =patient_checkup_details.bp.split("/");
-                        vm.opdData.bp_systolic =bp[0];
-                        vm.opdData.bp_diastolic =bp[1];
-                        vm.opdData.temp =patient_checkup_details.temp;
+
+                      (response) => { 
+                        if(response.data.code == 200){ 
+                             let patient_checkup_details=response.data.data;
+                             vm.opdData.height =patient_checkup_details.height;
+                             vm.opdData.weight =patient_checkup_details.weight;
+                             vm.opdData.bmi =patient_checkup_details.bmi;
+                             vm.opdData.vitals =patient_checkup_details.vitals;
+                             vm.opdData.pulse =patient_checkup_details.pulse;
+                             if(patient_checkup_details.bp!="")
+                            {
+                                let bp =patient_checkup_details.bp.split("/");
+                                vm.opdData.bp_systolic =bp[0];
+                                vm.opdData.bp_diastolic =bp[1];
+                             }
+                           vm.opdData.temp =patient_checkup_details.temp;
+                          }
                       },
                       (error) => {
                       },
@@ -1184,7 +1184,7 @@
                               }); 
 
                       },500);
-                       vm.opdData.opd_option=opd_list_new;
+                     //  vm.opdData.opd_option=opd_list_new;
                       },
                       (error) => {
                       },
