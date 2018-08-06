@@ -161,6 +161,9 @@ class UserRepository {
         return $record;
     }
 
+    public function checkExistUser($type,$value){
+      return  User::where($type,$value)->count();
+    }
     
 
 

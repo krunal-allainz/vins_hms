@@ -195,6 +195,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
         $api->post('patient/token_exist','\euro_hms\Api\Controllers\PatientsDetailFormController@tokenExist');
 
+        $api->post('user/user_exist','\euro_hms\Api\Controllers\UserController@checkExistUser');
+
         });
         
 

@@ -320,5 +320,8 @@ export default {
   },
   getExistingToken(token){
       return api.post('patient/token_exist',{'token':token});
+  },
+  checkExistUser(type,value){
+     return api.post('user/user_exist',{'type': type , value : value});
   }
 }
