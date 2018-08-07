@@ -1152,11 +1152,9 @@
                       let lastVist;
                       opdID = response.data.data.id;
                       lastVist = response.data.data.appointment_datetime;
-
-                     vm.opdData.opd_id=opdID;
-                     vm.opdData.last_vist=lastVist;
+                       vm.opdData.opd_id=opdID;
+                        vm.opdData.last_vist=lastVist;
                      User.generatePatientCheckUpDetails(opdID).then(
-
                       (response) => { 
                         if(response.data.code == 200){ 
                              let patient_checkup_details=response.data.data;
@@ -1177,13 +1175,13 @@
                       (error) => {
                       },
                   );
-                       setTimeout(function(){
-                              $('#opd_no').select2({
-                                placeholder: "Select",
-                                tags:false 
-                              }); 
+                      //  setTimeout(function(){
+                      //         $('#opd_no').select2({
+                      //           placeholder: "Select",
+                      //           tags:false 
+                      //         }); 
 
-                      },500);
+                      // },500);
                      //  vm.opdData.opd_option=opd_list_new;
                       },
                       (error) => {
@@ -1267,7 +1265,6 @@
 
             if(patientData.code==200)
             {
-              
                this.opdData.opd_option={};
               //$('#opd_no').select2('destroy');
               let pDetails=patientData.searchdata;
@@ -1501,7 +1498,6 @@
           },
           next() {
             let vm =this;
-
                 //this.$validator.validateAll().then(
                 //(response) => {
                  //vm.priscriptionAdd = vm.finalPrescriptionData.length;
@@ -1509,9 +1505,9 @@
                     // if(vm.priscriptionAdd >  0){
                       
                       vm.curStep = vm.curStep+1;
-
                       vm.$store.dispatch('setOpdData',vm.opdData);
                       vm.$store.dispatch('setResData',vm.finalResultData);
+
 
                     // }
                   //}
