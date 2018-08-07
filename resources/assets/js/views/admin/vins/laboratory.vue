@@ -115,7 +115,7 @@
     import myDatepicker from 'vue-datepicker';
     import _ from 'lodash';
     export default {
-        name:'radiology',
+        name:'laboratory',
         computed:{
 
         },
