@@ -19,7 +19,9 @@ class OpdDetails extends Model
       'appointment_datetime',
       'history',
       'past_history',
-      'advice'
+      'advice',
+      'reference',
+      'consultant_id'
     ];
 
 	public function patientDetails()
