@@ -192,7 +192,6 @@
                     },
                     'lab_name':[],
                     'lab_result':[],
-                    //'lab_assigning_dr':[],
                 },
                 'investigationData':{
                     'radiologyType':[
@@ -244,12 +243,12 @@
         mounted() {
             let vm =this;
                 $('.ls-select2').select2({
-                     placeholder: "Select",
+                    placeholder: "Select",
 
               });
-           
-           
-            $('#laboratory_report').select2({data:this.labData});
+            $('#laboratory_report').select2(
+                {data:this.labData}
+            );
 
             /*for lab data start*/
             
@@ -343,8 +342,6 @@
                 let vm =this;
                  vm.$store.dispatch('saveLabReportData',vm.finalLaboratoryData);
             },
-         
-          
             prev() {
               let vm =this;
               vm.$root.$emit('prev','test');
