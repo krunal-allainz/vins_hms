@@ -139,7 +139,7 @@
                  let patData = {'search_data':vm.patientSearchData,'user_id':vm.user_id,'search_by':search_by};
                 User.generatePatientListBySearch(patData).then(
                         (response) => {
-                            this.initSearchData();
+                            // this.initSearchData();
                             vm.userlistData={};
                             if(response.data.code == 200) {
                                 var pData = [{"searchdata": response.data.data,'select_type':vm.patientSearchData.select_type,'select_value':vm.patientSearchData.select_value}];
