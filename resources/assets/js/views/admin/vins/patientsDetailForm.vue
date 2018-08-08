@@ -29,7 +29,7 @@
 
 				<div class="col-md-6">
 			    	<div class="col-md-6">
-					 	<label for="date">Senction:</label>
+					 	<label for="date">Section:</label>
 					</div>
 					<div class="col-md-6">
 				    	<select class="form-control ls-select2"  id = "type" name="type" value="" v-model="patientData.type" v-validate="'required'">

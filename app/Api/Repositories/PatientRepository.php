@@ -24,6 +24,8 @@
  		$data = $request->all()['patientData']['patientData'];
         $patientType = $request->all()['patientData']['patientType'];
         $a_time=$data['appointment_datetime']['time'];
+        $user_id=$data['consulting_dr'];
+        $referance=$data['reference_dr'];
  		    $uhid="VN";
         $year = date('y');
         $insertedPatientId="";
@@ -115,6 +117,8 @@
                     $caseData = OpdDetails::create([
                       'opd_id'=>$insertedOPDId,
                         'patient_id'=> $patientId,
+                        'consultant_id'=> $user_id,
+                        'references'=> $referance,
                         'uhid_no'=> $patientData->uhid_no,
                         'admit_datetime' =>  Carbon::now(),
                         'appointment_datetime'=>$patientData->appointment_datetime 

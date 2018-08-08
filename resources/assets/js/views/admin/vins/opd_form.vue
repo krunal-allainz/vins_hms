@@ -40,14 +40,14 @@
                 <button type="button" class="btn btn-primary" @click="patient_select_change(false)">Select Patient</button>
               </div>
             </div>
-            <div class="col-md-6" v-show="(opdData.last_vist != '')">
-              <div class="col-md-6 ">
-                <label for="opd_no">Last Vist:</label>
-              </div>
-              <div class="col-md-6 ">
-                <span>{{last_vist}}</span>
-              </div>
-            </div>
+           <!--  <div class="col-md-6" v-show="(opdData.last_vist != '')">
+             <div class="col-md-6 ">
+               <label for="opd_no">Last Vist:</label>
+             </div>
+             <div class="col-md-6 ">
+               <span>{{last_vist}}</span>
+             </div>
+           </div> -->
             <!-- <div class="col-md-6" >
               <div class="col-md-6 ">
                 <label for="opd_no">Select OPD No.:</label>
