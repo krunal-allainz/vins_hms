@@ -158,6 +158,34 @@
       		</div>
            	<div class="row form-group">
            		<div class="col-md-6">
+		        	<div class="col-md-6">
+		               <label for="address">Address: </label>
+		            </div>
+		            <div class="col-md-6">
+						<input class="form-control" type="text" id="address" name="address" value="" v-model="patientData.address" v-validate="'required'" :disabled="patientData.case == 'old'"/>
+						<i v-show="errors.has('address')" class="fa fa-warning"></i>
+				      	<span class="help is-danger" v-show="errors.has('address')">
+		                	Please enter valid address.
+
+		                </span>
+		            </div>
+		        </div>
+           		 <div class="col-md-6">
+                	<div class="col-md-6">
+                      <label for="appointment_datetime">Appointment Date-time:
+                     </label>
+                    </div>
+                    <div class="col-md-6">
+						<date-picker  :date.sync="patientData.appointment_datetime" :option="timeoption" id = "appointment_datetime" class="" type="datetime" name="appointment_datetime"   v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" :limit="limit2" ></date-picker> 
+						<i v-show="errors.has('appointment_datetime')" class="fa fa-warning"></i>
+						<span class="help is-danger" v-show="errors.has('appointment_datetime')">
+	            			Please enter valid appointment datetime.
+	            		</span>
+                    </div>
+                </div>
+           	</div>
+            <div class="row form-group">
+            <div class="col-md-6">
                     <div class="col-md-6">
                     	<label class="control-label" for="reference_dr">Reference Dr.: 
                     	</label>
@@ -177,37 +205,10 @@
 		                	Please select consulting doctor.
 		                </span>
 					</div>
-				</div>
-           	</div>
-                <div class="row form-group">
-                	<div class="col-md-6">
-			        	<div class="col-md-6">
-			               <label for="address">Address: </label>
-			            </div>
-			            <div class="col-md-6">
-							<input class="form-control" type="text" id="address" name="address" value="" v-model="patientData.address" v-validate="'required'" :disabled="patientData.case == 'old'"/>
-							<i v-show="errors.has('address')" class="fa fa-warning"></i>
-					      	<span class="help is-danger" v-show="errors.has('address')">
-			                	Please enter valid address.
-
-			                </span>
-			            </div>
-			        </div>
-                 
-                  <div class="col-md-6">
-	                	<div class="col-md-6">
-	                      <label for="appointment_datetime">Appointment Date-time:
-	                     </label>
-	                    </div>
-	                    <div class="col-md-6">
-							<date-picker  :date.sync="patientData.appointment_datetime" :option="timeoption" id = "appointment_datetime" class="" type="datetime" name="appointment_datetime"   v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" :limit="limit2" ></date-picker> 
-							<i v-show="errors.has('appointment_datetime')" class="fa fa-warning"></i>
-							<span class="help is-danger" v-show="errors.has('appointment_datetime')">
-		            			Please enter valid appointment datetime.
-		            		</span>
-	                    </div>
-	                </div>
-                </div>
+				</div>	
+             
+             
+            </div>
             <div class="row form-group">
             	 <div class="col-md-6">
 		        	<div class="col-md-6 ">
