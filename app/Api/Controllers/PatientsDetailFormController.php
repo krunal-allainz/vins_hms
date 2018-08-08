@@ -323,4 +323,21 @@ class PatientsDetailFormController extends Controller
             return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
         }
     }
+
+    /**
+    *
+    *
+    *
+    **/
+
+    public function getPatientList(Request $request){ 
+        $section = $request->type;
+        $noOfRecord = $request->noOfRecord;
+        $patientDetail =  $this->patientOBJ->getPatientList('opd',2);
+        if ($patientDetail) {
+            return ['code' => '200','data'=>$patientDetail, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+    }
 }

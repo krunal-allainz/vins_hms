@@ -20,11 +20,9 @@
                     <option value="">Select </option>
                    <option :value="pat.id" v-for="pat in opdData.patient_option">{{pat.name}}</option>
                 </select> 
-                
             </div>
           </div>
         </div>
-          
           <div v-if="isPatientSearch">
             <patientSearch v-if="patient_select_enable==false" :user_id="doctor_id" ref="opd_form"></patientSearch>
           </div>
@@ -43,10 +41,6 @@
             <div class="col-md-6" v-show="(opdData.last_vist != '')">
               <div class="col-md-6 ">
                 <label for="opd_no">Last Visit:</label>
-              </div>
-              <div class="col-md-6 ">
-                <span>{{opdData.last_vist}}</span>
-
               </div>
                <div class="col-md-6">
                 {{opdData.last_vist}}
@@ -829,7 +823,6 @@
               }
             }
         }, 
-
         components: {
          prescriptionData,
          createPatientDetail,

@@ -200,6 +200,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
          //for getting OPD No list by patient id
         $api->post('patient/getLastOPDIdByPatientId', '\euro_hms\Api\Controllers\PatientsDetailFormController@getLastOPDIdByPatientId');
 
+         $api->post('patient/getpatientlist', '\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientList');
+
         });
 
         

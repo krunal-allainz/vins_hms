@@ -441,5 +441,14 @@
       $date =  date('Y-m-d');
       return TokenManagment::where('date','like',$date.'%')->Where('token',$token)->count();
     }
+
+    public function getPatientList($type,$noOfRecord){
+
+     return PatientDetailsForm::paginate($noOfRecord);
+     /* if($type == 'opd')
+      {
+
+      }*/
+    }
  }
 ?>
