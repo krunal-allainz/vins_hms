@@ -358,6 +358,7 @@
           },
           clearPrespData()
           {
+              let vm =this;
               vm.prescriptFinalData.prescription="";
               vm.prescriptFinalData.prescription_id="";
               vm.prescriptFinalData.prescription_quantity="";
@@ -371,7 +372,6 @@
           },
           multipleClockResult()
           { 
-            console.log('fdfsdf');
               let p_name=this.prescriptFinalData.prescription;
               let p_id=this.prescriptFinalData.prescription_id;
               console.log(this.prescriptFinalData.prescription_report);

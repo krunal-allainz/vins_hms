@@ -244,6 +244,7 @@ class PatientsDetailFormController extends Controller
     public function patientCheckUpDetails(Request $request)
     {
         $oid=$request->opd_id;
+        
         $checkupdetails =  $this->patientOBJ->patientCheckUpDetailsByOpdId($oid);
         if ($checkupdetails) {
             return ['code' => '200','data'=>$checkupdetails, 'message' => 'Record Sucessfully created'];
@@ -307,5 +308,19 @@ class PatientsDetailFormController extends Controller
     public function tokenExist(request $request){
         $token = $request->token;
         return $this->patientOBJ->tokenExist($token); 
+    }
+    /*
+     *  @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getLastOPDIdByPatientId(Request $request)
+    {
+        $pid=$request->patient_id;
+        $opdDetails =  $this->patientOBJ->getLastOPDIdByPatientId($pid);
+        if ($opdDetails) {
+            return ['code' => '200','data'=>$opdDetails, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
     }
 }

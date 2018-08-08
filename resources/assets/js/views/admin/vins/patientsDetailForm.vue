@@ -29,7 +29,7 @@
 
 				<div class="col-md-6">
 			    	<div class="col-md-6">
-					 	<label for="date">Senction:</label>
+					 	<label for="date">Section:</label>
 					</div>
 					<div class="col-md-6">
 				    	<select class="form-control ls-select2"  id = "type" name="type" value="" v-model="patientData.type" v-validate="'required'">
@@ -227,7 +227,7 @@
 			            	<label for="token_status">Token Status:</label>
 			          	</div>
 		          	<div class="col-md-6">
-		            	<select  class="form-control  ls-select2" v-validate="'required'" id = "token_status" name="token_status" value="" v-model="patientData.token_status">
+		            	<select  class="form-control ls-select2" v-validate="'required'" id = "token_status" name="token_status" value="" v-model="patientData.token_status">
 		              		<option value="waiting" selected="selected">waiting</option>
 		              		<option value="pending">pending</option>
 		            	</select>
@@ -392,8 +392,11 @@
 		             	vm.patientData.type = $(this).val();		
 		             } else if(this.id == 'case_type') {
 		             	vm.patientData.case_type = $(this).val();		
-
 		             }
+		             else if(this.id == 'token_status') {
+		             	vm.patientData.token_status = $(this).val();		
+		             }
+
 		             else{
 		             	vm.patientData.consulting_dr = $(this).val();			
 		             }
@@ -470,7 +473,6 @@
 		      	let getYear = 0;
 		      	this.patientData.display_age = 1;
 		      	getYear = this.currentYear - year - 1;
-		      	console.log(getYear);
 		      	if(getYear != 0){
 		      		this.patientData.display_age = getYear;
 		      	}
@@ -483,7 +485,6 @@
         			let pDetails=patientData.searchdata;
         			
         			if(pDetails.dob == null){
-        				console.log(pDetails.age);
             			this.getAgeFromYear(pDetails.age);
             			
             		}else{
@@ -647,10 +648,11 @@
 		    deleteConfirmed() {
 		      },
 		    savePatient() {
+
 		     	// return false;
 		    	this.$validator.validateAll().then(
 	            (response) => {
-	            	if (!this.errors.any()) {
+	            	if (!this.errors.any()) { 
 	            		 $("body .js-loader").removeClass('d-none');
 	            		 var pData = {'patientData':this.patientData,'patientType':this.patientData.type};
 
@@ -676,12 +678,14 @@
 		                },
 		                (error) => {
 		                	 $("body .js-loader").addClass('d-none');
+		                	  toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
 
 		                }
 		                )
 			    	}
 			    },
                 (error) => {
+                	  toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
                 }
                 )
 			}
