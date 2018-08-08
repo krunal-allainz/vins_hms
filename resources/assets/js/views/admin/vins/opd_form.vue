@@ -42,15 +42,15 @@
             </div>
             <div class="col-md-6" v-show="(opdData.last_vist != '')">
               <div class="col-md-6 ">
-                <label for="opd_no">Last Vist:</label>
+                <label for="opd_no">Last Visit:</label>
               </div>
               <div class="col-md-6 ">
-                <span>{{last_vist}}</span>
+                <span>{{opdData.last_vist}}</span>
               </div>
             </div>
             <!-- <div class="col-md-6" >
               <div class="col-md-6 ">
-                <label for="opd_no">Select OPD No.:</label>
+                <label for="opd_no"last_vist>Select OPD No.:</label>
               </div>
               <div class="col-md-6">
                 <select  class="form-control ls-select2" v-validate="'required'" id = "opd_no" name="opd_no" value="" v-model="opdData.opd_id" > 
