@@ -323,5 +323,8 @@ export default {
   },
   checkExistUser(type,value){
      return api.post('user/user_exist',{'type': type , value : value});
-  }
+  },
+  getLastOPDIdByPatientId(patient_id) {
+    return api.post('patient/getLastOPDIdByPatientId',{'patient_id':patient_id})
+  },
 }

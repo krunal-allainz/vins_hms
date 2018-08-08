@@ -86,3 +86,46 @@
                             OK
                         </td> <!----><!----> <td data-v-744e717e="" class=""><i class="fa fa-pencil text-info mr-3"></i><i class="fa fa-trash text-danger"></i></td> </tr></tbody></table></div> <div data-v-744e717e="" class="table-footer"><div data-v-744e717e="" class="datatable-length float-left pl-3"><span data-v-744e717e="">Rows per page:</span> <select data-v-744e717e="" class="custom-select"><option data-v-744e717e="" value="5">5</option><option data-v-744e717e="" value="10">10</option><option data-v-744e717e="" value="20">20</option><option data-v-744e717e="" value="50">50</option> <option data-v-744e717e="" value="-1">All</option></select> <div data-v-744e717e="" class="datatable-info  pb-2 mt-3"><span data-v-744e717e="">Showing </span> 1 -10 of 20 <span data-v-744e717e="">records</span></div></div> <div data-v-744e717e="" class="float-right"><ul data-v-744e717e="" class="pagination"><li data-v-744e717e=""><a data-v-744e717e="" href="javascript:undefined" tabindex="0" class="btn link"><i data-v-744e717e="" class="fa fa-angle-left"></i></a></li> <li data-v-744e717e=""><a data-v-744e717e="" href="javascript:undefined" tabindex="0" class="btn link"><i data-v-744e717e="" class="fa fa-angle-right"></i></a></li></ul></div></div></div></div></div></div>
 </template>
+<script >
+    import User from '../../../api/users.js';
+     export default {
+         data() {
+            return {
+                'patientData' :{
+                    'patient_list' : ''
+                }
+            }
+         },
+         mounted(){
+            let vm =this;
+            User.getAllPatientName().then(
+                     (response) => {
+                            let patien_data ;
+                            patien_data = response.data;
+                            $.each(response.data.data, function(key, value) {
+                            let firstName = value.first_name;
+                            let lastName = value.last_name;
+                            let pid  = value.id ;
+                            let uhid_no  = value.uhid_no ;
+                            list.push({
+                                    firstName:firstName,
+                                    lastName:lastName,
+                                    id:pid,
+                                    uhid_no:uhid_no
+                                });
+                            });
+                        setTimeout(function(){
+                                  $('#patient').select2({
+                                    placeholder: "Select",
+                                    tags:false 
+                                  }); 
+
+                          },500);
+                         vm.patientData.patient_list = list;
+                         },
+                            (error) => {
+                        },
+                     );
+         }
+     }
+</script>
