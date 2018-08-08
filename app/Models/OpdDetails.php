@@ -28,6 +28,10 @@ class OpdDetails extends Model
     {
         return $this->belongsTo('euro_hms\Models\PatientDetailsForm','patient_id');
     }
+  public function patientDetailsByConsultant()
+    {
+        return $this->belongsTo('euro_hms\Models\PatientDetailsForm','consultant_id');
+    }
 
      public function getAppointmentDatetimeAttribute($value)
     { 
