@@ -22,6 +22,7 @@ class OpdDetails extends Model
       'advice',
       'reference',
       'consultant_id'
+
     ];
 
 	public function patientDetails()

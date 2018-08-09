@@ -38,6 +38,7 @@
                 <button type="button" class="btn btn-primary" @click="patient_select_change(false)">Select Patient</button>
               </div>
             </div>
+
             <div class="col-md-6" v-show="(opdData.last_vist != '')">
               <div class="col-md-6 ">
                 <label for="opd_no">Last Visit:</label>
@@ -47,6 +48,7 @@
                </div>
             </div>
            <!--  <div class="col-md-6" >
+
               <div class="col-md-6 ">
                 <label for="opd_no"last_vist>Select OPD No.:</label>
               </div>
@@ -1259,7 +1261,7 @@
             this.opdData.pain_value = pain;
           },
           setPatientData(patientData) {
-
+            let vm=this;
             if(patientData.code==200)
             {
                this.opdData.opd_option={};
@@ -1267,26 +1269,37 @@
               let pDetails=patientData.searchdata;
               //for opd list
                 this.opdData.uhid_no=pDetails.uhid_no;
-                let opd_list_new=[];
-                User.generateOpdIdByPatirntID(pDetails.id).then(
+                 User.getLastOPDIdByPatientId(pDetails.id).then(
                     (response) => {
-                      opd_list_new=[];
-                     $.each(response.data.data, function(key,value) {
-
-                         opd_list_new.push({
-                           'id' : value.id,
-                           'opd_id' : value.opd_id,
-                        });
-                      });
-                       setTimeout(function(){
-                              $('#opd_no').select2({
-                                placeholder: "Select",
-                                tags:false 
-                              }); 
-
-                      },500);
-                       //this.opdData.patientlist = pDetails.id;
-                       this.opdData.opd_option=opd_list_new;
+                      
+                      let opdID ;
+                      let lastVist;
+                      opdID = response.data.data.id;
+                      lastVist = response.data.data.appointment_datetime;
+                       vm.opdData.opd_id=opdID;
+                        vm.opdData.last_vist=lastVist;
+                     User.generatePatientCheckUpDetails(opdID).then(
+                      (response) => { 
+                        if(response.data.code == 200){ 
+                             let patient_checkup_details=response.data.data;
+                             vm.opdData.height =patient_checkup_details.height;
+                             vm.opdData.weight =patient_checkup_details.weight;
+                             vm.opdData.bmi =patient_checkup_details.bmi;
+                             vm.opdData.vitals =patient_checkup_details.vitals;
+                             vm.opdData.pulse =patient_checkup_details.pulse;
+                             if(patient_checkup_details.bp!="")
+                            {
+                                let bp =patient_checkup_details.bp.split("/");
+                                vm.opdData.bp_systolic =bp[0];
+                                vm.opdData.bp_diastolic =bp[1];
+                             }
+                           vm.opdData.temp =patient_checkup_details.temp;
+                          }
+                      },
+                      (error) => {
+                      },
+                  );
+                      
                       },
                       (error) => {
                       },
