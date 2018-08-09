@@ -252,7 +252,7 @@
      */
     public function getLastOPDIdByPatientId($pid)
     {
-        return OpdDetails::where('patient_id',$pid)->first();
+        return OpdDetails::where('patient_id',$pid)->orderBy('id', 'desc')->first();
     }
 
     /**
@@ -294,7 +294,7 @@
      */
     public function patientCheckUpDetailsByOpdId($oid)
     {
-        return PatientCheckUp::where('opd_id',$oid)->first();
+        return PatientCheckUp::where('opd_id',$oid)->orderBy('id', 'desc')->first();
     }
 
    /**
@@ -449,6 +449,17 @@
       {
 
       }*/
+    }
+
+    public function getPatientDetailInfo($patientId){
+
+          $result = array();
+          $result['patientDetail'] =  PatientDetailsForm::where('id',$patientId)->first();
+          $result['opdDetails'] = OpdDetails::where('patient_id',$patientId)->get();
+          $result['tokenDetail'] = TokenManagment::where('patient_id',$patientId)->get();
+          $result['caseDetail'] = PatientCaseManagment::where('patient_id',$patientId)->get();
+          return $result;
+
     }
  }
 ?>

@@ -202,6 +202,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
          $api->post('patient/getpatientlist', '\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientList');
 
+         $api->post('patient/patientDetailInfo', '\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientDetailInfo');
+
         });
 
         
