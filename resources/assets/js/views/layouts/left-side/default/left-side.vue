@@ -18,9 +18,9 @@
                      <vmenu-item link="/opd_form" icon="ti-layout">
                         &nbsp; OPD Form
                     </vmenu-item>
-                   <!--  <vmenu-item link="/patient_list" icon="ti-layout">
+                     <vmenu-item link="/patient_list" icon="ti-layout">
                         &nbsp; Patient List
-                    </vmenu-item> -->
+                    </vmenu-item> 
                 </vmenu>
                 </div>
                 

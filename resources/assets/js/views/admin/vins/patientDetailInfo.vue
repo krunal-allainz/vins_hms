@@ -19,13 +19,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
+                            <tr v-if="(showPatientDetail.patientDetail != null)">
+                                <td v-if="(showPatientDetail.patientDetail.gender != null)">
                                     <b>Gender : </b>
                                     <span v-if="(showPatientDetail.patientDetail.gender == 'F')">Female</span>
                                      <span v-if="(showPatientDetail.patientDetail.gender == 'M')">Male</span>
                                 </td>
-                                <td>
+                                <td v-if="(showPatientDetail.patientDetail.uhid_no != null)">
                                    <b>UHID No :</b> 
                                    <span>{{showPatientDetail.patientDetail.uhid_no}}</span>
                                 </td>
@@ -34,21 +34,21 @@
                                 <td>
                                     <table>
                                         <thead>
-                                            <tr><th>Opd Detail</th></tr>
+                                            <tr><th>Opd Detail </th></tr>
                                         </thead>
                                         <tbody>
                                             <tr  v-for="patineOpd in showPatientDetail.opdDetails">
                                                 <td v-if="(patineOpd.advice != null)">
-                                                    <div class='row'>
-                                                      <div class='col-md-12 text-left' v-if ="(patineOpd.advice.type == 'text')">
+                                                    <div >
+                                                      <div v-if ="(patineOpd.advice.type == 'text')">
                                                         <span class='text-left' style="padding-left:30px;"> {{patineOpd.advice}}</span>
                                                       </div>
                                                     </div>
                                                     <div v-if="(patineOpd.advice.type !== 'text' && patineOpd.advice.value != '')">
                                     
-                                                    <div class='row'>
-                                                     <div class='col-md-12 text-left' v-if ="(patineOpd.advice.type != 'text')">
-                                                         <img :src="patineOpd.advice.value" title="Advice">
+                                                    <div >
+                                                     <div  v-if ="(patineOpd.advice.type != 'text')">
+                                                       {{patineOpd.advice.value}}  <img :src="patineOpd.advice.value" title="Advice">
                                                         </div>  
                                                     </div>
                                                    </div>
