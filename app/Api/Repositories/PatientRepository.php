@@ -121,12 +121,12 @@
                         'references'=> $referance,
                         'uhid_no'=> $patientData->uhid_no,
                         'admit_datetime' =>  Carbon::now(),
-                        'appointment_datetime'=>$patientData->appointment_datetime,
-                        'consultant_id' => $data['consulting_dr'],
-                        'reference' => $data['reference_dr']
+                        'appointment_datetime'=> $a_time
                     ]);
 
-                       $tokenInsert =  TokenManagment::create([
+                    
+
+                    $tokenInsert =  TokenManagment::create([
                     'token'=>$data['token_no'],
                     'date' =>  date('d-m-Y H:i:s'),
                     'opd_id'=>$insertedOPDId,
@@ -156,8 +156,6 @@
               }else{ 
                 $insertedOPDId = $opdData->opd_id;
                  $sectionId    = $opdData->opd_id;
-
-
                    $tokenInsert =  TokenManagment::create([
                     'token'=>$data['token_no'],
                     'date' =>  date('d-m-Y H:i:s'),
@@ -346,30 +344,37 @@
             
              $reportQuery->where(function ($query) use ($search_data,$date,$tes_query,$user_id) {
                 
-                $string = preg_replace('/\s+/',',',$search_data['name']);
+                
+                $all_stnames=explode(' ',$search_data['name']);
 
                 if($search_data['name']!='' && $tes_query==0)
                 {
-                   $query->where('first_name', 'like', '%'.$string.'%')
-                      ->orWhere('middle_name', 'like', '%'.$string.'%')
-                      ->orWhere('last_name', 'like', '%'.$string.'%');
-                      $tes_query=1;
+                    foreach($all_stnames as $st_name)
+                    {
+                        $query->where('first_name', 'like', '%'.$st_name.'%')
+                      ->orWhere('middle_name', 'like', '%'.$st_name.'%')
+                      ->orWhere('last_name', 'like', '%'.$st_name.'%');
+                    }
+                    $tes_query=1;
+                   
                 }
                 else if($search_data['name']!='')
                 {
-
-                    $query->orWhere('first_name', 'like', '%'.$string.'%')
-                      ->orWhere('middle_name', 'like', '%'.$string.'%')
-                      ->orWhere('last_name', 'like', '%'.$string.'%');
+                  foreach($all_stnames as $st_name)
+                    {
+                      $query->orWhere('first_name', 'like', '%'.$st_name.'%')
+                      ->orWhere('middle_name', 'like', '%'.$st_name.'%')
+                      ->orWhere('last_name', 'like', '%'.$st_name.'%');
+                    }
                 }
                 if($search_data['uhid_no']!='' && $tes_query==0)
                 {
-                    $query->where('uhid_no',$search_data['uhid_no']);
+                    $query->where('patient_details.uhid_no',$search_data['uhid_no']);
                     $tes_query=1;
                 }
                 else if($search_data['uhid_no']!='')
                 {
-                    $query->orWhere('uhid_no',$search_data['uhid_no']);
+                    $query->orWhere('patient_details.uhid_no',$search_data['uhid_no']);
                 }
                  if($date!='' && $tes_query==0)
                  {
