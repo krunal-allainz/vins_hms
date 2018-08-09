@@ -175,6 +175,7 @@
 		 		$opdData->advice=$advice_final;
 		 		$opdData->history=$history_final;
 		 		$opdData->past_history=$past_history_final;
+		 		//$opdData->consultant_id=$data['consulting_dr'];
 		 		$opdData->save();
 		}
  		//save prescription
@@ -187,6 +188,7 @@
 	 			$prescription_obj->opd_id=$opd_id_org;
 	 			$prescription_obj->user_id=$user_id;
 	 			$prescription_obj->prescription_drug_id=$prescription['pid'];
+	 			$prescription_obj->how_many_times=$prescription['type'];
 	 			$prescription_obj->total_quantity=$prescription['total_quantity'];
 	 			$prescription_obj->clock_quantity_1=$prescription['clock_quantity_1'];
 	 			$prescription_obj->clock_quantity_2=$prescription['clock_quantity_2'];

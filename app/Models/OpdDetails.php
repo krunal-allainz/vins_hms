@@ -20,13 +20,18 @@ class OpdDetails extends Model
       'history',
       'past_history',
       'advice',
-      'consultant_id',
-      'referances'
+      'reference',
+      'consultant_id'
+
     ];
 
 	public function patientDetails()
     {
         return $this->belongsTo('euro_hms\Models\PatientDetailsForm','patient_id');
+    }
+  public function patientDetailsByConsultant()
+    {
+        return $this->belongsTo('euro_hms\Models\PatientDetailsForm','consultant_id');
     }
 
      public function getAppointmentDatetimeAttribute($value)

@@ -197,8 +197,13 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
         $api->post('user/user_exist','\euro_hms\Api\Controllers\UserController@checkExistUser');
 
+         //for getting OPD No list by patient id
+        $api->post('patient/getLastOPDIdByPatientId', '\euro_hms\Api\Controllers\PatientsDetailFormController@getLastOPDIdByPatientId');
+
         });
+
         
 
         
         
+

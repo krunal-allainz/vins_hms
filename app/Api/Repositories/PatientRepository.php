@@ -121,7 +121,9 @@
                         'references'=> $referance,
                         'uhid_no'=> $patientData->uhid_no,
                         'admit_datetime' =>  Carbon::now(),
-                        'appointment_datetime'=>$patientData->appointment_datetime 
+                        'appointment_datetime'=>$patientData->appointment_datetime,
+                        'consultant_id' => $data['consulting_dr'],
+                        'reference' => $data['reference_dr']
                     ]);
 
                        $tokenInsert =  TokenManagment::create([
@@ -311,65 +313,57 @@
         $user_id=$data['user_id'];
         $search_by=$data['search_by'];
        $user_type=$search_data['user_type'];
-        
+        // dd($search_by);
         $date="";
         if($search_data['select_type_dob']['time']!="")
           $date=Carbon::createFromFormat('d-m-Y', $search_data['select_type_dob']['time'])->format('Y-m-d');
 
         $patientList=array();
         $tes_query=0;
-        
-        
-        //echo $temptable;exit;
-        //if($search_data['name']!='' || $search_data['uhid_no']!='' || $date!='' || $search_data['mobile_no']!='')
-        //{  
-             $patientList= DB::table('patient_details')->join('opd_details', 'opd_details.patient_id', '=', 'patient_details.id')
-             ->where(function ($query1) use ($search_by,$user_type) {
-                  
+              $reportQuery= PatientDetailsForm::join('opd_details', function ($join) {
+                  $join->on('opd_details.patient_id', '=', 'patient_details.id');
+               });
                   if(($user_type==1 ||  $user_type==2) && ($search_by=='All'))
                   {
-                      $query1->whereDate('opd_details.appointment_datetime',Carbon::today()->format('Y-m-d'))->orderBy('opd_details.id','desc')->limit(1);
+                      $reportQuery->whereDate('opd_details.appointment_datetime',Carbon::today()->format('Y-m-d'));
                   }
                   if(($user_type==1 ||  $user_type==2) && ($search_by=='last_week'))
                   {
-                      $to=Carbon::now()->startOfWeek()->format('Y-m-d');
-                      $from=Carbon::now()->endOfWeek()->format('Y-m-d');
-                      $query1->whereBetween('opd_details.appointment_datetime',[$from,$to])->orderBy('opd_details.id','desc')->limit(1);
+                      $to=Carbon::now()->today()->format('Y-m-d');
+
+                      $from=Carbon::now()->subDays(7)->format('Y-m-d');
+                      $reportQuery->whereDate('opd_details.appointment_datetime','<=',$to)
+                      ->whereDate('opd_details.appointment_datetime','>=',$from)
+                      ->first();
+
                   }
-            })
-             ->where(function ($query2) use ($user_id) {
-                  if($user_id!=0 && $user_id!="")
-                  {
-                      $query2->where('consultant_id',$user_id);
-                  }
-            })
-             ->where(function ($query) use ($search_data,$date,$tes_query,$user_id) {
+                   $reportQuery->where(function ($query2) use ($user_id) {
+                        if($user_id!=0 && $user_id!="")
+                        {
+                           $query2->where('opd_details.consultant_id',$user_id);
+                        }
+                  });
+            
+             $reportQuery->where(function ($query) use ($search_data,$date,$tes_query,$user_id) {
                 
                 $string = preg_replace('/\s+/',',',$search_data['name']);
 
                 if($search_data['name']!='' && $tes_query==0)
                 {
                    $query->where('first_name', 'like', '%'.$string.'%')
-                      //->orWhereRaw("LOCATE (first_name, ?)", [$string])
                       ->orWhere('middle_name', 'like', '%'.$string.'%')
-                      //->orWhereRaw("LOCATE (middle_name, ?)", [$string])
                       ->orWhere('last_name', 'like', '%'.$string.'%');
-                      //->orWhereRaw("LOCATE (last_name, ?)", [$string]);
                       $tes_query=1;
                 }
                 else if($search_data['name']!='')
                 {
 
                     $query->orWhere('first_name', 'like', '%'.$string.'%')
-                       //->orWhereRaw("LOCATE (first_name, ?)", [$string])
                       ->orWhere('middle_name', 'like', '%'.$string.'%')
-                      //->orWhereRaw("LOCATE (middle_name, ?)", [$string])
                       ->orWhere('last_name', 'like', '%'.$string.'%');
-                      //->orWhereRaw("LOCATE (last_name, ?)", [$string]);
                 }
                 if($search_data['uhid_no']!='' && $tes_query==0)
                 {
-                    
                     $query->where('uhid_no',$search_data['uhid_no']);
                     $tes_query=1;
                 }
@@ -395,12 +389,20 @@
                  {
                     $query->orWhere('mob_no', 'like', '%'.$search_data['mobile_no'].'%');
                  }
-            })
-            ->get();
-            //echo ($patientList); 
-       // }
-
-        
+            });
+             $reportQuery->groupBy('opd_details.patient_id')->orderBy('opd_details.created_at','desc');
+            $patientList = $reportQuery->select(
+              'patient_details.id',
+              'patient_details.first_name',
+              'patient_details.middle_name',
+              'patient_details.last_name',
+              'patient_details.uhid_no',
+              'patient_details.age',
+              'patient_details.dob',
+              'patient_details.mob_no',
+              'opd_details.appointment_datetime',
+              'opd_details.consultant_id'
+            )->get();
         if(count($patientList)>0) {
              return ['code' => '200','data'=>$patientList, 'message' => 'Patient record '];
         } else {
