@@ -136,7 +136,7 @@
 			 		</div>
 			 		<div class="row"  style="min-height: 350px;height: 350px;padding-left: 15px;padding-right:15px;">
         				<div class="col-md-12">
-        					<div class="table-responsive"">
+        					<div class="table-responsive">
                     			<table class="table table-striped table-bordered" id="radio_list">
                         		<thead>
                         			<tr>
@@ -180,27 +180,53 @@
     	 	 			</div>	
     	 	 			<br/>
     	 	 			<br/>
-			 		<div v-if="(prescriptiData != null)" >
-    	 	 				<div class='row' v-show="(prescriptiData.length != '')">
+    	 	 			
+			 			<div v-if="presp_count(prescriptiData)>0" >
+    	 	 				<div class='row' v-show="presp_count(prescriptiData)>0">
 				 				<div class='col-md-12 text-center'>
 				 					<span class='text-center'><b>Prescription</b></span>
 				 				</div>
 			 				</div>
-							<div class="table-responsive">
-							        <table class="table" id="prescription_list">
-							        
+							      <div class="table-responsive">
+							        <table class="table" id="">
 							            <tbody>
-							              <tr v-for="(res,index) in prescriptiData" v-if="res.remove=='false'" :id="res.pid">
-    			                <td>{{++index}}]  {{res.name}} :  ORAL {{res.clock_quantity_1}}___{{res.clock_quantity_2}}___{{res.clock_quantity_3}} [ {{res.clock_time_1}}__ {{res.clock_time_2}}___{{res.clock_time_3}} ] [ {{res.clock_suggest_1}}___{{res.clock_suggest_2}}___{{res.clock_suggest_3}} ]
-    			                 <i class="fa fa-close"></i> 
-                                 <span v-if="res.total_prescription_days!=''">{{res.total_prescription_days}} DAYS </span>
-                                <span v-else>TO BE CONTINUE</span>
-                            </td>
-                           </td> 
-			              </tr>
+
+							             <tr v-for="(res,index) in prescriptiData" v-if="res.remove=='false'" :id="res.pid">
+
+				    			                <td>{{++index}} ] {{res.name}} :ORAL <span v-if="res.clock_quantity_1!='0'"> {{res.clock_quantity_1}}</span>
+				                                    <span v-if="res.clock_quantity_2!='0'"> <span v-if="res.clock_quantity_1!='0'"> ______</span>{{res.clock_quantity_2}}</span><span v-if="res.clock_quantity_3!='0'"> <span v-if="res.clock_quantity_1!='0' || res.clock_quantity_2!='0'"> ______</span>{{res.clock_quantity_3}}</span><span v-if="res.clock_quantity_4!='0'"><span v-if="res.clock_quantity_1!='0' || res.clock_quantity_2!='0' || res.clock_quantity_3!='0'">  ______</span>{{res.clock_quantity_4}}</span>
+				                                    [ <span v-if="res.clock_time_1!='00:00'"> {{res.clock_time_1}}</span><span v-if="res.clock_time_2!='00:00'"><span v-if="res.clock_time_1!='00:00'"> ______</span> {{res.clock_time_2}}</span><span v-if="res.clock_time_3!='00:00'"><span v-if="res.clock_time_1!='00:00' || res.clock_time_2!='00:00'"> ______</span> {{res.clock_time_3}}</span><span v-if="res.clock_time_4!='00:00'"><span v-if="res.clock_time_1!='00:00' || res.clock_time_2!='00:00' || res.clock_time_3!='00:00'"> ______</span>{{res.clock_time_4}}</span> ] [ <span v-if="res.clock_suggest_1!='' && res.clock_suggest_1!='--'"> {{res.clock_suggest_1}}</span><span v-if="res.clock_suggest_2!=''  && res.clock_suggest_2!='--'"> <span v-if="res.clock_suggest_1!='' && res.clock_suggest_1!='--'"> ______</span>{{res.clock_suggest_2}}</span><span v-if="res.clock_suggest_3!=''  && res.clock_suggest_3!='--'"><span v-if="(res.clock_suggest_1!='' && res.clock_suggest_1!='--') || (res.clock_suggest_2!='' && res.clock_suggest_2!='--')"> ______</span>{{res.clock_suggest_3}}</span><span v-if="res.clock_suggest_4!=''  && res.clock_suggest_4!='--'"><span v-if="(res.clock_suggest_1!='' && res.clock_suggest_1!='--') || (res.clock_suggest_2!='' && res.clock_suggest_2!='--') || (res.clock_suggest_3!='' && res.clock_suggest_3!='--')"> ______</span>{{res.clock_suggest_4}}</span> ] <i class="fa fa-close"></i>
+				                                 <span v-if="res.total_prescription_days!=''">{{res.total_prescription_days}} DAYS </span>
+				                                <span v-else>TO BE CONTINUE</span>
+				                            </td>
+							              </tr>
 							            </tbody>
 							        </table>
 							      </div>
+				                  <div class="table-responsive">
+				                    <table class="table table-striped table-bordered">
+				                        <thead>
+				                            <tr>
+				                                <th>Index</th>
+				                                <th>Prescription Name</th>
+				                                <th>How Many Days</th>
+				                                <th>Total Quantity</th>
+				                                <th>Total Days</th>
+				                                
+				                            </tr>
+				                        </thead>
+				                        <tbody>
+				                         <tr v-for="(res2,index) in prescriptiData" v-if="res2.remove=='false'" :id="res2.pid">
+				                                <td>{{++index}} </td>
+				                                <td>{{res2.name}}</td>
+				                                <td>{{res2.type}}</td>
+				                                <td>{{res2.total_quantity}}</td>
+				                                <td>{{res2.total_prescription_days}}</td>
+				                            
+				                          </tr>
+				                        </tbody>
+				                    </table>
+				                  </div>
     	 	 			</div>
     	 	 			<br/><br/>
     	 	 			<div v-if="(referalType == 'cross' && crossSelectedValue != '')">
@@ -288,7 +314,7 @@
 				 				</div>
 			 					<div class="row"  style="padding-left: 15px;padding-right:15px;">
         							<div class="col-md-12">
-        									<div class="table-responsive"">
+        									<div class="table-responsive">
                     							<table class="table table-striped table-bordered" id="radio_list">
                         							<thead>
                         								<tr>
@@ -528,7 +554,14 @@
   			); 
        },
 		methods: {
+			presp_count(array)
+            {
+                var vm=this;
+                var array_presp=_.filter(array, ['remove', 'false']);
+                vm.count_false=array_presp.length;
+                return  vm.count_false;
 
+            },
 			 check: function(e) {
 	     		 if (e.target.checked) {
 	      		  vm.reportListSelect = 0;

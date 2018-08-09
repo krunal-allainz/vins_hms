@@ -509,30 +509,6 @@
           </card>
       </div>
       <!-- for cross table -->
-       <!-- for laboratory table -->  
-      <div class="col-md-12" v-if="opdData.reffreal_laboratory_array.length>0">
-        <card title="<i class='ti-layout-cta-left'></i> Laboratory"  class="filterable">
-           <div class="table-responsive">
-              <table class="table table-striped table-bordered" id="">
-                  <thead>
-                  <tr>
-                      <th>#</th>
-                      <th>Name</th>
-                      <th>Action</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(lab_arr, index) in opdData.reffreal_laboratory_array">
-                        <td>{{lab_arr.id}}</td>
-                        <td>{{lab_arr.name}}</td>
-                        <td><i class="fa fa-remove" @click="removeLabRef(lab_arr.id)"></i></td>
-                    </tr>
-                  </tbody>
-              </table>
-            </div>
-            </card>
-      </div>
-      <!-- for laboratory table -->
       <!-- for radiology table -->  
       <div class="col-md-12" v-if="opdData.reffreal_radiology_array.length>0">
           <card title="<i class='ti-layout-cta-left'></i> Radiology"  class="filterable">
@@ -565,7 +541,31 @@
             </div>
           </card>
           </div>
-      <!-- for radiology table -->  
+      <!-- for radiology table -->
+       <!-- for laboratory table -->  
+      <div class="col-md-12" v-if="opdData.reffreal_laboratory_array.length>0">
+        <card title="<i class='ti-layout-cta-left'></i> Laboratory"  class="filterable">
+           <div class="table-responsive">
+              <table class="table table-striped table-bordered" id="">
+                  <thead>
+                  <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Action</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(lab_arr, index) in opdData.reffreal_laboratory_array">
+                        <td>{{lab_arr.id}}</td>
+                        <td>{{lab_arr.name}}</td>
+                        <td><i class="fa fa-remove" @click="removeLabRef(lab_arr.id)"></i></td>
+                    </tr>
+                  </tbody>
+              </table>
+            </div>
+            </card>
+      </div>
+      <!-- for laboratory table -->  
       <div class="row">
       <div class="col-md-6">
         <h3>Pain Assessment</h3>

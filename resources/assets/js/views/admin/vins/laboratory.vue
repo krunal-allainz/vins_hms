@@ -272,7 +272,6 @@
                 vm.setLabData();
             });
             $('#laboratory_report').on("select2:unselect", function (e) {
-                 
                 vm.laboratoryData.laboratory_report =  _.cloneDeep($('#laboratory_report').select2('data'));
                 vm.saveLaboratoryTable();
             }).trigger('change');
