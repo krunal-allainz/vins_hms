@@ -15,14 +15,14 @@
 	          	</div>
 	          </div>
 
-	          <div class="col-md-6">
-			        <div class="col-md-9">
-			          <label for="date">OPD CASE NO:</label>
-			        </div>
-			        <div class="col-md-9">
-			        	<input class="form-control" type = "text" id = "case_no" name="case_no"  v-model="patientReceiptData.case_no" readonly=""/>
-			        </div>
-			     </div>
+	          <!-- <div class="col-md-6">
+	          			        <div class="col-md-9">
+	          			          <label for="date">OPD CASE NO:</label>
+	          			        </div>
+	          			        <div class="col-md-9">
+	          			        	<input class="form-control" type = "text" id = "case_no" name="case_no"  v-model="patientReceiptData.case_no" readonly=""/>
+	          			        </div>
+	          			     </div> -->
 			   </div>
 	          	 
 	          	 	 <div class="row form-group" >

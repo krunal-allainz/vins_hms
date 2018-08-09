@@ -13,6 +13,7 @@ class PrescriptionDetails extends Model
               'opd_id',
               'user_id',
               'prescription_drug_id',
+              'how_many_times',
               'total_quantity',
               'total_prescription_days',
               'clock_quantity_1',
