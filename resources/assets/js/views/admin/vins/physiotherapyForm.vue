@@ -446,7 +446,10 @@
                     this.physiotherapyData.patient_id=pDetails.id;
                     this.physiotherapyData.uhid_no=pDetails.uhid_no;
                     this.physiotherapyData.name = pDetails.first_name+' '+pDetails.last_name;
-                    this.physiotherapyData.age=pDetails.age;
+                    let gender='Female';
+                    if(pDetails.gender=='M')
+                        gender='Male';
+                    this.physiotherapyData.age=gender+'/'+pDetails.age;
                     //this.getAgeCal();
                 }
                 else if(patientData.code==300)

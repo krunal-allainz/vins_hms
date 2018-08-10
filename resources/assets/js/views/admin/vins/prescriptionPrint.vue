@@ -1,6 +1,6 @@
 <template>
 	<div class="container" v-if="presp_count(prescriptData)>0">
-		<h4>Prtescription Print</h4>
+		<h4>Prescription Print</h4>
 			<div class="form-group">
 			    <div class="col-md-12">
 			      <div class="table-responsive">

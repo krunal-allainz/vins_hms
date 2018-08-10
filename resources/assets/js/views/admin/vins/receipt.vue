@@ -25,7 +25,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(res,index) in receiptData">
+            <tr v-for="(res,index) in receiptData" :id="'receipt_'+res.id">
                <td>{{++index}}</td>
                <td>{{res.receipt_number}}</td>
                <td>{{res.case_no}}</td>
@@ -116,12 +116,15 @@
 				
 				if(confirm('Are you sure to remove this record ?'))
         		{
+
         			User.removeReceipt(id).then(
 
 						(response) => {
 							if(response.data.code == '200'){
+								$('#receipt_'+id).remove();
 								 User.getReceiptList().then(
 								 		(response) => {
+								 		
 								 		this.receiptData = response.data;
 								 		},
 								 		(error) => {

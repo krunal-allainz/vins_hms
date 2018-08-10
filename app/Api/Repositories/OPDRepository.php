@@ -417,7 +417,7 @@
  		$physio_details->patient_id=$data['patient_id'];
  		$physio_details->uhid_no=$data['uhid_no'];
  		$physio_details->name=$data['name'];
- 		$physio_details->age=$data['age'];
+ 		//$physio_details->age=$data['age'];
  		if($data['doa']['time']!='')
  			$physio_details->date_of_assessment=Carbon::createFromFormat('d-m-Y', $data['doa']['time'])->format('Y-m-d');
  		$physio_details->chief_complaints=$data['chief_complaints'];
