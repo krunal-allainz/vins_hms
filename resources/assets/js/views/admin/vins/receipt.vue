@@ -22,7 +22,6 @@
        <!--        <th>Admit Date</th>
               <th>Discharge Date</th> -->
               <th>Action</th>
-
             </tr>
           </thead>
           <tbody>
@@ -38,7 +37,6 @@
                	<button type="button" class="btn btn-success" data-toggle="modal" href="#receiptModal" id="modellink" @click="receiptPrintView(res.id)">Print</button>
                <button type="button" class="btn btn-danger" @click="removeReceipt(res.id)">Delete</button></td>
             </tr>
-
           </tbody>
         </table>
       </div>
