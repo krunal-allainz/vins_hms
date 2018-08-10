@@ -451,23 +451,99 @@
 			
 			<div class="table-responsive">
 				<table class="table" id="prescription_list">
-				    <thead>
+				    	<thead>
 						</thead>
-						   <tbody>
-						   	@foreach($data['priscriptionData'] as $key=>$res)
-							 <tr>
-							   <td>{{++$key}}]  {{$res['name']}} :  ORAL {{$res['clock_quantity_1']}}___{{$res['clock_quantity_2']}}___{{$res['clock_quantity_3']}} [ {{$res['clock_time_1']}}__ {{$res['clock_time_2']}}___{{$res['clock_time_3']}} ] [ {{$res['clock_suggest_1']}}___{{$res['clock_suggest_2']}}___{{$res['clock_suggest_3']}} ] 
-							   	@if($res['total_prescription_days'] !='')
-                                 <span >{{$res['total_prescription_days']}} DAYS </span>
-                                @else
-                                <span >TO BE CONTINUE</span>
-                                @endif
-                            </td>
-                        </tr>
+					    <tbody>
+					   		 @foreach($data['priscriptionData'] as $key=>$res)
+					   		 	@if($res['remove']=='false')
+								   	<tr>
+		                             	<td>{{++$key}} ] {{$res['name']}} :ORAL
+										@if($res['clock_quantity_1']!='0')
+											{{$res['clock_quantity_1']}}
+										@endif
+		                                @if($res['clock_quantity_2']!='0') 
+		                                    @if($res['clock_quantity_1']!='0') ______ @endif
+		                                    {{$res['clock_quantity_2']}}
+		                                @endif
+		                                @if($res['clock_quantity_3']!='0') 
+		                                	@if($res['clock_quantity_1']!='0' || $res['clock_quantity_2']!='0') ______ @endif
+		                                	{{$res['clock_quantity_3']}} 
+		                                @endif
+		                                @if($res['clock_quantity_4']!='0')
+		                                	@if($res['clock_quantity_1']!='0' || $res['clock_quantity_2']!='0' || $res['clock_quantity_3']!='0')  ______ @endif
+		                                	{{$res['clock_quantity_4']}}
+		                                @endif
+		                                [ 
+		                                @if($res['clock_time_1']!='00:00') 
+		                                	{{$res['clock_time_1']}}
+		                                @endif
+		                                @if($res['clock_time_2']!='00:00')
+		                                	@if($res['clock_time_1']!='00:00') ______ @endif
+		                                	{{$res['clock_time_2']}}
+		                                @endif
+		                                @if($res['clock_time_3']!='00:00')
+		                                    @if($res['clock_time_1']!='00:00' || $res['clock_time_2']!='00:00') ______ @endif {{$res['clock_time_3']}}
+		                                @endif
+		                                @if($res['clock_time_4']!='00:00')
+		                                    @if($res['clock_time_1']!='00:00' || $res['clock_time_2']!='00:00' || $res['clock_time_3']!='00:00') ______ @endif
+		                                    {{$res['clock_time_4']}}
+		                                @endif ] 
+		                                [ 
+		                                @if($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') 
+		                                	{{$res['clock_suggest_1']}}
+		                                @endif
+			                        	@if($res['clock_suggest_2']!=''  && $res['clock_suggest_2']!='--') 
+			                        		@if($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') ______ @endif
+			                        		{{$res['clock_suggest_2']}}
+			                        	@endif
+		                                @if($res['clock_suggest_3']!=''  && $res['clock_suggest_3']!='--')
+		                                	@if(($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') || ($res['clock_suggest_2']!='' && $res['clock_suggest_2']!='--')) ______ @endif
+		                                	{{$res['clock_suggest_3']}}
+		                                @endif
+		                                @if($res['clock_suggest_4']!=''  && $res['clock_suggest_4']!='--')
+		                                	@if(($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') || ($res['clock_suggest_2']!='' && $res['clock_suggest_2']!='--') || ($res['clock_suggest_3']!='' && $res['clock_suggest_3']!='--')) ______ @endif
+		                                	{{$res['clock_suggest_4']}}
+		                                @endif 
+		                                ]  &#9747;
+		                                @if($res['total_prescription_days']!='')
+		                                	{{$res['total_prescription_days']}} <span> DAYS </span>
+		                                @else
+		                                 	<span> TO BE CONTINUE </span>
+		                                @endif
+						            	</td>
+		                        	</tr>
+		                        @endif
 							@endforeach
-			           </tbody>
+		                </tbody>
 			       </table>
 			</div>
+			<div class="table-responsive">
+	            <table class="table table-striped table-bordered">
+	                <thead>
+	                    <tr>
+	                        <th>Index</th>
+	                        <th>Prescription Name</th>
+	                        <th>How Many Days</th>
+	                        <th>Total Quantity</th>
+	                        <th>Total Days</th>
+	                        
+	                    </tr>
+	                </thead>
+	                <tbody>
+						@foreach($data['priscriptionData'] as $key2=>$res2)
+		                	@if($res2['remove']=='false')
+			                 <tr>
+			                        <td>{{++$key2}} </td>
+			                        <td>{{$res2['name']}}</td>
+			                        <td>{{$res2['type']}}</td>
+			                        <td>{{$res2['total_quantity']}}</td>
+			                        <td>{{$res2['total_prescription_days']}}</td>
+			                  </tr>
+			                @endif
+		            	@endforeach
+	                </tbody>
+	            </table>
+		</div>
 		@endif
 	@endif
 	<br/><br/>
