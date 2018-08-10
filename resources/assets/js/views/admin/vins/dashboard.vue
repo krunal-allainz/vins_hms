@@ -99,7 +99,7 @@
                     <div class="card ">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <i class="ti-layout-cta-left"></i> Patient List
+                                <i class="ti-layout-cta-left"></i><a href="/patient_list"> Patient List</a>
                             </h3>
                             <span class="float-right">
                                     <i class="fa fa-fw ti-angle-up clickable"></i>

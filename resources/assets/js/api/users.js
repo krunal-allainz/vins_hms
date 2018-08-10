@@ -325,6 +325,12 @@ export default {
      return api.post('user/user_exist',{'type': type , value : value});
   },
   getLastOPDIdByPatientId(patient_id) {
-    return api.post('patient/getLastOPDIdByPatientId',{'patient_id':patient_id})
+    return api.post('patient/getLastOPDIdByPatientId',{'patient_id':patient_id});
   },
+  getAllPatientList(page_url,type,noofRecord) { 
+      return api.post(page_url,{'type':type,'noOfRecord':noofRecord});
+  },
+  getPatientDetailInfo(patientId){
+     return api.post('patient/patientDetailInfo',{'patientId':patientId});
+  }
 }

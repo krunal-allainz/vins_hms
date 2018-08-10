@@ -43,8 +43,15 @@
 	            </div>
 	         </div>
 			<div class="row form-group">	
-            		<div class="col-md-6" >
-		              <div class="col-md-6 ">
+              <div class="col-md-6" v-show="(patientData.last_vist != '')">
+                   <div class="col-md-6 "> 
+                    <label for="opd_no">Last Visit:</label>
+                    </div>
+                    <div class="col-md-6">
+                      {{patientData.last_vist}}
+                    </div>
+              </div>
+		            <!--   <div class="col-md-6 ">
 		                <label for="opd_no">Select OPD No.:</label>
 		              </div>
 		              <div class="col-md-6">
@@ -56,8 +63,8 @@
 		                   <span class="help is-danger" v-show="errors.has('opd_no')">
 		                    Please Select OPD Number.
 		                  </span> 
-		              </div>
-          		</div>
+		              </div> -->
+          		
           		 <div class="col-md-6"  v-if="patientData.uhid_no!=''">
                   <div class="col-md-6 " v-if="patientData.uhid_no!=''" >
                     <label for="date">UHID No:</label>
@@ -226,6 +233,7 @@
                 	'select_type':'',
                 	'select_value':'',
                 	'uhid_no' : '',
+                  'last_vist' : ''
             	 }
             }
         },
@@ -280,33 +288,23 @@
 	                    (error) => {
 	                    },
 	                );
-                	 User.generateOpdIdByPatirntID(patientId).then(
+                	 User.getLastOPDIdByPatientId(patientId).then(
                     (response) => {
-                      opd_list_new=[];
-                     $.each(response.data.data, function(key,value) {
-
-                         opd_list_new.push({
-                           'id' : value.id,
-                           'opd_id' : value.opd_id,
-                        });
-                      });
-                       setTimeout(function(){
-                              $('#opd_no').select2({
-                                placeholder: "Select",
-                                tags:false 
-                              }); 
-
-                      },500);
-                       vm.patientData.opd_option=opd_list_new;
+                      let opdID ;
+                      let lastVist;
+                      opdID = response.data.data.id;
+                      lastVist = response.data.data.appointment_datetime;
+                       vm.patientData.opd_id=opdID;
+                        vm.patientData.last_vist=lastVist;
                       },
                       (error) => {
                       },
                 );
                 });
-	          $(document).on("select2:select",'#opd_no', function (e) { 
-	          		 let opdId = $(this).val();
-                	vm.patientData.opd_id=opdId;
-	          });
+	          // $(document).on("select2:select",'#opd_no', function (e) { 
+	          // 		 let opdId = $(this).val();
+           //      	vm.patientData.opd_id=opdId;
+	          // });
 	          
          	},
          computed: {
