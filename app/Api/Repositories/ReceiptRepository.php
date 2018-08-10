@@ -129,6 +129,7 @@
       		
       		$date_r = Carbon::parse($data_all['date']);
 		    $date_receipt=$date_r->format('Y-m-d H:i:s');
+		    $charges_id=0;
       		if($data_all['charges_type_id']==1)
 		        {
 		            //$charges_type_val="consultation_charges_id"; 
