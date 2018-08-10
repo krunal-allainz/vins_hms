@@ -340,25 +340,38 @@
               //for opd list
                 this.patientData.uhid_no=pDetails.uhid_no;
                 let opd_list_new=[];
-                User.generateOpdIdByPatirntID(pDetails.id).then(
+                // User.generateOpdIdByPatirntID(pDetails.id).then(
+                //     (response) => {
+                //       opd_list_new=[];
+                //      $.each(response.data.data, function(key,value) {
+
+                //          opd_list_new.push({
+                //            'id' : value.id,
+                //            'opd_id' : value.opd_id,
+                //         });
+                //       });
+                //        setTimeout(function(){
+                //               $('#opd_no').select2({
+                //                 placeholder: "Select",
+                //                 tags:false 
+                //               }); 
+
+                //       },500);
+                //        this.patientData.patient_id = pDetails.id;
+                //        this.patientData.opd_option=opd_list_new;
+                //       },
+                //       (error) => {
+                //       },
+                // );
+                User.getLastOPDIdByPatientId(pDetails.id).then(
                     (response) => {
-                      opd_list_new=[];
-                     $.each(response.data.data, function(key,value) {
-
-                         opd_list_new.push({
-                           'id' : value.id,
-                           'opd_id' : value.opd_id,
-                        });
-                      });
-                       setTimeout(function(){
-                              $('#opd_no').select2({
-                                placeholder: "Select",
-                                tags:false 
-                              }); 
-
-                      },500);
+                      let opdID ;
+                      let lastVist;
+                      opdID = response.data.data.id;
+                      lastVist = response.data.data.appointment_datetime;
                        this.patientData.patient_id = pDetails.id;
-                       this.patientData.opd_option=opd_list_new;
+                       vm.patientData.opd_id=opdID;
+                        vm.patientData.last_vist=lastVist;
                       },
                       (error) => {
                       },

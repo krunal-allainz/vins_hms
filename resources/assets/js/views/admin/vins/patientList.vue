@@ -59,7 +59,8 @@
                         </td> <!----><td data-v-744e717e="" class="">
                             {{ patientData.uhid_no}}
                         </td> <!----><!----> <td data-v-744e717e="" class=""><!-- <i class="fa fa-pencil text-info mr-3 text-info mr-3"></i><i class="fa fa-trash text-danger"></i> -->
-                            <i class="fa fa-eye text-info mr-3 text-info mr-3"  data-toggle="modal" data-target="#patientDetailModal" @click="getPatientInfo(patientData.id)"></i>
+                          <a :href="'/opd_form/'+patientData.id"> <i class="fa fa-user-md text-info mr-3 text-info mr-3" ></i></a>
+                            <i class="fa fa-eye text-info mr-3 text-info mr-3"  data-toggle="modal" data-target="#patientDetailModal" @click="getPatientInfo(patientData.id)" ></i>
                             <patientDetailInfo ref="modal" :showPatientDetail="patientDetailInfo"></patientDetailInfo>
                         </td>
                     </tr>
@@ -107,7 +108,12 @@
     import User from '../../../api/users.js';
     import patientDetailInfo from './patientDetailInfo.vue';
      export default {
-
+        props: {
+            'action' : {
+              'view' : 1 ,
+              'select' : 0
+            }
+          },
          data() {
             return {
                 'patientData' :{
