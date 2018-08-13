@@ -204,7 +204,19 @@
                     </div>
                   </div>
                 </div>
-
+                   <div class="row">
+      <div class="col-md-6">
+        <h3>Pain Assessment</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2" @click="pain_value(0)"><img src="/assets/img/pain/P1.png" class="test"  v-bind:class="[opdData.pain_value==0 ? 'pain_select': '', 'pain_img'  ]"></div>
+      <div class="col-md-2" @click="pain_value(2)"><img src="/assets/img/pain/P2.png"  v-bind:class="[opdData.pain_value==2 ? 'pain_select': '' , 'pain_img' ]"> </div>
+      <div class="col-md-2" @click="pain_value(4)"><img src="/assets/img/pain/P3.png"   v-bind:class="[opdData.pain_value==4 ? 'pain_select': '', 'pain_img'  ]"></div>
+      <div class="col-md-2" @click="pain_value(6)"><img src="/assets/img/pain/P4.png"   v-bind:class="[opdData.pain_value==6 ? 'pain_select': '', 'pain_img'  ]"></div>
+      <div class="col-md-2" @click="pain_value(8)"><img src="/assets/img/pain/P5.png"   v-bind:class="[opdData.pain_value==8 ? 'pain_select': '', 'pain_img'  ]"></div>
+      <div class="col-md-2" @click="pain_value(10)"><img src="/assets/img/pain/P6.png"   v-bind:class="[opdData.pain_value==10 ? 'pain_select': '', 'pain_img'  ]"></div>
+    </div>
       <div class="row form-group">
         <div class="col-md-6">
             <div class="col-md-12">
@@ -560,21 +572,7 @@
             </card>
       </div>
       <!-- for laboratory table -->  
-      <div class="row">
-      <div class="col-md-6">
-        <h3>Pain Assessment</h3>
-
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-2" @click="pain_value(0)"><img src="/assets/img/pain/P1.png" class="test"  v-bind:class="[opdData.pain_value==0 ? 'pain_select': '', 'pain_img'  ]"></div>
-      <div class="col-md-2" @click="pain_value(2)"><img src="/assets/img/pain/P2.png"  v-bind:class="[opdData.pain_value==2 ? 'pain_select': '' , 'pain_img' ]"> </div>
-      <div class="col-md-2" @click="pain_value(4)"><img src="/assets/img/pain/P3.png"   v-bind:class="[opdData.pain_value==4 ? 'pain_select': '', 'pain_img'  ]"></div>
-      <div class="col-md-2" @click="pain_value(6)"><img src="/assets/img/pain/P4.png"   v-bind:class="[opdData.pain_value==6 ? 'pain_select': '', 'pain_img'  ]"></div>
-      <div class="col-md-2" @click="pain_value(8)"><img src="/assets/img/pain/P5.png"   v-bind:class="[opdData.pain_value==8 ? 'pain_select': '', 'pain_img'  ]"></div>
-      <div class="col-md-2" @click="pain_value(10)"><img src="/assets/img/pain/P6.png"   v-bind:class="[opdData.pain_value==10 ? 'pain_select': '', 'pain_img'  ]"></div>
-    </div>
-      </div>
+         </div>
       <div class="row" v-if="curStep == 2"> 
           <laboratory :labData="opdData.laboratoryALLData" ></laboratory>
         </div>
@@ -1169,6 +1167,7 @@
                                 vm.opdData.bp_diastolic =bp[1];
                              }
                            vm.opdData.temp =patient_checkup_details.temp;
+                           vm.opdData.pain_value=patient_checkup_details.pain;
                           }
                       },
                       (error) => {
@@ -1214,6 +1213,7 @@
               vm.opdData.bp_systolic="";
               vm.opdData.bp_diastolic="";
               vm.opdData.temp="";
+              vm.opdData.pain_value=0;
               vm.opdData.select_value="";
               vm.opdData.opd_option={};
               if(val==true)
@@ -1254,6 +1254,7 @@
               vm.opdData.bp_systolic="";
               vm.opdData.bp_diastolic="";
               vm.opdData.temp="";
+              vm.opdData.pain_value=0;
               vm.opdData.select_value="";
               vm.opdData.opd_option={};
           },
