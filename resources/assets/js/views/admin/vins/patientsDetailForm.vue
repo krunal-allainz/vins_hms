@@ -176,7 +176,7 @@
                      </label>
                     </div>
                     <div class="col-md-6">
-						<date-picker  :date.sync="patientData.appointment_datetime" :option="timeoption" id = "appointment_datetime" class="" type="datetime" name="appointment_datetime"   v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" :limit="limit2" ></date-picker> 
+						<date-picker  :date.sync="patientData.appointment_datetime" :option="timeoption" id = "appointment_datetime" class="" type="datetime" name="appointment_datetime"   v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" :limit="limit2"   :disabledDates="disabledDates"></date-picker> 
 						<i v-show="errors.has('appointment_datetime')" class="fa fa-warning"></i>
 						<span class="help is-danger" v-show="errors.has('appointment_datetime')">
 	            			Please enter valid appointment datetime.
@@ -287,7 +287,11 @@
                 'currentYear': new Date().getFullYear(),
 				'patient_type_option': [{id:'opd',text:'OPD'}, {id:'ipd',text:'IPD'}] ,
                 'deleteConfirmMsg': 'Are you sure you would like to delete this referee? All information associated with this referee will be permanently deleted.',
+                'disabledDates': {
+				          'to': new Date(Date.now() - 8640000)
+				        },
                 timeoption: {
+                	'minTime': 0, 
                 	type : 'min',
 			        week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
 			        month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -422,6 +426,7 @@
         	this.$root.$on('patientEmpty',this.patientEmpty);
         },
         methods: {
+        	
         	compairNumbers(){ 
         		
         		if(this.patientData.ph_no == this.patientData.mob_no){
