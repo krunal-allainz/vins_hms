@@ -327,8 +327,8 @@ export default {
   getLastOPDIdByPatientId(patient_id) {
     return api.post('patient/getLastOPDIdByPatientId',{'patient_id':patient_id});
   },
-  getAllPatientList(page_url,type,noofRecord) { 
-      return api.post(page_url,{'type':type,'noOfRecord':noofRecord});
+  getAllPatientListByDoctoreIdAndPaggination(page_url,type,noofRecord,id) { 
+      return api.post(page_url,{'type':type,'noOfRecord':noofRecord,'id':id});
   },
   getPatientDetailInfo(patientId){
      return api.post('patient/patientDetailInfo',{'patientId':patientId});

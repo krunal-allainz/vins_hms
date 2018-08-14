@@ -21,6 +21,9 @@ class CreatePatientCaseManagmentTable extends Migration
             ->on('opd_details');
             $table->integer('patient_id')->nullable()->references('id')
             ->on('patient_details');
+            $table->text('references')->nullable();
+            $table->integer('consultant_id')->nullable();
+            $table->dateTime('appointment_datetime')->nullable();
             $table->boolean('status')->nullable();
             $table->timestamps();
         });

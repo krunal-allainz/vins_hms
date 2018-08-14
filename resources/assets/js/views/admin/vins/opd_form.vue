@@ -853,7 +853,7 @@
         },
         
         mounted(){
-       
+         
           $('.ls-select2').select2({
             placeholder: "Select",
             tags:false 
@@ -863,6 +863,7 @@
          let opd_list_new=[];
          
          let section = 'OPD';
+          vm.opdData.patientlist = this.$store.state.Patient.patientId;
          
 
          vm.$store.dispatch('resetOpdForm');
@@ -1127,6 +1128,7 @@
                     tags:false 
                   });
                 },500);
+
           $('#patient').on("select2:select", function (e) {
                  vm.opdData.patientlist=$(this).val();
                  let patientId = $(this).val();

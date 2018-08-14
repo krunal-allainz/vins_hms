@@ -97,7 +97,7 @@
             <div class="row">
                 <div class="col-xl-8 col-12">
                 	 <!-- First Basic Table strats here-->
-                    <patientList :action="action"></patientList>
+                    <patientListview :action="action"></patientListview>
                 </div>
                     <timeline></timeline>
                 
@@ -107,7 +107,7 @@
 </template>
 <script >
 	import User from '../../../api/users.js';
-    import patientList from './patientList.vue';
+    import patientListview from './patientList.vue';
     import timeline from './timeline.vue';
 	export default{
 		data(){
@@ -132,7 +132,7 @@
 			}
 		},
           components: {
-            patientList,
+            patientListview,
             timeline
         },
 		 mounted(){
