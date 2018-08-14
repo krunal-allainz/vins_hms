@@ -21,6 +21,9 @@ class CreateTokenManagmentTable extends Migration
             ->on('opd_details');
             $table->integer('patient_id')->nullable()->references('id')
             ->on('patient_details');
+            $table->integer('patient_case_id')->nullable()->references('id')
+            ->on('patient_case_managment');
+            
             $table->string('status')->nullable();
             $table->timestamps();
         });

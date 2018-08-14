@@ -333,7 +333,8 @@ class PatientsDetailFormController extends Controller
     public function getPatientList(Request $request){ 
         $section = $request->type;
         $noOfRecord = $request->noOfRecord;
-        $patientDetail =  $this->patientOBJ->getPatientList($section,$noOfRecord);
+        $id= $request->id;
+        $patientDetail =  $this->patientOBJ->getPatientList($section,$noOfRecord,$id);
         if ($patientDetail) {
             return ['code' => '200','data'=>$patientDetail, 'message' => 'Record Sucessfully created'];
         } else {
