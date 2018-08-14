@@ -12,6 +12,7 @@
  use euro_hms\Models\Examination;
  use euro_hms\Models\RadiologyAttachments;
  use euro_hms\Models\PhysiotherapyDetails;
+ use euro_hms\Models\OPDPhysioDetails;
  use euro_hms\Api\Repositories\PatientRepository;
  use euro_hms\Api\Repositories\UserRepository;
  use Carbon\Carbon;
@@ -178,6 +179,7 @@
 		 		//$opdData->consultant_id=$data['consulting_dr'];
 		 		$opdData->save();
 		}
+
  		//save prescription
  		if(!empty($prescription_data))
  		{
@@ -199,9 +201,18 @@
 	 			$prescription_obj->clock_suggest_1=$prescription['clock_suggest_1'];
 	 			$prescription_obj->clock_suggest_2=$prescription['clock_suggest_2'];
 	 			$prescription_obj->clock_suggest_3=$prescription['clock_suggest_3'];
+	 			$prescription_obj->qhrs=$prescription['qhrs'];
 	 			$prescription_obj->remove=$prescription['remove'];
 	 			$prescription_obj->save();
 	 		}
+ 		}
+ 		if($data['referral']=='physiotherapy')
+ 		{
+ 			$physio_obj=new OPDPhysioDetails();
+			$physio_obj->opd_id=$opd_id_org;
+			$physio_obj->user_id=$user_id;
+			$physio_obj->details=$data['physio_details'];
+			$physio_obj->save();
  		}
  		
  		//opd cross references 

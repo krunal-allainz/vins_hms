@@ -200,8 +200,8 @@ export default {
   submitReport(reportData) {
     return api.post('report/create',{'reportData':reportData})
   },
-  getAllPatientName() {
-      return api.get('patient/getAll');
+  getAllPatientName(user_type) {
+      return api.post('patient/getAll',{'userType':user_type});
   },
   createUser(userData) {
       return api.post('user/create',{'userData':userData})
