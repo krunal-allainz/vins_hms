@@ -204,7 +204,21 @@
                     </div>
                   </div>
                 </div>
-
+       <div class="row form-group">
+        <div class="col-md-6">
+          <div class="col-md-6">
+            <label for="date">Provisional Diagnostic:</label>
+          </div>
+          <div class="col-md-12">
+            <textarea class="form-control" name="provisional_diagnosis" id="provisional_diagnosis" v-model="opdData.provisional_diagnosis" v-validate="'required'"></textarea>
+            <i v-show="errors.has('provisional_diagnosis')" class="fa fa-warning"></i>
+            <span class="help is-danger" v-show="errors.has('provisional_diagnosis')">
+               Please enter provisional diagnostic.
+            </span>
+          </div>
+        </div>
+      </div>
+  
       <div class="row form-group">
         <div class="col-md-6">
             <div class="col-md-12">
@@ -835,7 +849,8 @@
                 'select_type':'',
                 'select_value':'',
                 'last_vist' : '',
-                'physio_details':''
+                'physio_details':'',
+                'provisional_diagnosis':''
               }
             }
         }, 
@@ -874,39 +889,13 @@
             placeholder: "Select",
             tags:false 
           });
-         var vm =this;  
-         let patient_list_new=[];
+         var vm =this;
          let opd_list_new=[];
-         
-         let section = 'OPD';
-         
-
          vm.$store.dispatch('resetOpdForm');
-
-
           setTimeout(function(){
             vm.doctor = vm.$store.state.Users.userDetails.first_name + " "+ vm.$store.state.Users.userDetails.last_name;  
             vm.doctor_id = vm.$store.state.Users.userDetails.id;  
           },1000);
-          
-           User.getAllPatientNameByConsultDoctor(vm.doctor_id,section).then(
-                  (response) => {
-                    $.each(response.data.data, function(key,value) {
-
-                       patient_list_new.push({
-                         'id' : value.id,
-                         'name' : value.name,
-                         'uhid_no' : value.uhid_no
-                      });
-                    });
-
-                    vm.opdData.patient_option=patient_list_new;
-                    
-                  },
-                      (error) => {
-                  },
-          );
-
           /*for laboratory data*/
             let labpratory_all_data=[];
             User.generateAllLaboratoryListByChild().then(
@@ -1209,11 +1198,39 @@
             vm.examinationChangeImage();
           },500);
           
-
+          vm.newPatient(); 
 
 
         },
         methods: {
+          newPatient()
+          {
+              var vm =this;
+              setInterval(function() {
+                 vm.getResults();
+              }, 1000);
+          },
+          getResults(page_url) {
+            var vm =this;
+            let patient_list_new=[];
+            let section = 'OPD';
+            User.getAllPatientNameByConsultDoctor(vm.doctor_id,section).then(
+                  (response) => {
+                    $.each(response.data.data, function(key,value) {
+                       patient_list_new.push({
+                         'id' : value.id,
+                         'name' : value.name,
+                         'uhid_no' : value.uhid_no
+                      });
+                    });
+
+                    vm.opdData.patient_option=patient_list_new;
+                    
+                  },
+                      (error) => {
+                  },
+            );
+          },
           patient_select_change(val)
           {
             let vm =this;
@@ -1522,23 +1539,18 @@
           },
           next() {
             let vm =this;
-                //this.$validator.validateAll().then(
-                //(response) => {
-                 //vm.priscriptionAdd = vm.finalPrescriptionData.length;
-                  //if (!this.errors.any()) {
-                    // if(vm.priscriptionAdd >  0){
-                      
+                this.$validator.validateAll().then(
+                (response) => {
+                
+                  if (!this.errors.any()) {
                       vm.curStep = vm.curStep+1;
                       vm.$store.dispatch('setOpdData',vm.opdData);
                       vm.$store.dispatch('setResData',vm.finalResultData);
-
-
-                    // }
-                  //}
-                //},
-               //(error) => {
-                //}
-               // )
+                  }
+                },
+               (error) => {
+                }
+              )
             
           },
           initLastData(){

@@ -285,8 +285,18 @@
 		        });
 		 	 
    			 }
+           
+                this.newPatient(); 
+           
 		 },
 		  methods:{
+                newPatient()
+                {
+                    var vm =this;
+                    setInterval(function() {
+                       vm.getResults();
+                    }, 1000);
+                },
 			  	getResults(page_url) {
 				var vm =this;
 				 page_url = page_url || '/patient/list';
@@ -312,7 +322,7 @@
 	                //this.$set('pagination', pagination)
 	            },
 		  		getPatientCounters(){
-                    console.log('test');
+                    
                     var vm =this;
 		  			User.getNumberOfPatient(vm.type,vm.doctor_id).then(
 		  				 (response) => {
