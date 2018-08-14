@@ -476,6 +476,11 @@
       }*/
     }
 
+    /**
+     * [getPatientDetailInfo description]
+     * @param  [type] $patientId [description]
+     * @return [type]            [description]
+     */
     public function getPatientDetailInfo($patientId){
 
           $result = array();
@@ -485,6 +490,52 @@
           $result['caseDetail'] = PatientCaseManagment::where('patient_id',$patientId)->get();
           return $result;
 
+    }
+
+    /**
+     * [getAllPatientName description]
+     * @param  [type] $user_type [description]
+     * @return [type]            [description]
+     */
+    public function getAllPatientName($user_type)
+    {
+       /* $reportQuery= PatientDetailsForm::join('opd_details', function ($join) {
+                  $join->on('opd_details.patient_id', '=', 'patient_details.id');
+        })->join('patient_case_managment', function ($join) {
+                  $join->on('patient_case_managment.patient_id', '=', 'patient_details.id');
+        });
+        if($user_type==1 ||  $user_type==2)
+        {
+            $reportQuery->whereDate('opd_details.appointment_datetime',Carbon::today()->format('Y-m-d'));
+        } 
+         if($user_id!=0 && $user_id!="")
+          {
+             $reportQuery->where('opd_details.consultant_id',$user_id);
+          } 
+        if($user_type==2)
+        {
+            $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult']);
+        }
+         $reportQuery->groupBy('opd_details.patient_id')->orderBy('opd_details.created_at','desc');
+         $patientDetails = $reportQuery->select(
+              'patient_details.id',
+              'patient_details.first_name',
+              'patient_details.middle_name',
+              'patient_details.last_name',
+              'patient_details.uhid_no',
+              'patient_details.age',
+              'patient_details.dob',
+              'patient_details.mob_no',
+              'opd_details.appointment_datetime',
+              'opd_details.consultant_id'
+            )->get();
+        print_r($patientDetails);exit;*/
+        $patientDetails=PatientDetailsForm::get();
+        if ($patientDetails) {
+            return ['code' => '200','data'=>$patientDetails, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
     }
  }
 ?>

@@ -214,6 +214,7 @@
         data() {
             return {
             	 'user_id':this.$store.state.Users.userDetails.id,
+               'user_type':this.$store.state.Users.userDetails.user_type,
              	 'patient_select_enable':true,
                'isPatientSearch':true,
             	 'patientData' : {
@@ -248,8 +249,9 @@
 		            placeholder: "Select",
 		            tags:false 
 		          });
-    
-         	 	 User.getAllPatientName().then(
+              
+             
+         	 	 User.getAllPatientName(vm.user_type).then(
 
 	               	 (response) => {
 	               	 		let patien_data ;

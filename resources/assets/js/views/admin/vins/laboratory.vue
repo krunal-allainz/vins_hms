@@ -26,7 +26,7 @@
                     <!--Textboxes will be added here -->
                     <div v-if="laboratoryData.laboratory_report.length>0" :id="'lab_div_'+index" v-for="(lab, index) in laboratoryData.laboratory_report">
                          <div class="row form-group">
-                            <div class="col-md-3"> 
+                            <div class="col-md-5"> 
                                 <div class="col-md-12"> 
                                     <label class="control-label" for="label_1" >Name </label> 
                                 </div> 
@@ -43,7 +43,7 @@
                                        
                                 </div>  
                             </div>  
-                            <div class="col-md-3"> 
+                            <div class="col-md-4"> 
                                 <div class="col-md-12"> 
                                     <label class="control-label" for="label_1">Result </label> 
                                 </div> 

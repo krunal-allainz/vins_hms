@@ -481,6 +481,19 @@
         </div>
       </div>
       <!-- for laboratory -->
+
+        <!-- for physiotherapy -->
+        <div class="row form-group" v-show="opdData.referral == 'physiotherapy' ">
+          <div class="col-md-6">
+          <div class="col-md-12">
+            <label class="control-label" for="label_1">Details </label>
+          </div>
+          <div class="col-md-12">
+            <textarea class="form-control" name="physio_details" id="physio_details" v-model="opdData.physio_details"></textarea>
+          </div>
+        </div>
+      </div>
+      <!-- for physiotherapy -->
        
          <div class="row form-group">
           <div class="col-md-12">
@@ -819,7 +832,8 @@
                 'laboratory_report_opd_data':{},
                 'select_type':'',
                 'select_value':'',
-                'last_vist' : ''
+                'last_vist' : '',
+                'physio_details':''
               }
             }
         }, 
