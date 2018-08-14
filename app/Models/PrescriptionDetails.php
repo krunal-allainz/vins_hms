@@ -25,6 +25,7 @@ class PrescriptionDetails extends Model
               'clock_suggest_1',
               'clock_suggest_2',
               'clock_suggest_3',
+              'qhrs',
               'remove',
               
         ];
