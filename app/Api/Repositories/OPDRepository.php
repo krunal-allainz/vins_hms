@@ -176,6 +176,7 @@
 		 		$opdData->advice=$advice_final;
 		 		$opdData->history=$history_final;
 		 		$opdData->past_history=$past_history_final;
+		 		$opdData->provisional_diagnosis=$data['provisional_diagnosis'];
 		 		//$opdData->consultant_id=$data['consulting_dr'];
 		 		$opdData->save();
 		}

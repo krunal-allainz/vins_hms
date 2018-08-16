@@ -21,7 +21,8 @@ class OpdDetails extends Model
       'past_history',
       'advice',
       'reference',
-      'consultant_id'
+      'consultant_id',
+      'provisional_diagnosis'
 
     ];
 
