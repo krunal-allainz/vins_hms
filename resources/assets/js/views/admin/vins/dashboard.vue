@@ -139,23 +139,8 @@
 		 	this.getResults();
 		 	this.getPatientCounters();
 		 	this.getOPDCounters();
-		 	
 		 },
 		  methods:{
-			  	getResults(page_url) {
-				var vm =this;
-				 page_url = page_url || '/patient/list';
-				User.getPatientListByDoctor(page_url,vm.doctor_id).then(
-				 		(response) => {
-				 			 vm.patientList = response.data.data.data;
-				 			 vm.makePagination(response.data);
-				 		},
-				 		(error) => {
-
-				 		}
-
-				 	);
-				},
 				makePagination: function(data){
 	                let pagination = {
 	                    current_page: data.current_page,
@@ -167,7 +152,7 @@
 	                //this.$set('pagination', pagination)
 	            },
 		  		getPatientCounters(){
-                    console.log('test');
+                    
                     var vm =this;
 		  			User.getNumberOfPatient(vm.type,vm.doctor_id).then(
 		  				 (response) => {
