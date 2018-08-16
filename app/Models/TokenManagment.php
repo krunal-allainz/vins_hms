@@ -15,6 +15,7 @@ class TokenManagment extends Model
               'date',
               'opd_id',
               'patient_id',
+              'patient_case_id',
               'status',
         ];
 
@@ -37,14 +38,18 @@ class TokenManagment extends Model
 
     }
 
-        public function getIpdDetails()
-      {
-          return $this->hasMany('euro_hms\Models\IpdDetails');
-      }
+   public function getIpdDetails()
+  {
+       return $this->hasMany('euro_hms\Models\IpdDetails');
+  }
 
-      public function getOpdDetails(){
+  public function getOpdDetails(){
 
-        return $this->hasMany('euro_hms\Models\OpdDetails');
-      }
+     return $this->hasMany('euro_hms\Models\OpdDetails');
+  }
+
+  public function getPatientCaseDetail(){
+    return $this->belongsTo('euro_hms\Models\PatientCaseManagment','patient_case_id');
+  }
 
 }

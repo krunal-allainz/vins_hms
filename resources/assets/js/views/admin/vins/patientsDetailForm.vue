@@ -379,29 +379,31 @@
 					placeholder: "Select",
 					tags: false,
 				});
-				/*var enabledHours = [];
-				var dt = new Date();
-				var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
-				 $("#appointment_datetime").on("change",function(e){
-                var currentTime = new Date();
-                var userTime = $("#appointment_datetime").val().split(":"); 
-                if(currentTime.getHours() > parseInt(userTime[0])){
-                    alert("To old value");
-                    $(this).focus();                
-                }
-                if(currentTime.getHours() <= parseInt(userTime[0])){
-                    if(currentTime.getMinutes() > parseInt(userTime[1])){
-                        alert("To old value");
-                    $(this).focus();
-                    }
-                }
-            });
-*/
+
+				// var enabledHours = [];
+				// var dt = new Date();
+				// var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+				//  $("#appointment_datetime").on("change",function(e){
+    //             var currentTime = new Date();
+    //             var userTime = $("#appointment_datetime").val().split(":"); 
+    //             if(currentTime.getHours() > parseInt(userTime[0])){
+    //                 alert("To old value");
+    //                 $(this).focus();                
+    //             }
+    //             if(currentTime.getHours() <= parseInt(userTime[0])){
+    //                 if(currentTime.getMinutes() > parseInt(userTime[1])){
+    //                     alert("To old value");
+    //                 $(this).focus();
+    //                 }
+    //             }
+    //         });
+
 				let vm =this;
-				 /*$('#datetimepicker').datetimepicker({ 
-           				format : 'DD/MM/YYYY HH:mm',
-           				minDate: moment().add(1, 'h'),enabledHours: [10, 11, 12, 13, 14, 15, 16,17]
-                });*/
+				 // $('#datetimepicker').datetimepicker({ 
+     //       				format : 'DD/MM/YYYY HH:mm',
+     //       				minDate: moment().add(1, 'h'),enabledHours: [10, 11, 12, 13, 14, 15, 16,17]
+     //            });
+
 	          	$('.ls-select2').on("select2:select", function (e) {
 		             if(this.id == 'case'){
 		             	vm.patientData.case = $(this).val();

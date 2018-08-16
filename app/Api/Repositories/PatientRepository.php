@@ -124,27 +124,28 @@
                         'appointment_datetime'=> $a_time
                     ]);
 
-                    
-
-                    $tokenInsert =  TokenManagment::create([
-                    'token'=>$data['token_no'],
-                    'date' =>  date('d-m-Y H:i:s'),
-                    'opd_id'=>$insertedOPDId,
-                    'patient_id' =>$patientId,
-                    'status' =>$data['token_status'],
-                   ]);
-
                    /* start add case management data */
                   $patientCaseInsert = PatientCaseManagment::create([
                     'case_type' =>$data['case_type'],
                     'section_type' => $patientType,
                     'section_id' => $sectionId,
                     'patient_id' =>$patientId,
+                    'references' => $data['reference_dr'],
+                    'consultant_id' => $data['consulting_dr'],
+                    'appointment_datetime' => $data['appointment_datetime']['time'],
                     'status' =>true,
                     'created_at' =>Carbon::now(),
                     'updated_at' =>Carbon::now(),
-
                  ]);
+
+                   $tokenInsert =  TokenManagment::create([
+                    'token'=>$data['token_no'],
+                    'date' =>  date('d-m-Y H:i:s'),
+                    'opd_id'=>$insertedOPDId,
+                    'patient_id' =>$patientId,
+                    'patient_case_id' =>$patientCaseInsert->id,
+                    'status' =>$data['token_status'],
+                   ]);
 
 
                 if ($caseData) {
@@ -156,25 +157,31 @@
               }else{ 
                 $insertedOPDId = $opdData->opd_id;
                  $sectionId    = $opdData->opd_id;
-                   $tokenInsert =  TokenManagment::create([
-                    'token'=>$data['token_no'],
-                    'date' =>  date('d-m-Y H:i:s'),
-                    'opd_id'=>$insertedOPDId,
-                    'patient_id' =>$patientId,
-                    'status' =>$data['token_status'],
-                   ]);
-
+                 
                    /* start add case management data */
                   $patientCaseInsert = PatientCaseManagment::create([
                     'case_type' =>$data['case_type'],
                     'section_type' => $patientType,
                     'section_id' => $sectionId,
                     'patient_id' =>$patientId,
+                     'references' => $data['reference_dr'],
+                    'consultant_id' => $data['consulting_dr'],
+                    'appointment_datetime' => $data['appointment_datetime']['time'],
                     'status' =>true,
                     'created_at' =>Carbon::now(),
                     'updated_at' =>Carbon::now(),
 
                  ]);
+
+                    $tokenInsert =  TokenManagment::create([
+                    'token'=>$data['token_no'],
+                    'date' =>  date('d-m-Y H:i:s'),
+                    'opd_id'=>$insertedOPDId,
+                    'patient_id' =>$patientId,
+                    'patient_case_id' =>$patientCaseInsert->id,
+                    'status' =>$data['token_status'],
+                   ]);
+
 
                   if ($tokenInsert && $patientCaseInsert) {
                     return ['code' => '200','data'=>['token'=> $data['token_no'],'opdId' => $insertedOPDId,'uhid_no'=>$patientData->uhid_no], 'message' => 'Record Sucessfully created'];
@@ -210,16 +217,28 @@
                 ]);
 
                     /* start add case management data */
-                  PatientCaseManagment::create([
+                 /* PatientCaseManagment::create([
                     'case_type' =>$data['case_type'],
                     'section_type' => $patientType,
                     'section_id' => $sectionId,
                     'patient_id' =>$patientId,
+                    'references' => $data['reference_dr'],
+                    'consultant_id' => $data['consulting_dr'],
+                    'appointment_datetime' => $data['appointment_datetime']['time'],
                     'status' =>true,
                     'created_at' =>Carbon::now(),
                     'updated_at' =>Carbon::now(),
 
                  ]);
+
+                   $tokenInsert =  TokenManagment::create([
+                    'token'=>$data['token_no'],
+                    'date' =>  date('d-m-Y H:i:s'),
+                    'opd_id'=>$insertedIPDId,
+                    'patient_id' =>$patientId,
+                    'patient_case_id' =>$patientCaseInsert->id,
+                    'status' =>$data['token_status'],
+                   ]);*/
             
                 /* end add case management data */
               
@@ -230,7 +249,6 @@
                 }
             }
             
-
         }
         return ['code' => '400','data'=>'', 'message' => 'Something goes wrong'];
  	}
