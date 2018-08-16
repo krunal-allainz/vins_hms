@@ -377,6 +377,7 @@
 					placeholder: "Select",
 					tags: false,
 				});
+
 				// var enabledHours = [];
 				// var dt = new Date();
 				// var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
@@ -400,6 +401,7 @@
      //       				format : 'DD/MM/YYYY HH:mm',
      //       				minDate: moment().add(1, 'h'),enabledHours: [10, 11, 12, 13, 14, 15, 16,17]
      //            });
+
 	          	$('.ls-select2').on("select2:select", function (e) {
 		             if(this.id == 'case'){
 		             	vm.patientData.case = $(this).val();

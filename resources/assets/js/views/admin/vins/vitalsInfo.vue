@@ -249,35 +249,14 @@
 		            placeholder: "Select",
 		            tags:false 
 		          });
-              
+              vm.newPatient(); 
              
-         	 	 User.getAllPatientName(vm.user_type).then(
-
-	               	 (response) => {
-	               	 		let patien_data ;
-	               	 		patien_data = response.data;
-	               	 		$.each(response.data.data, function(key, value) {
-	               	 		let name = value.first_name +' '+value.last_name;
-	               	 		let pid  = value.id ;
-	               	 		let uhid_no  = value.uhid_no ;
-	               	 		list.push({
-	               	 				name:name,
-	               	 				id:pid,
-	               	 				uhid_no:uhid_no
-	               	 			});
-	               	 	  	});
-		                setTimeout(function(){
-	                              $('#patient').select2({
-	                                placeholder: "Select",
-	                                tags:false 
-	                              }); 
-
-	                      },500);
-	               	 	 vm.patientData.patient_option = list;
-	               	 	 },
-	               	 	 	(error) => {
-	            	 	},
-	               	 );
+         	 	 setTimeout(function(){
+                $('#patient').select2({
+                  placeholder: "Select",
+                  tags:false 
+                });
+              },500);
 
 	        $(document).on("select2:select",'#patient', function (e) { 
 	               let patientId = $(this).val();
@@ -328,6 +307,37 @@
             this.$root.$on('patientEmpty',this.patientEmpty);
         },
        methods: {
+        newPatient()
+          {
+              var vm =this;
+              setInterval(function() {
+                 vm.getResults();
+              }, 1000);
+          },
+        getResults(page_url) {
+            var vm =this;
+            let patient_list_new=[];
+            let section = 'OPD';
+             User.getAllPatientName(vm.user_type).then(
+                   (response) => {
+                      let patien_data ;
+                      patien_data = response.data;
+                      $.each(response.data.data, function(key, value) {
+                      let name = value.first_name +' '+value.last_name;
+                      let pid  = value.id ;
+                      let uhid_no  = value.uhid_no ;
+                      patient_list_new.push({
+                          name:name,
+                          id:pid,
+                          uhid_no:uhid_no
+                        });
+                        });
+                     vm.patientData.patient_option = patient_list_new;
+                     },
+                      (error) => {
+                  },
+                   );
+          },
          patientEmpty()
           {
               let vm =this;

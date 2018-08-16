@@ -132,12 +132,20 @@
          mounted(){
             let vm =this;
             vm.getPatientsResult();
+            vm.newPatient();
          },
          methods: {
              close: function () {
               this.$emit('close');
               this.title = '';
               this.body = '';
+            },
+            newPatient()
+            {
+                var vm =this;
+                setInterval(function() {
+                   vm.getPatientsResult();
+                }, 1000);
             },
             getPatientsResult(page_url){
                 var vm =this;
