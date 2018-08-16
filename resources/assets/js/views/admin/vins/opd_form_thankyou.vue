@@ -12,7 +12,7 @@
     	 	 <div class="col-md-12">
     	 	 	<!-- <div class="col-md-4"> -->
     	 	 		<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  @click = "printReport('opd_case')" v-if="(opdReport == true)" id="opd_case_btn">OPD Case</button>
-    	 	 		<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#generateModal"  @click="printReport('generate_case')" v-if="(opdReport == false)">Generate Report</button>
+    	 	 		<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#generateModal"  @click="printReport('generate_case')" v-if="(opdReport == false)"> Print Report</button>
     	 	 <!-- 	</div>
     	 	 	<div class="col-md-4">
     	 	 		<button type="button" class="btn btn-primary btn-submit text-right " data-toggle="modal" href="#printModal"  @click="printPriscription()">Prescription</button>
@@ -62,7 +62,7 @@
 			 					</div>
 			 					<vinsletterheadheaderpart></vinsletterheadheaderpart>
 
-								 	<div v-if="(printType == 'lab')" style="min-height: 350px;height: 350px;">
+								 	<div v-if="(printType == 'lab')" >
 								 		<div class='row' style="padding-left: 15px;padding-right:15px;">
 							 				<div class='col-md-6 text-left'>
 													<span class='text-left'><b>Ref By :</b></span>
@@ -134,7 +134,7 @@
 			 					<h4>Radiology Report</h4>
 			 				</div>
 			 		</div>
-			 		<div class="row"  style="min-height: 350px;height: 350px;padding-left: 15px;padding-right:15px;">
+			 		<div class="row" >
         				<div class="col-md-12">
         					<div class="table-responsive">
                     			<table class="table table-striped table-bordered" id="radio_list">
@@ -166,9 +166,9 @@
         				</div>
         			</div>
 			 	</div>
-			 	<div v-if="(printType == 'prescription' && prescriptiData.length != '')"  style="min-height: 350px;height: 350px;">
+			 	<div v-if="(printType == 'prescription' && prescriptiData.length != '')"  >
 
-			 			<div class='row' style="padding-left: 15px;padding-right:15px;">
+			 			<div class='row'>
 			 				<div class='col-md-6 text-left'>
 									<span class='text-left'><b>Ref By :</b></span>
 										{{this.adviceDoctor}}
@@ -179,8 +179,6 @@
     	 	 					</span>
     	 	 				</div>
     	 	 			</div>	
-    	 	 			<br/>
-    	 	 			<br/>
     	 	 			
 			 			<div v-if="presp_count(prescriptiData)>0" >
     	 	 				<div class='row' v-show="presp_count(prescriptiData)>0">
@@ -190,7 +188,6 @@
 			 				</div>
 							<prescriptionPrint :prescriptData="prescriptiData" :removeBtn="0"> </prescriptionPrint>
     	 	 			</div>
-    	 	 			<br/><br/>
     	 	 			<div v-if="(referalType == 'cross' && crossSelectedValue != '')">
 			 				
 				 			<div class='col-md-12 text-center'>
@@ -213,7 +210,7 @@
 				 		</div>
 
 			 	</div>
-			 	<div v-if="(printType == 'opd_case')"  style="min-height: 350px;height: auto;margin-bottom:300px">
+			 	<div v-if="(printType == 'opd_case')"  >
 			 			<div class='row'>
 			 				<div class='col-md-12 text-center'>
 			 					<h4>OPD CASE</h4>
@@ -353,13 +350,14 @@
     	 	 					</div>
 		 					</div>
 		 				</div>
-		 				<div style="position:absolute;bottom:150px;width:100%height:200px;right:30px;">
+		 				<div class='text-right'>
 		 					<img  :src="'/assets/img/signature/'+signatureName+'.png'" height="66" width="182"/>
 		 				</div>	
-		 				<div style="position:absolute;bottom:150px;width:100%height:200px;right:30px;">
+		 				<div class='text-right'>
 		 					<img  :src="'/assets/img/timestamp/'+timeStamp+'.png'" height="66" width="182"/>
 						</div>	
-	 					<div style="position:absolute;bottom:120px;width:100%height:50px;right:30px;">		 							<div class="row" style="padding-bottom: 10px;padding-right:20px;font-size: 15px;  ">
+	 					<div >	
+	 						<div class="row" >
             				<div class='col-md-12 text-right'>
 								<span class='text-right'><b>Consultant's Signature</b></span>
 	 						</div>

@@ -84,7 +84,7 @@ class UsersTableSeeder extends Seeder
             'is_mobile_user'=>1,
             'deleted_at'=>NULL,
             'last_name'=>'Bhowmick',
-            'email'=>'suvorit.bhowmick@gmail.com',M.S., MSch
+            'email'=>'suvorit.bhowmick@gmail.com',
             'status'=>'Active'],
 
         ]);
