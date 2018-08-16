@@ -22,11 +22,10 @@
        <!--        <th>Admit Date</th>
               <th>Discharge Date</th> -->
               <th>Action</th>
-
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(res,index) in receiptData">
+            <tr v-for="(res,index) in receiptData" :id="'receipt_'+res.id">
                <td>{{++index}}</td>
                <td>{{res.receipt_number}}</td>
                <td>{{res.case_no}}</td>
@@ -38,7 +37,6 @@
                	<button type="button" class="btn btn-success" data-toggle="modal" href="#receiptModal" id="modellink" @click="receiptPrintView(res.id)">Print</button>
                <button type="button" class="btn btn-danger" @click="removeReceipt(res.id)">Delete</button></td>
             </tr>
-
           </tbody>
         </table>
       </div>
@@ -118,12 +116,15 @@
 				
 				if(confirm('Are you sure to remove this record ?'))
         		{
+
         			User.removeReceipt(id).then(
 
 						(response) => {
 							if(response.data.code == '200'){
+								$('#receipt_'+id).remove();
 								 User.getReceiptList().then(
 								 		(response) => {
+								 		
 								 		this.receiptData = response.data;
 								 		},
 								 		(error) => {

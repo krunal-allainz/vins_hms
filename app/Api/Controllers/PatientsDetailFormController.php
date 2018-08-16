@@ -99,13 +99,16 @@ class PatientsDetailFormController extends Controller
             }
         }
     }
-    public function getAllPatientName() {
-        $patientDetails = PatientDetailsForm::get();
-        if ($patientDetails) {
-            return ['code' => '200','data'=>$patientDetails, 'message' => 'Record Sucessfully created'];
-        } else {
-            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
-        }
+
+    /**
+     * [getAllPatientName description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getAllPatientName(Request $request) {
+        $user_type = $request->userType;
+        $patientDetails = $this->patientOBJ->getAllPatientName($user_type);
+        return $patientDetails;
     }
     /**
      * Display the specified resource.
@@ -323,4 +326,40 @@ class PatientsDetailFormController extends Controller
             return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
         }
     }
+
+    /**
+    *
+    *
+    *
+    **/
+
+    public function getPatientList(Request $request){ 
+        $section = $request->type;
+        $noOfRecord = $request->noOfRecord;
+        $id= $request->id;
+        $patientDetail =  $this->patientOBJ->getPatientList($section,$noOfRecord,$id);
+        if ($patientDetail) {
+            return ['code' => '200','data'=>$patientDetail, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+    }
+
+    /**
+    *
+    *
+    *
+    **/
+
+    public function getPatientDetailInfo(Request $request){
+        $patientId = $request->patientId;
+        $patientDetail = $this->patientOBJ->getPatientDetailInfo($patientId);
+        if ($patientDetail) {
+            return ['code' => '200','data'=>$patientDetail, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+
+    }
+
 }

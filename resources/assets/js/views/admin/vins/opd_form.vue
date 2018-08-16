@@ -20,11 +20,9 @@
                     <option value="">Select </option>
                    <option :value="pat.id" v-for="pat in opdData.patient_option">{{pat.name}}</option>
                 </select> 
-                
             </div>
           </div>
         </div>
-          
           <div v-if="isPatientSearch">
             <patientSearch v-if="patient_select_enable==false" :user_id="doctor_id" ref="opd_form"></patientSearch>
           </div>
@@ -44,10 +42,6 @@
             <div class="col-md-6" v-show="(opdData.last_vist != '')">
               <div class="col-md-6 ">
                 <label for="opd_no">Last Visit:</label>
-              </div>
-              <div class="col-md-6 ">
-                <span>{{opdData.last_vist}}</span>
-
               </div>
                <div class="col-md-6">
                 {{opdData.last_vist}}
@@ -210,6 +204,34 @@
                     </div>
                   </div>
                 </div>
+
+       <div class="row form-group">
+        <div class="col-md-6">
+          <div class="col-md-6">
+            <label for="date">Provisional Diagnostic:</label>
+          </div>
+          <div class="col-md-12">
+            <textarea class="form-control" name="provisional_diagnosis" id="provisional_diagnosis" v-model="opdData.provisional_diagnosis" v-validate="'required'"></textarea>
+            <i v-show="errors.has('provisional_diagnosis')" class="fa fa-warning"></i>
+            <span class="help is-danger" v-show="errors.has('provisional_diagnosis')">
+               Please enter provisional diagnostic.
+            </span>
+          </div>
+        </div>
+      </div>
+    <div class="row">
+      <div class="col-md-6">
+        <h3>Pain Assessment</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2" @click="pain_value(0)"><img src="/assets/img/pain/P1.png" class="test"  v-bind:class="[opdData.pain_value==0 ? 'pain_select': '', 'pain_img'  ]"></div>
+      <div class="col-md-2" @click="pain_value(2)"><img src="/assets/img/pain/P2.png"  v-bind:class="[opdData.pain_value==2 ? 'pain_select': '' , 'pain_img' ]"> </div>
+      <div class="col-md-2" @click="pain_value(4)"><img src="/assets/img/pain/P3.png"   v-bind:class="[opdData.pain_value==4 ? 'pain_select': '', 'pain_img'  ]"></div>
+      <div class="col-md-2" @click="pain_value(6)"><img src="/assets/img/pain/P4.png"   v-bind:class="[opdData.pain_value==6 ? 'pain_select': '', 'pain_img'  ]"></div>
+      <div class="col-md-2" @click="pain_value(8)"><img src="/assets/img/pain/P5.png"   v-bind:class="[opdData.pain_value==8 ? 'pain_select': '', 'pain_img'  ]"></div>
+      <div class="col-md-2" @click="pain_value(10)"><img src="/assets/img/pain/P6.png"   v-bind:class="[opdData.pain_value==10 ? 'pain_select': '', 'pain_img'  ]"></div>
+    </div>
 
       <div class="row form-group">
         <div class="col-md-6">
@@ -475,6 +497,19 @@
         </div>
       </div>
       <!-- for laboratory -->
+
+        <!-- for physiotherapy -->
+        <div class="row form-group" v-show="opdData.referral == 'physiotherapy' ">
+          <div class="col-md-6">
+          <div class="col-md-12">
+            <label class="control-label" for="label_1">Details </label>
+          </div>
+          <div class="col-md-12">
+            <textarea class="form-control" name="physio_details" id="physio_details" v-model="opdData.physio_details"></textarea>
+          </div>
+        </div>
+      </div>
+      <!-- for physiotherapy -->
        
          <div class="row form-group">
           <div class="col-md-12">
@@ -509,30 +544,6 @@
           </card>
       </div>
       <!-- for cross table -->
-       <!-- for laboratory table -->  
-      <div class="col-md-12" v-if="opdData.reffreal_laboratory_array.length>0">
-        <card title="<i class='ti-layout-cta-left'></i> Laboratory"  class="filterable">
-           <div class="table-responsive">
-              <table class="table table-striped table-bordered" id="">
-                  <thead>
-                  <tr>
-                      <th>#</th>
-                      <th>Name</th>
-                      <th>Action</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(lab_arr, index) in opdData.reffreal_laboratory_array">
-                        <td>{{lab_arr.id}}</td>
-                        <td>{{lab_arr.name}}</td>
-                        <td><i class="fa fa-remove" @click="removeLabRef(lab_arr.id)"></i></td>
-                    </tr>
-                  </tbody>
-              </table>
-            </div>
-            </card>
-      </div>
-      <!-- for laboratory table -->
       <!-- for radiology table -->  
       <div class="col-md-12" v-if="opdData.reffreal_radiology_array.length>0">
           <card title="<i class='ti-layout-cta-left'></i> Radiology"  class="filterable">
@@ -565,22 +576,32 @@
             </div>
           </card>
           </div>
-      <!-- for radiology table -->  
-      <div class="row">
-      <div class="col-md-6">
-        <h3>Pain Assessment</h3>
-
+      <!-- for radiology table -->
+       <!-- for laboratory table -->  
+      <div class="col-md-12" v-if="opdData.reffreal_laboratory_array.length>0">
+        <card title="<i class='ti-layout-cta-left'></i> Laboratory"  class="filterable">
+           <div class="table-responsive">
+              <table class="table table-striped table-bordered" id="">
+                  <thead>
+                  <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Action</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(lab_arr, index) in opdData.reffreal_laboratory_array">
+                        <td>{{lab_arr.id}}</td>
+                        <td>{{lab_arr.name}}</td>
+                        <td><i class="fa fa-remove" @click="removeLabRef(lab_arr.id)"></i></td>
+                    </tr>
+                  </tbody>
+              </table>
+            </div>
+            </card>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-2" @click="pain_value(0)"><img src="/assets/img/pain/P1.png" class="test"  v-bind:class="[opdData.pain_value==0 ? 'pain_select': '', 'pain_img'  ]"></div>
-      <div class="col-md-2" @click="pain_value(2)"><img src="/assets/img/pain/P2.png"  v-bind:class="[opdData.pain_value==2 ? 'pain_select': '' , 'pain_img' ]"> </div>
-      <div class="col-md-2" @click="pain_value(4)"><img src="/assets/img/pain/P3.png"   v-bind:class="[opdData.pain_value==4 ? 'pain_select': '', 'pain_img'  ]"></div>
-      <div class="col-md-2" @click="pain_value(6)"><img src="/assets/img/pain/P4.png"   v-bind:class="[opdData.pain_value==6 ? 'pain_select': '', 'pain_img'  ]"></div>
-      <div class="col-md-2" @click="pain_value(8)"><img src="/assets/img/pain/P5.png"   v-bind:class="[opdData.pain_value==8 ? 'pain_select': '', 'pain_img'  ]"></div>
-      <div class="col-md-2" @click="pain_value(10)"><img src="/assets/img/pain/P6.png"   v-bind:class="[opdData.pain_value==10 ? 'pain_select': '', 'pain_img'  ]"></div>
-    </div>
-      </div>
+      <!-- for laboratory table -->  
+         </div>
       <div class="row" v-if="curStep == 2"> 
           <laboratory :labData="opdData.laboratoryALLData" ></laboratory>
         </div>
@@ -827,11 +848,12 @@
                 'laboratory_report_opd_data':{},
                 'select_type':'',
                 'select_value':'',
-                'last_vist' : ''
+                'last_vist' : '',
+                'physio_details':'',
+                'provisional_diagnosis':''
               }
             }
         }, 
-
         components: {
          prescriptionData,
          createPatientDetail,
@@ -862,44 +884,19 @@
         },
         
         mounted(){
-       
+         
           $('.ls-select2').select2({
             placeholder: "Select",
             tags:false 
           });
-         var vm =this;  
-         let patient_list_new=[];
+         var vm =this;
          let opd_list_new=[];
-         
-         let section = 'OPD';
-         
-
+          vm.opdData.patientlist = this.$store.state.Patient.patientId;
          vm.$store.dispatch('resetOpdForm');
-
-
           setTimeout(function(){
             vm.doctor = vm.$store.state.Users.userDetails.first_name + " "+ vm.$store.state.Users.userDetails.last_name;  
             vm.doctor_id = vm.$store.state.Users.userDetails.id;  
           },1000);
-          
-           User.getAllPatientNameByConsultDoctor(vm.doctor_id,section).then(
-                  (response) => {
-                    $.each(response.data.data, function(key,value) {
-
-                       patient_list_new.push({
-                         'id' : value.id,
-                         'name' : value.name,
-                         'uhid_no' : value.uhid_no
-                      });
-                    });
-
-                    vm.opdData.patient_option=patient_list_new;
-                    
-                  },
-                      (error) => {
-                  },
-          );
-
           /*for laboratory data*/
             let labpratory_all_data=[];
             User.generateAllLaboratoryListByChild().then(
@@ -1136,6 +1133,7 @@
                     tags:false 
                   });
                 },500);
+
           $('#patient').on("select2:select", function (e) {
                  vm.opdData.patientlist=$(this).val();
                  let patientId = $(this).val();
@@ -1176,6 +1174,7 @@
                                 vm.opdData.bp_diastolic =bp[1];
                              }
                            vm.opdData.temp =patient_checkup_details.temp;
+                           vm.opdData.pain_value=patient_checkup_details.pain;
                           }
                       },
                       (error) => {
@@ -1202,11 +1201,39 @@
             vm.examinationChangeImage();
           },500);
           
-
+          vm.newPatient(); 
 
 
         },
         methods: {
+          newPatient()
+          {
+              var vm =this;
+              setInterval(function() {
+                 vm.getResults();
+              }, 1000);
+          },
+          getResults(page_url) {
+            var vm =this;
+            let patient_list_new=[];
+            let section = 'OPD';
+            User.getAllPatientNameByConsultDoctor(vm.doctor_id,section).then(
+                  (response) => {
+                    $.each(response.data.data, function(key,value) {
+                       patient_list_new.push({
+                         'id' : value.id,
+                         'name' : value.name,
+                         'uhid_no' : value.uhid_no
+                      });
+                    });
+
+                    vm.opdData.patient_option=patient_list_new;
+                    
+                  },
+                      (error) => {
+                  },
+            );
+          },
           patient_select_change(val)
           {
             let vm =this;
@@ -1221,6 +1248,7 @@
               vm.opdData.bp_systolic="";
               vm.opdData.bp_diastolic="";
               vm.opdData.temp="";
+              vm.opdData.pain_value=0;
               vm.opdData.select_value="";
               vm.opdData.opd_option={};
               if(val==true)
@@ -1261,6 +1289,7 @@
               vm.opdData.bp_systolic="";
               vm.opdData.bp_diastolic="";
               vm.opdData.temp="";
+              vm.opdData.pain_value=0;
               vm.opdData.select_value="";
               vm.opdData.opd_option={};
           },
@@ -1515,23 +1544,18 @@
           },
           next() {
             let vm =this;
-                //this.$validator.validateAll().then(
-                //(response) => {
-                 //vm.priscriptionAdd = vm.finalPrescriptionData.length;
-                  //if (!this.errors.any()) {
-                    // if(vm.priscriptionAdd >  0){
-                      
+                this.$validator.validateAll().then(
+                (response) => {
+                
+                  if (!this.errors.any()) {
                       vm.curStep = vm.curStep+1;
                       vm.$store.dispatch('setOpdData',vm.opdData);
                       vm.$store.dispatch('setResData',vm.finalResultData);
-
-
-                    // }
-                  //}
-                //},
-               //(error) => {
-                //}
-               // )
+                  }
+                },
+               (error) => {
+                }
+              )
             
           },
           initLastData(){

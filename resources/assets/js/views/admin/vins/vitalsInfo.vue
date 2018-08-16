@@ -43,8 +43,15 @@
 	            </div>
 	         </div>
 			<div class="row form-group">	
-            		<div class="col-md-6" >
-		              <div class="col-md-6 ">
+              <div class="col-md-6" v-show="(patientData.last_vist != '')">
+                   <div class="col-md-6 "> 
+                    <label for="opd_no">Last Visit:</label>
+                    </div>
+                    <div class="col-md-6">
+                      {{patientData.last_vist}}
+                    </div>
+              </div>
+		            <!--   <div class="col-md-6 ">
 		                <label for="opd_no">Select OPD No.:</label>
 		              </div>
 		              <div class="col-md-6">
@@ -56,8 +63,8 @@
 		                   <span class="help is-danger" v-show="errors.has('opd_no')">
 		                    Please Select OPD Number.
 		                  </span> 
-		              </div>
-          		</div>
+		              </div> -->
+          		
           		 <div class="col-md-6"  v-if="patientData.uhid_no!=''">
                   <div class="col-md-6 " v-if="patientData.uhid_no!=''" >
                     <label for="date">UHID No:</label>
@@ -207,6 +214,7 @@
         data() {
             return {
             	 'user_id':this.$store.state.Users.userDetails.id,
+               'user_type':this.$store.state.Users.userDetails.user_type,
              	 'patient_select_enable':true,
                'isPatientSearch':true,
             	 'patientData' : {
@@ -226,6 +234,7 @@
                 	'select_type':'',
                 	'select_value':'',
                 	'uhid_no' : '',
+                  'last_vist' : ''
             	 }
             }
         },
@@ -240,34 +249,14 @@
 		            placeholder: "Select",
 		            tags:false 
 		          });
-    
-         	 	 User.getAllPatientName().then(
-
-	               	 (response) => {
-	               	 		let patien_data ;
-	               	 		patien_data = response.data;
-	               	 		$.each(response.data.data, function(key, value) {
-	               	 		let name = value.first_name +' '+value.last_name;
-	               	 		let pid  = value.id ;
-	               	 		let uhid_no  = value.uhid_no ;
-	               	 		list.push({
-	               	 				name:name,
-	               	 				id:pid,
-	               	 				uhid_no:uhid_no
-	               	 			});
-	               	 	  	});
-		                setTimeout(function(){
-	                              $('#patient').select2({
-	                                placeholder: "Select",
-	                                tags:false 
-	                              }); 
-
-	                      },500);
-	               	 	 vm.patientData.patient_option = list;
-	               	 	 },
-	               	 	 	(error) => {
-	            	 	},
-	               	 );
+              vm.newPatient(); 
+             
+         	 	 setTimeout(function(){
+                $('#patient').select2({
+                  placeholder: "Select",
+                  tags:false 
+                });
+              },500);
 
 	        $(document).on("select2:select",'#patient', function (e) { 
 	               let patientId = $(this).val();
@@ -280,33 +269,23 @@
 	                    (error) => {
 	                    },
 	                );
-                	 User.generateOpdIdByPatirntID(patientId).then(
+                	 User.getLastOPDIdByPatientId(patientId).then(
                     (response) => {
-                      opd_list_new=[];
-                     $.each(response.data.data, function(key,value) {
-
-                         opd_list_new.push({
-                           'id' : value.id,
-                           'opd_id' : value.opd_id,
-                        });
-                      });
-                       setTimeout(function(){
-                              $('#opd_no').select2({
-                                placeholder: "Select",
-                                tags:false 
-                              }); 
-
-                      },500);
-                       vm.patientData.opd_option=opd_list_new;
+                      let opdID ;
+                      let lastVist;
+                      opdID = response.data.data.id;
+                      lastVist = response.data.data.appointment_datetime;
+                       vm.patientData.opd_id=opdID;
+                        vm.patientData.last_vist=lastVist;
                       },
                       (error) => {
                       },
                 );
                 });
-	          $(document).on("select2:select",'#opd_no', function (e) { 
-	          		 let opdId = $(this).val();
-                	vm.patientData.opd_id=opdId;
-	          });
+	          // $(document).on("select2:select",'#opd_no', function (e) { 
+	          // 		 let opdId = $(this).val();
+           //      	vm.patientData.opd_id=opdId;
+	          // });
 	          
          	},
          computed: {
@@ -328,6 +307,37 @@
             this.$root.$on('patientEmpty',this.patientEmpty);
         },
        methods: {
+        newPatient()
+          {
+              var vm =this;
+              setInterval(function() {
+                 vm.getResults();
+              }, 1000);
+          },
+        getResults(page_url) {
+            var vm =this;
+            let patient_list_new=[];
+            let section = 'OPD';
+             User.getAllPatientName(vm.user_type).then(
+                   (response) => {
+                      let patien_data ;
+                      patien_data = response.data;
+                      $.each(response.data.data, function(key, value) {
+                      let name = value.first_name +' '+value.last_name;
+                      let pid  = value.id ;
+                      let uhid_no  = value.uhid_no ;
+                      patient_list_new.push({
+                          name:name,
+                          id:pid,
+                          uhid_no:uhid_no
+                        });
+                        });
+                     vm.patientData.patient_option = patient_list_new;
+                     },
+                      (error) => {
+                  },
+                   );
+          },
          patientEmpty()
           {
               let vm =this;
@@ -342,25 +352,38 @@
               //for opd list
                 this.patientData.uhid_no=pDetails.uhid_no;
                 let opd_list_new=[];
-                User.generateOpdIdByPatirntID(pDetails.id).then(
+                // User.generateOpdIdByPatirntID(pDetails.id).then(
+                //     (response) => {
+                //       opd_list_new=[];
+                //      $.each(response.data.data, function(key,value) {
+
+                //          opd_list_new.push({
+                //            'id' : value.id,
+                //            'opd_id' : value.opd_id,
+                //         });
+                //       });
+                //        setTimeout(function(){
+                //               $('#opd_no').select2({
+                //                 placeholder: "Select",
+                //                 tags:false 
+                //               }); 
+
+                //       },500);
+                //        this.patientData.patient_id = pDetails.id;
+                //        this.patientData.opd_option=opd_list_new;
+                //       },
+                //       (error) => {
+                //       },
+                // );
+                User.getLastOPDIdByPatientId(pDetails.id).then(
                     (response) => {
-                      opd_list_new=[];
-                     $.each(response.data.data, function(key,value) {
-
-                         opd_list_new.push({
-                           'id' : value.id,
-                           'opd_id' : value.opd_id,
-                        });
-                      });
-                       setTimeout(function(){
-                              $('#opd_no').select2({
-                                placeholder: "Select",
-                                tags:false 
-                              }); 
-
-                      },500);
+                      let opdID ;
+                      let lastVist;
+                      opdID = response.data.data.id;
+                      lastVist = response.data.data.appointment_datetime;
                        this.patientData.patient_id = pDetails.id;
-                       this.patientData.opd_option=opd_list_new;
+                       vm.patientData.opd_id=opdID;
+                        vm.patientData.last_vist=lastVist;
                       },
                       (error) => {
                       },

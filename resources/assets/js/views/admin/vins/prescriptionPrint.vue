@@ -1,7 +1,8 @@
 <template>
 	<div class="container" v-if="presp_count(prescriptData)>0">
-		<h4>Prtescription Print</h4>
+		<h4>Prescription Print</h4>
 			<div class="form-group">
+
 			    <div class="col-md-12">
 			      <div class="table-responsive">
 			        <table class="table" id="">
@@ -11,11 +12,19 @@
 
     			                <td>{{++index}} ] {{res.name}} :ORAL <span v-if="res.clock_quantity_1!='0'"> {{res.clock_quantity_1}}</span>
                                     <span v-if="res.clock_quantity_2!='0'"> <span v-if="res.clock_quantity_1!='0'"> ______</span>{{res.clock_quantity_2}}</span><span v-if="res.clock_quantity_3!='0'"> <span v-if="res.clock_quantity_1!='0' || res.clock_quantity_2!='0'"> ______</span>{{res.clock_quantity_3}}</span><span v-if="res.clock_quantity_4!='0'"><span v-if="res.clock_quantity_1!='0' || res.clock_quantity_2!='0' || res.clock_quantity_3!='0'">  ______</span>{{res.clock_quantity_4}}</span>
-                                    [ <span v-if="res.clock_time_1!='00:00'"> {{res.clock_time_1}}</span><span v-if="res.clock_time_2!='00:00'"><span v-if="res.clock_time_1!='00:00'"> ______</span> {{res.clock_time_2}}</span><span v-if="res.clock_time_3!='00:00'"><span v-if="res.clock_time_1!='00:00' || res.clock_time_2!='00:00'"> ______</span> {{res.clock_time_3}}</span><span v-if="res.clock_time_4!='00:00'"><span v-if="res.clock_time_1!='00:00' || res.clock_time_2!='00:00' || res.clock_time_3!='00:00'"> ______</span>{{res.clock_time_4}}</span> ] [ <span v-if="res.clock_suggest_1!='' && res.clock_suggest_1!='--'"> {{res.clock_suggest_1}}</span><span v-if="res.clock_suggest_2!=''  && res.clock_suggest_2!='--'"> <span v-if="res.clock_suggest_1!='' && res.clock_suggest_1!='--'"> ______</span>{{res.clock_suggest_2}}</span><span v-if="res.clock_suggest_3!=''  && res.clock_suggest_3!='--'"><span v-if="(res.clock_suggest_1!='' && res.clock_suggest_1!='--') || (res.clock_suggest_2!='' && res.clock_suggest_2!='--')"> ______</span>{{res.clock_suggest_3}}</span><span v-if="res.clock_suggest_4!=''  && res.clock_suggest_4!='--'"><span v-if="(res.clock_suggest_1!='' && res.clock_suggest_1!='--') || (res.clock_suggest_2!='' && res.clock_suggest_2!='--') || (res.clock_suggest_3!='' && res.clock_suggest_3!='--')"> ______</span>{{res.clock_suggest_4}}</span> ] <i class="fa fa-close"></i>
-                                 <span v-if="res.total_prescription_days!=''">{{res.total_prescription_days}} DAYS </span>
-                                <span v-else>TO BE CONTINUE</span>
+                                    <span v-if="res.clock_quantity_1!='0' || res.clock_quantity_2!='0' || res.clock_quantity_3!='0' || res.clock_quantity_4!='0'">
+                                         [ <span v-if="res.clock_quantity_1!='0'"> {{res.clock_time_1}}</span><span v-if="res.clock_quantity_2!='0'"><span v-if="res.clock_quantity_1!='0'"> ______</span> {{res.clock_time_2}}</span><span v-if="res.clock_quantity_3!='0'"><span v-if="res.clock_quantity_1!='0' || res.clock_quantity_2!='0'"> ______</span> {{res.clock_time_3}}</span><span v-if="res.clock_quantity_4!='0'"><span v-if="res.clock_quantity_1!='0' || res.clock_quantity_2!='0' || res.clock_quantity_3!='0'"> ______</span>{{res.clock_time_4}}</span> ] 
+                                    </span>
+                                    <span v-if="(res.clock_suggest_1!='' && res.clock_suggest_1!='--') || (res.clock_suggest_2!='' && res.clock_suggest_2!='--') || (res.clock_suggest_3!='' && res.clock_suggest_3!='--') || (res.clock_suggest_4!='' && res.clock_suggest_4!='--')">
+                                        [ <span v-if="res.clock_suggest_1!='' && res.clock_suggest_1!='--'"> {{res.clock_suggest_1}}</span><span v-if="res.clock_suggest_2!=''  && res.clock_suggest_2!='--'"> <span v-if="res.clock_suggest_1!='' && res.clock_suggest_1!='--'"> ______</span>{{res.clock_suggest_2}}</span><span v-if="res.clock_suggest_3!=''  && res.clock_suggest_3!='--'"><span v-if="(res.clock_suggest_1!='' && res.clock_suggest_1!='--') || (res.clock_suggest_2!='' && res.clock_suggest_2!='--')"> ______</span>{{res.clock_suggest_3}}</span><span v-if="res.clock_suggest_4!=''  && res.clock_suggest_4!='--'">
+                                        <span v-if="(res.clock_suggest_1!='' && res.clock_suggest_1!='--') || (res.clock_suggest_2!='' && res.clock_suggest_2!='--') || (res.clock_suggest_3!='' && res.clock_suggest_3!='--')"> ______</span>{{res.clock_suggest_4}}</span> ]
+                                    </span>
+                                    <span v-if="res.qhrs!=''">[{{res.qhrs}}]</span>
+                                     <i class="fa fa-close"></i>
+                                    <span v-if="res.total_prescription_days!=''">{{res.total_prescription_days}} DAYS </span>
+                                    <span v-else>TO BE CONTINUE</span>
                             </td>
-                            <td><i class="fa fa-remove" @click="removePrescript(res.pid)"></i></td> 
+                            <td v-if="removeBtn==1"><i class="fa fa-remove point" @click="removePrescript(res.pid)"></i></td> 
 			              </tr>
 			            </tbody>
 			        </table>
@@ -28,8 +37,9 @@
                                 <th>Prescription Name</th>
                                 <th>How Many Days</th>
                                 <th>Total Quantity</th>
+                                <th>QHRS</th>
                                 <th>Total Days</th>
-                                <th>Action</th>
+                                <th v-if="removeBtn==1">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -37,9 +47,10 @@
                                 <td>{{++index}} </td>
                                 <td>{{res2.name}}</td>
                                 <td>{{res2.type}}</td>
-                                <td>{{res2.total_quantity}}</td>
+                                <td>{{res2.total_quantity*res2.total_prescription_days}}</td>
+                                <td>{{res2.qhrs}}</td>
                                 <td>{{res2.total_prescription_days}}</td>
-                            <td><i class="fa fa-remove" @click="removePrescript(res2.pid)"></i></td>
+                            <td v-if="removeBtn==1"><i class="fa fa-remove point" @click="removePrescript(res2.pid)"></i></td>
                           </tr>
                         </tbody>
                     </table>
@@ -59,7 +70,7 @@
     	components: {
     		'date-picker': myDatepicker
     	},
-    	props:['prescriptData'],
+    	props:['prescriptData','removeBtn'],
         data() {
             return {
             	'notValid':false,

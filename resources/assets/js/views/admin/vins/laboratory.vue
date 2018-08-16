@@ -26,7 +26,7 @@
                     <!--Textboxes will be added here -->
                     <div v-if="laboratoryData.laboratory_report.length>0" :id="'lab_div_'+index" v-for="(lab, index) in laboratoryData.laboratory_report">
                          <div class="row form-group">
-                            <div class="col-md-3"> 
+                            <div class="col-md-5"> 
                                 <div class="col-md-12"> 
                                     <label class="control-label" for="label_1" >Name </label> 
                                 </div> 
@@ -43,7 +43,7 @@
                                        
                                 </div>  
                             </div>  
-                            <div class="col-md-3"> 
+                            <div class="col-md-4"> 
                                 <div class="col-md-12"> 
                                     <label class="control-label" for="label_1">Result </label> 
                                 </div> 
@@ -272,8 +272,22 @@
                 vm.setLabData();
             });
             $('#laboratory_report').on("select2:unselect", function (e) {
-                 
-                vm.laboratoryData.laboratory_report =  _.cloneDeep($('#laboratory_report').select2('data'));
+                let lab_val_data=_.cloneDeep($('#laboratory_report').select2('data'));
+                var labRes = [];
+                _.forEach(lab_val_data, function(rep,index) {
+                    let labFind = false;
+                    _.find(vm.laboratoryData.laboratory_report, function(res) {
+                        if(res.id == rep.id){
+                            labRes.push(res);
+                            labFind = true;
+                            return false;
+                        } 
+                    });
+                    if(labFind == false) {
+                        labRes.push({'id':rep.id,'lab_date':rep.lab_date,'result':'','text':rep.text});
+                    }
+                });
+                vm.laboratoryData.laboratory_report= labRes;
                 vm.saveLaboratoryTable();
             }).trigger('change');
 
@@ -330,8 +344,10 @@
                     (response) => {
                     // vm.priscriptionAdd = vm.finalPrescriptionData.length;
                     if (!this.errors.any()) {
+                        //console.log(vm.laboratoryData.laboratory_report);
                         vm.finalLaboratoryData =  _.cloneDeep(vm.laboratoryData.laboratory_report);
                         vm.setLaboratoryData();
+
                     }
                 },
                 (error) => {

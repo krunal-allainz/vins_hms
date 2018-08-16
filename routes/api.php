@@ -102,7 +102,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
          $api->post('counsellingForm/create', '\euro_hms\Api\Controllers\FormsOptionsDataController@store')->name('counsellingForm.create');
          $api->post('centralLineBundleChecklist/create', '\euro_hms\Api\Controllers\FormsOptionsDataController@store')->name('centralLineBundleChecklist.create');
         $api->post('patient/getDetails/{id}', '\euro_hms\Api\Controllers\PatientsDetailFormController@getDetails');
-        $api->get('patient/getAll', '\euro_hms\Api\Controllers\PatientsDetailFormController@getAllPatientName');
+        $api->post('patient/getAll', '\euro_hms\Api\Controllers\PatientsDetailFormController@getAllPatientName');
         $api->get('user/getUserDetails', '\euro_hms\Api\Controllers\UserController@getUserDetails');
         $api->post('user/create', '\euro_hms\Api\Controllers\UserController@createUser')->name('create.users'); 
 
@@ -199,6 +199,10 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
          //for getting OPD No list by patient id
         $api->post('patient/getLastOPDIdByPatientId', '\euro_hms\Api\Controllers\PatientsDetailFormController@getLastOPDIdByPatientId');
+
+         $api->post('patient/getpatientlist', '\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientList');
+
+         $api->post('patient/patientDetailInfo', '\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientDetailInfo');
 
         });
 

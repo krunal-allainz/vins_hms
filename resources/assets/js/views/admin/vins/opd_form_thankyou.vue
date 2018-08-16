@@ -91,7 +91,7 @@
 									                            <th>Name</th>
 									                            <th>Date</th>
 									                            <th>Result</th>
-									                            <th>Assigning Dr</th>
+									                            <!-- <th>Assigning Dr</th> -->
 									                            <!-- <th>Action</th> -->
 									                        </tr>
 									                        </thead>
@@ -101,7 +101,7 @@
 									                            <td>{{res.text }}</td>
 									                            <td>{{res.lab_date.time}}</td>
 									                            <td>{{res.result}}</td>
-									                            <td>{{res.assign}}</td>
+									                            <!-- <td>{{res.assign}}</td> -->
 									                            <!-- <td> <i class="fa fa-remove" @click="removeLaboratory(res.id)"></i></td> -->
 									                          </tr>
 
@@ -136,7 +136,7 @@
 			 		</div>
 			 		<div class="row"  style="min-height: 350px;height: 350px;padding-left: 15px;padding-right:15px;">
         				<div class="col-md-12">
-        					<div class="table-responsive"">
+        					<div class="table-responsive">
                     			<table class="table table-striped table-bordered" id="radio_list">
                         		<thead>
                         			<tr>
@@ -167,6 +167,7 @@
         			</div>
 			 	</div>
 			 	<div v-if="(printType == 'prescription' && prescriptiData.length != '')"  style="min-height: 350px;height: 350px;">
+
 			 			<div class='row' style="padding-left: 15px;padding-right:15px;">
 			 				<div class='col-md-6 text-left'>
 									<span class='text-left'><b>Ref By :</b></span>
@@ -180,27 +181,14 @@
     	 	 			</div>	
     	 	 			<br/>
     	 	 			<br/>
-			 		<div v-if="(prescriptiData != null)" >
-    	 	 				<div class='row' v-show="(prescriptiData.length != '')">
+    	 	 			
+			 			<div v-if="presp_count(prescriptiData)>0" >
+    	 	 				<div class='row' v-show="presp_count(prescriptiData)>0">
 				 				<div class='col-md-12 text-center'>
 				 					<span class='text-center'><b>Prescription</b></span>
 				 				</div>
 			 				</div>
-							<div class="table-responsive">
-							        <table class="table" id="prescription_list">
-							        
-							            <tbody>
-							              <tr v-for="(res,index) in prescriptiData" v-if="res.remove=='false'" :id="res.pid">
-    			                <td>{{++index}}]  {{res.name}} :  ORAL {{res.clock_quantity_1}}___{{res.clock_quantity_2}}___{{res.clock_quantity_3}} [ {{res.clock_time_1}}__ {{res.clock_time_2}}___{{res.clock_time_3}} ] [ {{res.clock_suggest_1}}___{{res.clock_suggest_2}}___{{res.clock_suggest_3}} ]
-    			                 <i class="fa fa-close"></i> 
-                                 <span v-if="res.total_prescription_days!=''">{{res.total_prescription_days}} DAYS </span>
-                                <span v-else>TO BE CONTINUE</span>
-                            </td>
-                           </td> 
-			              </tr>
-							            </tbody>
-							        </table>
-							      </div>
+							<prescriptionPrint :prescriptData="prescriptiData" :removeBtn="0"> </prescriptionPrint>
     	 	 			</div>
     	 	 			<br/><br/>
     	 	 			<div v-if="(referalType == 'cross' && crossSelectedValue != '')">
@@ -288,7 +276,7 @@
 				 				</div>
 			 					<div class="row"  style="padding-left: 15px;padding-right:15px;">
         							<div class="col-md-12">
-        									<div class="table-responsive"">
+        									<div class="table-responsive">
                     							<table class="table table-striped table-bordered" id="radio_list">
                         							<thead>
                         								<tr>
@@ -333,7 +321,7 @@
 									                    <th>Name</th>
 									                    <th>Date</th>
 									                    <th>Result</th>
-									                    <th>Assigning Dr</th>
+									                    <!-- <th>Assigning Dr</th> -->
 									                    <!-- <th>Action</th> -->
 									                    </tr>
 									                </thead>
@@ -343,7 +331,7 @@
 									                            <td>{{res.text }}</td>
 									                            <td>{{res.lab_date.time}}</td>
 									                            <td>{{res.result}}</td>
-									                            <td>{{res.assign}}</td>
+									                           <!--  <td>{{res.assign}}</td> -->
 									                            <!-- <td> <i class="fa fa-remove" @click="removeLaboratory(res.id)"></i></td> -->
 									                    </tr>
 
@@ -360,19 +348,7 @@
 				 								<span class='text-center'><b>Prescription</b></span>
 				 							</div>
 			 							</div>
-										<div class="table-responsive">
-							        		<table class="table" id="prescription_list">
-							            		<tbody>
-							              			<tr v-for="(res,index) in prescriptiData" v-if="res.remove=='false'" :id="res.pid">
-    			                						<td>{{++index}}]  {{res.name}} :  ORAL {{res.clock_quantity_1}}___{{res.clock_quantity_2}}___{{res.clock_quantity_3}} [ {{res.clock_time_1}}__ {{res.clock_time_2}}___{{res.clock_time_3}} ] [ {{res.clock_suggest_1}}___{{res.clock_suggest_2}}___{{res.clock_suggest_3}} ]
-    			                 						<i class="fa fa-close"></i> 
-                                 						<span v-if="res.total_prescription_days!=''">{{res.total_prescription_days}} DAYS </span>
-                                						<span v-else>TO BE CONTINUE</span>
-                           								</td> 
-			              							</tr>
-							            		</tbody>
-							        		</table>
-							      		</div>
+										<prescriptionPrint :prescriptData="prescriptiData" :removeBtn="0"> </prescriptionPrint>
     	 	 						</div>
     	 	 					</div>
 		 					</div>
@@ -408,6 +384,7 @@
 	import vinsletterheadheaderpart from './vins_letter_header.vue';
 	import vinsletterheadfooterpart from './vins_letter_footer.vue';
 	import prescriptionData from './prescriptionData.vue';
+	import prescriptionPrint from './prescriptionPrint.vue';
 	import moment from 'moment';
 	var myDate = new Date();
 				var month = ('0' + (myDate.getMonth() + 1)).slice(-2);
@@ -452,6 +429,7 @@
 		components: {
          vinsletterheadheaderpart,
          vinsletterheadfooterpart,
+         prescriptionPrint
        },
        mounted(){
 			let vm =this;
@@ -528,8 +506,16 @@
   			); 
        },
 		methods: {
+			presp_count(array)
+            {
+                var vm=this;
+                var array_presp=_.filter(array, ['remove', 'false']);
+                vm.count_false=array_presp.length;
+                return  vm.count_false;
 
+            },
 			 check: function(e) {
+			 	let vm=this;
 	     		 if (e.target.checked) {
 	      		  vm.reportListSelect = 0;
 	     		 }else{

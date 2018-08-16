@@ -200,8 +200,8 @@ export default {
   submitReport(reportData) {
     return api.post('report/create',{'reportData':reportData})
   },
-  getAllPatientName() {
-      return api.get('patient/getAll');
+  getAllPatientName(user_type) {
+      return api.post('patient/getAll',{'userType':user_type});
   },
   createUser(userData) {
       return api.post('user/create',{'userData':userData})
@@ -325,6 +325,12 @@ export default {
      return api.post('user/user_exist',{'type': type , value : value});
   },
   getLastOPDIdByPatientId(patient_id) {
-    return api.post('patient/getLastOPDIdByPatientId',{'patient_id':patient_id})
+    return api.post('patient/getLastOPDIdByPatientId',{'patient_id':patient_id});
   },
+  getAllPatientListByDoctoreIdAndPaggination(page_url,type,noofRecord,id) { 
+      return api.post(page_url,{'type':type,'noOfRecord':noofRecord,'id':id});
+  },
+  getPatientDetailInfo(patientId){
+     return api.post('patient/patientDetailInfo',{'patientId':patientId});
+  }
 }
