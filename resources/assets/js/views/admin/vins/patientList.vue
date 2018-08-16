@@ -59,7 +59,8 @@
                         </td> <!----><td data-v-744e717e="" class="">
                             {{ patientData.uhid_no}}
                         </td> <!----><!----> <td data-v-744e717e="" class=""><!-- <i class="fa fa-pencil text-info mr-3 text-info mr-3"></i><i class="fa fa-trash text-danger"></i> -->
-                            <i class="fa fa-eye text-info mr-3 text-info mr-3"  data-toggle="modal" data-target="#patientDetailModal" @click="getPatientInfo(patientData.id)"></i>
+                          <a :href="'/opd_form'"> <i class="fa fa-user-md text-info mr-3 text-info mr-3" @click="setPatientId(patientData.id)"></i></a>
+                            <i class="fa fa-eye text-info mr-3 text-info mr-3"  data-toggle="modal" data-target="#patientDetailModal" @click="getPatientInfo(patientData.id)" ></i>
                             <patientDetailInfo ref="modal" :showPatientDetail="patientDetailInfo"></patientDetailInfo>
                         </td>
                     </tr>
@@ -107,7 +108,12 @@
     import User from '../../../api/users.js';
     import patientDetailInfo from './patientDetailInfo.vue';
      export default {
-
+        props: {
+            'action' : {
+              'view' : 1 ,
+              'select' : 0
+            },
+          },
          data() {
             return {
                 'patientData' :{
@@ -117,6 +123,7 @@
                 'perPage' : 5,
                 'patientId' :'',
                 'patientDetailInfo' : {},
+                'doctore_Id' : this.$store.state.Users.userDetails.id
             }
          },
           components: {
@@ -125,6 +132,7 @@
          mounted(){
             let vm =this;
             vm.getPatientsResult();
+            vm.newPatient();
          },
          methods: {
              close: function () {
@@ -132,13 +140,21 @@
               this.title = '';
               this.body = '';
             },
+            newPatient()
+            {
+                var vm =this;
+                setInterval(function() {
+                   vm.getPatientsResult();
+                }, 1000);
+            },
             getPatientsResult(page_url){
                 var vm =this;
                  page_url = page_url || '/patient/getpatientlist';
                  let type = 'opd';
             let noofRecordperpage = this.perPage;
-            User.getAllPatientList(page_url,type,noofRecordperpage).then(
+            User.getAllPatientListByDoctoreIdAndPaggination(page_url,type,noofRecordperpage,vm.doctore_Id).then(
                      (response) => {
+                      console.log(response.data.data);
                          vm.patientData.patient_list = response.data.data.data;
                          vm.makePagination(response.data.data);
                          },
@@ -172,6 +188,11 @@
               (error) => {
                  },
               );
+          },
+          setPatientId(patientInfo){
+             var vm =this;
+            vm.patientId = patientInfo;
+            vm.$store.dispatch('SetPatientId', vm.patientId);             // 
           },
           setPerPage(e){
                this.getPatientsResult();

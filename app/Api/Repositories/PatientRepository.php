@@ -449,9 +449,9 @@
       return TokenManagment::where('date','like',$date.'%')->Where('token',$token)->count();
     }
 
-    public function getPatientList($type,$noOfRecord){
+    public function getPatientList($type,$noOfRecord,$id){
 
-     return PatientDetailsForm::paginate($noOfRecord);
+     return PatientDetailsForm::where('consultant_id',$id)->paginate($noOfRecord);
      /* if($type == 'opd')
       {
 
