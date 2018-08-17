@@ -1,318 +1,184 @@
 <template>
-
-  <div class="container">
-	<div class="page-header">
+	 <section class="content">
 		<div class="row">
-			<div class="col-md-8">
-				<h1>List Of Forms</h1>
-			</div>
-			<div class="col-md-4">
-				<div class="text-right">
-					<input  type="button" class="btn btn-default" name="newUser" value="New User"
-					@click="GetSelectComponent('NewUser')" />
-				</div>
-			</div>
-			<!-- <div class="col-md-4">
-				<div class="text-right">
-					<input  type="button" class="btn btn-default" name="userList" value="User Details"
-					@click="GetSelectComponent('UserList')" />
-				</div>
-			</div>
+                <div class="col-sm-6 col-md-6 col-xl-3">
+                    <div class="flip">
+                        <div class="widget-bg-color-icon card-box front">
+                            <div class="bg-icon float-left">
+                                <i class="fa fa-eye text-warning"></i>
+                            </div>
+                            <div class="text-right">
+                                <h3 class="text-dark"><b>{{counterData.dailyPatient}}</b></h3>
+                                <p>Daily Visits</p>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <!-- <div class="widget-bg-color-icon card-box back">
+                            <div class="text-center">
+                                <span id="loadspark-chart"></span>
+                                <hr>
+                                <p>Check summary</p>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-xl-3">
+                    <div class="flip">
+                        <div class="widget-bg-color-icon card-box front">
+                            <div class="bg-icon float-left">
+                                <i class="fa fa-medkit text-success"></i>
+                            </div>
+                            <div class="text-right">
+                                <h3><b id="widget_count3">{{counterData.dailyOPD}}</b></h3>
+                                <p>Daily OPD</p>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <!-- <div class="widget-bg-color-icon card-box back">
+                            <div class="text-center">
+                                <span class="linechart" id="salesspark-chart"></span>
+                                <hr>
+                                <p>Check summary</p>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div> -->
+                    </div>
+                </div>
 
- -->		</div>
-	</div>
-
-  <div class="row mt-20">
-		<h3>New Forms</h3>
-	</div>
-	<div class="row">
-		<div class="col-md-4 top-buffer">
-			<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('vascularExamination')">Vascular Examination</a>
-		</div>
-    <div class="col-md-4 top-buffer">
-			<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('neuroExamination')">Neuro Examination</a>
-		</div>
-    <div class="col-md-4 top-buffer">
-  		<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('opd_form')">OPD Form</a>
-  	</div>
-	</div>
-
-
-
-  <hr />
-
-	<div class="row mt-20">
-		<h3>Emergency Patient</h3>
-	</div>
-	<div class="row">
-		<div class="col-md-4 top-buffer">
-			<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('doctorsInitialAssessment')">Doctors Initial Assessment</a>
-		</div>
-		<div class="col-md-4 top-buffer">
-			<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('er_observation')">ER Observation</a>
-		</div>
-		<div class="col-md-4 top-buffer">
-      <a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('nabhReport')">NABH Report</a>
-		</div>
-	</div>
-	<hr />
-	<div class="row mt-20">
-		<h3>Pre-Admission Forms</h3>
-	</div>
-  <!-- <div class="col-md-4 top-buffer">
-  <a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('PatientAdmissionSheet')" >Patient Admission Sheet </a>
-</div> -->
-
-	<div class="row">
-		<div class="col-md-4 top-buffer">
-			<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('patients_detail_form')">Patients Details Form</a>
-		</div>
-		
-		<div class="col-md-4 top-buffer">
-			<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('information_form')" > Information Form </a>
-		</div>
-		<div class="col-md-4 top-buffer">
-			<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('PatientValuableForm')"> Patient Valuables Form </a>
-		</div>
-	</div>
-
-	<hr />
-
-	<div class="row mt-20">
-		<h3>Within 24 Hours</h3>
-	</div>
-	<div class="row">
-		<div class="col-md-4 top-buffer">
-			<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('counsellingForm')">Counselling Form</a>
-		</div>
-		<div class="col-md-4 top-buffer">
-			<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('completeNursingAssessment')">Complete Nursing Assessment</a>
-		</div>
-		<div class="col-md-4 top-buffer">
-			<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('NutritionalAssessmentForm')">Nutritional Assessment Form</a>
-		</div>
-	</div>
-	<div class="row ">
-		<div class="col-md-4 top-buffer">
-			<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('plan_of_care')"> Plan Of Care </a>
-		</div>
-		<div class="col-md-4 top-buffer">
-			<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('history_form')"> History Form </a>
-		</div>
-	</div>
-
-	<hr />
-
-	<div class="row mt-20">
-		<h3>Operation / Surgery</h3>
-	</div>
-
-  <div name="operation / surgery">
-    <!-- <div class="col-md-4 top-buffer">
-			<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('cprFormat')" >CPR Format</a>
-		</div> -->
-    <!-- <div class="col-md-4 top-buffer">
-      <a class="btn btn-default btn-block text-center" style="white-space: normal;" @click = "GetSelectComponent('intraoperativeEventManagement')" > Intra Operative Event & Management</a>
-    </div> -->
-<!-- <div class="col-md-4 top-buffer">
-      <a class="btn btn-default btn-block text-center" style="white-space: normal;" @click = "GetSelectComponent('post_anaesthesia_evaluation')"> Post Anesthesia Evaluation </a>
-    </div> -->
-<!-- <div class="col-md-4 top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('investigation_sheet')" > Investigation Sheet </a>
-			</div> -->
-<!-- <div class="col-md-4 top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click = "GetSelectComponent('pre_OT_checklist')"> Pre-OT Checklist </a>
-			</div> -->
-  </div>
-
-  	<div class="row">
-  		<div class="col-md-4 top-buffer">
-  			<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('LabSheet')">Lab Sheet</a>
-  		</div>
-      <div class="col-md-4 top-buffer">
-  			<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('codeBlueEvaluationForm')">Code Blue Evaluation Form</a>
-  		</div>
-  		<div class="col-md-4 top-buffer">
-  			<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('OperativeDetailSheet')"> Operative Detail Sheet </a>
-  		</div>
-  	</div>
-
-		<div class="row">
-			<div class="col-md-4 top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;"  @click="GetSelectComponent('surgicalSafetyChecklist')" > Surgical Safety Checklist </a>
-			</div>
-			<div class="col-md-4 top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click = "GetSelectComponent('pre_anaesthesia_checkup_form')"> Pre-Anaesthesia Form </a>
-			</div>
-      <div class="col-md-4 top-buffer">
-  			<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('briefOperativeNote')" >Brief Operative Note</a>
-  		</div>
-
-		</div>
-
-		<hr />
-
-		<div class="row mt-20">
-			<h3>Daily Ward / General Forms</h3>
-		</div>
-    <div name="Daily ward / general forms">
-      <!-- <div class="col-md-4 top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('infusionTherapyChart')" >Infusion Therapy Chart</a>
-			</div> -->
-			<!-- <div class="col-md-4 top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('dailyDietForm')">Daily Diet Form</a>
-			</div> -->
-<!-- <div class="col-md-4 top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click = "GetSelectComponent('transfer_checklist_for_nurses')" >Transfer Checklist For Nurses</a>
-			</div> -->
-<!-- <div class="col-md-4 top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('NursingDutyOver')" >Nursing Duty Over</a>
-			</div> -->
-			<!-- <div class="col-md-4 top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('glass_gow')" >Glassgow Form</a>
-			</div> -->
-			<!-- <div class="col-md-4 top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click = "GetSelectComponent('ventilator_charge_sheet')">Ventilator Charge Sheet</a>
-			</div> -->
-<!-- <div class="col-md-4 top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('adverseDrugReaction')" > Adverse Drug Reaction </a>
-			</div> -->
-<!-- <div class="col-md-4 top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('RestraintAdministration')"> Restraint Administration </a>
-			</div> -->
-			<!-- <div class="col-md-4 top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;" > JSON Monitoring for Moderate Sedation </a>
-			</div> -->
-      <!-- <div class="col-md-4 top-buffer">
-        <a class="btn btn-default btn-block text-center" style="white-space: normal;" @click = "GetSelectComponent('transfusion_reaction_form')" > Transfusion Reaction </a>
-      </div> -->
-    </div>
-
-		<div class="row">
-			<!--div class="col-md-4 top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click = "GetSelectComponent('mar_flowsheet')" > JSON MAR Flow Sheet</a>
-			</div-->
-      <div class="col-md-4 top-buffer">
-        <a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('bloodSugarMonitoringChart')" > Blood-Sugar Monitoring Chart </a>
-      </div>
-      <div class="col-md-4 top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('doctorsDailyNotes')" >Doctor's Daily Notes</a>
-			</div>
-			<div class="col-md-4 top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click = "GetSelectComponent('ward_procedure_record')" >Ward Procedure Record</a>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-md-4 top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('bloodTransfusionDetails')" >Blood Transfusion Form</a>
-			</div>
-			<div class="col-md-4 top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('doctors_handover')" >Doctors Handover</a>
-			</div>
-			<div class="col-md-4 top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('PatientDietRecord')">Patient Diet Record</a>
-			</div>
-		</div>
-		<div class="row">
-
-		</div>
-
-
-		<hr />
-
-		<div class="row mt-20">
-			<h3>Discharge</h3>
-		</div>
-
-    <div name="discharge">
-      <!-- <div class="col-md-4 top-buffer">
-        <a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('PhysiotherapyAssessment')"> Physiotherapy Assessment </a>
-      </div> -->
-      <!-- <div class="col-md-4 top-buffer">
-        <a class="btn btn-default btn-block text-center" style="white-space: normal;"  @click="GetSelectComponent('dischargeGatepass')"> Discharge Gatepass </a>
-      </div> -->
-    </div>
-
-		<div class="row">
-      <div class="col-md-4 top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('dischargeSummary')" > Discharge Summary </a>
-			</div>
-      <div class="col-md-4 top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;"  @click = "GetSelectComponent('provisional_discharge_summary')"> Provisional Discharge Summary </a>
-			</div>
-		</div>
-
-
-		<hr />
-
-		<div class="row mt-20">
-			<h3>Other / Unassigned</h3>
-		</div>
-    <div name="unassigned">
-      <!-- <div class="col-md-4 top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click = "GetSelectComponent('radiology_requisition')" >Radiology Requisition Form</a>
-			</div> -->
-			<!-- <div class="col-md-4 top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;" >JSON Peripheral Line Bundle Checklist</a>
-			</div> -->
-<!-- <div class="col-md-4 top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click = "GetSelectComponent('pre_angiography_angioplasty_checklist')">Pre-Angiography Angioplasty Checklist</a>
-			</div> -->
-<!-- <div class="col-md-4 top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;" > JSON Folley's Cathether Checklist </a>
-			</div> -->
-<!-- <div class="col-md-4 top-buffer top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;" > JSON WAP Audit Checklist </a>
-			</div> -->
-<!-- <div class="col-md-4 top-buffer top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('NurseProgressNotes')" > Nurse's Progress Notes </a>
-			</div> -->
-			<!-- <div class="col-md-4 top-buffer top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('drug_requisition')" > Drug Requisition </a>
-			</div> -->
-      <!-- <div class="col-md-4 top-buffer top-buffer">
-      <a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('gate_pass')"> Gate Pass </a>
-    </div> -->
-    <!-- <div class="col-md-4 top-buffer">
-      <a class="btn btn-default btn-block text-center" style="white-space: normal;" >JSON Checklist</a>
-    </div> -->
-    </div>
-
-
-		<div class="row">
-			<div class="col-md-4 top-buffer">
-				<a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('cultureBiopsyForm')">Culture Biopsy Form</a>
-			</div>
-      <div class="col-md-4 top-buffer">
-        <a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('centralLineBundleChecklist')" > Central Line Bundle Checklist </a>
-      </div>
-      <div class="col-md-4 top-buffer">
-        <a class="btn btn-default btn-block text-center" style="white-space: normal;" @click="GetSelectComponent('appointmentBook')" >Appointment Book</a>
-      </div>
-
-		</div>
-
-	<hr />
-</div>
+                <div class="col-sm-6 col-md-6 col-xl-3">
+                    <div class="flip">
+                        <div class="widget-bg-color-icon card-box front">
+                            <div class="bg-icon float-left">
+                                <i class="fa fa-user text-danger"></i>
+                            </div>
+                            <div class="text-right">
+                                <h3 class="text-dark"><b>{{counterData.monthlyPatient}}</b></h3>
+                                <p>Monthly Visits</p>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                <!--         <div class="widget-bg-color-icon card-box back">
+                            <div class="text-center">
+                                <span id="visitsspark-chart"></span>
+                                <hr>
+                                <p>Check summary</p>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-xl-3">
+                    <div class="flip">
+                        <div class="widget-bg-color-icon card-box front">
+                            <div class="bg-icon float-left">
+                                <i class="fa fa-briefcase text-info"></i>
+                            </div>
+                            <div class="text-right">
+                                <h3 class="text-dark"><b>{{counterData.monthlyOPD}}</b></h3>
+                                <p>Monthly OPD</p>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <!-- div class="widget-bg-color-icon card-box back">
+                            <div class="text-center">
+                                <span id="subscribers-chart"></span>
+                               </div>
+                           </div>
+                                <hr>
+                                <p>Check summary</p>
+                            </div>
+                            <div class="clearfix"></div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="row">
+                <div class="col-xl-8 col-12">
+                	 <!-- First Basic Table strats here-->
+                    <patientListview :action="action"></patientListview>
+                </div>
+                    <timeline></timeline>
+                
+                </div>
+            </div>
+    </section>
 </template>
-
 <script >
-    export default {
-        data() {
-            return {
-                'footer' : 'footer',
-                'currentYear': new Date().getFullYear()
-            }
-        },
-        mounted() {
-        	this.$store.dispatch('SetIpdId',0);
+	import User from '../../../api/users.js';
+    import patientListview from './patientList.vue';
+    import timeline from './timeline.vue';
+	export default{
+		data(){
+			return {
+				post: null,
+				'counterData' : {
+					'dailyPatient' : '0',
+					'dailyOPD' : '0',
+					'monthlyPatient' : '0',
+					'monthlyOPD' : '0',
 
-    },
-        methods: {
-		    GetSelectComponent(componentName) {
-		       this.$router.push({name: componentName})
-		    }
+				},
+				'type' : 'OPD',
+				'doctor_id':this.$store.state.Users.userDetails.id,
+				'pagination': {},
+				'patientList' : '',
+                'action' :{
+                    'view' : 0,
+                    'select' : 1
+                }
+
+			}
+		},
+          components: {
+            patientListview,
+            timeline
+        },
+		 mounted(){
+		 	this.getResults();
+		 	this.getPatientCounters();
+		 	this.getOPDCounters();
+		 },
+		  methods:{
+				makePagination: function(data){
+	                let pagination = {
+	                    current_page: data.current_page,
+	                    last_page: data.last_page,
+	                    next_page_url: data.next_page_url,
+	                    prev_page_url: data.prev_page_url
+	                }
+	                this.pagination = pagination;
+	                //this.$set('pagination', pagination)
+	            },
+		  		getPatientCounters(){
+                    
+                    var vm =this;
+		  			User.getNumberOfPatient(vm.type,vm.doctor_id).then(
+		  				 (response) => {
+		  				 	this.counterData.dailyPatient = response.data.data.today;
+		  				 	this.counterData.monthlyPatient = response.data.data.month;
+		  				 },
+		  				  (error) => {	
+		  				  }
+
+		  				);
+
+		  		},
+		  		getOPDCounters(){
+                     var vm =this;
+		  			User.getOPDCounters(vm.doctor_id).then(
+		  				(response) => {
+		  					this.counterData.dailyOPD = response.data.data.today;
+		  				 	this.counterData.monthlyOPD = response.data.data.month;
+		  				 
+		  				},
+		  				(error) => {
+
+		  				}
+		  			);
+
+		  		}
 		  },
-    }
+	}
 </script>

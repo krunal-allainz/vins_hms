@@ -591,7 +591,7 @@
 	            (response) => {
 	            	if (!this.errors.any()) {
 	            		 $("body .js-loader").removeClass('d-none');
-									 var historyFormData = {'type':this.type,'patient_id':this.patient_id,'ipd_id':this.ipd_id,'form_data':this.historyFormData};
+						var historyFormData = {'type':this.type,'patient_id':this.patient_id,'ipd_id':this.ipd_id,'form_data':this.historyFormData};
 				    	User.saveHistoryForm(historyFormData).then(
 		                (response) => {
 		                	if(response.data.status == 200) {

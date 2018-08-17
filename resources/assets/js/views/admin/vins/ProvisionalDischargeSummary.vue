@@ -5,13 +5,7 @@
       <div class="col-md-6">
       <h1>Provisional Discharge Summary</h1>
       </div>
-      <div class="col-md-6">
-        <div class="text-right">
-          DOC NO. F/IPD/09 <br>
-          REV. No. 0.1 <br>
-          WEF 25-03-2017
-        </div>
-      </div>
+      
     </div>
   </div>
 
@@ -28,33 +22,23 @@
           </div>
           <hr>
           <div class="row form-group">
-            <div class="col-md-4">
-            <div class="col-md-4">
+            <div class="col-md-6">
+            <div class="col-md-6">
               <label class="control-label" for="address">Address :</label>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-6">
               <input type="text" name="address"  rows="3" class="form-control" value="" v-model="provisionalDischargeSummaryData.address">
             </div></div>
-            <div class="col-md-4">
-            <div class="col-md-4">
+            <div class="col-md-6">
+            <div class="col-md-6">
               <label class="control-label" for="date_of_discharge">Date of Discharge :</label>
             </div>
             <div class="col-md-6">
-              <input type="date"  name="date_of_discharge" class="form-control " id = "date_of_discharge" value="" v-model="provisionalDischargeSummaryData.date_of_discharge">
+             <date-picker :date.sync="provisionalDischargeSummaryData.date_of_discharge"  name="date_of_discharge" class="form-control " id = "date_of_discharge" v-model="provisionalDischargeSummaryData.date_of_discharge.time"  :option="option"></date-picker>
             </div></div>
 
 
-        <div class="col-md-4">
-  				<div class="col-md-4">
-  					<label>IPD No:</label>
-  				</div>
-  				<div class="col-md-6">
-  					<input class="form-control" type="text"  v-validate="'required|numeric'" name="ipd_id" v-model="ipd_id" id="ipd_id" value="" >
-            <span class="help is-danger" v-show="errors.has('ipd_id')">
-              Field is required
-            </span>
-  				</div>
-        </div></div>
+        </div>
 
 			<hr>
 			<div class="row form-group">
@@ -77,37 +61,37 @@
 			</div>
       <hr>
       <div class="row form-group">
-        <div class="col-md-4">
+        <div class="col-md-6">
           <label class="control-label" for="address">Diagnosis :</label>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-6">
           <input type="text" name="diagnosis"  rows="3" class="form-control" value="" v-model="provisionalDischargeSummaryData.diagnosis">
         </div>
       </div>
 
       <div class="row form-group">
-        <div class="col-md-4">
+        <div class="col-md-6">
           <label class="control-label" for="address">Condition on discharge :</label>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-6">
           <input type="text" name="condition_on_discharge"  rows="3" class="form-control" value="" v-model="provisionalDischargeSummaryData.condition_on_discharge">
         </div>
       </div>
 
       <div class="row form-group">
-        <div class="col-md-4">
+        <div class="col-md-6">
           <label class="control-label" for="address">Advice on discharge :</label>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-6">
           <input type="text" name="advice_on_discharge"  rows="4" class="form-control" value="" v-model="provisionalDischargeSummaryData.advice_on_discharge">
         </div>
       </div>
 
       <div class="row form-group">
-        <div class="col-md-4">
+        <div class="col-md-6">
           <label class="control-label" for="address">Followup :</label>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-6">
           <input type="text" name="followup"  rows="2" class="form-control" value="" v-model="provisionalDischargeSummaryData.followup">
         </div>
       </div>
@@ -120,7 +104,8 @@
           <label class="control-label" for="collect_discharge_summary_on">On Date:</label>
         </div>
         <div class="col-md-6">
-          <input type="date" id = "collect_discharge_summary_on" name="collect_discharge_summary_on" class="form-control" value="" v-model="provisionalDischargeSummaryData.collect_discharge_summary_on">
+          <!-- <input type="date" id = "collect_discharge_summary_on" name="collect_discharge_summary_on" class="form-control" value="" v-model="provisionalDischargeSummaryData.collect_discharge_summary_on"> -->
+          <date-picker :date.sync="provisionalDischargeSummaryData.collect_discharge_summary_on"  name="collect_discharge_summary_on" class="form-control " id = "collect_discharge_summary_on" v-model="provisionalDischargeSummaryData.collect_discharge_summary_on.time"  :option="option"></date-picker>
         </div>
       </div>
       <div class="row form-group">
@@ -154,6 +139,7 @@
 	import User from '../../../api/users.js';
   import addressograph from './addressograph.vue';
   import SelectPatientModal from '../../../components/SelectPatientModal.vue';
+  import myDatepicker from 'vue-datepicker';
 
     export default {
         data() {
@@ -163,9 +149,22 @@
                 'type': 'provisionalDischargeSummary',
                 'patient_id': this.$store.state.Patient.patientId,
                	'ipd_id': this.$store.state.Patient.ipdId,
+                'option': {
+                    type: 'day',
+                    week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+                    month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    format: 'DD-MM-YYYY',
+                    placeholder: 'Select Date',
+                    inputStyle: {
+                        'border': '2px solid #fff',
+                    },
+                    
+                },
                 'provisionalDischargeSummaryData' : {
                     'address' :'',
-                    'date_of_discharge' :'',
+                    'date_of_discharge' :{
+                      time:''
+                    },
                     'addressograph' :'',
                     'ref_by' :'',
                     'room_no' :'',
@@ -173,7 +172,9 @@
                     'condition_on_discharge' :'',
                     'advice_on_discharge' :'',
                     'followup' :'',
-                    'collect_discharge_summary_on' :'',
+                    'collect_discharge_summary_on' :{
+                      time: ''
+                    },
                     'collect_discharge_summary_at' :'',
                     'collect_discharge_summary_from' :'',
                 }
@@ -181,7 +182,8 @@
         },
         components: {
            addressograph,
-           SelectPatientModal
+           SelectPatientModal,
+           'date-picker': myDatepicker,
        },
         mounted() {
           $('.ls-datepicker').datepicker({
