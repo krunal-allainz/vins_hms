@@ -446,7 +446,7 @@
             {
               let pDetails=patientData.searchdata;
               vm.patientData.patient_id=pDetails.id;
-              vm.get_vitals();
+              vm.enable_vitals();
             }
             else if(patientData.code==300)
             {
