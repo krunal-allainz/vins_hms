@@ -448,7 +448,7 @@
 				vm.reportListSelect = 1;
 			}
 
-			User.generateUserNameById(vm.consultntId).then(
+			/*User.generateUserNameById(vm.consultntId).then(
   				(response) => {
 					vm.consultName = response.data;
 					if(vm.consultntId == 1){
@@ -501,7 +501,16 @@
 				},
 			    (error) => {
 			    },
-  			); 
+  			); **/
+
+  			User.getDoctoreInfoById(vm.consultntId).then(
+  				(response) => {
+
+  				},
+  				(error) => {
+
+  				}
+  			);
        },
 		methods: {
 			presp_count(array)

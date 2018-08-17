@@ -373,7 +373,7 @@
   	
   @endif
 
-  @if($data['printType'] == 'radiology')
+  @if($data['printType'] == 'radiology')  
   	<div class='row'>
 		<div class='col-md-12 text-center'>
 			<h4>Radiology Report</h4>
@@ -548,7 +548,6 @@
 		</div>
 		@endif
 	@endif
-	<br/><br/>
 
 	@if(isset($data['referalType']))
 	@if($data['referalType'] != null && $data['crossSelectedValue'] != '')
@@ -644,7 +643,6 @@
 					</div> 
 			</div>
 		</div>
-		<br/><br/>
 		@endif 
 	@endif
 	@if(in_array('Radiology',$data['checkedreportList']))
@@ -832,13 +830,13 @@
 	</div>
 @endif
 	
-	<div style="position:absolute;bottom:230px;width:100%height:200px;right:30px;">
+	<div style="width:100%height:200px;right:30px;" class="text-right">
 		<img  :src="{{$url.'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/>
 	</div>	
-	<div style="position:absolute;bottom:230px;width:100%height:200px;right:30px;">
+	<div style="width:100%height:200px;right:30px;" class="text-right">
 	 	<img  :src="{{$url.'/assets/img/timestamp/'.$data['timeStamp'].'.png'}}" height="66" width="182"/>
 	</div>
-	<div style="position:absolute;bottom:200px;width:100%height:50px;right:30px;">
+	<div style="">
 	<div class="row" style="padding-right:20px;font-size: 15px;right:0px;">
 		<div class='col-md-12 text-right'>
 			<span class='text-right'><b>Consultant's Signature</b></span>

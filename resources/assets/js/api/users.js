@@ -332,5 +332,8 @@ export default {
   },
   getPatientDetailInfo(patientId){
      return api.post('patient/patientDetailInfo',{'patientId':patientId});
+  },
+  getDoctoreInfoById(doctoreId){
+    return api.post('user/getDoctoreInfoById',{'id' :consult_id});
   }
 }
