@@ -46,7 +46,8 @@
                   			Please select any report Type.
                 		</span> 
 					</div>
-					<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button>
+					<!-- <button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button> -->
+					<button type="button" lass="btn btn-primary btn-submit text-right">Print</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</div>
 			</div>
@@ -351,10 +352,13 @@
 		 					</div>
 		 				</div>
 		 				<div class='text-right'>
-		 					<img  :src="'/assets/img/signature/'+signatureName+'.png'" height="66" width="182"/>
+		 					<!-- <img  :src="'/assets/img/signature/'+signatureName+'.png'" height="66" width="182"/> -->
+		 					<span><b>{{signatureName}}</b></span>
 		 				</div>	
 		 				<div class='text-right'>
-		 					<img  :src="'/assets/img/timestamp/'+timeStamp+'.png'" height="66" width="182"/>
+		 					<!-- <img  :src="'/assets/img/timestamp/'+timeStamp+'.png'" height="66" width="182"/> -->
+		 					<span><b>{{timeStamp}}</b></span><br>
+		 					<span><b>{{regNo}}</b></span>
 						</div>	
 	 					<div >	
 	 						<div class="row" >
@@ -409,6 +413,7 @@
 				'consultName' : '',
 				'signatureName' : '',
 				'timeStamp' : '',
+				'regNo':'',
 				'followup' : this.$store.state.Patient.neuroExaminationData.follow_up,
 				'checkedreportList': [],
 	    		'reportList': [{
@@ -502,10 +507,16 @@
 			    (error) => {
 			    },
   			); **/
-
-  			User.getDoctoreInfoById(vm.consultntId).then(
+  			var userType = 1;
+  			User.getDoctoreInfoById(vm.consultntId,userType).then(
   				(response) => {
-
+  					
+  					if(response.data.code == 200){
+  						var data = response.data.data;
+  						vm.signatureName = data.name;
+  						vm.timeStamp =data.dagree;  					
+  						vm.regNo =data.regNo;  					
+  					}
   				},
   				(error) => {
 
@@ -556,6 +567,7 @@
 							'labReportData' : this.labReportData,
 							'signatureName' : this.signatureName,
 							'timeStamp' : this.timeStamp,
+							'regNo' : this.regNo,
 							'followup' : this.followup,
 							'checkedreportList' : this.checkedreportList
 						};

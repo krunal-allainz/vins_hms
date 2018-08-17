@@ -210,6 +210,9 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
           //check vitals validity of six months
           $api->post('patient/getVitalsValidity', '\euro_hms\Api\Controllers\PatientsDetailFormController@getVitalsValidity');
 
+          //for getting username by id any type
+        $api->post('user/getdoctoreinfobyid', '\euro_hms\Api\Controllers\UserController@getDoctoreInfoById');
+
         });
 
         
