@@ -107,7 +107,8 @@ class PatientsDetailFormController extends Controller
      */
     public function getAllPatientName(Request $request) {
         $user_type = $request->userType;
-        $patientDetails = $this->patientOBJ->getAllPatientName($user_type);
+        $user_id = $request->user_id;
+        $patientDetails = $this->patientOBJ->getAllPatientName($user_type,$user_id);
         return $patientDetails;
     }
     /**
@@ -346,11 +347,10 @@ class PatientsDetailFormController extends Controller
     }
 
     /**
-    *
-    *
-    *
-    **/
-
+     * [getPatientDetailInfo description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function getPatientDetailInfo(Request $request){
         $patientId = $request->patientId;
         $patientDetail = $this->patientOBJ->getPatientDetailInfo($patientId);
@@ -361,5 +361,39 @@ class PatientsDetailFormController extends Controller
         }
 
     }
+
+    /**
+     * [getVitalsInfoByPatientId description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getVitalsInfoByPatientId(Request $request){
+        $patientId = $request->patientId;
+        $patientDetail = $this->patientOBJ->getVitalsInfoByPatientId($patientId);
+        if ($patientDetail) {
+            return ['code' => '200','data'=>$patientDetail, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+
+    }
+
+    /**
+     * [getVitalsValidity description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getVitalsValidity(Request $request)
+    {
+        $vitalId = $request->vitalId;
+        $patientDetail = $this->patientOBJ->getVitalsValidity($vitalId);
+        if ($patientDetail) {
+            return ['code' => '200','data'=>$patientDetail, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+    }
+
+
 
 }
