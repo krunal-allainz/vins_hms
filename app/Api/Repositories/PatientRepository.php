@@ -57,6 +57,7 @@
         	}
         	
         }
+    //echo $data['case_type'];exit;
         /*patient details*/
     $patientData->first_name=$data['fname'];
 		$patientData->middle_name=$data['mname'];
@@ -101,7 +102,12 @@
         if ($patientId) {
 
             if($patientType == "opd"){
-              if($opdInsert == 1){ 
+              if($opdInsert == 1){
+              //for new case  
+                  if($data['case_type']=='')
+                  {
+                      $data['case_type']='new_case';
+                  }
                   $opd_prefix="OPD";
                   $opdId =  OpdDetails::orderBy('id', 'desc')->first();
                   if($opdId == null){   
@@ -154,7 +160,7 @@
                     return ['code' => '400','data'=>'', 'message' => 'Something goes wrong'];
                 }   
 
-              }else{ 
+              }else{
                 $insertedOPDId = $opdData->opd_id;
                  $sectionId    = $opdData->opd_id;
                  
@@ -334,87 +340,84 @@
         if($search_data['select_type_dob']['time']!="")
           $date=Carbon::createFromFormat('d-m-Y', $search_data['select_type_dob']['time'])->format('Y-m-d');
 
-        $patientList=array();
+        $patientDetails=array();
         $tes_query=0;
-              $reportQuery= PatientDetailsForm::join('opd_details', function ($join) {
-                  $join->on('opd_details.patient_id', '=', 'patient_details.id');
-               });
-                  if(($user_type==1 ||  $user_type==2) && ($search_by=='All'))
-                  {
-                      $reportQuery->whereDate('opd_details.appointment_datetime',Carbon::today()->format('Y-m-d'));
-                  }
-                  if(($user_type==1 ||  $user_type==2) && ($search_by=='last_week'))
-                  {
-                      $to=Carbon::now()->today()->format('Y-m-d');
+        //query
+          $reportQuery= PatientDetailsForm::join('patient_case_managment', function ($join) {
+            $join->on('patient_case_managment.patient_id', '=', 'patient_details.id');
+          });
+          if($user_id!=0 && $user_id!="")
+          {
+             $reportQuery->where('patient_case_managment.consultant_id',$user_id);
+          } 
+          if($user_type==2)
+          {
+              $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case']);
+          }
+          if(($user_type==1 ||  $user_type==2) && ($search_by=='All'))
+          {
+              $reportQuery->whereDate('patient_case_managment.appointment_datetime',Carbon::today()->format('Y-m-d'));
+          }
+          if(($user_type==1 ||  $user_type==2) && ($search_by=='last_week'))
+          {
+              $to=Carbon::now()->today()->format('Y-m-d');
+              $from=Carbon::now()->subDays(7)->format('Y-m-d');
+              $reportQuery->whereDate('patient_case_managment.appointment_datetime','<=',$to)
+              ->whereDate('patient_case_managment.appointment_datetime','>=',$from);
+          }
+           $reportQuery->where(function ($query) use ($search_data,$date,$tes_query) {
+              $all_stnames=explode(' ',$search_data['name']);
 
-                      $from=Carbon::now()->subDays(7)->format('Y-m-d');
-                      $reportQuery->whereDate('opd_details.appointment_datetime','<=',$to)
-                      ->whereDate('opd_details.appointment_datetime','>=',$from)
-                      ->first();
-
-                  }
-                   $reportQuery->where(function ($query2) use ($user_id) {
-                        if($user_id!=0 && $user_id!="")
-                        {
-                           $query2->where('opd_details.consultant_id',$user_id);
-                        }
-                  });
-            
-             $reportQuery->where(function ($query) use ($search_data,$date,$tes_query,$user_id) {
-                
-                
-                $all_stnames=explode(' ',$search_data['name']);
-
-                if($search_data['name']!='' && $tes_query==0)
-                {
-                    foreach($all_stnames as $st_name)
-                    {
-                        $query->where('first_name', 'like', '%'.$st_name.'%')
-                      ->orWhere('middle_name', 'like', '%'.$st_name.'%')
-                      ->orWhere('last_name', 'like', '%'.$st_name.'%');
-                    }
-                    $tes_query=1;
-                   
-                }
-                else if($search_data['name']!='')
-                {
+              if($search_data['name']!='' && $tes_query==0)
+              {
                   foreach($all_stnames as $st_name)
-                    {
-                      $query->orWhere('first_name', 'like', '%'.$st_name.'%')
-                      ->orWhere('middle_name', 'like', '%'.$st_name.'%')
-                      ->orWhere('last_name', 'like', '%'.$st_name.'%');
-                    }
-                }
-                if($search_data['uhid_no']!='' && $tes_query==0)
-                {
-                    $query->where('patient_details.uhid_no',$search_data['uhid_no']);
-                    $tes_query=1;
-                }
-                else if($search_data['uhid_no']!='')
-                {
-                    $query->orWhere('patient_details.uhid_no',$search_data['uhid_no']);
-                }
-                 if($date!='' && $tes_query==0)
-                 {
-                     $query->whereDate('dob', $date);
-                     $tes_query=1;
-                 }
-                 else if($date!='')
-                {
-                     $query->orWhereRaw("DATE(dob) = ?", [$date]);
-                } 
-                 if($search_data['mobile_no']!=''  && $tes_query==0)   
-                 {
-                    $query->where('mob_no', 'like', '%'.$search_data['mobile_no'].'%');
-                    $tes_query=1;
-                 }
-                 else if($search_data['mobile_no']!='')
-                 {
-                    $query->orWhere('mob_no', 'like', '%'.$search_data['mobile_no'].'%');
-                 }
-            });
-             $reportQuery->groupBy('opd_details.patient_id')->orderBy('opd_details.created_at','desc');
-            $patientList = $reportQuery->select(
+                  {
+                      $query->where('first_name', 'like', '%'.$st_name.'%')
+                    ->orWhere('middle_name', 'like', '%'.$st_name.'%')
+                    ->orWhere('last_name', 'like', '%'.$st_name.'%');
+                  }
+                  $tes_query=1;
+                 
+              }
+              else if($search_data['name']!='')
+              {
+                foreach($all_stnames as $st_name)
+                  {
+                    $query->orWhere('first_name', 'like', '%'.$st_name.'%')
+                    ->orWhere('middle_name', 'like', '%'.$st_name.'%')
+                    ->orWhere('last_name', 'like', '%'.$st_name.'%');
+                  }
+              }
+              if($search_data['uhid_no']!='' && $tes_query==0)
+              {
+                  $query->where('patient_details.uhid_no',$search_data['uhid_no']);
+                  $tes_query=1;
+              }
+              else if($search_data['uhid_no']!='')
+              {
+                  $query->orWhere('patient_details.uhid_no',$search_data['uhid_no']);
+              }
+               if($date!='' && $tes_query==0)
+               {
+                   $query->whereDate('dob', $date);
+                   $tes_query=1;
+               }
+               else if($date!='')
+              {
+                   $query->orWhereRaw("DATE(dob) = ?", [$date]);
+              } 
+               if($search_data['mobile_no']!=''  && $tes_query==0)   
+               {
+                  $query->where('mob_no', 'like', '%'.$search_data['mobile_no'].'%');
+                  $tes_query=1;
+               }
+               else if($search_data['mobile_no']!='')
+               {
+                  $query->orWhere('mob_no', 'like', '%'.$search_data['mobile_no'].'%');
+               }
+          });
+          $reportQuery->groupBy('patient_case_managment.patient_id')->orderBy('patient_case_managment.created_at','desc');
+          $patientDetails = $reportQuery->select(
               'patient_details.id',
               'patient_details.first_name',
               'patient_details.middle_name',
@@ -423,11 +426,13 @@
               'patient_details.age',
               'patient_details.dob',
               'patient_details.mob_no',
-              'opd_details.appointment_datetime',
-              'opd_details.consultant_id'
+              'patient_case_managment.appointment_datetime',
+              'patient_case_managment.consultant_id',
+              'patient_case_managment.case_type'
             )->get();
-        if(count($patientList)>0) {
-             return ['code' => '200','data'=>$patientList, 'message' => 'Patient record '];
+
+        if(count($patientDetails)>0) {
+             return ['code' => '200','data'=>$patientDetails, 'message' => 'Patient record '];
         } else {
              //return ['code' => '300','patientData'=>'', 'message' => 'Record not found'];
              return ['code' => '300','data'=>'', 'message' => 'Something went wrong'];
@@ -497,26 +502,24 @@
      * @param  [type] $user_type [description]
      * @return [type]            [description]
      */
-    public function getAllPatientName($user_type)
+    public function getAllPatientName($user_type,$user_id)
     {
-       /* $reportQuery= PatientDetailsForm::join('opd_details', function ($join) {
-                  $join->on('opd_details.patient_id', '=', 'patient_details.id');
-        })->join('patient_case_managment', function ($join) {
+        $reportQuery= PatientDetailsForm::join('patient_case_managment', function ($join) {
                   $join->on('patient_case_managment.patient_id', '=', 'patient_details.id');
         });
-        if($user_type==1 ||  $user_type==2)
+        if($user_id!=0 && $user_id!="")
         {
-            $reportQuery->whereDate('opd_details.appointment_datetime',Carbon::today()->format('Y-m-d'));
+           $reportQuery->where('patient_case_managment.consultant_id',$user_id);
         } 
-         if($user_id!=0 && $user_id!="")
-          {
-             $reportQuery->where('opd_details.consultant_id',$user_id);
-          } 
         if($user_type==2)
         {
-            $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult']);
+            $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case']);
         }
-         $reportQuery->groupBy('opd_details.patient_id')->orderBy('opd_details.created_at','desc');
+        if($user_type==1 ||  $user_type==2)
+        {
+            $reportQuery->whereDate('patient_case_managment.appointment_datetime',Carbon::today()->format('Y-m-d'));
+        }
+         $reportQuery->groupBy('patient_case_managment.patient_id')->orderBy('patient_case_managment.created_at','desc');
          $patientDetails = $reportQuery->select(
               'patient_details.id',
               'patient_details.first_name',
@@ -526,16 +529,67 @@
               'patient_details.age',
               'patient_details.dob',
               'patient_details.mob_no',
-              'opd_details.appointment_datetime',
-              'opd_details.consultant_id'
+              'patient_case_managment.appointment_datetime',
+              'patient_case_managment.consultant_id',
+              'patient_case_managment.case_type'
             )->get();
-        print_r($patientDetails);exit;*/
-        $patientDetails=PatientDetailsForm::get();
+        
+        //$patientDetails=PatientDetailsForm::toSql();
+       // echo $patientDetails;exit;
+        if (count($patientDetails)>0) {
+            return ['code' => '200','data'=>$patientDetails, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+    }
+
+    /**
+     * [getVitalsInfoByPatientId description]
+     * @return [type] [description]
+     */
+    public function getVitalsInfoByPatientId($pid)
+    {
+        $reportQuery= PatientDetailsForm::join('patient_checkup', function ($join) {
+                  $join->on('patient_checkup.patient_id', '=', 'patient_details.id'); });
+        $reportQuery->where('patient_checkup.patient_id',$pid);
+        $reportQuery->orderBy('patient_checkup.created_at','desc');
+        $patientDetails = $reportQuery->select(
+              'patient_checkup.opd_id',
+              'patient_checkup.id as vital_id',
+              'patient_details.id',
+              'patient_details.uhid_no',
+              'patient_checkup.patient_id',
+              'patient_checkup.created_at',
+              'patient_checkup.height',
+              'patient_checkup.weight',
+              'patient_checkup.bmi',
+              'patient_checkup.vitals',
+              'patient_checkup.pulse',
+              'patient_checkup.bp',
+              'patient_checkup.temp',
+              'patient_checkup.pain'
+            )->first();
+        //echo $patientDetails;exit;
         if ($patientDetails) {
             return ['code' => '200','data'=>$patientDetails, 'message' => 'Record Sucessfully created'];
         } else {
             return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
         }
+    }
+
+    public function getVitalsValidity($vital_id)
+    {
+        //echo $vital_id;
+        $from=Carbon::now()->format('Y-m-d');
+        $to=Carbon::now()->subMonths(6)->format('Y-m-d');
+        $vitalinfo= PatientCheckUp::where('id',$vital_id)->whereDate('created_at','>=',$to)->whereDate('created_at','<=',$from)->get();
+        //$vitalinfo;exit;
+        if (count($vitalinfo)>0) {
+            return ['code' => '200','data'=>$vitalinfo, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+        
     }
  }
 ?>
