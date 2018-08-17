@@ -651,6 +651,7 @@
               'doctor':this.$store.state.Users.userDetails.first_name + " "+ this.$store.state.Users.userDetails.last_name ,
               'doctor_id':this.$store.state.Users.userDetails.id,
               'department':this.$store.state.Users.userDetails.department,
+              'user_type':this.$store.state.Users.userDetails.user_type,
               'finalResultData':{},
               'patient_select_enable':true,
               'isPatientSearch':true,
@@ -1156,38 +1157,9 @@
                       let lastVist;
                       opdID = response.data.data.id;
                       lastVist = response.data.data.appointment_datetime;
-                       vm.opdData.opd_id=opdID;
+                        vm.opdData.opd_id=opdID;
                         vm.opdData.last_vist=lastVist;
-                     User.generatePatientCheckUpDetails(opdID).then(
-                      (response) => { 
-                        if(response.data.code == 200){ 
-                             let patient_checkup_details=response.data.data;
-                             vm.opdData.height =patient_checkup_details.height;
-                             vm.opdData.weight =patient_checkup_details.weight;
-                             vm.opdData.bmi =patient_checkup_details.bmi;
-                             vm.opdData.vitals =patient_checkup_details.vitals;
-                             vm.opdData.pulse =patient_checkup_details.pulse;
-                             if(patient_checkup_details.bp!="")
-                            {
-                                let bp =patient_checkup_details.bp.split("/");
-                                vm.opdData.bp_systolic =bp[0];
-                                vm.opdData.bp_diastolic =bp[1];
-                             }
-                           vm.opdData.temp =patient_checkup_details.temp;
-                           vm.opdData.pain_value=patient_checkup_details.pain;
-                          }
-                      },
-                      (error) => {
-                      },
-                  );
-                      //  setTimeout(function(){
-                      //         $('#opd_no').select2({
-                      //           placeholder: "Select",
-                      //           tags:false 
-                      //         }); 
-
-                      // },500);
-                     //  vm.opdData.opd_option=opd_list_new;
+                        vm.get_vitals(); 
                       },
                       (error) => {
                       },
@@ -1217,27 +1189,29 @@
             var vm =this;
             let patient_list_new=[];
             let section = 'OPD';
-            User.getAllPatientNameByConsultDoctor(vm.doctor_id,section).then(
-                  (response) => {
-                    $.each(response.data.data, function(key,value) {
-                       patient_list_new.push({
-                         'id' : value.id,
-                         'name' : value.name,
-                         'uhid_no' : value.uhid_no
-                      });
-                    });
-
-                    vm.opdData.patient_option=patient_list_new;
-                    
-                  },
+             User.getAllPatientName(vm.user_type,vm.doctor_id).then(
+                   (response) => {
+                      let patien_data ;
+                      patien_data = response.data;
+                      $.each(response.data.data, function(key, value) {
+                      let name = value.first_name +' '+value.last_name;
+                      let pid  = value.id ;
+                      let uhid_no  = value.uhid_no ;
+                      patient_list_new.push({
+                          name:name,
+                          id:pid,
+                          uhid_no:uhid_no
+                        });
+                        });
+                       vm.opdData.patient_option=patient_list_new;
+                     },
                       (error) => {
                   },
-            );
+                   );
           },
           patient_select_change(val)
           {
             let vm =this;
-              $('#opd_no').val('').trigger('change.select2');
               vm.opdData.patientlist="";
               vm.opdData.uhid_no="";
               vm.opdData.weight="";
@@ -1250,7 +1224,6 @@
               vm.opdData.temp="";
               vm.opdData.pain_value=0;
               vm.opdData.select_value="";
-              vm.opdData.opd_option={};
               if(val==true)
               {
                 vm.patient_select_enable=false;
@@ -1298,50 +1271,14 @@
           },
           setPatientData(patientData) {
             let vm=this;
+            vm.patientEmpty();
             if(patientData.code==200)
             {
-               this.opdData.opd_option={};
-              //$('#opd_no').select2('destroy');
               let pDetails=patientData.searchdata;
               //for opd list
                 this.opdData.uhid_no=pDetails.uhid_no;
-                 User.getLastOPDIdByPatientId(pDetails.id).then(
-                    (response) => {
-                      
-                      let opdID ;
-                      let lastVist;
-                      opdID = response.data.data.id;
-                      lastVist = response.data.data.appointment_datetime;
-                       vm.opdData.opd_id=opdID;
-                        vm.opdData.last_vist=lastVist;
-                     User.generatePatientCheckUpDetails(opdID).then(
-                      (response) => { 
-                        if(response.data.code == 200){ 
-                             let patient_checkup_details=response.data.data;
-                             vm.opdData.height =patient_checkup_details.height;
-                             vm.opdData.weight =patient_checkup_details.weight;
-                             vm.opdData.bmi =patient_checkup_details.bmi;
-                             vm.opdData.vitals =patient_checkup_details.vitals;
-                             vm.opdData.pulse =patient_checkup_details.pulse;
-                             if(patient_checkup_details.bp!="")
-                            {
-                                let bp =patient_checkup_details.bp.split("/");
-                                vm.opdData.bp_systolic =bp[0];
-                                vm.opdData.bp_diastolic =bp[1];
-                             }
-                           vm.opdData.temp =patient_checkup_details.temp;
-                          }
-                      },
-                      (error) => {
-                      },
-                  );
-                      
-                      },
-                      (error) => {
-                      },
-                );
-
-              
+                this.opdData.patientlist=pDetails.id;
+                vm.get_vitals();
             }
             else if(patientData.code==300)
             {
@@ -1354,7 +1291,43 @@
               this.initPatientData();
             }
           },
-          
+          get_vitals()
+          {
+             let vm=this;
+              User.getVitalsInfoByPatientId(vm.opdData.patientlist).then(
+              (response) => {
+                let vitals_data=response.data.data;
+                  if(vitals_data.code==200)
+                  {
+                      let patient_checkup_details=vitals_data.data;
+                      vm.opdData.height =patient_checkup_details.height;
+                      vm.opdData.weight =patient_checkup_details.weight;
+                      vm.opdData.bmi =patient_checkup_details.bmi;
+                      vm.opdData.vitals =patient_checkup_details.vitals;
+                      vm.opdData.pulse =patient_checkup_details.pulse;
+                      if(patient_checkup_details.bp!="")
+                      {
+                        let bp =patient_checkup_details.bp.split("/");
+                        vm.opdData.bp_systolic =bp[0];
+                        vm.opdData.bp_diastolic =bp[1];
+                       }
+                      vm.opdData.temp =patient_checkup_details.temp;
+                      vm.opdData.pain_value=patient_checkup_details.pain;
+                      
+                  }
+                  else if(vitals_data.code==300)
+                  {
+                   
+                  }
+                  else
+                  {
+                     
+                  }
+                },
+                (error) => {
+                },
+            );
+          },
           saveReport() {
                 // var resData1=[];
                 let vm =this;

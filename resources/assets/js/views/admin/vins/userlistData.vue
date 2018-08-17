@@ -37,7 +37,7 @@
     	computed:{
 
     	},
-    	props:['userlistData'],
+    	props:['userlistData','copyVitals'],
         data() {
             return {
                 'userData': {
@@ -63,7 +63,7 @@
 		    		User.generatePatientDetailsByID(id).then(
 		                (response) => {
 		                	//let pData = response.data;
-		                	let pData = {'searchdata':response.data.data,'code':response.data.code,'select_type':this.userlistData[0].select_type,'select_value':this.userlistData[0].select_value};
+		                	let pData = {'searchdata':response.data.data,'code':response.data.code};
 		                	this.$root.$emit('patientData',pData);
 		                	 $("body .js-loader").addClass('d-none');
 		                },

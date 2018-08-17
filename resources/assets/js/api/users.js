@@ -200,8 +200,8 @@ export default {
   submitReport(reportData) {
     return api.post('report/create',{'reportData':reportData})
   },
-  getAllPatientName(user_type) {
-      return api.post('patient/getAll',{'userType':user_type});
+  getAllPatientName(user_type,user_id) {
+      return api.post('patient/getAll',{'userType':user_type,'user_id':user_id});
   },
   createUser(userData) {
       return api.post('user/create',{'userData':userData})
@@ -335,5 +335,13 @@ export default {
   },
   getDoctoreInfoById(doctoreId){
     return api.post('user/getDoctoreInfoById',{'id' :consult_id});
+  },
+  getVitalsInfoByPatientId(patientId)
+  {
+       return api.post('patient/getVitalsInfoByPatientId',{'patientId':patientId});
+  },
+  getVitalsValidity(vitalId)
+  {
+       return api.post('patient/getVitalsValidity',{'vitalId':vitalId});
   }
 }
