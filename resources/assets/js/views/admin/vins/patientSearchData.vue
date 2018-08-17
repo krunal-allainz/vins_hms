@@ -53,7 +53,7 @@
         </div>
         <div class="row form-group" v-if="userListLength>0">
             <div class="col-md-12">
-                <userlist :userlistData="userlistData" ></userlist>
+                <userlist :userlistData="userlistData" :copyVitals="copyVitals"></userlist>
             </div>
         </div>
 	</div>
@@ -72,7 +72,7 @@
     		'date-picker': myDatepicker,
              userlist,
     	},
-    	props:['user_id'],
+    	props:['user_id','copyVitals'],
         data() {
             return {
             	'notValid':false,
