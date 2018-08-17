@@ -164,7 +164,14 @@ class UserRepository {
     public function checkExistUser($type,$value){
       return  User::where($type,$value)->count();
     }
-    
 
+    public function getDoctoreInfoById($id,$type){
+        $result = array();
+        $record=User::where('id', $id)->where('user_type',$type)->first();
+        $result['name'] = $record->first_name .$record->last_name  ;
+        $result['dagree'] = $record->dagree;
+        $result['regNo'] = $record->regno;
+        return $result;
+    }
 
 }

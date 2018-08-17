@@ -12,7 +12,7 @@
     	 	 <div class="col-md-12">
     	 	 	<!-- <div class="col-md-4"> -->
     	 	 		<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  @click = "printReport('opd_case')" v-if="(opdReport == true)" id="opd_case_btn">OPD Case</button>
-    	 	 		<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#generateModal"  @click="printReport('generate_case')" v-if="(opdReport == false)">Generate Report</button>
+    	 	 		<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#generateModal"  @click="printReport('generate_case')" v-if="(opdReport == false)"> Print Report</button>
     	 	 <!-- 	</div>
     	 	 	<div class="col-md-4">
     	 	 		<button type="button" class="btn btn-primary btn-submit text-right " data-toggle="modal" href="#printModal"  @click="printPriscription()">Prescription</button>
@@ -46,7 +46,8 @@
                   			Please select any report Type.
                 		</span> 
 					</div>
-					<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button>
+					<!-- <button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button> -->
+					<button type="button" lass="btn btn-primary btn-submit text-right">Print</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</div>
 			</div>
@@ -62,7 +63,7 @@
 			 					</div>
 			 					<vinsletterheadheaderpart></vinsletterheadheaderpart>
 
-								 	<div v-if="(printType == 'lab')" style="min-height: 350px;height: 350px;">
+								 	<div v-if="(printType == 'lab')" >
 								 		<div class='row' style="padding-left: 15px;padding-right:15px;">
 							 				<div class='col-md-6 text-left'>
 													<span class='text-left'><b>Ref By :</b></span>
@@ -134,7 +135,7 @@
 			 					<h4>Radiology Report</h4>
 			 				</div>
 			 		</div>
-			 		<div class="row"  style="min-height: 350px;height: 350px;padding-left: 15px;padding-right:15px;">
+			 		<div class="row" >
         				<div class="col-md-12">
         					<div class="table-responsive">
                     			<table class="table table-striped table-bordered" id="radio_list">
@@ -166,9 +167,9 @@
         				</div>
         			</div>
 			 	</div>
-			 	<div v-if="(printType == 'prescription' && prescriptiData.length != '')"  style="min-height: 350px;height: 350px;">
+			 	<div v-if="(printType == 'prescription' && prescriptiData.length != '')"  >
 
-			 			<div class='row' style="padding-left: 15px;padding-right:15px;">
+			 			<div class='row'>
 			 				<div class='col-md-6 text-left'>
 									<span class='text-left'><b>Ref By :</b></span>
 										{{this.adviceDoctor}}
@@ -179,8 +180,6 @@
     	 	 					</span>
     	 	 				</div>
     	 	 			</div>	
-    	 	 			<br/>
-    	 	 			<br/>
     	 	 			
 			 			<div v-if="presp_count(prescriptiData)>0" >
     	 	 				<div class='row' v-show="presp_count(prescriptiData)>0">
@@ -190,7 +189,6 @@
 			 				</div>
 							<prescriptionPrint :prescriptData="prescriptiData" :removeBtn="0"> </prescriptionPrint>
     	 	 			</div>
-    	 	 			<br/><br/>
     	 	 			<div v-if="(referalType == 'cross' && crossSelectedValue != '')">
 			 				
 				 			<div class='col-md-12 text-center'>
@@ -213,7 +211,7 @@
 				 		</div>
 
 			 	</div>
-			 	<div v-if="(printType == 'opd_case')"  style="min-height: 350px;height: auto;margin-bottom:300px">
+			 	<div v-if="(printType == 'opd_case')"  >
 			 			<div class='row'>
 			 				<div class='col-md-12 text-center'>
 			 					<h4>OPD CASE</h4>
@@ -353,13 +351,17 @@
     	 	 					</div>
 		 					</div>
 		 				</div>
-		 				<div style="position:absolute;bottom:150px;width:100%height:200px;right:30px;">
-		 					<img  :src="'/assets/img/signature/'+signatureName+'.png'" height="66" width="182"/>
+		 				<div class='text-right'>
+		 					<!-- <img  :src="'/assets/img/signature/'+signatureName+'.png'" height="66" width="182"/> -->
+		 					<span><b>{{signatureName}}</b></span>
 		 				</div>	
-		 				<div style="position:absolute;bottom:150px;width:100%height:200px;right:30px;">
-		 					<img  :src="'/assets/img/timestamp/'+timeStamp+'.png'" height="66" width="182"/>
+		 				<div class='text-right'>
+		 					<!-- <img  :src="'/assets/img/timestamp/'+timeStamp+'.png'" height="66" width="182"/> -->
+		 					<span><b>{{timeStamp}}</b></span><br>
+		 					<span><b>{{regNo}}</b></span>
 						</div>	
-	 					<div style="position:absolute;bottom:120px;width:100%height:50px;right:30px;">		 							<div class="row" style="padding-bottom: 10px;padding-right:20px;font-size: 15px;  ">
+	 					<div >	
+	 						<div class="row" >
             				<div class='col-md-12 text-right'>
 								<span class='text-right'><b>Consultant's Signature</b></span>
 	 						</div>
@@ -411,6 +413,7 @@
 				'consultName' : '',
 				'signatureName' : '',
 				'timeStamp' : '',
+				'regNo':'',
 				'followup' : this.$store.state.Patient.neuroExaminationData.follow_up,
 				'checkedreportList': [],
 	    		'reportList': [{
@@ -450,7 +453,7 @@
 				vm.reportListSelect = 1;
 			}
 
-			User.generateUserNameById(vm.consultntId).then(
+			/*User.generateUserNameById(vm.consultntId).then(
   				(response) => {
 					vm.consultName = response.data;
 					if(vm.consultntId == 1){
@@ -503,7 +506,22 @@
 				},
 			    (error) => {
 			    },
-  			); 
+  			); **/
+  			var userType = 1;
+  			User.getDoctoreInfoById(vm.consultntId,userType).then(
+  				(response) => {
+  					
+  					if(response.data.code == 200){
+  						var data = response.data.data;
+  						vm.signatureName = data.name;
+  						vm.timeStamp =data.dagree;  					
+  						vm.regNo =data.regNo;  					
+  					}
+  				},
+  				(error) => {
+
+  				}
+  			);
        },
 		methods: {
 			presp_count(array)
@@ -549,6 +567,7 @@
 							'labReportData' : this.labReportData,
 							'signatureName' : this.signatureName,
 							'timeStamp' : this.timeStamp,
+							'regNo' : this.regNo,
 							'followup' : this.followup,
 							'checkedreportList' : this.checkedreportList
 						};
