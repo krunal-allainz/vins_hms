@@ -258,6 +258,7 @@
 		            placeholder: "Select",
 		            tags:false 
 		          });
+               vm.getResults();
               vm.newPatient(); 
              
          	 	 setTimeout(function(){
@@ -300,7 +301,12 @@
               var vm =this;
               setInterval(function() {
                  vm.getResults();
-              }, 1000);
+                  $('#patient').select2('destroy');
+                  $('#patient').select2({
+                    placeholder: "Select",
+                    tags:false 
+                  });
+              }, 15000);
           },
         non_editable()
         {
@@ -312,6 +318,7 @@
             let patient_list_new=[];
             let section = 'OPD';
             let user_id=0;
+            //vm.patientData.patient_option = [];
              User.getAllPatientName(vm.user_type,user_id).then(
                    (response) => {
                       let patien_data ;
@@ -326,6 +333,7 @@
                           uhid_no:uhid_no
                         });
                         });
+                    
                      vm.patientData.patient_option = patient_list_new;
                      },
                       (error) => {
