@@ -62,7 +62,7 @@
 			 					<div  id="printContent">
 			 					</div>
 			 					<vinsletterheadheaderpart></vinsletterheadheaderpart>
-			 						  @include('../../../../views.patientDetailReport')
+			 						  @include('views.patientDetailReport')
 								 	<div v-if="(printType == 'lab')" >
 								 		<div class='row' style="padding-left: 15px;padding-right:15px;">
 							 				<div class='col-md-6 text-left'>
