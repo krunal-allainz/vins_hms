@@ -47,7 +47,7 @@
                 		</span> 
 					</div>
 					<!-- <button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button> -->
-					<button type="button" lass="btn btn-primary btn-submit text-right">Print</button>
+					<button ty pe="button" lass="btn btn-primary btn-submit text-right" >Print</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</div>
 			</div>
@@ -62,7 +62,7 @@
 			 					<div  id="printContent">
 			 					</div>
 			 					<vinsletterheadheaderpart></vinsletterheadheaderpart>
-
+			 						  @include('../../../../views.patientDetailReport')
 								 	<div v-if="(printType == 'lab')" >
 								 		<div class='row' style="padding-left: 15px;padding-right:15px;">
 							 				<div class='col-md-6 text-left'>
@@ -427,6 +427,10 @@
 		      		}] ,
 		      	'opdReport' : false,
 		      	'reportListSelect' : 0,
+		      	'patinetId' : this.$store.state.Patient.patientId,
+		      	'opdId' : '',
+		      	'patientDetail' : '',
+		      	'patientCheckupDetail' : '',
 			}
 		},
 		components: {
@@ -522,8 +526,48 @@
 
   				}
   			);
+  			this.getPatientData(this.patinetId);
        },
 		methods: {
+			getPatientData(patinetId)
+			{
+				var vm=this;
+				User.generatePatientDetailsByID(patinetId).then(
+	  				(response) => {
+	  					
+	  					if(response.data.code == 200){
+	  						vm.patientDetail = response.data.data;
+	  					}
+	  				},
+	  				(error) => {
+
+	  				}
+  				);
+  				User.getLastOPDIdByPatientId(patinetId).then(
+  					(response) => {
+	  					
+	  					if(response.data.code == 200){
+	  						vm.opdId = response.data.data.id;
+	  						User.generatePatientCheckUpDetails(vm.opdId).then(
+  							(response) => {
+	  					
+	  							if(response.data.code == 200){
+	  							vm.patientCheckupDetail = response.data.data;
+	  							}
+	  						},
+	  						(error) => {
+
+	  							}
+
+  							);
+	  					}
+	  				},
+	  				(error) => {
+
+	  				}
+  				);
+  				
+			},
 			presp_count(array)
             {
                 var vm=this;
