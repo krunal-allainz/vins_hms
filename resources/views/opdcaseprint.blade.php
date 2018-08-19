@@ -323,9 +323,9 @@
             <img src="{{$url.'/assets/img/nabh_vins_logo.png'}}" id="logo-desk" alt="NABH Logo" class="hidden-sm-down" height="" width="30%">
         </div>
       </div>
-    </div>   @component('patientDetailReport')
+    </div>  <!--  @component('patientDetailReport')
             This is my sidebar text. 
-        @endcomponent
+        @endcomponent -->
 
 
   @if($data['printType'] == 'lab')

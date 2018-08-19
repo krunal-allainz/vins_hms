@@ -62,7 +62,7 @@
 			 					<div  id="printContent">
 			 					</div>
 			 					<vinsletterheadheaderpart></vinsletterheadheaderpart>
-			 						  @include('views.patientDetailReport')
+			 					<patientDetailReport :patientDetail="patientDetail"></patientDetailReport>
 								 	<div v-if="(printType == 'lab')" >
 								 		<div class='row' style="padding-left: 15px;padding-right:15px;">
 							 				<div class='col-md-6 text-left'>
@@ -385,6 +385,7 @@
 	import User from '../../../api/users.js';
 	import vinsletterheadheaderpart from './vins_letter_header.vue';
 	import vinsletterheadfooterpart from './vins_letter_footer.vue';
+	import patientDetailReport from './patientDetailReport.vue';
 	import prescriptionData from './prescriptionData.vue';
 	import prescriptionPrint from './prescriptionPrint.vue';
 	import moment from 'moment';
@@ -429,14 +430,15 @@
 		      	'reportListSelect' : 0,
 		      	'patinetId' : this.$store.state.Patient.patientId,
 		      	'opdId' : '',
-		      	'patientDetail' : '',
+		      	'patientDetail' : {},
 		      	'patientCheckupDetail' : '',
 			}
 		},
 		components: {
          vinsletterheadheaderpart,
          vinsletterheadfooterpart,
-         prescriptionPrint
+         prescriptionPrint,
+         patientDetailReport
        },
        mounted(){
 			let vm =this;
