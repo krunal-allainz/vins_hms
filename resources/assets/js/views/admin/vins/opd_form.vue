@@ -205,20 +205,7 @@
                   </div>
                 </div>
 
-       <div class="row form-group">
-        <div class="col-md-6">
-          <div class="col-md-6">
-            <label for="date">Provisional Diagnostic:</label>
-          </div>
-          <div class="col-md-12">
-            <textarea class="form-control" name="provisional_diagnosis" id="provisional_diagnosis" v-model="opdData.provisional_diagnosis" v-validate="'required'"></textarea>
-            <i v-show="errors.has('provisional_diagnosis')" class="fa fa-warning"></i>
-            <span class="help is-danger" v-show="errors.has('provisional_diagnosis')">
-               Please enter provisional diagnostic.
-            </span>
-          </div>
-        </div>
-      </div>
+
     <div class="row">
       <div class="col-md-6">
         <h3>Pain Assessment</h3>
@@ -312,7 +299,20 @@
             </div>  
         </div>
       </div>
-
+       <div class="row form-group">
+        <div class="col-md-6">
+          <div class="col-md-6">
+            <label for="date">Provisional Diagnostic:</label>
+          </div>
+          <div class="col-md-12">
+            <textarea class="form-control" name="provisional_diagnosis" id="provisional_diagnosis" v-model="opdData.provisional_diagnosis" v-validate="'required'"></textarea>
+            <i v-show="errors.has('provisional_diagnosis')" class="fa fa-warning"></i>
+            <span class="help is-danger" v-show="errors.has('provisional_diagnosis')">
+               Please enter provisional diagnostic.
+            </span>
+          </div>
+        </div>
+      </div>
       <div class="row form-group">
         <div class="col-md-6">
             <div class="col-md-12">
