@@ -42,6 +42,8 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
         'last_name',
         'user_type',
         'department',
+        'dagree',
+        'regno',
         'status'
     ];
 

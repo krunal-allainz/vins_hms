@@ -641,7 +641,7 @@
       var  timeList ;
       var patient_list = [];
       var prescription_index  = 0;
-      
+      var b=0;
     export default {
         data() {
             return {
@@ -1136,34 +1136,11 @@
                 },500);
 
           $('#patient').on("select2:select", function (e) {
-                 vm.opdData.patientlist=$(this).val();
-                 let patientId = $(this).val();
+                vm.opdData.patientlist=$(this).val();
+                let patientId = $(this).val();
                 vm.opdData.patientlist=patientId;
-                //for uhid
-                User.generatePatientDetailsByID(patientId).then(
-                    (response) => {
-                      let patient_data=response.data.data;
-                      vm.opdData.uhid_no =patient_data.uhid_no;
-                    },
-                    (error) => {
-                    },
-                );
-                //for opd list
+                vm.get_vitals();
                
-                User.getLastOPDIdByPatientId(patientId).then(
-                    (response) => {
-                      opd_list_new=[];
-                      let opdID ;
-                      let lastVist;
-                      opdID = response.data.data.id;
-                      lastVist = response.data.data.appointment_datetime;
-                        vm.opdData.opd_id=opdID;
-                        vm.opdData.last_vist=lastVist;
-                        vm.get_vitals(); 
-                      },
-                      (error) => {
-                      },
-                );
           });
           $(document).on('hidden.bs.modal','#createPatientDetail', function () {
             $('#case_type').val('old').trigger('change.select2');
@@ -1172,7 +1149,8 @@
           setTimeout(function(){
             vm.examinationChangeImage();
           },500);
-          
+          // vm.getResults();
+          vm.getResults();
           vm.newPatient(); 
 
 
@@ -1181,17 +1159,27 @@
           newPatient()
           {
               var vm =this;
+              
               setInterval(function() {
+
                  vm.getResults();
-              }, 1000);
+                 $('#patient').select2('destroy');
+                 $('#patient').select2({
+                    placeholder: "Select",
+                    tags:false 
+                  });
+              }, 15000);
+             
           },
-          getResults(page_url) {
+          getResults(patient_list_new) {
             var vm =this;
-            let patient_list_new=[];
+            var patient_list_new=[];
             let section = 'OPD';
+            
              User.getAllPatientName(vm.user_type,vm.doctor_id).then(
                    (response) => {
-                      let patien_data ;
+                    vm.opdData.patient_option=[];
+                      let patien_data;
                       patien_data = response.data;
                       $.each(response.data.data, function(key, value) {
                       let name = value.first_name +' '+value.last_name;
@@ -1202,28 +1190,22 @@
                           id:pid,
                           uhid_no:uhid_no
                         });
-                        });
-                       vm.opdData.patient_option=patient_list_new;
+                      });
+
+                      vm.opdData.patient_option=patient_list_new;
+                        
                      },
                       (error) => {
                   },
                    );
+             
+            
           },
           patient_select_change(val)
           {
             let vm =this;
-              vm.opdData.patientlist="";
-              vm.opdData.uhid_no="";
-              vm.opdData.weight="";
-              vm.opdData.height="";
-              vm.opdData.bmi="";
-              vm.opdData.vitals="";
-              vm.opdData.pulse="";
-              vm.opdData.bp_systolic="";
-              vm.opdData.bp_diastolic="";
-              vm.opdData.temp="";
-              vm.opdData.pain_value=0;
-              vm.opdData.select_value="";
+            vm.opdData.patientlist="";
+            vm.patientEmpty();
               if(val==true)
               {
                 vm.patient_select_enable=false;
@@ -1251,7 +1233,7 @@
           patientEmpty()
           {
               let vm =this;
-              $('#opd_no').val('').trigger('change.select2');
+              vm.opdData.last_vist="";
               vm.opdData.patientlist="";
               vm.opdData.uhid_no="";
               vm.opdData.weight="";
@@ -1264,7 +1246,7 @@
               vm.opdData.temp="";
               vm.opdData.pain_value=0;
               vm.opdData.select_value="";
-              vm.opdData.opd_option={};
+              
           },
           pain_value(pain){
             this.opdData.pain_value = pain;
@@ -1294,6 +1276,30 @@
           get_vitals()
           {
              let vm=this;
+              //for uhid
+                User.generatePatientDetailsByID(vm.opdData.patientlist).then(
+                    (response) => {
+                      let patient_data=response.data.data;
+                      vm.opdData.uhid_no =patient_data.uhid_no;
+                    },
+                    (error) => {
+                    },
+                );
+                //for opd list
+               
+                User.getLastOPDIdByPatientId(vm.opdData.patientlist).then(
+                    (response) => {
+                      let opdID ;
+                      let lastVist;
+                      opdID = response.data.data.id;
+                      lastVist = response.data.data.appointment_datetime;
+                        vm.opdData.opd_id=opdID;
+                        vm.opdData.last_vist=lastVist;
+                      },
+                      (error) => {
+                      },
+                );
+
               User.getVitalsInfoByPatientId(vm.opdData.patientlist).then(
               (response) => {
                 let vitals_data=response.data.data;
