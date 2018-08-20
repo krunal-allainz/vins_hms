@@ -892,12 +892,7 @@
           });
          var vm =this;
          let opd_list_new=[];
-          vm.opdData.patientlist = this.$store.state.Patient.patientId;
-         vm.$store.dispatch('resetOpdForm');
-          setTimeout(function(){
-            vm.doctor = vm.$store.state.Users.userDetails.first_name + " "+ vm.$store.state.Users.userDetails.last_name;  
-            vm.doctor_id = vm.$store.state.Users.userDetails.id;  
-          },1000);
+          
           /*for laboratory data*/
             let labpratory_all_data=[];
             User.generateAllLaboratoryListByChild().then(
@@ -925,7 +920,7 @@
             if(this.id == 'referral'){
               vm.opdData.referral=$(this).val();
 
-              vm.finalResultData = '';
+              //vm.finalResultData = '';
               if($(this).val() == 'cross') {
                 setTimeout(function(){
                   $('#cross').select2({
@@ -982,32 +977,11 @@
              else if(this.id == 'xray_type_opd'){
               vm.resultData.x_ray_type = $(this).val(); 
             }
-            // else if(this.id == 'opd_no')
-            // {
-              
-            //      let opdID = $(this).val();
-            //          vm.opdData.opd_id=opdID;
-            //          User.generatePatientCheckUpDetails(opdID).then(
-            //           (response) => {
-            //             let patient_checkup_details=response.data.data;
-            //             vm.opdData.height =patient_checkup_details.height;
-            //             vm.opdData.weight =patient_checkup_details.weight;
-            //             vm.opdData.bmi =patient_checkup_details.bmi;
-            //             vm.opdData.vitals =patient_checkup_details.vitals;
-            //             vm.opdData.pulse =patient_checkup_details.pulse;
-            //             let bp =patient_checkup_details.bp.split("/");
-            //             vm.opdData.bp_systolic =bp[0];
-            //             vm.opdData.bp_diastolic =bp[1];
-            //             vm.opdData.temp =patient_checkup_details.temp;
-            //           },
-            //           (error) => {
-            //           },
-            //       );
-            // }
-            
+                       
             if(this.id == 'radiology_type_opd') {
-                vm.resultData.type = $("#radiology_type_opd").select2().val();
-                let type_opd_val=$("#radiology_type_opd").select2().val();
+
+                vm.resultData.type = $(this).val();
+                let type_opd_val=$(this).val();
 
                 if(type_opd_val=='MRI')
                 {
@@ -1032,10 +1006,18 @@
                 
             } 
             if(this.id == 'radiology_subtype_opd') {
-                       
+                    
               let q_data=vm.investigationData.radiologyQualifierReal;
               let radiologySubType_val=$("#radiology_subtype_opd").select2().val();
-               
+                //vm.investigationData.radiologySubType =  radiologySubType_val;
+
+                if(radiologySubType_val == 'Other' || radiologySubType_val =='Joint'){
+                    vm.resultData.subtype_text_enable = true;
+                    vm.resultData.bodyPart = '';
+                } else {
+                  vm.resultData.subtype_text_enable = false;
+                  vm.resultData.bodyPart = radiologySubType_val;
+                }
                 $('#radiology_spine_opd').select2("destroy");
                 $("#radiology_qualifier_opd").val('').trigger('change.select2');
                 vm.resultData.qualifier = '';
@@ -1070,15 +1052,7 @@
                     vm.resultData.qualifierPart = '';
                 }
 
-                //vm.investigationData.radiologySubType =  radiologySubType_val;
 
-                if(radiologySubType_val == 'Other' || radiologySubType_val =='Joint'){
-                    vm.resultData.subtype_text_enable = true;
-                    vm.resultData.bodyPart = '';
-                } else {
-                  vm.resultData.subtype_text_enable = false;
-                  vm.resultData.bodyPart = $("#radiology_subtype_opd").select2().val();
-                }
             }
             if(this.id == 'radiology_qualifier_opd') {
 
@@ -1099,6 +1073,7 @@
             }
             if(this.id == 'radiology_spine_opd')
             {
+              console.log('dfdsf');
               vm.resultData.spine_option_value=$("#radiology_spine_opd").select2().val();
             }
             if(this.id == 'radiology_special_request_opd') {
@@ -1136,6 +1111,7 @@
                 },500);
 
           $('#patient').on("select2:select", function (e) {
+
                 vm.opdData.patientlist=$(this).val();
                 let patientId = $(this).val();
                 vm.opdData.patientlist=patientId;
@@ -1146,9 +1122,18 @@
             $('#case_type').val('old').trigger('change.select2');
             vm.opdData.case_type = 'old';
           });
+
+
+
           setTimeout(function(){
             vm.examinationChangeImage();
           },500);
+          //vm.opdData.patientlist = this.$store.state.Patient.patientId;
+          vm.$store.dispatch('resetOpdForm');
+         /* setTimeout(function(){
+            vm.doctor = vm.$store.state.Users.userDetails.first_name + " "+ vm.$store.state.Users.userDetails.last_name;  
+            vm.doctor_id = vm.$store.state.Users.userDetails.id;  
+          },1000);*/
           // vm.getResults();
           vm.getResults();
           vm.newPatient(); 
@@ -1163,7 +1148,7 @@
               setInterval(function() {
 
                  vm.getResults();
-                 $('#patient').select2('destroy');
+                 //$('#patient').select2('destroy');
                  $('#patient').select2({
                     placeholder: "Select",
                     tags:false 
@@ -1175,13 +1160,11 @@
             var vm =this;
             var patient_list_new=[];
             let section = 'OPD';
-            
              User.getAllPatientName(vm.user_type,vm.doctor_id).then(
                    (response) => {
                     vm.opdData.patient_option=[];
-                      let patien_data;
-                      patien_data = response.data;
-                      $.each(response.data.data, function(key, value) {
+                      let patien_data=response.data.data;
+                      $.each(patien_data, function(key, value) {
                       let name = value.first_name +' '+value.last_name;
                       let pid  = value.id ;
                       let uhid_no  = value.uhid_no ;
@@ -1192,7 +1175,7 @@
                         });
                       });
 
-                      vm.opdData.patient_option=patient_list_new;
+                      vm.opdData.patient_option=_.cloneDeep(patient_list_new);
                         
                      },
                       (error) => {
@@ -1335,6 +1318,7 @@
             );
           },
           saveReport() {
+                console.log('fdsfdsf');
                 // var resData1=[];
                 let vm =this;
                 if(vm.opdData.referral=='cross')
@@ -1426,7 +1410,7 @@
                     
                   });
               }
-              vm.opdData.reffreal_laboratory_array=vm.ref_lab_array;
+              vm.opdData.reffreal_laboratory_array= _.cloneDeep(vm.ref_lab_array);
               vm.setLabReferral();
               return false;
           },
@@ -1523,29 +1507,36 @@
           },
           next() {
             let vm =this;
-                this.$validator.validateAll().then(
-                (response) => {
+                //this.$validator.validateAll().then(
+                //(response) => {
                 
-                  if (!this.errors.any()) {
+                  //if (!this.errors.any()) {
                       vm.curStep = vm.curStep+1;
                       vm.$store.dispatch('setOpdData',vm.opdData);
                       vm.$store.dispatch('setResData',vm.finalResultData);
-                  }
-                },
-               (error) => {
+                  //}
+               // },
+              /* (error) => {
                 }
-              )
+              )*/
             
           },
           initLastData(){
             let vm = this;
+            let p_list = _.cloneDeep(vm.opdData.patient_option);
             let pres = _.cloneDeep(vm.opdData.prescription);
+            let labs = _.cloneDeep(vm.opdData.laboratoryALLData);
             setTimeout(function(){
-              $('#prescription').val(pres).trigger('change');
+              $('#prescription').val(p_list).trigger('change');
+              //$('#patient').val(pres).trigger('change');
               $('.ls-select2').select2({
                 placeholder: "Select",
                 tags:false 
               });
+               $('#laboratory_report_opd').select2({
+                  placeholder: 'Select',
+                  data: _.cloneDeep(labs)
+                });
               if(vm.curStep == 1){
                 vm.examinationChangeImage();
               } 
