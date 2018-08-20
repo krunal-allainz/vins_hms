@@ -1139,6 +1139,7 @@
                 vm.opdData.patientlist=$(this).val();
                 let patientId = $(this).val();
                 vm.opdData.patientlist=patientId;
+                vm.$store.dispatch('SetPatientId',patientId);             
                 vm.get_vitals();
                
           });

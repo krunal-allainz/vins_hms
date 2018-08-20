@@ -7,7 +7,6 @@
 				</div>
 			</div>
 		</div>
-
 		<form method = "post">
 			<div class="row form-group">
 		    	<div class="col-md-6">
@@ -89,7 +88,6 @@
 	                        <label for="date_of_birth">Date of Birth: </label>
 	                    </div>
 	                    <div class="col-md-6">
-							
 							<date-picker  :date.sync="patientData.dob" :option="option" id = "date_of_birth" class="" type="date" name="date_of_birth" :limit="limit" v-model="patientData.dob.time" :disabled="patientData.case == 'old'" @change="getAgeCal()" ></date-picker> 
 							<i v-show="errors.has('date_of_birth')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('date_of_birth')">

@@ -11,7 +11,10 @@
     	 <div class="row form-group text-center">
     	 	 <div class="col-md-12">
     	 	 	<!-- <div class="col-md-4"> -->
-    	 	 		<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  @click = "printReport('opd_case')" v-if="(opdReport == true)" id="opd_case_btn">OPD Case</button>
+    	 	 		<!-- <button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  @click = "printReport('opd_case')" v-if="(opdReport == true)" id="opd_case_btn">OPD Case</button>
+ -->    	 	 	
+
+
     	 	 		<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#generateModal"  @click="printReport('generate_case')" v-if="(opdReport == false)"> Print Report</button>
     	 	 <!-- 	</div>
     	 	 	<div class="col-md-4">
@@ -19,6 +22,7 @@
     	 	 	</div>
     	 	 	<div class="col-md-4"> 
     	 	 		<button type="button" class="btn btn-primary btn-submit text-right " data-toggle="modal" href="#printModal"  @click="printReferal()">Referal</button>-->
+ 					<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  @click = "printReport('print_perceptions')"  id="opd_case_btn">Print Perceptions</button>
 
     	 	 		<button  v-if="(labReportData)" type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('lab')" >Lab Report</button>
 
@@ -46,8 +50,8 @@
                   			Please select any report Type.
                 		</span> 
 					</div>
-					<!-- <button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button> -->
-					<button type="button" lass="btn btn-primary btn-submit text-right">Print</button>
+					<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button>
+					<button ty pe="button" lass="btn btn-primary btn-submit text-right" >Print</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</div>
 			</div>
@@ -58,25 +62,14 @@
 		 		<div class="modal-content" >
 		 			<!--<div class="modal-header"></div>-->
 		 			<div class="modal-body">
-		 				<div id="printData">
+		 				<div id="printData" style="height: 1500px;min-height: 700px;">
 			 					<div  id="printContent">
 			 					</div>
 			 					<vinsletterheadheaderpart></vinsletterheadheaderpart>
-
+			 					<patientDetailReport :patientDetail="patientDetail" :consult_dr="adviceDoctor" :todayDate="todayDate"  :department="department" :reg_no="regNo"></patientDetailReport>
+			 					<patientCheckupReport :patientCheckupDetail="patientCheckupDetail"></patientCheckupReport>
 								 	<div v-if="(printType == 'lab')" >
-								 		<div class='row' style="padding-left: 15px;padding-right:15px;">
-							 				<div class='col-md-6 text-left'>
-													<span class='text-left'><b>Ref By :</b></span>
-														{{this.adviceDoctor}}
-				    	 	 				</div>
-				    	 	 				<div class='col-md-6 text-right'>
-				    	 	 					<span class='text-right'><b>Date :</b> 
-				    	 	 							{{ todayDate }}
-				    	 	 					</span>
-				    	 	 				</div>
-				    	 	 			</div>	
-				    	 	 			<br/>
-				    	 	 			<br/>
+								 		
 								 		<div class='row'>
 								 				<div class='col-md-12 text-center'>
 								 					<h4>Lab Report</h4>
@@ -117,19 +110,6 @@
 			
 
 			 	<div v-if="(printType == 'radiology')">
-			 		<div class='row' style="padding-left: 15px;padding-right:15px;">
-			 				<div class='col-md-6 text-left'>
-									<span class='text-left'><b>Ref By :</b></span>
-										{{this.adviceDoctor}}
-    	 	 				</div>
-    	 	 				<div class='col-md-6 text-right'>
-    	 	 					<span class='text-right'><b>Date :</b> 
-    	 	 							{{ todayDate }}
-    	 	 					</span>
-    	 	 				</div>
-    	 	 			</div>	
-    	 	 			<br/>
-    	 	 			<br/>
 			 		<div class='row'>
 			 				<div class='col-md-12 text-center'>
 			 					<h4>Radiology Report</h4>
@@ -137,7 +117,7 @@
 			 		</div>
 			 		<div class="row" >
         				<div class="col-md-12">
-        					<div class="table-responsive">
+        					<div class="">
                     			<table class="table table-striped table-bordered" id="radio_list">
                         		<thead>
                         			<tr>
@@ -168,18 +148,6 @@
         			</div>
 			 	</div>
 			 	<div v-if="(printType == 'prescription' && prescriptiData.length != '')"  >
-
-			 			<div class='row'>
-			 				<div class='col-md-6 text-left'>
-									<span class='text-left'><b>Ref By :</b></span>
-										{{this.adviceDoctor}}
-    	 	 				</div>
-    	 	 				<div class='col-md-6 text-right'>
-    	 	 					<span class='text-right'><b>Date :</b> 
-    	 	 							{{ todayDate }}
-    	 	 					</span>
-    	 	 				</div>
-    	 	 			</div>	
     	 	 			
 			 			<div v-if="presp_count(prescriptiData)>0" >
     	 	 				<div class='row' v-show="presp_count(prescriptiData)>0">
@@ -211,6 +179,73 @@
 				 		</div>
 
 			 	</div>
+			 	<div v-if="(printType == 'print_perceptions')" 	>
+			 		<div>
+		 					<div class='col-md-6 text-left'>
+						 				<span class='text-left'><b>Provisional Diagnostic :-</b></span>
+						 	</div>
+						 	<div class='row'>
+					 					<div class='col-md-12 text-left'>
+					 							<span class='text-left' style="padding-left:30px;"> {{provisional_diagnostic}}</span>
+					 					</div>
+									</div>
+		 				</div>
+		 				<div v-if="presp_count(prescriptiData)>0" >
+							<prescriptionPrint :prescriptData="prescriptiData" :removeBtn="0"> </prescriptionPrint>
+    	 	 			</div>
+		 				<div v-if="(adviceType == 'text' && advice != '')">
+		    	 	 				<div class='col-md-6 text-left'>
+						 				<span class='text-left'><b>Advice :-</b></span>
+						 			</div>
+						 			<div class='row'>
+					 					<div class='col-md-12 text-left' v-if ="(adviceType == 'text')">
+					 							<span class='text-left' style="padding-left:30px;"> {{advice}}</span>
+					 					</div>
+									</div>
+		    	 	 			</div>
+		    	 	 			<div v-if="(adviceType !== 'text' && adviceScribleValue != '')">
+		    	 	 				<div class='col-md-6 text-left'>
+						 				<span class='text-left'><b>Advice :-</b></span>
+						 			</div>
+						 			<div class='row'>
+					 					<div class='col-md-12 text-left' v-if ="(adviceType != 'text')">
+								            <img :src="adviceScribleValue" title="Advice">
+								        </div>  
+									</div>
+		    	 	 			</div>
+		 				<div v-if="(referalType == 'cross' && crossSelectedValue != '')">
+			 				
+				 			<div class='col-md-12 text-center'>
+				 				<span class='text-center'><b>Cross Referal </b></span>
+				 			</div>
+			 				<div v-if="(crossType == 'internal')">
+			 					
+			 						<div class='col-md-6 text-left'>
+			 							<span class='text-left'><b>Internal</b></span> {{this.$store.state.Patient.opdData.cross_type_int}}
+			 						</div>
+			 				</div>
+			 				<div v-if="(crossType == 'external')">
+			 					
+			 						<div class='col-md-6 text-left'>
+			 								<span class='text-left text-capitalize' style='padding-left:30px;padding-right;20px'><b>External
+			 					</b></span>{{this.$store.state.Patient.opdData.cross_type_ext}}
+			 						</div>
+			 					
+			 				</div>
+				 		</div>
+
+		 				<div v-if="(followup != '')">
+		    	 	 				<div class='col-md-6 text-left'>
+						 				<span class='text-left'><b>FollowUp :-</b></span>
+						 			</div>
+						 			<div>
+					 					<div class='col-md-12 text-left'>
+								           {{followup}}
+								        </div>  
+									</div>
+		    	 	 			</div>
+
+			 	</div>
 			 	<div v-if="(printType == 'opd_case')"  >
 			 			<div class='row'>
 			 				<div class='col-md-12 text-center'>
@@ -218,19 +253,6 @@
 			 				</div>
 			 			</div>
 				 		
-			 			<div class='row' style="padding-left: 15px;padding-right:15px;">
-			 				<div class='col-md-6 text-left'>
-									<span class='text-left'><b>Ref By :</b></span>
-										{{this.adviceDoctor}}
-    	 	 				</div>
-    	 	 				<div class='col-md-6 text-right'>
-    	 	 					<span class='text-right'><b>Date :</b> 
-    	 	 							{{ todayDate }}
-    	 	 					</span>
-    	 	 				</div>
-    	 	 			</div>	
-    	 	 			<br/>
-    	 	 			<br/>
     	 	 			<div v-for="reportName in checkedreportList">
 	    	 	 			<div v-if="(reportName == 'Advice + follow ups')">
 		    	 	 			<div v-if="(adviceType == 'text' && advice != '')">
@@ -351,6 +373,7 @@
     	 	 					</div>
 		 					</div>
 		 				</div>
+		 				
 		 				<div class='text-right'>
 		 					<!-- <img  :src="'/assets/img/signature/'+signatureName+'.png'" height="66" width="182"/> -->
 		 					<span><b>{{signatureName}}</b></span>
@@ -385,6 +408,8 @@
 	import User from '../../../api/users.js';
 	import vinsletterheadheaderpart from './vins_letter_header.vue';
 	import vinsletterheadfooterpart from './vins_letter_footer.vue';
+	import patientDetailReport from './patientDetailReport.vue';
+	import patientCheckupReport from './patientCheckupReport.vue';
 	import prescriptionData from './prescriptionData.vue';
 	import prescriptionPrint from './prescriptionPrint.vue';
 	import moment from 'moment';
@@ -427,12 +452,20 @@
 		      		}] ,
 		      	'opdReport' : false,
 		      	'reportListSelect' : 0,
+		      	'patinetId' : this.$store.state.Patient.patientId,
+		      	'opdId' : '',
+		      	'patientDetail' : {},
+		      	'patientCheckupDetail' : {},
+		      	'department': '',
+		      	'provisional_diagnostic' : this.$store.state.Patient.opdData.provisional_diagnosis
 			}
 		},
 		components: {
          vinsletterheadheaderpart,
          vinsletterheadfooterpart,
-         prescriptionPrint
+         prescriptionPrint,
+         patientDetailReport,
+         patientCheckupReport,
        },
        mounted(){
 			let vm =this;
@@ -514,16 +547,56 @@
   					if(response.data.code == 200){
   						var data = response.data.data;
   						vm.signatureName = data.name;
-  						vm.timeStamp =data.dagree;  					
-  						vm.regNo =data.regNo;  					
+  						vm.timeStamp =data.dagree;  
+  						vm.department =data.department;			vm.regNo =data.regNo;  					
   					}
   				},
   				(error) => {
 
   				}
   			);
+  			this.getPatientData(this.patinetId);
        },
 		methods: {
+			getPatientData(patinetId)
+			{
+				var vm=this;
+				User.generatePatientDetailsByID(patinetId).then(
+	  				(response) => {
+	  					
+	  					if(response.data.code == 200){
+	  						vm.patientDetail = response.data.data;
+	  					}
+	  				},
+	  				(error) => {
+
+	  				}
+  				);
+  				User.getLastOPDIdByPatientId(patinetId).then(
+  					(response) => {
+	  					
+	  					if(response.data.code == 200){
+	  						vm.opdId = response.data.data.id;
+	  						User.generatePatientCheckUpDetails(vm.opdId).then(
+  							(response) => {
+	  					
+	  							if(response.data.code == 200){
+	  							vm.patientCheckupDetail = response.data.data;
+	  							}
+	  						},
+	  						(error) => {
+
+	  							}
+
+  							);
+	  					}
+	  				},
+	  				(error) => {
+
+	  				}
+  				);
+  				
+			},
 			presp_count(array)
             {
                 var vm=this;
@@ -569,7 +642,13 @@
 							'timeStamp' : this.timeStamp,
 							'regNo' : this.regNo,
 							'followup' : this.followup,
-							'checkedreportList' : this.checkedreportList
+							'checkedreportList' : this.checkedreportList,
+							'patientDetail' : this.patientDetail,
+							'patientCheckupDetail' : this.patientCheckupDetail,
+							'department' : this.department,
+							'provisional_diagnostic' : this.provisional_diagnostic
+
+
 						};
 
 				      	User.printOPDCaseData(OPDCaseData).then(	

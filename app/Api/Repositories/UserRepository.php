@@ -170,7 +170,8 @@ class UserRepository {
         $record=User::where('id', $id)->where('user_type',$type)->first();
         $result['name'] = $record->first_name .$record->last_name  ;
         $result['dagree'] = $record->dagree;
-        $result['regNo'] = $record->regno;
+        $result['department'] = $record->department;
+        $result['regNo'] = $record->RegNo;
         return $result;
     }
 
