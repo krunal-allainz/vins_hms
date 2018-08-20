@@ -323,7 +323,10 @@
             <img src="{{$url.'/assets/img/nabh_vins_logo.png'}}" id="logo-desk" alt="NABH Logo" class="hidden-sm-down" height="" width="30%">
         </div>
       </div>
-    </div>  
+    </div>  <!--  @component('patientDetailReport')
+            This is my sidebar text. 
+        @endcomponent -->
+
 
   @if($data['printType'] == 'lab')
   	<div class='row'>
@@ -373,7 +376,7 @@
   	
   @endif
 
-  @if($data['printType'] == 'radiology')
+  @if($data['printType'] == 'radiology')  
   	<div class='row'>
 		<div class='col-md-12 text-center'>
 			<h4>Radiology Report</h4>
@@ -389,7 +392,7 @@
 		         </table>
 		    </div>	
 			<br/><br/>
-		<div class="row"  style="min-height: 350px;height: 350px;">
+		<div class="row">
         	<div class="col-md-12">
         	  <div class="">
                 <table class="table table-striped table-bordered" id="radio_list">
@@ -548,7 +551,6 @@
 		</div>
 		@endif
 	@endif
-	<br/><br/>
 
 	@if(isset($data['referalType']))
 	@if($data['referalType'] != null && $data['crossSelectedValue'] != '')
@@ -583,7 +585,7 @@
 
   @endif
   @if($data['printType'] == 'opd_case')
-  <div style='min-height: 750px;height:auto;'>
+  <div >
   	<div class='row'>
 		<div class='col-md-12 text-center'>
 			<h4>OPD CASE </h4>
@@ -631,7 +633,6 @@
 					</div> 
 			</div>
 		</div>
-		<br/><br/>
 		@endif
 		@if($data['followup'] != '')
 		<div  style="padding-left: 35px;">
@@ -644,7 +645,6 @@
 					</div> 
 			</div>
 		</div>
-		<br/><br/>
 		@endif 
 	@endif
 	@if(in_array('Radiology',$data['checkedreportList']))
@@ -832,13 +832,16 @@
 	</div>
 @endif
 	
-	<div style="position:absolute;bottom:230px;width:100%height:200px;right:30px;">
-		<img  :src="{{$url.'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/>
+	<div style="width:100%height:200px;right:30px;" class="text-right">
+		<!-- <img  :src="{{$url.'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/> -->
+		<span><b>{{$data['signatureName']}}</b></span>
 	</div>	
-	<div style="position:absolute;bottom:230px;width:100%height:200px;right:30px;">
-	 	<img  :src="{{$url.'/assets/img/timestamp/'.$data['timeStamp'].'.png'}}" height="66" width="182"/>
+	<div style="width:100%height:200px;right:30px;" class="text-right">
+	 	<!-- <img  :src="{{$url.'/assets/img/timestamp/'.$data['timeStamp'].'.png'}}" height="66" width="182"/> -->
+	 	<span><b>{{$data['timeStamp']}}</b></span><br>
+	 	<span><b>{{$data['regNo']}}</b></span>
 	</div>
-	<div style="position:absolute;bottom:200px;width:100%height:50px;right:30px;">
+	<div style="">
 	<div class="row" style="padding-right:20px;font-size: 15px;right:0px;">
 		<div class='col-md-12 text-right'>
 			<span class='text-right'><b>Consultant's Signature</b></span>

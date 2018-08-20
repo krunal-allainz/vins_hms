@@ -241,4 +241,25 @@ class UserController extends BaseController
       
        return  $result;
     }
+
+    /**
+    *
+    *
+    *
+    *
+    **/
+
+    public function getDoctoreInfoById(Request $request){
+        $id = $request->id;
+        $type = $request->typeId;
+
+         $result = $this->userRepoObj->getDoctoreInfoById($id,$type);
+
+         if ($result) {
+            return ['code' => '200','data'=>$result, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+
+    }
 }

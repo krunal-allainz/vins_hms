@@ -27,20 +27,25 @@
 			 </div>
 
        <div v-if="isPatientSearch">
-			   <patientSearch v-show="patient_select_enable==false" :user_id="0" ref="vitals_info"></patientSearch>
+			   <patientSearch v-show="patient_select_enable==false" :user_id="0" ref="vitals_info" :copyVitals="1"></patientSearch>
         </div>
 
 	        <div class="row form-group">
 	            <div class="col-md-6" v-if="patient_select_enable==true">
-	              <div class="col-md-6">
-	               <button type="button" class="btn btn-primary" @click="patient_select_change(true)">Search Patient By Another</button>
-	              </div>
+                <div class="col-md-6">
+                 <button type="button" class="btn btn-primary" @click="patient_select_change(true)">Search Patient By Another</button>
+                </div>
 	            </div>
 	            <div class="col-md-6" v-if="patient_select_enable==false">
 	              <div class="col-md-6">
 	                <button type="button" class="btn btn-primary" @click="patient_select_change(false)">Select Patient</button>
 	              </div>
 	            </div>
+               <div class="col-md-6 " v-if="patient_copy_vitals_enable==true">
+                  <div class="col-md-6 pull-right">
+                    <button type="button" class="btn btn-info" @click="copy_vitals_func()">Copy Vitals</button>
+                  </div>
+              </div>
 	         </div>
 			<div class="row form-group">	
               <div class="col-md-6" v-show="(patientData.last_vist != '')">
@@ -80,7 +85,7 @@
 	                		<label for="date">Weight:</label>
 	              		</div>
 	              		<div class="col-md-6">
-	                		<input type="text" name="weight" id="weight" class="form-control" v-model="patientData.weight"  placeholder="In kgs"   v-validate="'required|numeric|min_value:1'">
+	                		<input type="text" name="weight" id="weight" class="form-control" v-model="patientData.weight"  placeholder="In kgs"   v-validate="'required|numeric|min_value:1'" :disabled="non_editable_vitals == 'true'">
 	                  		<i v-show="errors.has('weight')" class="fa fa-warning"></i> 
 	                  		<span class="help is-danger" v-show="errors.has('weight')"> Please enter valid weight.</span>
 	               		 </div>
@@ -90,7 +95,7 @@
                   			<label for="date">Height:</label>
                 		</div>
                 		<div class="col-md-6">
-                  			<input type="text" name="height" id="height" class="form-control" placeholder="In cms" v-model="patientData.height"  v-validate="'required|numeric|min_value:1'">
+                  			<input type="text" name="height" id="height" class="form-control" placeholder="In cms" v-model="patientData.height"  v-validate="'required|numeric|min_value:1'" :disabled="non_editable_vitals=='true'">
                   			<i v-show="errors.has('height')" class="fa fa-warning"></i> 
                     		<span class="help is-danger" v-show="errors.has('height')"> Please enter valid height. </span>
                   		</div>
@@ -102,7 +107,7 @@
                     <label for="date">BMI:</label>
                   </div>
                   <div class="col-md-6">
-                    <input type="text" name="bmi" id="bmi" class="form-control" readonly="" v-model="bmi_mod">
+                    <input type="text" name="bmi" id="bmi" class="form-control" readonly="" v-model="bmi_mod" :disabled="non_editable_vitals=='true'">
                     </div>
                   </div>
                   <div class="col-md-6">
@@ -111,7 +116,7 @@
                     </div>
                     <div class="col-md-6">
                     	 <div class=" input-group">
-                      <input type="text" name="vitals" id="vitals" class="form-control" v-model="patientData.vitals"  v-validate="'required|numeric'">
+                      <input type="text" name="vitals" id="vitals" class="form-control" v-model="patientData.vitals"  v-validate="'required|numeric'" :disabled="non_editable_vitals=='true'">
                       	  <div class="input-group-append">
                             <span class="input-group-text ">%</span>
                         </div>
@@ -129,7 +134,7 @@
                     </div>
                     <div class="col-md-6" >
                       <div class=" input-group">
-                        <input type="text" name="pulse" id="pulse" class="form-control" v-model="patientData.pulse"  v-validate="'required|numeric|min_value:1'"> 
+                        <input type="text" name="pulse" id="pulse" class="form-control" v-model="patientData.pulse"  v-validate="'required|numeric|min_value:1'" :disabled="non_editable_vitals=='true'"> 
                        <!--  <div class="input-group-append">
                             <span class="input-group-text ">/mm</span>
                         </div> -->
@@ -149,11 +154,11 @@
                     <div class="col-md-6">
                       <div class=" input-group">
 
-                      <input type="text" name="bp_systolic" id="bp_systolic" class="form-control"  v-model="patientData.bp_systolic"  v-validate="'required|numeric|min_value:1'" maxlength="3" > 
+                      <input type="text" name="bp_systolic" id="bp_systolic" class="form-control"  v-model="patientData.bp_systolic"  v-validate="'required|numeric|min_value:1'" maxlength="3" :disabled="non_editable_vitals=='true'"> 
                         <div class="input-group-append">
                             <span class="input-group-text ">/</span>
                         </div>
-                        <input type="text" name="bp_diastolic" id="bp_diastolic" class="form-control"  v-model="patientData.bp_diastolic"  v-validate="'required|numeric|min_value:1'" maxlength="3">
+                        <input type="text" name="bp_diastolic" id="bp_diastolic" class="form-control"  v-model="patientData.bp_diastolic"  v-validate="'required|numeric|min_value:1'" maxlength="3" :disabled="non_editable_vitals=='true'">
                       
                       </div>
                       
@@ -173,7 +178,7 @@
                     </div>
                     <div class="col-md-6">
                       <div class=" input-group">
-                      <input type="text" name="temp" id="temp" class="form-control number-with-validation"  v-model="patientData.temp" v-validate="'required|numeric|min_value:1'" pattern="\d{1,3}(\.\d{0,1})?" >
+                      <input type="text" name="temp" id="temp" class="form-control number-with-validation"  v-model="patientData.temp" v-validate="'required|numeric|min_value:1'" pattern="\d{1,3}(\.\d{0,1})?" :disabled="non_editable_vitals=='true'">
                         <div class="input-group-append">
                             <span class="input-group-text ">°F</span>
                         </div>
@@ -213,10 +218,14 @@
 	 export default {
         data() {
             return {
+              'vitals_id':'',
+              'non_editable_vitals':'false',
+              'vitals_data_org':[],
             	 'user_id':this.$store.state.Users.userDetails.id,
                'user_type':this.$store.state.Users.userDetails.user_type,
              	 'patient_select_enable':true,
                'isPatientSearch':true,
+               'patient_copy_vitals_enable':false,
             	 'patientData' : {
             	 	'pain_value':0,
                 	'patient_id':'',
@@ -249,6 +258,7 @@
 		            placeholder: "Select",
 		            tags:false 
 		          });
+               vm.getResults();
               vm.newPatient(); 
              
          	 	 setTimeout(function(){
@@ -258,34 +268,13 @@
                 });
               },500);
 
-	        $(document).on("select2:select",'#patient', function (e) { 
-	               let patientId = $(this).val();
-                	vm.patientData.patient_id=patientId;
-                	 User.generatePatientDetailsByID(patientId).then(
-                    (response) => {
-                      let patient_data=response.data.data;
-                      vm.patientData.uhid_no =patient_data.uhid_no;
-	                    },
-	                    (error) => {
-	                    },
-	                );
-                	 User.getLastOPDIdByPatientId(patientId).then(
-                    (response) => {
-                      let opdID ;
-                      let lastVist;
-                      opdID = response.data.data.id;
-                      lastVist = response.data.data.appointment_datetime;
-                       vm.patientData.opd_id=opdID;
-                        vm.patientData.last_vist=lastVist;
-                      },
-                      (error) => {
-                      },
-                );
-                });
-	          // $(document).on("select2:select",'#opd_no', function (e) { 
-	          // 		 let opdId = $(this).val();
-           //      	vm.patientData.opd_id=opdId;
-	          // });
+	        $(document).on("select2:select",'#patient', function (e) {
+              let patientId = $(this).val();
+              vm.patientData.patient_id=patientId;
+              vm.patientEmpty();
+              vm.enable_vitals();
+          });
+	         
 	          
          	},
          computed: {
@@ -312,13 +301,25 @@
               var vm =this;
               setInterval(function() {
                  vm.getResults();
-              }, 1000);
+                  $('#patient').select2('destroy');
+                  $('#patient').select2({
+                    placeholder: "Select",
+                    tags:false 
+                  });
+              }, 15000);
           },
+        non_editable()
+        {
+            var vm =this;
+            vm.non_editable_vitals='true';
+        },
         getResults(page_url) {
             var vm =this;
             let patient_list_new=[];
             let section = 'OPD';
-             User.getAllPatientName(vm.user_type).then(
+            let user_id=0;
+            //vm.patientData.patient_option = [];
+             User.getAllPatientName(vm.user_type,user_id).then(
                    (response) => {
                       let patien_data ;
                       patien_data = response.data;
@@ -332,95 +333,150 @@
                           uhid_no:uhid_no
                         });
                         });
+                    
                      vm.patientData.patient_option = patient_list_new;
                      },
                       (error) => {
                   },
                    );
           },
+          enable_vitals()
+          {
+              let vm=this;
+              User.generatePatientDetailsByID(vm.patientData.patient_id).then(
+              (response) => {
+                let patient_data=response.data.data;
+                vm.patientData.uhid_no =patient_data.uhid_no;
+                },
+                (error) => {
+                },
+              );
+             User.getLastOPDIdByPatientId(vm.patientData.patient_id).then(
+              (response) => {
+                let opdID ;
+                let lastVist;
+                opdID = response.data.data.id;
+                lastVist = response.data.data.appointment_datetime;
+                  vm.patientData.opd_id=opdID;
+                  vm.patientData.last_vist=lastVist;
+                },
+                (error) => {
+                },
+              );
+             vm.get_vitals();
+          },
+          get_vitals()
+          {
+             let vm=this;
+              User.getVitalsInfoByPatientId(vm.patientData.patient_id).then(
+              (response) => {
+                let vitals_data=response.data.data;
+                  if(vitals_data.code==200)
+                  {
+                      vm.vitals_data_org=vitals_data.data;
+                      vm.vitals_id=vm.vitals_data_org.vital_id;
+                      vm.patient_copy_vitals_enable=true;
+                  }
+                  else if(vitals_data.code==300)
+                  {
+                    vm.patient_copy_vitals_enable=false;
+                  }
+                  else
+                  {
+                     vm.patient_copy_vitals_enable=false;
+                  }
+                },
+                (error) => {
+                },
+            );
+          },
+          copy_vitals_func()
+          {
+            let vm=this;
+              User.getVitalsValidity(vm.vitals_id).then(
+                (response2) => {
+                    let validity=response2.data.data;
+                    if(validity.code==200)
+                    {
+                          //vm.non_editable();
+                          vm.patientData.height=vm.vitals_data_org.height;
+                          vm.patientData.weight=vm.vitals_data_org.weight;
+                          vm.patientData.vitals=vm.vitals_data_org.vitals;
+                          vm.patientData.temp=vm.vitals_data_org.temp;
+                          vm.patientData.pulse=vm.vitals_data_org.pulse;
+                          vm.patientData.pain_value=vm.vitals_data_org.pain;
+                          vm.patientData.bmi=vm.vitals_data_org.bmi;
+                          //vm.patientData.last_vist=vm.vitals_data_org.created_at;
+                          if(vm.vitals_data_org.bp!='')
+                          {
+                              let bp_opg=vm.vitals_data_org.bp.split("/");
+                              vm.patientData.bp_systolic=bp_opg[0];
+                              vm.patientData.bp_diastolic=bp_opg[1];
+                          } 
+                          
+                    }
+                    else if(validity.code==300)
+                    {
+                      toastr.error('6 month validity of vitals is expired for this patient. Please fill up new vitals.', 'Error', {timeOut: 5000});
+                      
+                    }
+                    else
+                    {
+                      toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
+                      vm.patientEmpty();
+                    }
+                },
+                (error) => {
+                },
+              );
+          },
          patientEmpty()
           {
-              let vm =this;
-              $('#opd_no').val('').trigger('change.select2');
+              var vm =this;
+                vm.patientData.uhid_no="";
+                vm.patientData.last_vist="";
+                vm.patientData.weight="";
+                vm.patientData.height="";
+                vm.patientData.bmi="";
+                vm.patientData.vitals="";
+                vm.patientData.pulse="";
+                vm.patientData.bp_systolic="";
+                vm.patientData.bp_diastolic="";
+                vm.patientData.temp="";
+                vm.patientData.opd_id="";
+                vm.patientData.pain_value="";
+                vm.patient_copy_vitals_enable=false;
           },
        	 setPatientData(patientData) {
-
+            let vm =this;
+            vm.patientEmpty();
             if(patientData.code==200)
             {
-              $('#opd_no').select2('destroy');
               let pDetails=patientData.searchdata;
-              //for opd list
-                this.patientData.uhid_no=pDetails.uhid_no;
-                let opd_list_new=[];
-                // User.generateOpdIdByPatirntID(pDetails.id).then(
-                //     (response) => {
-                //       opd_list_new=[];
-                //      $.each(response.data.data, function(key,value) {
-
-                //          opd_list_new.push({
-                //            'id' : value.id,
-                //            'opd_id' : value.opd_id,
-                //         });
-                //       });
-                //        setTimeout(function(){
-                //               $('#opd_no').select2({
-                //                 placeholder: "Select",
-                //                 tags:false 
-                //               }); 
-
-                //       },500);
-                //        this.patientData.patient_id = pDetails.id;
-                //        this.patientData.opd_option=opd_list_new;
-                //       },
-                //       (error) => {
-                //       },
-                // );
-                User.getLastOPDIdByPatientId(pDetails.id).then(
-                    (response) => {
-                      let opdID ;
-                      let lastVist;
-                      opdID = response.data.data.id;
-                      lastVist = response.data.data.appointment_datetime;
-                       this.patientData.patient_id = pDetails.id;
-                       vm.patientData.opd_id=opdID;
-                        vm.patientData.last_vist=lastVist;
-                      },
-                      (error) => {
-                      },
-                );
-
-              
+              vm.patientData.patient_id=pDetails.id;
+              vm.enable_vitals();
             }
             else if(patientData.code==300)
             {
-              toastr.error('Record not found', 'Error', {timeOut: 5000});
-              this.initPatientData();
+              toastr.error('Vitals not found', 'Error', {timeOut: 5000});
+              vm.patientEmpty();
             }
             else
             {
               toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
-              this.initPatientData();
+              vm.patientEmpty();
             }
           },
 	       	 patient_select_change(val)
 	          {
               let vm =this;
 	              vm.userlistData={};
-	              $('#opd_no').val('').trigger('change.select2');
-                $('#patient').val('').trigger('change.select2');
-	              vm.patientData.weight="";
-	              vm.patientData.height="";
-	              vm.patientData.bmi="";
-	              vm.patientData.vitals="";
-	              vm.patientData.pulse="";
-	              vm.patientData.bp_systolic="";
-	              vm.patientData.bp_diastolic="";
-	              vm.patientData.temp="";
-	              vm.patientData.select_value="";
-	              vm.patientData.opd_option={};
+	             
+                 $('#patient').val('').trigger('change.select2');
+                 vm.patientData.patient_id="";
+	               vm.patientEmpty();
 	              if(val==true)
 	              {
-                  //$('#patient').select2('destroy');
 	                vm.patient_select_enable=false;
 	              }
 	              else
@@ -429,39 +485,13 @@
                   setTimeout(function(){
                     vm.isPatientSearch  =true;
                   },500);
-                  /*$('#patient').select2({
-                    placeholder: "Select",
-                    tags:false 
-                  }); */
-
 	                vm.patient_select_enable=true;
 	              }
 	          },
 	       	 pain_value(pain){
 	            this.patientData.pain_value = pain;
 	          },
-	          initData(){
-	          	var vm =this;
-            	 vm.patientData = {
-            	 	'pain_value':0,
-                	'patient_id':'',
-                    'patient_option':[],
-                    'opd_id':'',
-                	'opd_option':[],
-            	 	'weight':'',
-                	'height': '',
-                	'bmi':'',
-                	'vitals':'',
-                	'pulse':'',
-                	'bp_systolic':'',
-                	'bp_diastolic':'',
-                	'temp':'',
-                	'select_type':'',
-                	'select_value':'',
-                	'uhid_no' : '',
-            	 }
 
-	          },
 	           updateUhidNo(uhid) {
 	            let vm = this;
 	            vm.patientData.uhid_no = uhid;
@@ -488,7 +518,7 @@
 			                	 }	
 			                	  $("body .js-loader").addClass('d-none');
 			                	  window.location.reload(); 
-			                	  //vm.initData();
+			                	  //vm.patientEmpty();
 			                	 
 				    			},
 			                	  (error) => {
