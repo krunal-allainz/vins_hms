@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('password')->nullable();
             $table->string('department')->nullable();
             $table->string('dagree')->nullable();
-            $table->string('regno')->nullable();
+            $table->string('RegNo')->nullable();
             $table->string('user_type')->nullable();
             $table->string('mobile_no')->nullable();
             $table->text('address')->nullable();
