@@ -62,21 +62,10 @@
 			 					<div  id="printContent">
 			 					</div>
 			 					<vinsletterheadheaderpart></vinsletterheadheaderpart>
-			 					<patientDetailReport :patientDetail="patientDetail"></patientDetailReport>
+			 					<patientDetailReport :patientDetail="patientDetail" :consult_dr="adviceDoctor" :todayDate="todayDate"  :department="department" :reg_no="regNo"></patientDetailReport>
+			 					<patientCheckupReport :patientCheckupDetail="patientCheckupDetail"></patientCheckupReport>
 								 	<div v-if="(printType == 'lab')" >
-								 		<div class='row' style="padding-left: 15px;padding-right:15px;">
-							 				<div class='col-md-6 text-left'>
-													<span class='text-left'><b>Ref By :</b></span>
-														{{this.adviceDoctor}}
-				    	 	 				</div>
-				    	 	 				<div class='col-md-6 text-right'>
-				    	 	 					<span class='text-right'><b>Date :</b> 
-				    	 	 							{{ todayDate }}
-				    	 	 					</span>
-				    	 	 				</div>
-				    	 	 			</div>	
-				    	 	 			<br/>
-				    	 	 			<br/>
+								 		
 								 		<div class='row'>
 								 				<div class='col-md-12 text-center'>
 								 					<h4>Lab Report</h4>
@@ -117,19 +106,6 @@
 			
 
 			 	<div v-if="(printType == 'radiology')">
-			 		<div class='row' style="padding-left: 15px;padding-right:15px;">
-			 				<div class='col-md-6 text-left'>
-									<span class='text-left'><b>Ref By :</b></span>
-										{{this.adviceDoctor}}
-    	 	 				</div>
-    	 	 				<div class='col-md-6 text-right'>
-    	 	 					<span class='text-right'><b>Date :</b> 
-    	 	 							{{ todayDate }}
-    	 	 					</span>
-    	 	 				</div>
-    	 	 			</div>	
-    	 	 			<br/>
-    	 	 			<br/>
 			 		<div class='row'>
 			 				<div class='col-md-12 text-center'>
 			 					<h4>Radiology Report</h4>
@@ -168,18 +144,6 @@
         			</div>
 			 	</div>
 			 	<div v-if="(printType == 'prescription' && prescriptiData.length != '')"  >
-
-			 			<div class='row'>
-			 				<div class='col-md-6 text-left'>
-									<span class='text-left'><b>Ref By :</b></span>
-										{{this.adviceDoctor}}
-    	 	 				</div>
-    	 	 				<div class='col-md-6 text-right'>
-    	 	 					<span class='text-right'><b>Date :</b> 
-    	 	 							{{ todayDate }}
-    	 	 					</span>
-    	 	 				</div>
-    	 	 			</div>	
     	 	 			
 			 			<div v-if="presp_count(prescriptiData)>0" >
     	 	 				<div class='row' v-show="presp_count(prescriptiData)>0">
@@ -218,19 +182,6 @@
 			 				</div>
 			 			</div>
 				 		
-			 			<div class='row' style="padding-left: 15px;padding-right:15px;">
-			 				<div class='col-md-6 text-left'>
-									<span class='text-left'><b>Ref By :</b></span>
-										{{this.adviceDoctor}}
-    	 	 				</div>
-    	 	 				<div class='col-md-6 text-right'>
-    	 	 					<span class='text-right'><b>Date :</b> 
-    	 	 							{{ todayDate }}
-    	 	 					</span>
-    	 	 				</div>
-    	 	 			</div>	
-    	 	 			<br/>
-    	 	 			<br/>
     	 	 			<div v-for="reportName in checkedreportList">
 	    	 	 			<div v-if="(reportName == 'Advice + follow ups')">
 		    	 	 			<div v-if="(adviceType == 'text' && advice != '')">
@@ -351,6 +302,67 @@
     	 	 					</div>
 		 					</div>
 		 				</div>
+		 				<div>
+		 					<div class='col-md-6 text-left'>
+						 				<span class='text-left'><b>Provisional Diagnostic :-</b></span>
+						 	</div>
+						 	<div class='row'>
+					 					<div class='col-md-12 text-left'>
+					 							<span class='text-left' style="padding-left:30px;"> {{provisional_diagnostic}}</span>
+					 					</div>
+									</div>
+		 				</div>
+		 				<div v-if="(adviceType == 'text' && advice != '')">
+		    	 	 				<div class='col-md-6 text-left'>
+						 				<span class='text-left'><b>Advice :-</b></span>
+						 			</div>
+						 			<div class='row'>
+					 					<div class='col-md-12 text-left' v-if ="(adviceType == 'text')">
+					 							<span class='text-left' style="padding-left:30px;"> {{advice}}</span>
+					 					</div>
+									</div>
+		    	 	 			</div>
+		    	 	 			<div v-if="(adviceType !== 'text' && adviceScribleValue != '')">
+		    	 	 				<div class='col-md-6 text-left'>
+						 				<span class='text-left'><b>Advice :-</b></span>
+						 			</div>
+						 			<div class='row'>
+					 					<div class='col-md-12 text-left' v-if ="(adviceType != 'text')">
+								            <img :src="adviceScribleValue" title="Advice">
+								        </div>  
+									</div>
+		    	 	 			</div>
+		 				<div v-if="(referalType == 'cross' && crossSelectedValue != '')">
+			 				
+				 			<div class='col-md-12 text-center'>
+				 				<span class='text-center'><b>Cross Referal </b></span>
+				 			</div>
+			 				<div v-if="(crossType == 'internal')">
+			 					
+			 						<div class='col-md-6 text-left'>
+			 							<span class='text-left'><b>Internal</b></span> {{this.$store.state.Patient.opdData.cross_type_int}}
+			 						</div>
+			 				</div>
+			 				<div v-if="(crossType == 'external')">
+			 					
+			 						<div class='col-md-6 text-left'>
+			 								<span class='text-left text-capitalize' style='padding-left:30px;padding-right;20px'><b>External
+			 					</b></span>{{this.$store.state.Patient.opdData.cross_type_ext}}
+			 						</div>
+			 					
+			 				</div>
+				 		</div>
+
+		 				<div v-if="(followup != '')">
+		    	 	 				<div class='col-md-6 text-left'>
+						 				<span class='text-left'><b>FollowUp :-</b></span>
+						 			</div>
+						 			<div>
+					 					<div class='col-md-12 text-left'>
+								           {{followup}}
+								        </div>  
+									</div>
+		    	 	 			</div>
 		 				<div class='text-right'>
 		 					<!-- <img  :src="'/assets/img/signature/'+signatureName+'.png'" height="66" width="182"/> -->
 		 					<span><b>{{signatureName}}</b></span>
@@ -386,6 +398,7 @@
 	import vinsletterheadheaderpart from './vins_letter_header.vue';
 	import vinsletterheadfooterpart from './vins_letter_footer.vue';
 	import patientDetailReport from './patientDetailReport.vue';
+	import patientCheckupReport from './patientCheckupReport.vue';
 	import prescriptionData from './prescriptionData.vue';
 	import prescriptionPrint from './prescriptionPrint.vue';
 	import moment from 'moment';
@@ -431,14 +444,17 @@
 		      	'patinetId' : this.$store.state.Patient.patientId,
 		      	'opdId' : '',
 		      	'patientDetail' : {},
-		      	'patientCheckupDetail' : '',
+		      	'patientCheckupDetail' : {},
+		      	'department': '',
+		      	'provisional_diagnostic' : ''
 			}
 		},
 		components: {
          vinsletterheadheaderpart,
          vinsletterheadfooterpart,
          prescriptionPrint,
-         patientDetailReport
+         patientDetailReport,
+         patientCheckupReport,
        },
        mounted(){
 			let vm =this;
@@ -520,8 +536,8 @@
   					if(response.data.code == 200){
   						var data = response.data.data;
   						vm.signatureName = data.name;
-  						vm.timeStamp =data.dagree;  					
-  						vm.regNo =data.regNo;  					
+  						vm.timeStamp =data.dagree;  
+  						vm.department =data.department;			vm.regNo =data.regNo;  					
   					}
   				},
   				(error) => {
