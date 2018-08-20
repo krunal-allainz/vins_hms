@@ -1,45 +1,7 @@
 <template>
 <div>
 	<h4>Radiology:</h4>
-    <div class="row">
-        <div class="col-md-12">
-             <card title="<i class='ti-layout-cta-left'></i> Reports">
-                <div class="table-responsive">
-                    <table class="table table-striped table-bordered" id="radio_list">
-              
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Type</th>
-                            <th>Body parts</th>
-                            <th>Qualifier</th>
-                            <th>Special request</th>
-                            <th>Details</th>
-                            <th>Gallery</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr v-if="res.removed == false" v-for="(res,index) in finalResultData">
-                            <td>{{++index}}</td>
-                            <td>{{res.type}}</td>
-                            <td>{{res.bodyPart}}</td>
-                            <td>{{res.qualifier}}</td>
-                            <td>{{res.special_request}}</td>
-                            <td>{{res.textData | strLimit}}</td>
-                            <td><a href="javascript:void(0)" @click="viewGallery(res.id)" class="red">View</a></td>
-                            <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
-                            <td> <i class="fa fa-remove" @click="removeReport(res.id)"></i></td>
 
-                            
-                        </tr>
-                        
-                        </tbody>
-                    </table>
-                </div>
-            </card>
-        </div>
-    </div>
     	<div class="row form-group" id="radio_div">
     		<div class="col-md-12">
     			<div class="row form-group">
@@ -212,6 +174,45 @@
                  
     		</div>
     	</div>
+            <div class="row">
+        <div class="col-md-12">
+             <card title="<i class='ti-layout-cta-left'></i> Reports">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered" id="radio_list">
+              
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Type</th>
+                            <th>Body parts</th>
+                            <th>Qualifier</th>
+                            <th>Special request</th>
+                            <th>Details</th>
+                            <th>Gallery</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-if="res.removed == false" v-for="(res,index) in finalResultData">
+                            <td>{{++index}}</td>
+                            <td>{{res.type}}</td>
+                            <td>{{res.bodyPart}}</td>
+                            <td>{{res.qualifier}}</td>
+                            <td>{{res.special_request}}</td>
+                            <td>{{res.textData | strLimit}}</td>
+                            <td><a href="javascript:void(0)" @click="viewGallery(res.id)" class="red">View</a></td>
+                            <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
+                            <td> <i class="fa fa-remove" @click="removeReport(res.id)"></i></td>
+
+                            
+                        </tr>
+                        
+                        </tbody>
+                    </table>
+                </div>
+            </card>
+        </div>
+    </div>
 </div>
 </template>
 <script >

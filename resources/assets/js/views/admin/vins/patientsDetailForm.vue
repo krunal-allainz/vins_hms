@@ -15,6 +15,7 @@
 		            	<label for="case">Patient Type:</label>
 		          	</div>
 		          	<div class="col-md-6">
+
 		            	<select  class="form-control ls-select2" v-validate="'required'" id = "case" name="case" value="" v-model="patientData.case">
 		            		<option> Select </option>
 		              		<option value="new">New</option>
@@ -27,7 +28,7 @@
 		          	</div>
 		        </div>
 
-				<div class="col-md-6">
+				<!-- <div class="col-md-6">
 			    	<div class="col-md-6">
 					 	<label for="date">Section:</label>
 					</div>
@@ -38,7 +39,7 @@
 				    <i v-show="errors.has('type')" class="fa fa-warning"></i>
 				   <span class="help is-danger" v-show="errors.has('type')"> Please Select Patient Type. </span>
 				    </div>
-			    </div>
+			    </div> -->
       		</div>
       		
       		<patientSearch v-if="patientData.case == 'old'" :user_id="0" ref="patientDetailForm"></patientSearch>
@@ -341,7 +342,7 @@
 			     
                 'patientData' : {
                 	'case': '',
-                	'type' : '',
+                	'type' : 'opd',
                 	'fname':'',
                 	'dob': {
                 		time:''
@@ -379,6 +380,7 @@
 					placeholder: "Select",
 					tags: false,
 				});
+
 
 				// var enabledHours = [];
 				// var dt = new Date();
