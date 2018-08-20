@@ -504,6 +504,7 @@
      */
     public function getAllPatientName($user_type,$user_id)
     {
+
         $reportQuery= PatientDetailsForm::join('patient_case_managment', function ($join) {
                   $join->on('patient_case_managment.patient_id', '=', 'patient_details.id');
         });
@@ -535,7 +536,7 @@
             )->get();
         
         //$patientDetails=PatientDetailsForm::toSql();
-       // echo $patientDetails;exit;
+       
         if (count($patientDetails)>0) {
             return ['code' => '200','data'=>$patientDetails, 'message' => 'Record Sucessfully created'];
         } else {
@@ -577,6 +578,11 @@
         }
     }
 
+    /**
+     * [getVitalsValidity description]
+     * @param  [type] $vital_id [description]
+     * @return [type]           [description]
+     */
     public function getVitalsValidity($vital_id)
     {
         //echo $vital_id;

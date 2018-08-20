@@ -403,7 +403,7 @@
                 <div class="col-md-12">
                   <label>Body Parts:</label>
                   <br>
-                  <select class="form-control ls-select2" id="radiology_subtype_opd" name="radiology_subtype_opd">
+                  <select class="form-control ls-select2" id="radiology_subtype_opd" name="radiology_subtype_opd" v-model="resultData.subType">
                     <option v-for="obj in investigationData.radiologySubType" :value="obj.text">{{obj.text}}</option>
                   </select>
                 </div>
@@ -411,9 +411,9 @@
               <div class="col-md-6">
                 <div class="col-md-12" v-if="resultData.subtype_text_enable">
                   <label> Other Parts</label>
-                  <input type="text" name="subType_text_opd" id="subType_text_opd" class="form-control" v-model="resultData.bodyPart">
+                  <input type="text" name="subType_text_opd" id="subType_text_opd" class="form-control"  v-model="resultData.bodyPart">
                 </div>
-                <div class="col-md-12" v-if="resultData.bodyPart == 'Spine'">
+                <div class="col-md-12" v-if="resultData.subType === 'Spine'">
                   <label> Spine option:</label>
                   <select class="form-control ls-select2" id="radiology_spine_opd" name="radiology_spine_opd"  v-model="resultData.spine_option_value">
                     <option :value="obj.text" v-for="obj in investigationData.Spine_option" >{{obj.text}}</option>
@@ -918,8 +918,8 @@
           
           $(document).on("select2:select",'.ls-select2', function (e) { 
             if(this.id == 'referral'){
+               vm.setRadioReferral();
               vm.opdData.referral=$(this).val();
-
               //vm.finalResultData = '';
               if($(this).val() == 'cross') {
                 setTimeout(function(){
@@ -1009,16 +1009,19 @@
                     
               let q_data=vm.investigationData.radiologyQualifierReal;
               let radiologySubType_val=$("#radiology_subtype_opd").select2().val();
+              vm.resultData.bodyPart = radiologySubType_val;
+              vm.resultData.subType=radiologySubType_val;
                 //vm.investigationData.radiologySubType =  radiologySubType_val;
 
                 if(radiologySubType_val == 'Other' || radiologySubType_val =='Joint'){
                     vm.resultData.subtype_text_enable = true;
-                    vm.resultData.bodyPart = '';
+                    //vm.resultData.bodyPart = radiologySubType_val;
                 } else {
+                  
                   vm.resultData.subtype_text_enable = false;
-                  vm.resultData.bodyPart = radiologySubType_val;
+                  //vm.resultData.bodyPart = '';
+                  
                 }
-                $('#radiology_spine_opd').select2("destroy");
                 $("#radiology_qualifier_opd").val('').trigger('change.select2');
                 vm.resultData.qualifier = '';
                 vm.resultData.qualifier_text_enable = false;
@@ -1051,8 +1054,6 @@
                     vm.resultData.qualifier_text_enable = false;
                     vm.resultData.qualifierPart = '';
                 }
-
-
             }
             if(this.id == 'radiology_qualifier_opd') {
 
@@ -1073,7 +1074,7 @@
             }
             if(this.id == 'radiology_spine_opd')
             {
-              console.log('dfdsf');
+             
               vm.resultData.spine_option_value=$("#radiology_spine_opd").select2().val();
             }
             if(this.id == 'radiology_special_request_opd') {
@@ -1318,7 +1319,7 @@
             );
           },
           saveReport() {
-                console.log('fdsfdsf');
+                
                 // var resData1=[];
                 let vm =this;
                 if(vm.opdData.referral=='cross')
@@ -1347,6 +1348,7 @@
                let matches=_.some(vm.ref_radio_array,{'type':vm.resultData.type,'bodyPart':vm.resultData.bodyPart,'qualifier':vm.resultData.qualifier,'special_request':vm.resultData.special_request});
               if(matches)
               {
+                  $('#referral').val('').trigger('change.select2');
                   vm.setRadioReferral();
                   toastr.error('This record already exist', 'Error', {timeOut: 5000});
                   return false;
@@ -1354,15 +1356,19 @@
               vm.resultData.id = vm.ref_radio_array.length+1;
               vm.ref_radio_array.push(vm.resultData);
               vm.opdData.reffreal_radiology_array = _.cloneDeep(vm.ref_radio_array);
+              $('#referral').val('').trigger('change.select2');
               vm.setRadioReferral();
               return false;
           },
            setRadioReferral()
           {
                let vm =this;
-              $('#referral').val('').trigger('change.select2');
+              
               $('#radiology_qualifier_opd').select2("destroy");
               $('#radiology_special_request_opd').select2("destroy");
+              $('#radiology_type_opd').val('').trigger('change.select2');
+              $('#radiology_subtype_opd').val('').trigger('change.select2');
+              $('#radiology_spine_opd').select2("destroy");
               vm.resultData = {
                    'id':'',
                     'uploadType':'image',
@@ -1507,18 +1513,18 @@
           },
           next() {
             let vm =this;
-                //this.$validator.validateAll().then(
-                //(response) => {
+                this.$validator.validateAll().then(
+                (response) => {
                 
-                  //if (!this.errors.any()) {
+                  if (!this.errors.any()) {
                       vm.curStep = vm.curStep+1;
                       vm.$store.dispatch('setOpdData',vm.opdData);
                       vm.$store.dispatch('setResData',vm.finalResultData);
-                  //}
-               // },
-              /* (error) => {
+                  }
+               },
+               (error) => {
                 }
-              )*/
+              )
             
           },
           initLastData(){

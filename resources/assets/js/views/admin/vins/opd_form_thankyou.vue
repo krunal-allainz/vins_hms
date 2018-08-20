@@ -47,7 +47,7 @@
                 		</span> 
 					</div>
 					<!-- <button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button> -->
-					<button type="button" lass="btn btn-primary btn-submit text-right">Print</button>
+					<button type="button" class="btn btn-primary btn-submit text-right" @click="print_multiple_report()">Print</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</div>
 			</div>
@@ -524,6 +524,10 @@
   			);
        },
 		methods: {
+			print_multiple_report()
+			{
+				this.ClickHereToPrint('opd_case');
+			},
 			presp_count(array)
             {
                 var vm=this;
@@ -549,8 +553,12 @@
 						
 				}
 			},
-			ClickHereToPrint() {	
-				
+			ClickHereToPrint(p_type) {
+				if(p_type=="")
+				{
+					p_type=this.printType;
+				}
+				let vm = this;
 				var  OPDCaseData = {
 							'advice' : this.advice,
 							'adviceType' : this.adviceType,
@@ -562,7 +570,7 @@
 							'todayDate': this.todayDate,
 							'crossSelectedValue' : this.crossSelectedValue,
 							'adviceScribleValue' : this.adviceScribleValue,
-							'printType' : this.printType,
+							'printType' : p_type,
 							'radioReportData' : this.radioReportData,
 							'labReportData' : this.labReportData,
 							'signatureName' : this.signatureName,

@@ -324,7 +324,7 @@
         </div>
       </div>
     </div>  
-
+ 
   @if($data['printType'] == 'lab')
   	<div class='row'>
 		<div class='col-md-12 text-center'>
@@ -581,6 +581,7 @@
 	@endif
 
   @endif
+
   @if($data['printType'] == 'opd_case')
   <div >
   	<div class='row'>
@@ -599,6 +600,7 @@
          </table>
     </div>	
 	<br/><br/>
+
 	@if(in_array( 'Advice + follow ups',$data['checkedreportList']))
 		@if($data['advice'] != null && $data['adviceType'] == 'text')
 		<div  style="padding-left: 35px;">
