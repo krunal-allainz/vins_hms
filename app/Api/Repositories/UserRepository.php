@@ -171,7 +171,7 @@ class UserRepository {
         $result['name'] = $record->first_name .$record->last_name  ;
         $result['dagree'] = $record->dagree;
         $result['department'] = $record->department;
-        $result['regNo'] = $record->regno;
+        $result['regNo'] = $record->RegNo;
         return $result;
     }
 

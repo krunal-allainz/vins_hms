@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div class="">
 ----------------------------------------------------------------------------------------------------------------------------
 		<div class="row">
 			<div class="col-md-3 text-left">
@@ -37,27 +37,31 @@
 
 		</div>
 		<div class="row">
-			<label>PAIN ASSESSMENT</label>
-			
-			<div v-if="(patientCheckupDetail.pain == 0)">
-				<img src="/assets/img/pain/P1.png" class="test" height="50" width="50">
+			<div class="col-md-3 text-left">
+				<label>PAIN ASSESSMENT</label>
 			</div>
-			<div v-if="(patientCheckupDetail.pain == 2)">
-				<img src="/assets/img/pain/P2.png" class="test" height="50" width="50">
-			</div>
-			<div v-if="(patientCheckupDetail.pain == 4)">
-				<img src="/assets/img/pain/P3.png" class="test" height="50" width="50">
-			</div>
-			<div v-if="(patientCheckupDetail.pain == 6)">
-				<img src="/assets/img/pain/P4.png" class="test" height="50" width="50">
-			</div>
-			<div v-if="(patientCheckupDetail.pain == 8)">
-				<img src="/assets/img/pain/P5.png" class="test" height="50" width="50">
-			</div>
-			<div v-if="(patientCheckupDetail.pain == 10)">
-				<img src="/assets/img/pain/P6.png" class="test" height="50" width="50">
+			<div class="col-md-6 text-left">
+				<div v-if="(patientCheckupDetail.pain == 0)">
+					<img src="/assets/img/pain/P1.png" class="test" height="50" width="50">
+				</div>
+				<div v-if="(patientCheckupDetail.pain == 2)">
+					<img src="/assets/img/pain/P2.png" class="test" height="50" width="50">
+				</div>
+				<div v-if="(patientCheckupDetail.pain == 4)">
+					<img src="/assets/img/pain/P3.png" class="test" height="50" width="50">
+				</div>
+				<div v-if="(patientCheckupDetail.pain == 6)">
+					<img src="/assets/img/pain/P4.png" class="test" height="50" width="50">
+				</div>
+				<div v-if="(patientCheckupDetail.pain == 8)">
+					<img src="/assets/img/pain/P5.png" class="test" height="50" width="50">
+				</div>
+				<div v-if="(patientCheckupDetail.pain == 10)">
+					<img src="/assets/img/pain/P6.png" class="test" height="50" width="50">
+				</div>
 			</div>
 		</div>
+		------------------------------------------------------------------------------------------------------------------------
 	</div>
 </template>
 <script>
