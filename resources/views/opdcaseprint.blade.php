@@ -323,17 +323,12 @@
             <img src="{{$url.'/assets/img/nabh_vins_logo.png'}}" id="logo-desk" alt="NABH Logo" class="hidden-sm-down" height="" width="30%">
         </div>
       </div>
-
     </div>  
-
-    </div>   
+</div>   
         
 
  @include('patientDetailReport')
  @include('patientCheckupReport')
-
-
-
 
   @if($data['printType'] == 'lab')
   	<div class='row'>
@@ -980,20 +975,20 @@
 @endif
 	
 	<div style="width:100%height:200px;right:30px;" class="text-right">
-		<!-- <img  :src="{{$url.'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/> -->
-		<span><b>{{$data['signatureName']}}</b></span>
+		<img  :src="{{$url.'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/>
 	</div>	
 	<div style="width:100%height:200px;right:30px;" class="text-right">
 	 	<!-- <img  :src="{{$url.'/assets/img/timestamp/'.$data['timeStamp'].'.png'}}" height="66" width="182"/> -->
+	 	<span><b>{{$data['doctoreName']}}</b></span><br/>
 	 	<span><b>{{$data['timeStamp']}}</b></span><br>
 	 	<span><b>{{$data['regNo']}}</b></span>
 	</div>
 	<div style="">
-	<div class="row" style="padding-right:20px;font-size: 15px;right:0px;">
+	<!-- <div class="row" style="padding-right:20px;font-size: 15px;right:0px;">
 		<div class='col-md-12 text-right'>
 			<span class='text-right'><b>Consultant's Signature</b></span>
 		</div>
-	</div>	
+	</div> -->	
 </div>
    <div  class="footer" style="background-color: dodgerblue;color: white;position:absolute;bottom:0;width:100%;height:170px;left:0">
       <div class="row text-center">

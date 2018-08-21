@@ -52,8 +52,7 @@
 					</div>
 
 					<!-- <button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button> -->
-					<!-- <button type="button" class="btn btn-primary btn-submit text-right" @click="print_multiple_report()">Print</button> -->
-					
+					<button type="button" class="btn btn-primary btn-submit text-right" @click="print_multiple_report()">Print</button>
 
 					<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button>
 					<!-- <button ty pe="button" lass="btn btn-primary btn-submit text-right" >Print</button> -->
@@ -381,20 +380,21 @@
 		 				</div>
 		 				
 		 				<div class='text-right'>
-		 					<!-- <img  :src="'/assets/img/signature/'+signatureName+'.png'" height="66" width="182"/> -->
-		 					<span><b>{{signatureName}}</b></span>
+		 					<img  :src="'/assets/img/signature/'+signatureName+'.png'" height="66" width="182"/>
+		 					
 		 				</div>	
 		 				<div class='text-right'>
 		 					<!-- <img  :src="'/assets/img/timestamp/'+timeStamp+'.png'" height="66" width="182"/> -->
+		 					<span><b>{{doctoreName}}</b></span><br/>
 		 					<span><b>{{timeStamp}}</b></span><br>
 		 					<span><b>{{regNo}}</b></span>
 						</div>	
 	 					<div >	
-	 						<div class="row" >
+	 						<!-- <div class="row" >
             				<div class='col-md-12 text-right'>
 								<span class='text-right'><b>Consultant's Signature</b></span>
 	 						</div>
-						</div>	
+						</div>	 -->
 					</div>
 				</div>
 				<vinsletterheadfooterpart></vinsletterheadfooterpart>
@@ -443,6 +443,7 @@
 				'consultntId' : this.$store.state.Users.userDetails.id,
 				'consultName' : '',
 				'signatureName' : '',
+				'doctoreName' :'',
 				'timeStamp' : '',
 				'regNo':'',
 				'followup' : this.$store.state.Patient.neuroExaminationData.follow_up,
@@ -492,10 +493,11 @@
 				vm.reportListSelect = 1;
 			}
 
-			/*User.generateUserNameById(vm.consultntId).then(
+			User.generateUserNameById(vm.consultntId).then(
   				(response) => {
 					vm.consultName = response.data;
-					if(vm.consultntId == 1){
+					vm.signatureName = response.data;
+					/*if(vm.consultntId == 1){
 						vm.signatureName = 'rakesh_shah';
 						vm.timeStamp = 'rakesh_shah';
 					}
@@ -540,21 +542,23 @@
 						vm.timeStamp = 'anand_vaishnav';
 					}else{
 						vm.signatureName = 'test_signature';
-						vm.timeStamp = 'test_timestamp';	
-					}
+						//vm.timeStamp = 'test_timestamp';	
+					}*/
 				},
 			    (error) => {
 			    },
-  			); **/
+  			); 
   			var userType = 1;
   			User.getDoctoreInfoById(vm.consultntId,userType).then(
   				(response) => {
   					
   					if(response.data.code == 200){
   						var data = response.data.data;
-  						vm.signatureName = data.name;
+  						//vm.signatureName = data.name;
+  						vm.doctoreName = data.name;
   						vm.timeStamp =data.dagree;  
-  						vm.department =data.department;			vm.regNo =data.regNo;  					
+  						vm.department =data.department;	
+  						vm.regNo =data.regNo;  					
   					}
   				},
   				(error) => {
@@ -659,7 +663,8 @@
 							'patientDetail' : this.patientDetail,
 							'patientCheckupDetail' : this.patientCheckupDetail,
 							'department' : this.department,
-							'provisional_diagnostic' : this.provisional_diagnostic
+							'provisional_diagnostic' : this.provisional_diagnostic,
+							'doctoreName' : this.doctoreName
 
 
 						};
