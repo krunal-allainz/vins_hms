@@ -80,7 +80,7 @@
 								 					<h4>Lab Report</h4>
 								 				</div>
 								 			</div>
-								 			   <div class="form-group" v-if="labReportData.length>0">
+								 			   <div class="form-group" v-if="labReportData != null">
 									                <div class="col-md-12">
 									                  <div class="">
 									                    <table class="table table-striped table-bordered" id="laboratory_table_list">
@@ -336,7 +336,7 @@
 						 					<h4>Lab Report</h4>
 						 				</div>
 						 			</div>
-								 	<div class="form-group" v-if="labReportData.length>0">
+								 	<div class="form-group" v-if="labReportData != 'null'">
 									    <div class="col-md-12">
 										    <div class="">
 									            <table class="table table-striped table-bordered" id="laboratory_table_list">
@@ -634,10 +634,7 @@
 				}
 			},
 			ClickHereToPrint(p_type) {
-				if(p_type=="")
-				{
-					p_type=this.printType;
-				}
+				
 				let vm = this;
 				var  OPDCaseData = {
 							'advice' : this.advice,
@@ -650,7 +647,7 @@
 							'todayDate': this.todayDate,
 							'crossSelectedValue' : this.crossSelectedValue,
 							'adviceScribleValue' : this.adviceScribleValue,
-							'printType' : p_type,
+							'printType' : this.printType,
 							'radioReportData' : this.radioReportData,
 							'labReportData' : this.labReportData,
 							'signatureName' : this.signatureName,
