@@ -53,6 +53,7 @@
 
 					<!-- <button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button> -->
 					<!-- <button type="button" class="btn btn-primary btn-submit text-right" @click="print_multiple_report()">Print</button> -->
+					
 
 					<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button>
 					<!-- <button ty pe="button" lass="btn btn-primary btn-submit text-right" >Print</button> -->
