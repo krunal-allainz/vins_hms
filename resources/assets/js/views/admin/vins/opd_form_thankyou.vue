@@ -83,7 +83,7 @@
 								 			</div>
 								 			   <div class="form-group" v-if="labReportData.length>0">
 									                <div class="col-md-12">
-									                  <div class="table-responsive">
+									                  <div class="">
 									                    <table class="table table-striped table-bordered" id="laboratory_table_list">
 									                        <thead>
 									                        <tr>
@@ -302,7 +302,7 @@
 				 				</div>
 			 					<div class="row"  style="padding-left: 15px;padding-right:15px;">
         							<div class="col-md-12">
-        									<div class="table-responsive">
+        									<div class="">
                     							<table class="table table-striped table-bordered" id="radio_list">
                         							<thead>
                         								<tr>
@@ -339,7 +339,7 @@
 						 			</div>
 								 	<div class="form-group" v-if="labReportData.length>0">
 									    <div class="col-md-12">
-										    <div class="table-responsive">
+										    <div class="">
 									            <table class="table table-striped table-bordered" id="laboratory_table_list">
 									                <thead>
 									                    <tr>
