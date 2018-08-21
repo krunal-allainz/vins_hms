@@ -323,11 +323,15 @@
             <img src="{{$url.'/assets/img/nabh_vins_logo.png'}}" id="logo-desk" alt="NABH Logo" class="hidden-sm-down" height="" width="30%">
         </div>
       </div>
+
+    </div>  
+
     </div>   
         
 
  @include('patientDetailReport')
  @include('patientCheckupReport')
+
 
 
 
@@ -555,6 +559,7 @@
 	@endif
 
   @endif
+
   @if($data['printType'] == 'print_perceptions')
   	@if($data['provisional_diagnostic'] != '')
   	<div  style="padding-left: 35px;">
@@ -733,6 +738,7 @@
 		</div>
 		@endif 
   @endif
+
   @if($data['printType'] == 'opd_case')
   <div >
   	<div class='row'>
@@ -740,7 +746,9 @@
 			<h4>OPD CASE </h4>
 		</div>
   	</div>
+
   
+
 	@if(in_array( 'Advice + follow ups',$data['checkedreportList']))
 		@if($data['advice'] != null && $data['adviceType'] == 'text')
 		<div  style="padding-left: 35px;">
