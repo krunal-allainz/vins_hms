@@ -136,7 +136,6 @@
             timeline
         },
 		 mounted(){
-		 	this.getResults();
 		 	this.getPatientCounters();
 		 	this.getOPDCounters();
 		 },
