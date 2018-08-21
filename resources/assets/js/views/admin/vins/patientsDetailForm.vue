@@ -399,6 +399,7 @@
     //         });
 
 				let vm =this;
+				vm.patientData.type = 'opd';
 				 // $('#datetimepicker').datetimepicker({ 
      //       				format : 'DD/MM/YYYY HH:mm',
      //       				minDate: moment().add(1, 'h'),enabledHours: [10, 11, 12, 13, 14, 15, 16,17]
@@ -679,6 +680,7 @@
 		    savePatient() {
 
 		     	// return false;
+		     	this.patientData.type = 'opd';
 		    	this.$validator.validateAll().then(
 	            (response) => {
 	            	if (!this.errors.any()) { 
