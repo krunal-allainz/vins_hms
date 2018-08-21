@@ -17,7 +17,9 @@
 			<tr>
 				<td><label><b>Mob No:</b></label><b>{{$data['patientDetail']['mob_no']}}</b></td>
 				<td><label><b>Phone No:</b></label>{{$data['patientDetail']['ph_no']}}</td>
-				<td><label><b>Age/Sex:</b></label><span>{{$data['patientDetail']['age']}}</span>
+				<td><label><b>Age/Sex:</b></label>
+					<span>
+					{{$data['patientDetail']['age']}}</span>
 						@if($data['patientDetail']['gender'] == 'F')
 						<span><b>/Female</b></span>
 						@else
