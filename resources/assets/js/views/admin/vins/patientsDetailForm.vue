@@ -670,7 +670,7 @@
 		    	vm.patientData.reference_dr = '';
 		    	vm.patientData.consulting_dr = '';
 		    	vm.patientData.age = '';
-		    	vm.patientData.type = '';
+		    	vm.patientData.type = 'opd';
 		    	vm.patientData.appointment_datetime.time = '';
 		    	$("#gender").val('').trigger('change.select2');
 		    	$("#consulting_dr").val('').trigger('change.select2');
