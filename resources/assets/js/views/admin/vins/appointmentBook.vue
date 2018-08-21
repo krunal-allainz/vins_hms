@@ -9,10 +9,9 @@
 				</div>
 			</div>
 		</div>
-
     <hr>
 
-		<form action="" method="post">
+	<form action="" method="post">
       <div class="row form-group">
         <div class="col-md-6">
           <div class="row">
@@ -20,8 +19,9 @@
               <label for="">Date:</label>
             </div>
             <div class="col-md-6">
-              <input type="text" v-model="appointmentBook.date" v-validate="'required'" class="form-control ls-datepicker" name="date" id="date" value="">
-              <span class="help is-danger" v-show="errors.has('date')">
+              
+              <date-picker :date.sync="appointmentBook.appoint_date"  name="appoint_date" class="form-control " id = "appoint_date" v-model="appointmentBook.appoint_date.time"  v-validate="'required	'" :option="option"></date-picker>
+              <span class="help is-danger" v-show="errors.has('appoint_date')">
                 Field is required
               </span>
             </div>
@@ -42,47 +42,62 @@
 						<tr>
 							<td>
 								<input type="text" v-model="appointmentBook.name_of_patient" id="name_of_patient" name="name_of_patient" v-validate="'required'" class="form-control" value="">
-                <span class="help is-danger" v-show="errors.has('name_of_patient')">
-                	Field is required
-              	</span>
+				                <span class="help is-danger" v-show="errors.has('name_of_patient')">
+				                	Field is required
+				              	</span>
 							</td>
 							<td>
 								<input type="text" v-model="appointmentBook.contact_no" id="contact_no" name="contact_no" v-validate="'required|numeric'" class="form-control" value="">
-                <span class="help is-danger" v-show="errors.has('contact_no')">
-                	Numeric Field is required
-              	</span>
+				                <span class="help is-danger" v-show="errors.has('contact_no')">
+				                	Numeric Field is required
+				              	</span>
 							</td>
 							<td>
 								<input type="text" v-model="appointmentBook.appointment_time" id="appointment_time" name="appointment_time" v-validate="'required'" class="form-control ls-timepicker" value="">
-                <span class="help is-danger" v-show="errors.has('appointment_time')">
-                	Field is required
-              	</span>
+				                <span class="help is-danger" v-show="errors.has('appointment_time')">
+				                	Field is required
+				              	</span>
 							</td>
 							<td>
 								<input type="text" v-model="appointmentBook.consultant_name" id="consultant_name" name="consultant_name" v-validate="'required'" class="form-control" value="">
-                <span class="help is-danger" v-show="errors.has('consultant_name')">
-                	Field is required
-              	</span>
+				                <span class="help is-danger" v-show="errors.has('consultant_name')">
+				                	Field is required
+				              	</span>
 							</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 			<div class="form-group text-center">
-			  <button class="btn btn-success" type="button" @click="saveAppointmentBook()">Submit</button>
+				<button class="btn btn-success" type="button" @click="saveAppointmentBook()">Submit</button>
 			</div>
 		</form>
 	</div>
 </template>
 <script >
 	import User from '../../../api/users.js';
+  	import myDatepicker from 'vue-datepicker';
+
     export default {
         data() {
             return {
                 'footer' : 'footer',
                 'currentYear': new Date().getFullYear(),
+                'option': {
+                    type: 'day',
+                    week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+                    month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    format: 'DD-MM-YYYY',
+                    placeholder: 'Select Date',
+                    inputStyle: {
+                        'border': '2px solid #fff',
+                    },
+                    
+                },
                 'appointmentBook' : {
-                  'date':'',
+                  'appoint_date': {
+                  	time:''
+                  },
                   'name_of_patient':'',
                   'contact_no':'',
                   'appointment_time':'',
@@ -90,6 +105,9 @@
 
                 }
             }
+        },
+        components: {
+	        'date-picker': myDatepicker,
         },
         mounted() {
           $('.ls-datepicker').datepicker({

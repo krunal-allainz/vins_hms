@@ -74,8 +74,9 @@ class ReportController extends Controller
                 # code...
                 // dd($key);
                 $keyData = isset($ddArray[$key]) ? $ddArray[$key]: $key; 
+                
                 $ddata = [
-                    $key,
+                    $keyData,
                     $value
                 ];
                 // echo "<pre>";print_r($value);echo "</pre>";exit;
@@ -83,8 +84,8 @@ class ReportController extends Controller
             }
 
             $lableArray = [
-              'Title',
-              'val'
+              'NABH',
+              'Report'
             ];
             //Total Stakes, Total Revenue, Amount & Balance fields are set as Number statically.
             \euro_hms\Custom\Helper\Common::toExcel($lableArray,$dataArray,$otherParams,'xlsx','yes');

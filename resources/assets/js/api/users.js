@@ -190,6 +190,7 @@ export default {
   saveMARFlowSheet(MARFlowSheet) {
     return api.post('MARFlowSheet/create',{'MARFlowSheet': MARFlowSheet})
   },
+
   getpatientDetail(ipdId) { 
     return api.post('patient/getDetails/'+ipdId)
   },
@@ -199,11 +200,8 @@ export default {
   submitReport(reportData) {
     return api.post('report/create',{'reportData':reportData})
   },
-  submitReport(reportData) {
-      return api.post('report/create',{'reportData':reportData})
-  },
-  getAllPatientName() {
-      return api.get('patient/getAll');
+  getAllPatientName(user_type,user_id) {
+      return api.post('patient/getAll',{'userType':user_type,'user_id':user_id});
   },
   createUser(userData) {
       return api.post('user/create',{'userData':userData})
@@ -212,13 +210,138 @@ export default {
   getPatientOPDDetail(patientId) {
     return api.post('patient/OPDDetails/'+patientId)
   },
-  saveOpdData(opdData) {
-      return api.post('opd/saveData',{'opdData':opdData})
-},
+  saveOpdData(opdData) {                                                            
+        return api.post('opd/saveData',{'opdData':opdData})
+  },             
   sendResetLinkInMail(requestData) {  
     return api.post('password/reset/link',{'email':requestData})
+  },
+  savePatientDetailBySearch(searchData) {
+      return api.post('patient/getDetails',{'searchData':searchData})
+  },
+  getDiagnosis(data) {
+      return api.post('provison/getDiagnosis',{'data':data})
+  },
+  getPrescription(data) {
+      return api.post('prescription/getDetails',{'data':data})
+  },
+  printReceiptPreview(fromData,content){ 
+     return api.post('print/receipt',{'fromData':fromData,'content':content})  
+  }, 
+  generateReceiptData(formData,type){  
+    return api.post('generate/receipt',{'formData':formData})  
+  },
+  printOPDCaseData(OPDCaseData){
+      return api.post('print/opdcase',{'OPDCaseData':OPDCaseData})  
+  },
+  getAllPatientNameByConsultDoctor(doctor,section) {
+      return api.post('doctor/patientlist',{'doctor' :doctor,'section':section});
+  },
+  getReceiptList(page_url){
+     return api.post(page_url);
+  },
+   getChargesTypes(){
+     return api.post('receipt/getchargestypes');
+  },
+   getConsultationCategoryDetails(chargeID) {
+    return api.post('receipt/getconsultationcategory/'+chargeID)
+  },
+  getConsultationCategoryCharges(categoryId,typeId) {
+    return api.post('receipt/getconsultationcategorycharges/'+categoryId+'/'+typeId)
+  },
+   getEmergencyTypes(chargeID) {
+    return api.post('receipt/getemergencytypes/'+categoryId+'/'+typeId)
+  },
+   getEmergencyCharges(typeId) {
+    return api.post('receipt/getemergencycharges/'+typeId)
+  },
+  getDrDepartment(name) {
+    return api.post('user/getDepartmentByName',{'name' :name})
+  },
+  removeReceipt(id){
+     return api.post('patient/receipt/remove',{'id':id});
+  },
+  generateReceiptDataById(id,type){
+      return api.post('patient/receipt/view',{'id':id,'type':type});
+  },
+  generateUserDetailsByType(type,status){
+      return api.post('user/getUserDetailByUserType',{'type':type,'status':status});
+  },
+  getDrDepartmentById(consult_id) {
+    return api.post('user/getDepartmentById',{'id' :consult_id});
+  },
+  generateUserNameById(consult_id) {
+    return api.post('user/getUserNameById',{'id' :consult_id});
+  },
+  generateLaboratoryData(data_obj) {
+    return api.post('opd/getLaboratoryData',{'data' :data_obj});
+  },
+  generatePatientDetailsByID(id) {
+      return api.post('patient/getPatientDetailsById',{'id':id});
+  },
+  generateAllLaboratoryList(data_obj) {
+    return api.post('opd/getAllLaboratoryList');
+  },
+  generateOpdIdByPatirntID(patient_id) {
+    return api.post('patient/getOPDIdByPatientId',{'patient_id':patient_id})
+  },
+  generatePatientCheckUpDetails(opd_id) {
+    return api.post('patient/getpatientCheckUpDetails',{'opd_id':opd_id})
+  },
+  generateAddOpdDetails(opd_data) {
+    return api.post('opd/addOpdDetails',{'data':opd_data})
+  },
+  getNumberOfPatient(type,id){
+    return api.post('patient/total',{'type':type,'id':id});
+  },
+  getOPDCounters(id){
+    return api.post('opd/opdtotal',{'id':id});
+  },
+  getPatientListByDoctor(page_url,id){
+    return api.post(page_url,{'id':id})
+  },
+  getUserTypesList(){
+    return api.post('user/types');
+  },
+  generatePatientListBySearch(searchData) {
+      return api.post('patient/getListBySearch',{'searchData':searchData});
+  },
+  generateAllLaboratoryListByChild() {
+    return api.post('opd/getLabListByChildren');
+  },
+  savePatientCheckup(pData){
+     return api.post('patient/save_patient_checkup_data',{'pData':pData});
+  },
+  getImagefromUrl(url){
+    return  api.post('user/getimagefromurl',{'url':url})
+  },
+  savePhysioTherapy(physioData) {
+      return api.post('opd/savePhysiotherapy',{'physioData':physioData})
+  },
+  getExistingToken(token){
+      return api.post('patient/token_exist',{'token':token});
+  },
+  checkExistUser(type,value){
+     return api.post('user/user_exist',{'type': type , value : value});
+  },
+  getLastOPDIdByPatientId(patient_id) {
+    return api.post('patient/getLastOPDIdByPatientId',{'patient_id':patient_id});
+  },
+  getAllPatientListByDoctoreIdAndPaggination(page_url,type,noofRecord,id) { 
+      return api.post(page_url,{'type':type,'noOfRecord':noofRecord,'id':id});
+  },
+  getPatientDetailInfo(patientId){
+     return api.post('patient/patientDetailInfo',{'patientId':patientId});
+  },
+  getDoctoreInfoById(doctoreId,typeId){
+    return api.post('user/getdoctoreinfobyid',{'id' :doctoreId , 'typeId' : typeId});
+  },
+  getVitalsInfoByPatientId(patientId)
+  {
+       return api.post('patient/getVitalsInfoByPatientId',{'patientId':patientId});
+  },
+  getVitalsValidity(vitalId)
+  {
+       return api.post('patient/getVitalsValidity',{'vitalId':vitalId});
   }
-
-
-
 }

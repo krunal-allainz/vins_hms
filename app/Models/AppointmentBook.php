@@ -9,8 +9,8 @@ class AppointmentBook extends Model
   protected $table = "appointment_book";
 
   protected $fillable = [
-    'date',
-    'name_of_patient',
+    'appointment_date',
+    'patient_name',
     'contact_no',
     'appointment_time',
     'consultant_name',

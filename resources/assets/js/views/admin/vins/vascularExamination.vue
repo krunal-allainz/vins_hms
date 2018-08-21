@@ -1,45 +1,21 @@
 <template>
-	<div class="container">
-		<div class="page-header">
-			<div class="row">
-				<div class="col-md-6">
-				<h1>Vascular Examination</h1>
-				</div>
-			</div>
-		</div>
-
-		<form action="" method="post">
-
+  <div class="container">
+    <div class="page-header">
       <div class="row">
-        <h3>Clinical Examination</h3>
-      </div>
-
-      <div class="row form-group">
         <div class="col-md-6">
-          <div class="col-md-6">
-            <label>Vitals : </label>
-          </div>
-          <div class="col-md-6">
-            <input class="form-control" type="text" name="vitals" id="vitals" v-model="vascularExaminationData.vitals" />
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="col-md-6">
-            <label>Temp : </label>
-          </div>
-          <div class="col-md-6">
-            <input class="form-control" type="text" name="temp" id="temp" v-model="vascularExaminationData.temp" />
-          </div>
+        <h3>Examination</h3>
         </div>
       </div>
+    </div>
 
+    <form action="" method="post">
       <div class="row form-group">
-        <div class="col-md-6">
+         <div class="col-md-6">
           <div class="col-md-6">
-            <label>Pulse : </label>
+            <label>Pulsations : </label>
           </div>
           <div class="col-md-6">
-            <input class="form-control" type="text" name="pulse" id="pulse" v-model="vascularExaminationData.pulse" />
+            <input class="form-control" type="text" name="pulsations" id="pulsations" v-model="vascularExaminationData.pulsations" />
           </div>
         </div>
         <div class="col-md-6">
@@ -52,16 +28,7 @@
         </div>
       </div>
 
-      <div class="row form-group">
-        <div class="col-md-6">
-          <div class="col-md-6">
-            <label>BP : </label>
-          </div>
-          <div class="col-md-6">
-            <input class="form-control" type="text" name="bp" id="bp" v-model="vascularExaminationData.bp" />
-          </div>
-        </div>
-      </div>
+  
 
       <div class="row form-group">
         <div class="col-md-6">
@@ -82,16 +49,7 @@
         </div>
       </div>
 
-      <div class="row form-group">
-        <div class="col-md-6">
-          <div class="col-md-6">
-            <label>Pulsations : </label>
-          </div>
-          <div class="col-md-6">
-            <input class="form-control" type="text" name="pulsations" id="pulsations" v-model="vascularExaminationData.pulsations" />
-          </div>
-        </div>
-      </div>
+     
 
       <div class="row">
         <table class="table table-bordered">
@@ -177,69 +135,125 @@
           </label>
         </div>
       </div>
-
       <hr />
-        <div id="signature-pad" class="signature-pad">
-          <div class="signature-pad--body">
-            <canvas id="myCanvas" height="500" width="600" ></canvas>
-             <!-- <canvas height="500" width="600" style="background: url('https://i.imgur.com/1bvTivk.png'); max-width:100%; max-height:100%;"></canvas> -->
+      <div class="row form-group" >
+          <div class="col-md-4">
+            <textarea  class="form-control"  id="vasculartext1" name="vasculartext1" value="" v-model="vascularExaminationData.vasculartext1"  ></textarea>
           </div>
-          <div class="signature-pad--footer">
-           
-            <div class="signature-pad--actions">
-              <div>
-                <button type="button" class="button clear btn btn-warning" data-action="clear">Clear</button>
-                <button type="button" class="button save btn btn-success" data-action="save-png">Save</button>
-                <input type="color" class="button" data-action="change-color">Change color
-                <!-- <button type="button" class="button" data-action="undo">Undo</button> -->
-
-              </div>
-              <div>
-                
-               <!--  <button type="button" class="button save" data-action="save-jpg">Save as JPG</button>
-                <button type="button" class="button save" data-action="save-svg">Save as SVG</button> -->
-              </div>
-            </div>
+           <div class="col-md-4">
+             <textarea  class="form-control"  id="vasculartext2" name="vasculartext2" value="" v-model="vascularExaminationData.vasculartext2"  ></textarea>
           </div>
-        </div>
-
-      <div class="row form-group" style="display: none;">
-        <img id="scream" src="/assets/img/examin.png" alt="The Scream" width="220" height="277">
-
-        <canvas height="500" width="600" style="background: url('https://i.imgur.com/1bvTivk.png'); max-width:100%; max-height:100%;"></canvas>
+          <div class="col-md-4">
+             <textarea  class="form-control"  id="vasculartext3" name="vasculartext3" value="" v-model="vascularExaminationData.vasculartext3"  ></textarea>
+          </div>
+       <!--   <div class="col-md-4">
+       <canvas id="vasc_signature-pad1" height="300" width="600" style="background: url('/assets/img/froms/varicose_vein_1_small_new.png') no-repeat; max-width:100%; max-height:100%;"></canvas>
+              <div><button type="button" id="clear_vasc_signature" class="btn btn-sm btn-danger">Clear</button></div>
       </div>
+       <div class="col-md-4">
+        <canvas id="vasc_signature-pad2" height="300" width="600" style="background: url('/assets/img/froms/varicose_vein_2_small_new.png') no-repeat; max-width:100%; max-height:100%;"></canvas>
+              <div><button type="button" id="clear_vasc_signature1" class="btn btn-sm btn-danger">Clear</button></div>
+       
+      </div>
+       <div class="col-md-4">
+        <canvas id="vasc_signature-pad3" height="300" width="600" style="background: url('/assets/img/froms/varicose_vein_3_small_new.png') no-repeat; max-width:100%; max-height:100%;"></canvas>
+              <div><button type="button" id="clear_vasc_signature2" class="btn btn-sm btn-danger">Clear</button></div>
+       
+      </div> -->
+    </div>
 
       <div class="row form-group">
-        <div class="col-md-6">
-          <label>Clinical Diagnosis : </label>
-        </div>
-        <div class="col-md-6">
-          <input class="form-control" type="text" name="clinical_diagnosis" id="clinical_diagnosis" v-model="vascularExaminationData.clinical_diagnosis" />
+        <div class="col-md-12">
+          <div class="col-md-12">
+            <label>Clinical Diagnosis : </label>
+          </div>
+          <div class="col-md-12">
+            <input class="form-control" type="text" name="clinical_diagnosis" id="clinical_diagnosis" v-model="vascularExaminationData.clinical_diagnosis" />
+          </div>
         </div>
       </div>
 
-			<div class="text-center form-group">
-				<button class="btn btn-success" type="button" @click="saveDoctorsInitialAssessment()">Submit</button>
-			</div>
 
-		</form>
-		  <select-patient-modal @confirmed="deleteConfirmed()"></select-patient-modal>
-	</div>
+      <div class="row form-group">
+        <div class="col-md-12">
+          <div class="col-md-12">
+            <label>Follow Up : </label>
+          </div>
+          <div class="col-md-12">
+            <textarea class="form-control" type="text" name="follow_up" id="follow_up" v-model="vascularExaminationData.follow_up"   v-validate="'required'"/></textarea>
+            <i v-show="errors.has('follow_up')" class="fa fa-warning"></i>
+                  <span class="help is-danger" v-show="errors.has('case')">
+                      Please fill follow up.
+                  </span>
+          </div>
+        </div>
+      </div>
+          <div class="text-center row form-group">
+         <div class="col-md-12">
+           <button type="button" class="btn btn-primary btn-submit text-right " @click="prev()" >Previous</button>
+          <button class="btn btn-primary btn-submit text-right ml-10" type="button" @click="saveVascularExamination()">Save Examination</button>
+        </div>
+      </div>
+
+    </form>
+      <OPDConfirmModal :deleteConfirmMsg="deleteConfirmMsg"></OPDConfirmModal>
+      <div id="receiptAddModel" class="modal hide" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Patient Receipt Form</h4>
+            </div>
+            <div class="modal-body">
+                <patientReceiptForm :patientOPDDetails="patient_opd_details" v-if="modal_enabled=='true'"></patientReceiptForm>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="closem btn btn-default" @click="confirm_popup()">Close</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div id="receiptPrintModal" class="modal hide">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header"> </div>
+            <div class="modal-body"><div id="printContent"></div> </div>
+            <div class="modal-footer">
+              <button  type="button" class="btn btn-primary"  @click="ClickHereToPrint()">Print</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+              <!-- <button type="button" class="btn btn-primary">Save</button>   -->
+            </div>  
+          </div>  
+        </div>  
+      </div> 
+
+
+  </div>
 </template>
 <script >
-	import User from '../../../api/users.js'
-	import addressograph from './addressograph.vue';
-	import SelectPatientModal from '../../../components/SelectPatientModal.vue';
+  import User from '../../../api/users.js'
+  import addressograph from './addressograph.vue';
+  import patientReceiptForm from './patientsReceiptForm.vue';
   import SignaturePad from 'signature_pad';
+  import OPDConfirmModal from '../../../components/OPDConfirmModal.vue';
+
+  import _ from 'lodash';
     export default {
         data() {
             return {
+                'modal_val':0,
                 'footer' : 'footer',
+                'deleteConfirmMsg':'Are you sure you want to exit from receipt form?',
                 'currentYear': new Date().getFullYear(),
-								'type': 'vascularExamination',
+                'type': 'vascularExamination',
                 'patient_id': this.$store.state.Patient.patientId,
-               	'ipd_id': this.$store.state.Patient.ipdId,
-								'vascularExaminationData': {
+                'ipd_id': this.$store.state.Patient.ipdId,
+                'patient_opd_details':[],
+                'modal_enabled':'false',
+                'vascularExaminationData': {
                   'vitals' : '',
                   'temp' : '',
                   'pulse' : '',
@@ -272,129 +286,195 @@
                   'both' : '',
                   'ipv' : '',
                   'clinical_diagnosis' : '',
+                  'vasculartext1' : '',
+                  'vasculartext2' : '',
+                  'vasculartext3' : '',
+                  'signaturePad1':{},
+                  'signaturePad2':{},
+                  'signaturePad3':{},
+                  'follow_up':''
 
-								}
+                }
             }
         },
-				components: {
-					 addressograph,
-					 SelectPatientModal
-			 },
-			 mounted() {
+        components: {
+           addressograph,
+           patientReceiptForm,
+           OPDConfirmModal
+       },
+       created: function() {
+          this.$root.$on('printReceipt', this.printReceipt);
+          this.$root.$on('confirmed', this.confirm_opd);
+        },
+       mounted() {
         var vm =this;
         setTimeout(function(){
           vm.examinationChangeImage();
- 
-        },2000)
-			 },
-				methods: {
-        examinationChangeImage() {
+          vm.initData();
+        },2000);
+         $.fn.modal.Constructor.prototype.enforceFocus = function () {
+                var that = this;
+                $(document).on('#receiptAddModel', function (e) {
+                   if ($(e.target).hasClass('select2-input')) {
+                      return true;
+                   }
 
-          var wrapper = document.getElementById("signature-pad");
-          var clearButton = wrapper.querySelector("[data-action=clear]");
-          var changeColorButton = wrapper.querySelector("[data-action=change-color]");
-          var savePNGButton = wrapper.querySelector("[data-action=save-png]");
-          var canvas = document.getElementById("myCanvas");
-          var signaturePad = new SignaturePad(canvas, {
-            backgroundColor: 'rgb(255, 255, 255)',
-          });
+                   if (that.$element[0] !== e.target && !that.$element.has(e.target).length) {
+                      that.$element.focus();
+                   }
+                });
+             };
+       },
+        methods: {
+          confirm_opd(){
+               $('#confirm_modal').modal('hide');
+               $('#receiptAddModel').modal('show'); 
+          },
+          confirm_popup()
+          {
+            //$('#receiptAddModel').on('hidden.bs.modal', function () {});
+            $('#receiptAddModel').modal('hide'); 
+            $('#confirm_modal').modal('show'); 
+          },
+          ClickHereToPrint() {  
+            try { 
+              var  printContent = ''; 
+                printContent = document.getElementById('printContent').innerHTML; 
+                  var windowUrl = ''; 
+                  var uniqueName = new Date();  
+                  var windowName = 'Print' + uniqueName.getTime();  
+                  var printWindow = window.open(windowUrl, windowName, 'left=5000,top=5000,width=0,height=0');  
+                  printWindow.document.write(printContent); 
+  
+                printWindow.document.close(); 
+                printWindow.focus();  
+                printWindow.print();  
+  
+                printWindow.close();  
+            } 
+            catch (e) { 
+                self.print(); 
+            } 
+          },
+          printReceipt(all_data,test_val)
+          {
+              let vm=this;
+              $('#receiptAddModel').modal('hide');
+              if(test_val==1)
+              {
+                  $('#receiptPrintModal').modal('show');
+                  $('#printContent').html('');
+                  $('#printContent').html(all_data);  
+                  $('#receiptPrintModal').on('hidden.bs.modal', function () {
+                      vm.$router.push({'name':'opd_form_thankyou'});
+                  });
+              }
+              else
+              {
+                  vm.$router.push({'name':'opd_form_thankyou'});
+              }
+              
+          },
+          initData(){
+            let vm =this;
+            vm.vascularExaminationData = _.cloneDeep(this.$store.state.Patient.vascExaminationData);
+          },
+          examinationChangeImage() {
+            var vm =this;
+            var canvas = document.getElementById("vasc_signature-pad1");
+            var canvas1 = document.getElementById("vasc_signature-pad2");
+            var canvas2 = document.getElementById("vasc_signature-pad3");
 
-           function resizeCanvas() {
-            var ratio =  Math.max(window.devicePixelRatio || 1, 1);
-            canvas.width = canvas.offsetWidth * ratio;
-            canvas.height = canvas.offsetHeight * ratio;
-             canvas.getContext("2d").scale(ratio, ratio);
-            var  ctx = canvas.getContext('2d');
-             ctx.drawImage($('#scream').get(0), 0, 0);
-          }
-
-          // On mobile devices it might make more sense to listen to orientation change,
-          // rather than window resize events.
-          window.onresize = resizeCanvas;
-          resizeCanvas();
-
-          function download(dataURL, filename) {
-            var blob = dataURLToBlob(dataURL);
-            var url = window.URL.createObjectURL(blob);
-
-            var a = document.createElement("a");
-            a.style = "display: none";
-            a.href = url;
-            a.download = filename;
-
-            document.body.appendChild(a);
-            a.click();
-
-            window.URL.revokeObjectURL(url);
-          }
-
-          // One could simply use Canvas#toBlob method instead, but it's just to show
-          // that it can be done using result of SignaturePad#toDataURL.
-          function dataURLToBlob(dataURL) {
-            // Code taken from https://github.com/ebidel/filer.js
-            var parts = dataURL.split(';base64,');
-            var contentType = parts[0].split(":")[1];
-            var raw = window.atob(parts[1]);
-            var rawLength = raw.length;
-            var uInt8Array = new Uint8Array(rawLength);
-
-            for (var i = 0; i < rawLength; ++i) {
-              uInt8Array[i] = raw.charCodeAt(i);
-            }
-
-            return new Blob([uInt8Array], { type: contentType });
-          }
-
-          clearButton.addEventListener("click", function (event) {
-            signaturePad.clear();
-            resizeCanvas();
-          });
-          changeColorButton.addEventListener("change", function (event) {
-            signaturePad.penColor = $(this).val();
-          });
-
-          savePNGButton.addEventListener("click", function (event) {
-            if (signaturePad.isEmpty()) {
-              alert("Please provide a signature first.");
-            } else {
-              var dataURL = signaturePad.toDataURL();
-              console.log(dataURL);
-              // download(dataURL, "signature.png");
-            }
-          });
+            var clear_vasc_signature = document.getElementById("clear_vasc_signature");
+            var clear_vasc_signature1 = document.getElementById("clear_vasc_signature1");
+            var clear_vasc_signature2 = document.getElementById("clear_vasc_signature2");
+            // var clear_neuro_scribble1 = document.getElementById("clear_neuro_scribble");
 
 
-        },
-		    GetSelectComponent(componentName) {
-		       this.$router.push({name: componentName})
-		    },
-		    saveVascularExamination() {
-		    	this.$validator.validateAll().then(
-	            (response) => {
-	            	if (!this.errors.any()) {
-	            		 $("body .js-loader").removeClass('d-none');
-                   var vascularExaminationData = {'type':this.type,'patient_id':this.patient_id,'ipd_id':this.ipd_id,'form_data':this.vascularExaminationData};
-				    	User.saveDoctorsInitialAssessment(vascularExaminationData).then(
-		                (response) => {
-		                	if(response.data.status == 200) {
-		                		toastr.success('Vascular Examination has been saved', 'Vascular Examination', {timeOut: 5000});
-		                	}
-		                	 $("body .js-loader").addClass('d-none');
+            vm.vascularExaminationData.signaturePad1 = new SignaturePad(canvas, {
+              backgroundColor: 'rgb(255, 255, 255)',
+            });
+            vm.vascularExaminationData.signaturePad2 = new SignaturePad(canvas1, {
+              backgroundColor: 'rgb(255, 255, 255)',
+            });
+            vm.vascularExaminationData.signaturePad3 = new SignaturePad(canvas2, {
+              backgroundColor: 'rgb(255, 255, 255)',
+            });
 
-		                },
-		                (error) => {
-		                	 $("body .js-loader").addClass('d-none');
+            window.onresize = vm.resizeCanvas;
+            vm.resizeCanvas(canvas);
+            vm.resizeCanvas(canvas1);
+            vm.resizeCanvas(canvas2);
+          },
+          prev() {
+              let vm =this;
+              vm.$store.dispatch('saveVascularExamination', _.cloneDeep(vm.vascularExaminationData)) ;
+              vm.$root.$emit('prev');
+          },
+          saveVascularExamination() {
+          let vm = this;
+          this.$validator.validateAll().then(
+              (response) => {
+                if (!this.errors.any()) {
+                   // $("body .js-loader").removeClass('d-none');
 
-		                }
-		                )
-			    	}
-			    },
+                  vm.$store.dispatch('saveVascularExamination', _.cloneDeep(vm.vascularExaminationData)) ;
+                  let department = this.$store.state.Users.userDetails.department;
+                  let doctor =this.$store.state.Users.userDetails.id;
+                  
+                  
+                  var oData = {'opdData':this.$store.state.Patient.opdData,'resultData':this.$store.state.Patient.opd_resultData,'doctor':doctor,'department':department,'radioData':this.$store.state.Patient.radioData,'laboratoryData':this.$store.state.Patient.laboratoryData,'vascExaminationData':this.$store.state.Patient.vascExaminationData,'neuroExaminationData':this.$store.state.Patient.neuroExaminationData,'prescriptionData':this.$store.state.Patient.prescriptionData};
+                  User.generateAddOpdDetails(oData).then((response) => {
+                     $("body .js-loader").addClass('d-none');
+                     if(response.data.code == 200) {
+                        //vm.$router.push({'name':'opd_form_thankyou'});
+                        //toastr.success('OPD details saved successfully', 'OPD Report', {timeOut: 2000});
+                        //console.log(response.data.data);
+                        vm.modal_enabled='true';
+                        vm.patient_opd_details=response.data.data;
+                        $('#receiptAddModel').modal('show');
+                      } else if(response.data.code == 300) {
+                        toastr.error('Record not added.', 'Error', {timeOut: 5000});
+                      } else{
+                       toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
+                      }
+                  },
+                  (error) => {
+                    toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
+                  }
+                );
+                }
+                },
                 (error) => {
                 }
-                )
+                ) 
+        },
+          resizeCanvas(canvas) {
+              var ratio =  Math.max(window.devicePixelRatio || 1, 1);
+              canvas.width = canvas.offsetWidth * ratio;
+              canvas.height = canvas.offsetHeight * ratio;
+              canvas.getContext("2d").scale(ratio, ratio);
+              // var  ctx = canvas.getContext('2d');
+              // ctx.drawImage($('#scream').get(0), 0, 0);
+            },
+         dataURLToBlob(dataURL) {
+              // Code taken from https://github.com/ebidel/filer.js
+              var parts = dataURL.split(';base64,');
+              var contentType = parts[0].split(":")[1];
+              var raw = window.atob(parts[1]);
+              var rawLength = raw.length;
+              var uInt8Array = new Uint8Array(rawLength);
+              for (var i = 0; i < rawLength; ++i) {
+                uInt8Array[i] = raw.charCodeAt(i);
+              }
+              return new Blob([uInt8Array], { type: contentType });
+            },
 
-			}
-		  },
+        GetSelectComponent(componentName) {
+           this.$router.push({name: componentName})
+        },
+
+      },
 
     }
 </script>

@@ -123,11 +123,11 @@ module.exports.module = {
 
 if (Mix.preprocessors) {
     Mix.preprocessors.forEach(toCompile => {
-        let extractPlugin = new plugins.ExtractTextPlugin(
+        var extractPlugin = new plugins.ExtractTextPlugin(
             Mix.cssOutput(toCompile)
         );
 
-        let sourceMap = Mix.sourcemaps ? '?sourceMap' : '';
+        var sourceMap = Mix.sourcemaps ? '?sourceMap' : '';
 
         module.exports.module.rules.push({
             test: new RegExp(toCompile.src.path.replace(/\\/g, '\\\\') + '$'),

@@ -11,8 +11,10 @@ use Illuminate\Http\Request;
 // use euro_hms\Api\Contracts\UserContract;
 use JWTAuth;
 use euro_hms\Models\User;
+use euro_hms\Models\UserTypes;
 use euro_hms\Models\Role;
 use euro_hms\Api\Repositories\UserRepository;
+use euro_hms\Api\Repositories\UserTypesRepository;
 use euro_hms\Custom\Helper\Common;
 use Hash;
 /**
@@ -78,7 +80,7 @@ class UserController extends BaseController
         $userData['user']['mobile_no']=$data['mobileNo'];
         $userData['user']['user_type']=$data['userType'];
         $userData['user']['department']=$data['department'];
-
+        $userData['user']['status']='Active';
         // We cant Allow untikl its set password
         $userData['user']['password']=$userPassword;
 
@@ -86,11 +88,17 @@ class UserController extends BaseController
         $userData['user']['token'] = $token;
         \Log::info($userData);
         \Log::info('Insert in UserTable');
+        $existData = $this->userRepoObj->chkUserExist($data);
+        $cntExistData = $existData->count();
+        if($cntExistData > 0) {
+            return ['status_code' => '301', 'message' => 'User Already exist.'];
+
+        }
         $userRes=$this->userRepoObj->create($userData['user']);
        \Log::info('deleted user');
         if($userRes['status'] == false )
           {
-            return ['status_code' => '200', 'message' => 'This email already exists.'];
+            return ['status_code' => '200', 'message' => 'User is not activated.'];
           }
         $userObj = $userRes['user'];
         // $userObj->roles()->sync($data['userType'])
@@ -116,7 +124,7 @@ class UserController extends BaseController
            //    $email_msg = 'Euro-Sportring email verification';
            //    $email_details['is_mobile_user'] = 1;
            //  }
-            Common::sendMail($email_details, $recipient, $email_msg, $email_templates);
+            // Common::sendMail($email_details, $recipient, $email_msg, $email_templates);
             return ['status_code' => '200', 'message' => 'Please check your inbox to verify your email address and complete your account registration.'];
         }
 
@@ -136,10 +144,122 @@ class UserController extends BaseController
 
     public function getUserDetailsByID(Request $request)
     {
+      
         return $this->userRepoObj->getUserDetailsByID($request->all()['userId']);
     }
     public function getUserDetails()
     {
         return $this->userRepoObj->getUserDetails();
+    }
+    /**
+     * [getDepartmentByName description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getDepartmentByName(Request $request)
+    {
+        return $this->userRepoObj->getDepartmentByName($request->all()['name']);
+    }
+
+    /**
+     * [getUserDetailsByType description]
+     * @param  Request $request [type,status]
+     * @return [array]           [description]
+     */
+    public function getUserDetailsByType(Request $request)
+    {
+        $type = $request->type;
+        $status   =  $request->status;
+        $userDetails=$this->userRepoObj->get_user_details_by_type($type,$status);
+        if ($userDetails) {
+            return ['code' => '200','data'=>$userDetails, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+        //return 
+    }
+
+    /**
+     * [getDepartmentById description]
+     * @param  Request $request [id]
+     * @return [array]           [description]
+     */
+     public function getDepartmentById(Request $request)
+    {
+        return $this->userRepoObj->getDepartmentById($request->all()['id']);
+    }
+
+    /**
+     * [getUserNameById description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getUserNameById(Request $request)
+    {
+        return $this->userRepoObj->getUserNameById($request->all()['id']);
+    }
+
+     /**
+     * [getUserDetailById description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getUserDetaileById(Request $request)
+    {
+        $id = $request->id;
+        return $this->userRepoObj->getUserDetaileById($id);
+    }
+
+    /**
+    *
+    *
+    * @return list of user types
+    *
+    */
+    
+    public function getUserType(){
+         $this->userTypeRepoObj = new UserTypesRepository();
+         $userTypesList = $this->userTypeRepoObj->getUserType();
+         if ($userTypesList) {
+            return ['code' => '200','data'=>$userTypesList, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+    }
+
+    /**
+    *
+    *  check user existing status
+    *
+    */   
+
+    public function checkExistUser (Request $request){
+        $type = $request->type;
+        $value = $request->value;
+
+       $result = $this->userRepoObj->checkExistUser($type,$value);
+      
+       return  $result;
+    }
+
+    /**
+    *
+    *
+    *
+    *
+    **/
+
+    public function getDoctoreInfoById(Request $request){
+        $id = $request->id;
+        $type = $request->typeId;
+
+         $result = $this->userRepoObj->getDoctoreInfoById($id,$type);
+
+         if ($result) {
+            return ['code' => '200','data'=>$result, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+
     }
 }

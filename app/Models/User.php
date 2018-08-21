@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use euro_hms\Notifications\MyOwnResetPassword as ResetPasswordNotification;
 use euro_hms\Models\UserOtp;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable implements HasRoleAndPermissionContract, CanResetPassword
 {
@@ -22,6 +23,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
      *
      * @var array
      */
+    protected $table = 'users';
     protected $fillable = [
         
         'user_image',
@@ -39,7 +41,10 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
         'first_name',
         'last_name',
         'user_type',
-        'department'
+        'department',
+        'dagree',
+        'regno',
+        'status'
     ];
 
     /**
@@ -148,4 +153,6 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
         }
         $this->notify(new ResetPasswordNotification($token, $name,$this->email,$send_otp, $subject));
     }
+
+    
 }
