@@ -601,7 +601,7 @@
 			        age = parseInt(age) - 1;	
 				    }	
 				    if(age > 1){	
-				    	return age - 1;
+				    	return age ;
 				    }	
 				   	if(age == 1){	
 						 return age;	
