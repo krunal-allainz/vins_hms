@@ -1155,7 +1155,7 @@
                     placeholder: "Select",
                     tags:false 
                   });
-              }, 15000);
+              },8000);
              
           },
           getResults(patient_list_new) {
