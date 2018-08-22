@@ -26,9 +26,9 @@
 
     	 	 		<button  v-if="(labReportData)" type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('lab')" >Lab Report</button>
 
-    	 	 		<button  v-if="(radioReportData != null)" type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('radiology')" >Radiology Report</button>
+    	 	 		<button  v-if="(!radioReportData)" type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('radiology')" >Radiology Report</button>
 
-    	 	 		<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('prescription')">Print Prescription</button>
+    	 	 		<button v-if="(!prescriptiData)" type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('prescription')">Print Prescription</button>
     	 	 		
     	 	 		<!-- <button type="button" class="btn btn-primary btn-submit text-right" @click = "GetSelectComponent('patients_receipt_form')">Generate Receipts</button>  -->
     	 	 	<!--</div> -->
@@ -71,7 +71,7 @@
 			 					<div  id="printContent">
 			 					</div>
 			 					<vinsletterheadheaderpart></vinsletterheadheaderpart>
-			 					<patientDetailReport :patientDetail="patientDetail" :consult_dr="adviceDoctor" :todayDate="todayDate"  :department="department" :reg_no="regNo"></patientDetailReport>
+			 					<patientDetailReport :patientDetail="patientDetail" :consult_dr="adviceDoctor" :todayDate="todayDate"  :department="department" :reg_no="regNo" :refer_dr="reference"></patientDetailReport>
 			 					<patientCheckupReport :patientCheckupDetail="patientCheckupDetail"></patientCheckupReport>
 								 	<div v-if="(printType == 'lab')" >
 								 		
@@ -112,15 +112,13 @@
 									              </div>
 								 	</div>
 			 <div>	
-			
-
 			 	<div v-if="(printType == 'radiology')">
-			 		<div class='row'>
+			 		<div class='row' v-if="(!radioReportData)">
 			 				<div class='col-md-12 text-center'>
 			 					<h4>Radiology Report</h4>
 			 				</div>
 			 		</div>
-			 		<div class="row" >
+			 		<div class="row"  v-if="(!radioReportData)">
         				<div class="col-md-12">
         					<div class="">
                     			<table class="table table-striped table-bordered" id="radio_list">
@@ -294,12 +292,12 @@
 		    	 	 			</div>
 		    	 	 		</div>
 	    	 	 			<div v-if="(reportName == 'Radiology')">
-	    	 	 				<div class='row'>
+	    	 	 				<div class='row' v-if="(!radioReportData)">
 				 					<div class='col-md-12 text-center'>
 				 							<h4>Radiology Report</h4>
 				 					</div>
 				 				</div>
-			 					<div class="row"  style="padding-left: 15px;padding-right:15px;">
+			 					<div class="row"  style="padding-left: 15px;padding-right:15px;" v-if="(!radioReportData)">
         							<div class="col-md-12">
         									<div class="">
                     							<table class="table table-striped table-bordered" id="radio_list">
@@ -331,12 +329,12 @@
         							</div>
     	 	 					</div>
     	 	 					<div v-if="(reportName == 'Laboratory')">
-    	 	 						<div class='row'>
+    	 	 						<div class='row' v-if="(labReportData)">
 										<div class='col-md-12 text-center'>
 						 					<h4>Lab Report</h4>
 						 				</div>
 						 			</div>
-								 	<div class="form-group" v-if="labReportData != 'null'">
+								 	<div class="form-group" v-if="(labReportData)">
 									    <div class="col-md-12">
 										    <div class="">
 									            <table class="table table-striped table-bordered" id="laboratory_table_list">
@@ -464,7 +462,9 @@
 		      	'patientDetail' : {},
 		      	'patientCheckupDetail' : {},
 		      	'department': '',
-		      	'provisional_diagnostic' : this.$store.state.Patient.opdData.provisional_diagnosis
+		      	'provisional_diagnostic' : this.$store.state.Patient.opdData.provisional_diagnosis,
+		      	'reference' : '',
+		      	'sectionOpdId' : ''
 			}
 		},
 		components: {
@@ -497,53 +497,6 @@
   				(response) => {
 					vm.consultName = response.data;
 					vm.signatureName = response.data;
-					/*if(vm.consultntId == 1){
-						vm.signatureName = 'rakesh_shah';
-						vm.timeStamp = 'rakesh_shah';
-					}
-					else if (vm.consultntId == 2){
-						vm.signatureName = 'anand_vaishnav';	
-						vm.timeStamp = 'anand_vaishnav';
-					}else if (vm.consultntId == 3){
-						vm.signatureName = 'suvorit_bhowmick';	
-						vm.timeStamp = 'anand_vaishnav';
-					}else if (vm.consultntId == 4){
-						vm.signatureName = 'monish_malhotra';	
-						vm.timeStamp = 'anand_vaishnav';
-					}else if (vm.consultntId == 5){
-						vm.signatureName = 'suresh_nayak';	
-						vm.timeStamp = 'anand_vaishnav';
-					}else if (vm.consultntId == 6){
-						vm.signatureName = 'viral_mehta';	
-						vm.timeStamp = 'anand_vaishnav';
-					}else if (vm.consultntId == 7){
-						vm.signatureName = 'rakesh_jasani';	
-						vm.timeStamp = 'anand_vaishnav';
-					}else if (vm.consultntId == 8){
-						vm.signatureName = 'vijay_thakore';	
-						vm.timeStamp = 'anand_vaishnav';
-					}else if (vm.consultntId == 9){
-						vm.signatureName = 'kaushik_trivedi';
-						vm.timeStamp = 'anand_vaishnav';	
-					}else if (vm.consultntId == 10){
-						vm.signatureName = 'hemant_mathur';	
-						vm.timeStamp = 'anand_vaishnav';
-					}else if (vm.consultntId == 11){
-						vm.signatureName = 'mihir_acharya';	
-						vm.timeStamp = 'anand_vaishnav';
-					}else if (vm.consultntId == 12){
-						vm.signatureName = 'sumit_kapadia';	
-						vm.timeStamp = 'anand_vaishnav';
-					}else if (vm.consultntId == 13){
-						vm.signatureName = 'ketan_kapashi';	
-						vm.timeStamp = 'anand_vaishnav';
-					}else if (vm.consultntId == 14){
-						vm.signatureName = 'rajesh_kantharia';	
-						vm.timeStamp = 'anand_vaishnav';
-					}else{
-						vm.signatureName = 'test_signature';
-						//vm.timeStamp = 'test_timestamp';	
-					}*/
 				},
 			    (error) => {
 			    },
@@ -576,6 +529,7 @@
 			getPatientData(patinetId)
 			{
 				var vm=this;
+				console.log(vm.opdId);
 				User.generatePatientDetailsByID(patinetId).then(
 	  				(response) => {
 	  					
@@ -592,12 +546,24 @@
 	  					
 	  					if(response.data.code == 200){
 	  						vm.opdId = response.data.data.id;
+	  						vm.sectionOpdId = response.data.data.opd_id;
 	  						User.generatePatientCheckUpDetails(vm.opdId).then(
   							(response) => {
-	  					
 	  							if(response.data.code == 200){
 	  							vm.patientCheckupDetail = response.data.data;
 	  							}
+	  							var sectionOpdId = vm.sectionOpdId;
+			  				User.getPatientCaseDetailByOpdId(sectionOpdId).then(
+			  					(response) => {
+			  					console.log(response.data.data);
+				  					if(response.data.code == 200){
+				  					vm.reference = response.data.data.references;
+				  					}
+				  				},
+				  				(error) => {
+
+				  				}
+			  					);
 	  						},
 	  						(error) => {
 
@@ -610,6 +576,7 @@
 
 	  				}
   				);
+
   				
 
 			},

@@ -1156,7 +1156,8 @@
                     placeholder: "Select",
                     tags:false 
                   });
-              }, 15000);
+
+              }, 8000);
               if(this.$store.state.Patient.patientId != ''){
                 vm.opdData.patientlist= this.$store.state.Patient.patientId;
                 $('#patient').val(vm.opdData.patientlist).trigger('change:select2');

@@ -145,7 +145,7 @@
                 var vm =this;
                 setInterval(function() {
                    vm.getPatientsResult();
-                }, 1000);
+                }, 8000);
             },
             getPatientsResult(page_url){
                 var vm =this;
@@ -154,7 +154,7 @@
             let noofRecordperpage = this.perPage;
             User.getAllPatientListByDoctoreIdAndPaggination(page_url,type,noofRecordperpage,vm.doctore_Id).then(
                      (response) => {
-                      console.log(response.data.data);
+                     
                          vm.patientData.patient_list = response.data.data.data;
                          vm.makePagination(response.data.data);
                          },

@@ -331,6 +331,7 @@
  @include('patientCheckupReport')
 
   @if($data['printType'] == 'lab')
+  @if(isset($data['labReportData']))
   	<div class='row'>
 		<div class='col-md-12 text-center'>
 			<h4>Lab Report</h4>
@@ -364,10 +365,11 @@
                   
                 </div>
               </div>
-  	
+  	@endif
   @endif
 
   @if($data['printType'] == 'radiology')  
+  	@if(isset($data['radioReportData']))
   	<div class='row'>
 		<div class='col-md-12 text-center'>
 			<h4>Radiology Report</h4>
@@ -405,6 +407,7 @@
         	</div>
         </div>
   	</div>
+  	@endif
   @endif
   
   @if($data['printType'] == 'prescription')
@@ -416,8 +419,6 @@
 			<div class='col-md-12 text-center'>
 				<span class='text-center'><b>Prescription</b></span>
 			</div>
-
-			
 			<div class="table-responsive">
 				<table class="table" id="prescription_list">
 				    	<thead>
@@ -500,7 +501,6 @@
 	                        <th>Total Quantity</th>
 	                        <th>Q-Hrs</th>
 	                        <th>Total Days</th>
-	                        
 	                    </tr>
 	                </thead>
 	                <tbody>
@@ -790,6 +790,7 @@
 		@endif 
 	@endif
 	@if(in_array('Radiology',$data['checkedreportList']))
+		@if(isset($data['radioReportData']))
 		<div class='row'>
 		<div class='col-md-12 text-center'>
 			<h4>Radiology Report</h4>
@@ -809,6 +810,7 @@
                     </tr>
                  </thead>
                  <tbody>
+                 @if($data['radioReportData'])
                  @foreach($data['radioReportData'] as $index=>$res)
                  <tr class="text-center">
                             <!-- <td>{{++$index}}</td> -->
@@ -817,17 +819,19 @@
                             <td>{{$res['qualifier']}}</td>
                             <td>{{$res['special_request']}}</td>
                             <td>{{$res['textData']}}</td>
-                           
                     </tr>
                     @endforeach
+                @endif
                         </tbody>
                     </table>
                 </div>
         	</div>
         </div>
   	</div>
+  	@endif
 	@endif
 	@if(in_array('Laboratory',$data['checkedreportList'] ))
+		@if(isset($data['labReportData'])){
 		<div class='row'>
 			<div class='col-md-12 text-center'>
 				<h4>Lab Report</h4>
@@ -846,7 +850,9 @@
                         </tr>
                         </thead>
                         <tbody>
-                       	@foreach($data['labReportData'] as $index=>$res)
+                    @if($data['labReportData']){
+                       	@foreach($data['labReportData'] as 
+                       	$index=>$res)
                          <tr class="text-center">
                             <td>{{++$index}}</td> 
                             <td>{{$res['text'] }}</td>
@@ -854,13 +860,13 @@
                             <td>{{$res['result']}}</td>
                           </tr>
 						 @endforeach
+					@endif
                         </tbody>
                     </table>
                   </div>
-                  
                 </div>
               </div>
-  	
+        @endif
 	@endif
 	@if(in_array('Prescription',$data['checkedreportList']))
 		@if(isset($data['priscriptionData']))

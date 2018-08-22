@@ -306,7 +306,7 @@
                     placeholder: "Select",
                     tags:false 
                   });
-              }, 15000);
+              }, 8000);
           },
         non_editable()
         {

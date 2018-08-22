@@ -213,6 +213,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
           //for getting username by id any type
         $api->post('user/getdoctoreinfobyid', '\euro_hms\Api\Controllers\UserController@getDoctoreInfoById');
 
+         $api->post('patient/patientCaseDetailInfo', '\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientCaseDetailByOpdId');
+
         });
 
         
