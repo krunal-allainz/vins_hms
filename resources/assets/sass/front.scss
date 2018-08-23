@@ -505,3 +505,6 @@ span.select2-container.select2-container2-container--default.select2-container--
 input.number-with-validation:invalid {
   color: red;
 }
+.select2-container--open {
+    z-index:10000;
+}
