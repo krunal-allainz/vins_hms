@@ -351,18 +351,56 @@
                 (error) => {
                 },
               );
-             User.getLastOPDIdByPatientId(vm.patientData.patient_id).then(
+             /*User.getLastOPDIdByPatientId(vm.patientData.patient_id).then(
               (response) => {
                 let opdID ;
                 let lastVist;
-                opdID = response.data.data.id;
+                opdID = response.data.data.section_id;
                 lastVist = response.data.data.appointment_datetime;
                   vm.patientData.opd_id=opdID;
-                  vm.patientData.last_vist=lastVist;
+                  if(lastVist)
+                  {
+                    vm.patientData.last_vist=lastVist;
+                  }
+                  else
+                  {
+                      vm.patientData.last_vist="N/A";
+                  }
+                  
                 },
                 (error) => {
                 },
-              );
+              );*/
+              let lastVist;
+              User.getOPDDetailsByPatientId(vm.patientData.patient_id).then(
+                    (response) => {
+                      let opdID ;
+                      opdID = response.data.data.id;
+                      vm.patientData.opd_id=opdID;
+                     
+                      User.getLastOPDIdByPatientId(vm.patientData.patient_id).then(
+                          (response) => {
+                            
+                            lastVist = response.data.data.appointment_datetime;
+                            if(lastVist)
+                            {
+                                vm.patientData.last_vist=lastVist;
+                            }
+                            else
+                            {
+                               vm.patientData.last_vist="N/A";
+                            }
+                            
+                            },
+                            (error) => {
+                            },
+                      );
+                      
+                      
+                      },
+                      (error) => {
+                      },
+                );
              vm.get_vitals();
           },
           get_vitals()

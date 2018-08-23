@@ -35,7 +35,7 @@
                             <tr>
                                 <th>Index</th>
                                 <th>Prescription Name</th>
-                                <th>How Many Days</th>
+                                <th>How Many Times</th>
                                 <th>Total Quantity</th>
                                 <th>QHRS</th>
                                 <th>Total Days</th>

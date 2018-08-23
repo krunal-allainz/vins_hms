@@ -116,6 +116,9 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         $api->post('print/receipt', '\euro_hms\Api\Controllers\PatientsDetailFormController@printReceipt');     
         $api->post('generate/receipt', '\euro_hms\Api\Controllers\PatientsDetailFormController@saveReceiptData'); 
         $api->post('print/opdcase','\euro_hms\Api\Controllers\OPDDetailsFromController@printCaseData');
+        //for multiple print report
+        $api->post('print/opdcaseMultiple','\euro_hms\Api\Controllers\OPDDetailsFromController@printCaseMultipleData');
+
         $api->post('doctor/patientlist','\euro_hms\Api\Controllers\PatientsDetailFormController@getAllPatientNameByConsultDoctor');
 
         //for receipt list of opd
@@ -212,6 +215,9 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
           //for getting username by id any type
         $api->post('user/getdoctoreinfobyid', '\euro_hms\Api\Controllers\UserController@getDoctoreInfoById');
+
+        //for getting opde details
+        $api->post('patient/getOPDDetailsByPatientId', '\euro_hms\Api\Controllers\PatientsDetailFormController@getOPDDetailsByPatientId');
 
         });
 
