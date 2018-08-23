@@ -5,7 +5,9 @@
     <title>Vins Administration</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="print">
 <style type="text/css">
-
+	@media all {
+		.page-break	{ display: none; }
+	}
 	@media print { 
 		html {
 		    -ms-overflow-style: scrollbar;
@@ -30,6 +32,7 @@
 	    border-radius: 0.3rem;
 	    outline: 0;*/
 	}
+	.page-break { display: block; page-break-after: always; }
 	
 	.row {
 	    margin-right: -15px;
@@ -329,8 +332,8 @@
     </div>   
         
 
- @include('patientDetailReport')
- @include('patientCheckupReport')
+@include('patientDetailReport')
+@include('patientCheckupReport')
 
 
 
@@ -350,17 +353,13 @@
                         <tr>
                             <th>#</th>
                             <th>Name</th>
-                            <th>Date</th>
-                            <th>Result</th>
                         </tr>
                         </thead>
                         <tbody>
                        	@foreach($data['labReportData'] as $index=>$res)
                          <tr class="text-center">
                             <td>{{++$index}}</td> 
-                            <td>{{$res['text'] }}</td>
-                            <td>{{$res['lab_date']['time']}}</td>
-                            <td>{{$res['result']}}</td>
+                            <td>{{$res['name'] }}</td>
                           </tr>
 						 @endforeach
                         </tbody>
@@ -450,37 +449,41 @@
 		                                	{{$res['clock_quantity_4']}}
 		                                @endif
 		                                [ 
-		                                @if($res['clock_time_1']!='00:00') 
+		                                @if($res['clock_quantity_1']!='0') 
 		                                	{{$res['clock_time_1']}}
 		                                @endif
-		                                @if($res['clock_time_2']!='00:00')
-		                                	@if($res['clock_time_1']!='00:00') ______ @endif
+		                                @if($res['clock_quantity_2']!='0')
+		                                	@if($res['clock_quantity_1']!='0') ______ @endif
 		                                	{{$res['clock_time_2']}}
 		                                @endif
-		                                @if($res['clock_time_3']!='00:00')
-		                                    @if($res['clock_time_1']!='00:00' || $res['clock_time_2']!='00:00') ______ @endif {{$res['clock_time_3']}}
+		                                @if($res['clock_quantity_3']!='0')
+		                                    @if($res['clock_quantity_1']!='0' || $res['clock_quantity_2']!='0') ______ @endif {{$res['clock_time_3']}}
 		                                @endif
-		                                @if($res['clock_time_4']!='00:00')
-		                                    @if($res['clock_time_1']!='00:00' || $res['clock_time_2']!='00:00' || $res['clock_time_3']!='00:00') ______ @endif
+		                                @if($res['clock_quantity_4']!='0')
+		                                    @if($res['clock_quantity_1']!='0' || $res['clock_quantity_2']!='0' || $res['clock_quantity_3']!='0') ______ @endif
 		                                    {{$res['clock_time_4']}}
-		                                @endif ] 
-		                                [ 
-		                                @if($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') 
-		                                	{{$res['clock_suggest_1']}}
-		                                @endif
-			                        	@if($res['clock_suggest_2']!=''  && $res['clock_suggest_2']!='--') 
-			                        		@if($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') ______ @endif
-			                        		{{$res['clock_suggest_2']}}
-			                        	@endif
-		                                @if($res['clock_suggest_3']!=''  && $res['clock_suggest_3']!='--')
-		                                	@if(($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') || ($res['clock_suggest_2']!='' && $res['clock_suggest_2']!='--')) ______ @endif
-		                                	{{$res['clock_suggest_3']}}
-		                                @endif
-		                                @if($res['clock_suggest_4']!=''  && $res['clock_suggest_4']!='--')
-		                                	@if(($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') || ($res['clock_suggest_2']!='' && $res['clock_suggest_2']!='--') || ($res['clock_suggest_3']!='' && $res['clock_suggest_3']!='--')) ______ @endif
-		                                	{{$res['clock_suggest_4']}}
-		                                @endif 
-		                                ]  
+		                                @endif ]
+										
+										@if(($res['clock_suggest_1']!='--' && $res['clock_suggest_1']!='') || ($res['clock_suggest_2']!='--' && $res['clock_suggest_2']!='')  || ($res['clock_suggest_3']!='--' && $res['clock_suggest_3']!='')  || ($res['clock_suggest_4']!='--' && $res['clock_suggest_4']!='') )
+
+		                                	[ 
+				                                @if($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') 
+				                                	{{$res['clock_suggest_1']}}
+				                                @endif
+					                        	@if($res['clock_suggest_2']!=''  && $res['clock_suggest_2']!='--') 
+					                        		@if($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') ______ @endif
+					                        		{{$res['clock_suggest_2']}}
+					                        	@endif
+				                                @if($res['clock_suggest_3']!=''  && $res['clock_suggest_3']!='--')
+				                                	@if(($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') || ($res['clock_suggest_2']!='' && $res['clock_suggest_2']!='--')) ______ @endif
+				                                	{{$res['clock_suggest_3']}}
+				                                @endif
+				                                @if($res['clock_suggest_4']!=''  && $res['clock_suggest_4']!='--')
+				                                	@if(($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') || ($res['clock_suggest_2']!='' && $res['clock_suggest_2']!='--') || ($res['clock_suggest_3']!='' && $res['clock_suggest_3']!='--')) ______ @endif
+				                                	{{$res['clock_suggest_4']}}
+				                                @endif 
+		                                	]
+										@endif
 										@if($res['qhrs']!='') <span>[{{$res['qhrs']}}]</span> @endif
 		                                &#9747;
 		                                @if($res['total_prescription_days']!='')
@@ -725,7 +728,7 @@
 		@endif
 
 	@endif
-		@if($data['followup'] != '')
+		@if(isset($data['followup']) && $data['followup'] != '')
 		<div  style="padding-left: 35px;">
 			<div class='col-md-6 text-left'>
 				<span class='text-left'><b>Followup :-</b></span>
@@ -749,7 +752,7 @@
 
   
 
-	@if(in_array( 'Advice + follow ups',$data['checkedreportList']))
+	@if($data['printReportVal']=='Advice + follow ups')
 		@if($data['advice'] != null && $data['adviceType'] == 'text')
 		<div  style="padding-left: 35px;">
 			<div class='col-md-6 text-left'>
@@ -769,6 +772,7 @@
 
 
 		@if($data['adviceType'] != 'text' && $data['adviceScribleValue'] != '')
+		<div class="page-break"></div>
 		<div  style="padding-left: 35px;">
 			<div class='col-md-6 text-left'>
 				<span class='text-left'><b>Advice :-</b></span>
@@ -793,8 +797,10 @@
 			</div>
 		</div>
 		@endif 
-	@endif
-	@if(in_array('Radiology',$data['checkedreportList']))
+		
+	@endif 
+	@if($data['printReportVal']=='Radiology')
+	<div class="page-break"></div>
 		<div class='row'>
 		<div class='col-md-12 text-center'>
 			<h4>Radiology Report</h4>
@@ -831,8 +837,9 @@
         	</div>
         </div>
   	</div>
-	@endif
-	@if(in_array('Laboratory',$data['checkedreportList'] ))
+	@endif 
+	@if($data['printReportVal']=='Laboratory') 
+	<div class="page-break"></div>
 		<div class='row'>
 			<div class='col-md-12 text-center'>
 				<h4>Lab Report</h4>
@@ -846,17 +853,13 @@
                         <tr>
                             <th>#</th>
                             <th>Name</th>
-                            <th>Date</th>
-                            <th>Result</th>
                         </tr>
                         </thead>
                         <tbody>
                        	@foreach($data['labReportData'] as $index=>$res)
                          <tr class="text-center">
                             <td>{{++$index}}</td> 
-                            <td>{{$res['text'] }}</td>
-                            <td>{{$res['lab_date']['time']}}</td>
-                            <td>{{$res['result']}}</td>
+                            <td>{{$res['name'] }}</td>
                           </tr>
 						 @endforeach
                         </tbody>
@@ -865,9 +868,9 @@
                   
                 </div>
               </div>
-  	
-	@endif
-	@if(in_array('Prescription',$data['checkedreportList']))
+	@endif 
+	@if($data['printReportVal']=='Prescription')
+	<div class="page-break"></div>
 		@if(isset($data['priscriptionData']))
 	  		@if(!empty($data['priscriptionData']))
 			<div class='col-md-12 text-center'>
@@ -898,37 +901,41 @@
 		                                	{{$res['clock_quantity_4']}}
 		                                @endif
 		                                [ 
-		                                @if($res['clock_time_1']!='00:00') 
+		                                @if($res['clock_quantity_1']!='0') 
 		                                	{{$res['clock_time_1']}}
 		                                @endif
-		                                @if($res['clock_time_2']!='00:00')
-		                                	@if($res['clock_time_1']!='00:00') ______ @endif
+		                                @if($res['clock_quantity_2']!='0')
+		                                	@if($res['clock_quantity_1']!='0') ______ @endif
 		                                	{{$res['clock_time_2']}}
 		                                @endif
-		                                @if($res['clock_time_3']!='00:00')
-		                                    @if($res['clock_time_1']!='00:00' || $res['clock_time_2']!='00:00') ______ @endif {{$res['clock_time_3']}}
+		                                @if($res['clock_quantity_3']!='0')
+		                                    @if($res['clock_quantity_1']!='0' || $res['clock_quantity_2']!='0') ______ @endif {{$res['clock_time_3']}}
 		                                @endif
-		                                @if($res['clock_time_4']!='00:00')
-		                                    @if($res['clock_time_1']!='00:00' || $res['clock_time_2']!='00:00' || $res['clock_time_3']!='00:00') ______ @endif
+		                                @if($res['clock_quantity_4']!='0')
+		                                    @if($res['clock_quantity_1']!='0' || $res['clock_quantity_2']!='0' || $res['clock_quantity_3']!='0') ______ @endif
 		                                    {{$res['clock_time_4']}}
-		                                @endif ] 
-		                                [ 
-		                                @if($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') 
-		                                	{{$res['clock_suggest_1']}}
-		                                @endif
-			                        	@if($res['clock_suggest_2']!=''  && $res['clock_suggest_2']!='--') 
-			                        		@if($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') ______ @endif
-			                        		{{$res['clock_suggest_2']}}
-			                        	@endif
-		                                @if($res['clock_suggest_3']!=''  && $res['clock_suggest_3']!='--')
-		                                	@if(($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') || ($res['clock_suggest_2']!='' && $res['clock_suggest_2']!='--')) ______ @endif
-		                                	{{$res['clock_suggest_3']}}
-		                                @endif
-		                                @if($res['clock_suggest_4']!=''  && $res['clock_suggest_4']!='--')
-		                                	@if(($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') || ($res['clock_suggest_2']!='' && $res['clock_suggest_2']!='--') || ($res['clock_suggest_3']!='' && $res['clock_suggest_3']!='--')) ______ @endif
-		                                	{{$res['clock_suggest_4']}}
-		                                @endif 
-		                                ] 
+		                                @endif ]
+										
+										@if(($res['clock_suggest_1']!='--' && $res['clock_suggest_1']!='') || ($res['clock_suggest_2']!='--' && $res['clock_suggest_2']!='')  || ($res['clock_suggest_3']!='--' && $res['clock_suggest_3']!='')  || ($res['clock_suggest_4']!='--' && $res['clock_suggest_4']!='') )
+
+		                                	[ 
+				                                @if($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') 
+				                                	{{$res['clock_suggest_1']}}
+				                                @endif
+					                        	@if($res['clock_suggest_2']!=''  && $res['clock_suggest_2']!='--') 
+					                        		@if($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') ______ @endif
+					                        		{{$res['clock_suggest_2']}}
+					                        	@endif
+				                                @if($res['clock_suggest_3']!=''  && $res['clock_suggest_3']!='--')
+				                                	@if(($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') || ($res['clock_suggest_2']!='' && $res['clock_suggest_2']!='--')) ______ @endif
+				                                	{{$res['clock_suggest_3']}}
+				                                @endif
+				                                @if($res['clock_suggest_4']!=''  && $res['clock_suggest_4']!='--')
+				                                	@if(($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') || ($res['clock_suggest_2']!='' && $res['clock_suggest_2']!='--') || ($res['clock_suggest_3']!='' && $res['clock_suggest_3']!='--')) ______ @endif
+				                                	{{$res['clock_suggest_4']}}
+				                                @endif 
+		                                	]
+										@endif
 										@if($res['qhrs']!='') <span>[{{$res['qhrs']}}]</span> @endif
 		                                &#9747;
 		                                @if($res['total_prescription_days']!='')
@@ -974,8 +981,8 @@
 		</div>
 			@endif
 		@endif
-		<br/><br/>
 	@endif
+	
 	</div>
 @endif
 	

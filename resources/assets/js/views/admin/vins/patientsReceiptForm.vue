@@ -21,68 +21,7 @@
 	           		</div>	
 	        	</div>
 			</div>
-	          	 
-      	 	<!-- <div class="row form-group" >
-      	 	 	<div class="col-md-6">	
-      	 	 	 	<div class="col-md-9">
-      	 	 	 		 <label for="date"><b>Gender:</b></label>
-      	 	 	 	 </div>
-          	 	 	<div class="col-md-9">	
-					       <span>{{patientOPDDetails.gender}}</span>
-					</div>
-				</div>
-				<div class="col-md-6">		
-					     <div class="col-md-9">
-      	 	 	 		 <label for="date"><b>Age:</b></label>
-      	 	 	 	 </div>
-      	 	 	 	 <div class="col-md-9">
-      	 	 	 	  <span>{{patientOPDDetails.age}}</span>	
-      	 	 	 	</div>
-			 	</div>
-			</div> -->
-			<!--  <div class="row form-group" >
-				<div class="col-md-6">	
-		 			<div class="col-md-9">
-			     	 	<label class="control-label" for="consulting_dr"><b>Consulting Dr.:</b> </label>	
-			     	</div>	
-			      	<div class="col-md-9">	
-						<span>{{patientOPDDetails.consultant}}</span>	
-					</div>	
-				</div>	
-				<div class="col-md-6">	
-	 				<div class="col-md-9">	
-	 					<label for="date"><b>Department:</b></label>	
-	 				</div>	
-	 				<div class="col-md-9">	
-	 					{{patientOPDDetails.department}}	
-	 				</div>	
-	 			</div>
-	 		</div> -->
-				
-			<!-- <div class="row form-group" >	
-	 		 	
-	 			<div class="col-md-6">
-    	   			<div class="col-md-9">
-			         	<label for="date"><b>Case Type:</b></label>
-			        </div>
-			        <div class="col-md-9">
-	    	   			<span>OPD</span>
-	    	   		</div>
-    	   		</div>
-	 		</div> -->
-	 		<!-- <div class="row form-group">
-	 			<div class="col-md-6">	
-		          	<div class="col-md-9">	
-		            	<label>Date :</label>	
-		         	</div>	
-		         	<div class="col-md-9">
-	       				<date-picker  :date.sync="patientReceiptData.date_receipt" :option="option" id = "date_receipt" class="" type="text" name="date_receipt" :limit="limit" v-model="patientReceiptData.date_receipt.time" ></date-picker> 
-					
-	           		</div>	
-	        	</div>
-	 		</div> -->
-			 			
-				
+
 				<div class="row form-group" >	
 					<div class="col-md-6">	
 							<div class="col-md-9">	
@@ -90,6 +29,7 @@
 							</div>	
 							<div class="col-md-9">
 								<select  class="form-control ls-select2" id = "charges_type" name="charges_type" v-on:change="ChargesTypeFunction()">
+									<option value="">Select</option>
 	            		 			<option :value="charges_type.id" v-for="charges_type in patientReceiptData.charges_type_option">{{charges_type.text}}</option>
 	          					</select>	
 								
@@ -101,7 +41,7 @@
 						</div>
 						<div class="col-md-9">
 							<select class="form-control ls-select2"  id="consultation_type" name="consultation_type"  >
-    								
+    								<option value="">Select</option>
   									<optgroup label="Super Specialists" value="1">
     									<option class="level_0" value="1">First</option>
     									<option class="level_0" value="2">Follow up</option>
@@ -123,6 +63,7 @@
 						</div>
 						<div class="col-md-9">
 				      		<select class="form-control ls-select2"  id="emergency_type" name="emergency_type"  v-model="patientReceiptData.emergency_type" >
+				      			<option value="">Select</option>
 								 <option :value="emergency_type.id" v-for="emergency_type in patientReceiptData.emergency_type_option">{{emergency_type.text}}</option>
 				      		</select>
 				      		
@@ -150,6 +91,7 @@
 						</div>
 						<div class="col-md-9">
 				      		<select class="form-control ls-select2"  id="neurological_procedures" name="neurological_procedures"   >
+				      			<option value="">Select</option>
 								 <option :value="neurological_procedures.id" v-for="neurological_procedures in patientReceiptData.neurological_procedures_option">{{neurological_procedures.text}}</option>
 				      		</select>
 						</div>
@@ -160,6 +102,7 @@
 						</div>
 						<div class="col-md-9">
 				      		<select class="form-control ls-select2"  id="vascular_procedures" name="vascular_procedures" >
+				      			<option value="">Select</option>
 								 <option :value="vascular_procedures.id" v-for="vascular_procedures in patientReceiptData.vascular_procedures_option">{{vascular_procedures.text}}</option>
 				      		</select>
 						</div>
@@ -199,7 +142,7 @@
 				      		<label class="control-label" for="other_charges">Other Procedure Charges: </label>
 						</div>
 						<div class="col-md-9">
-				      		<input class="form-control" type="text" name="other_charges" id="other_charges"  v-validate="'numeric'" />
+				      		<input class="form-control" type="text" name="other_charges" id="other_charges"  v-validate="'numeric'" v-model="patientReceiptData.other_charges" />
 				      		<span class="help is-danger" v-show="errors.has('other_charges')"> 
 				      			Please enter valid other charges. </span> 
 						</div>
@@ -239,9 +182,9 @@
 		let list=[];
 		let charges_list=[];
 		var patientId = '';
-		var other_option=[{id: '1', text: 'Procedure Charges', children: [ {id:1,text:'Dressing'}, {id:2,text:'Special dressing'}, {id:3,text:'Strip Method RBS	'}, {id:4,text:'ECG'}, {id:5,text:'Enema'}, {id:6,text:'Urine Sugar (Per Test)'}, {id:7,text:'Suture Removal'}, {id:8,text:'Ambulance Charge (Within city limits only)'}, {id:9,text:'Escort with Ventilator (per hour)'}, {id:10,text:'Escort without Ventilator (per hour)'} ], "element": HTMLOptGroupElement }, {id: '2', text: 'Wound Care', children: [ {id:11,text:'Dressing - Minor'}, {id:12,text:'Dressing - Major'}, {id:13,text:'Vac (per session + actual expenditure)'}, {id:14,text:'Special Dressing'} ], "element": HTMLOptGroupElement } ];
+		var other_option=[{id: '', text: 'Select'},{id: '1', text: 'Procedure Charges', children: [ {id:1,text:'Dressing'}, {id:2,text:'Special dressing'}, {id:3,text:'Strip Method RBS	'}, {id:4,text:'ECG'}, {id:5,text:'Enema'}, {id:6,text:'Urine Sugar (Per Test)'}, {id:7,text:'Suture Removal'}, {id:8,text:'Ambulance Charge (Within city limits only)'}, {id:9,text:'Escort with Ventilator (per hour)'}, {id:10,text:'Escort without Ventilator (per hour)'} ], "element": HTMLOptGroupElement }, {id: '2', text: 'Wound Care', children: [ {id:11,text:'Dressing - Minor'}, {id:12,text:'Dressing - Major'}, {id:13,text:'Vac (per session + actual expenditure)'}, {id:14,text:'Special Dressing'} ], "element": HTMLOptGroupElement } ];
 		/*for physiotherapy*/
-		var physio_option=[{id: '1', text: 'Pain Management',children: [ {id:1,text:'Evaluation + Exercise Therapy (Daily)'}, {id:2,text:'Evaluation + Exercise Therapy + Electro Therapy (One Modality) (Daily)'}, {id:3,text:'Evaluation + Exercise Therapy + Electro Therapy (Two Modalities) (Daily)'}, {id:4,text:'Evaluation + Exercise Therapy (Weekly)'}, {id:5,text:'Evaluation + Exercise Therapy + Electro Therapy (One Modality) (Weekly)'}, {id:6,text:'Evaluation + Exercise therapy + Electro Therapy (Two Modalities) (Weekly)'} ], "element": HTMLOptGroupElement }, {id: '2', text: 'Rehabilitation', children: [ {id:7,text:'Evaluation + Exercise Therapy (Daily)'}, {id:8,text:'Evaluation + Exercise Therapy + Assist Modality (Any One)[FES/MEntamove/Treadmill/Tilt Table/Cycling] (Daily)'}, {id:9,text:'Evaluation + Exercise Therapy + Assist Modality (2 Assist Modalities)(Daily)'}, {id:10,text:'Evaluation + Exercise Therapy + Assist Modality (All Assist Modalities)(Daily)'},{id:11,text:'Evaluation + Exercise Therapy (Weekly)'}, {id:12,text:'Evaluation + Exercise Therapy + Assist Modality (Any One)[FES/MEntamove/Treadmill/Tilt Table/Cycling] (Weekly)'}, {id:13,text:'Evaluation + Exercise Therapy + Assist Modality (2 Assist Modalities)(Weekly)'}, {id:14,text:'Evaluation + Exercise Therapy + Assist Modality (All Assist Modalities)(Weekly)'} ], "element": HTMLOptGroupElement } ];
+		var physio_option=[{id: '', text: 'Select'},{id: '1', text: 'Pain Management',children: [ {id:1,text:'Evaluation + Exercise Therapy (Daily)'}, {id:2,text:'Evaluation + Exercise Therapy + Electro Therapy (One Modality) (Daily)'}, {id:3,text:'Evaluation + Exercise Therapy + Electro Therapy (Two Modalities) (Daily)'}, {id:4,text:'Evaluation + Exercise Therapy (Weekly)'}, {id:5,text:'Evaluation + Exercise Therapy + Electro Therapy (One Modality) (Weekly)'}, {id:6,text:'Evaluation + Exercise therapy + Electro Therapy (Two Modalities) (Weekly)'} ], "element": HTMLOptGroupElement }, {id: '2', text: 'Rehabilitation', children: [ {id:7,text:'Evaluation + Exercise Therapy (Daily)'}, {id:8,text:'Evaluation + Exercise Therapy + Assist Modality (Any One)[FES/MEntamove/Treadmill/Tilt Table/Cycling] (Daily)'}, {id:9,text:'Evaluation + Exercise Therapy + Assist Modality (2 Assist Modalities)(Daily)'}, {id:10,text:'Evaluation + Exercise Therapy + Assist Modality (All Assist Modalities)(Daily)'},{id:11,text:'Evaluation + Exercise Therapy (Weekly)'}, {id:12,text:'Evaluation + Exercise Therapy + Assist Modality (Any One)[FES/MEntamove/Treadmill/Tilt Table/Cycling] (Weekly)'}, {id:13,text:'Evaluation + Exercise Therapy + Assist Modality (2 Assist Modalities)(Weekly)'}, {id:14,text:'Evaluation + Exercise Therapy + Assist Modality (All Assist Modalities)(Weekly)'} ], "element": HTMLOptGroupElement } ];
 		
 
 		export default {
@@ -385,26 +328,18 @@
 	               		(error) => {
 	            	 	},
 	               	);
-				    //setTimeout(function(){
-		               	/*$('#neurological_procedures').select2({
-		          	 	 	placeholder: "Select",
-		          	 	 	dropdownParent: $("#receiptAddModel")
-		          	    });
-		          	    $('#vascular_procedures').select2({
-			          	 	 placeholder: "Select",
-			          	 	 dropdownParent: $("#receiptAddModel")
-			          	  });*/
+				    
 		          	    $('#other_charges_category').select2({
-							 placeholder: "Select",
-							 dropdownParent: $("#receiptAddModel"),
+							 //placeholder: "Select",
+							 //dropdownParent: $("#receiptAddModel"),
 							 data:other_option
 						});
 						$('#physiotherapy_procedures').select2({
-							 placeholder: "Select",
-							 dropdownParent: $("#receiptAddModel"),
+							 //placeholder: "Select",
+							 //dropdownParent: $("#receiptAddModel"),
 							 data:physio_option
 						});
-					//},2000);
+					
 	          	    $(document).on("select2:select",'.ls-select2', function (e) { 
 			            if(this.id == 'vascular_procedures'){
 			             	let vascular_procedures_val=$(this).val();
@@ -625,6 +560,7 @@
 			            }
 			            else if(this.id == 'consultation_type')
 			            {
+
 			            	let consultation_type_val=$(this).val();
 		          	    	vm.patientReceiptData.consultation_type=consultation_type_val;
 		          	    	if(consultation_type_val==1)
@@ -654,6 +590,7 @@
 			            }
 			            else if(this.id == 'other_charges_category')
 			            {
+
 			            		let other_charges_category_val=$(this).val();
 			          	    	vm.patientReceiptData.other_charges_category=other_charges_category_val;
 			          	    	if(other_charges_category_val==1)
