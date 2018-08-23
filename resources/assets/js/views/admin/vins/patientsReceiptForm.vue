@@ -1,89 +1,86 @@
 <template>
    <div class="">
        <form action="" method="post" enctype="multipart/formdata" @submit="receiptPrintView">
-       		
     	   <div class="row form-group">
     	   		<div class="col-md-6">
     	   			<div class="col-md-9">
 			          <label for="date">Select Patient:</label>
 			        </div>
-    	   		
-
-    	   		<div class="col-md-9">
-    	   			<input class="form-control" type = "text" id = "name" name="name"  v-model="patientReceiptData.patient_name" readonly=""/>
-    	   			<input class="form-control" type = "hidden" id = "patient" name="patient"  v-model="patientReceiptData.patient_id" />
+	    	   		<div class="col-md-9">
+	    	   			<input class="form-control" type = "text" id = "name" name="name"  v-model="patientReceiptData.patient_name" readonly=""/>
+	    	   			<input class="form-control" type = "hidden" id = "patient" name="patient"  v-model="patientReceiptData.patient_id" />
+		          	</div>
 	          	</div>
-	          </div>
-
-	          <!-- <div class="col-md-6">
-	          			        <div class="col-md-9">
-	          			          <label for="date">OPD CASE NO:</label>
-	          			        </div>
-	          			        <div class="col-md-9">
-	          			        	<input class="form-control" type = "text" id = "case_no" name="case_no"  v-model="patientReceiptData.case_no" readonly=""/>
-	          			        </div>
-	          			     </div> -->
-			   </div>
+	          	<div class="col-md-6">	
+		          	<div class="col-md-9">	
+		            	<label>Date :</label>	
+		         	</div>	
+		         	<div class="col-md-9">
+	       				<date-picker  :date.sync="patientReceiptData.date_receipt" :option="option" id = "date_receipt" class="" type="text" name="date_receipt" :limit="limit" v-model="patientReceiptData.date_receipt.time" ></date-picker> 
+					
+	           		</div>	
+	        	</div>
+			</div>
 	          	 
-	          	 	 <div class="row form-group" >
-	          	 	 	<div class="col-md-6">	
-	          	 	 	 	<div class="col-md-9">
-	          	 	 	 		 <label for="date"><b>Gender:</b></label>
-	          	 	 	 	 </div>
-		          	 	 	<div class="col-md-9">	
-							       <span>{{patientOPDDetails.gender}}</span>
-							</div>
-						</div>
-						<div class="col-md-6">		
-							     <div class="col-md-9">
-	          	 	 	 		 <label for="date"><b>Age:</b></label>
-	          	 	 	 	 </div>
-	          	 	 	 	 <div class="col-md-9">
-	          	 	 	 	  <span>{{patientOPDDetails.age}}</span>	
-	          	 	 	 	</div>
-					 	</div>
+      	 	<!-- <div class="row form-group" >
+      	 	 	<div class="col-md-6">	
+      	 	 	 	<div class="col-md-9">
+      	 	 	 		 <label for="date"><b>Gender:</b></label>
+      	 	 	 	 </div>
+          	 	 	<div class="col-md-9">	
+					       <span>{{patientOPDDetails.gender}}</span>
 					</div>
-					 <div class="row form-group" >
-						<div class="col-md-6">	
-				 			<div class="col-md-9">
-					     	 	<label class="control-label" for="consulting_dr"><b>Consulting Dr.:</b> </label>	
-					     	</div>	
-					      	<div class="col-md-9">	
-								<span>{{patientOPDDetails.consultant}}</span>	
-							</div>	
-						</div>	
-						<div class="col-md-6">	
-			 				<div class="col-md-9">	
-			 					<label for="date"><b>Department:</b></label>	
-			 				</div>	
-			 				<div class="col-md-9">	
-			 					{{patientOPDDetails.department}}	
-			 				</div>	
-			 			</div>
-			 		</div>
+				</div>
+				<div class="col-md-6">		
+					     <div class="col-md-9">
+      	 	 	 		 <label for="date"><b>Age:</b></label>
+      	 	 	 	 </div>
+      	 	 	 	 <div class="col-md-9">
+      	 	 	 	  <span>{{patientOPDDetails.age}}</span>	
+      	 	 	 	</div>
+			 	</div>
+			</div> -->
+			<!--  <div class="row form-group" >
+				<div class="col-md-6">	
+		 			<div class="col-md-9">
+			     	 	<label class="control-label" for="consulting_dr"><b>Consulting Dr.:</b> </label>	
+			     	</div>	
+			      	<div class="col-md-9">	
+						<span>{{patientOPDDetails.consultant}}</span>	
+					</div>	
+				</div>	
+				<div class="col-md-6">	
+	 				<div class="col-md-9">	
+	 					<label for="date"><b>Department:</b></label>	
+	 				</div>	
+	 				<div class="col-md-9">	
+	 					{{patientOPDDetails.department}}	
+	 				</div>	
+	 			</div>
+	 		</div> -->
 				
-					<div class="row form-group" >	
-			 		 	
-			 			<div class="col-md-6">
-		    	   			<div class="col-md-9">
-					         	<label for="date"><b>Case Type:</b></label>
-					        </div>
-					        <div class="col-md-9">
-			    	   			<span>OPD</span>
-			    	   		</div>
-		    	   		</div>
-			 		</div>
-			 		<div class="row form-group">
-			 			<div class="col-md-6">	
-				          <div class="col-md-9">	
-				            <label>Date :</label>	
-				         </div>	
-				         <div class="col-md-9">
-			       				<date-picker  :date.sync="patientReceiptData.date_receipt" :option="option" id = "date_receipt" class="" type="text" name="date_receipt" :limit="limit" v-model="patientReceiptData.date_receipt.time" ></date-picker> 
-							
-			           	</div>	
+			<!-- <div class="row form-group" >	
+	 		 	
+	 			<div class="col-md-6">
+    	   			<div class="col-md-9">
+			         	<label for="date"><b>Case Type:</b></label>
 			        </div>
-			 		</div>
+			        <div class="col-md-9">
+	    	   			<span>OPD</span>
+	    	   		</div>
+    	   		</div>
+	 		</div> -->
+	 		<!-- <div class="row form-group">
+	 			<div class="col-md-6">	
+		          	<div class="col-md-9">	
+		            	<label>Date :</label>	
+		         	</div>	
+		         	<div class="col-md-9">
+	       				<date-picker  :date.sync="patientReceiptData.date_receipt" :option="option" id = "date_receipt" class="" type="text" name="date_receipt" :limit="limit" v-model="patientReceiptData.date_receipt.time" ></date-picker> 
+					
+	           		</div>	
+	        	</div>
+	 		</div> -->
 			 			
 				
 				<div class="row form-group" >	
@@ -92,7 +89,7 @@
 								<label for="charges">Charges Type:</label>
 							</div>	
 							<div class="col-md-9">
-								<select  class="form-control ls-select2" id = "charges_type" name="charges_type" v-model="patientReceiptData.charges_type"   v-on:change="ChargesTypeFunction()">
+								<select  class="form-control ls-select2" id = "charges_type" name="charges_type" v-on:change="ChargesTypeFunction()">
 	            		 			<option :value="charges_type.id" v-for="charges_type in patientReceiptData.charges_type_option">{{charges_type.text}}</option>
 	          					</select>	
 								
@@ -103,7 +100,7 @@
 							<label class="control-label" for="consultation_type">Consultation Charges: </label>
 						</div>
 						<div class="col-md-9">
-							<select class="form-control ls-select2"  id="consultation_type" name="consultation_type"  v-model="patientReceiptData.consultation_type">
+							<select class="form-control ls-select2"  id="consultation_type" name="consultation_type"  >
     								
   									<optgroup label="Super Specialists" value="1">
     									<option class="level_0" value="1">First</option>
@@ -152,7 +149,7 @@
 				      		<label class="control-label" for="neurological_procedures">Neurological Procedures: </label>
 						</div>
 						<div class="col-md-9">
-				      		<select class="form-control ls-select2"  id="neurological_procedures" name="neurological_procedures"  v-model="patientReceiptData.neurological_procedures" >
+				      		<select class="form-control ls-select2"  id="neurological_procedures" name="neurological_procedures"   >
 								 <option :value="neurological_procedures.id" v-for="neurological_procedures in patientReceiptData.neurological_procedures_option">{{neurological_procedures.text}}</option>
 				      		</select>
 						</div>
@@ -162,7 +159,7 @@
 				      		<label class="control-label" for="vascular_procedures">Vascular Procedures: </label>
 						</div>
 						<div class="col-md-9">
-				      		<select class="form-control ls-select2"  id="vascular_procedures" name="vascular_procedures"  v-model="patientReceiptData.vascular_procedures" >
+				      		<select class="form-control ls-select2"  id="vascular_procedures" name="vascular_procedures" >
 								 <option :value="vascular_procedures.id" v-for="vascular_procedures in patientReceiptData.vascular_procedures_option">{{vascular_procedures.text}}</option>
 				      		</select>
 						</div>
@@ -172,7 +169,7 @@
 				      		<label class="control-label" for="physiotherapy_procedures">Physiotherapy And Rehabilitation Procedures: </label>
 						</div>
 						<div class="col-md-9">
-				      		<select class="form-control ls-select2"  id="physiotherapy_procedures" name="physiotherapy_procedures"  v-model="patientReceiptData.physiotherapy_procedures" >
+				      		<select class="form-control ls-select2"  id="physiotherapy_procedures" name="physiotherapy_procedures" >
 				      		</select>
 						</div>
 					</div>	
@@ -190,10 +187,10 @@
 				<div class="row form-group" >
 					<div class="col-md-6">
 						<div class="col-md-9">
-					      		<label class="control-label" for="other_charges_category">Other Procedure Charges Category: </label>
+					      		<label class="control-label" for="other_charges_category">Other Procedure Category: </label>
 							</div>
 							<div class="col-md-9">
-					      		<select class="form-control ls-select2"  id="other_charges_category" name="other_charges_category"  v-model="patientReceiptData.other_charges_category" >
+					      		<select class="form-control ls-select2"  id="other_charges_category" name="other_charges_category" >
 					      		</select>
 							</div>
 					</div>
@@ -202,7 +199,7 @@
 				      		<label class="control-label" for="other_charges">Other Procedure Charges: </label>
 						</div>
 						<div class="col-md-9">
-				      		<input class="form-control" type="text" name="other_charges" id="other_charges"  v-validate="'numeric'" 	v-model="patientReceiptData.other_charges" />
+				      		<input class="form-control" type="text" name="other_charges" id="other_charges"  v-validate="'numeric'" />
 				      		<span class="help is-danger" v-show="errors.has('other_charges')"> 
 				      			Please enter valid other charges. </span> 
 						</div>
@@ -346,11 +343,15 @@
 	       			 'date-picker': myDatepicker,	
 	         	},
 	          mounted(){
-	          	
-		          	$('.ls-select2').select2({
-	          	 	 	placeholder: "Select",
-	          	 	 	dropdownParent: $("#receiptAddModel")
-		          	}); 
+                     $("body .js-loader").removeClass('d-none');
+
+	          		setTimeout(function(){
+	          			$('.ls-select2').select2({
+	          	 	 		placeholder: "Select",
+	          	 		});	
+                     	$("body .js-loader").addClass('d-none');
+					},1000);
+		          	 
 		          	
 		         
 	          	   let vm =this;
