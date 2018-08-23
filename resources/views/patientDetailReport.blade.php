@@ -19,11 +19,21 @@
 				<td><label><b>Phone No:</b></label>{{$data['patientDetail']['ph_no']}}</td>
 				<td><label><b>Age/Sex:</b></label>
 					<span>
-					{{$data['patientDetail']['age']}}</span>
+						@if($data['patientDetail']['age'] > 1000)
+							@if(((now()->year) - ($data['patientDetail']['age'])) > 0)
+									{{ (now()->year) - ($data['patientDetail']['age'])}}
+							@else
+								1
+							@endif
+						@endif
+						@if($data['patientDetail']['age'] < 1000)
+								{{$data['patientDetail']['age']}}
+						@endif
+						</span>
 						@if($data['patientDetail']['gender'] == 'F')
-						<span><b>/Female</b></span>
+						<span><b>/ Female</b></span>
 						@else
-						<span ><b>/Male</b></span>
+						<span ><b>/ Male</b></span>
 						@endif</td>
 			</tr>
 			<tr>

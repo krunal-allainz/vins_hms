@@ -438,7 +438,7 @@
 				'prescriptiData' : this.$store.state.Patient.prescriptionData,
 				'radioReportData' : this.$store.state.Patient.radioData, 
 				'labReportData' : this.$store.state.Patient.laboratoryData.type,
-				'consultntId' : this.$store.state.Users.userDetails.id,
+				'consultntId' : '',
 				'consultName' : '',
 				'signatureName' : '',
 				'doctoreName' :'',
@@ -492,36 +492,9 @@
 	       }else{
 				vm.reportListSelect = 1;
 			}
-
-			User.generateUserNameById(vm.consultntId).then(
-  				(response) => {
-					vm.consultName = response.data;
-					vm.signatureName = response.data;
-				},
-			    (error) => {
-			    },
-  			); 
-  			var userType = 1;
-  			User.getDoctoreInfoById(vm.consultntId,userType).then(
-  				(response) => {
-  					
-  					if(response.data.code == 200){
-  						var data = response.data.data;
-  						//vm.signatureName = data.name;
-  						vm.doctoreName = data.name;
-  						vm.timeStamp =data.dagree;  
-  						vm.department =data.department;	
-  						vm.regNo =data.regNo;  					
-  					}
-  				},
-  				(error) => {
-
-  				}
-  			);
   			this.getPatientData(this.patinetId);
        },
 		methods: {
-
 			print_multiple_report()
 			{
 				this.ClickHereToPrint('opd_case');
@@ -529,7 +502,6 @@
 			getPatientData(patinetId)
 			{
 				var vm=this;
-				console.log(vm.opdId);
 				User.generatePatientDetailsByID(patinetId).then(
 	  				(response) => {
 	  					
@@ -558,7 +530,34 @@
 			  					console.log(response.data.data);
 				  					if(response.data.code == 200){
 				  					vm.reference = response.data.data.references;
+				  					vm.consultntId = response.data.data.consultant_id;
 				  					}
+				  					var userType = 1;
+						  			User.getDoctoreInfoById(vm.consultntId,userType).then(
+						  				(response) => {
+						  					
+						  					if(response.data.code == 200){
+						  						var data = response.data.data;
+						  						//vm.signatureName = data.name;
+						  						vm.doctoreName = data.name;
+						  						vm.timeStamp =data.dagree;  
+						  						vm.department =data.department;	
+						  						vm.regNo =data.regNo;  					
+						  					}
+						  				},
+						  				(error) => {
+
+						  				}
+						  			);
+						  			User.generateUserNameById(vm.consultntId).then(
+						  				(response) => {
+											vm.consultName = response.data;
+											vm.signatureName = response.data;
+										},
+									    (error) => {
+									    },
+						  			); 
+  			
 				  				},
 				  				(error) => {
 
@@ -576,8 +575,6 @@
 
 	  				}
   				);
-
-  				
 
 			},
 			presp_count(array)

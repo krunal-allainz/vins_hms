@@ -4,35 +4,34 @@
 		<div class="row">
 			<div class="col-md-3 text-left">
 					<label><b>PULSE -</b></label>
-						{{patientCheckupDetail.pulse}}
+					<span v-if="(patientCheckupDetail.pulse)">	{{patientCheckupDetail.pulse}}</span>
 			</div>
 			<div class="col-md-3 text-left">
 			<label><b>TEMP -</b></label>
-				{{patientCheckupDetail.temp}}
+			<span v-if="(patientCheckupDetail.temp)">	{{patientCheckupDetail.temp}}</span>
 			</div>
 			<div class="col-md-3 text-left">
 			<label><b>BP -</b></label>
-				{{patientCheckupDetail.bp}}
+			<span v-if="patientCheckupDetail.bp">{{patientCheckupDetail.bp}}</span>
 			</div>
 			<div class="col-md-3 text-left">
 			<label><b>RESP/SPO2 -</b></label>
-				{{patientCheckupDetail.vitals}}
+			<span v-if="(patientCheckupDetail.vitals)">	{{patientCheckupDetail.vitals}}</span>
 			</div>
-
 		</div>
 
 		<div class="row">
 			<div class="col-md-3 text-left">
 					<label><b>HEIGHT -</b></label>
-					{{patientCheckupDetail.height}}
+					<span v-if="patientCheckupDetail.height">{{patientCheckupDetail.height}}</span>
 			</div>
 			<div class="col-md-3 text-left">
 					<label><b>WEIGHT -</b></label>
-					{{patientCheckupDetail.weight}}
+					<span v-if="patientCheckupDetail.weight">{{patientCheckupDetail.weight}}</span>
 			</div>
 			<div class="col-md-3 text-left">
 					<label><b>BMI -</b></label>
-					{{patientCheckupDetail.bmi}}
+					<span v-if="(patientCheckupDetail.bmi)">{{patientCheckupDetail.bmi}}</span>
 			</div>
 
 		</div>
@@ -40,23 +39,23 @@
 			<div class="col-md-3 text-left">
 				<label>PAIN ASSESSMENT</label>
 			</div>
-			<div class="col-md-6 text-left">
-				<div v-if="(patientCheckupDetail.pain == 0)">
+			<div class="col-md-9 text-left">
+				<div  class="report-painassesment" v-bind:class="[patientCheckupDetail.pain==0 ? 'report-painassesment-selected': '', 'pain_img'  ]">
 					<img src="/assets/img/pain/P1.png" class="test" height="50" width="50">
 				</div>
-				<div v-if="(patientCheckupDetail.pain == 2)">
+				<div class="report-painassesment" v-bind:class="[patientCheckupDetail.pain==2 ? 'report-painassesment-selected': '', 'pain_img'  ]">
 					<img src="/assets/img/pain/P2.png" class="test" height="50" width="50">
 				</div>
-				<div v-if="(patientCheckupDetail.pain == 4)">
+				<div class="report-painassesment" v-bind:class="[patientCheckupDetail.pain==4 ? 'report-painassesment-selected': '', 'pain_img'  ]">
 					<img src="/assets/img/pain/P3.png" class="test" height="50" width="50">
 				</div>
-				<div v-if="(patientCheckupDetail.pain == 6)">
+				<div class="report-painassesment" v-bind:class="[patientCheckupDetail.pain==6 ? 'report-painassesment-selected': '', 'pain_img'  ]">
 					<img src="/assets/img/pain/P4.png" class="test" height="50" width="50">
 				</div>
-				<div v-if="(patientCheckupDetail.pain == 8)">
+				<div class="report-painassesment" v-bind:class="[patientCheckupDetail.pain==8 ? 'report-painassesment-selected': '', 'pain_img'  ]">
 					<img src="/assets/img/pain/P5.png" class="test" height="50" width="50">
 				</div>
-				<div v-if="(patientCheckupDetail.pain == 10)">
+				<div class="report-painassesment" v-bind:class="[patientCheckupDetail.pain==10 ? 'report-painassesment-selected': '', 'pain_img'  ]">
 					<img src="/assets/img/pain/P6.png" class="test" height="50" width="50">
 				</div>
 			</div>

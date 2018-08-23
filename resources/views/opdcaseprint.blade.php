@@ -312,7 +312,6 @@
 	.hidden-md-up {
 	    display: none !important;
 	}
-
     </style>
 </head>
 <body>
@@ -325,8 +324,6 @@
       </div>
     </div>  
 </div>   
-        
-
  @include('patientDetailReport')
  @include('patientCheckupReport')
 
@@ -337,8 +334,7 @@
 			<h4>Lab Report</h4>
 		</div>
   	</div>
-  
-			  <div class="form-group">
+			<div class="form-group">
                 <div class="col-md-12">
                   <div class="table-responsive">
                     <table class="table table-striped table-bordered" id="laboratory_table_list">
@@ -556,7 +552,7 @@
   @endif
 
   @if($data['printType'] == 'print_perceptions')
-  	@if($data['provisional_diagnostic'] != '')
+  	@if(!empty($data['provisional_diagnostic']))
   	<div  style="padding-left: 35px;">
 			<div class='col-md-6 text-left'>
 				<span class='text-left'><b>Provisional Diagnostic :-</b></span>
@@ -675,7 +671,7 @@
 			@endif
 		@endif
 		@if(in_array( 'Advice + follow ups',$data['checkedreportList']))
-		@if($data['advice'] != null && $data['adviceType'] == 'text')
+		@if(isset($data['advice']) && isset($data['adviceType']))
 		<div  style="padding-left: 35px;">
 			<div class='col-md-6 text-left'>
 				<span class='text-left'><b>Advice :-</b></span>
@@ -733,7 +729,6 @@
 		</div>
 		@endif 
   @endif
-
   @if($data['printType'] == 'opd_case')
   <div >
   	<div class='row'>
@@ -741,56 +736,9 @@
 			<h4>OPD CASE </h4>
 		</div>
   	</div>
-
-  
-
-	@if(in_array( 'Advice + follow ups',$data['checkedreportList']))
-		@if($data['advice'] != null && $data['adviceType'] == 'text')
-		<div  style="padding-left: 35px;">
-			<div class='col-md-6 text-left'>
-				<span class='text-left'><b>Advice :-</b></span>
-			</div>
-			<div class='row'>
-				@if ($data['adviceType'] == 'text')
-					<div class='col-md-12 text-left'>
-						<span class='text-left' style="padding-left:30px;">{{$data['advice']}}</span>
-					</div>
-				@endif
-				
-			</div>
-		</div>
-		<br/>
-		@endif 
-
-
-		@if($data['adviceType'] != 'text' && $data['adviceScribleValue'] != '')
-		<div  style="padding-left: 35px;">
-			<div class='col-md-6 text-left'>
-				<span class='text-left'><b>Advice :-</b></span>
-			</div>
-			<div class='row'>
-
-					<div class='col-md-12 text-left'>
-					    <img src="{{$data['adviceScribleValue']}}" title="Advice">
-					</div> 
-			</div>
-		</div>
-		@endif
-		@if($data['followup'] != '')
-		<div  style="padding-left: 35px;">
-			<div class='col-md-6 text-left'>
-				<span class='text-left'><b>Followup :-</b></span>
-			</div>
-			<div >
-					<div class='col-md-12 text-left'>
-					   {{$data['followup']}}
-					</div> 
-			</div>
-		</div>
-		@endif 
-	@endif
+	
 	@if(in_array('Radiology',$data['checkedreportList']))
-		@if(isset($data['radioReportData']))
+	@if(isset($data['radioReportData']) && !empty($data['radioReportData']))
 		<div class='row'>
 		<div class='col-md-12 text-center'>
 			<h4>Radiology Report</h4>
@@ -975,6 +923,52 @@
 		</div>
 			@endif
 		@endif
+		@if(in_array( 'Advice + follow ups',$data['checkedreportList']))
+		@if(isset($data['advice'])  && isset($data['adviceType']))
+		<div  style="padding-left: 35px;">
+			<div class='col-md-6 text-left'>
+				<span class='text-left'><b>Advice :-</b></span>
+			</div>
+			<div class='row'>
+				@if ($data['adviceType'] == 'text')
+					<div class='col-md-12 text-left'>
+						<span class='text-left' style="padding-left:30px;">{{$data['advice']}}</span>
+					</div>
+				@endif
+				
+			</div>
+		</div>
+		<br/>
+		@endif
+		@if(isset($data['adviceType'])) 
+		@if($data['adviceType'] != 'text' && $data['adviceScribleValue'] != '')
+		<div  style="padding-left: 35px;">
+			<div class='col-md-6 text-left'>
+				<span class='text-left'><b>Advice :-</b></span>
+			</div>
+			<div class='row'>
+					<div class='col-md-12 text-left'>
+					    <img src="{{$data['adviceScribleValue']}}" title="Advice">
+					</div> 
+			</div>
+		</div>
+		@endif
+		@endif
+		@if(isset($data['followup']))
+		@if($data['followup'] != '')
+		<div  style="padding-left: 35px;">
+			<div class='col-md-6 text-left'>
+				<span class='text-left'><b>Followup :-</b></span>
+			</div>
+			<div>
+					<div class='col-md-12 text-left'>
+					   {{$data['followup']}}
+					</div> 
+			</div>
+		</div>
+		@endif 
+		@endif
+	@endif
 		<br/><br/>
 	@endif
 	</div>
