@@ -80,6 +80,7 @@
 								 					<h4>Lab Report</h4>
 								 				</div>
 								 			</div>
+
 								 			   <div class="form-group" v-if="labReportData != null">
 									                <div class="col-md-12">
 									                  <div class="">
@@ -88,18 +89,18 @@
 									                        <tr>
 									                            <th>#</th>
 									                            <th>Name</th>
-									                            <th>Date</th>
-									                            <th>Result</th>
+									                           <!--  <th>Date</th> -->
+									                           <!--  <th>Result</th> -->
 									                            <!-- <th>Assigning Dr</th> -->
 									                            <!-- <th>Action</th> -->
 									                        </tr>
 									                        </thead>
 									                        <tbody>
-									                         <tr v-if="res.removed == false" :id="res.tr_id" v-for="(res,index) in labReportData">
+									                         <tr :id="res.tr_id" v-for="(res,index) in labReportData">
 									                            <td>{{++index}}</td> 
-									                            <td>{{res.text }}</td>
-									                            <td>{{res.lab_date.time}}</td>
-									                            <td>{{res.result}}</td>
+									                            <td>{{res.name }}</td>
+									                           <!--  <td>{{res.lab_date.time}}</td> -->
+									                            <!-- <td>{{res.result}}</td> -->
 									                            <!-- <td>{{res.assign}}</td> -->
 									                            <!-- <td> <i class="fa fa-remove" @click="removeLaboratory(res.id)"></i></td> -->
 									                          </tr>
@@ -142,7 +143,7 @@
 		                            <td>{{res.special_request}}</td>
 		                            <td>{{res.textData | strLimit}}</td>
 		                            <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
-		                            <td></td>
+		                            
 		                        </tr>
                         		</tbody>
                     			</table>
@@ -342,18 +343,18 @@
 									                    <tr>
 									                    <th>#</th>
 									                    <th>Name</th>
-									                    <th>Date</th>
-									                    <th>Result</th>
+									                   <!--  <th>Date</th>
+									                   <th>Result</th> -->
 									                    <!-- <th>Assigning Dr</th> -->
 									                    <!-- <th>Action</th> -->
 									                    </tr>
 									                </thead>
 									                <tbody>
-									                    <tr v-if="res.removed == false" :id="res.tr_id" v-for="(res,index) in labReportData">
+									                    <tr :id="res.tr_id" v-for="(res,index) in labReportData">
 									                            <td>{{++index}}</td> 
-									                            <td>{{res.text }}</td>
-									                            <td>{{res.lab_date.time}}</td>
-									                            <td>{{res.result}}</td>
+									                            <td>{{res.name }}</td>
+									                            <!-- <td>{{res.lab_date.time}}</td>
+									                            <td>{{res.result}}</td> -->
 									                           <!--  <td>{{res.assign}}</td> -->
 									                            <!-- <td> <i class="fa fa-remove" @click="removeLaboratory(res.id)"></i></td> -->
 									                    </tr>
@@ -417,6 +418,8 @@
 	import prescriptionData from './prescriptionData.vue';
 	import prescriptionPrint from './prescriptionPrint.vue';
 	import moment from 'moment';
+	import print from 'print-js'
+	import _ from 'lodash';
 	var myDate = new Date();
 				var month = ('0' + (myDate.getMonth() + 1)).slice(-2);
 				var date = ('0' + myDate.getDate()).slice(-2);
@@ -425,19 +428,25 @@
 	export default {
 		data() {
 			return{
+				'printContent':'',
+				'print_content_shows':false,
 				'adviceType' :this.$store.state.Patient.opdData.adviceType,
 				'adviceDoctor':this.$store.state.Users.userDetails.first_name+' '+this.$store.state.Users.userDetails.last_name,
 				'referalType':this.$store.state.Patient.opdData.referral,
 				'crossType':this.$store.state.Patient.opdData.cross,
 				'radiologyData':this.$store.state.Patient.opd_resultData,
+				//'radiologyData':this.$store.state.Patient.opdData.reffreal_radiology_array,
 				'printType':'opd_case',
 				'todayDate' : formattedDate,
 				'crossSelectedValue' : '',
 				'adviceScribleValue' : '',
 				'advice' : this.$store.state.Patient.opdData.advice,
 				'prescriptiData' : this.$store.state.Patient.prescriptionData,
-				'radioReportData' : this.$store.state.Patient.radioData, 
-				'labReportData' : this.$store.state.Patient.laboratoryData.type,
+
+				//'radioReportData' : this.$store.state.Patient.radioData, 
+				'radioReportData' : this.$store.state.Patient.opdData.reffreal_radiology_array, 
+				//'labReportData' : this.$store.state.Patient.laboratoryData.type,
+				'labReportData' :  this.$store.state.Patient.opdData.reffreal_laboratory_array,
 				'consultntId' : '',
 				'consultName' : '',
 				'signatureName' : '',
@@ -497,7 +506,7 @@
 		methods: {
 			print_multiple_report()
 			{
-				this.ClickHereToPrint('opd_case');
+				this.ClickHereToPrintMultiple('opd_case');
 			},
 			getPatientData(patinetId)
 			{
@@ -513,7 +522,7 @@
 
 	  				}
   				);
-  				User.getLastOPDIdByPatientId(patinetId).then(
+  				User.getOPDDetailsByPatientId(patinetId).then(
   					(response) => {
 	  					
 	  					if(response.data.code == 200){
@@ -602,7 +611,67 @@
 						
 				}
 			},
-			ClickHereToPrint(p_type) {
+			ClickHereToPrintMultiple()
+			{
+				let vm = this;
+				const style = '@page { margin: 0 } @media print { .page-break {page-break-after: always; page-break-inside: avoid; page-break-before: avoid; break-after: always; break-inside: avoid; break-before: avoid; } }'
+				var  OPDCaseData = {
+					'advice' : this.advice,
+					'adviceType' : this.adviceType,
+					'adviceDoctor' : this.adviceDoctor,
+					'priscriptionData': this.prescriptiData,
+					'referalType' :this.referalType,
+					'crossType' : this.crossType,
+					'radiologyData' : this.radiologyData,
+					'todayDate': this.todayDate,
+					'crossSelectedValue' : this.crossSelectedValue,
+					'adviceScribleValue' : this.adviceScribleValue,
+					'printType' : 'opd_case',
+					'radioReportData' : this.radioReportData,
+					'labReportData' : this.labReportData,
+					'signatureName' : this.signatureName,
+					'timeStamp' : this.timeStamp,
+					'regNo' : this.regNo,
+					'followup' : this.followup,
+					'checkedreportList' : this.checkedreportList,
+					'patientDetail' : this.patientDetail,
+					'patientCheckupDetail' : this.patientCheckupDetail,
+					'department' : this.department,
+					'provisional_diagnostic' : this.provisional_diagnostic
+				};
+
+		      	User.printOPDCaseMultipleData(OPDCaseData).then(	
+                (response) => {
+                	var printContent = "";
+                	printContent = response.data;
+	    	 		var windowUrl = '';
+			        var uniqueName = '';/*new Date();	*/
+			        var windowName = '';/*'Print' + uniqueName.getTime();	*/
+			        var printWindow = window.open('','','left=0,top=0,width=950,height=600,toolbar=0,scrollbars=0,status=0,addressbar=0');
+			        var is_chrome = Boolean(printWindow.chrome);
+					printWindow.document.write(printContent);
+					printWindow.document.close(); 
+					 if (is_chrome) {
+				        setTimeout(function () { // wait until all resources loaded 
+				            printWindow.focus(); // necessary for IE >= 10
+				            printWindow.print();  // change window to printWindow
+				            return false;
+				            printWindow.close();// change window to printWindow
+				        }, 250);
+				    }
+				    else {
+				         // necessary for IE >= 10
+				        printWindow.focus(); // necessary for IE >= 10
+				        printWindow.print();
+				        printWindow.close();
+				    }
+            	},	
+                (error) => {	
+                	 $("body .js-loader").addClass('d-none');
+                	}	
+                );
+			},
+			ClickHereToPrint() {
 				
 				let vm = this;
 				var  OPDCaseData = {
@@ -634,7 +703,9 @@
 						};
 
 				      	User.printOPDCaseData(OPDCaseData).then(	
-		                (response) => { 
+		                (response) => {
+
+
 		                	var printContent = "";
 		                	printContent = response.data;	
 				        	//$('#receiptModal').modal({show:true}); 

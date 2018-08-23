@@ -346,5 +346,12 @@ export default {
   },
   getPatientCaseDetailByOpdId(opdId){
     return api.post('patient/patientCaseDetailInfo',{'opdId':opdId});
+  },
+  getOPDDetailsByPatientId(pid)
+  {
+       return api.post('patient/getOPDDetailsByPatientId',{'pid':pid});
+  },
+  printOPDCaseMultipleData(OPDCaseData){
+      return api.post('print/opdcaseMultiple',{'OPDCaseData':OPDCaseData});
   }
 }

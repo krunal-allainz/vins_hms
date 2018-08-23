@@ -399,6 +399,15 @@ class PatientsDetailFormController extends Controller
         $patientCaseDetail = $this->patientOBJ->getPatientCaseDetailByOpdId($opdId);
           if ($patientCaseDetail) {
             return ['code' => '200','data'=>$patientCaseDetail, 'message' => 'Record Sucessfully created'];
+
+    public function getOPDDetailsByPatientId(Request $request)
+    {
+        
+        $patient_id = $request->pid;
+        $patientDetail = $this->patientOBJ->getOPDDetailsByPatientId($patient_id);
+
+        if ($patientDetail) {
+            return ['code' => '200','data'=>$patientDetail, 'message' => 'Record Sucessfully created'];
         } else {
             return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
         }

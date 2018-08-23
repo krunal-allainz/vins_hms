@@ -1276,19 +1276,36 @@
                     },
                 );
                 //for opd list
-               
-                User.getLastOPDIdByPatientId(vm.opdData.patientlist).then(
+                User.getOPDDetailsByPatientId(vm.opdData.patientlist).then(
                     (response) => {
                       let opdID ;
-                      let lastVist;
                       opdID = response.data.data.id;
-                      lastVist = response.data.data.appointment_datetime;
-                        vm.opdData.opd_id=opdID;
-                        vm.opdData.last_vist=lastVist;
+                      User.getLastOPDIdByPatientId(vm.opdData.patientlist).then(
+                          (response) => {
+                            let lastVist;
+                            lastVist = response.data.data.appointment_datetime;
+                              vm.opdData.opd_id=opdID;
+                              if(lastVist)
+                              {
+                                  vm.opdData.last_vist=lastVist;
+                              }
+                              else
+                              {
+                                   vm.opdData.last_vist="N/A";
+                              }
+                              
+                            },
+                            (error) => {
+                            },
+                      );
+                     
+                      
                       },
                       (error) => {
                       },
                 );
+
+                
 
               User.getVitalsInfoByPatientId(vm.opdData.patientlist).then(
               (response) => {
