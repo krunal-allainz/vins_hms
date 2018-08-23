@@ -99,5 +99,14 @@ class PatientDetailsForm extends Model
         return $this->hasMany('euro_hms\Models\OpdDetails');
       }
 
+    public function patientCaseManagment()
+    {
+        return $this->belongsTo('euro_hms\Models\PatientCaseManagment','patient_id');
+    }
+
+    public function tokenManagment(){
+       return $this->belongsTo('euro_hms\Models\TokenManagment','patient_id');
+    }
+
     
 }
