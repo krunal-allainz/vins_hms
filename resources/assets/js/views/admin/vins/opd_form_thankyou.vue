@@ -114,12 +114,12 @@
 								 	</div>
 			 <div>	
 			 	<div v-if="(printType == 'radiology')">
-			 		<div class='row' v-if="(!radioReportData)">
+			 		<div class='row' v-if="(radioReportData)">
 			 				<div class='col-md-12 text-center'>
 			 					<h4>Radiology Report</h4>
 			 				</div>
 			 		</div>
-			 		<div class="row"  v-if="(!radioReportData)">
+			 		<div class="row"  v-if="(radioReportData)">
         				<div class="col-md-12">
         					<div class="">
                     			<table class="table table-striped table-bordered" id="radio_list">
@@ -293,12 +293,12 @@
 		    	 	 			</div>
 		    	 	 		</div>
 	    	 	 			<div v-if="(reportName == 'Radiology')">
-	    	 	 				<div class='row' v-if="(!radioReportData)">
+	    	 	 				<div class='row' v-if="(radioReportData)">
 				 					<div class='col-md-12 text-center'>
 				 							<h4>Radiology Report</h4>
 				 					</div>
 				 				</div>
-			 					<div class="row"  style="padding-left: 15px;padding-right:15px;" v-if="(!radioReportData)">
+			 					<div class="row"  style="padding-left: 15px;padding-right:15px;" v-if="(radioReportData)">
         							<div class="col-md-12">
         									<div class="">
                     							<table class="table table-striped table-bordered" id="radio_list">

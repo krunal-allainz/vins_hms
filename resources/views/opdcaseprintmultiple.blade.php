@@ -375,7 +375,7 @@
 				</div>
 			</div>
 			@endif
-			@if($data['followup'] != '')
+			@if(isset($data['followup']) && $data['followup'] != '')
 			<div  style="padding-left: 35px;">
 				<div class='col-md-6 text-left'>
 					<span class='text-left'><b>Followup :-</b></span>
