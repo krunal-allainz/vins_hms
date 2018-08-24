@@ -26,9 +26,9 @@
 
     	 	 		<button  v-if="(labReportData)" type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('lab')" >Lab Report</button>
 
-    	 	 		<button  v-if="(!radioReportData)" type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('radiology')" >Radiology Report</button>
+    	 	 		<button  v-if="(radioReportData)" type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('radiology')" >Radiology Report</button>
 
-    	 	 		<button v-if="(!prescriptiData)" type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('prescription')">Print Prescription</button>
+    	 	 		<button v-if="(prescriptiData)" type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('prescription')">Print Prescription</button>
     	 	 		
     	 	 		<!-- <button type="button" class="btn btn-primary btn-submit text-right" @click = "GetSelectComponent('patients_receipt_form')">Generate Receipts</button>  -->
     	 	 	<!--</div> -->
@@ -638,7 +638,8 @@
 					'patientDetail' : this.patientDetail,
 					'patientCheckupDetail' : this.patientCheckupDetail,
 					'department' : this.department,
-					'provisional_diagnostic' : this.provisional_diagnostic
+					'provisional_diagnostic' : this.provisional_diagnostic,
+					'doctoreName' : this.doctoreName
 				};
 
 		      	User.printOPDCaseMultipleData(OPDCaseData).then(	

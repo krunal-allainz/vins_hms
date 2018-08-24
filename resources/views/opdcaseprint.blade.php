@@ -986,7 +986,7 @@
 @endif
 	
 	<div style="width:100%height:200px;right:30px;" class="text-right">
-		<img  :src="{{$url.'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/>
+		<img src="{{$url.'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/>
 	</div>	
 	<div style="width:100%height:200px;right:30px;" class="text-right">
 	 	<!-- <img  :src="{{$url.'/assets/img/timestamp/'.$data['timeStamp'].'.png'}}" height="66" width="182"/> -->

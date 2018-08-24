@@ -20,6 +20,14 @@
 	    background-clip: padding-box;
 	  
 	}
+	.page-break {
+		page-break-after: always; 
+		page-break-inside: avoid; 
+		page-break-before: avoid; 
+		break-after: always; 
+		break-inside: avoid; 
+		break-before: avoid; 
+	}
 	.row {
 	    margin-right: -15px;
 	    margin-left: -15px;
@@ -566,23 +574,17 @@
 	@endif
 		
 		<div style="width:100%height:200px;right:30px;" class="text-right">
-			<!-- <img  :src="{{$url.'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/> -->
-			<span><b>{{$data['signatureName']}}</b></span>
-		</div>	
-		<div style="width:100%height:200px;right:30px;" class="text-right">
-		 	<!-- <img  :src="{{$url.'/assets/img/timestamp/'.$data['timeStamp'].'.png'}}" height="66" width="182"/> -->
-		 	<span><b>{{$data['timeStamp']}}</b></span><br>
-		 	<span><b>{{$data['regNo']}}</b></span>
-		</div>
-		<div style="">
-		<div class="row" style="padding-right:20px;font-size: 15px;right:0px;">
-			<div class='col-md-12 text-right'>
-				<span class='text-right'><b>Consultant's Signature</b></span>
-			</div>
-		</div>	
+		<img src="{{$url.'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/>
+	</div>	
+	<div style="width:100%height:200px;right:30px;" class="text-right">
+	 	<span><b>{{$data['doctoreName']}}</b></span><br/>
+	 	<span><b>{{$data['timeStamp']}}</b></span><br>
+	 	<span><b>{{$data['regNo']}}</b></span>
+	</div>
+	<div style="">
 	</div>
 	
-	   <div style="background-color: dodgerblue;color: white;bottom:0;width:100%;height:170px;left:0">
+	   <div class="footer" style="background-color: dodgerblue;color: white;bottom:0;width:100%;height:170px;left:0">
 
 	      <div class="row text-center">
 	          <div class="col-md-12">

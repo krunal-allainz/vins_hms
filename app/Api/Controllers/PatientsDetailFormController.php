@@ -394,12 +394,24 @@ class PatientsDetailFormController extends Controller
         }
     }
 
+    /**
+     * [getPatientCaseDetailByOpdId description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function getPatientCaseDetailByOpdId(Request $request){
         $opdId = $request->opdId;
         $patientCaseDetail = $this->patientOBJ->getPatientCaseDetailByOpdId($opdId);
-          if ($patientCaseDetail) {
+        if ($patientCaseDetail) {
             return ['code' => '200','data'=>$patientCaseDetail, 'message' => 'Record Sucessfully created'];
+        }
+    }
 
+    /**
+     * [getOPDDetailsByPatientId description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function getOPDDetailsByPatientId(Request $request)
     {
         
