@@ -583,6 +583,7 @@
 	  				(response) => {
 	  					
 	  					if(response.data.code == 200){
+	  						//console.log(response.data.data);
 	  						vm.patientDetail = response.data.data;
 	  					}
 	  				},
@@ -736,8 +737,8 @@
 
 
 		                	var printContent = "";
-		                	printContent = response.data;	
-				        	//$('#receiptModal').modal({show:true}); 
+		                	printContent = response.data;
+		                	 //$('#receiptModal').modal({show:true}); 
 		                	// try {
 		                    var windowUrl = '';	
 					       // var uniqueName = new Date();	
@@ -765,10 +766,11 @@
 						    }
 	
 
-				    // 	}	
-				    // catch (e) {	
-				    //     self.print();	
-				    // }	
+						    // 	}	
+						    // catch (e) {	
+						    //     self.print();	
+						    // }	
+				        	
 	
 		            	},	
 		                (error) => {	
@@ -778,6 +780,12 @@
 		                )	
 	
 				    	
+				},
+				html2text(html) {
+				    var tag = document.createElement('div');
+				    tag.innerHTML = html;
+				    
+				    return tag.innerText;
 				},
 				 GetSelectComponent(componentName) {
 		       this.$router.push({name: componentName})
