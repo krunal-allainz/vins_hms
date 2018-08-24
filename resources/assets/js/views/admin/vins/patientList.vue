@@ -79,7 +79,7 @@
                      <!--     <option data-v-744e717e="" value="-1">All</option> -->
                      </select> 
                      <div data-v-744e717e="" class="datatable-info  pb-2 mt-3">
-                        <span data-v-744e717e="">Showing </span> 1 - {{perPage}} of {{pagination.total}}
+                        <span data-v-744e717e="">Showing </span> 1 - {{pagination.to}} of {{pagination.total}}
                         <span data-v-744e717e="">records</span>
                     </div>
                 </div>
@@ -169,7 +169,8 @@
                     next_page_url: data.next_page_url,
                     prev_page_url: data.prev_page_url,
                     total : data.total,
-                    from : data.from
+                    from : data.from,
+                    to : data.to
                 }
                 this.pagination = pagination;
                 //this.$set('pagination', pagination)
