@@ -892,7 +892,10 @@
           });
          var vm =this;
          let opd_list_new=[];
-        
+           if(this.$store.state.Patient.patientId != ''){
+              vm.opdData.patientlist= this.$store.state.Patient.patientId;
+              $('#patient').val(vm.opdData.patientlist).trigger('change:select2');
+          }
           vm.$store.dispatch('resetOpdForm');
 
          
@@ -1112,6 +1115,7 @@
           });
          
           setTimeout(function(){
+
             $('#patient').select2({
               placeholder: "Select",
               tags:false 
@@ -1123,6 +1127,7 @@
             vm.opdData.patientlist=patientId;
             vm.$store.dispatch('SetPatientId',patientId);             
             vm.get_vitals();
+
           });
           $(document).on('hidden.bs.modal','#createPatientDetail', function () {
             $('#case_type').val('old').trigger('change.select2');
@@ -1155,10 +1160,6 @@
                   });
 
               }, 8000);
-              if(this.$store.state.Patient.patientId != ''){
-                vm.opdData.patientlist= this.$store.state.Patient.patientId;
-                $('#patient').val(vm.opdData.patientlist).trigger('change:select2');
-               }
             },
           getResults(patient_list_new) {
             var vm =this;
