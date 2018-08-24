@@ -675,7 +675,6 @@
 		</div>
 			@endif
 		@endif
-		@if(in_array( 'Advice + follow ups',$data['checkedreportList']))
 		@if(isset($data['advice']) && isset($data['adviceType']))
 		<div  style="padding-left: 35px;">
 			<div class='col-md-6 text-left'>
@@ -689,7 +688,6 @@
 				@endif
 			</div>
 		</div>
-		@endif 
 		@endif 
 		@if(isset($data['referalType']))
 	@if($data['referalType'] != null && $data['crossSelectedValue'] != '')
@@ -781,7 +779,7 @@
         	</div>
         </div>
   	</div>
-<<<<<<< HEAD
+
   	@endif
 	@endif
 	@if(in_array('Laboratory',$data['checkedreportList'] ))
