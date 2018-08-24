@@ -271,6 +271,7 @@
  	}
 
 
+
    /**
      * [getOPDIdByPatientId description]
      * @param  [type] $id [description]
@@ -278,7 +279,19 @@
      */
     public function getLastOPDIdByPatientId($pid)
     {
-        return OpdDetails::where('patient_id',$pid)->orderBy('id', 'desc')->first();
+        $today=Carbon::now()->format('Y-m-d');
+        $patient_last_id=PatientCaseManagment::where('patient_id',$pid)->whereDate('appointment_datetime','<',$today)->orderBy('id', 'desc')->first();
+        return $patient_last_id;
+    }
+
+     /**
+      * [getOPDDetailsByPatientId description]
+      * @param  [type] $pid [description]
+      * @return [type]      [description]
+      */
+    public function getOPDDetailsByPatientId($pid)
+    {
+        return OpdDetails::where('patient_id',$pid)->first();
     }
 
     /**
@@ -596,6 +609,11 @@
             return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
         }
         
+    }
+
+    public function getPatientCaseDetailByOpdId($opdId){ 
+      $result = PatientCaseManagment::where('section_id',$opdId)->orderBy('id')->first();
+       return $result;
     }
  }
 ?>

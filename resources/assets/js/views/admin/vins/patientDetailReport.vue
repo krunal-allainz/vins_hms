@@ -35,9 +35,14 @@
 					</div>
 					<div class="col-md-4 text-center">
 					 	<label><b>Age/Sex:</b></label>
-						<span>{{patientDetail.age}}</span>
-						<span v-if="(patientDetail.gender == 'F')"><b>/Female</b></span>
-						<span v-if="(patientDetail.gender == 'M')"><b>/Male</b></span>
+						<span v-if="(patientDetail.age > 1000)">
+							<span v-if="(((currentYear) - (patientDetail.age)) > 0)">{{(currentYear) - (patientDetail.age)}}</span>	
+							<span v-else> 1</span>
+
+						</span>
+						<span v-if="(patientDetail.age  < 1000)">{{patientDetail.age}}</span>
+						<span v-if="(patientDetail.gender == 'F')"><b>/ Female</b></span>
+						<span v-if="(patientDetail.gender == 'M')"><b>/ Male</b></span>
 					</div>
 			</div>
 			<div class="row">
@@ -69,6 +74,12 @@
 <script>
      export default {
         props: ['patientDetail','consult_dr','department','reg_no','refer_dr','todayDate'],
+        data() {
+			return{
+				'currentYear': (new Date()).getFullYear(),
+			}
+		}
+
     }
 
 </script>

@@ -331,35 +331,13 @@
         mounted() {
             let vm=this;
              $('#prescription').on("select2:select", function (e) {
-            // console.log($(this).data()[0].formalation);
-            vm.prespFinalRes=[];
-            $('#how_many_times').val(null).trigger('change');
-             vm.prescriptFinalData.how_many_times="";
-              $('#qhrs').val(null).trigger('change');
-             vm.prescriptFinalData.qhrs="";
-            let presId = $('#prescription').select2('data')[0].id;
-            vm.prescriptFinalData.prescription=$('#prescription').select2('data')[0].text;
-            vm.prescriptFinalData.prescription_id=presId;
-            //vm.prescriptFinalData.prescription_quantity = '1';
-            vm.prescriptFinalData.prescription_unit = 'TAB.';
-            vm.prescriptFinalData.prescription_time = '1';
-            vm.prescriptFinalData.total_prescription_days = '1';
-            
-            // vm.prescriptFinalData.prescription = $(this).text();
-            _.find(vm.prescriptionOption, function(res) {
-                    if(res.id == presId) {
-                         vm.prescriptFinalData.prescription_unit=res.formulation;
-                     
-                    }
-                });
+              let presId = $('#prescription').select2('data')[0].id;
+              vm.prescriptFinalData.prescription=$('#prescription').select2('data')[0].text;
+              vm.prescriptFinalData.prescription_id=presId;
+              vm.checkPrescription();
            });
             setTimeout(function(){vm.getPrescriptionList(); },500);
-            
-            /*$('.clockpicker').clockpicker().find('input').change(function(){
-                vm.prescriptFinalData.clock_time=this.value;
-                vm.prescriptFinalData.clock_quantity=1;
-                jQuery('input:radio[name="clock_suggest"]').filter('[value="ES"]').attr('checked', true);
-            });*/
+           
             $('#how_many_times').on("select2:select", function (e) {
                 vm.prescriptFinalData.how_many_times=$(this).val();
                   setTimeout(function(){
@@ -386,6 +364,53 @@
           
         },
         methods: {
+          checkPrescription()
+          {
+              let vm=this;
+              let p_name=vm.prescriptFinalData.prescription;
+              let p_id=vm.prescriptFinalData.prescription_id;
+              let check_duplicate=vm.check_duplicate_prescription(p_id,vm.prescriptFinalData.prescriptionNameList);
+              if(check_duplicate>0)
+              {
+                  vm.clearPrespData();
+                  toastr.error('Prescription already exist.', 'Prescription error', {timeOut: 5000});
+                  return false;
+              }
+              else
+              {
+                vm.setPrescription();
+              }
+          },
+          check_duplicate_prescription(id,array)
+          {
+              var length=0;
+              var i=0;
+              for(i=0;i<array.length;i++)
+              {
+                  if(array[i]['pid']==id && array[i]['remove']=='false')
+                  {
+                      length++;
+                  }
+              }
+              return length;
+          },
+          setPrescription()
+          {
+              let vm=this;
+              vm.prespFinalRes=[];
+              $('#how_many_times').val(null).trigger('change');
+              vm.prescriptFinalData.how_many_times="";
+              $('#qhrs').val(null).trigger('change');
+              vm.prescriptFinalData.qhrs="";
+              vm.prescriptFinalData.prescription_unit = 'TAB.';
+              vm.prescriptFinalData.prescription_time = '1';
+              vm.prescriptFinalData.total_prescription_days = '1';
+              _.find(vm.prescriptionOption, function(res) {
+                if(res.id == vm.prescriptFinalData.prescription_id) {
+                     vm.prescriptFinalData.prescription_unit=res.formulation; 
+                }
+              });
+          },
           initData()
           {
             let vm =this;
@@ -431,15 +456,6 @@
               let vm=this;
               let p_name=this.prescriptFinalData.prescription;
               let p_id=this.prescriptFinalData.prescription_id;
-              let check_duplicate=vm.check_duplicate(p_id,how_val,vm.prescriptFinalData.prescriptionNameList,'duplicate');
-              //return false;
-              let check_length=vm.check_type_length(p_id,how_val,clocktimedata);
-               
-                if(check_duplicate==true || check_length=='Yes')
-                {
-                    toastr.error('Prescription already exist.', 'Prescription error', {timeOut: 5000});
-                    return false;
-                }
               setTimeout(function(){
                   $('.clockpicker').clockpicker({donetext: 'Done',autoclose: true});
                   $('.clockpicker').clockpicker().find('input').change(function(){
@@ -702,7 +718,7 @@
           {
               let vm =this;
               vm.t_qt=array.clock_quantity;
-              var clock_time_1="00:00",clock_time_2="00:00",clock_time_3="00:00",clock_time_4="00:00";
+              var clock_time_1="--:--",clock_time_2="--:--",clock_time_3="--:--",clock_time_4="--:--";
               var clock_quantity_1=0,clock_quantity_2=0,clock_quantity_3=0,clock_quantity_4=0;
               var clock_suggest_1='--',clock_suggest_2='--',clock_suggest_3='--',clock_suggest_4='--';
               if(array.clock_time=="")

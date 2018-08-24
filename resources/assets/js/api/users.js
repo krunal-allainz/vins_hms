@@ -343,5 +343,15 @@ export default {
   getVitalsValidity(vitalId)
   {
        return api.post('patient/getVitalsValidity',{'vitalId':vitalId});
+  },
+  getPatientCaseDetailByOpdId(opdId){
+    return api.post('patient/patientCaseDetailInfo',{'opdId':opdId});
+  },
+  getOPDDetailsByPatientId(pid)
+  {
+       return api.post('patient/getOPDDetailsByPatientId',{'pid':pid});
+  },
+  printOPDCaseMultipleData(OPDCaseData){
+      return api.post('print/opdcaseMultiple',{'OPDCaseData':OPDCaseData});
   }
 }

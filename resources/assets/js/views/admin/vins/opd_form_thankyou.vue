@@ -26,9 +26,9 @@
 
     	 	 		<button  v-if="(labReportData)" type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('lab')" >Lab Report</button>
 
-    	 	 		<button  v-if="(radioReportData != null)" type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('radiology')" >Radiology Report</button>
+    	 	 		<button  v-if="(!radioReportData)" type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('radiology')" >Radiology Report</button>
 
-    	 	 		<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('prescription')">Print Prescription</button>
+    	 	 		<button v-if="(!prescriptiData)" type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('prescription')">Print Prescription</button>
     	 	 		
     	 	 		<!-- <button type="button" class="btn btn-primary btn-submit text-right" @click = "GetSelectComponent('patients_receipt_form')">Generate Receipts</button>  -->
     	 	 	<!--</div> -->
@@ -52,8 +52,7 @@
 					</div>
 
 					<!-- <button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button> -->
-					<!-- <button type="button" class="btn btn-primary btn-submit text-right" @click="print_multiple_report()">Print</button> -->
-					
+					<button type="button" class="btn btn-primary btn-submit text-right" @click="print_multiple_report()">Print</button>
 
 					<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button>
 					<!-- <button ty pe="button" lass="btn btn-primary btn-submit text-right" >Print</button> -->
@@ -72,7 +71,7 @@
 			 					<div  id="printContent">
 			 					</div>
 			 					<vinsletterheadheaderpart></vinsletterheadheaderpart>
-			 					<patientDetailReport :patientDetail="patientDetail" :consult_dr="adviceDoctor" :todayDate="todayDate"  :department="department" :reg_no="regNo"></patientDetailReport>
+			 					<patientDetailReport :patientDetail="patientDetail" :consult_dr="adviceDoctor" :todayDate="todayDate"  :department="department" :reg_no="regNo" :refer_dr="reference"></patientDetailReport>
 			 					<patientCheckupReport :patientCheckupDetail="patientCheckupDetail"></patientCheckupReport>
 								 	<div v-if="(printType == 'lab')" >
 								 		
@@ -81,6 +80,7 @@
 								 					<h4>Lab Report</h4>
 								 				</div>
 								 			</div>
+
 								 			   <div class="form-group" v-if="labReportData != null">
 									                <div class="col-md-12">
 									                  <div class="">
@@ -89,18 +89,18 @@
 									                        <tr>
 									                            <th>#</th>
 									                            <th>Name</th>
-									                            <th>Date</th>
-									                            <th>Result</th>
+									                           <!--  <th>Date</th> -->
+									                           <!--  <th>Result</th> -->
 									                            <!-- <th>Assigning Dr</th> -->
 									                            <!-- <th>Action</th> -->
 									                        </tr>
 									                        </thead>
 									                        <tbody>
-									                         <tr v-if="res.removed == false" :id="res.tr_id" v-for="(res,index) in labReportData">
+									                         <tr :id="res.tr_id" v-for="(res,index) in labReportData">
 									                            <td>{{++index}}</td> 
-									                            <td>{{res.text }}</td>
-									                            <td>{{res.lab_date.time}}</td>
-									                            <td>{{res.result}}</td>
+									                            <td>{{res.name }}</td>
+									                           <!--  <td>{{res.lab_date.time}}</td> -->
+									                            <!-- <td>{{res.result}}</td> -->
 									                            <!-- <td>{{res.assign}}</td> -->
 									                            <!-- <td> <i class="fa fa-remove" @click="removeLaboratory(res.id)"></i></td> -->
 									                          </tr>
@@ -113,15 +113,13 @@
 									              </div>
 								 	</div>
 			 <div>	
-			
-
 			 	<div v-if="(printType == 'radiology')">
-			 		<div class='row'>
+			 		<div class='row' v-if="(!radioReportData)">
 			 				<div class='col-md-12 text-center'>
 			 					<h4>Radiology Report</h4>
 			 				</div>
 			 		</div>
-			 		<div class="row" >
+			 		<div class="row"  v-if="(!radioReportData)">
         				<div class="col-md-12">
         					<div class="">
                     			<table class="table table-striped table-bordered" id="radio_list">
@@ -145,7 +143,7 @@
 		                            <td>{{res.special_request}}</td>
 		                            <td>{{res.textData | strLimit}}</td>
 		                            <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
-		                            <td></td>
+		                            
 		                        </tr>
                         		</tbody>
                     			</table>
@@ -295,12 +293,12 @@
 		    	 	 			</div>
 		    	 	 		</div>
 	    	 	 			<div v-if="(reportName == 'Radiology')">
-	    	 	 				<div class='row'>
+	    	 	 				<div class='row' v-if="(!radioReportData)">
 				 					<div class='col-md-12 text-center'>
 				 							<h4>Radiology Report</h4>
 				 					</div>
 				 				</div>
-			 					<div class="row"  style="padding-left: 15px;padding-right:15px;">
+			 					<div class="row"  style="padding-left: 15px;padding-right:15px;" v-if="(!radioReportData)">
         							<div class="col-md-12">
         									<div class="">
                     							<table class="table table-striped table-bordered" id="radio_list">
@@ -332,12 +330,12 @@
         							</div>
     	 	 					</div>
     	 	 					<div v-if="(reportName == 'Laboratory')">
-    	 	 						<div class='row'>
+    	 	 						<div class='row' v-if="(labReportData)">
 										<div class='col-md-12 text-center'>
 						 					<h4>Lab Report</h4>
 						 				</div>
 						 			</div>
-								 	<div class="form-group" v-if="labReportData != 'null'">
+								 	<div class="form-group" v-if="(labReportData)">
 									    <div class="col-md-12">
 										    <div class="">
 									            <table class="table table-striped table-bordered" id="laboratory_table_list">
@@ -345,18 +343,18 @@
 									                    <tr>
 									                    <th>#</th>
 									                    <th>Name</th>
-									                    <th>Date</th>
-									                    <th>Result</th>
+									                   <!--  <th>Date</th>
+									                   <th>Result</th> -->
 									                    <!-- <th>Assigning Dr</th> -->
 									                    <!-- <th>Action</th> -->
 									                    </tr>
 									                </thead>
 									                <tbody>
-									                    <tr v-if="res.removed == false" :id="res.tr_id" v-for="(res,index) in labReportData">
+									                    <tr :id="res.tr_id" v-for="(res,index) in labReportData">
 									                            <td>{{++index}}</td> 
-									                            <td>{{res.text }}</td>
-									                            <td>{{res.lab_date.time}}</td>
-									                            <td>{{res.result}}</td>
+									                            <td>{{res.name }}</td>
+									                            <!-- <td>{{res.lab_date.time}}</td>
+									                            <td>{{res.result}}</td> -->
 									                           <!--  <td>{{res.assign}}</td> -->
 									                            <!-- <td> <i class="fa fa-remove" @click="removeLaboratory(res.id)"></i></td> -->
 									                    </tr>
@@ -381,20 +379,21 @@
 		 				</div>
 		 				
 		 				<div class='text-right'>
-		 					<!-- <img  :src="'/assets/img/signature/'+signatureName+'.png'" height="66" width="182"/> -->
-		 					<span><b>{{signatureName}}</b></span>
+		 					<img  :src="'/assets/img/signature/'+signatureName+'.png'" height="66" width="182"/>
+		 					
 		 				</div>	
 		 				<div class='text-right'>
 		 					<!-- <img  :src="'/assets/img/timestamp/'+timeStamp+'.png'" height="66" width="182"/> -->
+		 					<span><b>{{doctoreName}}</b></span><br/>
 		 					<span><b>{{timeStamp}}</b></span><br>
 		 					<span><b>{{regNo}}</b></span>
 						</div>	
 	 					<div >	
-	 						<div class="row" >
+	 						<!-- <div class="row" >
             				<div class='col-md-12 text-right'>
 								<span class='text-right'><b>Consultant's Signature</b></span>
 	 						</div>
-						</div>	
+						</div>	 -->
 					</div>
 				</div>
 				<vinsletterheadfooterpart></vinsletterheadfooterpart>
@@ -419,6 +418,8 @@
 	import prescriptionData from './prescriptionData.vue';
 	import prescriptionPrint from './prescriptionPrint.vue';
 	import moment from 'moment';
+	import print from 'print-js'
+	import _ from 'lodash';
 	var myDate = new Date();
 				var month = ('0' + (myDate.getMonth() + 1)).slice(-2);
 				var date = ('0' + myDate.getDate()).slice(-2);
@@ -427,22 +428,29 @@
 	export default {
 		data() {
 			return{
+				'printContent':'',
+				'print_content_shows':false,
 				'adviceType' :this.$store.state.Patient.opdData.adviceType,
 				'adviceDoctor':this.$store.state.Users.userDetails.first_name+' '+this.$store.state.Users.userDetails.last_name,
 				'referalType':this.$store.state.Patient.opdData.referral,
 				'crossType':this.$store.state.Patient.opdData.cross,
 				'radiologyData':this.$store.state.Patient.opd_resultData,
+				//'radiologyData':this.$store.state.Patient.opdData.reffreal_radiology_array,
 				'printType':'opd_case',
 				'todayDate' : formattedDate,
 				'crossSelectedValue' : '',
 				'adviceScribleValue' : '',
 				'advice' : this.$store.state.Patient.opdData.advice,
 				'prescriptiData' : this.$store.state.Patient.prescriptionData,
-				'radioReportData' : this.$store.state.Patient.radioData, 
-				'labReportData' : this.$store.state.Patient.laboratoryData.type,
-				'consultntId' : this.$store.state.Users.userDetails.id,
+
+				//'radioReportData' : this.$store.state.Patient.radioData, 
+				'radioReportData' : this.$store.state.Patient.opdData.reffreal_radiology_array, 
+				//'labReportData' : this.$store.state.Patient.laboratoryData.type,
+				'labReportData' :  this.$store.state.Patient.opdData.reffreal_laboratory_array,
+				'consultntId' : '',
 				'consultName' : '',
 				'signatureName' : '',
+				'doctoreName' :'',
 				'timeStamp' : '',
 				'regNo':'',
 				'followup' : this.$store.state.Patient.neuroExaminationData.follow_up,
@@ -463,7 +471,9 @@
 		      	'patientDetail' : {},
 		      	'patientCheckupDetail' : {},
 		      	'department': '',
-		      	'provisional_diagnostic' : this.$store.state.Patient.opdData.provisional_diagnosis
+		      	'provisional_diagnostic' : this.$store.state.Patient.opdData.provisional_diagnosis,
+		      	'reference' : '',
+		      	'sectionOpdId' : ''
 			}
 		},
 		components: {
@@ -491,83 +501,12 @@
 	       }else{
 				vm.reportListSelect = 1;
 			}
-
-			/*User.generateUserNameById(vm.consultntId).then(
-  				(response) => {
-					vm.consultName = response.data;
-					if(vm.consultntId == 1){
-						vm.signatureName = 'rakesh_shah';
-						vm.timeStamp = 'rakesh_shah';
-					}
-					else if (vm.consultntId == 2){
-						vm.signatureName = 'anand_vaishnav';	
-						vm.timeStamp = 'anand_vaishnav';
-					}else if (vm.consultntId == 3){
-						vm.signatureName = 'suvorit_bhowmick';	
-						vm.timeStamp = 'anand_vaishnav';
-					}else if (vm.consultntId == 4){
-						vm.signatureName = 'monish_malhotra';	
-						vm.timeStamp = 'anand_vaishnav';
-					}else if (vm.consultntId == 5){
-						vm.signatureName = 'suresh_nayak';	
-						vm.timeStamp = 'anand_vaishnav';
-					}else if (vm.consultntId == 6){
-						vm.signatureName = 'viral_mehta';	
-						vm.timeStamp = 'anand_vaishnav';
-					}else if (vm.consultntId == 7){
-						vm.signatureName = 'rakesh_jasani';	
-						vm.timeStamp = 'anand_vaishnav';
-					}else if (vm.consultntId == 8){
-						vm.signatureName = 'vijay_thakore';	
-						vm.timeStamp = 'anand_vaishnav';
-					}else if (vm.consultntId == 9){
-						vm.signatureName = 'kaushik_trivedi';
-						vm.timeStamp = 'anand_vaishnav';	
-					}else if (vm.consultntId == 10){
-						vm.signatureName = 'hemant_mathur';	
-						vm.timeStamp = 'anand_vaishnav';
-					}else if (vm.consultntId == 11){
-						vm.signatureName = 'mihir_acharya';	
-						vm.timeStamp = 'anand_vaishnav';
-					}else if (vm.consultntId == 12){
-						vm.signatureName = 'sumit_kapadia';	
-						vm.timeStamp = 'anand_vaishnav';
-					}else if (vm.consultntId == 13){
-						vm.signatureName = 'ketan_kapashi';	
-						vm.timeStamp = 'anand_vaishnav';
-					}else if (vm.consultntId == 14){
-						vm.signatureName = 'rajesh_kantharia';	
-						vm.timeStamp = 'anand_vaishnav';
-					}else{
-						vm.signatureName = 'test_signature';
-						vm.timeStamp = 'test_timestamp';	
-					}
-				},
-			    (error) => {
-			    },
-  			); **/
-  			var userType = 1;
-  			User.getDoctoreInfoById(vm.consultntId,userType).then(
-  				(response) => {
-  					
-  					if(response.data.code == 200){
-  						var data = response.data.data;
-  						vm.signatureName = data.name;
-  						vm.timeStamp =data.dagree;  
-  						vm.department =data.department;			vm.regNo =data.regNo;  					
-  					}
-  				},
-  				(error) => {
-
-  				}
-  			);
   			this.getPatientData(this.patinetId);
        },
 		methods: {
-
 			print_multiple_report()
 			{
-				this.ClickHereToPrint('opd_case');
+				this.ClickHereToPrintMultiple('opd_case');
 			},
 			getPatientData(patinetId)
 			{
@@ -583,17 +522,56 @@
 
 	  				}
   				);
-  				User.getLastOPDIdByPatientId(patinetId).then(
+  				User.getOPDDetailsByPatientId(patinetId).then(
   					(response) => {
 	  					
 	  					if(response.data.code == 200){
 	  						vm.opdId = response.data.data.id;
+	  						vm.sectionOpdId = response.data.data.opd_id;
 	  						User.generatePatientCheckUpDetails(vm.opdId).then(
   							(response) => {
-	  					
 	  							if(response.data.code == 200){
 	  							vm.patientCheckupDetail = response.data.data;
 	  							}
+	  							var sectionOpdId = vm.sectionOpdId;
+			  				User.getPatientCaseDetailByOpdId(sectionOpdId).then(
+			  					(response) => {
+			  					console.log(response.data.data);
+				  					if(response.data.code == 200){
+				  					vm.reference = response.data.data.references;
+				  					vm.consultntId = response.data.data.consultant_id;
+				  					}
+				  					var userType = 1;
+						  			User.getDoctoreInfoById(vm.consultntId,userType).then(
+						  				(response) => {
+						  					
+						  					if(response.data.code == 200){
+						  						var data = response.data.data;
+						  						//vm.signatureName = data.name;
+						  						vm.doctoreName = data.name;
+						  						vm.timeStamp =data.dagree;  
+						  						vm.department =data.department;	
+						  						vm.regNo =data.regNo;  					
+						  					}
+						  				},
+						  				(error) => {
+
+						  				}
+						  			);
+						  			User.generateUserNameById(vm.consultntId).then(
+						  				(response) => {
+											vm.consultName = response.data;
+											vm.signatureName = response.data;
+										},
+									    (error) => {
+									    },
+						  			); 
+  			
+				  				},
+				  				(error) => {
+
+				  				}
+			  					);
 	  						},
 	  						(error) => {
 
@@ -606,7 +584,6 @@
 
 	  				}
   				);
-  				
 
 			},
 			presp_count(array)
@@ -634,7 +611,67 @@
 						
 				}
 			},
-			ClickHereToPrint(p_type) {
+			ClickHereToPrintMultiple()
+			{
+				let vm = this;
+				const style = '@page { margin: 0 } @media print { .page-break {page-break-after: always; page-break-inside: avoid; page-break-before: avoid; break-after: always; break-inside: avoid; break-before: avoid; } }'
+				var  OPDCaseData = {
+					'advice' : this.advice,
+					'adviceType' : this.adviceType,
+					'adviceDoctor' : this.adviceDoctor,
+					'priscriptionData': this.prescriptiData,
+					'referalType' :this.referalType,
+					'crossType' : this.crossType,
+					'radiologyData' : this.radiologyData,
+					'todayDate': this.todayDate,
+					'crossSelectedValue' : this.crossSelectedValue,
+					'adviceScribleValue' : this.adviceScribleValue,
+					'printType' : 'opd_case',
+					'radioReportData' : this.radioReportData,
+					'labReportData' : this.labReportData,
+					'signatureName' : this.signatureName,
+					'timeStamp' : this.timeStamp,
+					'regNo' : this.regNo,
+					'followup' : this.followup,
+					'checkedreportList' : this.checkedreportList,
+					'patientDetail' : this.patientDetail,
+					'patientCheckupDetail' : this.patientCheckupDetail,
+					'department' : this.department,
+					'provisional_diagnostic' : this.provisional_diagnostic
+				};
+
+		      	User.printOPDCaseMultipleData(OPDCaseData).then(	
+                (response) => {
+                	var printContent = "";
+                	printContent = response.data;
+	    	 		var windowUrl = '';
+			        var uniqueName = '';/*new Date();	*/
+			        var windowName = '';/*'Print' + uniqueName.getTime();	*/
+			        var printWindow = window.open('','','left=0,top=0,width=950,height=600,toolbar=0,scrollbars=0,status=0,addressbar=0');
+			        var is_chrome = Boolean(printWindow.chrome);
+					printWindow.document.write(printContent);
+					printWindow.document.close(); 
+					 if (is_chrome) {
+				        setTimeout(function () { // wait until all resources loaded 
+				            printWindow.focus(); // necessary for IE >= 10
+				            printWindow.print();  // change window to printWindow
+				            return false;
+				            printWindow.close();// change window to printWindow
+				        }, 250);
+				    }
+				    else {
+				         // necessary for IE >= 10
+				        printWindow.focus(); // necessary for IE >= 10
+				        printWindow.print();
+				        printWindow.close();
+				    }
+            	},	
+                (error) => {	
+                	 $("body .js-loader").addClass('d-none');
+                	}	
+                );
+			},
+			ClickHereToPrint() {
 				
 				let vm = this;
 				var  OPDCaseData = {
@@ -659,13 +696,16 @@
 							'patientDetail' : this.patientDetail,
 							'patientCheckupDetail' : this.patientCheckupDetail,
 							'department' : this.department,
-							'provisional_diagnostic' : this.provisional_diagnostic
+							'provisional_diagnostic' : this.provisional_diagnostic,
+							'doctoreName' : this.doctoreName
 
 
 						};
 
 				      	User.printOPDCaseData(OPDCaseData).then(	
-		                (response) => { 
+		                (response) => {
+
+
 		                	var printContent = "";
 		                	printContent = response.data;	
 				        	//$('#receiptModal').modal({show:true}); 

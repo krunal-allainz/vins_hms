@@ -68,6 +68,19 @@ class OPDDetailsFromController extends Controller
     }
 
     /**
+     * [printCaseMultipleData description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function printCaseMultipleData(Request $request)
+    {
+        $data =  $request->OPDCaseData;
+        $url = common::getCurrentSiteUrl();
+        // echo "<pre>";print_r($url);exit();
+        return view("opdcaseprintmultiple",compact('data','url')); 
+    }
+
+    /**
     * get opd reciept list in array.
     * @return opdlist 
     */

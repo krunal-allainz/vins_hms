@@ -892,7 +892,14 @@
           });
          var vm =this;
          let opd_list_new=[];
-          
+        
+          vm.$store.dispatch('resetOpdForm');
+
+         
+          setTimeout(function(){
+            vm.doctor = vm.$store.state.Users.userDetails.first_name + " "+ vm.$store.state.Users.userDetails.last_name;  
+            vm.doctor_id = vm.$store.state.Users.userDetails.id;  
+          },1000);
           /*for laboratory data*/
             let labpratory_all_data=[];
             User.generateAllLaboratoryListByChild().then(
@@ -1116,7 +1123,6 @@
             vm.opdData.patientlist=patientId;
             vm.$store.dispatch('SetPatientId',patientId);             
             vm.get_vitals();
-               
           });
           $(document).on('hidden.bs.modal','#createPatientDetail', function () {
             $('#case_type').val('old').trigger('change.select2');
@@ -1128,16 +1134,10 @@
           setTimeout(function(){
             vm.examinationChangeImage();
           },500);
-          //vm.opdData.patientlist = this.$store.state.Patient.patientId;
-          vm.$store.dispatch('resetOpdForm');
-         /* setTimeout(function(){
-            vm.doctor = vm.$store.state.Users.userDetails.first_name + " "+ vm.$store.state.Users.userDetails.last_name;  
-            vm.doctor_id = vm.$store.state.Users.userDetails.id;  
-          },1000);*/
+         
           // vm.getResults();
           vm.getResults();
           vm.newPatient(); 
-
 
         },
         methods: {
@@ -1148,14 +1148,18 @@
               setInterval(function() {
 
                  vm.getResults();
-                 //$('#patient').select2('destroy');
+                // $('#patient').select2('destroy');
                  $('#patient').select2({
                     placeholder: "Select",
                     tags:false 
                   });
-              },8000);
-             
-          },
+
+              }, 8000);
+              if(this.$store.state.Patient.patientId != ''){
+                vm.opdData.patientlist= this.$store.state.Patient.patientId;
+                $('#patient').val(vm.opdData.patientlist).trigger('change:select2');
+               }
+            },
           getResults(patient_list_new) {
             var vm =this;
             var patient_list_new=[];
@@ -1269,19 +1273,36 @@
                     },
                 );
                 //for opd list
-               
-                User.getLastOPDIdByPatientId(vm.opdData.patientlist).then(
+                User.getOPDDetailsByPatientId(vm.opdData.patientlist).then(
                     (response) => {
                       let opdID ;
-                      let lastVist;
                       opdID = response.data.data.id;
-                      lastVist = response.data.data.appointment_datetime;
-                        vm.opdData.opd_id=opdID;
-                        vm.opdData.last_vist=lastVist;
+                      User.getLastOPDIdByPatientId(vm.opdData.patientlist).then(
+                          (response) => {
+                            let lastVist;
+                            lastVist = response.data.data.appointment_datetime;
+                              vm.opdData.opd_id=opdID;
+                              if(lastVist)
+                              {
+                                  vm.opdData.last_vist=lastVist;
+                              }
+                              else
+                              {
+                                   vm.opdData.last_vist="N/A";
+                              }
+                              
+                            },
+                            (error) => {
+                            },
+                      );
+                     
+                      
                       },
                       (error) => {
                       },
                 );
+
+                
 
               User.getVitalsInfoByPatientId(vm.opdData.patientlist).then(
               (response) => {
