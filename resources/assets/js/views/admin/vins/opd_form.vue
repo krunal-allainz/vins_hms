@@ -1556,10 +1556,10 @@
               $('#prescription').val(p_list).trigger('change');
               //$('#patient').val(pres).trigger('change');
 
-              // $('.ls-select2').select2({
-              //   placeholder: "Select",
-              //   tags:false 
-              // });
+              $('.ls-select2').select2({
+                placeholder: "Select",
+                tags:false 
+              });
                $('#laboratory_report_opd').select2({
                   placeholder: 'Select',
                   data: _.cloneDeep(labs)
