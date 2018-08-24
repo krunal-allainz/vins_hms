@@ -675,7 +675,6 @@
 		</div>
 			@endif
 		@endif
-		@if(in_array( 'Advice + follow ups',$data['checkedreportList']))
 		@if(isset($data['advice']) && isset($data['adviceType']))
 		<div  style="padding-left: 35px;">
 			<div class='col-md-6 text-left'>
@@ -689,7 +688,6 @@
 				@endif
 			</div>
 		</div>
-		@endif 
 		@endif 
 		@if(isset($data['referalType']))
 	@if($data['referalType'] != null && $data['crossSelectedValue'] != '')
@@ -781,7 +779,7 @@
         	</div>
         </div>
   	</div>
-<<<<<<< HEAD
+
   	@endif
 	@endif
 	@if(in_array('Laboratory',$data['checkedreportList'] ))
@@ -986,7 +984,7 @@
 @endif
 	
 	<div style="width:100%height:200px;right:30px;" class="text-right">
-		<img  :src="{{$url.'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/>
+		<img src="{{$url.'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/>
 	</div>	
 	<div style="width:100%height:200px;right:30px;" class="text-right">
 	 	<!-- <img  :src="{{$url.'/assets/img/timestamp/'.$data['timeStamp'].'.png'}}" height="66" width="182"/> -->

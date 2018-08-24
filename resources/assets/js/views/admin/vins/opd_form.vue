@@ -1558,6 +1558,10 @@
             setTimeout(function(){
               $('#prescription').val(p_list).trigger('change');
               //$('#patient').val(pres).trigger('change');
+<<<<<<< HEAD
+=======
+
+>>>>>>> 57b35444127cd3ec4d85c0978aaaed4ac1accdd9
               $('.ls-select2').select2({
                 placeholder: "Select",
                 tags:false 
