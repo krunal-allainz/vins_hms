@@ -159,7 +159,6 @@
                 } else {
                     return ['code' => '400','data'=>'', 'message' => 'Something goes wrong'];
                 }   
-
               }else{
                 $insertedOPDId = $opdData->opd_id;
                  $sectionId    = $opdData->opd_id;
