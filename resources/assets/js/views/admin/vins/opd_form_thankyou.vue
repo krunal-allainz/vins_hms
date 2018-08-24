@@ -26,9 +26,9 @@
 
     	 	 		<button  v-if="(labReportData)" type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('lab')" >Lab Report</button>
 
-    	 	 		<button  v-if="(!radioReportData)" type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('radiology')" >Radiology Report</button>
+    	 	 		<button  v-if="(radioReportData)" type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('radiology')" >Radiology Report</button>
 
-    	 	 		<button v-if="(!prescriptiData)" type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('prescription')">Print Prescription</button>
+    	 	 		<button v-if="(prescriptiData)" type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('prescription')">Print Prescription</button>
     	 	 		
     	 	 		<!-- <button type="button" class="btn btn-primary btn-submit text-right" @click = "GetSelectComponent('patients_receipt_form')">Generate Receipts</button>  -->
     	 	 	<!--</div> -->
@@ -515,6 +515,7 @@
 	  				(response) => {
 	  					
 	  					if(response.data.code == 200){
+	  						//console.log(response.data.data);
 	  						vm.patientDetail = response.data.data;
 	  					}
 	  				},
@@ -637,7 +638,8 @@
 					'patientDetail' : this.patientDetail,
 					'patientCheckupDetail' : this.patientCheckupDetail,
 					'department' : this.department,
-					'provisional_diagnostic' : this.provisional_diagnostic
+					'provisional_diagnostic' : this.provisional_diagnostic,
+					'doctoreName' : this.doctoreName
 				};
 
 		      	User.printOPDCaseMultipleData(OPDCaseData).then(	
@@ -707,8 +709,8 @@
 
 
 		                	var printContent = "";
-		                	printContent = response.data;	
-				        	//$('#receiptModal').modal({show:true}); 
+		                	printContent = response.data;
+		                	 //$('#receiptModal').modal({show:true}); 
 		                	// try {
 		                    var windowUrl = '';	
 					       // var uniqueName = new Date();	
@@ -736,10 +738,11 @@
 						    }
 	
 
-				    // 	}	
-				    // catch (e) {	
-				    //     self.print();	
-				    // }	
+						    // 	}	
+						    // catch (e) {	
+						    //     self.print();	
+						    // }	
+				        	
 	
 		            	},	
 		                (error) => {	
@@ -749,6 +752,12 @@
 		                )	
 	
 				    	
+				},
+				html2text(html) {
+				    var tag = document.createElement('div');
+				    tag.innerHTML = html;
+				    
+				    return tag.innerText;
 				},
 				 GetSelectComponent(componentName) {
 		       this.$router.push({name: componentName})
