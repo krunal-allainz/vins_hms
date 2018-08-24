@@ -1115,18 +1115,19 @@
           });
          
           setTimeout(function(){
-                  $('#patient').select2({
-                    placeholder: "Select",
-                    tags:false 
-                  });
-                },500);
 
-          $('#patient').on("select2:select", function (e) {
-                vm.opdData.patientlist=$(this).val();
-                let patientId = $(this).val();
-                vm.opdData.patientlist=patientId;
-                vm.$store.dispatch('SetPatientId',patientId);
-                vm.get_vitals();
+            $('#patient').select2({
+              placeholder: "Select",
+              tags:false 
+            });
+          },500);
+          $(document).on("select2:select",'#patient', function (e) { 
+            vm.opdData.patientlist=$(this).val();
+            let patientId = $(this).val();
+            vm.opdData.patientlist=patientId;
+            vm.$store.dispatch('SetPatientId',patientId);             
+            vm.get_vitals();
+
           });
           $(document).on('hidden.bs.modal','#createPatientDetail', function () {
             $('#case_type').val('old').trigger('change.select2');
@@ -1555,10 +1556,11 @@
             setTimeout(function(){
               $('#prescription').val(p_list).trigger('change');
               //$('#patient').val(pres).trigger('change');
-              $('.ls-select2').select2({
-                placeholder: "Select",
-                tags:false 
-              });
+
+              // $('.ls-select2').select2({
+              //   placeholder: "Select",
+              //   tags:false 
+              // });
                $('#laboratory_report_opd').select2({
                   placeholder: 'Select',
                   data: _.cloneDeep(labs)
@@ -1566,6 +1568,7 @@
               if(vm.curStep == 1){
                 vm.examinationChangeImage();
               } 
+
             },1500)
           }, 
           removeReport(did) {
