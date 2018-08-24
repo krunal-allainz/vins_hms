@@ -16,7 +16,7 @@
               <label for="patient">Select Patient:</label>
             </div>
             <div class="col-md-6">
-              <select  class="form-control ls-select2"  id = "patient" name="patient" value="" > 
+              <select  class="form-control ls-select2"  id = "patient" name="patient" value="" v-model="opdData.patientlist" > 
                     <option value="">Select </option>
                    <option :value="pat.id" v-for="pat in opdData.patient_option">{{pat.name}}</option>
                 </select> 
@@ -892,10 +892,7 @@
           });
          var vm =this;
          let opd_list_new=[];
-           if(this.$store.state.Patient.patientId != ''){
-              vm.opdData.patientlist= this.$store.state.Patient.patientId;
-              $('#patient').val(vm.opdData.patientlist).trigger('change:select2');
-          }
+        
           vm.$store.dispatch('resetOpdForm');
 
          
@@ -1122,11 +1119,13 @@
                 },500);
 
           $('#patient').on("select2:select", function (e) {
+                console.log('call');
                 vm.opdData.patientlist=$(this).val();
                 let patientId = $(this).val();
                 vm.opdData.patientlist=patientId;
-                vm.$store.dispatch('SetPatientId',patientId);
+                vm.$store.dispatch('SetPatientId',patientId);             
                 vm.get_vitals();
+               
           });
           $(document).on('hidden.bs.modal','#createPatientDetail', function () {
             $('#case_type').val('old').trigger('change.select2');
@@ -1159,6 +1158,10 @@
                   });
 
               }, 8000);
+              if(this.$store.state.Patient.patientId != ''){
+                vm.opdData.patientlist= this.$store.state.Patient.patientId;
+                $('#patient').val(vm.opdData.patientlist).trigger('change:select2');
+               }
             },
           getResults(patient_list_new) {
             var vm =this;
