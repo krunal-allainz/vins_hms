@@ -315,7 +315,6 @@
 	.hidden-md-up {
 	    display: none !important;
 	}
-
     </style>
 </head>
 <body>
@@ -326,26 +325,21 @@
             <img src="{{$url.'/assets/img/nabh_vins_logo.png'}}" id="logo-desk" alt="NABH Logo" class="hidden-sm-down" height="" width="30%">
         </div>
       </div>
-
     </div>  
 
-    </div>   
-        
-
-@include('patientDetailReport')
-@include('patientCheckupReport')
-
-
+</div>   
+ @include('patientDetailReport')
+ @include('patientCheckupReport')
 
 
   @if($data['printType'] == 'lab')
+  @if(isset($data['labReportData']))
   	<div class='row'>
 		<div class='col-md-12 text-center'>
 			<h4>Lab Report</h4>
 		</div>
   	</div>
-  
-			  <div class="form-group">
+			<div class="form-group">
                 <div class="col-md-12">
                   <div class="table-responsive">
                     <table class="table table-striped table-bordered" id="laboratory_table_list">
@@ -368,10 +362,11 @@
                   
                 </div>
               </div>
-  	
+  	@endif
   @endif
 
   @if($data['printType'] == 'radiology')  
+  	@if(isset($data['radioReportData']))
   	<div class='row'>
 		<div class='col-md-12 text-center'>
 			<h4>Radiology Report</h4>
@@ -409,6 +404,7 @@
         	</div>
         </div>
   	</div>
+  	@endif
   @endif
   
   @if($data['printType'] == 'prescription')
@@ -420,8 +416,6 @@
 			<div class='col-md-12 text-center'>
 				<span class='text-center'><b>Prescription</b></span>
 			</div>
-
-			
 			<div class="table-responsive">
 				<table class="table" id="prescription_list">
 				    	<thead>
@@ -508,7 +502,6 @@
 	                        <th>Total Quantity</th>
 	                        <th>Q-Hrs</th>
 	                        <th>Total Days</th>
-	                        
 	                    </tr>
 	                </thead>
 	                <tbody>
@@ -564,7 +557,7 @@
   @endif
 
   @if($data['printType'] == 'print_perceptions')
-  	@if($data['provisional_diagnostic'] != '')
+  	@if(!empty($data['provisional_diagnostic']))
   	<div  style="padding-left: 35px;">
 			<div class='col-md-6 text-left'>
 				<span class='text-left'><b>Provisional Diagnostic :-</b></span>
@@ -683,7 +676,7 @@
 			@endif
 		@endif
 		@if(in_array( 'Advice + follow ups',$data['checkedreportList']))
-		@if($data['advice'] != null && $data['adviceType'] == 'text')
+		@if(isset($data['advice']) && isset($data['adviceType']))
 		<div  style="padding-left: 35px;">
 			<div class='col-md-6 text-left'>
 				<span class='text-left'><b>Advice :-</b></span>
@@ -741,66 +734,16 @@
 		</div>
 		@endif 
   @endif
-
   @if($data['printType'] == 'opd_case')
   <div >
   	<div class='row'>
 		<div class='col-md-12 text-center'>
 			<h4>OPD CASE </h4>
 		</div>
-  	</div>
+  	</div>	
+	@if(in_array('Radiology',$data['checkedreportList']))
+	@if(isset($data['radioReportData']) && !empty($data['radioReportData']))
 
-  
-
-	@if($data['printReportVal']=='Advice + follow ups')
-		@if($data['advice'] != null && $data['adviceType'] == 'text')
-		<div  style="padding-left: 35px;">
-			<div class='col-md-6 text-left'>
-				<span class='text-left'><b>Advice :-</b></span>
-			</div>
-			<div class='row'>
-				@if ($data['adviceType'] == 'text')
-					<div class='col-md-12 text-left'>
-						<span class='text-left' style="padding-left:30px;">{{$data['advice']}}</span>
-					</div>
-				@endif
-				
-			</div>
-		</div>
-		<br/>
-		@endif 
-
-
-		@if($data['adviceType'] != 'text' && $data['adviceScribleValue'] != '')
-		<div class="page-break"></div>
-		<div  style="padding-left: 35px;">
-			<div class='col-md-6 text-left'>
-				<span class='text-left'><b>Advice :-</b></span>
-			</div>
-			<div class='row'>
-
-					<div class='col-md-12 text-left'>
-					    <img src="{{$data['adviceScribleValue']}}" title="Advice">
-					</div> 
-			</div>
-		</div>
-		@endif
-		@if($data['followup'] != '')
-		<div  style="padding-left: 35px;">
-			<div class='col-md-6 text-left'>
-				<span class='text-left'><b>Followup :-</b></span>
-			</div>
-			<div >
-					<div class='col-md-12 text-left'>
-					   {{$data['followup']}}
-					</div> 
-			</div>
-		</div>
-		@endif 
-		
-	@endif 
-	@if($data['printReportVal']=='Radiology')
-	<div class="page-break"></div>
 		<div class='row'>
 		<div class='col-md-12 text-center'>
 			<h4>Radiology Report</h4>
@@ -820,6 +763,7 @@
                     </tr>
                  </thead>
                  <tbody>
+                 @if($data['radioReportData'])
                  @foreach($data['radioReportData'] as $index=>$res)
                  <tr class="text-center">
                             <!-- <td>{{++$index}}</td> -->
@@ -828,18 +772,21 @@
                             <td>{{$res['qualifier']}}</td>
                             <td>{{$res['special_request']}}</td>
                             <td>{{$res['textData']}}</td>
-                           
                     </tr>
                     @endforeach
+                @endif
                         </tbody>
                     </table>
                 </div>
         	</div>
         </div>
   	</div>
-	@endif 
-	@if($data['printReportVal']=='Laboratory') 
-	<div class="page-break"></div>
+<<<<<<< HEAD
+  	@endif
+	@endif
+	@if(in_array('Laboratory',$data['checkedreportList'] ))
+		@if(isset($data['labReportData'])){
+
 		<div class='row'>
 			<div class='col-md-12 text-center'>
 				<h4>Lab Report</h4>
@@ -856,21 +803,24 @@
                         </tr>
                         </thead>
                         <tbody>
-                       	@foreach($data['labReportData'] as $index=>$res)
+                    @if($data['labReportData']){
+                       	@foreach($data['labReportData'] as 
+                       	$index=>$res)
                          <tr class="text-center">
                             <td>{{++$index}}</td> 
                             <td>{{$res['name'] }}</td>
                           </tr>
 						 @endforeach
+					@endif
                         </tbody>
                     </table>
                   </div>
-                  
                 </div>
               </div>
-	@endif 
-	@if($data['printReportVal']=='Prescription')
-	<div class="page-break"></div>
+        @endif
+	@endif
+	@if(in_array('Prescription',$data['checkedreportList']))
+
 		@if(isset($data['priscriptionData']))
 	  		@if(!empty($data['priscriptionData']))
 			<div class='col-md-12 text-center'>
@@ -981,26 +931,75 @@
 		</div>
 			@endif
 		@endif
+
+		@if(in_array( 'Advice + follow ups',$data['checkedreportList']))
+		@if(isset($data['advice'])  && isset($data['adviceType']))
+		<div  style="padding-left: 35px;">
+			<div class='col-md-6 text-left'>
+				<span class='text-left'><b>Advice :-</b></span>
+			</div>
+			<div class='row'>
+				@if ($data['adviceType'] == 'text')
+					<div class='col-md-12 text-left'>
+						<span class='text-left' style="padding-left:30px;">{{$data['advice']}}</span>
+					</div>
+				@endif
+				
+			</div>
+		</div>
+		<br/>
+		@endif
+		@if(isset($data['adviceType'])) 
+		@if($data['adviceType'] != 'text' && $data['adviceScribleValue'] != '')
+		<div  style="padding-left: 35px;">
+			<div class='col-md-6 text-left'>
+				<span class='text-left'><b>Advice :-</b></span>
+			</div>
+			<div class='row'>
+					<div class='col-md-12 text-left'>
+					    <img src="{{$data['adviceScribleValue']}}" title="Advice">
+					</div> 
+			</div>
+		</div>
+		@endif
+		@endif
+		@if(isset($data['followup']))
+		@if($data['followup'] != '')
+		<div  style="padding-left: 35px;">
+			<div class='col-md-6 text-left'>
+				<span class='text-left'><b>Followup :-</b></span>
+			</div>
+			<div>
+					<div class='col-md-12 text-left'>
+					   {{$data['followup']}}
+					</div> 
+			</div>
+		</div>
+		@endif 
+		@endif
+	@endif
+		<br/><br/>
+
 	@endif
 	
 	</div>
 @endif
 	
 	<div style="width:100%height:200px;right:30px;" class="text-right">
-		<!-- <img  :src="{{$url.'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/> -->
-		<span><b>{{$data['signatureName']}}</b></span>
+		<img  :src="{{$url.'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/>
 	</div>	
 	<div style="width:100%height:200px;right:30px;" class="text-right">
 	 	<!-- <img  :src="{{$url.'/assets/img/timestamp/'.$data['timeStamp'].'.png'}}" height="66" width="182"/> -->
+	 	<span><b>{{$data['doctoreName']}}</b></span><br/>
 	 	<span><b>{{$data['timeStamp']}}</b></span><br>
 	 	<span><b>{{$data['regNo']}}</b></span>
 	</div>
 	<div style="">
-	<div class="row" style="padding-right:20px;font-size: 15px;right:0px;">
+	<!-- <div class="row" style="padding-right:20px;font-size: 15px;right:0px;">
 		<div class='col-md-12 text-right'>
 			<span class='text-right'><b>Consultant's Signature</b></span>
 		</div>
-	</div>	
+	</div> -->	
 </div>
    <div  class="footer" style="background-color: dodgerblue;color: white;position:absolute;bottom:0;width:100%;height:170px;left:0">
       <div class="row text-center">

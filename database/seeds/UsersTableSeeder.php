@@ -18,7 +18,7 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
-            ['first_name'=>'Dr. Rakesh',
+            ['first_name'=>'Rakesh',
             'password'=>Hash::make(trim('12345678')),
             'department'=>'Neurology',
             'dagree'=>'M.D.D.M.',
@@ -42,7 +42,7 @@ class UsersTableSeeder extends Seeder
         ]);
         DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
-            ['first_name'=>'Dr. Anand',
+            ['first_name'=>'Anand',
             'password'=>Hash::make(trim('12345678')),
             'department'=>'Neurology',
             'dagree'=>'',
@@ -66,7 +66,7 @@ class UsersTableSeeder extends Seeder
         ]);
         DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
-            ['first_name'=>'Dr. Suvorit',
+            ['first_name'=>'Suvorit',
             'password'=>Hash::make(trim('12345678')),
             'department'=>'Neurology',
             'dagree'=>'M.D.D.M.',
@@ -92,7 +92,7 @@ class UsersTableSeeder extends Seeder
         //Neurosurgery
         DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
-            ['first_name'=>'Dr. Monish',
+            ['first_name'=>'Monish',
             'password'=>Hash::make(trim('12345678')),
             'department'=>'Neurosurgery',
             'dagree'=>'M.S.,Mch.',
@@ -117,7 +117,7 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
-            ['first_name'=>'Dr. Suresh',
+            ['first_name'=>'Suresh',
             'password'=>Hash::make(trim('12345678')),
             'department'=>'Neurosurgery',
             'dagree'=>'M.S.MCH',
@@ -142,7 +142,7 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
-            ['first_name'=>'Dr. Viral',
+            ['first_name'=>'Viral',
             'password'=>Hash::make(trim('12345678')),
             'department'=>'Neurosurgery',
             'dagree'=>'M.S.MCH',
@@ -166,7 +166,7 @@ class UsersTableSeeder extends Seeder
         ]);
         DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
-            ['first_name'=>'Dr. Rakesh',
+            ['first_name'=>'Rakesh',
             'password'=>Hash::make(trim('12345678')),
             'department'=>'Neurosurgery',
             'dagree'=>'MBBS, MS,DNF',
@@ -192,7 +192,7 @@ class UsersTableSeeder extends Seeder
         //Vascular
         DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
-            ['first_name'=>'Dr. Vijay',
+            ['first_name'=>'Vijay',
             'password'=>Hash::make(trim('12345678')),
             'department'=>'Vascular',
             'dagree'=>'M.S.PDCC',
@@ -218,7 +218,7 @@ class UsersTableSeeder extends Seeder
 //Cardiology
          DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
-            ['first_name'=>'Dr. Kaushik',
+            ['first_name'=>'Kaushik',
             'password'=>Hash::make(trim('12345678')),
             'department'=>'Cardiology',
             'dagree'=>'M.D. Cardiology',
@@ -243,7 +243,7 @@ class UsersTableSeeder extends Seeder
 
           DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
-            ['first_name'=>'Dr. Hemant',
+            ['first_name'=>'Hemant',
             'password'=>Hash::make(trim('12345678')),
             'department'=>'Orthopedic',
             'dagree'=>'M.S.Ortho',
@@ -268,7 +268,7 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
-            ['first_name'=>'Dr. Mihir',
+            ['first_name'=>'Mihir',
             'password'=>Hash::make(trim('12345678')),
             'department'=>'Neurology',
             'dagree'=>'M.D.D.M.',
@@ -293,7 +293,7 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
-            ['first_name'=>'Dr. Sumit',
+            ['first_name'=>'Sumit',
             'password'=>Hash::make(trim('12345678')),
             'department'=>'Vascular',
             'dagree'=>'DNB, MRCS',
@@ -319,7 +319,7 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
-            ['first_name'=>'Dr. Ketan',
+            ['first_name'=>'Ketan',
             'password'=>Hash::make(trim('12345678')),
             'department'=>'Cardiology',
             'dagree'=>'',
@@ -345,7 +345,7 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
-            ['first_name'=>'Dr. Rajesh',
+            ['first_name'=>'Rajesh',
             'password'=>Hash::make(trim('12345678')),
             'department'=>'Oncology',
             'dagree'=>'ONCO ,SURGEON',

@@ -892,7 +892,14 @@
           });
          var vm =this;
          let opd_list_new=[];
-          
+        
+          vm.$store.dispatch('resetOpdForm');
+
+         
+          setTimeout(function(){
+            vm.doctor = vm.$store.state.Users.userDetails.first_name + " "+ vm.$store.state.Users.userDetails.last_name;  
+            vm.doctor_id = vm.$store.state.Users.userDetails.id;  
+          },1000);
           /*for laboratory data*/
             let labpratory_all_data=[];
             User.generateAllLaboratoryListByChild().then(
@@ -1112,7 +1119,7 @@
                 },500);
 
           $('#patient').on("select2:select", function (e) {
-
+                console.log('call');
                 vm.opdData.patientlist=$(this).val();
                 let patientId = $(this).val();
                 vm.opdData.patientlist=patientId;
@@ -1130,16 +1137,10 @@
           setTimeout(function(){
             vm.examinationChangeImage();
           },500);
-          //vm.opdData.patientlist = this.$store.state.Patient.patientId;
-          vm.$store.dispatch('resetOpdForm');
-         /* setTimeout(function(){
-            vm.doctor = vm.$store.state.Users.userDetails.first_name + " "+ vm.$store.state.Users.userDetails.last_name;  
-            vm.doctor_id = vm.$store.state.Users.userDetails.id;  
-          },1000);*/
+         
           // vm.getResults();
           vm.getResults();
           vm.newPatient(); 
-
 
         },
         methods: {
@@ -1150,14 +1151,18 @@
               setInterval(function() {
 
                  vm.getResults();
-                 //$('#patient').select2('destroy');
+                // $('#patient').select2('destroy');
                  $('#patient').select2({
                     placeholder: "Select",
                     tags:false 
                   });
-              },8000);
-             
-          },
+
+              }, 8000);
+              if(this.$store.state.Patient.patientId != ''){
+                vm.opdData.patientlist= this.$store.state.Patient.patientId;
+                $('#patient').val(vm.opdData.patientlist).trigger('change:select2');
+               }
+            },
           getResults(patient_list_new) {
             var vm =this;
             var patient_list_new=[];

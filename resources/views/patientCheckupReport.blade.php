@@ -20,41 +20,68 @@
 				{{$data['patientCheckupDetail']['bmi']}}</td>
 	</tr>
 	<tr>
-		<td><label>PAIN ASSESSMENT</label></td>
-		<td>
-			@if($data['patientCheckupDetail']['pain'] == 0)
-			<div>
-				<img src="/assets/img/pain/P1.png" class="test" height="50" width="50">
+		<td class="col-md-3 text-left"><label>PAIN ASSESSMENT</label></td>
+		<td class="col-md-9 text-left">
+			<div <?php 
+			echo ($data['patientCheckupDetail']['pain'] == 0)?'style="float:left;  width:15% !important;
+    padding:0px !important;line-height : 22px;border :2px solid red;
+ box-shadow :rgba(0, 0, 0, 0.2) 0px 1px 3px 0px;border-radius :2px;
+  color:#5f5f5f;display :inline-block;"':''; 
+			?>  style="float:left;width:15% !important;
+    padding:0px !important;">
+				<img src="/assets/img/pain/P1.png" class="test" height="50" width="50" >
 			</div>
-			@endif
-			@if($data['patientCheckupDetail']['pain'] == 2)
-			<div>
+			
+			<div <?php 
+			echo ($data['patientCheckupDetail']['pain'] == 2)?'style="float:left;  width:15% !important;
+    padding:0px !important;line-height : 22px;border :2px solid red;
+ box-shadow :rgba(0, 0, 0, 0.2) 0px 1px 3px 0px;border-radius :2px;
+  color:#5f5f5f;display :inline-block;"':'class="report-painassesment"'; 
+			?> style="float:left;width:15% !important;
+    padding:0px !important;">
 				<img src="/assets/img/pain/P2.png" class="test" height="50" width="50">
 			</div>
-			@endif
-			@if($data['patientCheckupDetail']['pain'] == 4)
-			<div>
+			
+			<div <?php 
+			echo ($data['patientCheckupDetail']['pain'] == 4)?'style="float:left;  width:15% !important;
+    padding:0px !important;line-height : 22px;border :2px solid red;
+ box-shadow :rgba(0, 0, 0, 0.2) 0px 1px 3px 0px;border-radius :2px;
+  color:#5f5f5f;display :inline-block;"':'class="report-painassesment"'; 
+			?> style="float:left;width:15% !important;
+    padding:0px !important;">
 				<img src="/assets/img/pain/P3.png" class="test" height="50" width="50">
 			</div>
-			@endif
-			@if($data['patientCheckupDetail']['pain'] == 6)
-			<div>
+			
+			<div <?php 
+			echo ($data['patientCheckupDetail']['pain'] == 6)?'style="float:left;  width:15% !important;
+    padding:0px !important;line-height : 22px;border :2px solid red;
+ box-shadow :rgba(0, 0, 0, 0.2) 0px 1px 3px 0px;border-radius :2px;
+  color:#5f5f5f;display :inline-block;"':'class="report-painassesment"'; 
+			?> style="float:left;width:15% !important;
+    padding:0px !important;">
 				<img src="/assets/img/pain/P4.png" class="test" height="50" width="50">
 			</div>
-			@endif
-			@if($data['patientCheckupDetail']['pain'] == 8)
-			<div>
+			
+			<div <?php 
+			echo ($data['patientCheckupDetail']['pain'] == 8)?'style="float:left;  width:15% !important;
+    padding:0px !important;line-height : 22px;border :2px solid red;
+ box-shadow :rgba(0, 0, 0, 0.2) 0px 1px 3px 0px;border-radius :2px;
+  color:#5f5f5f;display :inline-block;"':'class="report-painassesment"'; 
+			?> style="float:left;width:15% !important;
+    padding:0px !important;">
 				<img src="/assets/img/pain/P5.png" class="test" height="50" width="50">
 			</div>
-			@endif
-			@if($data['patientCheckupDetail']['pain'] == 10)
-			<div>
+			
+			<div <?php 
+			echo ($data['patientCheckupDetail']['pain'] == 10)?'style="float:left;  width:15% !important;
+    padding:0px !important;line-height : 22px;border :2px solid red;
+ box-shadow :rgba(0, 0, 0, 0.2) 0px 1px 3px 0px;border-radius :2px;
+  color:#5f5f5f;display :inline-block;"':'class="report-painassesment"'; 
+			?> style="float:left;width:15% !important;
+    padding:0px !important;">
 				<img src="/assets/img/pain/P6.png" class="test" height="50" width="50">
 			</div>
-			@endif
 		</td>
 	</tr>
 </table>
-----------------------------------------------------------------------------------------------------------------------------------------------------------	
-
-</div>
+----------------------------------------------------------------------------------------------------------------------------------------------------------	</div>

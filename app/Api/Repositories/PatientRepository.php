@@ -610,5 +610,10 @@
         }
         
     }
+
+    public function getPatientCaseDetailByOpdId($opdId){ 
+      $result = PatientCaseManagment::where('section_id',$opdId)->orderBy('id')->first();
+       return $result;
+    }
  }
 ?>
