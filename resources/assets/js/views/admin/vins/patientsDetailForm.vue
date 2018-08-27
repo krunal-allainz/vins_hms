@@ -376,7 +376,7 @@
         	let vm =this;
 
 		       if(vm.$store.state.Users.userDetails.user_type != '3'){
-		       		vm.$root.$emit('logout','You are not authorise to access patient details form');	
+		       		vm.$root.$emit('logout','You are not authorise to access this page');	
 		       }
 				$('.ls-select2').select2({
 					placeholder: "Select",

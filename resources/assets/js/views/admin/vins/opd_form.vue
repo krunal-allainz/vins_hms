@@ -885,6 +885,7 @@
         },
         
         mounted(){
+         var vm =this;
           if(vm.$store.state.Users.userDetails.user_type != '1'){
               vm.$root.$emit('logout','You are not authorise to access this page'); 
           }
@@ -892,7 +893,7 @@
             placeholder: "Select",
             tags:false 
           });
-         var vm =this;
+
          let opd_list_new=[];
            if(this.$store.state.Patient.patientId != ''){
               vm.opdData.patientlist= this.$store.state.Patient.patientId;

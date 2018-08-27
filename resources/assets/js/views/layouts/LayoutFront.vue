@@ -6,19 +6,13 @@
               <nav class="navbar navbar-expand-lg navbar-light">
 
                 <router-link to="/" class="brand-main">
-
                       <img src="/assets/img/nabh_vins_logo.png" id="logo-desk" alt="NABH Logo" class="hidden-sm-down">
                       <img src="/assets/img/nabh_vins_logo.png" id="logo-mobile" alt="NABH Logo" class="hidden-md-up">
-
-                      <H1 class="text-white bg-dark text-center mt-50">  PATIENT MANAGEMENT DASHBOARD</H1>
-
-                        <div href="#" class="logout-text text-right" @click.prevent="logout()"><i class="fa fa-sign-out"></i>Logout</div>
-
                   </router-link>
-
+                    <H1 class="text-white bg-dark text-center mt-50">  PATIENT MANAGEMENT DASHBOARD</H1>
                   <!-- Sidebar toggle button -->
               </nav>
-
+                <a href="#" class="logout-text text-right" @click.prevent="logout()"><i class="fa fa-sign-out"></i>Logout</a>
 
                 <ul class="action-list">
                   <li>
@@ -81,7 +75,8 @@ export default {
             let vm =this;
             Auth.logout().then(() => {
               if(msg!=''){
-                toastr['success'](msg, 'Error');
+                toastr['error'](msg, 'Error');
+                toastr['error']('You are redirected to login page', 'Error');
               } else{
                 toastr['success']('Logged out!', 'Success');
               }

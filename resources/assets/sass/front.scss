@@ -223,9 +223,9 @@ body > #app .header {
 .mt-20 {
     margin-top:30px;
 }
-.logout-text,logout-text:visited,logout-text:focus{
+.logout-text, logout-text:visited, logout-text:focus{
     padding-right: 15px;
-    color: white;
+    color: white !important;
     width: 200px;
     margin-top: -25px;
     padding-bottom: 5px;
