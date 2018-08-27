@@ -16,7 +16,7 @@
               <label for="patient">Select Patient:</label>
             </div>
             <div class="col-md-6">
-              <select  class="form-control ls-select2"  id = "patient" name="patient" value="" > 
+              <select  class="form-control ls-select2"  id = "patient" name="patient" value="" v-model="opdData.patientlist" > 
                     <option value="">Select </option>
                    <option :value="pat.id" v-for="pat in opdData.patient_option">{{pat.name}}</option>
                 </select> 
@@ -359,7 +359,7 @@
           <label for="referral">Referral:</label>
         </div>
         <div class="col-md-12">
-          <select class="form-control ls-select2" name="referral" id="referral" v-model="opdData.referral">
+          <select class="form-control ls-select2" name="referral" id="referral" v-model="opdData.referral" >
             <option value="" selected>Select </option>
             <option value="cross">Cross</option>
             <option value="radiology">Radiology</option>
@@ -375,7 +375,7 @@
           <label for="internal">Cross Reference:</label>
         </div>
         <div class="col-md-12">
-          <select class="form-control ls-select2" name="cross" id="cross"  multiple="">
+          <select class="form-control ls-select2" name="cross" id="cross"  multiple="" @change="changeReferal">
             <option value="internal">Internal</option>
             <option value="external">External</option>
           </select>
@@ -483,7 +483,14 @@
             <input type="text" name="external" id="external" class="form-control" v-model="opdData.cross_type_ext">
             </div>
           </div>
+           <div class="col-md-6"  v-if="(cross_internal == 'true')">
+           <div class="col-md-12">
+            <button type="button" class="btn btn-primary btn-submit text-right" @click="savePatientDataWithNewReferal">Save</button>
+            <a class="btn btn-primary btn-submit text-right" href="/dashboard" >Exit</a>
+          </div>
         </div>
+        </div>
+      
         <!-- for laboratory -->
         <div class="row form-group" v-show="opdData.referral == 'laboratory' ">
           <div class="col-md-6">
@@ -898,9 +905,9 @@
            if(this.$store.state.Patient.patientId != ''){
               vm.opdData.patientlist= this.$store.state.Patient.patientId;
               $('#patient').val(vm.opdData.patientlist).trigger('change:select2');
+
           }
           vm.$store.dispatch('resetOpdForm');
-
          
           setTimeout(function(){
             vm.doctor = vm.$store.state.Users.userDetails.first_name + " "+ vm.$store.state.Users.userDetails.last_name;  
@@ -1118,19 +1125,20 @@
           });
          
           setTimeout(function(){
+                  $('#patient').select2({
+                    placeholder: "Select",
+                    tags:false 
+                  });
+                },500);
 
-            $('#patient').select2({
-              placeholder: "Select",
-              tags:false 
-            });
-          },500);
-          $(document).on("select2:select",'#patient', function (e) { 
-            vm.opdData.patientlist=$(this).val();
-            let patientId = $(this).val();
-            vm.opdData.patientlist=patientId;
-            vm.$store.dispatch('SetPatientId',patientId);             
-            vm.get_vitals();
-
+          $('#patient').on("select2:select", function (e) {
+                console.log('call');
+                vm.opdData.patientlist=$(this).val();
+                let patientId = $(this).val();
+                vm.opdData.patientlist=patientId;
+                vm.$store.dispatch('SetPatientId',patientId);             
+                vm.get_vitals();
+               
           });
           $(document).on('hidden.bs.modal','#createPatientDetail', function () {
             $('#case_type').val('old').trigger('change.select2');
@@ -1149,6 +1157,16 @@
 
         },
         methods: {
+          savePatientDataWithNewReferal(){
+            User.movePatientForNewReferal().then(
+               (response) => {
+
+               },
+               (error) => {
+
+              }
+            );
+          },
           newPatient()
           {
               var vm =this;
@@ -1163,6 +1181,7 @@
                   });
 
               }, 8000);
+            
             },
           getResults(patient_list_new) {
             var vm =this;
@@ -1195,7 +1214,7 @@
           patient_select_change(val)
           {
             let vm =this;
-            vm.opdData.patientlist="";
+           vm.opdData.patientlist="";
             vm.patientEmpty();
               if(val==true)
               {
@@ -1485,7 +1504,6 @@
                       {
                         vm.ref_cross_array.push({'id':vm.ref_cross_array.length+1,'type':vm.opdData.referral,'subtype':'Internal','value':value});
                       }
-                      
                     });
                 }
                 if(vm.opdData.cross_type_ext)
@@ -1559,7 +1577,6 @@
             setTimeout(function(){
               $('#prescription').val(p_list).trigger('change');
               //$('#patient').val(pres).trigger('change');
-
               $('.ls-select2').select2({
                 placeholder: "Select",
                 tags:false 
@@ -1571,7 +1588,6 @@
               if(vm.curStep == 1){
                 vm.examinationChangeImage();
               } 
-
             },1500)
           }, 
           removeReport(did) {
