@@ -353,5 +353,8 @@ export default {
   },
   printOPDCaseMultipleData(OPDCaseData){
       return api.post('print/opdcaseMultiple',{'OPDCaseData':OPDCaseData});
+  },
+  movePatientForNewReferal(OPDCaseData){
+     return api.post('patient/movepsatientfornewreferal',{'OPDCaseData':OPDCaseData});
   }
 }

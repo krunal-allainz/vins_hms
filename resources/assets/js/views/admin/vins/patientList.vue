@@ -27,9 +27,11 @@
                         <tr data-v-744e717e="">
                             <th data-v-744e717e="" class="sortable sorting-asc" style="width: 200px;">
                                     First Name 
-                                <i data-v-744e717e="" class="fa float-right  fa fa-angle-up"></i>
+                              <!--   <i data-v-744e717e="" class="fa float-right  fa fa-angle-up"></i> -->
+
                             </th>
-                            <th data-v-744e717e="" class="sortable" style="width: auto;">
+                           <!--  <th data-v-744e717e="" class="sortable" style="width: auto;"> -->
+                            <th style="width: auto;">
                                 Last Name
                                  <i data-v-744e717e="" class="fa float-right"></i>
                              </th>
@@ -59,7 +61,8 @@
                         </td> <!----><td data-v-744e717e="" class="">
                             {{ patientData.uhid_no}}
                         </td> <!----><!----> <td data-v-744e717e="" class=""><!-- <i class="fa fa-pencil text-info mr-3 text-info mr-3"></i><i class="fa fa-trash text-danger"></i> -->
-                          <a :href="'/opd_form'"> <i class="fa fa-user-md text-info mr-3 text-info mr-3" @click="setPatientId(patientData.id)" title="opd form"></i></a>
+                          <a :href="'/opd_form'"> <i class="fa fa-user-md text-info mr-3 text-info mr-3" @click="setPatientId(patientData.patient_id
+)" title="opd form"></i></a>
                           <!--   <i class="fa fa-eye text-info mr-3 text-info mr-3"  data-toggle="modal" data-target="#patientDetailModal" @click="getPatientInfo(patientData.id)" ></i> -->
                             <patientDetailInfo ref="modal" :showPatientDetail="patientDetailInfo"></patientDetailInfo>
                         </td>
@@ -123,7 +126,8 @@
                 'perPage' : 5,
                 'patientId' :'',
                 'patientDetailInfo' : {},
-                'doctore_Id' : this.$store.state.Users.userDetails.id
+                'doctore_Id' : this.$store.state.Users.userDetails.id,
+                'user_type':this.$store.state.Users.userDetails.user_type,
             }
          },
           components: {
@@ -150,11 +154,10 @@
             getPatientsResult(page_url){
                 var vm =this;
                  page_url = page_url || '/patient/getpatientlist';
-                 let type = 'opd';
+            let type = this.user_type;
             let noofRecordperpage = this.perPage;
             User.getAllPatientListByDoctoreIdAndPaggination(page_url,type,noofRecordperpage,vm.doctore_Id).then(
                      (response) => {
-                     
                          vm.patientData.patient_list = response.data.data.data;
                          vm.makePagination(response.data.data);
                          },

@@ -159,7 +159,6 @@
                 } else {
                     return ['code' => '400','data'=>'', 'message' => 'Something goes wrong'];
                 }   
-
               }else{
                 $insertedOPDId = $opdData->opd_id;
                  $sectionId    = $opdData->opd_id;
@@ -485,13 +484,26 @@
       return TokenManagment::where('date','like',$date.'%')->Where('token',$token)->count();
     }
 
-    public function getPatientList($type,$noOfRecord,$id){
-
-     return PatientDetailsForm::where('consultant_id',$id)->paginate($noOfRecord);
-     /* if($type == 'opd')
-      {
-
-      }*/
+    public function getPatientList($user_type,$noOfRecord,$user_id){
+      $reportQuery= PatientDetailsForm::join('patient_case_managment', function ($join) {
+                  $join->on('patient_case_managment.patient_id', '=', 'patient_details.id');
+        });
+        if($user_id!=0 && $user_id!="")
+        {
+           $reportQuery->where('patient_case_managment.consultant_id',$user_id);
+        } 
+        if($user_type==2)
+        {
+            $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case']);
+        }
+        if($user_type==1 ||  $user_type==2)
+        {
+            $reportQuery->whereDate('patient_case_managment.appointment_datetime',Carbon::today()->format('Y-m-d'));
+        }
+         $reportQuery->groupBy('patient_case_managment.patient_id')->orderBy('patient_case_managment.created_at','desc');
+         return  $reportQuery->paginate($noOfRecord);
+    // return PatientDetailsForm::where('consultant_id',$id)->paginate($noOfRecord);
+     
     }
 
     /**
@@ -507,7 +519,6 @@
           $result['tokenDetail'] = TokenManagment::where('patient_id',$patientId)->get();
           $result['caseDetail'] = PatientCaseManagment::where('patient_id',$patientId)->get();
           return $result;
-
     }
 
     /**
@@ -517,7 +528,6 @@
      */
     public function getAllPatientName($user_type,$user_id)
     {
-
         $reportQuery= PatientDetailsForm::join('patient_case_managment', function ($join) {
                   $join->on('patient_case_managment.patient_id', '=', 'patient_details.id');
         });
@@ -614,6 +624,10 @@
     public function getPatientCaseDetailByOpdId($opdId){ 
       $result = PatientCaseManagment::where('section_id',$opdId)->orderBy('id')->first();
        return $result;
+    }
+
+    public function movePatientWithNewReferal(){
+      return 0;
     }
  }
 ?>
