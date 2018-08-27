@@ -373,7 +373,11 @@
         	patientSearch
         },
         mounted() {
-		       
+        	let vm =this;
+
+		       if(vm.$store.state.Users.userDetails.user_type != '3'){
+		       		vm.$root.$emit('logout','You are not authorise to access patient details form');	
+		       }
 				$('.ls-select2').select2({
 					placeholder: "Select",
 					tags: false,
@@ -397,13 +401,7 @@
     //                 }
     //             }
     //         });
-
-				let vm =this;
 				vm.patientData.type = 'opd';
-				 // $('#datetimepicker').datetimepicker({ 
-     //       				format : 'DD/MM/YYYY HH:mm',
-     //       				minDate: moment().add(1, 'h'),enabledHours: [10, 11, 12, 13, 14, 15, 16,17]
-     //            });
 
 	          	$('.ls-select2').on("select2:select", function (e) {
 		             if(this.id == 'case'){

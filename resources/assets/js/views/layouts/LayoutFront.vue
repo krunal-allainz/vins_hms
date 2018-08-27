@@ -12,7 +12,7 @@
 
                       <H1 class="text-white bg-dark text-center mt-50">  PATIENT MANAGEMENT DASHBOARD</H1>
 
-                        <div href="#" class="logout-text text-right" @click.prevent="logout"><i class="fa fa-sign-out"></i>Logout</div>
+                        <div href="#" class="logout-text text-right" @click.prevent="logout()"><i class="fa fa-sign-out"></i>Logout</div>
 
                   </router-link>
 
@@ -61,6 +61,9 @@ export default {
             // 'userType': '',
           }
         },
+        created: function() {
+          this.$root.$on('logout',this.logout);
+        },
         computed:{
           userType(){
             return  this.$store.state.Users.userDetails.user_type;
@@ -74,11 +77,20 @@ export default {
           //this.$store.dispatch('SetIpdId',0);
         },
         methods:{
-          logout(){
+          logout(msg=''){
+            let vm =this;
             Auth.logout().then(() => {
-            toastr['success']('Logged out!', 'Success');
-              
-                this.$router.replace('/login')
+              if(msg!=''){
+                toastr['success'](msg, 'Error');
+              } else{
+                toastr['success']('Logged out!', 'Success');
+              }
+              $("body .js-loader").removeClass('d-none');
+
+              setTimeout(function(){
+                $("body .js-loader").addClass('d-none');
+                vm.$router.replace('/login')
+              },3000);
             })
           },
         }

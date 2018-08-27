@@ -250,7 +250,9 @@
          patientSearch,
        },
          mounted(){
-
+              if(vm.$store.state.Users.userDetails.user_type != '2'){
+                vm.$root.$emit('logout','You are not authorise to access this page'); 
+              }
          	  	let vm =this;
          	  	 let opd_list_new=[];
          	  	 $('.ls-select2').select2({
