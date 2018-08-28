@@ -22,6 +22,8 @@ const state = {
     'prescriptionData':{},
     'refferelReportData':{},
     'step4Data':{},
+    'curStep':1
+
 
  }
 

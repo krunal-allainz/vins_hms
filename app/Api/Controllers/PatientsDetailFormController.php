@@ -428,6 +428,18 @@ class PatientsDetailFormController extends Controller
         }
     }
 
+    public function movePatientWithNewReferal(Request $request){
+
+          $patientDetail = $this->patientOBJ->movePatientWithNewReferal($patient_id);
+
+        if ($patientDetail) {
+            return ['code' => '200','data'=>$patientDetail, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+
+    }
+
 
 
 }

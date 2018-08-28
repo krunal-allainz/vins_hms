@@ -38,7 +38,6 @@
 						<span v-if="(patientDetail.age > 1000)">
 							<span v-if="(((currentYear) - (patientDetail.age)) > 0)">{{(currentYear) - (patientDetail.age)}}</span>	
 							<span v-else> 1</span>
-
 						</span>
 						<span v-if="(patientDetail.age  < 1000)">{{patientDetail.age}}</span>
 						<span v-if="(patientDetail.gender == 'F')"><b>/ Female</b></span>

@@ -308,6 +308,9 @@
         },
        mounted() {
         var vm =this;
+        if(vm.$store.state.Users.userDetails.user_type != '1'){
+          vm.$root.$emit('logout','You are not authorise to access this page'); 
+        }
         setTimeout(function(){
           vm.examinationChangeImage();
           vm.initData();

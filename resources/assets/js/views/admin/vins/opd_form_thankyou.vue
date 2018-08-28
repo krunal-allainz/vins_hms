@@ -485,6 +485,9 @@
        },
        mounted(){
 			let vm =this;
+			if(vm.$store.state.Users.userDetails.user_type != '1'){
+              vm.$root.$emit('logout','You are not authorise to access this page'); 
+          	}
        		if(this.referalType == 'cross'){
 				if(this.crossType == 'internal'){
 					this.crossSelectedValue = this.$store.state.Patient.opdData.cross_type_int;

@@ -178,15 +178,14 @@
                     </div>
                     <div class="col-md-6">
                       <div class=" input-group">
-                      <input type="text" name="temp" id="temp" class="form-control number-with-validation"  v-model="patientData.temp" v-validate="'required|numeric|min_value:1'" pattern="\d{1,3}(\.\d{0,1})?" :disabled="non_editable_vitals=='true'">
+                      <input type="text" name="temp" id="temp" class="form-control number-with-validation"  v-model="patientData.temp" v-validate="'required|numeric|min_value:1|max_value:999'"  :disabled="non_editable_vitals=='true'">
                         <div class="input-group-append">
                             <span class="input-group-text ">°F</span>
-                        </div>
-                      
+                        </div><br>
+                     </div>
+                     <div class="help is-danger" v-show="errors.has('temp')"> 
+                        Please enter valid temp.</div>
                       </div>
-                     
-                      </span>
-                    </div>
               	</div>
             </div>
              <div class="row">
@@ -251,7 +250,9 @@
          patientSearch,
        },
          mounted(){
-
+              if(vm.$store.state.Users.userDetails.user_type != '2'){
+                vm.$root.$emit('logout','You are not authorise to access this page'); 
+              }
          	  	let vm =this;
          	  	 let opd_list_new=[];
          	  	 $('.ls-select2').select2({
