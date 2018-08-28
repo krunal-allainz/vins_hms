@@ -1,5 +1,6 @@
 <template id="">
   <div class="container">
+
     <div class="page-header">
       <div class="row text-center">
         <div class="col-md-12">
@@ -7,7 +8,9 @@
         </div>
       </div>
     </div>
-
+    <div class="row">
+      <step-progress-bar :curstep="curStep"></step-progress-bar>
+    </div>
     <form action="" method="post" enctype="multipart/formdata">
       <div v-if="curStep == 1">
         <div class="row form-group" v-show="patient_select_enable==true">
@@ -642,6 +645,8 @@
   import laboratory from './laboratory.vue';
   import patientSearch from './patientSearchData.vue';
   import prescriptionData from './prescriptionData.vue';
+  import stepProgressBar from './stepProgressBar.vue';
+
   import _ from 'lodash';
     import card from "./card.vue"
       var  medicine ;
@@ -870,6 +875,7 @@
          laboratory,
          card,
          patientSearch,
+         stepProgressBar,
        },
         computed: {
           bmi_mod() {
