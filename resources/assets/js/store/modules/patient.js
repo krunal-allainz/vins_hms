@@ -20,7 +20,10 @@ const state = {
     'laboratoryData':{},
     'saveOpd':false,
     'prescriptionData':{},
+    'refferelReportData':{},
+    'step4Data':{},
     'curStep':1
+
 
  }
 
@@ -67,6 +70,12 @@ const actions = {
   },
   saveLabReportData({commit},labReportData){
     commit(types.SET_LAB_REPORT_DATA,labReportData)
+  },
+  saveReferralReportData({commit},refferelReportData){
+    commit(types.SET_REFFEREL_REPORT_DATA,refferelReportData)
+  },
+  saveStep4Data({commit},step4Data) {
+    commit(types.SET_Step4_DATA, step4Data);
   },
   SetPatientData ({commit},ipdId) {
     
@@ -151,13 +160,24 @@ const mutations = {
 
       state.laboratoryData = {'type':labData};
   },
-    [types.RESET_OPD_FORM] (state) {
+  [types.SET_REFFEREL_REPORT_DATA](state, refData){
+      state.refferelReportData = refData;
+  },
+  [types.SET_Step4_DATA](state, step4data){
+
+      state.step4Data = step4data;
+  },
+  [types.RESET_OPD_FORM] (state) {
     // console.log(patientData)
       state.opdData = {};
       state.opd_resultData = {};
       state.radioData = {};
       state.prescriptionData = {};
       state.laboratoryData = {};
+      state.neuroExaminationData = {};
+      state.vascExaminationData = {};
+      state.refferelReportData={};
+      state.step4Data={};
   },
   [types.SAVE_OPD_DATA] (state) {
     // console.log(patientData)

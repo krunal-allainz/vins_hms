@@ -14,15 +14,7 @@
                   Field is required
                 </span>
                     </div>
-                   <!--  <div class="col-md-6" v-show="resultData.type == 'X-Rays'">
-                        <label> Select Type:</label>   
-                        <select class = "form-control ls-select2" id = "xray_type" name = "xray_type" v-model="resultData.x_ray_type" v-validate="'required'">
-                            <option v-for="type in investigationData.xray_type_options" :value="type.value" >{{type.text}}</option>
-                        </select>      
-                        <span class="help is-danger" v-show="errors.has('xray_type')">
-                  Field is required
-                        </span>              
-    		      </div> -->
+                   
                 </div>
                 <div class="row form-group">
 
@@ -50,14 +42,7 @@
                   Field is required
                 </span>    
                       </div>
-                      <!-- <div class="col-md-6" v-if="resultData.bodyPart == 'Joint' || resultData.bodyPart == 'Others'">
-                        <label> Others</label>
-                        
-                         <input type="text" name="radiology_bodypart_other" id="radiology_bodypart_other" class="form-control" v-model="resultData.qualifier" >
-                            <span class="help is-danger" v-show="errors.has('radiology_bodypart_other')">
-                              Field is required
-                            </span>    
-                      </div> -->
+                    
                 </div>
                 <div class="row form-group">
     				<div class="col-md-6">
@@ -133,11 +118,7 @@
                             </span>   
                         </div>
                     </div>
-                    <!-- <div class="col-md-2">
-                         <img src="http://place-hold.it/100x100" id="img_preview" height="100" width="100" alt="Image preview..." v-if="resultData.imgData==''">
-                         <img :src="resultData.imgData[0].data" id="img_preview" height="100" width="100" alt="Image preview..." v-else>
-                         
-                    </div> -->
+                   
                     
     			</div>
 
@@ -193,20 +174,16 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-if="res.removed == false" v-for="(res,index) in finalResultData">
-                            <td>{{++index}}</td>
-                            <td>{{res.type}}</td>
-                            <td>{{res.bodyPart}}</td>
-                            <td>{{res.qualifier}}</td>
-                            <td>{{res.special_request}}</td>
-                            <td>{{res.textData | strLimit}}</td>
-                            <td><a href="javascript:void(0)" @click="viewGallery(res.id)" class="red">View</a></td>
-                            <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
-                            <td> <i class="fa fa-remove" @click="removeReport(res.id)"></i></td>
-
-                            
-                        </tr>
-                        
+                            <tr v-if="res.removed == false" v-for="(res,index) in finalResultData">
+                                <td>{{++index}}</td>
+                                <td>{{res.type}}</td>
+                                <td>{{res.bodyPart}}</td>
+                                <td>{{res.qualifier}}</td>
+                                <td>{{res.special_request}}</td>
+                                <td>{{res.textData | strLimit}}</td>
+                                <td><a href="javascript:void(0)" @click="viewGallery(res.id)" class="red">View</a></td>
+                                <td> <i class="fa fa-remove" @click="removeReport(res.id)"></i></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -419,7 +396,6 @@
             
 	        $('#radio_div').on("select2:select", '.ls-select2',function (e) {
                 if(this.id == 'radiology_type') {
-                    console.log('id',this.id)
 	        	     $('#radiology_subtype').val('').trigger('change');
                     // $('#radiology_qualifier').select2("destroy");
 	        		vm.resultData.type = $("#radiology_type").select2().val();

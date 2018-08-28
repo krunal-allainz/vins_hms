@@ -675,6 +675,7 @@
 		</div>
 			@endif
 		@endif
+		@if(in_array( 'Advice + follow ups',$data['checkedreportList']))
 		@if(isset($data['advice']) && isset($data['adviceType']))
 		<div  style="padding-left: 35px;">
 			<div class='col-md-6 text-left'>
@@ -688,6 +689,7 @@
 				@endif
 			</div>
 		</div>
+		@endif 
 		@endif 
 		@if(isset($data['referalType']))
 	@if($data['referalType'] != null && $data['crossSelectedValue'] != '')
@@ -736,7 +738,7 @@
   <div >
   	<div class='row'>
 		<div class='col-md-12 text-center'>
-			<h4>OPD CASE </h4>
+			<h4>OPD CASE </h4> 
 		</div>
   	</div>	
 	@if(in_array('Radiology',$data['checkedreportList']))
@@ -818,7 +820,6 @@
         @endif
 	@endif
 	@if(in_array('Prescription',$data['checkedreportList']))
-
 		@if(isset($data['priscriptionData']))
 	  		@if(!empty($data['priscriptionData']))
 			<div class='col-md-12 text-center'>
@@ -928,9 +929,10 @@
 	            </table>
 		</div>
 			@endif
+			@endif
 		@endif
-
 		@if(in_array( 'Advice + follow ups',$data['checkedreportList']))
+
 		@if(isset($data['advice'])  && isset($data['adviceType']))
 		<div  style="padding-left: 35px;">
 			<div class='col-md-6 text-left'>
@@ -961,8 +963,7 @@
 		</div>
 		@endif
 		@endif
-		@if(isset($data['followup']))
-		@if($data['followup'] != '')
+		@if(isset($data['followup']) && $data['followup'] != '')
 		<div  style="padding-left: 35px;">
 			<div class='col-md-6 text-left'>
 				<span class='text-left'><b>Followup :-</b></span>
@@ -974,8 +975,8 @@
 			</div>
 		</div>
 		@endif 
-		@endif
-	@endif
+		
+	
 		<br/><br/>
 
 	@endif
@@ -999,7 +1000,7 @@
 		</div>
 	</div> -->	
 </div>
-   <div  class="footer" style="background-color: dodgerblue;color: white;position:absolute;bottom:0;width:100%;height:170px;left:0">
+   <div  class="footer" style="background-color: dodgerblue;color: white;bottom:0;width:100%;height:170px;left:0">
       <div class="row text-center">
           <div class="col-md-12">
               <div class="text-center text-capitalize"  style="text-align: center;">  
