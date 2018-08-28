@@ -20,6 +20,7 @@ const state = {
     'laboratoryData':{},
     'saveOpd':false,
     'prescriptionData':{},
+    'curStep':1
 
  }
 
