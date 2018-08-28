@@ -327,11 +327,8 @@
 	    </div>  
 
 	    </div>   
-        
-
 		@include('patientDetailReport')
 		@include('patientCheckupReport')
-  
 
 	  @if($data['printType'] == 'opd_case')
 	  <div >
@@ -340,9 +337,6 @@
 				<h4>OPD CASE </h4>
 			</div>
 	  	</div>
-
-	  
-
 		@if($checkout=='Advice + follow ups')
 			@if($data['advice'] != null && $data['adviceType'] == 'text')
 			<div  style="padding-left: 35px;">
@@ -378,21 +372,20 @@
 				<div class='col-md-6 text-left'>
 					<span class='text-left'><b>Followup :-</b></span>
 				</div>
-				<div >
+				<div>
 						<div class='col-md-12 text-left'>
 						   {{$data['followup']}}
 						</div> 
 				</div>
 			</div>
 			@endif 
-			
 		@endif 
 		@if($checkout=='Radiology')
 			<div class='row'>
 			<div class='col-md-12 text-center'>
 				<h4>Radiology Report</h4>
 			</div>
-			<div class="row"  >
+			<div class="row">
 	        	<div class="col-md-12">
 	        	  <div class="">
 	                <table class="table table-striped table-bordered" id="radio_list">
@@ -567,7 +560,70 @@
 				@endif
 			@endif
 		@endif
-		
+		@if($checkout=='History')
+			@if($data['history'] != null && $data['historyType'] == 'text')
+			<div  style="padding-left: 35px;">
+				<div class='col-md-6 text-left'>
+					<span class='text-left'><b>History :-</b></span>
+				</div>
+				<div class='row'>
+					@if ($data['historyType'] == 'text')
+						<div class='col-md-12 text-left'>
+							<span class='text-left' style="padding-left:30px;">{{$data['history']}}</span>
+						</div>
+					@endif
+					
+				</div>
+			</div>
+			<br/>
+			@endif 
+			@if($data['historyType'] != 'text' && $data['historyScableValue'] != '')
+			<div  style="padding-left: 35px;">
+				<div class='col-md-6 text-left'>
+					<span class='text-left'><b>History :-</b></span>
+				</div>
+				<div class='row'>
+
+						<div class='col-md-12 text-left'>
+						    <img src="{{$data['historyScableValue']}}" title="History">
+						</div> 
+				</div>
+			</div>
+			@endif
+			
+		@endif 
+		@if($checkout=='Past History')
+			@if($data['past_history'] != null && $data['pastHistoryType'] == 'text')
+			<div  style="padding-left: 35px;">
+				<div class='col-md-6 text-left'>
+					<span class='text-left'><b>Past History :-</b></span>
+				</div>
+				<div class='row'>
+					@if ($data['pastHistoryType'] == 'text')
+						<div class='col-md-12 text-left'>
+							<span class='text-left' style="padding-left:30px;">{{$data['past_history']}}</span>
+						</div>
+					@endif
+					
+				</div>
+			</div>
+			<br/>
+			@endif 
+			@if($data['pastHistoryType'] != 'text' && $data['pastHistoryScableValue'] != '')
+			<div  style="padding-left: 35px;">
+				<div class='col-md-6 text-left'>
+					<span class='text-left'><b>Past History :-</b></span>
+				</div>
+				<div class='row'>
+
+						<div class='col-md-12 text-left'>
+						    <img src="{{$data['pastHistoryScableValue']}}" title="Past History">
+						</div> 
+				</div>
+			</div>
+			@endif
+			
+		@endif 
 		</div>
 	@endif
 		

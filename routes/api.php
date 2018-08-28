@@ -222,6 +222,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         $api->post('patient/getOPDDetailsByPatientId', '\euro_hms\Api\Controllers\PatientsDetailFormController@getOPDDetailsByPatientId');
 
         $api->post('patient/movepsatientfornewreferal', '\euro_hms\Api\Controllers\PatientsDetailFormController@movePatientWithNewReferal');
+
+        $api->post('opd/patientopddetail', '\euro_hms\Api\Controllers\OPDDetailsFromController@getPatientOpdData');
         
         });
 
