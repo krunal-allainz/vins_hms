@@ -103,12 +103,12 @@
  		$department=$request->all()['data']['department'];
  		$prescription_data=$request->all()['data']['prescriptionData'];
  		$radiology_data=$request->all()['data']['radioData'];
- 		$resultdata=$request->all()['data']['resultData'];
  		$labdata=$request->all()['data']['laboratoryData'];
- 		$cross_opd_data=$request->all()['data']['opdData']['reffreal_cross_array'];
- 		$lab_opd_data=$request->all()['data']['opdData']['reffreal_laboratory_array'];
- 		$radio_opd_data=$request->all()['data']['opdData']['reffreal_radiology_array'];
-
+ 		$reff_data=$request->all()['data']['reffData'];
+ 		$cross_opd_data=$request->all()['data']['reffData']['reffreal_cross_array'];
+ 		$lab_opd_data=$request->all()['data']['reffData']['reffreal_laboratory_array'];
+ 		$radio_opd_data=$request->all()['data']['reffData']['reffreal_radiology_array'];
+ 		$step4_data=$request->all()['data']['step4Data'];
  		if($department=='Vascular')
  		{
  			$examinationData=$request->all()['data']['vascExaminationData'];
@@ -147,13 +147,13 @@
 		{
 			$opdData=OpdDetails::findOrFail($opd_id_org);
  		
-		 		if($data['adviceType']=='text')
+		 		if($step4_data['adviceType']=='text')
 		 		{
-		 			$advice=array('type'=>$data['adviceType'],'value'=>$data['advice']);
+		 			$advice=array('type'=>$step4_data['adviceType'],'value'=>$step4_data['advice']);
 		 		}
 		 		else
 		 		{
-		 			$advice=array('type'=>$data['adviceType'],'value'=>$data['signaturePad2_src']);
+		 			$advice=array('type'=>$step4_data['adviceType'],'value'=>$step4_data['signaturePad2_src']);
 		 		}
 		 		if($data['historyType']=='text')
 		 		{
@@ -177,7 +177,8 @@
 		 		$opdData->advice=$advice_final;
 		 		$opdData->history=$history_final;
 		 		$opdData->past_history=$past_history_final;
-		 		$opdData->provisional_diagnosis=$data['provisional_diagnosis'];
+		 		$opdData->provisional_diagnosis=$step4_data['provisional_diagnosis'];
+		 		$opdData->follow_up=$step4_data['follow_up'];
 		 		//$opdData->consultant_id=$data['consulting_dr'];
 		 		$opdData->save();
 		}
@@ -208,7 +209,7 @@
 	 			$prescription_obj->save();
 	 		}
  		}
- 		if($data['referral']=='physiotherapy')
+ 		if($reff_data['referral']=='physiotherapy')
  		{
  			$physio_obj=new OPDPhysioDetails();
 			$physio_obj->opd_id=$opd_id_org;

@@ -417,7 +417,6 @@
             
 	        $('#radio_div').on("select2:select", '.ls-select2',function (e) {
                 if(this.id == 'radiology_type') {
-                    console.log('id',this.id)
 	        	     $('#radiology_subtype').val('').trigger('change');
                     // $('#radiology_qualifier').select2("destroy");
 	        		vm.resultData.type = $("#radiology_type").select2().val();

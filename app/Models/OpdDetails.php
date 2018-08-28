@@ -22,7 +22,8 @@ class OpdDetails extends Model
       'advice',
       'reference',
       'consultant_id',
-      'provisional_diagnosis'
+      'provisional_diagnosis',
+      'follow_up'
 
     ];
 

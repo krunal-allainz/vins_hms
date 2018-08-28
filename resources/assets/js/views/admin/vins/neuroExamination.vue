@@ -396,8 +396,7 @@
           },
           prev() {
               let vm =this;
-                   vm.$store.dispatch('saveNeuroExamination', _.cloneDeep(vm.saveNeuroExamination)) ;
-
+              vm.$store.dispatch('saveNeuroExamination', _.cloneDeep(vm.saveNeuroExamination)) ;
               vm.$root.$emit('prev');
           },
 		    GetSelectComponent(componentName) {

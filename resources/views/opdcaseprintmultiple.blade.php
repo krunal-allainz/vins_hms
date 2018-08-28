@@ -359,9 +359,7 @@
 				</div>
 			</div>
 			<br/>
-			@endif 
-
-
+			@endif
 			@if($data['adviceType'] != 'text' && $data['adviceScribleValue'] != '')
 			<div  style="padding-left: 35px;">
 				<div class='col-md-6 text-left'>

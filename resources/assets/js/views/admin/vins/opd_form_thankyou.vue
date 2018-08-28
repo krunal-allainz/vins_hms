@@ -496,16 +496,19 @@
 			if(this.adviceType != 'text'){
 				this.adviceScribleValue = this.$store.state.Patient.opdData.signaturePad2_src;
 			}
-			if(vm.checkedreportList != null){
-				vm.reportListSelect = 0;
-	       }else{
-				vm.reportListSelect = 1;
-			}
+			
   			this.getPatientData(this.patinetId);
        },
 		methods: {
 			print_multiple_report()
 			{
+				let vm=this;
+				if(vm.checkedreportList.length>0){
+					vm.reportListSelect = 0;
+		       }else{
+					vm.reportListSelect = 1;
+					return false;
+				}
 				this.ClickHereToPrintMultiple('opd_case');
 			},
 			getPatientData(patinetId)
@@ -598,7 +601,7 @@
 			 check: function(e) {
 			 	let vm=this;
 	     		 if (e.target.checked) {
-	      		  vm.reportListSelect = 0;
+	      		  //vm.reportListSelect = 0;
 	     		 }else{
 	     		 	 vm.reportListSelect = 1;
 	     		 }
