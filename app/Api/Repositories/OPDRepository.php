@@ -214,7 +214,7 @@
  			$physio_obj=new OPDPhysioDetails();
 			$physio_obj->opd_id=$opd_id_org;
 			$physio_obj->user_id=$user_id;
-			$physio_obj->details=$data['physio_details'];
+			$physio_obj->details=$reff_data['physio_details'];
 			$physio_obj->save();
  		}
  		
