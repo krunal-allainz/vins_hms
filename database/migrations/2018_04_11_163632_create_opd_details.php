@@ -24,6 +24,7 @@ class CreateOpdDetails extends Migration
             $table->text('history')->nullable();
             $table->text('past_history')->nullable();
             $table->text('advice')->nullable();
+            $table->text('follow_up')->nullable();
             $table->timestamps();
 
         });

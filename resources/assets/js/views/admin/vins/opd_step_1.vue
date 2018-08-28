@@ -340,6 +340,7 @@
               'curStep':1,
               'totalStep':4,
               'opd_id':'',
+              'patient_id':'',
               'opdData': {
                 'pain_value':0,
                 'patientlist':'',
@@ -412,6 +413,7 @@
          let opd_list_new=[];
            if(this.$store.state.Patient.patientId != ''){
               vm.opdData.patientlist= this.$store.state.Patient.patientId;
+              vm.patient_id= this.$store.state.Patient.patientId;
               $('#patient').val(vm.opdData.patientlist).trigger('change:select2');
           }
           vm.$store.dispatch('resetOpdForm');
@@ -455,6 +457,7 @@
           },500);
           $(document).on("select2:select",'#patient', function (e) { 
             vm.opdData.patientlist=$(this).val();
+            vm.patient_id=$(this).val();
             let patientId = $(this).val();
             vm.opdData.patientlist=patientId;
             vm.$store.dispatch('SetPatientId',patientId);             
@@ -521,6 +524,7 @@
           {
             let vm =this;
             vm.opdData.patientlist="";
+            vm.patient_id="";
             vm.patientEmpty();
               if(val==true)
               {
@@ -551,6 +555,7 @@
               let vm =this;
               vm.opdData.last_vist="";
               vm.opdData.patientlist="";
+              vm.patient_id="";
               vm.opdData.uhid_no="";
               vm.opdData.weight="";
               vm.opdData.height="";
@@ -576,6 +581,7 @@
               //for opd list
                 this.opdData.uhid_no=pDetails.uhid_no;
                 this.opdData.patientlist=pDetails.id;
+                vm.patient_id=pDetails.id;
                 vm.get_vitals();
             }
             else if(patientData.code==300)
