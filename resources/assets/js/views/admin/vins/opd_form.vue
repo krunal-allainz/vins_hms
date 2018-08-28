@@ -378,7 +378,7 @@
           <label for="internal">Cross Reference:</label>
         </div>
         <div class="col-md-12">
-          <select class="form-control ls-select2" name="cross" id="cross"  multiple="" @change="changeReferal">
+          <select class="form-control ls-select2" name="cross" id="cross"  multiple="">
             <option value="internal">Internal</option>
             <option value="external">External</option>
           </select>
@@ -486,12 +486,12 @@
             <input type="text" name="external" id="external" class="form-control" v-model="opdData.cross_type_ext">
             </div>
           </div>
-           <div class="col-md-6"  v-if="(cross_internal == 'true')">
+        <!--    <div class="col-md-6"  v-show="(cross_internal == 'true')">
            <div class="col-md-12">
             <button type="button" class="btn btn-primary btn-submit text-right" @click="savePatientDataWithNewReferal">Save</button>
             <a class="btn btn-primary btn-submit text-right" href="/dashboard" >Exit</a>
           </div>
-        </div>
+        </div> -->
         </div>
       
         <!-- for laboratory -->
@@ -1163,16 +1163,16 @@
 
         },
         methods: {
-          savePatientDataWithNewReferal(){
-            User.movePatientForNewReferal().then(
-               (response) => {
+          // savePatientDataWithNewReferal(){
+          //   User.movePatientForNewReferal().then(
+          //      (response) => {
 
-               },
-               (error) => {
+          //      },
+          //      (error) => {
 
-              }
-            );
-          },
+          //     }
+          //   );
+          // },
           newPatient()
           {
               var vm =this;

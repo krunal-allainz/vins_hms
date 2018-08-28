@@ -279,7 +279,6 @@
  			//print_r($labdata);exit;
  			foreach($labdata['type'] as $lab)
  			{
- 				
 				$lab_obj_2=new LaboratoryDetails();
 				$lab_obj_2->referance=1;
  				$lab_obj_2->opd_id=$opd_id_org;
@@ -459,6 +458,18 @@
 
  		return $physio_details->id;
 
+ 	}
+
+ 	public function getPatientOpdData($opdId){
+ 		 $result = array();
+ 		 $result['opdDetails'] = OpdDetails::where('id',$opdId)->first();
+ 		 $result['opdExaminationData'] = Examination::where('opd_id',$opdId)->first();
+ 		 $result['opdReferalphysioData'] = OPDPhysioDetails::where('opd_id',$opdId)->first();
+ 		 $result['opdReferalCrossData'] = CrossDetails::where('opd_id',$opdId)->first();
+ 		 $result['opdReferalLaboraryData'] =LaboratoryDetails::where('opd_id',$opdId)->first();
+ 		  $result['opdReferalRadiologyData'] = Radiology::where('opd_id',$opdId)->first();
+
+ 		 return $result;
  	}
  	
  }

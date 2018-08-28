@@ -240,6 +240,26 @@ class OPDDetailsFromController extends Controller
                 return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
             }
     }
+
+    /**
+    *  function use for ger perticuler opd data
+    *
+    *
+    *
+    **/
+
+    public function getPatientOpdData(Request $request){
+        $opdId = $request->id;
+        $opdDetail=$this->opdObj->getPatientOpdData($opdId);
+            if($opdDetail)
+            {
+                return ['code' => '200','data'=>$opdDetail, 'message' => 'Record Sucessfully created'];
+            }   
+            else
+            {
+                return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+            }
+    }
     
 
    

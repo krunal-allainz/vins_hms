@@ -356,5 +356,8 @@ export default {
   },
   movePatientForNewReferal(OPDCaseData){
      return api.post('patient/movepsatientfornewreferal',{'OPDCaseData':OPDCaseData});
+  },
+  getPatientOpdData(opdId){
+     return api.post('opd/patientopddetail',{'id':opdId});
   }
 }

@@ -13,8 +13,6 @@
     	 	 	<!-- <div class="col-md-4"> -->
     	 	 		<!-- <button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  @click = "printReport('opd_case')" v-if="(opdReport == true)" id="opd_case_btn">OPD Case</button>
  -->    	 	 	
-
-
     	 	 		<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#generateModal"  @click="printReport('generate_case')" v-if="(opdReport == false)"> Print Report</button>
     	 	 <!-- 	</div>
     	 	 	<div class="col-md-4">
@@ -23,11 +21,8 @@
     	 	 	<div class="col-md-4"> 
     	 	 		<button type="button" class="btn btn-primary btn-submit text-right " data-toggle="modal" href="#printModal"  @click="printReferal()">Referal</button>-->
  					<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  @click = "printReport('print_perceptions')"  id="opd_case_btn">Print Perceptions</button>
-
     	 	 		<button  v-if="(labReportData)" type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('lab')" >Lab Report</button>
-
     	 	 		<button  v-if="(radioReportData)" type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('radiology')" >Radiology Report</button>
-
     	 	 		<button v-if="(prescriptiData)" type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('prescription')">Print Prescription</button>
     	 	 		
     	 	 		<!-- <button type="button" class="btn btn-primary btn-submit text-right" @click = "GetSelectComponent('patients_receipt_form')">Generate Receipts</button>  -->
@@ -185,7 +180,7 @@
 			 	</div>
 			 	<div v-if="(printType == 'print_perceptions')" 	>
 			 		<div>
-		 					<div class='col-md-6 text-left'>
+		 				<div class='col-md-6 text-left'>
 						 				<span class='text-left'><b>Provisional Diagnostic :-</b></span>
 						 	</div>
 						 	<div class='row'>
@@ -463,6 +458,24 @@
 		      		  'reportListId': 'Laboratory'
 		      		}, {
 		      		  'reportListId': 'Prescription'
+		      		},
+		      		{
+		      		  'reportListId': 'History'	
+		      		},
+		      		{
+		      		  'reportListId': 'Past History'	
+		      		},
+		      		{
+		      		  'reportListId': 'Investigation Lab'
+		      		},
+		      		{
+		      		  'reportListId': 'Investigation Radiology'
+		      		},
+		      		{
+		      			'reportListId': 'Examination'
+		      		},
+		      		{
+		      			'reportListId': 'Referrals'
 		      		}] ,
 		      	'opdReport' : false,
 		      	'reportListSelect' : 0,
@@ -473,7 +486,13 @@
 		      	'department': '',
 		      	'provisional_diagnostic' : this.$store.state.Patient.opdData.provisional_diagnosis,
 		      	'reference' : '',
-		      	'sectionOpdId' : ''
+		      	'sectionOpdId' : '',
+		      	'historyType' : this.$store.state.Patient.opdData.historyType,
+		      	'historyScableValue' : '',
+		      	'history' : this.$store.state.Patient.opdData.history,
+		      	'pastHistoryType' : this.$store.state.Patient.opdData.pastHistoryType,
+				'pastHistoryScableValue' : '',
+		      	'past_history' :  this.$store.state.Patient.opdData.past_history,
 			}
 		},
 		components: {
@@ -498,6 +517,12 @@
 			}
 			if(this.adviceType != 'text'){
 				this.adviceScribleValue = this.$store.state.Patient.opdData.signaturePad2_src;
+			}
+			if(this.historyType != 'text'){
+				this.historyScableValue = this.$store.state.Patient.opdData.signaturePad_src;
+			}
+			if(this.pastHistoryType != 'text'){
+				this.pastHistoryScableValue = this.$store.state.Patient.opdData.signaturePad1_src;
 			}
 			if(vm.checkedreportList != null){
 				vm.reportListSelect = 0;
@@ -642,7 +667,13 @@
 					'patientCheckupDetail' : this.patientCheckupDetail,
 					'department' : this.department,
 					'provisional_diagnostic' : this.provisional_diagnostic,
-					'doctoreName' : this.doctoreName
+					'doctoreName' : this.doctoreName,
+					'historyType' : this.historyType,
+					'historyScableValue' : this.historyScableValue,
+		      		'history' : this.history,
+		      		'pastHistoryType' : this.pastHistoryType,
+					'pastHistoryScableValue' : this.pastHistoryScableValue,
+		      		'past_history' : this.past_history,
 				};
 
 		      	User.printOPDCaseMultipleData(OPDCaseData).then(	
