@@ -139,9 +139,6 @@
 			$data_patient_checkup_obj->pain=$data['pain_value'];
 			$data_patient_checkup_obj->save();
  		}
-		
- 		
-		
 		//opd details
 		if($opd_id_org)
 		{
