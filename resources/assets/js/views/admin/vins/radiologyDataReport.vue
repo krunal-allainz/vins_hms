@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div v-if="(printType == 'radiology')">
+		<div v-if="(printType == 'radiology')" >
 			 <div class='row'>
 			 	<div class='col-md-12 text-center'>
 			 		<h4>Radiology Report</h4>
@@ -24,10 +24,10 @@
 						<tr v-if="res.removed == false" v-for="(res,index) in radiologyReferalData">
 		                    <td>{{++index}}</td>
 		                    <td>{{res.type}}</td>
-		                    <td>{{res.bodyPart}}</td>
-		                    <td>{{res.qualifier}}</td>
+		                    <td>{{res.bodyparts}}</td>
+		                    <td>{{res.qualifiers}}</td>
 		                    <td>{{res.special_request}}</td>
-		                    <td>{{res.textData | strLimit}}</td>
+		                    <td>{{res.details | strLimit}}</td>
 		                    <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
 		                </tr>
                     </tbody>
@@ -57,13 +57,13 @@
 			            </tr>
 						</thead>
 						<tbody>
-						<tr v-if="res.removed == false" v-for="(res,index) in radiologyReportData">
+						<tr  v-for="(res,index) in radiologyReportData">
 		                    <td>{{++index}}</td>
 		                    <td>{{res.type}}</td>
-		                    <td>{{res.bodyPart}}</td>
-		                    <td>{{res.qualifier}}</td>
+		                    <td>{{res.bodyparts}}</td>
+		                    <td>{{res.qualifiers}}</td>
 		                    <td>{{res.special_request}}</td>
-		                    <td>{{res.textData | strLimit}}</td>
+		                    <td>{{res.details | strLimit}}</td>
 		                    <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
 		                </tr>
                     </tbody>
