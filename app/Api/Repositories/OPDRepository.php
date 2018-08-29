@@ -255,7 +255,7 @@
 	 			$radiology_obj->bodyparts=$radio['bodyPart'];
 	 			$radiology_obj->qualifiers=$radio['qualifier'];
 	 			$radiology_obj->special_request=$radio['special_request'];
-	 			$radiology_obj->referance=1;
+	 			$radiology_obj->referance=0;
 	 			$radiology_obj->details=$radio['textData'];
 	 			if($radio['type']=='X-Rays')
 	 			{
@@ -403,8 +403,6 @@
 		// this week results
 		$fromDate =Carbon::now()->subDay(30)->startOfWeek()->toDateString(); // or ->format(..)
 		$tillDate = Carbon::now()->toDateString();
-		
-		
 		$result['today'] = OpdDetails::selectRaw('date(created_at) as date, COUNT(*) as count')
         ->where( DB::raw('date(created_at)'), [$tillDate] )
     	->orderBy('created_at', 'DESC')
@@ -465,9 +463,10 @@
  		 $result['opdExaminationData'] = Examination::where('opd_id',$opdId)->first();
  		 $result['opdReferalphysioData'] = OPDPhysioDetails::where('opd_id',$opdId)->first();
  		 $result['opdReferalCrossData'] = CrossDetails::where('opd_id',$opdId)->first();
- 		 $result['opdReferalLaboraryData'] =LaboratoryDetails::where('opd_id',$opdId)->first();
- 		  $result['opdReferalRadiologyData'] = Radiology::where('opd_id',$opdId)->first();
-
+ 		 $result['opdReferalLaboraryData'] =LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.opd_id',$opdId)->where('laboratory_details.referance',0)->get();
+ 		  $result['opdReferalRadiologyData'] = Radiology::where('opd_id',$opdId)->where('referance',0)->get();
+ 		  $result['opdLabData'] = LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.opd_id',$opdId)->where('laboratory_details.referance',1)->get();
+ 		  $result['opdRadiologyData'] = Radiology::where('opd_id',$opdId)->where('referance',1)->get();
  		 return $result;
  	}
  	

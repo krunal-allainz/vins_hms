@@ -19,12 +19,39 @@
     	 	 		</div>
     	 	 	</div>
     		</form>
-    		<div id="printModal" class="modal fade">
-     			<div class="modal-dialog" >
-		 			<div class="modal-content" >
-		 			<!--<div class="modal-header"></div>-->
-		 			<div class="modal-body">
-			 			<opdReportView :opdId="opdId" patinetId="patinetId" :todayDate="todayDate" :patientCheckupDetail="patientCheckupDetail" :signatureName="signatureName" :doctoreName="doctoreName" :regNo="regNo" :patientDetail="patientDetail" :department="department" :timeStamp="timeStamp" :reference="reference"></opdReportView>
+    	<div id="generateModal" class="modal fade">
+    		<div class="modal-dialog" >
+    		<div class="modal-content" >
+    			<div class="modal-body">
+					<div id="demo">
+					<label><b>Select Report:</b></label>
+					<ul>		
+						<li v-for="mainCat in reportList">
+							<input type="checkbox" :value="mainCat.reportListId" id="mainCat.reportListId" v-model="checkedreportList" @click="check($event)"> {{mainCat.reportListId}}
+						</li>
+					</ul>
+					<span class="help is-danger" v-if="(reportListSelect == 1)">
+                  			Please select any report Type.
+                	</span> 
+				</div>
+
+					<!-- <button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button> -->
+					<button type="button" class="btn btn-primary btn-submit text-right" @click="print_multiple_report()">Print</button>
+
+					<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button>
+					<!-- <button ty pe="button" lass="btn btn-primary btn-submit text-right" >Print</button> -->
+
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+   		</div>
+    	<div id="printModal" class="modal fade">
+     		<div class="modal-dialog" >
+		 		<div class="modal-content" >
+		 		<!--<div class="modal-header"></div>-->
+		 		<div class="modal-body">
+			 		<opdReportView :opdId="opdId" patinetId="patinetId" :todayDate="todayDate" :patientCheckupDetail="patientCheckupDetail" :signatureName="signatureName" :doctoreName="doctoreName" :regNo="regNo" :patientDetail="patientDetail" :department="department" :timeStamp="timeStamp" :reference="reference" :ReportPageData="ReportPageData" :printType="printType" :checkedreportList="checkedreportList"></opdReportView>
 			 		</div>
 			 		<div class="modal-footer">	
 						<button  type="button" class="btn btn-primary"  @click="ClickHereToPrint()">Print</button>	
@@ -53,9 +80,11 @@
 	export default {
 		data() {
 			return{
+				'printType' : '',
 				'todayDate' : formattedDate,
-				'opdId' : 8,
+				'opdId' : 1,
 				'patinetId' : this.$store.state.Patient.patientId,
+				'opdReport' : false,
 				'consultntId' : '',
 				'consultName' : '',
 				'signatureName' : '',
@@ -66,21 +95,78 @@
 		      	'patientCheckupDetail' : {},
 		      	'department': '',
 		      	'reference' : '',
+		      	'checkedreportList': [],
+	    		'reportList': [{
+		       		 'reportListId': 'Advice + follow ups'
+		      		}, {
+		      		  'reportListId': 'Radiology'
+		      		}, {
+		      		  'reportListId': 'Laboratory'
+		      		}, {
+		      		  'reportListId': 'Prescription'
+		      		},
+		      		{
+		      		  'reportListId': 'History'	
+		      		},
+		      		{
+		      		  'reportListId': 'Past History'	
+		      		},
+		      		{
+		      		  'reportListId': 'Investigation Lab'
+		      		},
+		      		{
+		      		  'reportListId': 'Investigation Radiology'
+		      		},
+		      		{
+		      			'reportListId': 'Examination'
+		      		},
+		      		{
+		      			'reportListId': 'Referrals'
+		      		}] ,
+		      		'ReportPageData' : {
+		      	'labReferalReportData' : {},
+		      	'radiologyReferalReportData' : {},
+		      	'ExaminationData' : {},
+		      	'opdData' : {},
+		      	'CrossReferalData' : {},
+		      	'phisioyoData' : {},
+		      	'labReportData' : {},
+		      	'radiologyReportData' : {}
+		      }
 			}
 		},
 		components: {
-         
          opdReportView,
        },
        mounted(){
        	let vm =this;
+       	if(vm.$store.state.Users.userDetails.user_type != '1'){
+              vm.$root.$emit('logout','You are not authorise to access this page'); 
+          }
        	vm.getOpdData(vm.opdId);
        	vm.getPatientData(vm.patinetId);
        },
        methods: {
+       		printReport(type){
+				let vm = this;
+					vm.printType = type;
+				if(type == 'opd_case'){
+						$('#generateModal').modal({ show: false})
+						
+				}
+			},
        		getOpdData(opdId){
-       			User.getPatientOpdData().then(
+       			let vm = this;
+       			User.getPatientOpdData(opdId).then(
        				(response) => {
+       				  vm.ReportPageData.opdData = response.data.data.opdDetails;
+       				  vm.ReportPageData.ExaminationData = response.data.data.opdExaminationData;
+       				  vm.ReportPageData.labReferalReportData = response.data.data.opdReferalLaboraryData;
+       				  vm.ReportPageData.radiologyReferalReportData = response.data.data.opdReferalRadiologyData;
+       				  vm.ReportPageData.CrossReferalData = response.data.data.opdReferalCrossData;
+       				  vm.ReportPageData.labReportData = response.data.data.opdLabData;
+       				  vm.ReportPageData.radiologyReportData = response.data.data.opdRadiologyData;
+       				
        				},
        				(error) => {
        				}
@@ -91,19 +177,15 @@
 				var vm=this;
 				User.generatePatientDetailsByID(patinetId).then(
 	  				(response) => {
-	  					
 	  					if(response.data.code == 200){
-	  						//console.log(response.data.data);
 	  						vm.patientDetail = response.data.data;
 	  					}
 	  				},
 	  				(error) => {
-
 	  				}
   				);
   				User.getOPDDetailsByPatientId(patinetId).then(
   					(response) => {
-	  					
 	  					if(response.data.code == 200){
 	  						vm.opdId = response.data.data.id;
 	  						vm.sectionOpdId = response.data.data.opd_id;
@@ -115,7 +197,6 @@
 	  							var sectionOpdId = vm.sectionOpdId;
 			  				User.getPatientCaseDetailByOpdId(sectionOpdId).then(
 			  					(response) => {
-			  					console.log(response.data.data);
 				  					if(response.data.code == 200){
 				  					vm.reference = response.data.data.references;
 				  					vm.consultntId = response.data.data.consultant_id;
