@@ -45,6 +45,8 @@ mix.combine([
 
      pluginPath + 'fullcalendar/lib/moment.min.js',
      pluginPath + 'bootstrap-magnify-master/js/bootstrap-magnify.min.js',
+     pluginPath + 'clockpicker/bootstrap-clockpicker.js',
+
      // pluginPath + 'blueimp-file-upload-node/server.js',
      // pluginPath + 'fullcalendar/fullcalendar.js',
      // pluginPath + 'fullcalendar-scheduler/scheduler1.js',

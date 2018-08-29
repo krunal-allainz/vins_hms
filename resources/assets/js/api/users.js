@@ -200,8 +200,8 @@ export default {
   submitReport(reportData) {
     return api.post('report/create',{'reportData':reportData})
   },
-  getAllPatientName() {
-      return api.get('patient/getAll');
+  getAllPatientName(user_type,user_id) {
+      return api.post('patient/getAll',{'userType':user_type,'user_id':user_id});
   },
   createUser(userData) {
       return api.post('user/create',{'userData':userData})
@@ -297,11 +297,67 @@ export default {
   getOPDCounters(id){
     return api.post('opd/opdtotal',{'id':id});
   },
-  getPatientListByDoctor(page_url,id){s
+  getPatientListByDoctor(page_url,id){
     return api.post(page_url,{'id':id})
   },
+  getUserTypesList(){
+    return api.post('user/types');
+  },
   generatePatientListBySearch(searchData) {
-      return api.post('patient/getListBySearch',{'searchData':searchData})
+      return api.post('patient/getListBySearch',{'searchData':searchData});
+  },
+  generateAllLaboratoryListByChild() {
+    return api.post('opd/getLabListByChildren');
+  },
+  savePatientCheckup(pData){
+     return api.post('patient/save_patient_checkup_data',{'pData':pData});
+  },
+  getImagefromUrl(url){
+    return  api.post('user/getimagefromurl',{'url':url})
+  },
+  savePhysioTherapy(physioData) {
+      return api.post('opd/savePhysiotherapy',{'physioData':physioData})
+  },
+  getExistingToken(token){
+      return api.post('patient/token_exist',{'token':token});
+  },
+  checkExistUser(type,value){
+     return api.post('user/user_exist',{'type': type , value : value});
+  },
+  getLastOPDIdByPatientId(patient_id) {
+    return api.post('patient/getLastOPDIdByPatientId',{'patient_id':patient_id});
+  },
+  getAllPatientListByDoctoreIdAndPaggination(page_url,type,noofRecord,id) { 
+      return api.post(page_url,{'type':type,'noOfRecord':noofRecord,'id':id});
+  },
+  getPatientDetailInfo(patientId){
+     return api.post('patient/patientDetailInfo',{'patientId':patientId});
+  },
+  getDoctoreInfoById(doctoreId,typeId){
+    return api.post('user/getdoctoreinfobyid',{'id' :doctoreId , 'typeId' : typeId});
+  },
+  getVitalsInfoByPatientId(patientId)
+  {
+       return api.post('patient/getVitalsInfoByPatientId',{'patientId':patientId});
+  },
+  getVitalsValidity(vitalId)
+  {
+       return api.post('patient/getVitalsValidity',{'vitalId':vitalId});
+  },
+  getPatientCaseDetailByOpdId(opdId){
+    return api.post('patient/patientCaseDetailInfo',{'opdId':opdId});
+  },
+  getOPDDetailsByPatientId(pid)
+  {
+       return api.post('patient/getOPDDetailsByPatientId',{'pid':pid});
+  },
+  printOPDCaseMultipleData(OPDCaseData){
+      return api.post('print/opdcaseMultiple',{'OPDCaseData':OPDCaseData});
+  },
+  movePatientForNewReferal(OPDCaseData){
+     return api.post('patient/movepsatientfornewreferal',{'OPDCaseData':OPDCaseData});
+  },
+  getPatientOpdData(opdId){
+     return api.post('opd/patientopddetail',{'id':opdId});
   }
-}   
-
+}

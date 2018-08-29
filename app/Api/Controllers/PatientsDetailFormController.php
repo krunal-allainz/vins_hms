@@ -35,6 +35,7 @@ class PatientsDetailFormController extends Controller
     public function index()
     {
         //
+       
     }
 
     /**
@@ -98,13 +99,17 @@ class PatientsDetailFormController extends Controller
             }
         }
     }
-    public function getAllPatientName() {
-        $patientDetails = PatientDetailsForm::get();
-        if ($patientDetails) {
-            return ['code' => '200','data'=>$patientDetails, 'message' => 'Record Sucessfully created'];
-        } else {
-            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
-        }
+
+    /**
+     * [getAllPatientName description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getAllPatientName(Request $request) {
+        $user_type = $request->userType;
+        $user_id = $request->user_id;
+        $patientDetails = $this->patientOBJ->getAllPatientName($user_type,$user_id);
+        return $patientDetails;
     }
     /**
      * Display the specified resource.
@@ -174,10 +179,11 @@ class PatientsDetailFormController extends Controller
    
     public function saveReceiptData(Request $request){ 
 
-        $data =  ReceiptRepository::saveReceipt($request); 
+        $data =  ReceiptRepository::saveReceipt($request);
+
         $all_amt=$request->formData['chargeAmount']+$request->formData['procedure_charges']+$request->formData['other_charges'];
         $wordAmount = Terbilang::make($all_amt); 
-        $consultant_name=$this->userOBJ->getUserNameById($request->formData['consult_id']);  
+        $consultant_name=$this->userOBJ->getUserNameById($request->formData['consult']);  
         $formData = [  
             'name' => $request->formData['fullname'],  
             'date' => $request->formData['date_receipt'] , 
@@ -242,6 +248,7 @@ class PatientsDetailFormController extends Controller
     public function patientCheckUpDetails(Request $request)
     {
         $oid=$request->opd_id;
+        
         $checkupdetails =  $this->patientOBJ->patientCheckUpDetailsByOpdId($oid);
         if ($checkupdetails) {
             return ['code' => '200','data'=>$checkupdetails, 'message' => 'Record Sucessfully created'];
@@ -289,30 +296,150 @@ class PatientsDetailFormController extends Controller
      */
     public function getListBySearch(Request $request)
     {
-        $data = $request->all()['searchData'];
-        $patientId = 0;
-        $select_value=$data['select_value'];
-        if($data['select_type'] == 'uhidNo'){
-            $select_key = 'uhid_no';
-        }else if($data['select_type'] == 'mobileNo'){
-            $select_key = 'mob_no';
-        }else if($data['select_type'] == 'firstName'){
-            $select_key = 'first_name';
-        }else if($data['select_type'] == 'lastName'){
-            $select_key = 'last_name';
-        }else if($data['select_type'] == 'dob'){
-            $select_key = 'dob';
-            $select_value=Carbon::createFromFormat('d-m-Y', $data['select_value'])->format('Y-m-d');
-        }
-        
-        $patientList =$this->patientOBJ->getPatientListBySearch($select_key,$select_value);
-        if(count($patientList)>0) {
-             return ['code' => '200','data'=>$patientList, 'message' => 'Patient record '];
+        return $this->patientOBJ->getPatientListBySearch($request);
+    }
+
+    /**
+    *
+    *@param  Request $request [description]
+    *
+    */
+
+    public function savePatientCheckup(request $request){
+         return $this->patientOBJ->addPatientCheckup($request);
+    }
+
+    public function tokenExist(request $request){
+        $token = $request->token;
+        return $this->patientOBJ->tokenExist($token); 
+    }
+    /*
+     *  @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getLastOPDIdByPatientId(Request $request)
+    {
+        $pid=$request->patient_id;
+        $opdDetails =  $this->patientOBJ->getLastOPDIdByPatientId($pid);
+        if ($opdDetails) {
+            return ['code' => '200','data'=>$opdDetails, 'message' => 'Record Sucessfully created'];
         } else {
-             //return ['code' => '300','patientData'=>'', 'message' => 'Record not found'];
-             return ['code' => '300','data'=>'', 'message' => 'Something went wrong'];
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
         }
-       
+    }
+
+    /**
+    *
+    *
+    *
+    **/
+
+    public function getPatientList(Request $request){ 
+        $section = $request->type;
+        $noOfRecord = $request->noOfRecord;
+        $id= $request->id;
+        $patientDetail =  $this->patientOBJ->getPatientList($section,$noOfRecord,$id);
+        if ($patientDetail) {
+            return ['code' => '200','data'=>$patientDetail, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+    }
+
+    /**
+     * [getPatientDetailInfo description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getPatientDetailInfo(Request $request){
+        $patientId = $request->patientId;
+        $patientDetail = $this->patientOBJ->getPatientDetailInfo($patientId);
+        if ($patientDetail) {
+            return ['code' => '200','data'=>$patientDetail, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
 
     }
+
+    /**
+     * [getVitalsInfoByPatientId description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getVitalsInfoByPatientId(Request $request){
+        $patientId = $request->patientId;
+        $patientDetail = $this->patientOBJ->getVitalsInfoByPatientId($patientId);
+        if ($patientDetail) {
+            return ['code' => '200','data'=>$patientDetail, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+
+    }
+
+    /**
+     * [getVitalsValidity description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getVitalsValidity(Request $request)
+    {
+        $vitalId = $request->vitalId;
+        $patientDetail = $this->patientOBJ->getVitalsValidity($vitalId);
+        if ($patientDetail) {
+            return ['code' => '200','data'=>$patientDetail, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+    }
+
+    /**
+     * [getPatientCaseDetailByOpdId description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getPatientCaseDetailByOpdId(Request $request){
+        $opdId = $request->opdId;
+        $patientCaseDetail = $this->patientOBJ->getPatientCaseDetailByOpdId($opdId);
+        if ($patientCaseDetail) {
+            return ['code' => '200','data'=>$patientCaseDetail, 'message' => 'Record Sucessfully created'];
+
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+    }
+
+    /**
+     * [getOPDDetailsByPatientId description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getOPDDetailsByPatientId(Request $request)
+    {
+        
+        $patient_id = $request->pid;
+        $patientDetail = $this->patientOBJ->getOPDDetailsByPatientId($patient_id);
+
+        if ($patientDetail) {
+            return ['code' => '200','data'=>$patientDetail, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+    }
+
+    public function movePatientWithNewReferal(Request $request){
+
+          $patientDetail = $this->patientOBJ->movePatientWithNewReferal($patient_id);
+
+        if ($patientDetail) {
+            return ['code' => '200','data'=>$patientDetail, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+
+    }
+
+
+
 }

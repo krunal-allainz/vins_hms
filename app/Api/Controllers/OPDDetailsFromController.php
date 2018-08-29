@@ -43,7 +43,7 @@ class OPDDetailsFromController extends Controller
 
             $details = OpdDetails::with('patientDetails')->where('patient_id',$patientId)->first();
           
-            if ($details==200) {
+            if ($details) {
                 return ['code' => '200','data'=>$details, 'message' => 'Record Sucessfully Generated'];
             } else {
                 return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
@@ -65,6 +65,19 @@ class OPDDetailsFromController extends Controller
          return view("opdcaseprint",compact('data','url')); 
 
           
+    }
+
+    /**
+     * [printCaseMultipleData description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function printCaseMultipleData(Request $request)
+    {
+        $data =  $request->OPDCaseData;
+        $url = common::getCurrentSiteUrl();
+        // echo "<pre>";print_r($url);exit();
+        return view("opdcaseprintmultiple",compact('data','url')); 
     }
 
     /**
@@ -148,10 +161,32 @@ class OPDDetailsFromController extends Controller
         
     }
 
+    /**
+     * [getAllLaboratoryList description]
+     * @return [type] [description]
+     */
     public function getAllLaboratoryList()
     {
         
             $get_list=$this->opdObj->getAllLaboratoryList();
+            if($get_list)
+            {
+                return ['code' => '200','data'=>$get_list, 'message' => 'Record Sucessfully created'];
+            }
+            else
+            {
+                return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+            }
+    }
+
+    /**
+     * [getLabListByChildren description]
+     * @return [type] [description]
+     */
+    public function getLabListByChildren()
+    {
+        
+            $get_list=$this->opdObj->getLabListByChildren();
             if($get_list)
             {
                 return ['code' => '200','data'=>$get_list, 'message' => 'Record Sucessfully created'];
@@ -168,16 +203,7 @@ class OPDDetailsFromController extends Controller
      */
     public function addDetails(Request $request)
     {
-            
-            $opd_id=$this->opdObj->store($request);
-            if($opd_id)
-            {
-                return ['code' => '200','data'=>$opd_id, 'message' => 'Record Sucessfully created'];
-            }
-            else
-            {
-                return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
-            }
+        return $this->opdObj->store($request);
     }
 
     /**
@@ -191,6 +217,44 @@ class OPDDetailsFromController extends Controller
             {
                 return ['code' => '200','data'=>$opdTotal, 'message' => 'Record Sucessfully created'];
             }
+            else
+            {
+                return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+            }
+    }
+
+    /**
+     * [savePhysiotherapy description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function savePhysiotherapy(Request $request)
+    {
+            $result=$this->opdObj->savePhysiotherapy($request);
+            if($result)
+            {
+                return ['code' => '200','data'=>$result, 'message' => 'Record Sucessfully created'];
+            }
+            else
+            {
+                return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+            }
+    }
+
+    /**
+    *  function use for ger perticuler opd data
+    *
+    *
+    *
+    **/
+
+    public function getPatientOpdData(Request $request){
+        $opdId = $request->id;
+        $opdDetail=$this->opdObj->getPatientOpdData($opdId);
+            if($opdDetail)
+            {
+                return ['code' => '200','data'=>$opdDetail, 'message' => 'Record Sucessfully created'];
+            }   
             else
             {
                 return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];

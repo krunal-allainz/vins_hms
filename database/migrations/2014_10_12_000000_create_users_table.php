@@ -18,6 +18,8 @@ class CreateUsersTable extends Migration
             $table->string('first_name')->nullable();
             $table->string('password')->nullable();
             $table->string('department')->nullable();
+            $table->string('dagree')->nullable();
+            $table->string('RegNo')->nullable();
             $table->string('user_type')->nullable();
             $table->string('mobile_no')->nullable();
             $table->text('address')->nullable();
@@ -32,6 +34,7 @@ class CreateUsersTable extends Migration
             $table->string('deleted_at')->nullable();
             $table->string('last_name')->nullable();
             $table->string('email')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
 
         });

@@ -137,7 +137,8 @@ class UserRepository {
      * @return [department]     [description]
      */
     public function getDepartmentById($id) {
-        return User::select('department')->where('id', $id)->first();
+        $dept=User::select('department')->where('id', $id)->first();
+        return $dept->department;
     }
 
     /**
@@ -147,7 +148,7 @@ class UserRepository {
      */
     public function getUserNameById($id) {
         $record=User::where('id', $id)->first();
-        return $record->first_name.' '.$record->last_name;
+        return strtolower($record->first_name.'_'.$record->last_name);
     }
 
     /**
@@ -160,5 +161,18 @@ class UserRepository {
         return $record;
     }
 
+    public function checkExistUser($type,$value){
+      return  User::where($type,$value)->count();
+    }
+
+    public function getDoctoreInfoById($id,$type){
+        $result = array();
+        $record=User::where('id', $id)->where('user_type',$type)->first();
+        $result['name'] = $record->first_name .$record->last_name  ;
+        $result['dagree'] = $record->dagree;
+        $result['department'] = $record->department;
+        $result['regNo'] = $record->RegNo;
+        return $result;
+    }
 
 }

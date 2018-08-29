@@ -102,7 +102,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
          $api->post('counsellingForm/create', '\euro_hms\Api\Controllers\FormsOptionsDataController@store')->name('counsellingForm.create');
          $api->post('centralLineBundleChecklist/create', '\euro_hms\Api\Controllers\FormsOptionsDataController@store')->name('centralLineBundleChecklist.create');
         $api->post('patient/getDetails/{id}', '\euro_hms\Api\Controllers\PatientsDetailFormController@getDetails');
-        $api->get('patient/getAll', '\euro_hms\Api\Controllers\PatientsDetailFormController@getAllPatientName');
+        $api->post('patient/getAll', '\euro_hms\Api\Controllers\PatientsDetailFormController@getAllPatientName');
         $api->get('user/getUserDetails', '\euro_hms\Api\Controllers\UserController@getUserDetails');
         $api->post('user/create', '\euro_hms\Api\Controllers\UserController@createUser')->name('create.users'); 
 
@@ -116,6 +116,9 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         $api->post('print/receipt', '\euro_hms\Api\Controllers\PatientsDetailFormController@printReceipt');     
         $api->post('generate/receipt', '\euro_hms\Api\Controllers\PatientsDetailFormController@saveReceiptData'); 
         $api->post('print/opdcase','\euro_hms\Api\Controllers\OPDDetailsFromController@printCaseData');
+        //for multiple print report
+        $api->post('print/opdcaseMultiple','\euro_hms\Api\Controllers\OPDDetailsFromController@printCaseMultipleData');
+
         $api->post('doctor/patientlist','\euro_hms\Api\Controllers\PatientsDetailFormController@getAllPatientNameByConsultDoctor');
 
         //for receipt list of opd
@@ -177,12 +180,55 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
         $api->post('patient/list','\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientListByDoctor');
 
+
+           $api->post('user/types','\euro_hms\Api\Controllers\UserController@getUserType');
+
         //get patient list by search
         $api->post('patient/getListBySearch', '\euro_hms\Api\Controllers\PatientsDetailFormController@getListBySearch');  
 
+         //for getting laboratoey list  By children
+        $api->post('opd/getLabListByChildren', '\euro_hms\Api\Controllers\OPDDetailsFromController@getLabListByChildren');
 
+        $api->post('patient/save_patient_checkup_data','\euro_hms\Api\Controllers\PatientsDetailFormController@savePatientCheckup');
+
+        /*for saving physiotherapy assistant*/
+        $api->post('opd/savePhysiotherapy','\euro_hms\Api\Controllers\OPDDetailsFromController@savePhysiotherapy');
+
+         $api->post('user/getimagefromurl', '\euro_hms\Api\Controllers\CustomersController@getImagefromUrl');
+
+        $api->post('patient/token_exist','\euro_hms\Api\Controllers\PatientsDetailFormController@tokenExist');
+
+        $api->post('user/user_exist','\euro_hms\Api\Controllers\UserController@checkExistUser');
+
+         //for getting OPD No list by patient id
+        $api->post('patient/getLastOPDIdByPatientId', '\euro_hms\Api\Controllers\PatientsDetailFormController@getLastOPDIdByPatientId');
+
+         $api->post('patient/getpatientlist', '\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientList');
+
+         $api->post('patient/patientDetailInfo', '\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientDetailInfo');
+
+         //getting vitals info of patient
+          $api->post('patient/getVitalsInfoByPatientId', '\euro_hms\Api\Controllers\PatientsDetailFormController@getVitalsInfoByPatientId');
+
+          //check vitals validity of six months
+          $api->post('patient/getVitalsValidity', '\euro_hms\Api\Controllers\PatientsDetailFormController@getVitalsValidity');
+
+          //for getting username by id any type
+        $api->post('user/getdoctoreinfobyid', '\euro_hms\Api\Controllers\UserController@getDoctoreInfoById');
+
+         $api->post('patient/patientCaseDetailInfo', '\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientCaseDetailByOpdId');
+
+        //for getting opde details
+        $api->post('patient/getOPDDetailsByPatientId', '\euro_hms\Api\Controllers\PatientsDetailFormController@getOPDDetailsByPatientId');
+
+        $api->post('patient/movepsatientfornewreferal', '\euro_hms\Api\Controllers\PatientsDetailFormController@movePatientWithNewReferal');
+
+        $api->post('opd/patientopddetail', '\euro_hms\Api\Controllers\OPDDetailsFromController@getPatientOpdData');
+        
         });
+
         
 
         
         
+

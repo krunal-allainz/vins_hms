@@ -13,7 +13,7 @@
 .loader {
     position: fixed;
     z-index: 99999;
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.8);
     width: 100%;
     height: 100vh;
     display: -webkit-box;
@@ -25,6 +25,36 @@
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
+}
+
+.clock_result .col-md-2{
+    padding-left:0 !important;
+
+}
+.well {
+
+    min-height: 20px;
+    padding: 19px;
+    margin-bottom: 20px;
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+}
+.well-lg {
+  padding:24px;
+  border-radius:6px
+}
+.well-sm {
+   padding:9px;
+   border-radius:3px
+}
+ 
+//Well Blockquote
+.well blockquote{
+   border-color:#ddd;
+   border-color:rgba(0,0,0,.15)
 }
 
 .loader .circular {
@@ -193,9 +223,9 @@ body > #app .header {
 .mt-20 {
     margin-top:30px;
 }
-.logout-text,logout-text:visited,logout-text:focus{
+.logout-text, logout-text:visited, logout-text:focus{
     padding-right: 15px;
-    color: white;
+    color: white !important;
     width: 200px;
     margin-top: -25px;
     padding-bottom: 5px;
@@ -249,10 +279,8 @@ span.select2.select2-container.select2-container--default.select2-container--foc
 } 
   #printModal .modal-content .modal-body{
         font-size : 16px;
+        
     }
-#printModal .modal-content .modal-body{
-    font-size : 16px;
-}
 #printContent .address{    
     font-size : medium;    
 }  
@@ -368,7 +396,7 @@ span.select2-container.select2-container2-container--default.select2-container--
 }
 
 .pain_img {
-    width:100%;
+    width:75%;
     height:auto;
     
 }
@@ -473,4 +501,26 @@ span.select2-container.select2-container2-container--default.select2-container--
 }
 .ml-10 {
     margin-left:10px;
+}
+input.number-with-validation:invalid {
+  color: red;
+}
+.report-painassesment{
+    float:left;
+    width:10% !important;
+    padding:0px !important;
+}
+.report-painassesment-selected{
+    float:left;
+    width:10% !important;
+    padding:0px !important;
+    line-height : 22px;
+    border :2px solid red;
+    box-shadow :rgba(0, 0, 0, 0.2) 0px 1px 3px 0px;
+    border-radius : 2px;
+    color:#5f5f5f;
+    display :inline-block;
+}
+.select2-container--open {
+    z-index:10000;
 }

@@ -1,7 +1,7 @@
 <template>
 
   <div class="container">
-  	<div v-if="userType != 'Doctors' && userType != 'Others'">
+  	<div v-if="userType != 1 && userType != 4">
   			<div class="page-header">
 		<div class="row">
 			<div class="col-md-8">
@@ -313,9 +313,9 @@
         	let vm =this;
         	$("body .js-loader").removeClass('d-none');
         	// setTimeout(function(){
-        		if(vm.userType == 'Doctor'){
+        		if(vm.userType == 1){
                 		vm.$router.push({'name':'opd_form'});
-	        	} else if(vm.userType == 'Others'){
+	        	} else if(vm.userType != 1){
                         vm.$router.push({'name':'patients_detail_form'});
 	        		// vm.$router.push('nabhReport');
 	        	}

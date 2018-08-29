@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddUhidToIpdDetailTable extends Migration
+class UpdateUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,7 @@ class AddUhidToIpdDetailTable extends Migration
      */
     public function up()
     {
-        Schema::table('ipd_details', function($table) {
-            $table->string('uhid_no')->after('id');
-        });
+        //
     }
 
     /**
@@ -25,8 +23,6 @@ class AddUhidToIpdDetailTable extends Migration
      */
     public function down()
     {
-        Schema::table('ipd_details', function($table) {
-            $table->dropColumn('uhid_no');
-        });
+        //
     }
 }

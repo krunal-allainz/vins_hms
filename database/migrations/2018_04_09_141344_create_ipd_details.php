@@ -16,6 +16,9 @@ class CreateIpdDetails extends Migration
         Schema::create('ipd_details', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('patient_id')->nullable();
+            $table->string('uhid_no')->nullable();
+            $table->string('opd_id')->nullable();
+            $table->dateTime('appointment_datetime')->nullable();
             $table->dateTime('admit_datetime')->nullable();
             $table->dateTime('discharge_datetime')->nullable();
             $table->timestamps();

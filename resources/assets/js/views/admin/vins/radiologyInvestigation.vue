@@ -1,45 +1,7 @@
 <template>
 <div>
 	<h4>Radiology:</h4>
-    <div class="row">
-        <div class="col-md-12">
-             <card title="<i class='ti-layout-cta-left'></i> Reports">
-                <div class="table-responsive">
-                    <table class="table table-striped table-bordered" id="radio_list">
-              
-                        <thead>
-                        <tr>
-                            <!-- <th>#</th> -->
-                            <th>Type</th>
-                            <th>Body parts</th>
-                            <th>Qualifier</th>
-                            <th>Special request</th>
-                            <th>Details</th>
-                            <th>Gallery</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr v-if="res.removed == false" v-for="(res,index) in finalResultData">
-                           <!--  <td>{{++index}}</td> -->
-                            <td>{{res.type}}</td>
-                            <td>{{res.bodyPart}}</td>
-                            <td>{{res.qualifier}}</td>
-                            <td>{{res.special_request}}</td>
-                            <td>{{res.textData | strLimit}}</td>
-                            <td><a href="javascript:void(0)" @click="viewGallery(res.id)" class="red">View</a></td>
-                            <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
-                            <td> <i class="fa fa-remove" @click="removeReport(res.id)"></i></td>
 
-                            
-                        </tr>
-                        
-                        </tbody>
-                    </table>
-                </div>
-            </card>
-        </div>
-    </div>
     	<div class="row form-group" id="radio_div">
     		<div class="col-md-12">
     			<div class="row form-group">
@@ -52,15 +14,7 @@
                   Field is required
                 </span>
                     </div>
-                    <div class="col-md-6" v-show="resultData.type == 'X-Rays'">
-                        <label> Select Type:</label>   
-                        <select class = "form-control ls-select2" id = "xray_type" name = "xray_type" v-model="resultData.x_ray_type" v-validate="'required'">
-                            <option v-for="type in investigationData.xray_type_options" :value="type.value" >{{type.text}}</option>
-                        </select>      
-                        <span class="help is-danger" v-show="errors.has('xray_type')">
-                  Field is required
-                        </span>              
-    		      </div>
+                   
                 </div>
                 <div class="row form-group">
 
@@ -88,14 +42,7 @@
                   Field is required
                 </span>    
                       </div>
-                      <!-- <div class="col-md-6" v-if="resultData.bodyPart == 'Joint' || resultData.bodyPart == 'Others'">
-                        <label> Others</label>
-                        
-                         <input type="text" name="radiology_bodypart_other" id="radiology_bodypart_other" class="form-control" v-model="resultData.qualifier" >
-                            <span class="help is-danger" v-show="errors.has('radiology_bodypart_other')">
-                              Field is required
-                            </span>    
-                      </div> -->
+                    
                 </div>
                 <div class="row form-group">
     				<div class="col-md-6">
@@ -119,7 +66,7 @@
                     <div class="col-md-6">
                         <div v-if="resultData.type == 'MRI'">
                             <label>Select Special request:</label><br>
-                            <select class = "form-control" id = "radiology_special_request" name = "radiology_special_request"   v-model="resultData.special_request"  >
+                            <select class = "form-control ls-select2" id = "radiology_special_request" name = "radiology_special_request"   v-model="resultData.special_request"  >
                                 <option v-for="obj in investigationData.radiologySpecialRequest" :value="obj.text">{{obj.text}}</option>
                             </select>
                         </div>
@@ -141,6 +88,7 @@
                     <div class="col-md-6"  v-if="(resultData.type != '' && resultData.bodyPart != '')"  >
                         <label>Select upload type:</label><br>
                         <select class = "form-control " id = "upload_type" name = "upload_type" v-model="resultData.uploadType"  >
+                            <option value="image_web">Image From Web</option>
                             <option value="image">Image</option>
                             <option value="video">Video</option>
                         </select>
@@ -152,21 +100,25 @@
                                 Select File
                             </label>
                              <br>
-                            <div tabindex="500" class="btn btn-primary " id="btn-img-file"  >
+                            <div tabindex="500" class="btn btn-primary " id="btn-img-file" >
                                 <i class="fa fa-folder-open"></i>  
                                 <span class="hidden-xs">Browse …</span>
-                                
                             </div>
                             <input type="file" name="img_upload_video[]" id="img_upload_video" multiple class="file_multi_video" @change="previewFile('video')" accept="video/*" style="display: none;">
 
                             <input id="img_upload_file" name="imgupload[]" type="file" multiple class="btn btn-info  "  @change="previewFile('img')"  accept="image/*" style="display: none;">                        
                         </div>
+                        <div v-if="(resultData.uploadType == 'image_web')">
+                              <label class="control-label txt_media" for="input-21">
+                                Enter Url:
+                            </label>
+                             <input type="text" name="img_upload_web[]" id="img_upload_web" multiple class="form-control" @change="previewFile('image_web')" placeholder="Enter image url" />
+                               <span class="help is-danger" v-if="(resultData.errorUrl != '')">
+                                {{resultData.errorUrl}}
+                            </span>   
+                        </div>
                     </div>
-                    <!-- <div class="col-md-2">
-                         <img src="http://place-hold.it/100x100" id="img_preview" height="100" width="100" alt="Image preview..." v-if="resultData.imgData==''">
-                         <img :src="resultData.imgData[0].data" id="img_preview" height="100" width="100" alt="Image preview..." v-else>
-                         
-                    </div> -->
+                   
                     
     			</div>
 
@@ -203,6 +155,41 @@
                  
     		</div>
     	</div>
+            <div class="row">
+        <div class="col-md-12">
+             <card title="<i class='ti-layout-cta-left'></i> Reports">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered" id="radio_list">
+              
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Type</th>
+                            <th>Body parts</th>
+                            <th>Qualifier</th>
+                            <th>Special request</th>
+                            <th>Details</th>
+                            <th>Gallery</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-if="res.removed == false" v-for="(res,index) in finalResultData">
+                                <td>{{++index}}</td>
+                                <td>{{res.type}}</td>
+                                <td>{{res.bodyPart}}</td>
+                                <td>{{res.qualifier}}</td>
+                                <td>{{res.special_request}}</td>
+                                <td>{{res.textData | strLimit}}</td>
+                                <td><a href="javascript:void(0)" @click="viewGallery(res.id)" class="red">View</a></td>
+                                <td> <i class="fa fa-remove" @click="removeReport(res.id)"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </card>
+        </div>
+    </div>
 </div>
 </template>
 <script >
@@ -242,7 +229,7 @@
                     'bodyPart':'',
                     'bodyPart_others':'',
                 	'type': '',
-                    'x_ray_type':'fixed',
+                    // 'x_ray_type':'fixed',
                     'spine_option_value':'',
                 	'subType': '',
                     'qualifier':'',
@@ -322,11 +309,11 @@
                       {text:'Other',value:'Other'},
                   ],
                 	'X-Rays':'',
-                    'xray_type_options': [
-                        {text:'',value:''},
-                        {text:'Fixed',value:'fixed','selected':true},
-                        {text:'Portable',value:'portable','selected':false}
-                    ],
+                    // 'xray_type_options': [
+                    //     {text:'',value:''},
+                    //     {text:'Fixed',value:'fixed','selected':true},
+                    //     {text:'Portable',value:'portable','selected':false}
+                    // ],
                 	'X-Rays_options':[
 						    {text:'',value:''},
                             {text:'HIP',value:'hip'},
@@ -389,9 +376,11 @@
         },
         mounted() {
              "use strict"
-            
             let vm =this;
-				$('.ls-select2').select2({
+			if(vm.$store.state.Users.userDetails.user_type != '1'){
+              vm.$root.$emit('logout','You are not authorise to access this page'); 
+            }
+            	$('.ls-select2').select2({
 					 placeholder: "Select",
 
 			    });
@@ -407,13 +396,12 @@
             
 	        $('#radio_div').on("select2:select", '.ls-select2',function (e) {
                 if(this.id == 'radiology_type') {
-                    console.log('id',this.id)
 	        	     $('#radiology_subtype').val('').trigger('change');
-                    // $('#radiology_qualifier').select2("destroy");
+                     vm.resultData.bodyPart ="";
 	        		vm.resultData.type = $("#radiology_type").select2().val();
                     let type_opd_val=$("#radiology_type").select2().val();
-                    // $("#radiology_subtype").select2('destroy');
                     vm.investigationData.radiologyQualifier="";
+                    
                     $('#radiology_qualifier').select2("destroy");
                     $('#radiology_special_request').select2("destroy");
                     if(type_opd_val=='MRI')
@@ -435,21 +423,22 @@
 
                 } 
                 if(this.id == 'radiology_subtype') {
+                     vm.resultData.spine_option_value="";
                     let q_data=vm.investigationData.radiologyQualifierReal;
                     vm.investigationData.radiologyQualifier="";
-                     vm.investigationData.radiologyQualifier=q_data;
-                        vm.resultData.qualifier_radio_text_enable = false;
+                    vm.investigationData.radiologyQualifier=q_data;
+                    vm.resultData.qualifier_radio_text_enable = false;
                     let radiologySubType_val=$("#radiology_subtype").select2().val();
                     //console.log(radiologySubType_val);
                     vm.investigationData.radiologyQualifier=q_data;
                     if(radiologySubType_val=='Spine')
                     {
-                        // setTimeout(function(){
-                        //         $('#radiology_spine').select2({
-                        //           placeholder: "Select",
-                        //           tags:false 
-                        //         }); 
-                        // },500);
+                        setTimeout(function(){
+                                $('#radiology_spine').select2({
+                                  placeholder: "Select",
+                                  tags:false 
+                                }); 
+                        },500);
                          vm.resultData.subtype_text_enable = false;
                          vm.resultData.bodyPart = $("#radiology_subtype").select2().val();
                          vm.resultData.bodyPart_others="";
@@ -462,12 +451,11 @@
                     }
                     
                     else if($("#radiology_subtype").select2().val() == 'Other' || $("#radiology_subtype").select2().val() =='Joint' ){
-                         vm.resultData.bodyPart = $("#radiology_subtype").select2().val();
-                        vm.resultData.subtype_text_enable = true;
                         $('#radiology_spine').select2("destroy");
-                       
+                        vm.resultData.bodyPart = $("#radiology_subtype").select2().val();
+                        vm.resultData.subtype_text_enable = true;
                     } else {
-                     vm.resultData.bodyPart = $("#radiology_subtype").select2().val();   
+                            vm.resultData.bodyPart = $("#radiology_subtype").select2().val();   
                     }
                     
 	        	}
@@ -487,22 +475,18 @@
                         vm.resultData.qualifierOtherPart = '';
                     }
                 }
+                if(this.id == 'radiology_special_request') {
+                    vm.resultData.special_request=$("#radiology_special_request").select2().val();
+                }
+                if(this.id == 'radiology_spine') {
+                    vm.resultData.spine_option_value=$("#radiology_spine").select2().val();
+                }
 
 	        });
 			
         },
         
         methods: {
-            
-            // viewGallery(gid) {
-            //     let vm =this;
-            //   _.find(vm.finalResultData, function(res) {
-            //         if(res.id == gid) {
-            //             vm.imgGallery =res.imgData;
-            //             vm.imgGallery.view = true;
-            //         }
-            //     }
-            // },
             viewGallery(gid) {
 
                 let vm = this;
@@ -532,6 +516,7 @@
                          res.removed = true;
                     }
                 });
+                vm.initData();
                 vm.setRadioData();
 
             },
@@ -577,7 +562,7 @@
                     'bodyPart':'',
                     'bodyPart_others':'',
                     'type': '',
-                    'x_ray_type':'fixed',
+                    // 'x_ray_type':'fixed',
                     'spine_option_value':'',
                     'subType': '',
                     'qualifier':'',
@@ -587,7 +572,8 @@
                     'qualifier_radio_text_enable':false,
                     'special_request':'',
                     'removed':false,
-                    'qualifierOtherPart':''
+                    'qualifierOtherPart':'',
+                    'errorUrl' : ''
                 };
                 vm.imgGallery = '';
                 $('#radio_div .ls-select2').val(null).trigger('change');
@@ -618,7 +604,40 @@
                         x++;
                     })
                     
-                 } else {
+                 }else if(ptype == 'image_web') { 
+                      let url = document.querySelector('input[id=img_upload_web]').value;
+                      var x= 1;var y=1; 
+                         
+                    if(url != ''){
+
+                            var tm = 100*x;
+                            let imageData = '';
+                             User.getImagefromUrl(url).then(
+                             (response) => {
+                                vm.resultData.errorUrl = '';
+                                imageData =   response.data.data;
+                                if(response.data.status == 200){
+                                    setTimeout(function(){
+
+                                        imgData.push({'id':y,'data':imageData,'remove':false,'view':false,'type':'image'});
+                                        ++y;             
+                                    },tm)
+                                    x++;
+                                }else if(response.data.status == 201){
+                                     vm.resultData.errorUrl =  response.data.message;
+                                }else{
+                                    vm.resultData.errorUrl = 'Something wrong';
+                                }
+                             },
+                             (error) => {
+
+                            }
+                            );
+                    }else{
+                         vm.resultData.errorUrl = 'Please enter url.';
+                    }
+
+                 }else {
                     var fileList = document.querySelector('input[id=img_upload_video]').files;
                     var x= 1;var y=1; 
                     jQuery(fileList).each(function(i){

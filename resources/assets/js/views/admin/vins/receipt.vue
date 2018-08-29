@@ -22,11 +22,10 @@
        <!--        <th>Admit Date</th>
               <th>Discharge Date</th> -->
               <th>Action</th>
-
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(res,index) in receiptData">
+            <tr v-for="(res,index) in receiptData" :id="'receipt_'+res.id">
                <td>{{++index}}</td>
                <td>{{res.receipt_number}}</td>
                <td>{{res.case_no}}</td>
@@ -38,7 +37,6 @@
                	<button type="button" class="btn btn-success" data-toggle="modal" href="#receiptModal" id="modellink" @click="receiptPrintView(res.id)">Print</button>
                <button type="button" class="btn btn-danger" @click="removeReceipt(res.id)">Delete</button></td>
             </tr>
-
           </tbody>
         </table>
       </div>
@@ -59,11 +57,8 @@
 		 			<div class="modal-body" id="printContent">	
             		</div>	
 	       		<div class="modal-footer">	
-		
 					<button  type="button" class="btn btn-primary"  @click="ClickHereToPrint()">Print</button>		      	
-				
 	                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>	
-	             <!--  <button type="button" class="btn btn-primary">Save</button>-->	
 	            </div>	
             </div>	
           </div>	
@@ -75,8 +70,6 @@
 <script>
 	import User from '../../../api/users.js';
 	import moment from 'moment';
-//	import Pagination from './pagination/Pagination';
-
 	let  receptDataArrays = [];
 	export default{
 		data (){
@@ -91,6 +84,10 @@
 
 		mounted(){
 			 let vm =this;
+			if(vm.$store.state.Users.userDetails.user_type != '3'){
+              vm.$root.$emit('logout','You are not authorise to access this page'); 
+            }
+            
 			 vm.getResults();
 			 //this.fetchStories()/
 		},
@@ -123,12 +120,15 @@
 				
 				if(confirm('Are you sure to remove this record ?'))
         		{
+
         			User.removeReceipt(id).then(
 
 						(response) => {
 							if(response.data.code == '200'){
+								$('#receipt_'+id).remove();
 								 User.getReceiptList().then(
 								 		(response) => {
+								 		
 								 		this.receiptData = response.data;
 								 		},
 								 		(error) => {

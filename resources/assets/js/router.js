@@ -91,7 +91,8 @@ import infusionTherapyChart from './views/admin/vins/infusionTherapyChart.vue'
 import doctorsInitialAssessment from './views/admin/vins/doctorsInitialAssessment.vue'
 import centralLineBundleChecklist from './views/admin/vins/centralLineBundleChecklist.vue'
 import MARFlowSheet from './views/admin/vins/MARFlowSheet.vue'
-import opdForm from './views/admin/vins/opd_form.vue'
+//import opdForm from './views/admin/vins/opd_form.vue'
+import opdForm from './views/admin/vins/opd_step_1.vue'
 import laboratory from './views/admin/vins/laboratory.vue'
 import NewUser from './views/admin/vins/newUser.vue'
 import vascularExamination from './views/admin/vins/vascularExamination.vue'
@@ -101,6 +102,9 @@ import opdformthankyou from './views/admin/vins/opd_form_thankyou.vue'
 import vinsletterheadheaderpart from './views/admin/vins/vins_letter_header.vue'
 import vinsletterheadfooterpart from './views/admin/vins/vins_letter_footer.vue'
 import patientList from './views/admin/vins/patientList.vue'
+import vitalsinfo from './views/admin/vins/vitalsInfo.vue'
+import physiotherapyForm from './views/admin/vins/physiotherapyForm.vue'
+
 
 //for opd recipt list
 import opdreceiptlist from './views/admin/vins/opd_receipt_list.vue'
@@ -566,6 +570,18 @@ const routes = [
                 component: receipt,
                 meta: { requiresAuth: true },
                 name: 'receipt'
+            },
+             {
+                path: '/vitalsinfo',
+                component: vitalsinfo,
+                meta: { requiresAuth: true },
+                name: 'vitalsinfo'
+            },
+            {
+                path: '/physiotherapyForm',
+                component: physiotherapyForm,
+                meta: { requiresAuth: true },
+                name: 'physiotherapyForm'
             }
             ]
     },

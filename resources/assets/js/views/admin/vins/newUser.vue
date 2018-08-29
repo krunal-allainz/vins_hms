@@ -38,13 +38,13 @@
                                     </div>
                                     <div class="col-md-9">
                                         <select class="form-control ls-select2" id="userType" v-model="userData.userType" name="userType" v-validate="'required'">
-                                            <option :value="type.text" v-for="type in userData.userTypeOption">{{type.text}}</option>
+                                            <option :value="type.id" v-for="type in userData.userTypeOption">{{type.name}}</option>
                                         </select> 
                                         <i v-show="errors.has('userType')" class="fa fa-warning"></i>
                                         <span class="help is-danger" v-show="errors.has('userType')">Please select User type.</span>
                                     </div>
                                 </div>
-                                <div class="row form-group" v-if="userData.userType == 'Doctor'" >
+                                <div class="row form-group" v-if="userData.userType == 1" >
                                     <div class="col-md-3">
                                     <label for="department " class="control-label float-right txt_media1">Department :</label>
                                     </div>
@@ -61,9 +61,10 @@
                                     <label for="email" class="control-label float-right txt_media1">EmailId :</label>
                                     </div>
                                     <div class="col-md-9">
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" v-model="userData.email" v-validate="'required|email'">
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" v-model="userData.email" v-validate="'required|email'" @input="checkExistUser('email')">
                                         <i v-show="errors.has('email')" class="fa fa-warning"></i>
                                         <span class="help is-danger" v-show="errors.has('email')">Please enter valid email.</span>
+                                         <span class="help is-danger" v-show="userEmailExist != ''">{{userEmailExist}}</span>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -71,9 +72,10 @@
                                     <label for="mobileNo" class="control-label float-right txt_media1">Mobile No :</label>
                                     </div>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" id="mobileNo" placeholder="Mobile Number" v-model="userData.mobileNo" v-validate="'numeric|min:10|max:10'" name="mobileNo" maxlength="10">
+                                        <input type="text" class="form-control" id="mobileNo" placeholder="Mobile Number" v-model="userData.mobileNo" v-validate="'numeric|min:10|max:10'" name="mobileNo" maxlength="10" @input="checkExistUser('mobile_no')">
                                         <i v-show="errors.has('mobileNo')" class="fa fa-warning"></i>
                                         <span class="help is-danger" v-show="errors.has('mobileNo')">Please enter valid mobile number.</span>
+                                         <span class="help is-danger" v-show="userMobileExist != ''">{{userMobileExist}}</span>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -149,11 +151,7 @@ if(localStorage.getItem("user_add"))
                                 'confirmPassword':'',
                             	'mobileNo': '',
                             	'address': '',
-                                'userTypeOption': [
-                                            {text:''},
-                                             {text:'Doctor'},
-                                             {text:'Others'}
-                                            ],
+                                'userTypeOption':'',
                                 'userType': '',
                                 'departmentOption':[{text:'Neurology'},
                                               {text:'Neurosurgery'},
@@ -165,19 +163,38 @@ if(localStorage.getItem("user_add"))
                                             ],
                                 'department':''
                            // 	'userIamge': ''
-                    }
+                    },
+                    'userEmailExist' : '',
+                    'userMobileExist' : ''
                 }
         },
         mounted() {
             var vm = this;
+            let user_type = [] ;
             //setTimeout(function(){
                 $('.ls-select2').select2({
                     placeholder: "Select"
                 });
 
+                User.getUserTypesList().then(
+                     (response) => {
+                    $.each(response.data.data, function(key,value) {
+
+                       user_type.push({
+                         'id' : value.id,
+                         'name' : value.name,
+                      });
+                    });
+
+                    vm.userData.userTypeOption=user_type;
+                    
+                  },
+                      (error) => {
+                  },
+                );
                   $('#userType').on('select2:selecting', function(e) {
-                    vm.userData.userType =  e.params.args.data.text;
-                    if(e.params.args.data.text=='Doctor')
+                    vm.userData.userType =  e.params.args.data.id;
+                    if(e.params.args.data.id==1)
                     {
                         setTimeout(function(){
                             $('#department').select2({
@@ -204,7 +221,38 @@ if(localStorage.getItem("user_add"))
                 this.$data.userData.mobileNo ='',
                 this.$data.userData.address ='',
                 this.$data.userData.department ='',
-                this.$data.userData.userType =''
+                this.$data.userData.userType =''    
+            },
+            checkExistUser(type){ 
+                let vm = this;
+                if(type == 'email'){
+                    var value = vm.userData.email;
+                }else{
+                    var value = vm.userData.mobileNo;
+                }
+
+                 User.checkExistUser(type,value).then(
+                    (responce) => {
+                        if(responce.data > 0){
+                              if(type == 'email'){
+                                 vm.userEmailExist = 'Email already exist';
+                                }else{
+                                    vm.userMobileExist = 'Mobile no already exist';
+                                }
+                              
+                             }else{
+                                    vm.userEmailExist ='';
+                                    vm.userMobileExist = '';
+                                    
+                             }
+                    },
+                    (error) => {
+
+                    }
+
+                 );
+
+             
             },
             validateBeforeSubmit() {
                
@@ -217,11 +265,12 @@ if(localStorage.getItem("user_add"))
                                   (response)=> {
                                     //console.log(response);
                                     if(response.data.status_code == 200){
+                                        toastr.success('User added successfully', 'Create User', {timeOut: 5000});
                                         this.initialState();
                                         localStorage.setItem("user_add",1)
-                                        window.location.reload();
+                                       // window.location.reload();
                                     } else if (response.data.status_code == 301) {
-                                        this.initialState();
+                                        //this.initialState();
                                         toastr.error('User already exist.', 'Add User', {timeOut: 5000});
 
                                     }

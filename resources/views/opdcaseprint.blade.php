@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<meta charset="utf-8" />
     <title>Vins Administration</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="print">
 <style type="text/css">
-
+	@media all {
+		.page-break	{ display: none; }
+	}
 	@media print { 
 		html {
 		    -ms-overflow-style: scrollbar;
@@ -29,6 +32,7 @@
 	    border-radius: 0.3rem;
 	    outline: 0;*/
 	}
+	.page-break { display: block; page-break-after: always; }
 	
 	.row {
 	    margin-right: -15px;
@@ -149,8 +153,8 @@
     width:30%;
     }
 
-    img {
-	filter: grayscale(1);
+   img {
+    -webkit-print-color-adjust: exact;
 }
 	
     
@@ -298,7 +302,9 @@
    		 width:30%;
    		 -webkit-print-color-adjust: exact; 
     }
-	
+	img {
+    -webkit-print-color-adjust: exact;
+	}
      @page{
     	margin: 0px;
     	 size: portrait;
@@ -309,67 +315,64 @@
 	.hidden-md-up {
 	    display: none !important;
 	}
-
     </style>
 </head>
 <body>
 	<div class="container" style="padding:15px;">
     <div class=""> 
        <div class="row">
-        <div class="col-md-12">
-            <img src="{{$url.'/assets/img/nabh_vins_logo.png'}}" id="logo-desk" alt="NABH Logo" class="hidden-sm-down">
+        <div class="col-md-12" style="padding:25px;">
+            <img src="{{$url.'/assets/img/nabh_vins_logo.png'}}" id="logo-desk" alt="NABH Logo" class="hidden-sm-down" height="" width="30%">
         </div>
       </div>
     </div>  
 
+</div>   
+ @include('patientDetailReport')
+ @include('patientCheckupReport')
+
+
   @if($data['printType'] == 'lab')
+  @if(isset($data['labReportData']))
   	<div class='row'>
 		<div class='col-md-12 text-center'>
 			<h4>Lab Report</h4>
 		</div>
   	</div>
-  		<div class='row' style="padding-left: 15px;padding-right:15px;">
-			    	 <table class="table" align="center" cellspacing=0>	
-		         	<thead>	
-		         		<tr>	
-		         			<td class="text-left"><b>Ref By :</b>{{$data['adviceDoctor']}} </td>	
-		         			<td class="text-center"><b>Date :</b> 	{{$data['todayDate']}} </td>	
-		         		</tr>	
-		         	</thead>
-		         </table>
-			    
-		    </div>	
-			<br/><br/>
-  	<div class="row" style="min-height: 350px;height: 350px;">
-  		<div class="col-md-12">
-  			<div class="col-md-6"><span><b>Blood :</b></span>{{$data['labReportData']['blood_report_val']}} </div>
-  			<div class="col-md-6"><span><b>Body Fluid Analysis :</b>{{$data['labReportData']['body_fluid_analysis_report_val']}}</span></div>
-  		</div>
-  		<div class="col-md-12">
-  			<div class="col-md-6"><span><b>Urine :</b>{{$data['labReportData']['urine_report_val']}}</span></div>
-  			<div class="col-md-6"><span><b>CSF :</b>{{$data['labReportData']['csf_report_val']}}</span></div>
-  		</div>
-  	</div>
+			<div class="form-group">
+                <div class="col-md-12">
+                  <div class="table-responsive">
+                    <table class="table table-striped table-bordered" id="laboratory_table_list">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                       	@foreach($data['labReportData'] as $index=>$res)
+                         <tr class="text-center">
+                            <td>{{++$index}}</td> 
+                            <td>{{$res['name'] }}</td>
+                          </tr>
+						 @endforeach
+                        </tbody>
+                    </table>
+                  </div>
+                  
+                </div>
+              </div>
+  	@endif
   @endif
 
-  @if($data['printType'] == 'radiology')
+  @if($data['printType'] == 'radiology')  
+  	@if(isset($data['radioReportData']))
   	<div class='row'>
 		<div class='col-md-12 text-center'>
 			<h4>Radiology Report</h4>
 		</div>
-			<div class='row' style="padding-left: 15px;padding-right:15px;">
-			    	 <table class="table" align="center" cellspacing=0>	
-		         	<thead>	
-		         		<tr>	
-		         			<td class="text-left"><b>Ref By :</b>{{$data['adviceDoctor']}} </td>	
-		         			<td class="text-center"><b>Date :</b> 	{{$data['todayDate']}} </td>	
-		         		</tr>	
-		         	</thead>
-		         </table>
-			    
-		    </div>	
-			<br/><br/>
-		<div class="row"  style="min-height: 350px;height: 350px;">
+			
+		<div class="row">
         	<div class="col-md-12">
         	  <div class="">
                 <table class="table table-striped table-bordered" id="radio_list">
@@ -385,7 +388,7 @@
                  </thead>
                  <tbody>
                  @foreach($data['radioReportData'] as $index=>$res)
-                 <tr>
+                 <tr class="text-center">
                             <!-- <td>{{++$index}}</td> -->
                             <td>{{$res['type']}}</td>
                             <td>{{$res['bodyPart']}}</td>
@@ -401,69 +404,136 @@
         	</div>
         </div>
   	</div>
+  	@endif
   @endif
   
   @if($data['printType'] == 'prescription')
-  	<div style="padding-left: 35px;min-height: 350px;height: 350px;">
-			<div class='row' style="padding-left: 15px;padding-right:15px;">
-			    	 <table class="table" align="center" cellspacing=0>	
-		         	<thead>	
-		         		<tr>	
-		         			<td class="text-left"><b>Ref By :</b>{{$data['adviceDoctor']}} </td>	
-		         			<td class="text-center"><b>Date :</b> 	{{$data['todayDate']}} </td>	
-		         		</tr>	
-		         	</thead>
-		         </table>
-			    
-		    </div>	
-			<br/><br/>
+  	<div style="min-height: 350px;height: 350px;">
+		
   	@if(isset($data['priscriptionData']))
 	  	@if(!empty($data['priscriptionData']))
 
 			<div class='col-md-12 text-center'>
 				<span class='text-center'><b>Prescription</b></span>
 			</div>
-
-			
 			<div class="table-responsive">
 				<table class="table" id="prescription_list">
-				    <thead>
-					    <tr>
-						   <th width="8%">#</th>
-						   <th >Name</th>
-						   <th class="text-center">Quntity</th>
-						   <th class="text-center">Unit</th>
-						   <th class="text-center">Time For Medicine</th>
-					 	</tr>
+				    	<thead>
 						</thead>
-						   <tbody>
-						   	@foreach($data['priscriptionData'] as $key=>$value)
-							   <tr >
-								   <td>{{$key}}</td>
-								   <td>{{$value['Prescription'] }}</td>
-								   <td class="text-center">{{$value['quntity']}}</td>
-								<!--    <td class="text-center">{{(isset($value['unit']))?$value['unit']:''}}</td> -->
-								   <td class="text-center">{{$value['time']}}</td>
-							  </tr>
+					    <tbody>
+					    	<?php //print_r($data['priscriptionData']);exit;?>
+					   		 @foreach($data['priscriptionData'] as $key=>$res)
+					   		 	
+					   		 	@if($res['remove']==='false')
+								   	<tr>
+		                             	<td>{{++$key}} ] {{$res['name']}} :ORAL
+										@if($res['clock_quantity_1']!='0')
+											{{$res['clock_quantity_1']}}
+										@endif
+		                                @if($res['clock_quantity_2']!='0') 
+		                                    @if($res['clock_quantity_1']!='0') ______ @endif
+		                                    {{$res['clock_quantity_2']}}
+		                                @endif
+		                                @if($res['clock_quantity_3']!='0') 
+		                                	@if($res['clock_quantity_1']!='0' || $res['clock_quantity_2']!='0') ______ @endif
+		                                	{{$res['clock_quantity_3']}} 
+		                                @endif
+		                                @if($res['clock_quantity_4']!='0')
+		                                	@if($res['clock_quantity_1']!='0' || $res['clock_quantity_2']!='0' || $res['clock_quantity_3']!='0')  ______ @endif
+		                                	{{$res['clock_quantity_4']}}
+		                                @endif
+		                                [ 
+		                                @if($res['clock_quantity_1']!='0') 
+		                                	{{$res['clock_time_1']}}
+		                                @endif
+		                                @if($res['clock_quantity_2']!='0')
+		                                	@if($res['clock_quantity_1']!='0') ______ @endif
+		                                	{{$res['clock_time_2']}}
+		                                @endif
+		                                @if($res['clock_quantity_3']!='0')
+		                                    @if($res['clock_quantity_1']!='0' || $res['clock_quantity_2']!='0') ______ @endif {{$res['clock_time_3']}}
+		                                @endif
+		                                @if($res['clock_quantity_4']!='0')
+		                                    @if($res['clock_quantity_1']!='0' || $res['clock_quantity_2']!='0' || $res['clock_quantity_3']!='0') ______ @endif
+		                                    {{$res['clock_time_4']}}
+		                                @endif ]
+										
+										@if(($res['clock_suggest_1']!='--' && $res['clock_suggest_1']!='') || ($res['clock_suggest_2']!='--' && $res['clock_suggest_2']!='')  || ($res['clock_suggest_3']!='--' && $res['clock_suggest_3']!='')  || ($res['clock_suggest_4']!='--' && $res['clock_suggest_4']!='') )
+
+		                                	[ 
+				                                @if($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') 
+				                                	{{$res['clock_suggest_1']}}
+				                                @endif
+					                        	@if($res['clock_suggest_2']!=''  && $res['clock_suggest_2']!='--') 
+					                        		@if($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') ______ @endif
+					                        		{{$res['clock_suggest_2']}}
+					                        	@endif
+				                                @if($res['clock_suggest_3']!=''  && $res['clock_suggest_3']!='--')
+				                                	@if(($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') || ($res['clock_suggest_2']!='' && $res['clock_suggest_2']!='--')) ______ @endif
+				                                	{{$res['clock_suggest_3']}}
+				                                @endif
+				                                @if($res['clock_suggest_4']!=''  && $res['clock_suggest_4']!='--')
+				                                	@if(($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') || ($res['clock_suggest_2']!='' && $res['clock_suggest_2']!='--') || ($res['clock_suggest_3']!='' && $res['clock_suggest_3']!='--')) ______ @endif
+				                                	{{$res['clock_suggest_4']}}
+				                                @endif 
+		                                	]
+										@endif
+										@if($res['qhrs']!='') <span>[{{$res['qhrs']}}]</span> @endif
+		                                &#9747;
+		                                @if($res['total_prescription_days']!='')
+		                                	{{$res['total_prescription_days']}} <span> DAYS </span>
+		                                @else
+		                                 	<span> TO BE CONTINUE </span>
+		                                @endif
+						            	</td>
+		                        	</tr>
+		                        @endif
 							@endforeach
-			           </tbody>
+		                </tbody>
 			       </table>
 			</div>
+			<div class="table-responsive">
+	            <table class="table table-striped table-bordered">
+	                <thead>
+	                    <tr>
+	                        <th>Index</th>
+	                        <th>Prescription Name</th>
+	                        <th>How Many Days</th>
+	                        <th>Total Quantity</th>
+	                        <th>Q-Hrs</th>
+	                        <th>Total Days</th>
+	                    </tr>
+	                </thead>
+	                <tbody>
+						@foreach($data['priscriptionData'] as $key2=>$res2)
+		                	@if($res2['remove']==='false')
+			                 <tr class="text-center">
+			                        <td>{{++$key2}} </td>
+			                        <td>{{$res2['name']}}</td>
+			                        <td>{{$res2['type']}}</td>
+			                        <td>{{$res2['total_quantity']*$res2['total_prescription_days']}}</td>
+			                        <td>{{$res2['qhrs']}}</td>
+			                        <td>{{$res2['total_prescription_days']}}</td>
+			                  </tr>
+			                @endif
+		            	@endforeach
+	                </tbody>
+	            </table>
+		</div>
 		@endif
 	@endif
-	<br/><br/>
 
 	@if(isset($data['referalType']))
 	@if($data['referalType'] != null && $data['crossSelectedValue'] != '')
-		<div style="padding-left: 35px;"> 
+	 
 			<div class='col-md-12 text-center'>
 				<span class='text-center'><b>Cross Referal</b></span>
 			</div>
-		</div>
+		
 		@if($data['referalType'] == 'cross')
 				<div style="padding-left: 40px;">
 				@if($data['crossType'] == 'internal')
-					<div class='row' style="padding-left: 15px;padding-right:15px;">
+					<div class='row' >
 					 	<div class='col-md-6 text-left'>
 					 		<span class='text-left'><b>{{$data['crossType']}}</b></span> {{$data['crossSelectedValue']}}
 					 	</div>
@@ -485,161 +555,452 @@
 	@endif
 
   @endif
+
+  @if($data['printType'] == 'print_perceptions')
+  	@if(!empty($data['provisional_diagnostic']))
+  	<div  style="padding-left: 35px;">
+			<div class='col-md-6 text-left'>
+				<span class='text-left'><b>Provisional Diagnostic :-</b></span>
+			</div>
+			<div class='row'>
+				<div class='col-md-12 text-left'>
+					<span class='text-left' style="padding-left:30px;">{{$data['provisional_diagnostic']}}</span>
+				</div>
+			</div>
+		</div>
+		@endif
+		@if(isset($data['priscriptionData']))
+	  		@if(!empty($data['priscriptionData']))
+			<div class='col-md-12 text-center'>
+				<span class='text-center'><b>Prescription</b></span>
+			</div>
+			<div class="table-responsive">
+				<table class="table" id="prescription_list">
+				    <thead>
+						</thead>
+						   <tbody>
+						   	@foreach($data['priscriptionData'] as $key=>$res)
+					   		 @if($res['remove']==='false')
+								   	<tr>
+		                             	<td>{{++$key}} ] {{$res['name']}} :ORAL
+										@if($res['clock_quantity_1']!='0')
+											{{$res['clock_quantity_1']}}
+										@endif
+		                                @if($res['clock_quantity_2']!='0') 
+		                                    @if($res['clock_quantity_1']!='0') ______ @endif
+		                                    {{$res['clock_quantity_2']}}
+		                                @endif
+		                                @if($res['clock_quantity_3']!='0') 
+		                                	@if($res['clock_quantity_1']!='0' || $res['clock_quantity_2']!='0') ______ @endif
+		                                	{{$res['clock_quantity_3']}} 
+		                                @endif
+		                                @if($res['clock_quantity_4']!='0')
+		                                	@if($res['clock_quantity_1']!='0' || $res['clock_quantity_2']!='0' || $res['clock_quantity_3']!='0')  ______ @endif
+		                                	{{$res['clock_quantity_4']}}
+		                                @endif
+		                                [ 
+		                                @if($res['clock_time_1']!='00:00') 
+		                                	{{$res['clock_time_1']}}
+		                                @endif
+		                                @if($res['clock_time_2']!='00:00')
+		                                	@if($res['clock_time_1']!='00:00') ______ @endif
+		                                	{{$res['clock_time_2']}}
+		                                @endif
+		                                @if($res['clock_time_3']!='00:00')
+		                                    @if($res['clock_time_1']!='00:00' || $res['clock_time_2']!='00:00') ______ @endif {{$res['clock_time_3']}}
+		                                @endif
+		                                @if($res['clock_time_4']!='00:00')
+		                                    @if($res['clock_time_1']!='00:00' || $res['clock_time_2']!='00:00' || $res['clock_time_3']!='00:00') ______ @endif
+		                                    {{$res['clock_time_4']}}
+		                                @endif ] 
+		                                [ 
+		                                @if($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') 
+		                                	{{$res['clock_suggest_1']}}
+		                                @endif
+			                        	@if($res['clock_suggest_2']!=''  && $res['clock_suggest_2']!='--') 
+			                        		@if($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') ______ @endif
+			                        		{{$res['clock_suggest_2']}}
+			                        	@endif
+		                                @if($res['clock_suggest_3']!=''  && $res['clock_suggest_3']!='--')
+		                                	@if(($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') || ($res['clock_suggest_2']!='' && $res['clock_suggest_2']!='--')) ______ @endif
+		                                	{{$res['clock_suggest_3']}}
+		                                @endif
+		                                @if($res['clock_suggest_4']!=''  && $res['clock_suggest_4']!='--')
+		                                	@if(($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') || ($res['clock_suggest_2']!='' && $res['clock_suggest_2']!='--') || ($res['clock_suggest_3']!='' && $res['clock_suggest_3']!='--')) ______ @endif
+		                                	{{$res['clock_suggest_4']}}
+		                                @endif 
+		                                ] 
+										@if($res['qhrs']!='') <span>[{{$res['qhrs']}}]</span> @endif
+		                                &#9747;
+		                                @if($res['total_prescription_days']!='')
+		                                	{{$res['total_prescription_days']}} <span> DAYS </span>
+		                                @else
+		                                 	<span> TO BE CONTINUE </span>
+		                                @endif
+						            	</td>
+		                        	</tr>
+		                        @endif
+							@endforeach
+			           </tbody>
+			       </table>
+				</div>
+				<div class="table-responsive">
+	            <table class="table table-striped table-bordered">
+	                <thead>
+	                    <tr>
+	                        <th>Index</th>
+	                        <th>Prescription Name</th>
+	                        <th>How Many Days</th>
+	                        <th>Total Quantity</th>
+	                        <th>Q-Hrs</th>
+	                        <th>Total Days</th>
+	                        
+	                    </tr>
+	                </thead>
+	                <tbody>
+						@foreach($data['priscriptionData'] as $key2=>$res2)
+		                	@if($res2['remove']==='false')
+			                 <tr class="text-center">
+			                        <td>{{++$key2}} </td>
+			                        <td>{{$res2['name']}}</td>
+			                        <td>{{$res2['type']}}</td>
+			                        <td>{{$res2['total_quantity']*$res2['total_prescription_days']}}</td>
+			                        <td>{{$res2['qhrs']}}</td>
+			                        <td>{{$res2['total_prescription_days']}}</td>
+			                  </tr>
+			                @endif
+		            	@endforeach
+	                </tbody>
+	            </table>
+		</div>
+			@endif
+		@endif
+		@if(in_array( 'Advice + follow ups',$data['checkedreportList']))
+		@if(isset($data['advice']) && isset($data['adviceType']))
+		<div  style="padding-left: 35px;">
+			<div class='col-md-6 text-left'>
+				<span class='text-left'><b>Advice :-</b></span>
+			</div>
+			<div class='row'>
+				@if ($data['adviceType'] == 'text')
+					<div class='col-md-12 text-left'>
+						<span class='text-left' style="padding-left:30px;">{{$data['advice']}}</span>
+					</div>
+				@endif
+			</div>
+		</div>
+		@endif 
+		@endif 
+		@if(isset($data['referalType']))
+	@if($data['referalType'] != null && $data['crossSelectedValue'] != '')
+	 
+			<div class='col-md-12 text-center'>
+				<span class='text-center'><b>Cross Referal</b></span>
+			</div>
+		
+			@if($data['referalType'] == 'cross')
+				<div style="padding-left: 40px;">
+				@if($data['crossType'] == 'internal')
+					<div class='row' >
+					 	<div class='col-md-6 text-left'>
+					 		<span class='text-left'><b>{{$data['crossType']}}</b></span> {{$data['crossSelectedValue']}}
+					 	</div>
+					</div>
+				@endif
+				@if($data['crossType'] == 'external')
+					<div style="padding-left: 40px;">
+						<div class='col-md-6 text-left'>
+					 		<span class='text-left text-capitalize' style='padding-left:30px;padding-right;20px'><b>{{$data['crossType']}}
+					 					</b></span>
+					 					{{$data['crossSelectedValue']}}
+					 	</div>
+					</div>
+				@endif
+			@endif
+			</div>
+		@endif
+
+	@endif
+		@if(isset($data['followup']) && $data['followup'] != '')
+		<div  style="padding-left: 35px;">
+			<div class='col-md-6 text-left'>
+				<span class='text-left'><b>Followup :-</b></span>
+			</div>
+			<div >
+					<div class='col-md-12 text-left'>
+					   {{$data['followup']}}
+					</div> 
+			</div>
+		</div>
+		@endif 
+  @endif
   @if($data['printType'] == 'opd_case')
-  <div style='min-height: 750px;height: 1050px;'>
+  <div >
   	<div class='row'>
 		<div class='col-md-12 text-center'>
-			<h4>OPD CASE </h4>
+			<h4>OPD CASE </h4> 
 		</div>
+  	</div>	
+	@if(in_array('Radiology',$data['checkedreportList']))
+	@if(isset($data['radioReportData']) && !empty($data['radioReportData']))
+
+		<div class='row'>
+		<div class='col-md-12 text-center'>
+			<h4>Radiology Report</h4>
+		</div>
+		<div class="row"  >
+        	<div class="col-md-12">
+        	  <div class="">
+                <table class="table table-striped table-bordered" id="radio_list">
+                  <thead>
+                    <tr>
+                    <!--  <th>#</th> -->
+                     <th>Type</th>
+                     <th>Body parts</th>
+                     <th>Qualifier</th>
+                     <th>Special request</th>
+                     <th>Details</th>
+                    </tr>
+                 </thead>
+                 <tbody>
+                 @if($data['radioReportData'])
+                 @foreach($data['radioReportData'] as $index=>$res)
+                 <tr class="text-center">
+                            <!-- <td>{{++$index}}</td> -->
+                            <td>{{$res['type']}}</td>
+                            <td>{{$res['bodyPart']}}</td>
+                            <td>{{$res['qualifier']}}</td>
+                            <td>{{$res['special_request']}}</td>
+                            <td>{{$res['textData']}}</td>
+                    </tr>
+                    @endforeach
+                @endif
+                        </tbody>
+                    </table>
+                </div>
+        	</div>
+        </div>
   	</div>
-  	<div class='row' style="padding-left: 15px;padding-right:15px;">
-	    	 <table class="table" align="center" cellspacing=0>	
-         	<thead>	
-         		<tr>
-         			<td class="text-left"><b>Ref By :</b>{{$data['adviceDoctor']}} </td>	 
-         			 <td class="text-center"><b>Date :</b> 	{{$data['todayDate']}} </td>	 
-         		</tr>	
-         	</thead>
-         </table>
-	    
-    </div>	
-	<br/><br/>
-	
-	@if($data['advice'] != null && $data['adviceType'] == 'text')
-	<div  style="padding-left: 35px;">
-		<div class='col-md-6 text-left'>
-			<span class='text-left'><b>Advice :-</b></span>
-		</div>
+
+  	@endif
+	@endif
+	@if(in_array('Laboratory',$data['checkedreportList'] ))
+		@if(isset($data['labReportData'])){
+
 		<div class='row'>
-			@if ($data['adviceType'] == 'text')
-				<div class='col-md-12 text-left'>
-					<span class='text-left' style="padding-left:30px;">{{$data['advice']}}</span>
+			<div class='col-md-12 text-center'>
+				<h4>Lab Report</h4>
+			</div>
+  		</div>
+		<div class="form-group">
+                <div class="col-md-12">
+                  <div class="table-responsive">
+                    <table class="table table-striped table-bordered" id="laboratory_table_list">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                    @if($data['labReportData']){
+                       	@foreach($data['labReportData'] as 
+                       	$index=>$res)
+                         <tr class="text-center">
+                            <td>{{++$index}}</td> 
+                            <td>{{$res['name'] }}</td>
+                          </tr>
+						 @endforeach
+					@endif
+                        </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+        @endif
+	@endif
+	@if(in_array('Prescription',$data['checkedreportList']))
+		@if(isset($data['priscriptionData']))
+	  		@if(!empty($data['priscriptionData']))
+			<div class='col-md-12 text-center'>
+				<span class='text-center'><b>Prescription</b></span>
+			</div>
+			<div class="table-responsive">
+				<table class="table" id="prescription_list">
+				    <thead>
+						</thead>
+						   <tbody>
+						   	@foreach($data['priscriptionData'] as $key=>$res)
+					   		 @if($res['remove']==='false')
+								   	<tr>
+		                             	<td>{{++$key}} ] {{$res['name']}} :ORAL
+										@if($res['clock_quantity_1']!='0')
+											{{$res['clock_quantity_1']}}
+										@endif
+		                                @if($res['clock_quantity_2']!='0') 
+		                                    @if($res['clock_quantity_1']!='0') ______ @endif
+		                                    {{$res['clock_quantity_2']}}
+		                                @endif
+		                                @if($res['clock_quantity_3']!='0') 
+		                                	@if($res['clock_quantity_1']!='0' || $res['clock_quantity_2']!='0') ______ @endif
+		                                	{{$res['clock_quantity_3']}} 
+		                                @endif
+		                                @if($res['clock_quantity_4']!='0')
+		                                	@if($res['clock_quantity_1']!='0' || $res['clock_quantity_2']!='0' || $res['clock_quantity_3']!='0')  ______ @endif
+		                                	{{$res['clock_quantity_4']}}
+		                                @endif
+		                                [ 
+		                                @if($res['clock_quantity_1']!='0') 
+		                                	{{$res['clock_time_1']}}
+		                                @endif
+		                                @if($res['clock_quantity_2']!='0')
+		                                	@if($res['clock_quantity_1']!='0') ______ @endif
+		                                	{{$res['clock_time_2']}}
+		                                @endif
+		                                @if($res['clock_quantity_3']!='0')
+		                                    @if($res['clock_quantity_1']!='0' || $res['clock_quantity_2']!='0') ______ @endif {{$res['clock_time_3']}}
+		                                @endif
+		                                @if($res['clock_quantity_4']!='0')
+		                                    @if($res['clock_quantity_1']!='0' || $res['clock_quantity_2']!='0' || $res['clock_quantity_3']!='0') ______ @endif
+		                                    {{$res['clock_time_4']}}
+		                                @endif ]
+										
+										@if(($res['clock_suggest_1']!='--' && $res['clock_suggest_1']!='') || ($res['clock_suggest_2']!='--' && $res['clock_suggest_2']!='')  || ($res['clock_suggest_3']!='--' && $res['clock_suggest_3']!='')  || ($res['clock_suggest_4']!='--' && $res['clock_suggest_4']!='') )
+
+		                                	[ 
+				                                @if($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') 
+				                                	{{$res['clock_suggest_1']}}
+				                                @endif
+					                        	@if($res['clock_suggest_2']!=''  && $res['clock_suggest_2']!='--') 
+					                        		@if($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') ______ @endif
+					                        		{{$res['clock_suggest_2']}}
+					                        	@endif
+				                                @if($res['clock_suggest_3']!=''  && $res['clock_suggest_3']!='--')
+				                                	@if(($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') || ($res['clock_suggest_2']!='' && $res['clock_suggest_2']!='--')) ______ @endif
+				                                	{{$res['clock_suggest_3']}}
+				                                @endif
+				                                @if($res['clock_suggest_4']!=''  && $res['clock_suggest_4']!='--')
+				                                	@if(($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') || ($res['clock_suggest_2']!='' && $res['clock_suggest_2']!='--') || ($res['clock_suggest_3']!='' && $res['clock_suggest_3']!='--')) ______ @endif
+				                                	{{$res['clock_suggest_4']}}
+				                                @endif 
+		                                	]
+										@endif
+										@if($res['qhrs']!='') <span>[{{$res['qhrs']}}]</span> @endif
+		                                &#9747;
+		                                @if($res['total_prescription_days']!='')
+		                                	{{$res['total_prescription_days']}} <span> DAYS </span>
+		                                @else
+		                                 	<span> TO BE CONTINUE </span>
+		                                @endif
+						            	</td>
+		                        	</tr>
+		                        @endif
+							@endforeach
+			           </tbody>
+			       </table>
 				</div>
+				<div class="table-responsive">
+	            <table class="table table-striped table-bordered">
+	                <thead>
+	                    <tr>
+	                        <th>Index</th>
+	                        <th>Prescription Name</th>
+	                        <th>How Many Days</th>
+	                        <th>Total Quantity</th>
+	                        <th>Q-Hrs</th>
+	                        <th>Total Days</th>
+	                        
+	                    </tr>
+	                </thead>
+	                <tbody>
+						@foreach($data['priscriptionData'] as $key2=>$res2)
+		                	@if($res2['remove']==='false')
+			                 <tr class="text-center">
+			                        <td>{{++$key2}} </td>
+			                        <td>{{$res2['name']}}</td>
+			                        <td>{{$res2['type']}}</td>
+			                        <td>{{$res2['total_quantity']*$res2['total_prescription_days']}}</td>
+			                        <td>{{$res2['qhrs']}}</td>
+			                        <td>{{$res2['total_prescription_days']}}</td>
+			                  </tr>
+			                @endif
+		            	@endforeach
+	                </tbody>
+	            </table>
+		</div>
 			@endif
-			
-		</div>
-	</div>
-	<br/><br/>
-	@endif 
+			@endif
+		@endif
+		@if(in_array( 'Advice + follow ups',$data['checkedreportList']))
 
-	@if($data['adviceType'] != 'text' && $data['adviceScribleValue'] != '')
-	<div  style="padding-left: 35px;">
-		<div class='col-md-6 text-left'>
-			<span class='text-left'><b>Advice :-</b></span>
+		@if(isset($data['advice'])  && isset($data['adviceType']))
+		<div  style="padding-left: 35px;">
+			<div class='col-md-6 text-left'>
+				<span class='text-left'><b>Advice :-</b></span>
+			</div>
+			<div class='row'>
+				@if ($data['adviceType'] == 'text')
+					<div class='col-md-12 text-left'>
+						<span class='text-left' style="padding-left:30px;">{{$data['advice']}}</span>
+					</div>
+				@endif
+				
+			</div>
 		</div>
-		<div class='row'>
-
-				<div class='col-md-12 text-left'>
-				    <img src="{{$data['adviceScribleValue']}}" title="Advice">
-				</div> 
+		<br/>
+		@endif
+		@if(isset($data['adviceType'])) 
+		@if($data['adviceType'] != 'text' && $data['adviceScribleValue'] != '')
+		<div  style="padding-left: 35px;">
+			<div class='col-md-6 text-left'>
+				<span class='text-left'><b>Advice :-</b></span>
+			</div>
+			<div class='row'>
+					<div class='col-md-12 text-left'>
+					    <img src="{{$data['adviceScribleValue']}}" title="Advice">
+					</div> 
+			</div>
 		</div>
-	</div>
-	<br/><br/>
-	@endif 
+		@endif
+		@endif
+		@if(isset($data['followup']) && $data['followup'] != '')
+		<div  style="padding-left: 35px;">
+			<div class='col-md-6 text-left'>
+				<span class='text-left'><b>Followup :-</b></span>
+			</div>
+			<div>
+					<div class='col-md-12 text-left'>
+					   {{$data['followup']}}
+					</div> 
+			</div>
+		</div>
+		@endif 
+		
 	
-	@if(count($data['priscriptionData']) > 0 || $data['priscriptionData'] != null)
-	<div style="padding-left: 35px;">
-		<div class='col-md-6 text-left'>
-			<span class='text-left'><b>Prescription :-</b></span>
-		</div>
+		<br/><br/>
 
-		<div class="table-responsive">
-			<table class="table" id="prescription_list">
-			    <thead>
-				    <tr>
-					   <th width="8%">#</th>
-					   <th >Name</th>
-					   <th class="text-center">Quntity</th>
-					 <!--   <th class="text-center">Unit</th> -->
-					   <th class="text-center">Time For Medicine</th>
-				 	</tr>
-					</thead>
-					   <tbody>
-					   	@foreach($data['priscriptionData'] as $key=>$value)
-						   <tr >
-							   <td>{{$key}}</td>
-							   <td>{{$value['Prescription'] }}</td>
-							   <td class="text-center">{{$value['quntity']}}</td>
-							   <!-- <td class="text-center">{{(isset($value['unit']))?$value['unit']:''}}</td> -->
-							   <td class="text-center">{{$value['time']}}</td>
-						  </tr>
-						@endforeach
-		           </tbody>
-		       </table>
-		</div>
-	</div>
-	<br/><br/>
 	@endif
-
-	@if($data['referalType'] != null && $data['crossSelectedValue'] != '')
-	<div style="padding-left: 35px;"> 
-		<div class='col-md-6 text-left'>
-			<span class='text-left'><b>Referal :-</b></span>
-		</div>
+	
 	</div>
-	@if($data['referalType'] == 'cross')
-	<div style="padding-left: 40px;">
-		@if($data['crossType'] == 'internal')
-			<div class='row' style="padding-left: 15px;padding-right:15px;">
-			 	<div class='col-md-6 text-left'>
-			 		<span class='text-left'><b>{{$data['crossType']}}</b></span> {{$data['crossSelectedValue']}}
-			 		</div>
-			</div>
-		@endif
-		@if($data['crossType'] == 'external')
-			<div style="padding-left: 40px;">
-				<div class='col-md-6 text-left'>
-			 		<span class='text-left text-capitalize' style='padding-left:30px;padding-right;20px'><b>{{$data['crossType']}}
-			 					</b></span>
-			 					{{$data['crossSelectedValue']}}
-			 	</div>
-			</div>
-		@endif
-	</div>
-	@endif
-	@endif
-
-	@if($data['referalType'] == 'radiology' && $data['radiologyData'] != '')
-	<div style="padding-left: 35px;"> 
-		<div class='col-md-6 text-left'>
-			<span class='text-left'><b>Referal :-</b></span>
-		</div>
-	</div>
-	<div style="padding-left: 40px;">	
-		<table class="table" id="radio_list">
-			<thead>
-				<tr>
-					<th class="text-center">Type</th>
-					<th class="text-center">Body parts</th>
-					<th class="text-center">Qualifier</th>
-					<th class="text-center">Special request</th>
-				</tr>
-			</thead>
-			<tbody>
-					<tr >
-						<td class="text-center">{{$data['radiologyData']['type']}}</td>
-						<td class="text-center">{{$data['radiologyData']['bodyPart']}}</td>
-						<td class="text-center">{{$data['radiologyData']['qualifier']}}</td>
-						<td class="text-center">{{$data['radiologyData']['special_request']}}</td>
-					</tr>
-			</tbody>
-		</table>
-	</div>
-</div>
-	@endif
-	@endif
-	<div style="position:absolute;bottom:250px;width:100%height:200px;right:30px;">
-		<img  :src="{{'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/>
-
+@endif
+	
+	<div style="width:100%height:200px;right:30px;" class="text-right">
+		<img src="{{$url.'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/>
 	</div>	
-	<div style="position:absolute;bottom:200px;width:100%height:50px;right:30px;">
-	<div class="row" style="padding-right:20px;font-size: 15px;right:0px;">
+	<div style="width:100%height:200px;right:30px;" class="text-right">
+	 	<!-- <img  :src="{{$url.'/assets/img/timestamp/'.$data['timeStamp'].'.png'}}" height="66" width="182"/> -->
+	 	<span><b>{{$data['doctoreName']}}</b></span><br/>
+	 	<span><b>{{$data['timeStamp']}}</b></span><br>
+	 	<span><b>{{$data['regNo']}}</b></span>
+	</div>
+	<div style="">
+	<!-- <div class="row" style="padding-right:20px;font-size: 15px;right:0px;">
 		<div class='col-md-12 text-right'>
 			<span class='text-right'><b>Consultant's Signature</b></span>
 		</div>
-	</div>	
+	</div> -->	
 </div>
-   <div  class="footer" style="background-color: dodgerblue;color: white;position:absolute;bottom:0;width:100%;height:170px;left:0">
+   <div  class="footer" style="background-color: dodgerblue;color: white;bottom:0;width:100%;height:170px;left:0">
       <div class="row text-center">
           <div class="col-md-12">
               <div class="text-center text-capitalize"  style="text-align: center;">  

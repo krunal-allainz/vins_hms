@@ -191,6 +191,7 @@ return [
         Dingo\Api\Provider\LaravelServiceProvider::class,
         Duro85\Roles\RolesServiceProvider::class,
         euro_hms\Api\Providers\ReceiptServiceProvider::class,
+      
 
        
 
@@ -251,6 +252,7 @@ return [
         // 'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'ReceiptService' =>  euro_hms\Api\Providers\ReceiptServiceProvider::class,
+       
    ],
 
 ];

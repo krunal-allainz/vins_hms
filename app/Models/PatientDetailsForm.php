@@ -8,6 +8,7 @@ use Carbon\Carbon;
 class PatientDetailsForm extends Model
 {
     protected $table = 'patient_details';
+    protected $appointment_datetime = 'd-m-Y H:i:s';
 
     protected $fillable=[
       'uhid_no',
@@ -45,17 +46,47 @@ class PatientDetailsForm extends Model
         return $this->belongsTo('euro_hms\Models\User','consultant_id');
     }
 
-    public function getDobAttribute($value)
+    public function opdDetails()
     {
-        return Carbon::parse($value)->format('d-m-Y');
+        return $this->belongsTo('euro_hms\Models\OpdDetails','patient_id');
     }
 
-    public function setDobDateAttribute($value)
+    public function getDobAttribute($value)
     {
-      dd($value);
-        $new_val = $value['time']." 00:00:00";
-        $this->attributes['dob'] =   Carbon::createFromFormat('d-m-Y', $value);
+      if($value != null){
+          return Carbon::parse($value)->format('d-m-Y');
+      }else{
+        return null;
+      }
+    }
 
+    public function setDobAttribute($value)
+
+    { 
+      if($value != ''){
+        return $this->attributes['dob'] =   Carbon::createFromFormat('d-m-Y', $value);
+      }else{
+         return $this->attributes['dob'] = null;
+      }
+
+    }
+
+     public function getAppointmentDatetimeAttribute($value)
+    { 
+        if($value != null){
+         return Carbon::parse($value)->format('d-m-Y H:i:s');
+       }else{
+        return null;
+       }
+    }
+
+     public function setAppointmentDatetimeAttribute($value)
+    { 
+        if($value != ''){
+        return $this->attributes['appointment_datetime'] =   Carbon::createFromFormat('d-m-Y H:i:s', $value);
+        }else{
+           return $this->attributes['appointment_datetime'] = null;
+        }
     }
 
       public function getIpdDetails()
@@ -67,6 +98,15 @@ class PatientDetailsForm extends Model
 
         return $this->hasMany('euro_hms\Models\OpdDetails');
       }
+
+    public function patientCaseManagment()
+    {
+        return $this->belongsTo('euro_hms\Models\PatientCaseManagment','patient_id');
+    }
+
+    public function tokenManagment(){
+       return $this->belongsTo('euro_hms\Models\TokenManagment','patient_id');
+    }
 
     
 }

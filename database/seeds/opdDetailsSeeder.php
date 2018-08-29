@@ -17,7 +17,7 @@ class opdDetailsSeeder extends Seeder
 
         DB::table('opd_details')->insert([
           ['patient_id' => 1,
-          'uhid_no'=>'VM18001',
+          'uhid_no'=>'VN18001',
           'admit_datetime' => NULL,
           'discharge_datetime' => NULL,
           'created_at' => Carbon::now()->format('Y-m-d H:i:s'),

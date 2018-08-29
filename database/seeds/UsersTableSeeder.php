@@ -18,10 +18,12 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
-            ['first_name'=>'Dr. Rakesh',
+            ['first_name'=>'Rakesh',
             'password'=>Hash::make(trim('12345678')),
             'department'=>'Neurology',
-            'user_type'=>'Doctor',
+            'dagree'=>'M.D.D.M.',
+            'regno'=>'G-22734',
+            'user_type'=>1,
             'mobile_no'=>'123456789',
             'address'=>'Vadodara',
             'user_image'=>NULL,
@@ -40,10 +42,12 @@ class UsersTableSeeder extends Seeder
         ]);
         DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
-            ['first_name'=>'Dr. Anand',
+            ['first_name'=>'Anand',
             'password'=>Hash::make(trim('12345678')),
             'department'=>'Neurology',
-            'user_type'=>'Doctor',
+            'dagree'=>'',
+            'RegNo'=>'',
+            'user_type'=>1,
             'mobile_no'=>'123456789',
             'address'=>'Vadodara',
             'user_image'=>NULL,
@@ -62,10 +66,12 @@ class UsersTableSeeder extends Seeder
         ]);
         DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
-            ['first_name'=>'Dr. Suvorit',
+            ['first_name'=>'Suvorit',
             'password'=>Hash::make(trim('12345678')),
             'department'=>'Neurology',
-            'user_type'=>'Doctor',
+            'dagree'=>'M.D.D.M.',
+            'RegNo'=>'G-42383',
+            'user_type'=>1,
             'mobile_no'=>'123456789',
             'address'=>'Vadodara',
             'user_image'=>NULL,
@@ -86,10 +92,12 @@ class UsersTableSeeder extends Seeder
         //Neurosurgery
         DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
-            ['first_name'=>'Dr. Monish',
+            ['first_name'=>'Monish',
             'password'=>Hash::make(trim('12345678')),
             'department'=>'Neurosurgery',
-            'user_type'=>'Doctor',
+            'dagree'=>'M.S.,Mch.',
+            'RegNo'=>'G-42383',
+            'user_type'=>1,
             'mobile_no'=>'123456789',
             'address'=>'Vadodara',
             'user_image'=>NULL,
@@ -109,10 +117,12 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
-            ['first_name'=>'Dr. Suresh',
+            ['first_name'=>'Suresh',
             'password'=>Hash::make(trim('12345678')),
             'department'=>'Neurosurgery',
-            'user_type'=>'Doctor',
+            'dagree'=>'M.S.MCH',
+            'RegNo'=>'G-22668',
+            'user_type'=>1,
             'mobile_no'=>'123456789',
             'address'=>'Vadodara',
             'user_image'=>NULL,
@@ -132,10 +142,12 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
-            ['first_name'=>'Dr. Viral',
+            ['first_name'=>'Viral',
             'password'=>Hash::make(trim('12345678')),
             'department'=>'Neurosurgery',
-            'user_type'=>'Doctor',
+            'dagree'=>'M.S.MCH',
+            'RegNo'=>'G-23541',
+            'user_type'=>1,
             'mobile_no'=>'123456789',
             'address'=>'Vadodara',
             'user_image'=>NULL,
@@ -154,10 +166,12 @@ class UsersTableSeeder extends Seeder
         ]);
         DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
-            ['first_name'=>'Dr. Rakesh',
+            ['first_name'=>'Rakesh',
             'password'=>Hash::make(trim('12345678')),
             'department'=>'Neurosurgery',
-            'user_type'=>'Doctor',
+            'dagree'=>'MBBS, MS,DNF',
+            'regno'=>'G-36820',
+            'user_type'=>1,
             'mobile_no'=>'123456789',
             'address'=>'Vadodara',
             'user_image'=>NULL,
@@ -178,10 +192,12 @@ class UsersTableSeeder extends Seeder
         //Vascular
         DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
-            ['first_name'=>'Dr. Vijay',
+            ['first_name'=>'Vijay',
             'password'=>Hash::make(trim('12345678')),
             'department'=>'Vascular',
-            'user_type'=>'Doctor',
+            'dagree'=>'M.S.PDCC',
+            'regno'=>'G-18420',
+            'user_type'=>1,
             'mobile_no'=>'123456789',
             'address'=>'Vadodara',
             'user_image'=>NULL,
@@ -202,10 +218,12 @@ class UsersTableSeeder extends Seeder
 //Cardiology
          DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
-            ['first_name'=>'Dr. Kaushik',
+            ['first_name'=>'Kaushik',
             'password'=>Hash::make(trim('12345678')),
             'department'=>'Cardiology',
-            'user_type'=>'Doctor',
+            'dagree'=>'M.D. Cardiology',
+            'regno'=>'G-10679',
+            'user_type'=>1,
             'mobile_no'=>'123456789',
             'address'=>'Vadodara',
             'user_image'=>NULL,
@@ -225,10 +243,12 @@ class UsersTableSeeder extends Seeder
 
           DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
-            ['first_name'=>'Dr. Hemant',
+            ['first_name'=>'Hemant',
             'password'=>Hash::make(trim('12345678')),
             'department'=>'Orthopedic',
-            'user_type'=>'Doctor',
+            'dagree'=>'M.S.Ortho',
+            'regno'=>'G-9881',
+            'user_type'=>1,
             'mobile_no'=>'123456789',
             'address'=>'Vadodara',
             'user_image'=>NULL,
@@ -248,10 +268,12 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
-            ['first_name'=>'Dr. Mihir',
+            ['first_name'=>'Mihir',
             'password'=>Hash::make(trim('12345678')),
             'department'=>'Neurology',
-            'user_type'=>'Doctor',
+            'dagree'=>'M.D.D.M.',
+            'regno'=>'G-34728',
+            'user_type'=>1,
             'mobile_no'=>'123456789',
             'address'=>'Vadodara',
             'user_image'=>NULL,
@@ -271,10 +293,12 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
-            ['first_name'=>'Dr. Sumit',
+            ['first_name'=>'Sumit',
             'password'=>Hash::make(trim('12345678')),
             'department'=>'Vascular',
-            'user_type'=>'Doctor',
+            'dagree'=>'DNB, MRCS',
+            'regno'=>'G-11559',
+            'user_type'=>1,
             'mobile_no'=>'123456789',
             'address'=>'Vadodara',
             'user_image'=>NULL,
@@ -295,10 +319,12 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
-            ['first_name'=>'Dr. Ketan',
+            ['first_name'=>'Ketan',
             'password'=>Hash::make(trim('12345678')),
             'department'=>'Cardiology',
-            'user_type'=>'Doctor',
+            'dagree'=>'',
+            'regno'=>'',
+            'user_type'=>1,
             'mobile_no'=>'123456789',
             'address'=>'Vadodara',
             'user_image'=>NULL,
@@ -319,10 +345,12 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             // ['person_id' => '3','username' => 'tadministrator@administrator.com',
-            ['first_name'=>'Dr. Rajesh',
+            ['first_name'=>'Rajesh',
             'password'=>Hash::make(trim('12345678')),
             'department'=>'Oncology',
-            'user_type'=>'Doctor',
+            'dagree'=>'ONCO ,SURGEON',
+            'regno'=>'G-9286',
+            'user_type'=>1,
             'mobile_no'=>'123456789',
             'address'=>'Vadodara',
             'user_image'=>NULL,

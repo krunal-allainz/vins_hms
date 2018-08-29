@@ -17,8 +17,13 @@ const state = {
     'radioData':{},
     'neuroExaminationData':{},
     'vascExaminationData':{},
-    'laboratoryData':[],
+    'laboratoryData':{},
     'saveOpd':false,
+    'prescriptionData':{},
+    'refferelReportData':{},
+    'step4Data':{},
+    'curStep':1
+
 
  }
 
@@ -66,6 +71,12 @@ const actions = {
   saveLabReportData({commit},labReportData){
     commit(types.SET_LAB_REPORT_DATA,labReportData)
   },
+  saveReferralReportData({commit},refferelReportData){
+    commit(types.SET_REFFEREL_REPORT_DATA,refferelReportData)
+  },
+  saveStep4Data({commit},step4Data) {
+    commit(types.SET_Step4_DATA, step4Data);
+  },
   SetPatientData ({commit},ipdId) {
     
     user.getpatientDetail(ipdId).then(
@@ -93,7 +104,11 @@ const actions = {
   saveOpdData({commit,state}) {
     
 
-  }
+  },
+  setPrescriptionData({commit},prescriptionData) {
+      commit(types.SET_PRESCRIPTION_DATA,prescriptionData);
+    
+  },
 }
 
 // mutations
@@ -141,20 +156,38 @@ const mutations = {
     // console.log(patientData)
       state.vascExaminationData = vascData;
   },
-  [types.SET_LAB_REPORT_DATA](state, laboratoryData){
-      state.laboratoryData = laboratoryData;
+  [types.SET_LAB_REPORT_DATA](state, labData){
+
+      state.laboratoryData = {'type':labData};
   },
-    [types.RESET_OPD_FORM] (state) {
+  [types.SET_REFFEREL_REPORT_DATA](state, refData){
+      state.refferelReportData = refData;
+  },
+  [types.SET_Step4_DATA](state, step4data){
+
+      state.step4Data = step4data;
+  },
+  [types.RESET_OPD_FORM] (state) {
     // console.log(patientData)
       state.opdData = {};
       state.opd_resultData = {};
       state.radioData = {};
+      state.prescriptionData = {};
+      state.laboratoryData = {};
+      state.neuroExaminationData = {};
+      state.vascExaminationData = {};
+      state.refferelReportData={};
+      state.step4Data={};
   },
   [types.SAVE_OPD_DATA] (state) {
     // console.log(patientData)
   },
   [types.SAVE_OPD] (state,oData) {
     state.saveOpd = oData;
+    // console.log(patientData)
+  },
+  [types.SET_PRESCRIPTION_DATA] (state,pData) {
+    state.prescriptionData = pData;
     // console.log(patientData)
   },
   

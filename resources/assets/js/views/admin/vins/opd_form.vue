@@ -1,5 +1,6 @@
 <template id="">
   <div class="container">
+
     <div class="page-header">
       <div class="row text-center">
         <div class="col-md-12">
@@ -7,41 +8,65 @@
         </div>
       </div>
     </div>
-
+    <div class="row">
+      <step-progress-bar :curstep="curStep"></step-progress-bar>
+    </div>
     <form action="" method="post" enctype="multipart/formdata">
       <div v-if="curStep == 1">
-        <div class="row form-group">
+        <div class="row form-group" v-show="patient_select_enable==true">
           <div class="col-md-6">
             <div class="col-md-6 ">
               <label for="patient">Select Patient:</label>
             </div>
             <div class="col-md-6">
-              <select  class="form-control ls-select2" v-validate="'required'" id = "patient" name="patient" value="" v-model="opdData.patientlist" > 
-              
+              <select  class="form-control ls-select2"  id = "patient" name="patient" value="" v-model="opdData.patientlist" > 
+                    <option value="">Select </option>
                    <option :value="pat.id" v-for="pat in opdData.patient_option">{{pat.name}}</option>
                 </select> 
-                <i v-show="errors.has('patient')" class="fa fa-warning"></i>      
-                 <span class="help is-danger" v-show="errors.has('patient')">
-                  Please Select patient.
-                </span> 
             </div>
           </div>
-          <div class="col-md-6" >
-            <div class="col-md-6 ">
-              <label for="opd_no">Select OPD No.:</label>
-            </div>
-            <div class="col-md-6">
-              <select  class="form-control ls-select2" v-validate="'required'" id = "opd_no" name="opd_no" value="" v-model="opdData.opd_id" > 
-              
-                   <option :value="opd.id" v-for="opd in opdData.opd_option">{{opd.opd_id}}</option>
-                </select> 
-                <i v-show="errors.has('opd_no')" class="fa fa-warning"></i>      
-                 <span class="help is-danger" v-show="errors.has('opd_no')">
-                  Please Select OPD Number.
-                </span> 
-            </div>
+        </div>
+          <div v-if="isPatientSearch">
+            <patientSearch v-if="patient_select_enable==false" :user_id="doctor_id" ref="opd_form"></patientSearch>
           </div>
-          </div>
+         
+          <div class="row form-group">
+            <div class="col-md-6" v-if="patient_select_enable==true">
+              <div class="col-md-6">
+                <button type="button" class="btn btn-primary" @click="patient_select_change(true)">Search Patient By Another</button>
+              </div>
+            </div>
+            <div class="col-md-6" v-if="patient_select_enable==false">
+              <div class="col-md-6">
+                <button type="button" class="btn btn-primary" @click="patient_select_change(false)">Select Patient</button>
+              </div>
+            </div>
+
+            <div class="col-md-6" v-show="(opdData.last_vist != '')">
+              <div class="col-md-6 ">
+                <label for="opd_no">Last Visit:</label>
+              </div>
+               <div class="col-md-6">
+                {{opdData.last_vist}}
+               </div>
+            </div>
+           <!--  <div class="col-md-6" >
+
+              <div class="col-md-6 ">
+                <label for="opd_no"last_vist>Select OPD No.:</label>
+              </div>
+              <div class="col-md-6">
+                <select  class="form-control ls-select2" v-validate="'required'" id = "opd_no" name="opd_no" value="" v-model="opdData.opd_id" > 
+                     <option value="">Select</option>
+                     <option :value="opd.id" v-for="opd in opdData.opd_option">{{opd.opd_id}}</option>
+                  </select> 
+                  <i v-show="errors.has('opd_no')" class="fa fa-warning"></i>      
+                   <span class="help is-danger" v-show="errors.has('opd_no')">
+                    Please Select OPD Number.
+                  </span> 
+              </div>
+            </div> -->
+          </div>         
           <div class="row form-group">
             <div class="col-md-12">
                  <div class="col-md-6"  v-if="opdData.uhid_no!=''">
@@ -109,7 +134,7 @@
                   <div class="row form-group">
                   <div class="col-md-6">
                     <div class="col-md-6">
-                      <label for="date">Vitals:</label>
+                      <label for="date">RESP/SPO2:</label>
                     </div>
                     <div class="col-md-6">
                       <input type="text" name="vitals" id="vitals" class="form-control" v-model="opdData.vitals"  v-validate="'required'">
@@ -169,7 +194,7 @@
                     </div>
                     <div class="col-md-6">
                       <div class=" input-group">
-                      <input type="text" name="temp" id="temp" class="form-control"  v-model="opdData.temp" v-validate="'required|numeric|min_value:1'" maxlength="3">
+                      <input type="text" name="temp" id="temp" class="form-control number-with-validation"  v-model="opdData.temp" v-validate="'required|numeric|min_value:1|max_value:999'" pattern="\d{1,3}(\.\d{0,1})?" >
                         <div class="input-group-append">
                             <span class="input-group-text ">°F</span>
                         </div>
@@ -182,6 +207,21 @@
                     </div>
                   </div>
                 </div>
+
+
+    <div class="row">
+      <div class="col-md-6">
+        <h3>Pain Assessment</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2" @click="pain_value(0)"><img src="/assets/img/pain/P1.png" class="test"  v-bind:class="[opdData.pain_value==0 ? 'pain_select': '', 'pain_img'  ]"></div>
+      <div class="col-md-2" @click="pain_value(2)"><img src="/assets/img/pain/P2.png"  v-bind:class="[opdData.pain_value==2 ? 'pain_select': '' , 'pain_img' ]"> </div>
+      <div class="col-md-2" @click="pain_value(4)"><img src="/assets/img/pain/P3.png"   v-bind:class="[opdData.pain_value==4 ? 'pain_select': '', 'pain_img'  ]"></div>
+      <div class="col-md-2" @click="pain_value(6)"><img src="/assets/img/pain/P4.png"   v-bind:class="[opdData.pain_value==6 ? 'pain_select': '', 'pain_img'  ]"></div>
+      <div class="col-md-2" @click="pain_value(8)"><img src="/assets/img/pain/P5.png"   v-bind:class="[opdData.pain_value==8 ? 'pain_select': '', 'pain_img'  ]"></div>
+      <div class="col-md-2" @click="pain_value(10)"><img src="/assets/img/pain/P6.png"   v-bind:class="[opdData.pain_value==10 ? 'pain_select': '', 'pain_img'  ]"></div>
+    </div>
 
       <div class="row form-group">
         <div class="col-md-6">
@@ -262,7 +302,20 @@
             </div>  
         </div>
       </div>
-
+       <div class="row form-group">
+        <div class="col-md-6">
+          <div class="col-md-6">
+            <label for="date">Provisional Diagnostic:</label>
+          </div>
+          <div class="col-md-12">
+            <textarea class="form-control" name="provisional_diagnosis" id="provisional_diagnosis" v-model="opdData.provisional_diagnosis" v-validate="'required'"></textarea>
+            <i v-show="errors.has('provisional_diagnosis')" class="fa fa-warning"></i>
+            <span class="help is-danger" v-show="errors.has('provisional_diagnosis')">
+               Please enter provisional diagnostic.
+            </span>
+          </div>
+        </div>
+      </div>
       <div class="row form-group">
         <div class="col-md-6">
             <div class="col-md-12">
@@ -302,117 +355,19 @@
             </div>  
         </div>
     </div>
-    <div class="row form-group">
-      <div class="col-md-3">
-        <div class="col-md-12">
-          <label for="prescription">Prescription:</label>
-        </div>
-        <div class="col-md-12">
-          <select class="form-control ls-select2"  name="prescription" id="prescription" v-validate="'required'"  v-model="opdData.prescription">
-            <option value="">Select</option>
-            <option v-for="pres in prescriptionOption"  :value="pres.id">{{pres.name}}</option>
-          </select>
-          <i v-show="errors.has('prescription')" class="fa fa-warning"></i>
-          <span class="help is-danger" v-show="errors.has('prescription')">
-            Please select prescription.
-          </span>
-        </div>
-      </div>
-
-      <div class="col-md-3">
-        <div class="col-md-12">
-          <label for="quantity">Quantity:</label>
-        </div>
-        <div class="col-md-12">
-          <div class=" input-group">
-            <input type="text" name="prescription_quantity" id="prescription_quantity" class="form-control" v-model="opdData.prescription_quantity" v-validate="'required|numeric'">
-              <div class="input-group-append">
-                  <span class="input-group-text ">{{opdData.prescription_unit}}</span>
-              </div>
-            
-            </div>
-            <i v-show="errors.has('prescription_quantity')" class="fa fa-warning" v-if="prescription_enable == true"></i>
-          <span class="help is-danger" v-show="errors.has('prescription_quantity')" v-if="prescription_enable == true">
-             Please enter valid quantity.
-          </span>
-        </div>
-      </div>
-
-      <div class="col-md-3">
-         <div class="col-md-12">
-          <label for="prescription_time">Time For Medicine:</label>
-        </div>
-        <div class="col-md-12">
-          <div class=" input-group">
-            <input type="text" name="prescription_time" id="prescription_time" class="form-control" v-model="opdData.prescription_time"  v-validate="'required|numeric'"> 
-            <div class="input-group-append">
-                <span class="input-group-text "> hourly</span>
-            </div>
-          
-          </div>
-          <i v-show="errors.has('prescription_time')" class="fa fa-warning" v-if="prescription_enable == true"></i>
-          <span class="help is-danger" v-show="errors.has('prescription_time')" v-if="prescription_enable == true">
-            Please enter valid time for medicine.
-          </span>
-      </div>
-
-    </div>
-    <div class="col-md-3">
-            <div class="col-md-12"><br></div>
-             <div class="col-md-12">
-                   <button type="button" class="btn btn-primary btn-lg " :disabled="(opdData.prescriptionOption == '' || opdData.prescription_quantity == '' || opdData.prescription_time == '' )" @click="savePrescription()">Add</button>
-      </div>
-         <span class="help is-danger" v-if="priscriptionAdd == 0">
-            Please add prescription.
-          </span>
-          
-            <span class="help is-danger" v-if="prescriptionunique == 1">
-            Prescription already added.
-          </span>
-    </div>
-  </div>
-  <div class="form-group" v-if="finalPrescriptionData.length>0">
-  <!-- <div class="form-group"> -->
-    <div class="col-md-12">
-      <card title="<i class='ti-layout-cta-left'></i> Prescription" class="filterable">
-      <div class="table-responsive">
-        <table class="table table-striped table-bordered" id="prescription_list">
-            <thead>
-            <tr>
-                <!-- <th>#</th> -->
-                <th>Name</th>
-                <th>Quntity</th>
-                <th>Unit</th>
-                <th>Time For Medicine</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-             <tr v-if="res.removed == false"  v-for="(res,index) in finalPrescriptionData">
-              <!--   <td>{{res.id}}</td> -->
-                <td>{{res.Prescription }}</td>
-                <td>{{res.quntity}}</td>
-                <td>{{res.unit}}</td>
-                <td>{{res.time}}</td>
-                <td> <i class="fa fa-remove" @click="removePrescription(res.id)"></i></td>
-              </tr>
-
-            </tbody>
-        </table>
-      </div>
-      </card>
-    </div>
-  </div>    
+    <prescriptionData :department="department"> </prescriptionData>
     <div class="row form-group">
       <div class="col-md-6">
         <div class="col-md-12">
           <label for="referral">Referral:</label>
         </div>
         <div class="col-md-12">
-          <select class="form-control ls-select2" name="referral" id="referral" v-model="opdData.referral">
+          <select class="form-control ls-select2" name="referral" id="referral" v-model="opdData.referral" >
+            <option value="" selected>Select </option>
             <option value="cross">Cross</option>
             <option value="radiology">Radiology</option>
             <option value="laboratory">Laboratory</option>
+            <option value="physiotherapy">Physiotherapy</option>
           </select>
         </div>
       </div>
@@ -423,7 +378,7 @@
           <label for="internal">Cross Reference:</label>
         </div>
         <div class="col-md-12">
-          <select class="form-control ls-select2" name="cross" id="cross" v-model="opdData.cross">
+          <select class="form-control ls-select2" name="cross" id="cross"  multiple="">
             <option value="internal">Internal</option>
             <option value="external">External</option>
           </select>
@@ -436,25 +391,14 @@
             <div class="row form-group">
                <div class="col-md-6"> 
                 <div class="col-md-12">
-               
                   <label>Select Radiology:</label>
-                   
                   <br>
-                  <select class="form-control ls-select2" id="radiology_type_opd" name="radiology_type_opd" >
+                  <select class="form-control ls-select2" id="radiology_type_opd" name="radiology_type_opd">
                     <option v-for="type in investigationData.radiologyType" :value="type.value">{{type.text}}</option>
                   </select>
                   
                 </div>
               </div>
-                <div class="col-md-6" v-show="resultData.type == 'X-Rays'">
-                  <div class="col-md-12">
-                    <label> Select Type:</label>
-                    <select class="form-control ls-select2" id="xray_type_opd" name="xray_type_opd" v-model="resultData.x_ray_type">
-                      <option v-for="type in investigationData.xray_type_options" :value="type.value">{{type.text}}</option>
-                    </select>
-                  </div>
-                </div>
-              <!-- </div>  -->
             </div>
             <div class="row form-group">
               <div class="col-md-6">
@@ -462,7 +406,7 @@
                 <div class="col-md-12">
                   <label>Body Parts:</label>
                   <br>
-                  <select class="form-control ls-select2" id="radiology_subtype_opd" name="radiology_subtype_opd"  v-model="opdData.radiology_subtype_opd">
+                  <select class="form-control ls-select2" id="radiology_subtype_opd" name="radiology_subtype_opd" v-model="resultData.subType">
                     <option v-for="obj in investigationData.radiologySubType" :value="obj.text">{{obj.text}}</option>
                   </select>
                 </div>
@@ -470,9 +414,9 @@
               <div class="col-md-6">
                 <div class="col-md-12" v-if="resultData.subtype_text_enable">
                   <label> Other Parts</label>
-                  <input type="text" name="subType_text_opd" id="subType_text_opd" class="form-control" v-model="resultData.bodyPart">
+                  <input type="text" name="subType_text_opd" id="subType_text_opd" class="form-control"  v-model="resultData.bodyPart">
                 </div>
-                <div class="col-md-12" v-if="resultData.bodyPart == 'Spine'">
+                <div class="col-md-12" v-if="resultData.subType === 'Spine'">
                   <label> Spine option:</label>
                   <select class="form-control ls-select2" id="radiology_spine_opd" name="radiology_spine_opd"  v-model="resultData.spine_option_value">
                     <option :value="obj.text" v-for="obj in investigationData.Spine_option" >{{obj.text}}</option>
@@ -483,8 +427,6 @@
             </div>
             <div class="row form-group">
               <div class="col-md-6">
-
-              
                  <div class="col-md-12">
                     <label>Select Qualifires:</label>
                     <br>  
@@ -492,12 +434,8 @@
                         <option v-for="obj in investigationData.radiologyQualifier" :value="obj.text">{{obj.text}}</option>
                       </select>
                       <input type="text" name="qualifier_opd" id="qualifier_opd" class="form-control" v-model="resultData.qualifier" v-else>
-                    </div>
-                
-         
-
-              
-              <div class="col-md-12" v-if="resultData.type == 'MRI'">
+                </div>
+                <div class="col-md-12" v-if="resultData.type == 'MRI'">
                     <label>Select Special request:</label>
                     <br>
                       <select class="form-control ls-select2" id="radiology_special_request_opd" name="radiology_special_request_opd" v-model="resultData.special_request">
@@ -510,65 +448,37 @@
                   <input type="text" name="special_request_opd" id="special_request_opd" class="form-control" v-model="resultData.special_request">
               </div>
               </div>
-               <div class="col-md-6">
+              <div class="col-md-6">
                 <div class="col-md-12" v-if="resultData.qualifier_text_enable">
                   <label> Other Parts</label>
                   <input type="text" name="qualifier_text_opd" id="qualifier_text_opd" class="form-control" v-model="resultData.qualifier">
                 </div>
               </div>
             </div>
-             <div class="row form-group">
-              <div class="col-md-12">
-                   <button type="button" class="btn btn-primary btn-lg " :disabled="(resultData.type == '' || resultData.bodyPart == '')" @click="saveReport()">Add</button>
-              </div>
-          </div>                   
-              
-           
-          </div>
-          <div class="col-md-12">
-          <card title="<i class='ti-layout-cta-left'></i> Reports"  class="filterable">
-           <div class="table-responsive">
-              <table class="table table-striped table-bordered" id="radio_list">
-                  <thead>
-                  <tr>
-                      <th>Type</th>
-                      <th>Body parts</th>
-                      <th>Qualifier</th>
-                      <th>Special request</th>
-                      <!-- <th>Details</th> -->
-                      <!-- <th>Gallery</th> -->
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr >
-                      <td>{{finalResultData.type}}</td>
-                      <td>{{finalResultData.bodyPart}}</td>
-                      <td>{{finalResultData.qualifier}}</td>
-                      <td>{{finalResultData.special_request}}</td>
-                  </tr>
-                  
-                  </tbody>
-              </table>
+            <div class="row form-group">
+                <div class="col-md-6" >
+                   <div class="col-md-12">
+                      <label>Report details:</label><br>
+                      <textarea class="form-control" cols="50" rows="5" v-model="resultData.textData"></textarea>
+                    </div>
+                </div>
             </div>
-          </card>
           </div>
-          
         </div>
-
-      
       </div>
+    
       <div class="row form-group">
-        <div class="col-md-6" v-show="opdData.referral == 'cross' && opdData.cross == 'internal'">
+        <div class="col-md-6" v-show="cross_internal=='true'">
           <div class="col-md-12">
             <label for="internal">Internal Reference:</label>
           </div>
           <div class="col-md-12">
-            <select class="form-control ls-select2" name="internal" v-model="opdData.cross_type_int" id="internal">
+            <select class="form-control ls-select2" name="internal" id="internal" multiple="">
               <option :value="doc.name" v-for="doc in doctorOption">{{doc.name}}</option>
             </select>
           </div>
         </div>
-        <div class="col-md-6" v-show="opdData.referral == 'cross'&& opdData.cross == 'external'">
+        <div class="col-md-6" v-show="cross_external=='true'" multiple="">
           <div class="col-md-12">
             <label for="external">External Reference:</label>
           </div>
@@ -576,82 +486,132 @@
             <input type="text" name="external" id="external" class="form-control" v-model="opdData.cross_type_ext">
             </div>
           </div>
+        <!--    <div class="col-md-6"  v-show="(cross_internal == 'true')">
+           <div class="col-md-12">
+            <button type="button" class="btn btn-primary btn-submit text-right" @click="savePatientDataWithNewReferal">Save</button>
+            <a class="btn btn-primary btn-submit text-right" href="/dashboard" >Exit</a>
+          </div>
+        </div> -->
         </div>
+      
         <!-- for laboratory -->
         <div class="row form-group" v-show="opdData.referral == 'laboratory' ">
           <div class="col-md-6">
           <div class="col-md-12">
-            <label class="control-label" for="label_1">Blood </label>
+            <label class="control-label" for="label_1">Laboratory </label>
           </div>
           <div class="col-md-12">
-              <select class="form-control ls-select2"  id="blood_report_opd" name="blood_report_opd"  v-model="opdData.blood_report_opd">
-                 <option :value="opt.id" v-for="opt in opdData.laboratoryALLData"  v-if="opt.l_type.includes('1')">{{opt.text}}</option>
+             <select class="form-control ls-select2"  id="laboratory_report_opd" name="laboratory_report_opd[]" multiple="multiple">
               </select>
           </div>
-        
-        </div>
-
-        <div class="col-md-6">
-            <div class="col-md-12">
-              <label class="control-label" for="urine">Urine </label>
-            </div>
-            <div class="col-md-12">
-                <select class="form-control ls-select2" id="urine_opd" name="urine_opd"  v-model="opdData.urine_report_opd">
-                   <option :value="urinesampleopd.id" v-for="urinesampleopd in opdData.laboratoryALLData"  v-if="urinesampleopd.l_type.includes('2')">{{urinesampleopd.text}}</option>
-                </select>
-            </div>
-        </div>
-      </div>
-       <div class="row form-group" v-show="opdData.referral == 'laboratory' ">
-          <div class="col-md-6">
-          <div class="col-md-12">
-            <label class="control-label" for="label_1">Body Fluid Analysis </label>
-          </div>
-          <div class="col-md-12">
-              <select class="form-control ls-select2" id="body_fluid_analysis_opd" name="body_fluid_analysis_opd"  v-model="opdData.body_fluid_analysis_report_opd">
-                   <option :value="bfa_opd.id" v-for="bfa_opd in opdData.laboratoryALLData"  v-if="bfa_opd.l_type.includes('4')">{{bfa_opd.text}}</option>
-                </select>
-          </div>
-        
-        </div>
-
-        <div class="col-md-6">
-            <div class="col-md-12">
-              <label class="control-label" for="urine">CSF </label>
-            </div>
-            <div class="col-md-12">
-                <select class="form-control ls-select2" id="csf_opd" name="csf_opd"  v-model="opdData.csf_report_opd">
-                   <option :value="csf_opt_opd.id" v-for="csf_opt_opd in opdData.laboratoryALLData" v-if="csf_opt_opd.l_type.includes('3')">{{csf_opt_opd.text}}</option>
-                </select>
-            </div>
         </div>
       </div>
       <!-- for laboratory -->
-      <div class="row">
-      <div class="col-md-6">
-        <h3>Pain Assessment</h3>
 
+        <!-- for physiotherapy -->
+        <div class="row form-group" v-show="opdData.referral == 'physiotherapy' ">
+          <div class="col-md-6">
+          <div class="col-md-12">
+            <label class="control-label" for="label_1">Details </label>
+          </div>
+          <div class="col-md-12">
+            <textarea class="form-control" name="physio_details" id="physio_details" v-model="opdData.physio_details"></textarea>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-2" @click="pain_value(0)"><img src="/assets/img/pain/P1.png" class="test"  v-bind:class="[opdData.pain_value==0 ? 'pain_select': '', 'pain_img'  ]"></div>
-      <div class="col-md-2" @click="pain_value(2)"><img src="/assets/img/pain/P2.png"  v-bind:class="[opdData.pain_value==2 ? 'pain_select': '' , 'pain_img' ]"> </div>
-      <div class="col-md-2" @click="pain_value(4)"><img src="/assets/img/pain/P3.png"   v-bind:class="[opdData.pain_value==4 ? 'pain_select': '', 'pain_img'  ]"></div>
-      <div class="col-md-2" @click="pain_value(6)"><img src="/assets/img/pain/P4.png"   v-bind:class="[opdData.pain_value==6 ? 'pain_select': '', 'pain_img'  ]"></div>
-      <div class="col-md-2" @click="pain_value(8)"><img src="/assets/img/pain/P5.png"   v-bind:class="[opdData.pain_value==8 ? 'pain_select': '', 'pain_img'  ]"></div>
-      <div class="col-md-2" @click="pain_value(10)"><img src="/assets/img/pain/P6.png"   v-bind:class="[opdData.pain_value==10 ? 'pain_select': '', 'pain_img'  ]"></div>
-    </div>
-
-
-
-
+      <!-- for physiotherapy -->
+       
+         <div class="row form-group">
+          <div class="col-md-12">
+               <button type="button" class="btn btn-primary btn-lg " v-if="opdData.referral!='physiotherapy'" @click="saveReport()">Add</button>
+          </div>
+       </div> 
+      <!-- for cross table -->  
+      <div class="col-md-12" v-if="opdData.reffreal_cross_array.length>0">
+         <card title="<i class='ti-layout-cta-left'></i> Cross"  class="filterable">
+           <div class="table-responsive">
+              <table class="table table-striped table-bordered" id="">
+                  <thead>
+                  <tr>
+                      <th>#</th>
+                      <th>Type</th>
+                      <th>Sub Type</th>
+                      <th>Value</th>
+                      <th>Action</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(cross_arr, index) in opdData.reffreal_cross_array">
+                        <td>{{cross_arr.id}}</td>
+                        <td>{{cross_arr.type}}</td>
+                        <td>{{cross_arr.subtype}}</td>
+                        <td>{{cross_arr.value}}</td>
+                        <td><i class="fa fa-remove" @click="removeCrossRef(cross_arr.id)"></i></td>
+                    </tr>
+                  </tbody>
+              </table>
+            </div>
+          </card>
       </div>
-
-        
-    
-       
-      
-       
+      <!-- for cross table -->
+      <!-- for radiology table -->  
+      <div class="col-md-12" v-if="opdData.reffreal_radiology_array.length>0">
+          <card title="<i class='ti-layout-cta-left'></i> Radiology"  class="filterable">
+           <div class="table-responsive">
+              <table class="table table-striped table-bordered" id="radio_list">
+                  <thead>
+                  <tr>
+                      <th>#</th>
+                      <th>Type</th>
+                      <th>Body parts</th>
+                      <th>Qualifier</th>
+                      <th>Special request</th>
+                      <th>Details</th>
+                      <th>Action</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr v-for="(radio_arr, index) in opdData.reffreal_radiology_array">
+                      <td>{{radio_arr.id}}</td>
+                      <td>{{radio_arr.type}}</td>
+                      <td>{{radio_arr.bodyPart}}</td>
+                      <td>{{radio_arr.qualifier}}</td>
+                      <td>{{radio_arr.special_request}}</td>
+                      <td>{{radio_arr.textData}}</td>
+                      <td><i class="fa fa-remove" @click="removeRadioRef(radio_arr.id)"></i></td>
+                  </tr>
+                  
+                  </tbody>
+              </table>
+            </div>
+          </card>
+          </div>
+      <!-- for radiology table -->
+       <!-- for laboratory table -->  
+      <div class="col-md-12" v-if="opdData.reffreal_laboratory_array.length>0">
+        <card title="<i class='ti-layout-cta-left'></i> Laboratory"  class="filterable">
+           <div class="table-responsive">
+              <table class="table table-striped table-bordered" id="">
+                  <thead>
+                  <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Action</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(lab_arr, index) in opdData.reffreal_laboratory_array">
+                        <td>{{lab_arr.id}}</td>
+                        <td>{{lab_arr.name}}</td>
+                        <td><i class="fa fa-remove" @click="removeLabRef(lab_arr.id)"></i></td>
+                    </tr>
+                  </tbody>
+              </table>
+            </div>
+            </card>
+      </div>
+      <!-- for laboratory table -->  
+         </div>
       <div class="row" v-if="curStep == 2"> 
           <laboratory :labData="opdData.laboratoryALLData" ></laboratory>
         </div>
@@ -683,13 +643,17 @@
   import neuroExamination from './neuroExamination.vue';
   import SignaturePad from 'signature_pad';
   import laboratory from './laboratory.vue';
+  import patientSearch from './patientSearchData.vue';
+  import prescriptionData from './prescriptionData.vue';
+  import stepProgressBar from './stepProgressBar.vue';
+
   import _ from 'lodash';
     import card from "./card.vue"
       var  medicine ;
       var  timeList ;
       var patient_list = [];
       var prescription_index  = 0;
-
+      var b=0;
     export default {
         data() {
             return {
@@ -699,12 +663,20 @@
               'doctor':this.$store.state.Users.userDetails.first_name + " "+ this.$store.state.Users.userDetails.last_name ,
               'doctor_id':this.$store.state.Users.userDetails.id,
               'department':this.$store.state.Users.userDetails.department,
-              'prescriptionOption':'',
+              'user_type':this.$store.state.Users.userDetails.user_type,
               'finalResultData':{},
-              'finalPrescriptionData' : [],
-              'priscriptionAdd':{},
-              'prescription_enable':true,
+              'patient_select_enable':true,
+              'isPatientSearch':true,
               'prescriptionunique' : 0,
+              'cross_internal':'false',
+              'cross_external':'false',
+              'cross_array':{},
+              'cross':{},
+              'internal_array':{},
+              'laboratory_array':{},
+              'ref_cross_array':[],
+              'ref_lab_array':[],
+              'ref_radio_array':[],
               'investigationData':{
                   'radiologyType':[
                     {text:'',value:''},
@@ -731,10 +703,10 @@
                       {text:'Tumor protocol',value:'tumor_protocol'}
                   ],
                   'X-Rays':'',
-                  'xray_type_options': [
-                      {text:'Fixed',value:'fixed','selected':true},
-                      {text:'Portable',value:'portable','selected':false}
-                  ],
+                  // 'xray_type_options': [
+                  //     {text:'Fixed',value:'fixed','selected':true},
+                  //     {text:'Portable',value:'portable','selected':false}
+                  // ],
                   'X-Rays_options':[
                       {text:'',value:''},
                       {text:'HIP',value:'hip'},
@@ -817,7 +789,7 @@
                     'bodyPart':'',
                     'qualifierPart':'',
                     'type': '',
-                    'x_ray_type':'fixed',
+                    // 'x_ray_type':'fixed',
                     'spine_option_value':'',
                     'subType': '',
                     'qualifier':'',
@@ -845,6 +817,9 @@
                   {'name':'Hemant Mathur'},
               ],
               'opdData': {
+                'reffreal_cross_array':[],
+                'reffreal_laboratory_array':[],
+                'reffreal_radiology_array':[],
                 'pain_value':0,
                 'patientlist':'',
                 'patient_option':[],
@@ -868,9 +843,6 @@
                 'advice':'',
                 'adviceType': 'scribble',
                 'referral':'',
-                'cross':'',
-                'cross_type_int':'',
-                'cross_type_ext':'',
                 'laboratory':'',
                 'signaturePad':{},
                 'signaturePad_src':'',
@@ -886,20 +858,24 @@
                 'bp_diastolic':'',
                 'temp':'',
                 'laboratoryALLData':[],
-                'blood_report_opd':'',
-                'urine_report_opd':'',
-                'csf_report_opd':'',
-                'body_fluid_analysis_report_opd':'',
-
+                'laboratory_report_opd_data':{},
+                'select_type':'',
+                'select_value':'',
+                'last_vist' : '',
+                'physio_details':'',
+                'provisional_diagnosis':''
               }
             }
         }, 
         components: {
+         prescriptionData,
          createPatientDetail,
          vascularExamination,
          neuroExamination,
          laboratory,
          card,
+         patientSearch,
+         stepProgressBar,
        },
         computed: {
           bmi_mod() {
@@ -917,135 +893,68 @@
              this.$root.$on('SetUhidNo', this.updateUhidNo);
              this.$root.$on('prev', this.prev);
              this.$root.$on('next', this.next);
+             this.$root.$on('patientData',this.setPatientData);
+             this.$root.$on('patientEmpty',this.patientEmpty);
         },
+        
         mounted(){
-       
+         var vm =this;
+          if(vm.$store.state.Users.userDetails.user_type != '1'){
+              vm.$root.$emit('logout','You are not authorise to access this page'); 
+          }
           $('.ls-select2').select2({
             placeholder: "Select",
             tags:false 
           });
 
-         var vm =this;  
-         let patient_list_new=[];
          let opd_list_new=[];
+           if(this.$store.state.Patient.patientId != ''){
+              vm.opdData.patientlist= this.$store.state.Patient.patientId;
+              $('#patient').val(vm.opdData.patientlist).trigger('change:select2');
+
+          }
+          vm.$store.dispatch('resetOpdForm');
          
-         let section = 'OPD';
-         
-
-         vm.$store.dispatch('resetOpdForm');
-
-
           setTimeout(function(){
             vm.doctor = vm.$store.state.Users.userDetails.first_name + " "+ vm.$store.state.Users.userDetails.last_name;  
             vm.doctor_id = vm.$store.state.Users.userDetails.id;  
           },1000);
-          
-           User.getAllPatientNameByConsultDoctor(vm.doctor_id,section).then(
-                  (response) => {
-                    $.each(response.data.data, function(key,value) {
-
-                       patient_list_new.push({
-                         'id' : value.id,
-                         'name' : value.name,
-                         'uhid_no' : value.uhid_no
-                      });
-                    });
-
-                    vm.opdData.patient_option=patient_list_new;
-                    
-                  },
-                      (error) => {
-                  },
-          );
-
           /*for laboratory data*/
             let labpratory_all_data=[];
-            User.generateAllLaboratoryList().then(
+            User.generateAllLaboratoryListByChild().then(
               (response) => {
                 let lab_data = response.data.data;
-                
-                $.each(lab_data, function(key, value) {
-                    let name = value.name;
-                    let id  = value.id ;
-                    let old_type=value.type;
-                    let array_old=old_type.split(',');
-                    let l_type=array_old;
-                    labpratory_all_data.push({text:name, id:id ,l_type:l_type}); 
+                vm.opdData.laboratoryALLData = lab_data;
+                $('#laboratory_report_opd').select2({
+                  placeholder: 'Select',
+                  data:lab_data
                 });
-               vm.opdData.laboratoryALLData = labpratory_all_data;
               },
               (error) => 
               {
               },
             );
 
-            $('#prescription').on("select2:select", function (e) {
-            // console.log($(this).data()[0].formalation);
-            let presId = $('#prescription').select2('data')[0].id;
-            vm.opdData.prescription_quantity = '1';
-            vm.opdData.prescription_unit = 'TAB.';
-            vm.opdData.prescription_time = '1';
-            // vm.opdData.prescription = $(this).text();
-            _.find(vm.prescriptionOption, function(res) {
-                    if(res.id == presId) {
-                         vm.opdData.prescription_unit=res.formulation;
-                     
-                    }
-                });
-           });
+           $('#laboratory_report_opd').on("select2:select", function (e) {
+              let selections = $(this).val();
+              vm.opdData.laboratory_report_opd_data=selections;
+              //vm.setLabData();
+            });
 
-          // $('#prescription_time').on("select2:select",function(e){
-          //   timeList = $(this).val().join(',');
-          // });
+          
           $(document).on("select2:select",'.ls-select2', function (e) { 
             if(this.id == 'referral'){
+               vm.setRadioReferral();
               vm.opdData.referral=$(this).val();
-              vm.finalResultData = '';
+              //vm.finalResultData = '';
               if($(this).val() == 'cross') {
                 setTimeout(function(){
                   $('#cross').select2({
                     placeholder: "Select",
                     tags:false 
                   }); 
-                },500)  
+                },20)  
               }
-            }
-            else if(this.id == 'patient'){
-                let patientId = $(this).val();
-                vm.opdData.patientlist=patientId;
-                //for uhid
-                User.generatePatientDetailsByID(patientId).then(
-                    (response) => {
-                      let patient_data=response.data.data;
-                      vm.opdData.uhid_no =patient_data.uhid_no;
-                    },
-                    (error) => {
-                    },
-                );
-                //for opd list
-                
-                User.generateOpdIdByPatirntID(patientId).then(
-                    (response) => {
-                      opd_list_new=[];
-                     $.each(response.data.data, function(key,value) {
-
-                         opd_list_new.push({
-                           'id' : value.id,
-                           'opd_id' : value.opd_id,
-                        });
-                      });
-                       setTimeout(function(){
-                              $('#opd_no').select2({
-                                placeholder: "Select",
-                                tags:false 
-                              }); 
-
-                      },500);
-                       vm.opdData.opd_option=opd_list_new;
-                      },
-                      (error) => {
-                      },
-                );
             }
             else if(this.id == 'radiology'){
               vm.opdData.radiology=$(this).val();
@@ -1053,18 +962,27 @@
             else if(this.id == 'laboratory'){
               vm.opdData.laboratory=$(this).val();
             }
-
             else if(this.id == 'cross'){
-              vm.opdData.cross=$(this).val();
+              var cross_array=$(this).val();
+              vm.cross=cross_array;
+              if(cross_array.includes("internal"))
+              {
+                  vm.cross_internal='true';
+              }
+              if(cross_array.includes("external"))
+              {
+                  vm.cross_external='true';
+              }
+              
+
             }
             else if(this.id == 'internal'){
-              vm.opdData.cross_type_int=$(this).val();
+              var val_cross_array=$(this).val();
+              vm.internal_array=val_cross_array;
             }
-            else if(this.id == 'external'){
-              vm.opdData.cross_type_ext=$(this).val();
-            }
-            else if(this.id == 'prescription'){
-              vm.opdData.prescription=$(this).select2('data')[0].text;
+            else if(this.id == 'laboratory_report_opd'){
+              var val_lab_array=$(this).val();
+              vm.laboratory_array=val_lab_array;
             }
             else if(this.id == 'case_type'){
               vm.opdData.case_type = $(this).val(); 
@@ -1081,44 +999,15 @@
             else if(this.id == 'body_fluid_analysis_opd'){
               vm.opdData.body_fluid_analysis_report_opd = $(this).val(); 
             }
-            else if(this.id == 'xray_type_opd'){
+
+             else if(this.id == 'xray_type_opd'){
               vm.resultData.x_ray_type = $(this).val(); 
             }
-            else if(this.id == 'opd_no')
-            {
-                 let opdID = $(this).val();
-                     vm.opdData.opd_id=opdID;
-                     User.generatePatientCheckUpDetails(opdID).then(
-                      (response) => {
-                        let patient_checkup_details=response.data.data;
-                        vm.opdData.height =patient_checkup_details.height;
-                        vm.opdData.weight =patient_checkup_details.weight;
-                        vm.opdData.bmi =patient_checkup_details.bmi;
-                        vm.opdData.vitals =patient_checkup_details.vitals;
-                        vm.opdData.pulse =patient_checkup_details.pulse;
-                        let bp =patient_checkup_details.bp.split("/");
-                        vm.opdData.bp_systolic =bp[0];
-                        vm.opdData.bp_diastolic =bp[1];
-                        vm.opdData.temp =patient_checkup_details.temp;
-                      },
-                      (error) => {
-                      },
-                  );
-            }
-
-           
-            
-
-            
+                       
             if(this.id == 'radiology_type_opd') {
-               //console.log('sdasd');
-               
 
-                
-               //$('#radiology_subtype_opd').select2("destroy");
-
-                vm.resultData.type = $("#radiology_type_opd").select2().val();
-                let type_opd_val=$("#radiology_type_opd").select2().val();
+                vm.resultData.type = $(this).val();
+                let type_opd_val=$(this).val();
 
                 if(type_opd_val=='MRI')
                 {
@@ -1133,7 +1022,6 @@
                           });
                           
                     },1000);
-                  
                 }
                 else
                 {
@@ -1144,11 +1032,22 @@
                 
             } 
             if(this.id == 'radiology_subtype_opd') {
-                       
+                    
               let q_data=vm.investigationData.radiologyQualifierReal;
               let radiologySubType_val=$("#radiology_subtype_opd").select2().val();
-               
-                $('#radiology_spine_opd').select2("destroy");
+              vm.resultData.bodyPart = radiologySubType_val;
+              vm.resultData.subType=radiologySubType_val;
+                //vm.investigationData.radiologySubType =  radiologySubType_val;
+
+                if(radiologySubType_val == 'Other' || radiologySubType_val =='Joint'){
+                    vm.resultData.subtype_text_enable = true;
+                    //vm.resultData.bodyPart = radiologySubType_val;
+                } else {
+                  
+                  vm.resultData.subtype_text_enable = false;
+                  //vm.resultData.bodyPart = '';
+                  
+                }
                 $("#radiology_qualifier_opd").val('').trigger('change.select2');
                 vm.resultData.qualifier = '';
                 vm.resultData.qualifier_text_enable = false;
@@ -1181,16 +1080,6 @@
                     vm.resultData.qualifier_text_enable = false;
                     vm.resultData.qualifierPart = '';
                 }
-
-                //vm.investigationData.radiologySubType =  radiologySubType_val;
-
-                if(radiologySubType_val == 'Other' || radiologySubType_val =='Joint'){
-                    vm.resultData.subtype_text_enable = true;
-                    vm.resultData.bodyPart = '';
-                } else {
-                  vm.resultData.subtype_text_enable = false;
-                  vm.resultData.bodyPart = $("#radiology_subtype_opd").select2().val();
-                }
             }
             if(this.id == 'radiology_qualifier_opd') {
 
@@ -1211,6 +1100,7 @@
             }
             if(this.id == 'radiology_spine_opd')
             {
+             
               vm.resultData.spine_option_value=$("#radiology_spine_opd").select2().val();
             }
             if(this.id == 'radiology_special_request_opd') {
@@ -1226,117 +1116,313 @@
             }
 
           });
+          $(document).on("select2:unselect",'.ls-select2', function (e) {
+               if(this.id == 'cross')
+              {
+                  if(e.params.data.id=='external')
+                  {
+                      vm.cross_external='false';
+                  }
+                  if(e.params.data.id=='internal')
+                  {
+                      vm.cross_internal='false';
+                  }
+              }
+          });
+         
+          setTimeout(function(){
+                  $('#patient').select2({
+                    placeholder: "Select",
+                    tags:false 
+                  });
+                },500);
+
+          $('#patient').on("select2:select", function (e) {
+                //console.log('call');
+                vm.opdData.patientlist=$(this).val();
+                let patientId = $(this).val();
+                vm.opdData.patientlist=patientId;
+                vm.$store.dispatch('SetPatientId',patientId);             
+                vm.get_vitals();
+               
+          });
           $(document).on('hidden.bs.modal','#createPatientDetail', function () {
             $('#case_type').val('old').trigger('change.select2');
             vm.opdData.case_type = 'old';
           });
-        setTimeout(function(){
-          vm.examinationChangeImage();
-           
-            vm.getPrescriptionList();
-        },500)
+
+
+
+          setTimeout(function(){
+            vm.examinationChangeImage();
+          },500);
+         
+          // vm.getResults();
+          vm.getResults();
+          vm.newPatient(); 
+
         },
         methods: {
-            pain_value(pain){
+          // savePatientDataWithNewReferal(){
+          //   User.movePatientForNewReferal().then(
+          //      (response) => {
+
+          //      },
+          //      (error) => {
+
+          //     }
+          //   );
+          // },
+          newPatient()
+          {
+              var vm =this;
+              
+              setInterval(function() {
+
+                 vm.getResults();
+                // $('#patient').select2('destroy');
+                 $('#patient').select2({
+                    placeholder: "Select",
+                    tags:false 
+                  });
+
+              }, 8000);
+            
+            },
+          getResults(patient_list_new) {
+            var vm =this;
+            var patient_list_new=[];
+            let section = 'OPD';
+             User.getAllPatientName(vm.user_type,vm.doctor_id).then(
+                   (response) => {
+                    vm.opdData.patient_option=[];
+                      let patien_data=response.data.data;
+                      $.each(patien_data, function(key, value) {
+                      let name = value.first_name +' '+value.last_name;
+                      let pid  = value.id ;
+                      let uhid_no  = value.uhid_no ;
+                      patient_list_new.push({
+                          name:name,
+                          id:pid,
+                          uhid_no:uhid_no
+                        });
+                      });
+
+                      vm.opdData.patient_option=_.cloneDeep(patient_list_new);
+                        
+                     },
+                      (error) => {
+                  },
+                   );
+             
+            
+          },
+          patient_select_change(val)
+          {
+            let vm =this;
+           vm.opdData.patientlist="";
+            vm.patientEmpty();
+              if(val==true)
+              {
+                vm.patient_select_enable=false;
+                $('#patient').val('').trigger('change.select2');
+                $('#patient').select2('destroy');
+              }
+              else
+              {
+                
+                vm.isPatientSearch =false;
+                setTimeout(function(){
+                  vm.isPatientSearch  =true;
+                },500);
+                vm.patient_select_enable=true;
+                 setTimeout(function(){
+                  $('#patient').select2({
+                    placeholder: "Select",
+                    tags:false 
+                  });
+                },500);
+              
+              }
+
+          },
+          patientEmpty()
+          {
+              let vm =this;
+              vm.opdData.last_vist="";
+              vm.opdData.patientlist="";
+              vm.opdData.uhid_no="";
+              vm.opdData.weight="";
+              vm.opdData.height="";
+              vm.opdData.bmi="";
+              vm.opdData.vitals="";
+              vm.opdData.pulse="";
+              vm.opdData.bp_systolic="";
+              vm.opdData.bp_diastolic="";
+              vm.opdData.temp="";
+              vm.opdData.pain_value=0;
+              vm.opdData.select_value="";
+              
+          },
+          pain_value(pain){
             this.opdData.pain_value = pain;
           },
+          setPatientData(patientData) {
+            let vm=this;
+            vm.patientEmpty();
+            if(patientData.code==200)
+            {
+              let pDetails=patientData.searchdata;
+              //for opd list
+                this.opdData.uhid_no=pDetails.uhid_no;
+                this.opdData.patientlist=pDetails.id;
+                vm.get_vitals();
+            }
+            else if(patientData.code==300)
+            {
+              toastr.error('Record not found', 'Error', {timeOut: 5000});
+              this.initPatientData();
+            }
+            else
+            {
+              toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
+              this.initPatientData();
+            }
+          },
+          get_vitals()
+          {
+             let vm=this;
+              //for uhid
+                User.generatePatientDetailsByID(vm.opdData.patientlist).then(
+                    (response) => {
+                      let patient_data=response.data.data;
+                      vm.opdData.uhid_no =patient_data.uhid_no;
+                    },
+                    (error) => {
+                    },
+                );
+                //for opd list
+                User.getOPDDetailsByPatientId(vm.opdData.patientlist).then(
+                    (response) => {
+                      let opdID ;
+                      opdID = response.data.data.id;
+                      User.getLastOPDIdByPatientId(vm.opdData.patientlist).then(
+                          (response) => {
+                            let lastVist;
+                            lastVist = response.data.data.appointment_datetime;
+                              vm.opdData.opd_id=opdID;
+                              if(lastVist)
+                              {
+                                  vm.opdData.last_vist=lastVist;
+                              }
+                              else
+                              {
+                                   vm.opdData.last_vist="N/A";
+                              }
+                              
+                            },
+                            (error) => {
+                            },
+                      );
+                     
+                      
+                      },
+                      (error) => {
+                      },
+                );
+
+                
+
+              User.getVitalsInfoByPatientId(vm.opdData.patientlist).then(
+              (response) => {
+                let vitals_data=response.data.data;
+                  if(vitals_data.code==200)
+                  {
+                      let patient_checkup_details=vitals_data.data;
+                      vm.opdData.height =patient_checkup_details.height;
+                      vm.opdData.weight =patient_checkup_details.weight;
+                      vm.opdData.bmi =patient_checkup_details.bmi;
+                      vm.opdData.vitals =patient_checkup_details.vitals;
+                      vm.opdData.pulse =patient_checkup_details.pulse;
+                      if(patient_checkup_details.bp!="")
+                      {
+                        let bp =patient_checkup_details.bp.split("/");
+                        vm.opdData.bp_systolic =bp[0];
+                        vm.opdData.bp_diastolic =bp[1];
+                       }
+                      vm.opdData.temp =patient_checkup_details.temp;
+                      vm.opdData.pain_value=patient_checkup_details.pain;
+                      
+                  }
+                  else if(vitals_data.code==300)
+                  {
+                   
+                  }
+                  else
+                  {
+                     
+                  }
+                },
+                (error) => {
+                },
+            );
+          },
           saveReport() {
+                
                 // var resData1=[];
                 let vm =this;
-                 // resData1.push= vm.finalResultData;
-                $('#radiology_qualifier_opd').select2("destroy");
-                $('#radiology_special_request_opd').select2("destroy");
-                if(vm.resultData.type == '' || vm.resultData.bodyPart == '' ){
-                    toastr.error('Please select report data.', 'Report error', {timeOut: 5000});
-                    return false;
-                }
-                vm.resultData.id = resData1.length;
-                // resData1.push(vm.resultData);
-                
-                vm.finalResultData = vm.resultData;
-
-                vm.initData();
-                // vm.setRadioData();
-          },
-          savePrescription() {
-
-             let vm =this;
-             let prescriptionName = '';
-             vm.prescription_enable=true;
-
-              if(vm.opdData.prescription == '' || vm.opdData.prescription_quantity == '' || vm.opdData.prescription_time =='' || vm.opdData.prescription_quantity<1 ||  vm.opdData.prescription_time<1){
-                    
-                    toastr.error('Please select prescription data and must be valid.', 'Prescription error', {timeOut: 5000});
-                    return false;
-              }
-                //console.log( vm.finalPrescriptionData.length);
-                
-                  prescriptionName = vm.opdData.prescription;
-                  var test = this.checkPrescription(prescriptionName);
-              if(this.checkPrescription(prescriptionName) == true){
-                
-                /*let prescription_index_new=0;
-                if(vm.finalPrescriptionData.length > 0){
-                   prescription_index_new = vm.finalPrescriptionData.length + 1;
-                  
-                }*/
-                //console.log(prescription_index_new);
-                vm.finalPrescriptionData.last_prescription_index=prescription_index+1;
-                prescription_index=vm.finalPrescriptionData.last_prescription_index;
-                 //vm.finalPrescriptionData.last_prescription_index=prescription_index;
-                vm.finalPrescriptionData.push({
-                            'id' : vm.finalPrescriptionData.last_prescription_index,
-                            'Prescription' : vm.opdData.prescription,
-                            'quntity' : vm.opdData.prescription_quantity,
-                            'unit' : vm.opdData.prescription_unit,
-                            'time'  : vm.opdData.prescription_time,
-                            'removed': false,
-                });
-               
-                vm.prescriptionunique = 0;
-              }else{
-                vm.prescriptionunique = 1;
-              }
-
-               vm.opdData.prescriptiData  =  _.cloneDeep(vm.finalPrescriptionData);
-                vm.priscriptionAdd =  vm.finalPrescriptionData.length;
-                if( vm.priscriptionAdd>=1)
+                if(vm.opdData.referral=='cross')
                 {
-                    vm.prescription_enable=false;
+                    vm.saveCrossReport();
                 }
-
-
-
-              vm.opdData.prescription_quantity = '1';
-              vm.opdData.prescription_unit = 'TAB.';
-              vm.opdData.prescription_time = '1';
-
+                if(vm.opdData.referral=='laboratory')
+                {
+                    vm.saveLabReport();
+                }
+                if(vm.opdData.referral=='radiology')
+                {
+                    vm.saveRadiologyReport();
+                }
+                return false;
+                 
           },
-          checkPrescription(prescription){
-             let vm =this;
-             let presRes = true;
-             if(vm.finalPrescriptionData.length > 0){
-                 _.find(vm.finalPrescriptionData, function(res) {
-                    if(res.Prescription == prescription) {
-                      
-                          presRes = false;
-                    }
-                });
-            }else{
-               presRes = true;
-
-            }
-            return presRes;
+           saveRadiologyReport()
+          {
+              let vm =this;
+              if(vm.resultData.type == '' || vm.resultData.bodyPart == '' ){
+                  toastr.error('Please select report data.', 'Report error', {timeOut: 5000});
+                  return false;
+              }
+              
+               let matches=_.some(vm.ref_radio_array,{'type':vm.resultData.type,'bodyPart':vm.resultData.bodyPart,'qualifier':vm.resultData.qualifier,'special_request':vm.resultData.special_request});
+              if(matches)
+              {
+                  $('#referral').val('').trigger('change.select2');
+                  vm.setRadioReferral();
+                  toastr.error('This record already exist', 'Error', {timeOut: 5000});
+                  return false;
+              }
+              vm.resultData.id = vm.ref_radio_array.length+1;
+              vm.ref_radio_array.push(vm.resultData);
+              vm.opdData.reffreal_radiology_array = _.cloneDeep(vm.ref_radio_array);
+              $('#referral').val('').trigger('change.select2');
+              vm.setRadioReferral();
+              return false;
           },
-          initData() {
-                let vm =this;
-                
-                vm.resultData = {
+           setRadioReferral()
+          {
+               let vm =this;
+              
+              $('#radiology_qualifier_opd').select2("destroy");
+              $('#radiology_special_request_opd').select2("destroy");
+              $('#radiology_type_opd').val('').trigger('change.select2');
+              $('#radiology_subtype_opd').val('').trigger('change.select2');
+              $('#radiology_spine_opd').select2("destroy");
+              vm.resultData = {
                    'id':'',
                     'uploadType':'image',
                     'bodyPart':'',
                     'type': '',
-                    'x_ray_type':'fixed',
                     'spine_option_value':'',
                     'subType': '',
                     'qualifier':'',
@@ -1344,14 +1430,118 @@
                     'textData': '',
                     'subtype_text_enable':false,
                     'special_request':'',
-                    'removed':false
-
+                    'removed':false,
                 };
-                // vm.imgGallery = '';
                 $('#radio_div1 .ls-select2').val(null).trigger('change');
-                // $('.ls-select2').select2().val('');
+                vm.opdData.referral="";
+          },
+          removeRadioRef(rid)
+          {
+              let vm =this;
+              _.remove(vm.ref_radio_array, function(o) {
+                  return o.id==rid;
+                });
+              vm.opdData.reffreal_radiology_array= _.cloneDeep(vm.ref_radio_array);
+          },
+          saveLabReport()
+          {
+              let vm =this;
+              if(vm.laboratory_array.length>0)
+              {
 
-            },
+                 _.forEach(vm.laboratory_array, function(value, key) {
+                    let matches=_.some(vm.ref_lab_array,['lab_id',value]);
+                    if(matches)
+                    {
+                        vm.setLabReferral();
+                        toastr.error('This record already exist', 'Error', {timeOut: 5000});
+                        return false;
+                    }
+                    else
+                    {
+                      var lab_name= $("#laboratory_report_opd option[value='"+value+"']").text();
+                      vm.ref_lab_array.push({'id':vm.ref_lab_array.length+1,'name':lab_name,'lab_id':value});
+                    }
+                    
+                  });
+              }
+              vm.opdData.reffreal_laboratory_array= _.cloneDeep(vm.ref_lab_array);
+              vm.setLabReferral();
+              return false;
+          },
+          setLabReferral()
+          {
+               let vm =this;
+              $('#referral').val('').trigger('change.select2');
+              $('#laboratory_report_opd').val('').trigger('change.select2');
+              vm.opdData.referral="";
+              vm.laboratory_array=[];
+          },
+          removeLabRef(lid)
+          {
+              let vm =this;
+              _.remove(vm.ref_lab_array, function(o) {
+                  return o.id==lid;
+                });
+              vm.opdData.reffreal_laboratory_array= _.cloneDeep(vm.ref_lab_array);
+          },
+          saveCrossReport()
+          {
+                let vm =this;
+                let matches2=_.some(vm.ref_cross_array,['value',vm.opdData.cross_type_ext]);
+                if(matches2)
+                {
+                    vm.setCrossReferral();
+                    toastr.error('This record already exist', 'Error', {timeOut: 5000});
+                    return false;
+                }
+                if(vm.internal_array.length>0)
+                {
+
+                   _.forEach(vm.internal_array, function(value, key) {
+                      let matches=_.some(vm.ref_cross_array,['value',value]);
+                      if(matches)
+                      {
+                          vm.setCrossReferral();
+                          toastr.error('This record already exist', 'Error', {timeOut: 5000});
+                          return false;
+                      }
+                      else
+                      {
+                        vm.ref_cross_array.push({'id':vm.ref_cross_array.length+1,'type':vm.opdData.referral,'subtype':'Internal','value':value});
+                      }
+                    });
+                }
+                if(vm.opdData.cross_type_ext)
+                {
+                    vm.ref_cross_array.push({'id':vm.ref_cross_array.length+1,'type':vm.opdData.referral,'subtype':'External','value':vm.opdData.cross_type_ext});
+                }
+                vm.opdData.reffreal_cross_array=vm.ref_cross_array;
+                vm.setCrossReferral();
+                return false;
+
+          },
+          setCrossReferral()
+          {
+               let vm =this;
+              $('#referral').val('').trigger('change.select2');
+              $('#cross').val('').trigger('change.select2');
+              $('#internal').val('').trigger('change.select2');
+              vm.opdData.referral="";
+              vm.opdData.cross_type_ext="";
+              vm.internal_array=[];
+              vm.cross_internal='false';
+              vm.cross_external='false';
+          },
+          removeCrossRef(cid)
+          {
+              let vm =this;
+              _.remove(vm.ref_cross_array, function(o) {
+                  return o.id==cid;
+                });
+              vm.opdData.reffreal_cross_array= _.cloneDeep(vm.ref_cross_array);
+          },
+        
           updateUhidNo(uhid) {
             let vm = this;
             vm.opdData.uhid_no = uhid;
@@ -1367,38 +1557,47 @@
             
             vm.opdData =  _.cloneDeep(vm.$store.state.Patient.opdData);
             vm.resultData = _.cloneDeep(vm.$store.state.Patient.opd_resultData);
+
             vm.initLastData();
           },
           next() {
             let vm =this;
-
                 this.$validator.validateAll().then(
                 (response) => {
-                  vm.priscriptionAdd = vm.finalPrescriptionData.length;
+                
                   if (!this.errors.any()) {
-                    if(vm.priscriptionAdd >  0){
-                      
                       vm.curStep = vm.curStep+1;
-
                       vm.$store.dispatch('setOpdData',vm.opdData);
                       vm.$store.dispatch('setResData',vm.finalResultData);
-                    }
                   }
-                },
-                (error) => {
+               },
+               (error) => {
                 }
-                )
+              )
             
           },
           initLastData(){
             let vm = this;
+            
+            if(vm.patient_select_enable==true)
+            {
+                $('#patient').val(vm.opdData.patientlist).trigger('change:select2');
+            }
+            
+            let p_list = _.cloneDeep(vm.opdData.patient_option);
             let pres = _.cloneDeep(vm.opdData.prescription);
+            let labs = _.cloneDeep(vm.opdData.laboratoryALLData);
             setTimeout(function(){
-              $('#prescription').val(pres).trigger('change');
+              $('#prescription').val(p_list).trigger('change');
+              //$('#patient').val(pres).trigger('change');
               $('.ls-select2').select2({
                 placeholder: "Select",
                 tags:false 
               });
+               $('#laboratory_report_opd').select2({
+                  placeholder: 'Select',
+                  data: _.cloneDeep(labs)
+                });
               if(vm.curStep == 1){
                 vm.examinationChangeImage();
               } 
@@ -1412,43 +1611,6 @@
                          res.removed = true;
                     }
                 });
-          },
-          removePrescription(did) {
-                let vm =this;
-                _.find(vm.finalPrescriptionData, function(res) {
-                    if(res.id == did) {
-                      var index = vm.finalPrescriptionData.indexOf(res);
-                      vm.finalPrescriptionData.splice(index, 1);
-                    }
-                });
-                vm.finalPrescriptionData.last_prescription_index=vm.finalPrescriptionData.last_prescription_index-1;
-                vm.priscriptionAdd =  vm.finalPrescriptionData.length;
-          },
-          getPrescriptionList() {
-
-            let vm =this;
-            let userDepartment = vm.department;
-            jQuery('.js-loader').removeClass('d-none');
-
-            User.getPrescription(userDepartment).then( 
-              (response)=> {
-                  if(response.status == 200){
-                    vm.prescriptionOption = response.data.data;
-                    $("#prescription").select2('destroy'); 
-                     
-                     setTimeout(function(){
-                      $('#prescription').select2();
-                       jQuery('.js-loader').addClass('d-none');
-                     },1000)
-
-                  }
-                },
-                (error)=>{
-                    jQuery('.js-loader').addClass('d-none');
-                }
-
-              )
-           
           },
           setHistoryType(res,type){
             var vm =this;
@@ -1506,8 +1668,6 @@
                    var vm=this;
                     this.$store.dispatch('SetDoctorId',vm.doctor_id);
                    let res= vm.$store.dispatch('saveOpdData');
-                  
-
                    if(res=='success')
                    {
                    }
