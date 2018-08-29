@@ -691,6 +691,10 @@
             
             vm.opdData =  _.cloneDeep(vm.$store.state.Patient.opdData);
             vm.resultData = _.cloneDeep(vm.$store.state.Patient.opd_resultData);
+            if(vm.patient_select_enable==true)
+            {
+                 $('#patient').val(vm.opdData.patientlist).trigger('change:select2');
+            }
             vm.initLastData();
           },
           next() {
