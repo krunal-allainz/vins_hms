@@ -1138,7 +1138,7 @@
                 },500);
 
           $('#patient').on("select2:select", function (e) {
-                console.log('call');
+                //console.log('call');
                 vm.opdData.patientlist=$(this).val();
                 let patientId = $(this).val();
                 vm.opdData.patientlist=patientId;
@@ -1557,6 +1557,7 @@
             
             vm.opdData =  _.cloneDeep(vm.$store.state.Patient.opdData);
             vm.resultData = _.cloneDeep(vm.$store.state.Patient.opd_resultData);
+
             vm.initLastData();
           },
           next() {
@@ -1577,6 +1578,12 @@
           },
           initLastData(){
             let vm = this;
+            
+            if(vm.patient_select_enable==true)
+            {
+                $('#patient').val(vm.opdData.patientlist).trigger('change:select2');
+            }
+            
             let p_list = _.cloneDeep(vm.opdData.patient_option);
             let pres = _.cloneDeep(vm.opdData.prescription);
             let labs = _.cloneDeep(vm.opdData.laboratoryALLData);

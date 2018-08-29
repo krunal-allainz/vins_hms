@@ -191,6 +191,7 @@
 	 			$prescription_obj->user_id=$user_id;
 	 			$prescription_obj->prescription_drug_id=$prescription['pid'];
 	 			$prescription_obj->how_many_times=$prescription['type'];
+	 			$prescription_obj->total_prescription_days=$prescription['total_prescription_days'];
 	 			$prescription_obj->total_quantity=$prescription['total_quantity'];
 	 			$prescription_obj->clock_quantity_1=$prescription['clock_quantity_1'];
 	 			$prescription_obj->clock_quantity_2=$prescription['clock_quantity_2'];

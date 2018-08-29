@@ -265,7 +265,7 @@ if(localStorage.getItem("user_add"))
                                   (response)=> {
                                     //console.log(response);
                                     if(response.data.status_code == 200){
-                                        toastr.success('User added successfully', 'patient detail', {timeOut: 5000});
+                                        toastr.success('User added successfully', 'Create User', {timeOut: 5000});
                                         this.initialState();
                                         localStorage.setItem("user_add",1)
                                        // window.location.reload();
