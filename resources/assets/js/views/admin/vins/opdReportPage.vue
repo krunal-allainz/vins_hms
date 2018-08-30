@@ -84,7 +84,7 @@
 			return{
 				'printType' : '',
 				'todayDate' : formattedDate,
-				'opdId' : 1,
+				'opdId' : this.$store.state.Patient.opdId,
 				'patinetId' : this.$store.state.Patient.patientId,
 				'prescriptiData' : this.$store.state.Patient.prescriptionData,
 				'opdReport' : false,

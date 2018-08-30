@@ -23,7 +23,7 @@
 			</div>
 			<div class='row'>
 					<div class='col-md-12 text-left'>
-					    <img src="{{$data['historyData']['historyData']['value']}}" title="History">
+					    <img src="{{$data['historyData']['value']}}" title="History">
 					</div> 
 			</div>
 		</div>
