@@ -48,22 +48,22 @@
 		                                    {{$res['clock_time_4']}}
 		                                @endif ]
 										
-										@if(($res['clock_suggest_1']!='--' && $res['clock_suggest_1']!='') || ($res['clock_suggest_2']!='--' && $res['clock_suggest_2']!='')  || ($res['clock_suggest_3']!='--' && $res['clock_suggest_3']!='')  || ($res['clock_suggest_4']!='--' && $res['clock_suggest_4']!='') )
+										@if(($res['clock_suggest']!='--' && $res['clock_suggest']!='') || ($res['clock_suggest_2']!='--' && $res['clock_suggest_2']!='')  || ($res['clock_suggest_3']!='--' && $res['clock_suggest_3']!='')  || ($res['clock_suggest_4']!='--' && $res['clock_suggest_4']!='') )
 
 		                                	[ 
-				                                @if($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') 
-				                                	{{$res['clock_suggest_1']}}
+				                                @if($res['clock_suggest']!='' && $res['clock_suggest']!='--') 
+				                                	{{$res['clock_suggest']}}
 				                                @endif
 					                        	@if($res['clock_suggest_2']!=''  && $res['clock_suggest_2']!='--') 
-					                        		@if($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') ______ @endif
+					                        		@if($res['clock_suggest']!='' && $res['clock_suggest']!='--') ______ @endif
 					                        		{{$res['clock_suggest_2']}}
 					                        	@endif
 				                                @if($res['clock_suggest_3']!=''  && $res['clock_suggest_3']!='--')
-				                                	@if(($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') || ($res['clock_suggest_2']!='' && $res['clock_suggest_2']!='--')) ______ @endif
+				                                	@if(($res['clock_suggest']!='' && $res['clock_suggest']!='--') || ($res['clock_suggest_2']!='' && $res['clock_suggest_2']!='--')) ______ @endif
 				                                	{{$res['clock_suggest_3']}}
 				                                @endif
 				                                @if($res['clock_suggest_4']!=''  && $res['clock_suggest_4']!='--')
-				                                	@if(($res['clock_suggest_1']!='' && $res['clock_suggest_1']!='--') || ($res['clock_suggest_2']!='' && $res['clock_suggest_2']!='--') || ($res['clock_suggest_3']!='' && $res['clock_suggest_3']!='--')) ______ @endif
+				                                	@if(($res['clock_suggest']!='' && $res['clock_suggest']!='--') || ($res['clock_suggest_2']!='' && $res['clock_suggest_2']!='--') || ($res['clock_suggest_3']!='' && $res['clock_suggest_3']!='--')) ______ @endif
 				                                	{{$res['clock_suggest_4']}}
 				                                @endif 
 		                                	]

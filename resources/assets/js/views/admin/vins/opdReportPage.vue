@@ -212,7 +212,7 @@
 	    	 		var windowUrl = '';
 			        var uniqueName = '';/*new Date();	*/
 			        var windowName = '';/*'Print' + uniqueName.getTime();	*/
-			        var printWindow = window.open('','','left=0,top=0,width=950,height=600,toolbar=0,scrollbars=0,status=0,addressbar=0');
+			        var printWindow = window.open('','','left=0,top=0,width=950,height=700,toolbar=0,scrollbars=0,status=0,addressbar=0');
 			        var is_chrome = Boolean(printWindow.chrome);
 					printWindow.document.write(printContent);
 					printWindow.document.close(); 
@@ -388,7 +388,7 @@
 					        //var windowName = 'Print' + uniqueName.getTime();	
 					        var uniqueName = '';/*new Date();	*/
 					        var windowName = '';/*'Print' + uniqueName.getTime();	*/
-					        var printWindow = window.open('','','left=0,top=0,width=950,height=600,toolbar=0,scrollbars=0,status=0,addressbar=0');
+					        var printWindow = window.open('','','left=0,top=0,width=950,height=700,toolbar=0,scrollbars=0,status=0,addressbar=0');
 					        
 					        var is_chrome = Boolean(printWindow.chrome);
     						printWindow.document.write(printContent);

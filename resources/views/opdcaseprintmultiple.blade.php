@@ -20,6 +20,9 @@
 	    background-clip: padding-box;
 	  
 	}
+	html, body {
+        height: 100%;
+    }
 	.page-break {
 		page-break-after: always; 
 		page-break-inside: avoid; 
@@ -303,9 +306,11 @@
     	margin: 0px;
     	size: portrait;
     	-webkit-print-color-adjust: exact; 
+    	 size:  A4;   /* auto is the initial value */
+        
 
     }
-	@media (min-width: 768px) {.hidden-md-up {display: none !important; }}
+	@media (min-width: 800px) {.hidden-md-up {display: none !important; }}
 
     </style>
 </head>
