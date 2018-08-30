@@ -256,7 +256,7 @@
     import card from "./card.vue"
     import _ from 'lodash';
     export default {
-        name:'',
+        name:'referral',
         computed:{
 
         },
@@ -271,6 +271,7 @@
               'cross_external':'false',
               'cross_array':{},
               'cross':{},
+              'id':this._uid,
               'internal_array':{},
               'laboratory_array':{},
               'ref_cross_array':[],
@@ -419,6 +420,7 @@
                 'laboratory_report_opd_data':{},
                 'referral':'',
                 'laboratory':'',
+                'physio_details':'',
               }
             }
                
@@ -428,6 +430,7 @@
           $('.ls-select2').select2({
                   placeholder: "Select",
           });
+          vm.$root.$emit('setReferralId',this._uid)
                /*for laboratory data*/
             let labpratory_all_data=[];
             User.generateAllLaboratoryListByChild().then(
@@ -456,6 +459,9 @@
                vm.setRadioReferral();
               vm.reffData.referral=$(this).val();
               //vm.finalResultData = '';
+              if($(this).val() != 'physiotherapy') {
+                vm.reffData.physio_details = "";
+              }
               if($(this).val() == 'cross') {
                 setTimeout(function(){
                   $('#cross').select2({

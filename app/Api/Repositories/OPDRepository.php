@@ -188,9 +188,10 @@
 	 			$prescription_obj->clock_time_1=$prescription['clock_time_1'];
 	 			$prescription_obj->clock_time_2=$prescription['clock_time_2'];
 	 			$prescription_obj->clock_time_3=$prescription['clock_time_3'];
-	 			$prescription_obj->clock_suggest_1=$prescription['clock_suggest_1'];
-	 			$prescription_obj->clock_suggest_2=$prescription['clock_suggest_2'];
-	 			$prescription_obj->clock_suggest_3=$prescription['clock_suggest_3'];
+	 			$prescription_obj->clock_suggest_1=$prescription['clock_suggest'];
+	 			/*$prescription_obj->clock_suggest_2=$prescription['clock_suggest_2'];
+	 			$prescription_obj->clock_suggest_3=$prescription['clock_suggest_3'];*/
+
 	 			$prescription_obj->qhrs=$prescription['qhrs'];
 	 			$prescription_obj->remove=$prescription['remove'];
 	 			$prescription_obj->save();
@@ -354,6 +355,7 @@
  		{
  			$opd_details=OpdDetails::with('patientDetails')->where('id',$opd_id_org)->first();
  			$patient_data['patient_id']=$opd_details->patient_id;
+ 			$patient_data['opd_pr_id']=$opd_details->id;
  			$patient_data['opd_id']=$opd_details->opd_id;
  			$patient_data['p_name']=$opd_details['patientDetails']->first_name.' '.$opd_details['patientDetails']->last_name;
  			if($opd_details['patientDetails']->gender=='M')
