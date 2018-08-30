@@ -555,16 +555,14 @@
 			                		
 			                	 toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
 			                	 }	
-			                	  $("body .js-loader").addClass('d-none');
-			                	  window.location.reload(); 
-			                	  //vm.patientEmpty();
-			                	 
-				    			},
-			                	  (error) => {
-                            
-			                	 $("body .js-loader").addClass('d-none');
-
-			               		 }
+                          setTimeout(function(){
+                            $("body .js-loader").addClass('d-none');
+                            window.location.reload(); 
+                          },1500)
+	       			    			},
+		                	  (error) => {
+                          $("body .js-loader").addClass('d-none');
+		               		  }
 			               )
 			    	}
 			    },
