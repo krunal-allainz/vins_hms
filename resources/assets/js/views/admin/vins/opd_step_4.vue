@@ -209,6 +209,7 @@
             if(!(jQuery.isEmptyObject(oldData))) 
             {
                vm.step4Data=oldData;
+               vm.examinationChangeImage();
             }
           },
            prev() {
@@ -255,6 +256,7 @@
             },
              examinationChangeImage() {
               var vm =this;
+              
               var canvas2 = document.getElementById("advice_scribble");
               var clear_advice_scribble = document.getElementById("clear_advice_scribble");
               var save_advice_scribble = document.getElementById("save_advice_scribble");
@@ -324,7 +326,7 @@
                   $('#printContent').html('');
                   $('#printContent').html(all_data);  
                   $('#receiptPrintModal').on('hidden.bs.modal', function () {
-                      vm.$router.push({'name':'opd_form_thankyou'});
+                    vm.$router.push({'name':'opd_form_thankyou'});
                   });
               }
               else

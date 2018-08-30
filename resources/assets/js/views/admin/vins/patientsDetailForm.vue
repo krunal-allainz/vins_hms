@@ -692,8 +692,6 @@
 		    					var uhidNo=response.data.data.uhid_no;
 								$("#createPatientDetail").modal("hide");
 		    					this.$store.dispatch('SetUhidNo',uhidNo);
-		    					
-		    					//toastr.success('Patient details have been saved', 'patient detail', {timeOut: 5000});
 		    					localStorage.setItem("Status",1)
     							window.location.reload(); 
     							//this.$router.go();

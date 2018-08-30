@@ -298,7 +298,7 @@
                     {text:'X-Rays',value:'X-Rays'},
                     {text:'CT',value:'CT'},
                     {text:'MRI',value:'MRI'},
-                    {text:'Other',value:'other'}
+                    /*{text:'Other',value:'other'}*/
                   ],
                   'radiologySubType':[
                       {text:'',value:''},
@@ -510,7 +510,11 @@
 
                 vm.resultData.type = $(this).val();
                 let type_opd_val=$(this).val();
-
+                vm.resultData.spine_option_value="";
+                vm.resultData.bodyPart ="";
+                vm.resultData.subType="";
+                $('#radiology_spine_opd').select2("destroy");
+                $("#radiology_subtype_opd").val('').trigger('change.select2');
                 if(type_opd_val=='MRI')
                 {
                   setTimeout(function(){
@@ -541,15 +545,7 @@
               vm.resultData.subType=radiologySubType_val;
                 //vm.investigationData.radiologySubType =  radiologySubType_val;
 
-                if(radiologySubType_val == 'Other' || radiologySubType_val =='Joint'){
-                    vm.resultData.subtype_text_enable = true;
-                    //vm.resultData.bodyPart = radiologySubType_val;
-                } else {
-                  
-                  vm.resultData.subtype_text_enable = false;
-                  //vm.resultData.bodyPart = '';
-                  
-                }
+
                 $("#radiology_qualifier_opd").val('').trigger('change.select2');
                 vm.resultData.qualifier = '';
                 vm.resultData.qualifier_text_enable = false;
@@ -582,6 +578,18 @@
                     vm.resultData.qualifier_text_enable = false;
                     vm.resultData.qualifierPart = '';
                 }
+
+                if(radiologySubType_val == 'Other' || radiologySubType_val =='Joint'){
+                    $('#radiology_spine_opd').select2("destroy");
+                     vm.resultData.spine_option_value="";
+                    vm.resultData.subtype_text_enable = true;
+                    //vm.resultData.bodyPart = radiologySubType_val;
+                } else {
+                  
+                  vm.resultData.subtype_text_enable = false;
+                  //vm.resultData.bodyPart = '';
+                  
+                }
             }
             if(this.id == 'radiology_qualifier_opd') {
 
@@ -602,7 +610,6 @@
             }
             if(this.id == 'radiology_spine_opd')
             {
-             
               vm.resultData.spine_option_value=$("#radiology_spine_opd").select2().val();
             }
             if(this.id == 'radiology_special_request_opd') {
@@ -719,7 +726,8 @@
            setRadioReferral()
           {
                let vm =this;
-              
+               vm.cross_internal='false';
+                vm.cross_external='false';
               $('#radiology_qualifier_opd').select2("destroy");
               $('#radiology_special_request_opd').select2("destroy");
               $('#radiology_type_opd').val('').trigger('change.select2');

@@ -123,7 +123,7 @@
                     $caseData = OpdDetails::create([
                       'opd_id'=>$insertedOPDId,
                         'patient_id'=> $patientId,
-                        'consultant_id'=> $user_id,
+                        // 'consultant_id'=> $user_id,
                         'references'=> $referance,
                         'uhid_no'=> $patientData->uhid_no,
                         'admit_datetime' =>  Carbon::now(),

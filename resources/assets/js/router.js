@@ -111,13 +111,13 @@ import opdreceiptlist from './views/admin/vins/opd_receipt_list.vue'
 
 import receipt from './views/admin/vins/receipt.vue'
 
-
-
 //import changePwd from './views/emails/ChangePwd.vue'
 
 import UserList from './views/admin/vins/UserList.vue'
 
 import investigations from './components/investigations.vue'
+
+import opdreport from './views/admin/vins/opdReportPage.vue'
 
 
 Vue.use(VueRouter)
@@ -582,6 +582,12 @@ const routes = [
                 component: physiotherapyForm,
                 meta: { requiresAuth: true },
                 name: 'physiotherapyForm'
+            },
+            {
+                path: '/opdreport',
+                component: opdreport,
+                meta: { requiresAuth: true },
+                name: 'opdreport'
             }
             ]
     },
