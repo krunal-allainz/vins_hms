@@ -64,7 +64,7 @@
                         <input type="radio" class="form-check-input clock_suggest" id="clock_suggest" name="clock_suggest" v-model="prescriptFinalData.clock_suggest" value="ES">Empty Stomach
                       </label>
                       <label class="col-md-5">
-                        <input type="radio" class="form-check-input clock_suggest" id="clock_suggest"  :name="clock_suggest" v-model="prescriptFinalData.clock_suggest" value="FS">Full Stomach
+                        <input type="radio" class="form-check-input clock_suggest" id="clock_suggest"  name="clock_suggest" v-model="prescriptFinalData.clock_suggest" value="FS">Full Stomach
                       </label> 
                   </div>
                 </div>
