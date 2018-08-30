@@ -375,7 +375,7 @@
                               if(response.data.code == 200) {
                                 vm.modal_enabled='true';
                                 let opd_id = response.data.data.opd_pr_id;
-                                vm.$store.dispatch('SetIpdId',opd_id);
+                                vm.$store.dispatch('SetOpdId',opd_id);
                                 vm.patient_opd_details=response.data.data;
                                 $('#receiptAddModel').modal('show');
                               } else if(response.data.code == 300) {
