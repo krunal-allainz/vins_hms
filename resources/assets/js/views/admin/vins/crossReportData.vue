@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div v-if="(printType == 'prescription')" >
+		<div>
 			 <div class='row'>
 			 	<div class='col-md-12 text-center'>
 			 		<h4>Referal</h4>
@@ -18,7 +18,7 @@
 			            </tr>
 						</thead>
 						<tbody>
-						<tr  v-for="(res,index) in crossReportData">
+						<tr  v-for="(res,index) in CrossReferalData">
 		                    <td>{{++index}}</td>
 		                    <td>{{res.cross_type}}</td>
 		                    <td>{{res.cross_value}}</td>
@@ -34,6 +34,6 @@
 </template>
 <script>
 	export default {
-		props:['crossReportData','printType','checkedreportList']
+		props:['CrossReferalData','printType','checkedreportList']
 	}
 </script>
