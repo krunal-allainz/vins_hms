@@ -316,66 +316,65 @@
 		@if($i>0)
 			<div class="page-break"></div>
 		@endif
-		<div class="container" style="padding:15px;">
+		<div class="container">
 	    <div class=""> 
 	       <div class="row">
-	        <div class="col-md-12" style="padding:25px;">
+	        <div class="col-md-12" style="padding-left:25px;">
 	            <img src="https://vins.allianzcloud.com/assets/img/nabh_vins_logo.png" id="logo-desk" alt="NABH Logo" class="hidden-sm-down" height="" width="30%">
 	        </div>
 	      </div>
 
 	    </div>  
-
-	    </div>   
+	      
 		@include('patientDetailReport')
 		@include('patientCheckupReport')
 
 	  @if($data['printType'] == 'opd_case')
-	  <div >
-	  	<div class='row'>
+	  <div style="height: 500px !important;">
+	  	
 			<div class='col-md-12 text-center'>
-				<h4>OPD CASE </h4>
+				<h5>OPD CASE </h5>
 			</div>
-	  	</div>
+	  	
 		@if($checkout=='Advice + follow ups')
 			@include('adviceReportData')
 			@include('followupReportData')
-		@endif 
-		@if($checkout=='Radiology')
+		
+		@elseif($checkout=='Radiology')
 			@include('radiologyReportData')
-		@endif 
-		@if($checkout=='Laboratory')
+		
+		@elseif($checkout=='Laboratory')
 			@include('labReportData')
-		@endif 
-		@if($checkout == 'Investigation Radiology')
+		
+		@elseif($checkout == 'Investigation Radiology')
 			@include('radiologyPatientReportData')
-		@endif
-		@if($checkout == 'Investigation Lab')
+		
+		@elseif($checkout == 'Investigation Lab')
 			@include('labPatientReportData')
-		@endif
-		@if($checkout=='Prescription')
+		
+		@elseif($checkout=='Prescription')
 			@if(isset($data['priscriptionData']))
 		  		@if(!empty($data['priscriptionData']))
 				@include('prescriptionReportData')
 				@endif
 			@endif
-		@endif
-		@if($checkout== 'Referrals')
+		
+		@elseif($checkout== 'Referrals')
 			@include('crossReportData')
-		@endif
-		@if($checkout=='History')
+		
+		@elseif($checkout=='History')
 			@include('historyReportData')
-		@endif 
-		@if($checkout=='Past History')
+		 
+		@elseif($checkout=='Past History')
 			
 				@include('pastHistoryReportdata')
 		@endif
 	@endif
 		
-		<div style="width:100%height:200px;right:30px;" class="text-right">
+		<div  style="height:70px;" class="text-right">
 		<img src="{{$url.'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/>
-	</div>	
-	<div style="width:100%height:200px;right:30px;" class="text-right">
+	</div>
+	<div style="height:70px;" class="text-right">
 	 	<span><b>{{$data['doctoreName']}}</b></span><br/>
 	 	<span><b>{{$data['department']}}</b></span><br>
 	 	<span><b>{{$data['regNo']}}</b></span>
@@ -383,7 +382,7 @@
 	<div style="">
 	</div>
 	
-	   <div class="footer" style="background-color: dodgerblue;color: white;bottom:0;width:100%;height:170px;left:0">
+	   <div class="footer" style="background-color: dodgerblue;color: white;bottom:0;width:100%;height:130px;left:0;position:fixed;">
 
 	      <div class="row text-center">
 	          <div class="col-md-12">
@@ -410,6 +409,7 @@
 			  </div>
 			</div>
 		</div>
+	</div>
 		<?php $i++;?>
 	@endforeach
 @endif

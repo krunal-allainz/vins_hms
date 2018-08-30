@@ -1,7 +1,7 @@
 	@if(isset($data['ReportPageData']['radiologyReferalReportData']))
   	<div class='row'>
 		<div class='col-md-12 text-center'>
-			<h4>Radiology Report</h4>
+			<h5>Radiology Report</h5>
 		</div>
     </div>
 			

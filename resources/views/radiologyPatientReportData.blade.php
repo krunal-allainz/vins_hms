@@ -2,7 +2,7 @@
 
 		<div class='row'>
 		<div class='col-md-12 text-center'>
-			<h4>Investigation Radiology Report</h4>
+			<h5>Investigation Radiology Report</h5>
 		</div>
 		<div class="row"  >
         	<div class="col-md-12">

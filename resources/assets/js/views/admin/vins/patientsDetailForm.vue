@@ -175,7 +175,7 @@
                      </label>
                     </div>
                     <div class="col-md-6">
-						<date-picker  :date.sync="patientData.appointment_datetime" :option="timeoption" id = "appointment_datetime" class="" type="datetime" name="appointment_datetime"   v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" :limit="limit2"   :disabledDates="disabledDates"></date-picker> 
+						<date-picker  :date.sync="patientData.appointment_datetime" :option="timeoption" id = "appointment_datetime" class="" type="datetime" name="appointment_datetime"   v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" :limit="limit2"   :disabledDates="disabledDates" @change="checkAppomentData()" ></date-picker> 
 						<i v-show="errors.has('appointment_datetime')" class="fa fa-warning"></i>
 						<span class="help is-danger" v-show="errors.has('appointment_datetime')">
 	            			Please enter valid appointment datetime.
@@ -383,24 +383,23 @@
 					tags: false,
 				});
 
-
-				// var enabledHours = [];
-				// var dt = new Date();
-				// var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
-				//  $("#appointment_datetime").on("change",function(e){
-    //             var currentTime = new Date();
-    //             var userTime = $("#appointment_datetime").val().split(":"); 
-    //             if(currentTime.getHours() > parseInt(userTime[0])){
-    //                 alert("To old value");
-    //                 $(this).focus();                
-    //             }
-    //             if(currentTime.getHours() <= parseInt(userTime[0])){
-    //                 if(currentTime.getMinutes() > parseInt(userTime[1])){
-    //                     alert("To old value");
-    //                 $(this).focus();
-    //                 }
-    //             }
-    //         });
+				var enabledHours = [];
+				var dt = new Date();
+				var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+				 // $("#appointment_datetime").on("change",function(e){ alert('test');
+     //            		var currentTime = new Date();
+     //            		var userTime = $("#appointment_datetime").val().split(":"); 
+     //            		if(currentTime.getHours() > parseInt(userTime[0])){
+     //               		 alert("To old value");
+     //                		$(this).focus();                
+     //            }
+     //            if(currentTime.getHours() <= parseInt(userTime[0])){
+     //                if(currentTime.getMinutes() > parseInt(userTime[1])){
+     //                    alert("To old value");
+     //                $(this).focus();
+     //                }
+     //            }
+     //        });
 				vm.patientData.type = 'opd';
 
 	          	$('.ls-select2').on("select2:select", function (e) {
@@ -449,7 +448,22 @@
         	this.$root.$on('patientEmpty',this.patientEmpty);
         },
         methods: {
-        	
+        	checkAppomentData(){
+        		let vm = this;
+        		let appointmentDate = vm.patientData.appointment_datetime.time.split(" ");
+        		var currentTime = new Date();
+        		var userTime = appointmentDate[2].split(":");
+               		if(currentTime.getHours() > parseInt(userTime[0])){
+                   		 alert("Please select valide time.");
+                    		$(this).focus();                
+                	}
+                	if(currentTime.getHours() <= parseInt(userTime[0])){
+                   		 if(currentTime.getMinutes() > parseInt(userTime[1])){
+                       		 alert("Please select valide time.");
+                    		$(this).focus();
+                   		 }
+               		 }
+        	},
         	compairNumbers(){ 
         		
         		if(this.patientData.ph_no == this.patientData.mob_no){

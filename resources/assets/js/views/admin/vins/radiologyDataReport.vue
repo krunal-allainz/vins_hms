@@ -3,7 +3,7 @@
 		<div v-if="(radiologyReferalReportData)" >
 			 <div class='row'>
 			 	<div class='col-md-12 text-center'>
-			 		<h4>Radiology Report </h4>
+			 		<h5>Radiology Report </h5>
 			 	</div>
 			 </div>
 			 <div class="row">
@@ -40,7 +40,7 @@
 		<div v-for="reportName in checkedreportList" v-show="(reportName == 'Investigation Radiology' && printType == 'opd_case')" v-if="(radiologyReportData)">
 			<div class='row'>
 			 	<div class='col-md-12 text-center'>
-			 	<h4>Investigation Radiology Report</h4>
+			 	<h5>Investigation Radiology Report</h5>
 			 	</div>
 			 </div>
 			 <div class="row">

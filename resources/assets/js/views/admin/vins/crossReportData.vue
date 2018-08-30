@@ -1,9 +1,9 @@
 <template>
 	<div>
-		<div>
+		<div v-show="(CrossReferalData.length != 0)">
 			 <div class='row'>
 			 	<div class='col-md-12 text-center'>
-			 		<h4>Referal</h4>
+			 		<h5>Referal</h5>
 			 	</div>
 			 </div>
 			 <div class="row">

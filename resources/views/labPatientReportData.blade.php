@@ -1,7 +1,7 @@
 	@if(isset($data['ReportPageData']['labReportData'])){
 		<div class='row'>
 			<div class='col-md-12 text-center'>
-				<h4>Investigation Lab Report</h4>
+				<h5>Investigation Lab Report</h5>
 			</div>
   		</div>
 		<div class="form-group">
