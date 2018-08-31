@@ -22,7 +22,7 @@
           <label for="internal">Cross Reference:</label>
         </div>
         <div class="col-md-12">
-          <select class="form-control ls-select2" name="cross" id="cross"  multiple="">
+          <select class="form-control ls-select2" name="cross" id="cross">
             <option value="internal">Internal</option>
             <option value="external">External</option>
           </select>
@@ -117,12 +117,12 @@
             <label for="internal">Internal Reference:</label>
           </div>
           <div class="col-md-12">
-            <select class="form-control ls-select2" name="internal" id="internal" multiple="">
+            <select class="form-control ls-select2" name="internal" id="internal" >
               <option :value="doc.name" v-for="doc in doctorOption">{{doc.name}}</option>
             </select>
           </div>
         </div>
-        <div class="col-md-6" v-show="cross_external=='true'" multiple="">
+        <div class="col-md-6" v-show="cross_external=='true'">
           <div class="col-md-12">
             <label for="external">External Reference:</label>
           </div>
@@ -480,14 +480,17 @@
             else if(this.id == 'cross'){
               var cross_array=$(this).val();
               vm.cross=cross_array;
-              if(cross_array.includes("internal"))
+              if($(this).val() == 'internal')
               {
                   vm.cross_internal='true';
+                  vm.cross_external='false';
               }
-              if(cross_array.includes("external"))
+              if($(this).val() == 'external')
               {
                   vm.cross_external='true';
+                  vm.cross_internal='false';
               }
+              
               
 
             }
@@ -558,8 +561,6 @@
                               placeholder: "Select",
                               tags:false 
                             }); 
-                            
-
                     },500);
 
                    

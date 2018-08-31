@@ -226,7 +226,7 @@
 			            	<label for="token_status">Token Status:</label>
 			          	</div>
 		          	<div class="col-md-6">
-		            	<select  class="form-control ls-select2" v-validate="'required'" id = "token_status" name="token_status" >
+		            	<select  class="form-control ls-select2" v-validate="'required'" id = "toketoken_statusn_status" name="token_status" >
 		              		<option value="waiting" selected="selected">waiting</option>
 		              		<option value="pending">pending</option>
 		            	</select>
@@ -363,7 +363,7 @@
                 	'patient_id':'',
                 	'case_type' : '',
                 	'token_no' : '',
-                	'token_status' : '',
+                	'token_status' : 'waiting',
                 	'token_validation' : 0
                 }
             }

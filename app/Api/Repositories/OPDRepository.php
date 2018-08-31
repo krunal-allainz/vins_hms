@@ -12,6 +12,7 @@
  use euro_hms\Models\RadiologyAttachments;
  use euro_hms\Models\PhysiotherapyDetails;
  use euro_hms\Models\OPDPhysioDetails;
+ use euro_hms\Models\PatientCaseManagment;
  use euro_hms\Api\Repositories\PatientRepository;
  use euro_hms\Api\Repositories\UserRepository;
  use Carbon\Carbon;
@@ -100,6 +101,8 @@
  		$lab_opd_data=$request->all()['data']['reffData']['reffreal_laboratory_array'];
  		$radio_opd_data=$request->all()['data']['reffData']['reffreal_radiology_array'];
  		$step4_data=$request->all()['data']['step4Data'];
+ 		$crossRefer=$request->all()['data']['crossRefer'];
+ 		
  		if($department=='Vascular')
  		{
  			$examinationData=$request->all()['data']['vascExaminationData'];
@@ -366,6 +369,21 @@
  			$patient_data['consultant']=$this->objUser->getUserNameById($opd_details['patientDetails']->consultant_id);
  			$patient_data['consult_id']=$opd_details['patientDetails']->consultant_id;
  			$patient_data['department']=$this->objUser->getDepartmentById($opd_details['patientDetails']->consultant_id);
+ 		}
+ 		if($crossRefer == true) {
+ 			dd(Carbon::now());
+ 			$doctor_rec = $this->objUser->getUserDetaileById($user_id);
+ 			$doctor_name =$doctor_rec->first_name.' '.$doctor_rec->last_name;
+			$caseManagement = new PatientCaseManagment();
+			$caseManagement->case_type = 'cross';
+			$caseManagement->section_type = 'opd';
+			$caseManagement->section_id = $opd_details->id;
+			$caseManagement->patient_id = $opd_details->patient_id;
+			$caseManagement->referencesCarbon= $doctor_name;
+			$caseManagement->consultant_id = $Carbon::now();
+			$caseManagement->appointment_datetime = Carbon::now();
+			// $caseManagement->status = '1';
+			// $caseManagement->save();
  		}
  		if(count($patient_data)>0)
  		{

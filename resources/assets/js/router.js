@@ -119,6 +119,8 @@ import investigations from './components/investigations.vue'
 
 import opdreport from './views/admin/vins/opdReportPage.vue'
 
+// Receptionist Dashboard
+import DashboardReceptionist from './views/admin/vins/dashboard_receptionist.vue'
 
 Vue.use(VueRouter)
 
@@ -151,6 +153,12 @@ const routes = [
                 component: Dashboard,
                 meta: { requiresAuth: true },
                 name: 'dashboard'
+            },
+            {
+                path: '/receptionist_dashboard',
+                component: DashboardReceptionist,
+                meta: { requiresAuth: true },
+                name: 'receptionist_dashboard'
             },
             {
                 path: '/opd_form',

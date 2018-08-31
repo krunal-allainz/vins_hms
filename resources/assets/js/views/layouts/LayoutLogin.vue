@@ -93,7 +93,7 @@ export default {
                                         vm.$router.push({'name':'vitalsinfo'});
 
                                 }else if(vm.$store.state.Users.userDetails.user_type ==  3) {
-                                        vm.$router.push({'name':'patients_detail_form'});
+                                        vm.$router.push({'name':'receptionist_dashboard'});
 
                                 }else{
                                      vm.$router.push({'name':'patients_detail_form'});
@@ -109,8 +109,7 @@ export default {
                 )}
                 else {
                     jQuery('.js-loader').addClass('d-none');
-
-                toastr.error('Please enter email and password.', 'Login error', {timeOut: 5000});
+                    toastr.error('Please enter email and password.', 'Login error', {timeOut: 5000});
                 }
             });
         },
@@ -121,10 +120,7 @@ export default {
 
     },
     mounted: function() {
-
         Auth.logout().then(() => {
-            // toastr['success']('Logged out!', 'Success');
-
             this.$router.replace('/login')
         })
         

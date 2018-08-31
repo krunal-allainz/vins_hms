@@ -12,9 +12,7 @@
                     <vmenu-item link="/NewUser" icon="ti-layout">
                         &nbsp; New User
                     </vmenu-item>
-                    <vmenu-item link="/patients_detail_form" icon="ti-layout" v-if="userRole==3">
-                        &nbsp; Patients Detail Form
-                    </vmenu-item>
+                    
                     <vmenu-item link="/opd_form" icon="ti-layout">
                         &nbsp; OPD Form
                     </vmenu-item>
@@ -24,9 +22,14 @@
                 </vmenu>
                 </div>
                 <div v-if="userRole == 3">
-                    <vmenu-item link="/receipt" icon="ti-layout">
-                        &nbsp; Receipt
-                    </vmenu-item>
+                    <vmenu>
+                        <vmenu-item link="/patients_detail_form" icon="ti-layout">
+                            &nbsp; Patient detail form
+                        </vmenu-item> 
+                        <vmenu-item link="/receipt" icon="ti-layout">
+                            &nbsp; Receipt
+                        </vmenu-item>
+                    </vmenu>
                 </div>
                 <vmenu>
                 <!--     <vsub-menu title="Emergeny Patient" icon="ti-layout">

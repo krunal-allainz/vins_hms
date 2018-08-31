@@ -7,7 +7,9 @@
         </div>
       </div>
     </div>
-
+    <div class="row">
+      <step-progress-bar :curstep="curStep"></step-progress-bar>
+    </div>
     <form action="" method="post" enctype="multipart/formdata">
       <div v-if="curStep == 1">
         <div class="row form-group" v-show="patient_select_enable==true">
@@ -319,7 +321,9 @@
   import SignaturePad from 'signature_pad';
   import patientSearch from './patientSearchData.vue';
   import _ from 'lodash';
-    import card from "./card.vue"
+  import card from "./card.vue";
+  import stepProgressBar from './stepProgressBar.vue';
+
       var  medicine ;
       var  timeList ;
       var patient_list = [];
@@ -381,7 +385,8 @@
          card,
          patientSearch,
          OPDStep3,
-         OPDStep4
+         OPDStep4,
+         stepProgressBar
        },
         computed: {
           bmi_mod() {
@@ -404,13 +409,15 @@
         },
         
         mounted(){
-         
+         var vm =this;
+          if(vm.$store.state.Users.userDetails.user_type != '1'){
+              vm.$root.$emit('logout','You are not authorise to access this page'); 
+          }
           $('.ls-select2').select2({
             placeholder: "Select",
             tags:false 
           });
-         var vm =this;
-         let opd_list_new=[];
+          let opd_list_new=[];
            if(this.$store.state.Patient.patientId != ''){
               vm.opdData.patientlist= this.$store.state.Patient.patientId;
               vm.patient_id= this.$store.state.Patient.patientId;

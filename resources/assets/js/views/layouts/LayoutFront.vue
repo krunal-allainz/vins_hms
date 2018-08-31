@@ -5,7 +5,7 @@
 
               <nav class="navbar navbar-expand-lg navbar-light">
 
-                <router-link to="/" class="brand-main">
+                <router-link :to="dashboardLink()" class="brand-main">
                       <img src="/assets/img/nabh_vins_logo.png" id="logo-desk" alt="NABH Logo" class="hidden-sm-down">
                       <img src="/assets/img/nabh_vins_logo.png" id="logo-mobile" alt="NABH Logo" class="hidden-md-up">
                   </router-link>
@@ -25,7 +25,7 @@
 
         <div class="dashboard">
           <div class="wrapper">
-            <aside class="left-aside" v-if="userType == 1">
+            <aside class="left-aside" >
               <left_side></left_side>
             </aside>
             <aside class="right-aside">
@@ -71,6 +71,14 @@ export default {
           //this.$store.dispatch('SetIpdId',0);
         },
         methods:{
+          dashboardLink(){
+            if(this.userType == '1'){
+              return '/';
+            } else if(this.userType == '3') {
+              return '/receptionist_dashboard';
+
+            }
+          },
           logout(msg=''){
             let vm =this;
             Auth.logout().then(() => {
