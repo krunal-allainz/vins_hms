@@ -13,7 +13,6 @@
 				
 			</div>
 		</div>
-		<br/>
 		@endif
 		@if($data['ReportPageData']['adviceData']['type'] != 'text' && $data['ReportPageData']['adviceData']['value'] != '')
 		<div  style="padding-left: 35px;">
@@ -26,5 +25,5 @@
 					</div> 
 			
 		</div>
-		@endif 
+		@endif
 @endif
