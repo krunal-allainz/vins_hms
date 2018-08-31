@@ -3,7 +3,7 @@
 	<div v-show="(printType == 'lab')">
 		<div class='row'>
 			<div class='col-md-12 text-center'>
-				<h4>Lab Report</h4>
+				<h5>Lab Report</h5>
 			</div>
 		</div>
 		 <div class="form-group" >
@@ -28,10 +28,10 @@
 		</div>
 	</div>
 	
-	<div v-for="reportName in checkedreportList" v-show="(reportName == 'Investigation Lab' )">
+	<div v-for="reportName in checkedreportList" v-show="(reportName == 'Investigation Lab' && printType == 'opd_case')">
 		<div class='row'>
 		<div class='col-md-12 text-center'>
-			<h4>Investigation Lab Report</h4>
+			<h5>Investigation Lab Report</h5>
 		</div>
 		</div>
 		<div class="form-group"  >
