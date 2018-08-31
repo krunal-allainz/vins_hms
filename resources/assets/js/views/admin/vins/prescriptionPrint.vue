@@ -39,7 +39,6 @@
                                 <th>QHRS</th>
                                 <th>Total Days</th>
                                 <th>Suggetion</th>
-                                <th>Action</th>
                                 <th v-if="removeBtn==1">Action</th>
 
                             </tr>
@@ -53,7 +52,7 @@
                                 <td>{{res2.qhrs}}</td>
                                 <td>{{res2.total_prescription_days}}</td>
                                 <td>{{res2.clock_suggest}}</td>
-                            <td><i class="fa fa-remove" @click="removePrescript(res2.pid)"></i></td>
+                            
                             <td v-if="removeBtn==1"><i class="fa fa-remove point" @click="removePrescript(res2.pid)"></i></td>
                           </tr>
                         </tbody>

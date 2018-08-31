@@ -713,9 +713,13 @@
                       vm.curStep = vm.curStep+1;
                       vm.$store.dispatch('setOpdData',vm.opdData);
                       vm.$store.dispatch('setResData',vm.finalResultData);
+                  } else {
+                     toastr.error('Please enter all required fields.', 'Error', {timeOut: 5000});
                   }
                },
                (error) => {
+                 
+
                 }
               )
             
