@@ -188,7 +188,6 @@
 									 var Res = {'type':this.type,'patient_id':this.patient_id,'ipd_id':this.ipd_id,'form_data':this.CentralLineBundleChecklistData};
                    User.saveCentralLineBundleChecklist(Res).then(
                          (response) => {
-                         	console.log(response)
                          	if(response.data.status == 200) {
                          		toastr.success('Central Line Bundle Checklist has been saved', 'Central Line Bundle Checklist', {timeOut: 5000});
                          	}

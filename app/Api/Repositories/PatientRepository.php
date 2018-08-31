@@ -484,7 +484,7 @@
       return TokenManagment::where('date','like',$date.'%')->Where('token',$token)->count();
     }
 
-    public function getPatientList($user_type,$noOfRecord,$user_id){
+    public function getPatientList($user_type,$noOfRecord,$user_id,$status='waiting'){
       // dd($user_type,$noOfRecord,$user_id);
       $reportQuery= PatientDetailsForm::join('patient_case_managment', function ($join) {
                   $join->on('patient_case_managment.patient_id', '=', 'patient_details.id');
@@ -502,10 +502,10 @@
         }
         if($user_type==3)
         {
-            $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case']);
+            $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case'])->where('token_managment.status',$status);
         }
-            $reportQuery->with('userDetails');
-         $reportQuery->groupBy('patient_case_managment.patient_id')->orderBy('patient_case_managment.created_at','desc');
+            $reportQuery->whereDate('patient_case_managment.appointment_datetime',Carbon::today()->format('Y-m-d'))->with('userDetails');
+         $reportQuery->select('*','token_managment.token as token_id')->groupBy('patient_case_managment.patient_id')->orderBy('patient_case_managment.created_at','desc');
          return  $reportQuery->paginate($noOfRecord);
     // return PatientDetailsForm::where('consultant_id',$id)->paginate($noOfRecord);
      
@@ -548,6 +548,7 @@
         {
             $reportQuery->whereDate('patient_case_managment.appointment_datetime',Carbon::today()->format('Y-m-d'));
         }
+
          $reportQuery->groupBy('patient_case_managment.patient_id')->orderBy('patient_case_managment.created_at','desc');
          $patientDetails = $reportQuery->select(
               'patient_details.id',

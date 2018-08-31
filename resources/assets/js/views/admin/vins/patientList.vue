@@ -30,6 +30,10 @@
                             UHID.No
                             <i data-v-744e717e="" class="fa float-right"></i>
                         </th>
+                        <th data-v-744e717e="" class="sortable" style="width: auto;">
+                            Token No
+                            <i data-v-744e717e="" class="fa float-right"></i>
+                        </th>
                         <th data-v-744e717e="" class="sortable" style="width: auto;" v-if="user_type == 3">
                             Consultant doctor
                         </th>
@@ -40,7 +44,7 @@
                     </tr>
                   </thead>
                   <tbody data-v-744e717e="">
-                    <tr data-v-744e717e=""  v-if="isWaiting(patientData,'waiting')"   v-for="patientData in patientData.patient_list">
+                    <tr data-v-744e717e=""     v-for="patientData in patientData.patient_list">
                       <td data-v-744e717e="" class="">
                        {{ patientData.first_name}}
                       </td> <!---->
@@ -54,7 +58,10 @@
                       <td data-v-744e717e="" class="">
                         {{ patientData.uhid_no}}
                       </td>
-                      <td data-v-744e717e="" class="" v-text="consultantName(patientData.user_details)">
+                      <td data-v-744e717e="" class="">
+                        {{ patientData.token_id}}
+                      </td>
+                      <td data-v-744e717e="" class="" v-if="user_type == 3" v-text="consultantName(patientData.user_details)">
                        
                       </td>
                       <td data-v-744e717e="" class="" v-if="user_type == 1">
@@ -115,6 +122,11 @@
                             UHID.No
                             <i data-v-744e717e="" class="fa float-right"></i>
                         </th>
+                        <th data-v-744e717e="" class="sortable" style="width: auto;">
+                            Token No
+                            <i data-v-744e717e="" class="fa float-right"></i>
+                        </th>
+                        
                         <th data-v-744e717e="" class="sortable" style="width: auto;" v-if="user_type == 3">
                             Consultant doctor
                         </th>
@@ -125,7 +137,7 @@
                     </tr>
                   </thead>
                   <tbody data-v-744e717e="">
-                    <tr data-v-744e717e="" v-if="isWaiting(patientData,'pending')" v-for="patientData in patientData.patient_list">
+                    <tr data-v-744e717e="" v-for="patientData in patientDataPending.patient_list">
                       <td data-v-744e717e="" class="">
                        {{ patientData.first_name}}
                       </td> <!---->
@@ -139,6 +151,10 @@
                       <td data-v-744e717e="" class="">
                         {{ patientData.uhid_no}}
                       </td>
+                      <td data-v-744e717e="" class="">
+                        {{ patientData.token_id}}
+                      </td>
+                      
                       <td data-v-744e717e="" class="" v-text="consultantName(patientData.user_details)">
                        
                       </td>
@@ -163,7 +179,7 @@
                    <!--     <option data-v-744e717e="" value="-1">All</option> -->
                     </select> 
                      <div data-v-744e717e="" class="datatable-info  pb-2 mt-3">
-                        <span data-v-744e717e="">Showing </span> 1 - {{pagination.to}} of {{pagination.total}}
+                        <span data-v-744e717e="">Showing </span> 1 - {{pendingPagination.to}} of {{pendingPagination.total}}
                         <span data-v-744e717e="">records</span>
                     </div>
                 </div>
@@ -188,7 +204,11 @@
                 'patientData' :{
                     'patient_list' : {}
                 },
+                'patientDataPending' :{
+                    'patient_list' : {}
+                },
                 'pagination': {},
+                'pendingPagination': {},
                 'perPage' : 5,
                 'patientId' :'',
                 'patientDetailInfo' : {},
@@ -201,7 +221,13 @@
         },
          mounted(){
             let vm =this;
-            vm.getPatientsResult();
+            if(vm.user_type == 3){
+             vm.getPatientsResult('/patient/getpatientlist','waiting');
+             vm.getPatientsResult('/patient/getpatientlist','pending');
+            } else {
+             vm.getPatientsResult('/patient/getpatientlist','waiting');
+
+            }
             vm.newPatient();
          },
          methods: {
@@ -221,30 +247,47 @@
               return true;
             },
             consultantName(doctor){
-              return "Dr "+ doctor.first_name + ' ' + doctor.last_name;
+              if(doctor){
+                return "Dr "+ doctor.first_name + ' ' + doctor.last_name;
+              } 
+              return "";
+              // console.log(doctor,'doctor') ;
             },
             newPatient()
             {
                 var vm =this;
                 setInterval(function() {
-                   vm.getPatientsResult();
+                  if(vm.user_type == 3){
+                   vm.getPatientsResult('/patient/getpatientlist','waiting');
+                   vm.getPatientsResult('/patient/getpatientlist','pending');
+                  } else {
+                   vm.getPatientsResult('/patient/getpatientlist','waiting');
+
+                  }
                 }, 8000);
             },
-            getPatientsResult(page_url){
+            getPatientsResult(page_url="/patient/getpatientlist",$status){
                 var vm =this;
-                 page_url = page_url || '/patient/getpatientlist';
+                 page_url = page_url ;
             let type = this.user_type;
             let noofRecordperpage = this.perPage;
-            User.getAllPatientListByDoctoreIdAndPaggination(page_url,type,noofRecordperpage,vm.doctore_Id).then(
+            User.getAllPatientListByDoctoreIdAndPaggination(page_url,type,noofRecordperpage,vm.doctore_Id,$status).then(
                      (response) => {
-                         vm.patientData.patient_list = response.data.data.data;
-                         vm.makePagination(response.data.data);
+                        if($status == 'waiting'){
+
+                          vm.patientData.patient_list = response.data.data.data;
+                        } else {
+                          vm.patientDataPending.patient_list = response.data.data.data;
+
+                        }
+                         
+                          vm.makePagination(response.data.data,$status);
                          },
                         (error) => {
                         },
                      );
             },
-            makePagination: function(data){
+            makePagination: function(data,status='waiting'){
                 let pagination = {
                     current_page: data.current_page,
                     last_page: data.last_page,
@@ -254,7 +297,13 @@
                     from : data.from,
                     to : data.to
                 }
-                this.pagination = pagination;
+                if(status == 'waiting') {
+
+                  this.pagination = pagination;
+                } else {
+                  this.pendingPagination = pagination;
+
+                }
                 //this.$set('pagination', pagination)
             },
           getPatientInfo(patientInfo)   {
@@ -278,7 +327,14 @@
             vm.$store.dispatch('SetPatientId', vm.patientId);             // 
           },
           setPerPage(e){
-               this.getPatientsResult();
+            let vm =this;
+                if(vm.user_type == 3){
+                   vm.getPatientsResult('/patient/getpatientlist','waiting');
+                   vm.getPatientsResult('/patient/getpatientlist','pending');
+                  } else {
+                   vm.getPatientsResult('/patient/getpatientlist','waiting');
+
+                  }
           }
 
          }

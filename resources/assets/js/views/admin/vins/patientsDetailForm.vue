@@ -227,7 +227,7 @@
 			          	</div>
 		          	<div class="col-md-6">
 		            	<select  class="form-control ls-select2" v-validate="'required'" id = "toketoken_statusn_status" name="token_status" >
-		              		<option value="waiting" selected="selected">waiting</option>
+		            		<option value="waiting" selected="selected">waiting</option>
 		              		<option value="pending">pending</option>
 		            	</select>
 		          	</div>
@@ -453,16 +453,16 @@
         		let appointmentDate = vm.patientData.appointment_datetime.time.split(" ");
         		var currentTime = new Date();
         		var userTime = appointmentDate[2].split(":");
-               		if(currentTime.getHours() > parseInt(userTime[0])){
-                   		 alert("Please select valide time.");
-                    		$(this).focus();                
-                	}
-                	if(currentTime.getHours() <= parseInt(userTime[0])){
-                   		 if(currentTime.getMinutes() > parseInt(userTime[1])){
-                       		 alert("Please select valide time.");
-                    		$(this).focus();
-                   		 }
-               		 }
+               		// if(currentTime.getHours() > parseInt(userTime[0])){
+                 //   		 alert("Please select valide time.");
+                 //    		$(this).focus();                
+                	// }
+                	// if(currentTime.getHours() <= parseInt(userTime[0])){
+                 //   		 if(currentTime.getMinutes() > parseInt(userTime[1])){
+                 //       		 alert("Please select valide time.");
+                 //    		$(this).focus();
+                 //   		 }
+               		//  }
         	},
         	compairNumbers(){ 
         		

@@ -32,6 +32,6 @@ class PatientCaseManagment extends Model
       return $this->attributes['appointment_datetime'] =   Carbon::createFromFormat('d-m-Y H:i:s', $value);
     }
     public function getPatientTokenDetail(){
-    return $this->belongsTo('euro_hms\Models\TokenManagment','patient_case_id');
-  }
+      return $this->belongsTo('euro_hms\Models\TokenManagment','patient_case_id');
+    }
 }

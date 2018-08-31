@@ -76,7 +76,8 @@ export default {
               return '/';
             } else if(this.userType == '3') {
               return '/receptionist_dashboard';
-
+            } else {
+              return '/vitalsinfo';
             }
           },
           logout(msg=''){

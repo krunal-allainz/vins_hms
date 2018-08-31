@@ -23,6 +23,7 @@
         </div>
         <div class="col-md-12">
           <select class="form-control ls-select2" name="cross" id="cross">
+            <option value="">Select</option>
             <option value="internal">Internal</option>
             <option value="external">External</option>
           </select>
