@@ -481,22 +481,23 @@
             else if(this.id == 'cross'){
               var cross_array=$(this).val();
               vm.cross=cross_array;
-              if($(this).val() == 'internal')
+               if(cross_array.includes("internal"))
               {
                   vm.cross_internal='true';
                   vm.cross_external='false';
               }
-              if($(this).val() == 'external')
+              if(cross_array.includes("external"))
               {
                   vm.cross_external='true';
                   vm.cross_internal='false';
               }
               
-              
+              // vm.reffData.reffreal_cross_array =  vm.cross;
 
             }
             else if(this.id == 'internal'){
               var val_cross_array=$(this).val();
+              console.log('asd',$(this).val());
               vm.internal_array=val_cross_array;
             }
             else if(this.id == 'laboratory_report_opd'){
@@ -668,7 +669,7 @@
                 let vm =this;
                 if(vm.reffData.referral=='cross')
                 {
-                    vm.saveCrossReport();
+                     // vm.saveCrossReport();
                 }
                 if(vm.reffData.referral=='laboratory')
                 {
@@ -814,21 +815,22 @@
                 }
                 if(vm.internal_array.length>0)
                 {
+                  vm.ref_cross_array.push({'id':vm.ref_cross_array.length+1,'type':vm.reffData.referral,'subtype':'Internal','value':vm.internal_array});
 
-                   _.forEach(vm.internal_array, function(value, key) {
-                      let matches=_.some(vm.ref_cross_array,['value',value]);
-                      if(matches)
-                      {
-                          vm.setCrossReferral();
-                          toastr.error('This record already exist', 'Error', {timeOut: 5000});
-                          return false;
-                      }
-                      else
-                      {
-                        vm.ref_cross_array.push({'id':vm.ref_cross_array.length+1,'type':vm.reffData.referral,'subtype':'Internal','value':value});
-                      }
+                   // _.forEach(vm.internal_array, function(value, key) {
+                   //    let matches=_.some(vm.ref_cross_array,['value',value]);
+                   //    if(matches)
+                   //    {
+                   //        vm.setCrossReferral();
+                   //        toastr.error('This record already exist', 'Error', {timeOut: 5000});
+                   //        return false;
+                   //    }
+                   //    else
+                   //    {
+                   //      vm.ref_cross_array.push({'id':vm.ref_cross_array.length+1,'type':vm.reffData.referral,'subtype':'Internal','value':value});
+                   //    }
                       
-                    });
+                   //  });
                 }
                 if(vm.reffData.cross_type_ext)
                 {

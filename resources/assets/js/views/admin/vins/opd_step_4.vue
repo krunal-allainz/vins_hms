@@ -394,6 +394,8 @@
                             'reffData':this.$store.state.Patient.refferelReportData
                           };
                           this.saveOpdData(oData);
+                        } else {
+                          toastr.error('Please enter all required fields.', 'Error', {timeOut: 5000});
                         }
                         },
                     (error) => {
