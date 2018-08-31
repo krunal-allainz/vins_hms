@@ -1,7 +1,7 @@
 @if(isset($data['ReportPageData']['CrossReferalData']))
 	<div class='row'>
 		<div class='col-md-12 text-center'>
-			<h4>Cross Referal</h4>
+			<h5>Cross Referal</h5>
 	</div>
 			<div class="row">
         	<div class="col-md-12">

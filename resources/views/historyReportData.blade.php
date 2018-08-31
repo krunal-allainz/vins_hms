@@ -1,5 +1,5 @@
 @if(isset($data['ReportPageData']['historyData']) )
-	@if(isset($data['ReportPageData']['historyData']['type']) )	
+	@if($data['ReportPageData']['historyData']['type'] == 'text' )	
 		<div  style="padding-left: 35px;">
 			<div class='col-md-6 text-left'>
 				<span class='text-left'><b>Hisotory :-</b></span>
@@ -15,7 +15,6 @@
 		</div>
 		<br/>
 		@endif
-		@if($data['ReportPageData']['historyData'])) 
 		@if($data['ReportPageData']['historyData']['type'] != 'text' && $data['ReportPageData']['historyData']['value'] != '')
 		<div  style="padding-left: 35px;">
 			<div class='col-md-6 text-left'>
@@ -23,10 +22,9 @@
 			</div>
 			<div class='row'>
 					<div class='col-md-12 text-left'>
-					    <img src="{{$data['historyData']['value']}}" title="History">
+					    <img src="{{$data['ReportPageData']['historyData']['value']}}" title="History">
 					</div> 
 			</div>
 		</div>
-		@endif
 		@endif 
 @endif
