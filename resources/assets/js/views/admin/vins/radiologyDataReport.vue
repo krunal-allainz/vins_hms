@@ -1,9 +1,9 @@
 <template>
 	<div>
-		<div v-if="(printType == 'radiology')" >
+		<div v-if="(radiologyReferalReportData)" >
 			 <div class='row'>
 			 	<div class='col-md-12 text-center'>
-			 		<h4>Radiology Report</h4>
+			 		<h5>Radiology Report </h5>
 			 	</div>
 			 </div>
 			 <div class="row">
@@ -21,13 +21,14 @@
 			            </tr>
 						</thead>
 						<tbody>
-						<tr v-if="res.removed == false" v-for="(res,index) in radiologyReferalData">
+						<tr v-for="(res,index) in radiologyReferalReportData">
 		                    <td>{{++index}}</td>
 		                    <td>{{res.type}}</td>
 		                    <td>{{res.bodyparts}}</td>
 		                    <td>{{res.qualifiers}}</td>
 		                    <td>{{res.special_request}}</td>
-		                    <td>{{res.details | strLimit}}</td>
+		                    <td>{{res.details}}</td>
+		                    <!-- <td>{{res.details | strLimit}}</td> -->
 		                    <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
 		                </tr>
                     </tbody>
@@ -36,10 +37,10 @@
 				</div>
 			</div>
 		</div>	
-		<div v-for="reportName in checkedreportList" v-show="(reportName == 'Investigation Radiology' )">
+		<div v-for="reportName in checkedreportList" v-show="(reportName == 'Investigation Radiology' && printType == 'opd_case')" v-if="(radiologyReportData)">
 			<div class='row'>
 			 	<div class='col-md-12 text-center'>
-			 	<h4>Investigation Radiology Report</h4>
+			 	<h5>Investigation Radiology Report</h5>
 			 	</div>
 			 </div>
 			 <div class="row">
@@ -63,7 +64,8 @@
 		                    <td>{{res.bodyparts}}</td>
 		                    <td>{{res.qualifiers}}</td>
 		                    <td>{{res.special_request}}</td>
-		                    <td>{{res.details | strLimit}}</td>
+		                    <td>{{res.details}}</td>
+		                    <!-- <td>{{res.details | strLimit}}</td> -->
 		                    <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
 		                </tr>
                     </tbody>
@@ -75,7 +77,7 @@
 	</div>
 </template>
 <script>
-		export default {
-		props:['radiologyReferalData','radiologyReportData','printType','checkedreportList']
+	export default {
+		props:['radiologyReferalReportData','radiologyReportData','printType','checkedreportList'],
 	}
 </script>

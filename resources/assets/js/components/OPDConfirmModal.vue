@@ -30,7 +30,7 @@
             var vm = this;
             $('.close').click(function(){
                 $('#confirm_modal').modal('hide');
-                vm.$router.push({'name':'opd_form_thankyou'});
+                vm.$router.push({'name':'opdreport'});
                 return false;
             });
         },
@@ -48,7 +48,7 @@
             hideModal() {
                 let vm=this;
                 $('#confirm_modal').modal('hide');
-                vm.$router.push({'name':'opd_form_thankyou'});
+                vm.$router.push({'name':'opdreport'});
                 return false;
             }
         }
