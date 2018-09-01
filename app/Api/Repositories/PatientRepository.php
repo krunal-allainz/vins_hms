@@ -43,7 +43,7 @@
            if($data['case_type']  == 'new_consult'){
               $opdInsert = 1;
           }else{
-             $opdData =  $this->getLastOPDIdByPatientId($patientId);
+             $opdData =  $this->getOPDDetailsByPatientId($patientId);
              $opdInsert = 0;
           }
         	if($patientId!=0 && $patientId!="")
@@ -98,15 +98,17 @@
     			$patientData->save();
     			/*for patient details end*/
         }
-
+//dd($data['consulting_dr']);
         if ($patientId) {
 
             if($patientType == "opd"){
               if($opdInsert == 1){
               //for new case  
-                  if($data['case_type']=='')
+                  if($data['case_type']=='new_consult')
                   {
                       $data['case_type']='new_case';
+                       $opdData =  $this->getOPDDetailsByPatientId($patientId);
+                         $sectionId    = $opdData->id;
                   }
                   $opd_prefix="OPD";
                   $opdId =  OpdDetails::orderBy('id', 'desc')->first();
@@ -118,7 +120,7 @@
 
                   $newPatOPDNo = sprintf("%04d",$lastOPD);
                   $insertedOPDId=$opd_prefix.$year.$newPatOPDNo;
-                  $sectionId = $insertedOPDId;
+                 
 
                     $caseData = OpdDetails::create([
                       'opd_id'=>$insertedOPDId,
@@ -147,7 +149,7 @@
                    $tokenInsert =  TokenManagment::create([
                     'token'=>$data['token_no'],
                     'date' =>  date('d-m-Y H:i:s'),
-                    'opd_id'=>$insertedOPDId,
+                    'opd_id'=>$sectionId,
                     'patient_id' =>$patientId,
                     'patient_case_id' =>$patientCaseInsert->id,
                     'status' =>$data['token_status'],
@@ -160,8 +162,8 @@
                     return ['code' => '400','data'=>'', 'message' => 'Something goes wrong'];
                 }   
               }else{
-                $insertedOPDId = $opdData->opd_id;
-                 $sectionId    = $opdData->opd_id;
+                $insertedOPDId = $opdData->id;
+                 $sectionId    = $opdData->id;
                  
                    /* start add case management data */
                   $patientCaseInsert = PatientCaseManagment::create([
@@ -279,7 +281,7 @@
     public function getLastOPDIdByPatientId($pid)
     {
         $today=Carbon::now()->format('Y-m-d');
-        $patient_last_id=PatientCaseManagment::where('patient_id',$pid)->whereDate('appointment_datetime','<',$today)->orderBy('id', 'desc')->first();
+        $patient_last_id=PatientCaseManagment::where('patient_id',$pid)->whereDate('appointment_datetime','<=',$today)->orderBy('id', 'desc')->first();
         return $patient_last_id;
     }
 
