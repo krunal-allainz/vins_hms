@@ -104,7 +104,7 @@
             if($patientType == "opd"){
               if($opdInsert == 1){
               //for new case  
-                  if($data['case_type']=='new_consult')
+                  if($data['case_type']=='')
                   {
                       $data['case_type']='new_case';
                        $opdData =  $this->getOPDDetailsByPatientId($patientId);

@@ -1,6 +1,6 @@
 <template>
 	<div>
-	<div v-show="(printType == 'lab')">
+	<div v-show="(printType == 'lab' && labReferalData.length > 0)">
 		<div class='row'>
 			<div class='col-md-12 text-center'>
 				<h5>Lab Report</h5>
