@@ -178,7 +178,7 @@
                     </div>
                     <div class="col-md-6">
                       <div class=" input-group">
-                      <input type="text" name="temp" id="temp" class="form-control number-with-validation"  v-model="patientData.temp" v-validate="'required|numeric|min_value:1|max_value:999'"  :disabled="non_editable_vitals=='true'">
+                      <input type="text" name="temp" id="temp" class="form-control number-with-validation"  v-model="patientData.temp" v-validate="'decimal:1|required|min_value:1||max_value:999'"  :disabled="non_editable_vitals=='true'">
                         <div class="input-group-append">
                             <span class="input-group-text ">°F</span>
                         </div><br>
