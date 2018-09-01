@@ -454,9 +454,12 @@
     public function addPatientCheckup($request){
         
             /*for patient details start*/
+
         $data = $request->all()['pData']['patientData'];
         $userId = $request->all()['pData']['userId'];
-        $data_patient_checkup=new PatientCheckUp;
+        // dd(Carbon::now()->toDateString())
+        // $tokenData-;
+         $data_patient_checkup=new PatientCheckUp;
         $data_patient_checkup->user_id=$userId;
         $data_patient_checkup->height=$data['height'];
         $data_patient_checkup->weight=$data['weight'];
@@ -472,6 +475,11 @@
         $data_patient_checkup->updated_at=Carbon::now();
         $data_patient_checkup->save();
         if ($data_patient_checkup) {
+        $tokenData = TokenManagment::where('patient_id',$data['patient_id'])->whereDate('date',Carbon::now()->toDateString())->where('status','waiting')->first();
+        $tokenRecord = TokenManagment::find($tokenData->id);
+        $tokenRecord->status = 'vital';
+        $tokenRecord->save();
+        
             return ['code' => '200','data'=>$data_patient_checkup, 'message' => 'Record Sucessfully created'];
         } else {
             return ['code' => '400','data'=>'', 'message' => 'Something goes wrong'];
@@ -494,7 +502,7 @@
         });
         if($user_id == 1)
         {
-           $reportQuery->where('patient_case_managment.consultant_id',$user_id)->where('token_managment.status','waiting');
+           $reportQuery->where('patient_case_managment.consultant_id',$user_id)->whereIn('token_managment.status',['waiting','vital']);
         } 
         if($user_type==2)
         {
@@ -535,6 +543,8 @@
     {
         $reportQuery= PatientDetailsForm::join('patient_case_managment', function ($join) {
                   $join->on('patient_case_managment.patient_id', '=', 'patient_details.id');
+        })->join('token_managment', function ($join1) {
+                  $join1->on('token_managment.patient_id', '=', 'patient_details.id');
         });
         if($user_id!=0 && $user_id!="")
         {
@@ -542,11 +552,11 @@
         } 
         if($user_type==2)
         {
-            $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case']);
+            $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case'])->where('token_managment.status','waiting')->whereDate('patient_case_managment.appointment_datetime',Carbon::today()->format('Y-m-d'));
         }
-        if($user_type==1 ||  $user_type==2)
+        if($user_type==1 )
         {
-            $reportQuery->whereDate('patient_case_managment.appointment_datetime',Carbon::today()->format('Y-m-d'));
+            $reportQuery->whereIn('token_managment.status',['vital','waiting'])->whereDate('patient_case_managment.appointment_datetime',Carbon::today()->format('Y-m-d'));
         }
 
          $reportQuery->groupBy('patient_case_managment.patient_id')->orderBy('patient_case_managment.created_at','desc');
