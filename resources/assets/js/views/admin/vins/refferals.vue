@@ -669,7 +669,7 @@
                 let vm =this;
                 if(vm.reffData.referral=='cross')
                 {
-                     // vm.saveCrossReport();
+                   vm.saveCrossReport();
                 }
                 if(vm.reffData.referral=='laboratory')
                 {
