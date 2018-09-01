@@ -11,7 +11,7 @@
 				</div>
 			</div>
 		</div> 
-		 <div v-if="(past_history.type !== 'text' && past_history.value != '')">
+		 <div v-if="(past_history.type !== 'text' && past_history.value != null)">
 		   	<div class='col-md-6 text-left'>
 				<span class='text-left'><b>Past History :-</b></span>
 			</div>

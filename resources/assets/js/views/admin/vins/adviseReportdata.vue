@@ -10,7 +10,7 @@
 					 					</div>
 									</div>
 		    	 	 			</div> 
-		    	 	 			<div v-if="(adviceData.type !== 'text' && adviceData.value != '')">
+		    	 	 			<div v-if="(adviceData.type !== 'text' && adviceData.value != null)">
 		    	 	 				<div class='col-md-6 text-left'>
 						 				<span class='text-left'><b>Advice :-</b></span>
 						 			</div>

@@ -335,7 +335,7 @@
 		@include('patientCheckupReport')
 
 	  @if($data['printType'] == 'opd_case')
-	  <div style="height: 500px !important;">
+	  <div >
 	  	
 			<div class='col-md-12 text-center'>
 				<h5>OPD CASE </h5>
@@ -389,7 +389,7 @@
 	
 	   <div class="footer" style="background-color: dodgerblue;color: white;bottom:0;width:100%;height:130px;left:0;position:fixed;">
 
-	      <div class="row text-center">
+	      <div class="text-center">
 	          <div class="col-md-12">
 	              <div class="text-center text-capitalize"  style="text-align: center;">
 	                  <h2  class="text-center text-capitalize" style="text-align: center;color:white;"><u><b><i>Vadodara Institute Of Neurological Sciences</i></b></u></h2>  
