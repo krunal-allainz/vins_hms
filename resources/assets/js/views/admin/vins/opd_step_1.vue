@@ -418,11 +418,13 @@
             tags:false 
           });
           let opd_list_new=[];
-           if(this.$store.state.Patient.patientId != ''){
-              vm.opdData.patientlist= this.$store.state.Patient.patientId;
+           //if(this.$store.state.Patient.patientId != ''){
               vm.patient_id= this.$store.state.Patient.patientId;
-              $('#patient').val(vm.opdData.patientlist).trigger('change:select2');
-          }
+              vm.opdData.patientlist=vm.patient_id;
+             // $('#patient').val(vm.patient_id).trigger('change:select2');
+              vm.get_vitals();
+            
+         // }
           vm.$store.dispatch('resetOpdForm');
 
          /*for laboratory data*/
@@ -488,7 +490,7 @@
           {
               var vm =this;
               
-              //setInterval(function() {
+              setInterval(function() {
 
                  vm.getResults();
                 // $('#patient').select2('destroy');
@@ -497,7 +499,8 @@
                     tags:false 
                   });
 
-              //}, 8000);
+              }, 8000);
+
             },
           getResults(patient_list_new) {
             var vm =this;
@@ -561,8 +564,8 @@
           {
               let vm =this;
               vm.opdData.last_vist="";
-              vm.opdData.patientlist="";
-              vm.patient_id="";
+             vm.opdData.patientlist="";
+             vm.patient_id="";
               vm.opdData.uhid_no="";
               vm.opdData.weight="";
               vm.opdData.height="";
@@ -644,8 +647,6 @@
                       (error) => {
                       },
                 );
-
-                
 
               User.getVitalsInfoByPatientId(vm.opdData.patientlist).then(
               (response) => {

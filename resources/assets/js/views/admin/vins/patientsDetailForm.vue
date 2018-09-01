@@ -214,19 +214,22 @@
 			        	<label for="case_type">Token No:</label>
 			        </div>
 			        <div class="col-md-6 ">
-			        	<input class="form-control" type="text" id="token_no" name="token_no" value="" v-model="patientData.token_no"  @change=" checkExistingToken()"  />
+			        	<input class="form-control" type="text" id="token_no" name="token_no" value="" v-model="patientData.token_no"  @change=" checkExistingToken()"  v-validate="'required'"/>
 			        </div>
 			        <i v-show="errors.has('token_no')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-if="(patientData.token_validation != 0)">
 		            			Please enter another token number it's already exist.
 		            		</span>
+		            		<span class="help is-danger" v-show="errors.has('token_no')">
+		              		Please enter token no.
+		            	</span>
 		        </div>
             	<div class="col-md-6" >
 			        	<div class="col-md-6 ">
 			            	<label for="token_status">Token Status:</label>
 			          	</div>
 		          	<div class="col-md-6">
-		            	<select  class="form-control ls-select2" v-validate="'required'" id = "toketoken_statusn_status" name="token_status" >
+		            	<select  class="form-control ls-select2" v-validate="'required'" id ="token_status" name="token_status" >
 		            		<option value="waiting" selected="selected">waiting</option>
 		              		<option value="pending">pending</option>
 		            	</select>
@@ -382,7 +385,9 @@
 					placeholder: "Select",
 					tags: false,
 				});
-
+				if(vm.patientData.token_validation != 0){
+	  				vm.patientData.token_no = '';
+	  			}
 				var enabledHours = [];
 				var dt = new Date();
 				var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
@@ -423,8 +428,10 @@
 		             	vm.patientData.token_status = $(this).val();		
 		             }
 
-		             else{
+		             else if(this.id == 'consulting_dr'){
 		             	vm.patientData.consulting_dr = $(this).val();			
+		             }else{
+
 		             }
 				});
 
@@ -504,11 +511,18 @@
 		      	User.getExistingToken(vm.patientData.token_no).then(
 	  				(response) => {
 	  					vm.patientData.token_validation = response.data;
+	  					if(vm.patientData.token_validation > 0){
+	  					 	vm.patientData.token_no = '';
+	  					}
 	  				},
 	  				(error)=>{
 
 	  				}
   				);
+  				if(vm.patientData.token_validation > 0){
+	  					 	vm.patientData.token_no = '';
+	  			}
+	  			return vm.patientData.token_no;
 		      },
 		      getAgeFromYear(year){
 				

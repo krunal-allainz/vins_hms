@@ -117,9 +117,9 @@
               {
                 'reportListId': 'Investigation Radiology'
               },
-              {
-                'reportListId': 'Examination'
-              },
+              // {
+              //   'reportListId': 'Examination'
+              // },
               {
                 'reportListId': 'Referrals'
               }] ,
