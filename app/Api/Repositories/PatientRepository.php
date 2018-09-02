@@ -104,12 +104,7 @@
             if($patientType == "opd"){
               if($opdInsert == 1){
               //for new case  
-                  if($data['case_type']=='new_consult')
-                  {
-                      $data['case_type']='new_case';
-                       $opdData =  $this->getOPDDetailsByPatientId($patientId);
-                         $sectionId    = $opdData->id;
-                  }
+                  
                   $opd_prefix="OPD";
                   $opdId =  OpdDetails::orderBy('id', 'desc')->first();
                   if($opdId == null){   
@@ -131,7 +126,12 @@
                         'admit_datetime' =>  Carbon::now(),
                         'appointment_datetime'=> $a_time
                     ]);
-
+                      if($data['case_type']=='new_consult')
+                  {
+                      $data['case_type']='new_case';
+                      $opdData =  $this->getOPDDetailsByPatientId($patientId);
+                      $sectionId    = $opdData->id;
+                  }
                    /* start add case management data */
                   $patientCaseInsert = PatientCaseManagment::create([
                     'case_type' =>$data['case_type'],
