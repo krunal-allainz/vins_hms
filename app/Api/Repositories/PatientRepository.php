@@ -104,7 +104,7 @@
             if($patientType == "opd"){
               if($opdInsert == 1){
               //for new case  
-                  
+
                   $opd_prefix="OPD";
                   $opdId =  OpdDetails::orderBy('id', 'desc')->first();
                   if($opdId == null){   

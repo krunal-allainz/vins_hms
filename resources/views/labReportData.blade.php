@@ -1,4 +1,5 @@
 <div class='row'>
+  @if(!empty($data['ReportPageData']['labReferalReportData']))
 		<div class='col-md-12 text-center'>
 			<h5>Lab Report</h5>
 		</div>
@@ -24,4 +25,5 @@
                     </table>
                   </div>
                 </div>
+                @endif
               </div>
