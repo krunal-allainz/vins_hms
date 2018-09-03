@@ -300,8 +300,8 @@
 	  							if(response.data.code == 200){
 	  							vm.patientCheckupDetail = response.data.data;
 	  							}
-	  							var sectionOpdId = vm.sectionOpdId;
-			  				User.getPatientCaseDetailByOpdId(sectionOpdId).then(
+	  							var OpdId = vm.opdId;
+			  				User.getPatientCaseDetailByOpdId(OpdId).then(
 			  					(response) => {
 				  					if(response.data.code == 200){
 				  					vm.reference = response.data.data.references;
