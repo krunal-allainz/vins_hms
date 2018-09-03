@@ -535,6 +535,7 @@
           $result['opdDetails'] = OpdDetails::where('patient_id',$patientId)->get();
           $result['tokenDetail'] = TokenManagment::where('patient_id',$patientId)->get();
           $result['caseDetail'] = PatientCaseManagment::where('patient_id',$patientId)->get();
+
           return $result;
     }
 
