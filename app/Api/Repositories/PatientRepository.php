@@ -126,12 +126,13 @@
                         'admit_datetime' =>  Carbon::now(),
                         'appointment_datetime'=> $a_time
                     ]);
-                      if($data['case_type']=='new_consult')
+                      if($data['case_type']=='')
                   {
                       $data['case_type']='new_case';
-                      $opdData =  $this->getOPDDetailsByPatientId($patientId);
-                      $sectionId    = $opdData->id;
+                   
                   }
+                     $opdData =  $this->getOPDDetailsByPatientId($patientId);
+                      $sectionId    = $opdData->id;
                    /* start add case management data */
                   $patientCaseInsert = PatientCaseManagment::create([
                     'case_type' =>$data['case_type'],
