@@ -14,7 +14,7 @@
                 </div>
               </div>
               <input type="hidden" name="prescription_quantity" id="prescription_quantity" class="form-control" v-model="prescriptFinalData.prescription_quantity" v-validate="'required|numeric'" readonly="">
-             
+
               <div class="col-md-3">
                 <div class="col-md-12">
                   <label for="quantity">Total Prescription Days:</label>
@@ -44,19 +44,6 @@
               </div>
           </div>
           <div class="row form-group">
-            <div class="col-md-6">
-                  <div class="col-md-12">
-                    <label for="prescription">Suggetion:</label>
-                  </div>
-                  <div class="col-md-12">
-                      <label class="col-md-6">
-                        <input type="radio" class="form-check-input clock_suggest" id="presp_suggest_empty" name="presp_suggest" v-model="prescriptFinalData.clock_suggest" value="ES">Empty Stomach
-                      </label>
-                      <label class="col-md-5">
-                        <input type="radio" class="form-check-input clock_suggest" id="presp_suggest_full"  name="presp_suggest" v-model="prescriptFinalData.clock_suggest" value="FS">Full Stomach
-                      </label> 
-                  </div>
-                </div>
               <div class="col-md-3" v-if="prescriptFinalData.how_many_times=='Q-Hrs'">
                 <div class="col-md-12">
                   <label for="qhrs">Q-Hrs:</label>
@@ -66,9 +53,21 @@
                     <option value="">Select</option>
                     <option v-for="qhrsop in qhrsOption"  :value="qhrsop.id">{{qhrsop.text}}</option>
                   </select>
-                </div>
+                </div> 
               </div>
-               
+               <div class="col-md-6">
+                  <div class="col-md-12">
+                    <label for="prescription">Suggetion:</label>
+                  </div>
+                  <div class="col-md-12">
+                      <label class="col-md-6">
+                        <input type="radio" class="form-check-input clock_suggest" id="clock_suggest" name="clock_suggest" v-model="prescriptFinalData.clock_suggest" value="ES">Empty Stomach
+                      </label>
+                      <label class="col-md-5">
+                        <input type="radio" class="form-check-input clock_suggest" id="clock_suggest"  name="clock_suggest" v-model="prescriptFinalData.clock_suggest" value="FS">Full Stomach
+                      </label> 
+                  </div>
+                </div>
           </div>
 
           <div v-if="prespFinalRes.length>0" :id="'presp_div_'+index" v-for="(presp, index) in prespFinalRes">
@@ -94,6 +93,7 @@
                     <input type="text"  v-validate="'required|numeric'" v-model="presp.clock_quantity" :name="'presp_clock_quantity'+index" id="presp_clock_quantity_id" class="form-control clock_quantity">
                   </div>
                 </div>
+
             </div>
           </div>
             <div class="row">
@@ -191,16 +191,7 @@
                   <div class="col-md-12">
                      <div class=" input-group">
                         <div class="input-group-append">
-                            <span class="input-group-text ">{{(pres_clock.clock_suggest_1==''?'--':pres_clock.clock_suggest_1)}}</span>
-                        </div>
-                        <div class="input-group-append">
-                          <span class="input-group-text ">{{(pres_clock.clock_suggest_2==''?'--':pres_clock.clock_suggest_2)}}</span>
-                        </div>
-                        <div class="input-group-append">
-                          <span class="input-group-text ">{{(pres_clock.clock_suggest_3==''?'--':pres_clock.clock_suggest_3)}}</span>
-                        </div>
-                        <div class="input-group-append">
-                          <span class="input-group-text ">{{(pres_clock.clock_suggest_4==''?'--':pres_clock.clock_suggest_4)}}</span>
+                            <span class="input-group-text ">{{(pres_clock.clock_suggest==''?'--':pres_clock.clock_suggest)}}</span>
                         </div>
                       </div>
                   </div>
@@ -406,7 +397,7 @@
               vm.prescriptFinalData.prescription_unit = 'TAB.';
               vm.prescriptFinalData.prescription_time = '1';
               vm.prescriptFinalData.total_prescription_days = '1';
-              vm.prescriptFinalData.clock_suggest="ES";
+              vm.prescriptFinalData.clock_suggest = 'ES';
               _.find(vm.prescriptionOption, function(res) {
                 if(res.id == vm.prescriptFinalData.prescription_id) {
                      vm.prescriptFinalData.prescription_unit=res.formulation; 
@@ -666,7 +657,7 @@
               }
               
               vm.t_qt=parseInt(vm.t_qt)+parseInt(array.clock_quantity);
-              clocktimedata.push({'pid':array.pid,'type':array.type,'name':array.name,'timing':array.clock_time,'quantity':array.clock_quantity,'clock_suggest':array.clock_suggest,'remove':'false'});
+              clocktimedata.push({'pid':array.pid,'type':array.type,'name':array.name,'timing':array.clock_time,'quantity':array.clock_quantity,'remove':'false'});
               //console.log(clocktimedata);
               clocktimedata= _.sortBy(clocktimedata, [function(o) { return o.timing; }]);
                let i=0;
@@ -692,21 +683,25 @@
                           
                             vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_2 = res.timing; 
                             vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_2 = res.quantity; 
+
                             // vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_2 = res.clock_suggest; 
+
                         }
                         if(i==2)
                         {
                           
                             vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_3 = res.timing; 
-                            vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_3 = res.quantity; 
-                            //vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_3 = res.clock_suggest; 
+                            vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_3 = res.quantity;
+                             //vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_3 = res.clock_suggest; 
+
                         }
                         if(i==3)
                         {
                           
                             vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_4 = res.timing; 
-                            vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_4 = res.quantity; 
-                            // vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_4 = res.clock_suggest; 
+                            vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_4 = res.quantity;
+                             //vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_4 = res.clock_suggest; 
+
                         }
                         i++;
                     }
@@ -739,8 +734,8 @@
                   qhrs=vm.prescriptFinalData.qhrs;
               }
 
-              clocktimedata.push({'pid':array.pid,'type':array.type,'name':array.name,'timing':array.clock_time,'quantity':array.clock_quantity,'clock_suggest':array.clock_suggest,'remove':'false'});
-               vm.prescriptFinalData.prescriptionNameList.push({'pid': array.pid,'name':array.name,'type':array.type,'total_quantity':array.clock_quantity,'clock_time_1':array.clock_time,'clock_quantity_1':array.clock_quantity,'clock_time_2':clock_time_2,'clock_quantity_2':clock_quantity_2,'clock_time_3':clock_time_3,'clock_time_4':clock_time_4,'clock_quantity_3':clock_quantity_3,'clock_quantity_4':clock_quantity_4,'clock_suggest_1':array.clock_suggest,'clock_suggest_2':clock_suggest_2,'clock_suggest_3':clock_suggest_3,'clock_suggest_4':clock_suggest_4,'total_prescription_days':vm.prescriptFinalData.total_prescription_days,'qhrs':qhrs,'remove':'false'});
+              clocktimedata.push({'pid':array.pid,'type':array.type,'name':array.name,'timing':array.clock_time,'quantity':array.clock_quantity,'remove':'false'});
+               vm.prescriptFinalData.prescriptionNameList.push({'pid': array.pid,'name':array.name,'type':array.type,'total_quantity':array.clock_quantity,'clock_time_1':array.clock_time,'clock_quantity_1':array.clock_quantity,'clock_time_2':clock_time_2,'clock_quantity_2':clock_quantity_2,'clock_time_3':clock_time_3,'clock_time_4':clock_time_4,'clock_quantity_3':clock_quantity_3,'clock_quantity_4':clock_quantity_4,'clock_suggest':vm.prescriptFinalData.clock_suggest,'total_prescription_days':vm.prescriptFinalData.total_prescription_days,'qhrs':qhrs,'remove':'false'});
                 return vm.prescriptFinalData.prescriptionNameList;
 
           },
@@ -937,6 +932,7 @@
                   $("#how_many_times").prop("disabled", true);
                   vm.prescriptFinalData.prescription_quantity=final_result.total_quantity;
                   vm.prescriptFinalData.total_prescription_days=final_result.total_prescription_days;
+                  vm.prescriptFinalData.clock_suggest=final_result.clock_suggest;
                   vm.prescriptFinalData.clock_type=type;
                   vm.prescriptFinalData.clock_value=clock_time;
 
@@ -947,7 +943,7 @@
                             var final_clock_time=vm.prescriptFinalData.old_clock_value=final_result.clock_time_1;
                             vm.prescriptFinalData.clock_time=final_result.clock_time_1;
                             var final_clock_quantity=vm.prescriptFinalData.clock_quantity=final_result.clock_quantity_1;
-                            var final_clock_suggest=vm.prescriptFinalData.clock_suggest=final_result.clock_suggest_1;
+                           // var final_clock_suggest=vm.prescriptFinalData.clock_suggest=final_result.clock_suggest_1;
                             //return false;
                         }
                     }
@@ -958,7 +954,7 @@
                             var final_clock_time=vm.prescriptFinalData.old_clock_value=final_result.clock_time_2;
                             vm.prescriptFinalData.clock_time=final_result.clock_time_2;
                            var final_clock_quantity= vm.prescriptFinalData.clock_quantity=final_result.clock_quantity_2;
-                             var final_clock_suggest=vm.prescriptFinalData.clock_suggest=final_result.clock_suggest_2;
+                             //var final_clock_suggest=vm.prescriptFinalData.clock_suggest=final_result.clock_suggest_2;
                             //return false;
                         }
                     }
@@ -969,7 +965,7 @@
                             var final_clock_time=vm.prescriptFinalData.old_clock_value=final_result.clock_time_3;
                             vm.prescriptFinalData.clock_time=final_result.clock_time_3;
                             var final_clock_quantity=vm.prescriptFinalData.clock_quantity=final_result.clock_quantity_3;
-                             var final_clock_suggest=vm.prescriptFinalData.clock_suggest=final_result.clock_suggest_3;
+                            //var final_clock_suggest=vm.prescriptFinalData.clock_suggest=final_result.clock_suggest_3;
                             //return false;
                         }
                     }
@@ -980,11 +976,11 @@
                             var final_clock_time=vm.prescriptFinalData.old_clock_value=final_result.clock_time_4;
                             vm.prescriptFinalData.clock_time=final_result.clock_time_4;
                             var final_clock_quantity=vm.prescriptFinalData.clock_quantity=final_result.clock_quantity_4;
-                             var final_clock_suggest=vm.prescriptFinalData.clock_suggest=final_result.clock_suggest_4;
+                             //var final_clock_suggest=vm.prescriptFinalData.clock_suggest=final_result.clock_suggest_4;
                             //return false;
                         }
                     }
-                    vm.prespFinalRes.push({'name':final_result.name,'type':final_result.type,'pid':final_result.pid,'clock_time':final_clock_time,'clock_quantity':final_clock_quantity,'clock_suggest':final_clock_suggest,'remove':'false','t_quantity':final_result.total_quantity,'t_days':final_result.total_prescription_days,'old_clock_value':final_clock_time,'clock_type':type});
+                    vm.prespFinalRes.push({'name':final_result.name,'type':final_result.type,'pid':final_result.pid,'clock_time':final_clock_time,'clock_quantity':final_clock_quantity,'clock_suggest':final_result.clock_suggest,'remove':'false','t_quantity':final_result.total_quantity,'t_days':final_result.total_prescription_days,'old_clock_value':final_clock_time,'clock_type':type});
                     setTimeout(function(){
                       $('.clockpicker').clockpicker({donetext: 'Done',autoclose: true});
                       $('.clockpicker').clockpicker().find('input').change(function(){
@@ -1035,6 +1031,7 @@
                     
                     vm.prescriptFinalData.prescriptionNameList[objIndex].total_prescription_days=vm.prescriptFinalData.total_prescription_days;
                      vm.prescriptFinalData.prescriptionNameList[objIndex].qhrs=vm.prescriptFinalData.qhrs;
+                      vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest=vm.prescriptFinalData.clock_suggest;
                      let get_type=vm.prescriptFinalData.prescription_report[0].clock_type;
                      //for prescription clock time list 
                     let objIndex_clock = clocktimedata.findIndex((obj => obj.pid == vm.prescriptFinalData.prescription_report[0].pid && obj.timing == vm.prescriptFinalData.prescription_report[0].old_clock_value));
@@ -1147,25 +1144,25 @@
                               {
                                   vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_1 = res.timing; 
                                   vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_1 = res.quantity; 
-                                  vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_1 = res.clock_suggest; 
+                                  //vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_1 = res.clock_suggest; 
                               }
                               if(i==1)
                               {
                                   vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_2 = res.timing; 
                                   vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_2 = res.quantity; 
-                                   vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_2 = res.clock_suggest; 
+                                  // vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_2 = res.clock_suggest; 
                               }
                               if(i==2)
                               {
                                   vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_3 = res.timing; 
                                   vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_3 = res.quantity; 
-                                   vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_3 = res.clock_suggest; 
+                                  //vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_3 = res.clock_suggest; 
                               }
                               if(i==3)
                               {
                                   vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_4 = res.timing; 
                                   vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_4 = res.quantity; 
-                                   vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_4 = res.clock_suggest; 
+                                   //vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_4 = res.clock_suggest; 
                               }
                               i++;
 

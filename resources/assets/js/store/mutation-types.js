@@ -17,7 +17,4 @@ export const SAVE_OPD = 'SAVE_OPD'
 export const SET_PRESCRIPTION_DATA = 'SET_PRESCRIPTION_DATA'
 export const SET_REFFEREL_REPORT_DATA = 'SET_REFFEREL_REPORT_DATA'
 export const SET_Step4_DATA = 'SET_Step4_DATA'
-
-
-
-
+export const SET_OPD_ID = 'SET_OPD_ID'

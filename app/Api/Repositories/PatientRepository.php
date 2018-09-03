@@ -43,7 +43,7 @@
            if($data['case_type']  == 'new_consult'){
               $opdInsert = 1;
           }else{
-             $opdData =  $this->getLastOPDIdByPatientId($patientId);
+             $opdData =  $this->getOPDDetailsByPatientId($patientId);
              $opdInsert = 0;
           }
         	if($patientId!=0 && $patientId!="")
@@ -98,16 +98,13 @@
     			$patientData->save();
     			/*for patient details end*/
         }
-
+//dd($data['consulting_dr']);
         if ($patientId) {
 
             if($patientType == "opd"){
               if($opdInsert == 1){
               //for new case  
-                  if($data['case_type']=='')
-                  {
-                      $data['case_type']='new_case';
-                  }
+
                   $opd_prefix="OPD";
                   $opdId =  OpdDetails::orderBy('id', 'desc')->first();
                   if($opdId == null){   
@@ -118,18 +115,23 @@
 
                   $newPatOPDNo = sprintf("%04d",$lastOPD);
                   $insertedOPDId=$opd_prefix.$year.$newPatOPDNo;
-                  $sectionId = $insertedOPDId;
+                 
 
                     $caseData = OpdDetails::create([
                       'opd_id'=>$insertedOPDId,
                         'patient_id'=> $patientId,
-                        'consultant_id'=> $user_id,
+                        // 'consultant_id'=> $user_id,
                         'references'=> $referance,
                         'uhid_no'=> $patientData->uhid_no,
                         'admit_datetime' =>  Carbon::now(),
                         'appointment_datetime'=> $a_time
                     ]);
-
+                      if($data['case_type']=='new_consult')
+                  {
+                      $data['case_type']='new_case';
+                      $opdData =  $this->getOPDDetailsByPatientId($patientId);
+                      $sectionId    = $opdData->id;
+                  }
                    /* start add case management data */
                   $patientCaseInsert = PatientCaseManagment::create([
                     'case_type' =>$data['case_type'],
@@ -147,7 +149,7 @@
                    $tokenInsert =  TokenManagment::create([
                     'token'=>$data['token_no'],
                     'date' =>  date('d-m-Y H:i:s'),
-                    'opd_id'=>$insertedOPDId,
+                    'opd_id'=>$sectionId,
                     'patient_id' =>$patientId,
                     'patient_case_id' =>$patientCaseInsert->id,
                     'status' =>$data['token_status'],
@@ -160,8 +162,8 @@
                     return ['code' => '400','data'=>'', 'message' => 'Something goes wrong'];
                 }   
               }else{
-                $insertedOPDId = $opdData->opd_id;
-                 $sectionId    = $opdData->opd_id;
+                $insertedOPDId = $opdData->id;
+                 $sectionId    = $opdData->id;
                  
                    /* start add case management data */
                   $patientCaseInsert = PatientCaseManagment::create([
@@ -279,7 +281,7 @@
     public function getLastOPDIdByPatientId($pid)
     {
         $today=Carbon::now()->format('Y-m-d');
-        $patient_last_id=PatientCaseManagment::where('patient_id',$pid)->whereDate('appointment_datetime','<',$today)->orderBy('id', 'desc')->first();
+        $patient_last_id=PatientCaseManagment::where('patient_id',$pid)->whereDate('appointment_datetime','<=',$today)->orderBy('id', 'desc')->first();
         return $patient_last_id;
     }
 
@@ -454,9 +456,12 @@
     public function addPatientCheckup($request){
         
             /*for patient details start*/
+
         $data = $request->all()['pData']['patientData'];
         $userId = $request->all()['pData']['userId'];
-        $data_patient_checkup=new PatientCheckUp;
+        // dd(Carbon::now()->toDateString())
+        // $tokenData-;
+         $data_patient_checkup=new PatientCheckUp;
         $data_patient_checkup->user_id=$userId;
         $data_patient_checkup->height=$data['height'];
         $data_patient_checkup->weight=$data['weight'];
@@ -472,6 +477,11 @@
         $data_patient_checkup->updated_at=Carbon::now();
         $data_patient_checkup->save();
         if ($data_patient_checkup) {
+        $tokenData = TokenManagment::where('patient_id',$data['patient_id'])->whereDate('date',Carbon::now()->toDateString())->where('status','waiting')->first();
+        $tokenRecord = TokenManagment::find($tokenData->id);
+        $tokenRecord->status = 'vital';
+        $tokenRecord->save();
+        
             return ['code' => '200','data'=>$data_patient_checkup, 'message' => 'Record Sucessfully created'];
         } else {
             return ['code' => '400','data'=>'', 'message' => 'Something goes wrong'];
@@ -484,23 +494,28 @@
       return TokenManagment::where('date','like',$date.'%')->Where('token',$token)->count();
     }
 
-    public function getPatientList($user_type,$noOfRecord,$user_id){
+    public function getPatientList($user_type,$noOfRecord,$user_id,$status='waiting'){
+      // dd($user_type,$noOfRecord,$user_id);
       $reportQuery= PatientDetailsForm::join('patient_case_managment', function ($join) {
                   $join->on('patient_case_managment.patient_id', '=', 'patient_details.id');
         });
-        if($user_id!=0 && $user_id!="")
+      $reportQuery->join('token_managment', function ($join1) {
+                  $join1->on('token_managment.patient_case_id', '=', 'patient_case_managment.id');
+        });
+        if($user_id == 1)
         {
-           $reportQuery->where('patient_case_managment.consultant_id',$user_id);
+           $reportQuery->where('patient_case_managment.consultant_id',$user_id)->whereIn('token_managment.status',['waiting','vital']);
         } 
         if($user_type==2)
         {
-            $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case']);
+            $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case'])->where('token_managment.status','waiting');
         }
-        if($user_type==1 ||  $user_type==2)
+        if($user_type==3)
         {
-            $reportQuery->whereDate('patient_case_managment.appointment_datetime',Carbon::today()->format('Y-m-d'));
+            $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case'])->where('token_managment.status',$status);
         }
-         $reportQuery->groupBy('patient_case_managment.patient_id')->orderBy('patient_case_managment.created_at','desc');
+            $reportQuery->whereDate('patient_case_managment.appointment_datetime',Carbon::today()->format('Y-m-d'))->with('userDetails');
+         $reportQuery->select('*','token_managment.token as token_id')->groupBy('patient_case_managment.patient_id')->orderBy('patient_case_managment.created_at','desc');
          return  $reportQuery->paginate($noOfRecord);
     // return PatientDetailsForm::where('consultant_id',$id)->paginate($noOfRecord);
      
@@ -530,6 +545,8 @@
     {
         $reportQuery= PatientDetailsForm::join('patient_case_managment', function ($join) {
                   $join->on('patient_case_managment.patient_id', '=', 'patient_details.id');
+        })->join('token_managment', function ($join1) {
+                  $join1->on('token_managment.patient_id', '=', 'patient_details.id');
         });
         if($user_id!=0 && $user_id!="")
         {
@@ -537,12 +554,13 @@
         } 
         if($user_type==2)
         {
-            $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case']);
+            $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case'])->where('token_managment.status','waiting')->whereDate('patient_case_managment.appointment_datetime',Carbon::today()->format('Y-m-d'));
         }
-        if($user_type==1 ||  $user_type==2)
+        if($user_type==1 )
         {
-            $reportQuery->whereDate('patient_case_managment.appointment_datetime',Carbon::today()->format('Y-m-d'));
+            $reportQuery->whereIn('token_managment.status',['vital','waiting'])->whereDate('patient_case_managment.appointment_datetime',Carbon::today()->format('Y-m-d'));
         }
+
          $reportQuery->groupBy('patient_case_managment.patient_id')->orderBy('patient_case_managment.created_at','desc');
          $patientDetails = $reportQuery->select(
               'patient_details.id',

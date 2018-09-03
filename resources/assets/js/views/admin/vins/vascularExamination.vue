@@ -369,12 +369,12 @@
                   $('#printContent').html('');
                   $('#printContent').html(all_data);  
                   $('#receiptPrintModal').on('hidden.bs.modal', function () {
-                      vm.$router.push({'name':'opd_form_thankyou'});
+                      vm.$router.push({'name':'opdreport'});
                   });
               }
               else
               {
-                  vm.$router.push({'name':'opd_form_thankyou'});
+                  vm.$router.push({'name':'opdreport'});
               }
               
           },

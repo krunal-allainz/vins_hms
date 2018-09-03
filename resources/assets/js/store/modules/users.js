@@ -23,8 +23,7 @@ const actions = {
 // mutations
 const mutations = {
 	[types.SET_USER_DATA] (state, userData) {
-		console.log('userData',userData);
-      state.userDetails = userData;
+		  state.userDetails = userData;
 	}
 }
 

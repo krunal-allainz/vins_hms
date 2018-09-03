@@ -1,6 +1,5 @@
 <?php
   namespace euro_hms\Api\Repositories;
-
  use euro_hms\Models\OpdDetails;
  use euro_hms\Models\Laboratory;
  use euro_hms\Models\PrescriptionDetails;
@@ -13,14 +12,13 @@
  use euro_hms\Models\RadiologyAttachments;
  use euro_hms\Models\PhysiotherapyDetails;
  use euro_hms\Models\OPDPhysioDetails;
+ use euro_hms\Models\PatientCaseManagment;
  use euro_hms\Api\Repositories\PatientRepository;
  use euro_hms\Api\Repositories\UserRepository;
  use Carbon\Carbon;
  use DB;
-
  class OPDRepository 
  {
-
  	/**
  	 * [__construct description]
  	 */
@@ -29,7 +27,6 @@
         $this->objUser = new UserRepository();
     }
     //
-
  	/**
  	 * [getLaboratoryByType description]
  	 * @param  [type] $type [description]
@@ -56,7 +53,6 @@
  	{
  		return Laboratory::get();
  	}
-
  	/**
  	 * [getLabListByChildren description]
  	 * @return [type] [description]
@@ -91,13 +87,9 @@
  		$lab_array[2]=array('id'=>'3','text'=>'CSF','children'=>$csf_array,'element'=>'HTMLOptGroupElement');
  		$lab_array[3]=array('id'=>'4','text'=>'BFA','children'=>$bfa_array,'element'=>'HTMLOptGroupElement');
  		return $lab_array;
-
  	}
-
-
  	public function store($request)
  	{
-
  		$data = $request->all()['data']['opdData'];
  		$user_id=$request->all()['data']['doctor'];
  		$department=$request->all()['data']['department'];
@@ -109,6 +101,8 @@
  		$lab_opd_data=$request->all()['data']['reffData']['reffreal_laboratory_array'];
  		$radio_opd_data=$request->all()['data']['reffData']['reffreal_radiology_array'];
  		$step4_data=$request->all()['data']['step4Data'];
+ 		$crossRefer=$request->all()['data']['crossRefer'];
+ 		
  		if($department=='Vascular')
  		{
  			$examinationData=$request->all()['data']['vascExaminationData'];
@@ -139,9 +133,6 @@
 			$data_patient_checkup_obj->pain=$data['pain_value'];
 			$data_patient_checkup_obj->save();
  		}
-		
- 		
-		
 		//opd details
 		if($opd_id_org)
 		{
@@ -182,11 +173,9 @@
 		 		//$opdData->consultant_id=$data['consulting_dr'];
 		 		$opdData->save();
 		}
-
  		//save prescription
  		if(!empty($prescription_data))
  		{
-
  			foreach($prescription_data as $prescription)
 	 		{
 	 			$prescription_obj=new PrescriptionDetails();
@@ -202,9 +191,10 @@
 	 			$prescription_obj->clock_time_1=$prescription['clock_time_1'];
 	 			$prescription_obj->clock_time_2=$prescription['clock_time_2'];
 	 			$prescription_obj->clock_time_3=$prescription['clock_time_3'];
-	 			$prescription_obj->clock_suggest_1=$prescription['clock_suggest_1'];
-	 			$prescription_obj->clock_suggest_2=$prescription['clock_suggest_2'];
-	 			$prescription_obj->clock_suggest_3=$prescription['clock_suggest_3'];
+	 			$prescription_obj->clock_suggest_1=$prescription['clock_suggest'];
+	 			/*$prescription_obj->clock_suggest_2=$prescription['clock_suggest_2'];
+	 			$prescription_obj->clock_suggest_3=$prescription['clock_suggest_3'];*/
+
 	 			$prescription_obj->qhrs=$prescription['qhrs'];
 	 			$prescription_obj->remove=$prescription['remove'];
 	 			$prescription_obj->save();
@@ -258,7 +248,7 @@
 	 			$radiology_obj->bodyparts=$radio['bodyPart'];
 	 			$radiology_obj->qualifiers=$radio['qualifier'];
 	 			$radiology_obj->special_request=$radio['special_request'];
-	 			$radiology_obj->referance=1;
+	 			$radiology_obj->referance=0;
 	 			$radiology_obj->details=$radio['textData'];
 	 			if($radio['type']=='X-Rays')
 	 			{
@@ -274,7 +264,6 @@
 	 			$radiology_obj->save();
  			}
  		}
-
  		/*for form -2 library*/
  		if(!empty($labdata))
  		{
@@ -297,7 +286,6 @@
  			
  		}
  		/*for form -2 library*/
-
  		/*for radiology */
  		if(!empty($radiology_data))
  		{
@@ -346,14 +334,11 @@
 		 			}
 	 			}
  			}
-
  		}
-
  		/*for radiology */
  		/*for examination*/
  		if(!empty($examinationData))
  		{
-
  			$examination_obj=new Examination();
  			$examination_obj->opd_id=$opd_id_org;
  			$examination_obj->user_id=$user_id;
@@ -373,6 +358,7 @@
  		{
  			$opd_details=OpdDetails::with('patientDetails')->where('id',$opd_id_org)->first();
  			$patient_data['patient_id']=$opd_details->patient_id;
+ 			$patient_data['opd_pr_id']=$opd_details->id;
  			$patient_data['opd_id']=$opd_details->opd_id;
  			$patient_data['p_name']=$opd_details['patientDetails']->first_name.' '.$opd_details['patientDetails']->last_name;
  			if($opd_details['patientDetails']->gender=='M')
@@ -384,6 +370,21 @@
  			$patient_data['consult_id']=$opd_details['patientDetails']->consultant_id;
  			$patient_data['department']=$this->objUser->getDepartmentById($opd_details['patientDetails']->consultant_id);
  		}
+ 		if($crossRefer == true) {
+ 			dd(Carbon::now());
+ 			$doctor_rec = $this->objUser->getUserDetaileById($user_id);
+ 			$doctor_name =$doctor_rec->first_name.' '.$doctor_rec->last_name;
+			$caseManagement = new PatientCaseManagment();
+			$caseManagement->case_type = 'cross';
+			$caseManagement->section_type = 'opd';
+			$caseManagement->section_id = $opd_details->id;
+			$caseManagement->patient_id = $opd_details->patient_id;
+			$caseManagement->referencesCarbon= $doctor_name;
+			$caseManagement->consultant_id = $Carbon::now();
+			$caseManagement->appointment_datetime = Carbon::now();
+			// $caseManagement->status = '1';
+			// $caseManagement->save();
+ 		}
  		if(count($patient_data)>0)
  		{
  			return ['code' => '200','data'=>$patient_data, 'message' => 'Record Sucessfully created'];
@@ -394,33 +395,26 @@
  		}
  		
  	}
-
  	/**
  	*   get number of OPD
  	*
  	*
  	*/
-
  	public function getOPDCounters($id){
  		$result = array();
 		// this week results
 		$fromDate =Carbon::now()->subDay(30)->startOfWeek()->toDateString(); // or ->format(..)
 		$tillDate = Carbon::now()->toDateString();
-		
-		
 		$result['today'] = OpdDetails::selectRaw('date(created_at) as date, COUNT(*) as count')
         ->where( DB::raw('date(created_at)'), [$tillDate] )
     	->orderBy('created_at', 'DESC')
     	->count();
-
 		$result['month'] = OpdDetails::selectRaw('date(created_at) as date, COUNT(*) as count')
 	    ->whereBetween( DB::raw('date(created_at)'), [$fromDate, $tillDate] )
 	    ->orderBy('created_at', 'DESC')
 	    ->count();	
 		return $result;
-
  	}
-
  	public function savePhysiotherapy($request)
  	{
  		$data=$request->all()['physioData'];
@@ -457,19 +451,27 @@
  		$physio_details->name_therapist=$data['name_therapist'];
  		$physio_details->form_date=Carbon::createFromFormat('d-m-Y h:ia', $data['form_date'])->format('Y-m-d H:i:s');
  		$physio_details->save();
-
  		return $physio_details->id;
-
  	}
-
  	public function getPatientOpdData($opdId){
  		 $result = array();
  		 $result['opdDetails'] = OpdDetails::where('id',$opdId)->first();
- 		 $result['opdExaminationData'] = Examination::where('opd_id',$opdId)->first();
+ 		 $result['opdExaminationData'] = Examination::where('opd_id',$opdId)->orderBy('id','DESC')->first();
  		 $result['opdReferalphysioData'] = OPDPhysioDetails::where('opd_id',$opdId)->first();
- 		 $result['opdReferalCrossData'] = CrossDetails::where('opd_id',$opdId)->first();
- 		 $result['opdReferalLaboraryData'] =LaboratoryDetails::where('opd_id',$opdId)->first();
- 		  $result['opdReferalRadiologyData'] = Radiology::where('opd_id',$opdId)->first();
+ 		 $result['opdReferalCrossData'] = CrossDetails::where('opd_id',$opdId)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
+ 		 $result['opdReferalLaboraryData'] =LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.opd_id',$opdId)->where('laboratory_details.referance',0)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
+ 		  $result['opdReferalRadiologyData'] = Radiology::where('opd_id',$opdId)->where('referance',0)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
+ 		  $result['opdLabData'] = LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.opd_id',$opdId)->where('laboratory_details.referance',1)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
+ 		  $result['opdRadiologyData'] = Radiology::where('opd_id',$opdId)->where('referance',1)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
+ 		  $result['opdprescriptionData'] = PrescriptionDetails::join('prescription_drugs','prescription_drugs.id','=','prescription_details.prescription_drug_id')->where('prescription_details.opd_id',$opdId)->get();
+ 		  $advice = $result['opdDetails']->advice;
+ 		  $history = $result['opdDetails']->history;
+ 		$pastHistory = $result['opdDetails']->past_history;
+ 		$examinationData =  $result['opdExaminationData']->examination_data;
+ 		  $result['adviceData'] = json_decode($advice,true); 
+ 		  $result['historyData'] = json_decode($history,true); 
+ 		  $result['past_historyData'] = json_decode($pastHistory,true); 
+ 		  $result['opdExaminationDataList'] = json_decode($examinationData,true); 
 
  		 return $result;
  	}

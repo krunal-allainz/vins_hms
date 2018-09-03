@@ -54,7 +54,7 @@
             </div>
         </div>
          <prescriptionData :department="department"> </prescriptionData>
-         <refferals></refferals>
+         <refferals  ></refferals>
           <div class="row form-group">
     
       <div class="col-md-12">
@@ -73,7 +73,7 @@
           <div class="row form-group">
             <div class="col-md-6">
               <div class="col-md-6">
-                <label for="diagnosis" class="control-label">Doctor's name</label>
+                <label for="diagnosis" class="control-label">Doctor's name   </label>
               </div>
               <div class="col-md-6">
                 <input class="form-control" type="text" id="doctor_name" name="doctor_name" value="" v-model="doctor" readonly="" />
@@ -155,6 +155,9 @@
         created: function() {
           this.$root.$on('printReceipt', this.printReceipt);
           this.$root.$on('confirmed', this.confirm_opd);
+          this.$root.$on('setReferralId', this.setReferralId);
+          this.$root.$on('crossReferSave', this.crossReferSave);
+
         },
        props:['doctor'],
         data() {
@@ -170,12 +173,13 @@
                   'department':this.$store.state.Users.userDetails.department,
                 'user_type':this.$store.state.Users.userDetails.user_type,
                 'hasError':true,
+                'refferalId':'',
+                'crossRefer':false,
                 'step4Data': {
                   'advice':'',
                   'adviceType': 'scribble',
                   'signaturePad':{},
                   'signaturePad2_src':'',
-                  'physio_details':'',
                   'provisional_diagnosis':'',
                   'follow_up':''
                 }
@@ -197,6 +201,31 @@
             
         },
         methods: {
+          setReferralId(refId){
+            this.refferalId = refId;
+          },
+          crossReferSave(){
+            let vm =this;
+            vm.crossRefer = true;
+            vm.$store.dispatch('saveStep4Data',_.cloneDeep(vm.step4Data));
+            let department = this.$store.state.Users.userDetails.department;
+            let doctor = this.$store.state.Users.userDetails.id;
+            
+            var oData = {
+              'opdData':this.$store.state.Patient.opdData,
+              'resultData':this.$store.state.Patient.opd_resultData,
+              'doctor':doctor,
+              'department':department,
+              'radioData':this.$store.state.Patient.radioData,
+              'laboratoryData':this.$store.state.Patient.laboratoryData,
+              'vascExaminationData':this.$store.state.Patient.vascExaminationData,
+              'neuroExaminationData':this.$store.state.Patient.neuroExaminationData,
+              'prescriptionData':this.$store.state.Patient.prescriptionData,
+              'step4Data':this.$store.state.Patient.step4Data,
+              'reffData':this.$store.state.Patient.refferelReportData
+            };
+            this.saveOpdData(oData);
+          },
           initData() {
             let vm =this;
             var oldData = _.cloneDeep(vm.$store.state.Patient.step4Data);
@@ -208,7 +237,9 @@
           },
            prev() {
               let vm =this;
+              vm.saveRefData();
               vm.$store.dispatch('saveStep4Data',vm.step4Data);
+
               vm.$root.$emit('prev');
           },
           setHistoryType(res,type){
@@ -318,16 +349,29 @@
                   $('#printContent').html('');
                   $('#printContent').html(all_data);  
                   $('#receiptPrintModal').on('hidden.bs.modal', function () {
-                    vm.$router.push({'name':'opd_form_thankyou'});
+                    vm.$router.push({'name':'opdreport'});
                   });
               }
               else
               {
-                  vm.$router.push({'name':'opd_form_thankyou'});
+                  vm.$router.push({'name':'opdreport'});
               }
           },
+          saveRefData(){
+            let vm =this;
+            _.find(this.$children, function(comp) {
+              if(comp.id == vm.refferalId) {
+                let referenceData = _.cloneDeep(comp.reffData);
+                vm.$store.dispatch('saveReferralReportData',referenceData);
+                   return false;
+              }
+            });
+          },
           saveOPDForm() {
+            // $("body .js-loader").removeClass('d-none');
+
                 let vm = this;
+                this.saveRefData(); 
                 this.$validator.validateAll().then(
                 (response) => {
                 if (!this.errors.any()) {
@@ -335,26 +379,23 @@
                           let department = this.$store.state.Users.userDetails.department;
                           let doctor = this.$store.state.Users.userDetails.id;
                           
-                          var oData = {'opdData':this.$store.state.Patient.opdData,'resultData':this.$store.state.Patient.opd_resultData,'doctor':doctor,'department':department,'radioData':this.$store.state.Patient.radioData,'laboratoryData':this.$store.state.Patient.laboratoryData,'vascExaminationData':this.$store.state.Patient.vascExaminationData,'neuroExaminationData':this.$store.state.Patient.neuroExaminationData,'prescriptionData':this.$store.state.Patient.prescriptionData,'step4Data':this.$store.state.Patient.step4Data,'reffData':this.$store.state.Patient.refferelReportData};
-                             User.generateAddOpdDetails(oData).then((response) => {
-                                 $("body .js-loader").addClass('d-none');
-                                 if(response.data.code == 200) {
-                                   //vm.$router.push({'name':'opd_form_thankyou'});
-                                    //toastr.success('OPD details saved successfully', 'OPD Report', {timeOut: 2000});
-                                    vm.modal_enabled='true';
-                                    vm.patient_opd_details=response.data.data;
-                                     $('#receiptAddModel').modal('show');
-                                  } else if(response.data.code == 300) {
-                                    toastr.error('Record not added.', 'Error', {timeOut: 5000});
-                                   //vm.$router.push({'name':'opd_form_thankyou'});
-
-                                  } else{
-                                   toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
-                                  }
-                                  // vm.$router.push({'name':'opd_form_thankyou'}); 
-                          },
-                          (error) => {toastr.error('Something goes wrong', 'Error', {timeOut: 5000});}
-                        );
+                          var oData = {
+                            'opdData':this.$store.state.Patient.opdData,
+                            'resultData':this.$store.state.Patient.opd_resultData,
+                            'doctor':doctor,
+                            'department':department,
+                            'radioData':this.$store.state.Patient.radioData,
+                            'laboratoryData':this.$store.state.Patient.laboratoryData,
+                            'vascExaminationData':this.$store.state.Patient.vascExaminationData,
+                            'neuroExaminationData':this.$store.state.Patient.neuroExaminationData,
+                            'prescriptionData':this.$store.state.Patient.prescriptionData,
+                            'step4Data':this.$store.state.Patient.step4Data,
+                            'crossRefer': this.crossRefer,
+                            'reffData':this.$store.state.Patient.refferelReportData
+                          };
+                          this.saveOpdData(oData);
+                        } else {
+                          toastr.error('Please enter all required fields.', 'Error', {timeOut: 5000});
                         }
                         },
                     (error) => {
@@ -362,6 +403,31 @@
                     )
 
                },
+               saveOpdData(oData){
+                let vm =this;
+                User.generateAddOpdDetails(oData).then((response) => {
+                    $("body .js-loader").addClass('d-none');
+                      if(response.data.code == 200) {
+                        if(vm.crossRefer == true){
+                            toastr.success('Record has been saved', 'Success', {timeOut: 5000});
+
+                        }
+                        vm.modal_enabled='true';
+                        let opd_id = response.data.data.opd_pr_id;
+                        vm.$store.dispatch('SetOpdId',opd_id);
+                        vm.patient_opd_details=response.data.data;
+                        $('#receiptAddModel').modal('show');
+                      } else if(response.data.code == 300) {
+                            toastr.error('Record not added.', 'Error', {timeOut: 5000});
+                           //vm.$router.push({'name':'opd_form_thankyou'});
+                          } else{
+                           toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
+                          }
+                          // vm.$router.push({'name':'opd_form_thankyou'}); 
+                  },
+                  (error) => {toastr.error('Something goes wrong', 'Error', {timeOut: 5000});}
+                );
+               }
         }
            
     }

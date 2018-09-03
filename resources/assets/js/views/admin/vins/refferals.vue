@@ -22,7 +22,8 @@
           <label for="internal">Cross Reference:</label>
         </div>
         <div class="col-md-12">
-          <select class="form-control ls-select2" name="cross" id="cross"  multiple="">
+          <select class="form-control ls-select2" name="cross" id="cross">
+            <option value="">Select</option>
             <option value="internal">Internal</option>
             <option value="external">External</option>
           </select>
@@ -117,12 +118,12 @@
             <label for="internal">Internal Reference:</label>
           </div>
           <div class="col-md-12">
-            <select class="form-control ls-select2" name="internal" id="internal" multiple="">
+            <select class="form-control ls-select2" name="internal" id="internal" >
               <option :value="doc.name" v-for="doc in doctorOption">{{doc.name}}</option>
             </select>
           </div>
         </div>
-        <div class="col-md-6" v-show="cross_external=='true'" multiple="">
+        <div class="col-md-6" v-show="cross_external=='true'">
           <div class="col-md-12">
             <label for="external">External Reference:</label>
           </div>
@@ -256,7 +257,7 @@
     import card from "./card.vue"
     import _ from 'lodash';
     export default {
-        name:'',
+        name:'referral',
         computed:{
 
         },
@@ -271,6 +272,7 @@
               'cross_external':'false',
               'cross_array':{},
               'cross':{},
+              'id':this._uid,
               'internal_array':{},
               'laboratory_array':{},
               'ref_cross_array':[],
@@ -419,6 +421,7 @@
                 'laboratory_report_opd_data':{},
                 'referral':'',
                 'laboratory':'',
+                'physio_details':'',
               }
             }
                
@@ -428,6 +431,7 @@
           $('.ls-select2').select2({
                   placeholder: "Select",
           });
+          vm.$root.$emit('setReferralId',this._uid)
                /*for laboratory data*/
             let labpratory_all_data=[];
             User.generateAllLaboratoryListByChild().then(
@@ -456,6 +460,9 @@
                vm.setRadioReferral();
               vm.reffData.referral=$(this).val();
               //vm.finalResultData = '';
+              if($(this).val() != 'physiotherapy') {
+                vm.reffData.physio_details = "";
+              }
               if($(this).val() == 'cross') {
                 setTimeout(function(){
                   $('#cross').select2({
@@ -474,19 +481,23 @@
             else if(this.id == 'cross'){
               var cross_array=$(this).val();
               vm.cross=cross_array;
-              if(cross_array.includes("internal"))
+               if(cross_array.includes("internal"))
               {
                   vm.cross_internal='true';
+                  vm.cross_external='false';
               }
               if(cross_array.includes("external"))
               {
                   vm.cross_external='true';
+                  vm.cross_internal='false';
               }
               
+              // vm.reffData.reffreal_cross_array =  vm.cross;
 
             }
             else if(this.id == 'internal'){
               var val_cross_array=$(this).val();
+              console.log('asd',$(this).val());
               vm.internal_array=val_cross_array;
             }
             else if(this.id == 'laboratory_report_opd'){
@@ -552,8 +563,6 @@
                               placeholder: "Select",
                               tags:false 
                             }); 
-                            
-
                     },500);
 
                    
@@ -660,7 +669,7 @@
                 let vm =this;
                 if(vm.reffData.referral=='cross')
                 {
-                    vm.saveCrossReport();
+                   vm.saveCrossReport();
                 }
                 if(vm.reffData.referral=='laboratory')
                 {
@@ -806,21 +815,22 @@
                 }
                 if(vm.internal_array.length>0)
                 {
+                  vm.ref_cross_array.push({'id':vm.ref_cross_array.length+1,'type':vm.reffData.referral,'subtype':'Internal','value':vm.internal_array});
 
-                   _.forEach(vm.internal_array, function(value, key) {
-                      let matches=_.some(vm.ref_cross_array,['value',value]);
-                      if(matches)
-                      {
-                          vm.setCrossReferral();
-                          toastr.error('This record already exist', 'Error', {timeOut: 5000});
-                          return false;
-                      }
-                      else
-                      {
-                        vm.ref_cross_array.push({'id':vm.ref_cross_array.length+1,'type':vm.reffData.referral,'subtype':'Internal','value':value});
-                      }
+                   // _.forEach(vm.internal_array, function(value, key) {
+                   //    let matches=_.some(vm.ref_cross_array,['value',value]);
+                   //    if(matches)
+                   //    {
+                   //        vm.setCrossReferral();
+                   //        toastr.error('This record already exist', 'Error', {timeOut: 5000});
+                   //        return false;
+                   //    }
+                   //    else
+                   //    {
+                   //      vm.ref_cross_array.push({'id':vm.ref_cross_array.length+1,'type':vm.reffData.referral,'subtype':'Internal','value':value});
+                   //    }
                       
-                    });
+                   //  });
                 }
                 if(vm.reffData.cross_type_ext)
                 {

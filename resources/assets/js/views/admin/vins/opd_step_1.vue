@@ -7,7 +7,9 @@
         </div>
       </div>
     </div>
-
+    <div class="row">
+      <step-progress-bar :curstep="curStep"></step-progress-bar>
+    </div>
     <form action="" method="post" enctype="multipart/formdata">
       <div v-if="curStep == 1">
         <div class="row form-group" v-show="patient_select_enable==true">
@@ -319,7 +321,9 @@
   import SignaturePad from 'signature_pad';
   import patientSearch from './patientSearchData.vue';
   import _ from 'lodash';
-    import card from "./card.vue"
+  import card from "./card.vue";
+  import stepProgressBar from './stepProgressBar.vue';
+
       var  medicine ;
       var  timeList ;
       var patient_list = [];
@@ -381,7 +385,8 @@
          card,
          patientSearch,
          OPDStep3,
-         OPDStep4
+         OPDStep4,
+         stepProgressBar
        },
         computed: {
           bmi_mod() {
@@ -404,18 +409,22 @@
         },
         
         mounted(){
-         
+         var vm =this;
+          if(vm.$store.state.Users.userDetails.user_type != '1'){
+              vm.$root.$emit('logout','You are not authorise to access this page'); 
+          }
           $('.ls-select2').select2({
             placeholder: "Select",
             tags:false 
           });
-         var vm =this;
-         let opd_list_new=[];
-           if(this.$store.state.Patient.patientId != ''){
-              vm.opdData.patientlist= this.$store.state.Patient.patientId;
+          let opd_list_new=[];
+           //if(this.$store.state.Patient.patientId != ''){
               vm.patient_id= this.$store.state.Patient.patientId;
-              $('#patient').val(vm.opdData.patientlist).trigger('change:select2');
-          }
+              vm.opdData.patientlist=vm.patient_id;
+             // $('#patient').val(vm.patient_id).trigger('change:select2');
+              vm.get_vitals();
+            
+         // }
           vm.$store.dispatch('resetOpdForm');
 
          /*for laboratory data*/
@@ -481,7 +490,7 @@
           {
               var vm =this;
               
-              //setInterval(function() {
+              setInterval(function() {
 
                  vm.getResults();
                 // $('#patient').select2('destroy');
@@ -490,7 +499,8 @@
                     tags:false 
                   });
 
-              //}, 8000);
+              }, 8000);
+
             },
           getResults(patient_list_new) {
             var vm =this;
@@ -554,8 +564,8 @@
           {
               let vm =this;
               vm.opdData.last_vist="";
-              vm.opdData.patientlist="";
-              vm.patient_id="";
+             vm.opdData.patientlist="";
+             vm.patient_id="";
               vm.opdData.uhid_no="";
               vm.opdData.weight="";
               vm.opdData.height="";
@@ -638,8 +648,6 @@
                       },
                 );
 
-                
-
               User.getVitalsInfoByPatientId(vm.opdData.patientlist).then(
               (response) => {
                 let vitals_data=response.data.data;
@@ -699,18 +707,22 @@
           },
           next() {
             let vm =this;
-                //this.$validator.validateAll().then(
-                //(response) => {
+                this.$validator.validateAll().then(
+                (response) => {
                 
                   if (!this.errors.any()) {
                       vm.curStep = vm.curStep+1;
                       vm.$store.dispatch('setOpdData',vm.opdData);
                       vm.$store.dispatch('setResData',vm.finalResultData);
+                  } else {
+                     toastr.error('Please enter all required fields.', 'Error', {timeOut: 5000});
                   }
-               //},
-               //(error) => {
-                //}
-              //)
+               },
+               (error) => {
+                 
+
+                }
+              )
             
           },
           initLastData(){

@@ -178,7 +178,7 @@
                     </div>
                     <div class="col-md-6">
                       <div class=" input-group">
-                      <input type="text" name="temp" id="temp" class="form-control number-with-validation"  v-model="patientData.temp" v-validate="'required|numeric|min_value:1|max_value:999'"  :disabled="non_editable_vitals=='true'">
+                      <input type="text" name="temp" id="temp" class="form-control number-with-validation"  v-model="patientData.temp" v-validate="'decimal:1|required|min_value:1||max_value:999'"  :disabled="non_editable_vitals=='true'">
                         <div class="input-group-append">
                             <span class="input-group-text ">°F</span>
                         </div><br>
@@ -250,10 +250,10 @@
          patientSearch,
        },
          mounted(){
+            let vm =this;
               if(vm.$store.state.Users.userDetails.user_type != '2'){
                 vm.$root.$emit('logout','You are not authorise to access this page'); 
               }
-         	  	let vm =this;
          	  	 let opd_list_new=[];
          	  	 $('.ls-select2').select2({
 		            placeholder: "Select",
@@ -555,16 +555,14 @@
 			                		
 			                	 toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
 			                	 }	
-			                	  $("body .js-loader").addClass('d-none');
-			                	  window.location.reload(); 
-			                	  //vm.patientEmpty();
-			                	 
-				    			},
-			                	  (error) => {
-                            
-			                	 $("body .js-loader").addClass('d-none');
-
-			               		 }
+                          setTimeout(function(){
+                            $("body .js-loader").addClass('d-none');
+                            window.location.reload(); 
+                          },1500)
+	       			    			},
+		                	  (error) => {
+                          $("body .js-loader").addClass('d-none');
+		               		  }
 			               )
 			    	}
 			    },

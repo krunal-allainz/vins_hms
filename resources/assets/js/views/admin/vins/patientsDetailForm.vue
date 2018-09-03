@@ -175,7 +175,7 @@
                      </label>
                     </div>
                     <div class="col-md-6">
-						<date-picker  :date.sync="patientData.appointment_datetime" :option="timeoption" id = "appointment_datetime" class="" type="datetime" name="appointment_datetime"   v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" :limit="limit2"   :disabledDates="disabledDates"></date-picker> 
+						<date-picker  :date.sync="patientData.appointment_datetime" :option="timeoption" id = "appointment_datetime" class="" type="datetime" name="appointment_datetime"   v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" :limit="limit2"   :disabledDates="disabledDates" @change="checkAppomentData()" ></date-picker> 
 						<i v-show="errors.has('appointment_datetime')" class="fa fa-warning"></i>
 						<span class="help is-danger" v-show="errors.has('appointment_datetime')">
 	            			Please enter valid appointment datetime.
@@ -214,20 +214,23 @@
 			        	<label for="case_type">Token No:</label>
 			        </div>
 			        <div class="col-md-6 ">
-			        	<input class="form-control" type="text" id="token_no" name="token_no" value="" v-model="patientData.token_no"  @change=" checkExistingToken()"  />
+			        	<input class="form-control" type="text" id="token_no" name="token_no" value="" v-model="patientData.token_no"  @change=" checkExistingToken()"  v-validate="'required'"/>
 			        </div>
 			        <i v-show="errors.has('token_no')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-if="(patientData.token_validation != 0)">
 		            			Please enter another token number it's already exist.
 		            		</span>
+		            		<span class="help is-danger" v-show="errors.has('token_no')">
+		              		Please enter token no.
+		            	</span>
 		        </div>
             	<div class="col-md-6" >
 			        	<div class="col-md-6 ">
 			            	<label for="token_status">Token Status:</label>
 			          	</div>
 		          	<div class="col-md-6">
-		            	<select  class="form-control ls-select2" v-validate="'required'" id = "token_status" name="token_status" value="" v-model="patientData.token_status">
-		              		<option value="waiting" selected="selected">waiting</option>
+		            	<select  class="form-control ls-select2" v-validate="'required'" id ="token_status" name="token_status" >
+		            		<option value="waiting" selected="selected">waiting</option>
 		              		<option value="pending">pending</option>
 		            	</select>
 		          	</div>
@@ -363,7 +366,7 @@
                 	'patient_id':'',
                 	'case_type' : '',
                 	'token_no' : '',
-                	'token_status' : '',
+                	'token_status' : 'waiting',
                 	'token_validation' : 0
                 }
             }
@@ -382,25 +385,26 @@
 					placeholder: "Select",
 					tags: false,
 				});
-
-
-				// var enabledHours = [];
-				// var dt = new Date();
-				// var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
-				//  $("#appointment_datetime").on("change",function(e){
-    //             var currentTime = new Date();
-    //             var userTime = $("#appointment_datetime").val().split(":"); 
-    //             if(currentTime.getHours() > parseInt(userTime[0])){
-    //                 alert("To old value");
-    //                 $(this).focus();                
-    //             }
-    //             if(currentTime.getHours() <= parseInt(userTime[0])){
-    //                 if(currentTime.getMinutes() > parseInt(userTime[1])){
-    //                     alert("To old value");
-    //                 $(this).focus();
-    //                 }
-    //             }
-    //         });
+				if(vm.patientData.token_validation != 0){
+	  				vm.patientData.token_no = '';
+	  			}
+				var enabledHours = [];
+				var dt = new Date();
+				var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+				 // $("#appointment_datetime").on("change",function(e){ alert('test');
+     //            		var currentTime = new Date();
+     //            		var userTime = $("#appointment_datetime").val().split(":"); 
+     //            		if(currentTime.getHours() > parseInt(userTime[0])){
+     //               		 alert("To old value");
+     //                		$(this).focus();                
+     //            }
+     //            if(currentTime.getHours() <= parseInt(userTime[0])){
+     //                if(currentTime.getMinutes() > parseInt(userTime[1])){
+     //                    alert("To old value");
+     //                $(this).focus();
+     //                }
+     //            }
+     //        });
 				vm.patientData.type = 'opd';
 
 	          	$('.ls-select2').on("select2:select", function (e) {
@@ -424,8 +428,10 @@
 		             	vm.patientData.token_status = $(this).val();		
 		             }
 
-		             else{
+		             else if(this.id == 'consulting_dr'){
 		             	vm.patientData.consulting_dr = $(this).val();			
+		             }else{
+
 		             }
 				});
 
@@ -449,7 +455,22 @@
         	this.$root.$on('patientEmpty',this.patientEmpty);
         },
         methods: {
-        	
+        	checkAppomentData(){
+        		let vm = this;
+        		let appointmentDate = vm.patientData.appointment_datetime.time.split(" ");
+        		var currentTime = new Date();
+        		var userTime = appointmentDate[2].split(":");
+               		// if(currentTime.getHours() > parseInt(userTime[0])){
+                 //   		 alert("Please select valide time.");
+                 //    		$(this).focus();                
+                	// }
+                	// if(currentTime.getHours() <= parseInt(userTime[0])){
+                 //   		 if(currentTime.getMinutes() > parseInt(userTime[1])){
+                 //       		 alert("Please select valide time.");
+                 //    		$(this).focus();
+                 //   		 }
+               		//  }
+        	},
         	compairNumbers(){ 
         		
         		if(this.patientData.ph_no == this.patientData.mob_no){
@@ -490,11 +511,18 @@
 		      	User.getExistingToken(vm.patientData.token_no).then(
 	  				(response) => {
 	  					vm.patientData.token_validation = response.data;
+	  					if(vm.patientData.token_validation > 0){
+	  					 	vm.patientData.token_no = '';
+	  					}
 	  				},
 	  				(error)=>{
 
 	  				}
   				);
+  				if(vm.patientData.token_validation > 0){
+	  					 	vm.patientData.token_no = '';
+	  			}
+	  			return vm.patientData.token_no;
 		      },
 		      getAgeFromYear(year){
 				
