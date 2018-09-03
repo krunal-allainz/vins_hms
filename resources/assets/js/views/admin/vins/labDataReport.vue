@@ -1,6 +1,35 @@
 <template>
-	<div>
+	<div>	
+
 	<div v-show="(printType == 'lab' && labReferalData.length > 0)">
+		<div class='row'>
+			<div class='col-md-12 text-center'>
+				<h5>Lab Report</h5>
+			</div>
+		</div>
+		 <div class="form-group" >
+			<div class="col-md-12">
+				<div class="">
+					<table class="table table-striped table-bordered" id="laboratory_table_list">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Name</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr :id="res.id" v-for="(res,index) in labReferalData">
+							<td>{{++index}}</td> 
+							<td>{{res.name}}</td>		
+						</tr>
+					</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	{{checkedreportList}}
+	<div v-for="reportName in checkedreportList" v-show="(reportName == 'Laboratory')">
 		<div class='row'>
 			<div class='col-md-12 text-center'>
 				<h5>Lab Report</h5>

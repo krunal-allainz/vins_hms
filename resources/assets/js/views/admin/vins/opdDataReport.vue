@@ -13,8 +13,9 @@
 		</div>
 
 		<div v-for="reportName in checkedreportList" v-show="(reportName == 'Laboratory')" >
+			
 				<!-- lab referal data start -->
-			 	<labDataReport :labReferalData="ReportPageData.labReferalReportData"  :printType="printType"></labDataReport>
+			 	<labDataReport :labReferalData="ReportPageData.labReferalReportData"  :printType="printType"></labDataReport :checkedreportList="checkedreportList">
 			 	<!-- lab referal data end -->
 		</div>
 
