@@ -517,7 +517,7 @@
         }
             $reportQuery->whereDate('patient_case_managment.appointment_datetime',Carbon::today()->format('Y-m-d'))->with('userDetails');
          $reportQuery->select('*','token_managment.token as token_id')->groupBy('patient_case_managment.patient_id')->orderBy('patient_case_managment.created_at','desc');
-         
+
          return  $reportQuery->paginate($noOfRecord);
     // return PatientDetailsForm::where('consultant_id',$id)->paginate($noOfRecord);
      
@@ -642,7 +642,7 @@
     }
 
     public function getPatientCaseDetailByOpdId($opdId){ 
-      $result = PatientCaseManagment::where('section_id',$opdId)->orderBy('id')->first();
+      $result = PatientCaseManagment::where('section_id',$opdId)->orderBy('id','DESC')->first();
        return $result;
     }
 
