@@ -503,7 +503,7 @@
       $reportQuery->join('token_managment', function ($join1) {
                   $join1->on('token_managment.patient_case_id', '=', 'patient_case_managment.id');
         });
-        if($user_id == 1)
+        if($user_type == 1)
         {
            $reportQuery->where('patient_case_managment.consultant_id',$user_id)->whereIn('token_managment.status',['waiting','vital']);
         } 
@@ -517,6 +517,7 @@
         }
             $reportQuery->whereDate('patient_case_managment.appointment_datetime',Carbon::today()->format('Y-m-d'))->with('userDetails');
          $reportQuery->select('*','token_managment.token as token_id')->groupBy('patient_case_managment.patient_id')->orderBy('patient_case_managment.created_at','desc');
+         
          return  $reportQuery->paginate($noOfRecord);
     // return PatientDetailsForm::where('consultant_id',$id)->paginate($noOfRecord);
      
