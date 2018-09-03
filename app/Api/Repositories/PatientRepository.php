@@ -503,7 +503,7 @@
       $reportQuery->join('token_managment', function ($join1) {
                   $join1->on('token_managment.patient_case_id', '=', 'patient_case_managment.id');
         });
-        if($user_id == 1)
+        if($user_type == 1)
         {
            $reportQuery->where('patient_case_managment.consultant_id',$user_id)->whereIn('token_managment.status',['waiting','vital']);
         } 
