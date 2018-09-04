@@ -1,4 +1,4 @@
-	@if(isset($data['ReportPageData']['labReportData'])){
+	@if(isset($data['ReportPageData']['labReportData']))
 		<div class='row'>
 			<div class='col-md-12 text-center'>
 				<h5>Investigation Lab Report</h5>
@@ -15,12 +15,12 @@
                         </tr>
                         </thead>
                         <tbody>
-                    @if($data['ReportPageData']['labReportData']){
+                    @if($data['ReportPageData']['labReportData'])
                        	@foreach($data['ReportPageData']['labReportData'] as 
                        	$index=>$res)
                          <tr class="text-center">
                             <td>{{++$index}}</td> 
-                            <td>{{$res['name'] }}</td>
+                            <td>{{$res['name']}}</td>
                           </tr>
 						 @endforeach
 					@endif

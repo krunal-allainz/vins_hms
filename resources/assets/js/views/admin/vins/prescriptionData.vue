@@ -53,7 +53,7 @@
                     <option value="">Select</option>
                     <option v-for="qhrsop in qhrsOption"  :value="qhrsop.id">{{qhrsop.text}}</option>
                   </select>
-                </div>
+                </div> 
               </div>
                <div class="col-md-6">
                   <div class="col-md-12">
@@ -69,6 +69,7 @@
                   </div>
                 </div>
           </div>
+
           <div v-if="prespFinalRes.length>0" :id="'presp_div_'+index" v-for="(presp, index) in prespFinalRes">
            <div class="row form-group" >
                 <div class="col-md-3">
@@ -92,7 +93,7 @@
                     <input type="text"  v-validate="'required|numeric'" v-model="presp.clock_quantity" :name="'presp_clock_quantity'+index" id="presp_clock_quantity_id" class="form-control clock_quantity">
                   </div>
                 </div>
-               
+
             </div>
           </div>
             <div class="row">
@@ -682,21 +683,25 @@
                           
                             vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_2 = res.timing; 
                             vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_2 = res.quantity; 
-                             //vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_2 = res.clock_suggest; 
+
+                            // vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_2 = res.clock_suggest; 
+
                         }
                         if(i==2)
                         {
                           
                             vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_3 = res.timing; 
-                            vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_3 = res.quantity; 
+                            vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_3 = res.quantity;
                              //vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_3 = res.clock_suggest; 
+
                         }
                         if(i==3)
                         {
                           
                             vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_4 = res.timing; 
-                            vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_4 = res.quantity; 
+                            vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_4 = res.quantity;
                              //vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_4 = res.clock_suggest; 
+
                         }
                         i++;
                     }

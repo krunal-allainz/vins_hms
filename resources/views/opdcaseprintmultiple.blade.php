@@ -371,7 +371,6 @@
 			@include('historyReportData')
 		 
 		@elseif($checkout=='Past History')
-			
 				@include('pastHistoryReportdata')
 		@endif
 	@endif
