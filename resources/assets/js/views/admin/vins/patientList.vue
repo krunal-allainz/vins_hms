@@ -311,8 +311,7 @@
             vm.patientId = patientInfo;
 
             User.getPatientDetailInfo(vm.patientId).then(
-              (response) => {
-                console.log(response.data);
+              (response) => { 
                 if(response.data.code == 200){
                    this.patientDetailInfo = response.data.data;
                  }else{

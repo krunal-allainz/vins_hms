@@ -10,114 +10,33 @@
             </button>
         </div>
         <div class="modal-body">
-           
-            <div data-v-744e717e="" class="table-responsive">
-                    <table data-v-744e717e="" class="table">
-                        <thead>
-                            <tr v-if="(showPatientDetail.patientDetail != null)">
-                                <th>{{showPatientDetail.patientDetail.first_name}}    {{showPatientDetail.patientDetail.middle_name}}  {{showPatientDetail.patientDetail.last_name}} </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-if="(showPatientDetail.patientDetail != null)">
-                                <td v-if="(showPatientDetail.patientDetail.gender != null)">
-                                    <b>Gender : </b>
-                                    <span v-if="(showPatientDetail.patientDetail.gender == 'F')">Female</span>
-                                     <span v-if="(showPatientDetail.patientDetail.gender == 'M')">Male</span>
-                                </td>
-                                <td v-if="(showPatientDetail.patientDetail.uhid_no != null)">
-                                   <b>UHID No :</b> 
-                                   <span>{{showPatientDetail.patientDetail.uhid_no}}</span>
-                                </td>
-                            </tr>
-                            <tr v-if="(showPatientDetail.opdDetails != null)">
-                                <td>
-                                    <table>
-                                        <thead>
-                                            <tr><th>Opd Detail </th></tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr  v-for="patineOpd in showPatientDetail.opdDetails">
-                                                <td v-if="(patineOpd.advice != null)">
-                                                    <div >
-                                                      <div v-if ="(patineOpd.advice.type == 'text')">
-                                                        <span class='text-left' style="padding-left:30px;"> {{patineOpd.advice}}</span>
-                                                      </div>
-                                                    </div>
-                                                    <div v-if="(patineOpd.advice.type !== 'text' && patineOpd.advice.value != '')">
-                                    
-                                                    <div >
-                                                     <div  v-if ="(patineOpd.advice.type != 'text')">
-                                                       {{patineOpd.advice.value}}  <img :src="patineOpd.advice.value" title="Advice">
-                                                        </div>  
-                                                    </div>
-                                                   </div>
-            
-                                                </td>
-                                                <td>&nbsp;&nbsp;</td>
-                                                <td v-if="(patineOpd.history != null)">
-                                                     <div class='row'>
-                                                      <div class='col-md-12 text-left' v-if ="(patineOpd.history.type == 'text')">
-                                                        <span class='text-left' style="padding-left:30px;"> {{patineOpd.history}}</span>
-                                                      </div>
-                                                    </div>
-                                                    <div v-if="(patineOpd.history.type !== 'text' && patineOpd.history.value != '')">
-                                    
-                                                    <div class='row'>
-                                                     <div class='col-md-12 text-left' v-if ="(patineOpd.history.type != 'text')">
-                                                         <img :src="patineOpd.history.value" title="History">
-                                                        </div>  
-                                                    </div>
-                                                   </div>
-            
-                                                </td>
-                                                <td>&nbsp;&nbsp;</td>
-                                                <td v-if="(patineOpd.past_history != null)">
-                                                     <div class='row'>
-                                                      <div class='col-md-12 text-left' v-if ="(patineOpd.past_history.type == 'text')">
-                                                        <span class='text-left' style="padding-left:30px;"> {{patineOpd.past_history}}</span>
-                                                      </div>
-                                                    </div>
-                                                    <div v-if="(patineOpd.past_history.type !== 'text' && patineOpd.past_history.value != '')">
-                                    
-                                                    <div class='row'>
-                                                     <div class='col-md-12 text-left' v-if ="(patineOpd.past_history.type != 'text')">
-                                                         <img :src="patineOpd.past_history.value" title="Past History">
-                                                        </div>  
-                                                    </div>
-                                                   </div>
-            
-
-
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr v-if="(showPatientDetail.caseDetail != null)">
-                                <td>
-                                    <table>
-                                        <thead>
-                                            <tr><th>Case Detail</th></tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-for="patineCase in showPatientDetail.caseDetail">
-                                                <td>{{patineCase.case_type}}</td>
-                                                <td>&nbsp;&nbsp;</td>
-                                                <td>{{patineCase.created_at}}</td>
-                                                <td></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+             <div id="accordion">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                      <h5 class="mb-0">
+                        <button class="btn btn-link mt-0" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                           Personal  Info
+                        </button>
+                      </h5>
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                        <patientDetailView :patientinfo="showPatientDetail.patientDetail"></patientDetailView>
+                        </div>
+                    </div>
+                      <h5 class="mb-0">
+                        <button class="btn btn-link mt-0" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                           OPD Details
+                         </button>
+                     </h5>
+                     <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                       <patientOPDDetailInfo :patientOPDDetail="showPatientDetail.opdDetails"></patientOPDDetailInfo>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-
         </div>
+        </div>  
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
@@ -126,8 +45,14 @@
     </div>
 </template>
 <script>
+    import patientDetailView from './patientDetailView.vue';
+    import patientOPDDetailInfo from './patientOPDDetailInfo.vue';
      export default {
         props: ['showPatientDetail'],
+          components: {
+            patientDetailView,
+            patientOPDDetailInfo
+          }
     }
 
 </script>

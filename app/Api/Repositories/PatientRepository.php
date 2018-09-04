@@ -532,8 +532,8 @@
 
           $result = array();
           $result['patientDetail'] =  PatientDetailsForm::where('id',$patientId)->first();
-          $result['opdDetails'] = OpdDetails::where('patient_id',$patientId)->get();
-          $result['tokenDetail'] = TokenManagment::where('patient_id',$patientId)->get();
+          $result['opdDetails'] = OpdDetails::join('patient_case_managment','patient_case_managment.section_id','=','opd_details.opd_id')->where('opd_details.patient_id',$patientId)->get();
+          // $result['tokenDetail'] = TokenManagment::where('patient_id',$patientId)->get();
           $result['caseDetail'] = PatientCaseManagment::where('patient_id',$patientId)->get();
 
           return $result;
