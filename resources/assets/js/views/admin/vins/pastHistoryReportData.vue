@@ -7,7 +7,7 @@
 			</div>
 			<div class='row'>
 				<div class='col-md-12 text-left' v-if ="(past_history.type == 'text')">
-					<span class='text-left' style="padding-left:30px;"> {{past_history}}</span>
+					<span class='text-left' style="padding-left:30px;"> {{past_history.value}}</span>
 				</div>
 			</div>
 		</div> 

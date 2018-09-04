@@ -85,8 +85,24 @@
             }
            $newPatNo = sprintf("%04d",$lastPatientId);
            $insertedPatientId=$uhid.$year.$newPatNo;
+           if($data['uhid_no']!="")
+           {
+              $uhid_no=$data['uhid_no'];
+           }
+           else
+           {
+              $uhid_no=$insertedPatientId;
+           }
+
 			/*for patient details start*/
-			$patientData->uhid_no=$insertedPatientId;
+
+      $check_uhid_no=$this->checkUHIDUnique($uhid_no);
+      if($check_uhid_no>0)
+      {
+           return ['code' => '301','data'=>'', 'message' => 'UHID No. already exist.'];
+      }
+          
+			$patientData->uhid_no=$uhid_no;
 			$patientData->created_at=Carbon::now();
 		    $patientData->updated_at=Carbon::now();
 			$patientData->save();
@@ -253,12 +269,12 @@
                 if ($caseData) {
                     return ['code' => '200','data'=>['patientId'=> $patientId,'ipdId' => $caseData->id,'uhid_no'=>$patientData->uhid_no], 'message' => 'Record Sucessfully created'];
                 } else {
-                    return ['code' => '400','data'=>'', 'message' => 'Something goes wrong'];
+                    return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
                 }
             }
             
         }
-        return ['code' => '400','data'=>'', 'message' => 'Something goes wrong'];
+        return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
  	}
 
 	/**
@@ -621,6 +637,18 @@
             return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
         }
     }
+
+    /**
+     * [checkUHIDUnique description]
+     * @param  [type] $no [description]
+     * @return [type]     [description]
+     */
+    public function checkUHIDUnique($no)
+    {
+         $result = PatientDetailsForm::where('uhid_no',$no)->get();
+          return count($result);
+    }
+
 
     /**
      * [getVitalsValidity description]

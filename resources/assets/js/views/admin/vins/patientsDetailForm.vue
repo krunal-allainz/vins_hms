@@ -26,6 +26,18 @@
 		            	</span>
 		          	</div>
 		        </div>
+		        <div class="col-md-6">
+	      				<div class="col-md-6">
+	                    	<label for="uhid_no" class="control-label">UHID No : </label>
+	                	</div>
+		                <div class="col-md-6">
+							<input class="form-control" type = "text" v-validate="'required'" id = "uhid_no" name="uhid_no" value=""  v-model="patientData.uhid_no" :readonly="patientData.case == 'old'"/>
+							<i v-show="errors.has('uhid_no')" class="fa fa-warning"></i>
+							<span class="help is-danger" v-show="errors.has('uhid_no')"> 
+								Please enter UHID No.
+			              	</span>
+		                </div>
+		            </div>
 
 				<!-- <div class="col-md-6">
 			    	<div class="col-md-6">
@@ -367,7 +379,8 @@
                 	'case_type' : '',
                 	'token_no' : '',
                 	'token_status' : 'waiting',
-                	'token_validation' : 0
+                	'token_validation' : 0,
+                	'uhid_no':''
                 }
             }
         },
@@ -550,6 +563,7 @@
             		}
         			this.patientData.patient_id=pDetails.id;
         			this.patientData.fname = pDetails.first_name;
+        			this.patientData.uhid_no = pDetails.uhid_no;
             		this.patientData.mname = pDetails.middle_name;
             		this.patientData.lname = pDetails.last_name;
             		this.patientData.ph_no = pDetails.ph_no;
@@ -685,6 +699,7 @@
 		    initPatientData(){
 		    	var vm = this;
 		    	vm.patientData.patient_id = '';
+		    	vm.patientData.uhid_no = '';
 		    	vm.patientData.fname = '';
 		    	vm.patientData.mname = '';
 		    	vm.patientData.lname = '';
@@ -723,7 +738,11 @@
 		    					localStorage.setItem("Status",1)
     							window.location.reload(); 
     							//this.$router.go();
-		                	} else if(response.data.code == 300) {
+		                	} 
+		                	else if(response.data.code == 301) {
+		                		toastr.error(response.data.message, 'Error', {timeOut: 5000});
+		                	} 
+		                	else if(response.data.code == 300) {
 		                		toastr.error('Something goes wrong.', 'Error', {timeOut: 5000});
 		                	} else{
 		                		
