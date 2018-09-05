@@ -203,6 +203,7 @@
 					'patientCheckupDetail' : this.patientCheckupDetail,
 					'department' : this.department,
 					'doctoreName' : this.doctoreName,
+					'reference' : this.reference
 				};
 
 		      	User.printOPDCaseMultipleData(OPDCaseData).then(	
@@ -374,7 +375,8 @@
 							'patientDetail' : this.patientDetail,
 							'patientCheckupDetail' : this.patientCheckupDetail,
 							'department' : this.department,
-							'doctoreName' : this.doctoreName
+							'doctoreName' : this.doctoreName,
+							'reference' : this.reference
 						};
 
 				      	User.printOPDCaseData(OPDCaseData).then(	

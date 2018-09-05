@@ -49,6 +49,7 @@
     import patientOPDDetailInfo from './patientOPDDetailInfo.vue';
      export default {
         props: ['showPatientDetail'],
+      
           components: {
             patientDetailView,
             patientOPDDetailInfo

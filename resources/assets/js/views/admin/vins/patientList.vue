@@ -66,7 +66,7 @@
                       </td>
                       <td data-v-744e717e="" class="" v-if="user_type == 1">
                       <a :href="'/opd_form'"> <i class="fa fa-user-md text-info mr-3 text-info mr-3" @click="setPatientId(patientData.patient_id)" title="opd form"></i></a>
-                       <!-- <i class="fa fa-eye text-info mr-3 text-info mr-3"  data-toggle="modal" data-target="#patientDetailModal" @click="getPatientInfo(patientData.patient_id)" ></i> -->
+                       <i class="fa fa-eye text-info mr-3 text-info mr-3"  data-toggle="modal" data-target="#patientDetailModal" @click="getPatientInfo(patientData.patient_id)" ></i> 
                         <patientDetailInfo ref="modal" :showPatientDetail="patientDetailInfo"></patientDetailInfo>
                       </td>
                     </tr>
@@ -211,7 +211,11 @@
                 'pendingPagination': {},
                 'perPage' : 5,
                 'patientId' :'',
-                'patientDetailInfo' : {},
+                'patientDetailInfo' : {
+                  'patientDetail' : '',
+                  'opdDetails' : '',
+                },
+
                 'doctore_Id' : this.$store.state.Users.userDetails.id,
                 'user_type':this.$store.state.Users.userDetails.user_type,
             }
@@ -313,7 +317,25 @@
             User.getPatientDetailInfo(vm.patientId).then(
               (response) => { 
                 if(response.data.code == 200){
-                   this.patientDetailInfo = response.data.data;
+                   this.patientDetailInfo.patientDetail = response.data.data.patientDetail;
+                   var opdDetailList = [];
+                    $.each(response.data.data.opdDetails, function(key, value) {
+                      console.log(value);
+                      let advice = JSON.parse(value.advice);
+                      let history  = JSON.parse(value.history) ;
+                      let past_history  = JSON.parse(value.past_history) ;
+                      let followup = value.follow_up;
+                      let provisonal_daignostic = value.provisional_diagnosis;
+                      opdDetailList.push({
+                          advice:advice,
+                          history:history,
+                          past_history:past_history,
+                          followup :followup,
+                          provisonal_daignostic : provisonal_daignostic
+                        });
+                    });
+                     this.patientDetailInfo.opdDetails = opdDetailList;
+
                  }else{
                     toastr.error('Record not found', 'Error', {timeOut: 5000});
                  }

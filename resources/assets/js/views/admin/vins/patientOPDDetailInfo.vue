@@ -10,7 +10,7 @@
             <tbody>
             	<tr  v-for="patineOpd in patientOPDDetail">
                 	<td v-if="(patineOpd.advice != null)">
-                    	<div>
+                    	<div> {{json_encode(patineOpd.advice)}}
                         	<div v-if ="(patineOpd.advice.type == 'text')">
                             	<span class='text-left' style="padding-left:30px;"> {{patineOpd.advice}}</span>
 							</div>
@@ -18,7 +18,7 @@
                         <div v-if="(patineOpd.advice.type !== 'text' && patineOpd.advice.value != '')">
 							<div>
 								<div  v-if ="(patineOpd.advice.type != 'text')">
-                            		{{patineOpd.advice.value}}  <img :src="patineOpd.advice.value" title="Advice">
+                            		{{patineOpd.advice.value}}} <img :src="patineOpd.advice.value" title="Advice">
                             	</div>  
                         	</div>
                     	</div>

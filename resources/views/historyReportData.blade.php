@@ -2,7 +2,7 @@
 	@if($data['ReportPageData']['historyData']['type'] == 'text' )	
 		<div  style="padding-left: 35px;">
 			<div class='col-md-6 text-left'>
-				<span class='text-left'><b>Hisotory :-</b></span>
+				<span class='text-left'><b>History :-</b></span>
 			</div>
 			<div class='row'>
 				@if ($data['ReportPageData']['historyData']['type'] == 'text')
