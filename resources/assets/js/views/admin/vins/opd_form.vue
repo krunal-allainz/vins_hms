@@ -86,7 +86,7 @@
                 <label for="date">Weight:</label>
               </div>
               <div class="col-md-6">
-                <input type="text" name="weight" id="weight" class="form-control" v-model="opdData.weight"  placeholder="In kgs"   v-validate="'required|numeric|min_value:1'">
+                <input type="text" name="weight" id="weight" class="form-control" v-model="opdData.weight"  placeholder="In kgs"   v-validate="'decimal:1|required|min_value:1||max_value:999'">
                   <i v-show="errors.has('weight')" class="fa fa-warning"></i> 
                   <span class="help is-danger" v-show="errors.has('weight')"> 
                     Please enter valid weight.</span>

@@ -3,21 +3,63 @@
 <table>
 	<tr>
 		<td><label><b>PULSE -</b></label>
-			{{$data['patientCheckupDetail']['pulse']}}</td>
+			@if($data['patientCheckupDetail']['pulse'] != '')
+				{{$data['patientCheckupDetail']['pulse']}}
+			@else
+			N/A
+			@endif
+			
+		</td>
 		<td><label><b>TEMP -</b></label>
-				{{$data['patientCheckupDetail']['temp']}}</td>
+			@if($data['patientCheckupDetail']['temp'] != '')
+			{{$data['patientCheckupDetail']['temp']}}
+			@else
+			N/A
+			@endif
+		
+				</td>
 		<td><label><b>BP -</b></label>
-				{{$data['patientCheckupDetail']['bp']}}</td>
+			@if($data['patientCheckupDetail']['bp'] != '/')
+				{{$data['patientCheckupDetail']['bp']}}
+			@else
+			N/A
+			@endif
+			
+				</td>
 		<td><label><b>RESP/SPO2 -</b></label>
-				{{$data['patientCheckupDetail']['vitals']}}</td>
+			@if($data['patientCheckupDetail']['vitals'] != '')
+			{{$data['patientCheckupDetail']['vitals']}}
+			@else
+			N/A
+			@endif
+			
+				</td>
 	</tr>
 	<tr>
 		<td><label><b>HEIGHT -</b></label>
-					{{$data['patientCheckupDetail']['height']}}</td>
+			@if($data['patientCheckupDetail']['height'] != '')
+				{{$data['patientCheckupDetail']['height']}}
+			@else
+			N/A
+			@endif
+			
+					</td>
 		<td><label><b>WEIGHT -</b></label>
-					{{$data['patientCheckupDetail']['weight']}}</td>
+			@if($data['patientCheckupDetail']['weight'] != '')
+				{{$data['patientCheckupDetail']['weight']}}
+			@else
+			N/A
+			@endif
+			
+					</td>
 		<td><label><b>BMI -</b></label>
-				{{$data['patientCheckupDetail']['bmi']}}</td>
+			@if($data['patientCheckupDetail']['bmi'] != '')
+			{{$data['patientCheckupDetail']['bmi']}}
+			@else
+			N/A
+			@endif
+			
+				</td>
 	</tr>
 	<tr>
 		<td class="col-md-3 text-left"><label>PAIN ASSESSMENT</label></td>

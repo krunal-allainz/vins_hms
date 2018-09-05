@@ -533,7 +533,7 @@
         }
             $reportQuery->whereDate('patient_case_managment.appointment_datetime',Carbon::today()->format('Y-m-d'))->with('userDetails');
          $reportQuery->select('*','token_managment.token as token_id')->groupBy('patient_case_managment.patient_id')->orderBy('patient_case_managment.created_at','desc');
-         
+
          return  $reportQuery->paginate($noOfRecord);
     // return PatientDetailsForm::where('consultant_id',$id)->paginate($noOfRecord);
      
@@ -548,9 +548,10 @@
 
           $result = array();
           $result['patientDetail'] =  PatientDetailsForm::where('id',$patientId)->first();
-          $result['opdDetails'] = OpdDetails::where('patient_id',$patientId)->get();
-          $result['tokenDetail'] = TokenManagment::where('patient_id',$patientId)->get();
+          $result['opdDetails'] = OpdDetails::join('patient_case_managment','patient_case_managment.section_id','=','opd_details.opd_id')->where('opd_details.patient_id',$patientId)->get();
+          // $result['tokenDetail'] = TokenManagment::where('patient_id',$patientId)->get();
           $result['caseDetail'] = PatientCaseManagment::where('patient_id',$patientId)->get();
+
           return $result;
     }
 
@@ -670,12 +671,18 @@
     }
 
     public function getPatientCaseDetailByOpdId($opdId){ 
-      $result = PatientCaseManagment::where('section_id',$opdId)->orderBy('id')->first();
+      $result = PatientCaseManagment::where('section_id',$opdId)->orderBy('id','DESC')->first();
        return $result;
     }
 
     public function movePatientWithNewReferal(){
       return 0;
+    }
+
+    public function getAgeOfPatient($patientId){
+       $result = PatientDetailsForm::where('id',$patientId)->first();
+          return $result;
+
     }
  }
 ?>

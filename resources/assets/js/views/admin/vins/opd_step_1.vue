@@ -69,7 +69,7 @@
                 <label for="date">Weight:</label>
               </div>
               <div class="col-md-6">
-                <input type="text" name="weight" id="weight" class="form-control" v-model="opdData.weight"  placeholder="In kgs"   v-validate="'required|numeric|min_value:1'">
+                <input type="text" name="weight" id="weight" class="form-control" v-model="opdData.weight"  placeholder="In kgs"   v-validate="'decimal:1|required|min_value:1||max_value:999'">
                   <i v-show="errors.has('weight')" class="fa fa-warning"></i> 
                   <span class="help is-danger" v-show="errors.has('weight')"> 
                     Please enter valid weight.</span>
@@ -79,8 +79,14 @@
                 <div class="col-md-6">
                   <label for="date">Height:</label>
                 </div>
-                <div class="col-md-9">
+                <div class="col-md-9" v-if="(opdData.age > 18)">
                   <input type="text" name="height" id="height" class="form-control" placeholder="In cms" v-model="opdData.height"  v-validate="'required|numeric|min_value:1'">
+                  <i v-show="errors.has('height')" class="fa fa-warning"></i> 
+                    <span class="help is-danger" v-show="errors.has('height')"> 
+                      Please enter valid height . </span>
+                  </div>
+                  <div class="col-md-9" v-if="(opdData.age <= 18)">
+                  <input type="text" name="height" id="height" class="form-control" placeholder="In cms" v-model="opdData.height"  v-validate="'numeric|min_value:1'">
                   <i v-show="errors.has('height')" class="fa fa-warning"></i> 
                     <span class="help is-danger" v-show="errors.has('height')"> 
                       Please enter valid height . </span>
@@ -150,13 +156,22 @@
                       <label for="date">BP:</label>
                     </div>
                     <div class="col-md-6">
-                      <div class=" input-group">
+                      <div class=" input-group"  v-if="(opdData.age > 18)">
 
                       <input type="text" name="bp_systolic" id="bp_systolic" class="form-control"  v-model="opdData.bp_systolic"  v-validate="'required|numeric|min_value:1'" maxlength="3" > 
                         <div class="input-group-append">
                             <span class="input-group-text ">/</span>
                         </div>
                         <input type="text" name="bp_diastolic" id="bp_diastolic" class="form-control"  v-model="opdData.bp_diastolic"  v-validate="'required|numeric|min_value:1'" maxlength="3">
+                      
+                      </div>
+                       <div class=" input-group"  v-if="(opdData.age <= 18)">
+
+                      <input type="text" name="bp_systolic" id="bp_systolic" class="form-control"  v-model="opdData.bp_systolic"  v-validate="'numeric|min_value:1'" maxlength="3" > 
+                        <div class="input-group-append">
+                            <span class="input-group-text ">/</span>
+                        </div>
+                        <input type="text" name="bp_diastolic" id="bp_diastolic" class="form-control"  v-model="opdData.bp_diastolic"  v-validate="'numeric|min_value:1'" maxlength="3">
                       
                       </div>
                      
@@ -469,7 +484,8 @@
             vm.patient_id=$(this).val();
             let patientId = $(this).val();
             vm.opdData.patientlist=patientId;
-            vm.$store.dispatch('SetPatientId',patientId);             
+            vm.$store.dispatch('SetPatientId',patientId);
+            vm.getAgeOfPatient(patientId);
             vm.get_vitals();
 
           });
@@ -486,6 +502,30 @@
 
         },
         methods: {
+           getAgeOfPatient(patientId){
+           var vm =this;
+           var getpatientId = patientId;
+          
+           User.getAgeOfPatient(getpatientId).then(
+            (response) => {
+               console.log(response.data.data);
+               var patientAge = '';
+               if(response.data.data.age > 999){
+                 patientAge = currentYear - patientAge ; 
+                 if(patientAge == 0){
+                   vm.opdData.age =  1  
+                 }else
+                 vm.opdData.age = patientAge;
+               }else{
+                patientAge = response.data.data.age;
+               }
+                vm.opdData.age = patientAge;  
+              
+                 },
+            
+            );
+
+         },
           newPatient()
           {
               var vm =this;
