@@ -678,5 +678,11 @@
     public function movePatientWithNewReferal(){
       return 0;
     }
+
+    public function getAgeOfPatient($patientId){
+       $result = PatientDetailsForm::where('id',$patientId)->first();
+          return $result;
+
+    }
  }
 ?>
