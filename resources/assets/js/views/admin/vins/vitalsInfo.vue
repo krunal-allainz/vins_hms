@@ -85,7 +85,7 @@
 	                		<label for="date">Weight:</label>
 	              		</div>
 	              		<div class="col-md-6">
-	                		<input type="text" name="weight" id="weight" class="form-control" v-model="patientData.weight"  placeholder="In kgs"   v-validate="'required|numeric|min_value:1'" :disabled="non_editable_vitals == 'true'">
+	                		<input type="text" name="weight" id="weight" class="form-control" v-model="patientData.weight"  placeholder="In kgs"   v-validate="'decimal:1|required|min_value:1||max_value:999'" :disabled="non_editable_vitals == 'true'">
 	                  		<i v-show="errors.has('weight')" class="fa fa-warning"></i> 
 	                  		<span class="help is-danger" v-show="errors.has('weight')"> Please enter valid weight.</span>
 	               		 </div>
@@ -94,11 +94,16 @@
                 		<div class="col-md-6">
                   			<label for="date">Height:</label>
                 		</div>
-                		<div class="col-md-6">
+                		<div class="col-md-6" v-if="(patientData.age > 18)">
                   			<input type="text" name="height" id="height" class="form-control" placeholder="In cms" v-model="patientData.height"  v-validate="'required|numeric|min_value:1'" :disabled="non_editable_vitals=='true'">
                   			<i v-show="errors.has('height')" class="fa fa-warning"></i> 
                     		<span class="help is-danger" v-show="errors.has('height')"> Please enter valid height. </span>
                   		</div>
+                      <div class="col-md-6" v-if="(patientData.age <= 18)">
+                        <input type="text" name="height" id="height" class="form-control" placeholder="In cms" v-model="patientData.height"  v-validate="'numeric|min_value:1'" :disabled="non_editable_vitals=='true'">
+                        <i v-show="errors.has('height')" class="fa fa-warning"></i> 
+                        <span class="help is-danger" v-show="errors.has('height')"> Please enter valid height. </span>
+                      </div>
                		</div>
             </div>
             <div class="row form-group">
@@ -152,13 +157,22 @@
                       <label for="date">BP:</label>
                     </div>
                     <div class="col-md-6">
-                      <div class=" input-group">
+                      <div class=" input-group" v-if="(patientData.age > 18)">
 
                       <input type="text" name="bp_systolic" id="bp_systolic" class="form-control"  v-model="patientData.bp_systolic"  v-validate="'required|numeric|min_value:1'" maxlength="3" :disabled="non_editable_vitals=='true'"> 
                         <div class="input-group-append">
                             <span class="input-group-text ">/</span>
                         </div>
                         <input type="text" name="bp_diastolic" id="bp_diastolic" class="form-control"  v-model="patientData.bp_diastolic"  v-validate="'required|numeric|min_value:1'" maxlength="3" :disabled="non_editable_vitals=='true'">
+                      
+                      </div>
+                      <div class=" input-group" v-if="(patientData.age  <= 18)">
+
+                      <input type="text" name="bp_systolic" id="bp_systolic" class="form-control"  v-model="patientData.bp_systolic"  v-validate="'numeric|min_value:1'" maxlength="3" :disabled="non_editable_vitals=='true'"> 
+                        <div class="input-group-append">
+                            <span class="input-group-text ">/</span>
+                        </div>
+                        <input type="text" name="bp_diastolic" id="bp_diastolic" class="form-control"  v-model="patientData.bp_diastolic"  v-validate="'numeric|min_value:1'" maxlength="3" :disabled="non_editable_vitals=='true'">
                       
                       </div>
                       
@@ -204,7 +218,7 @@
     </div>
 
 
-            	<div class="form-group text-center">
+     <div class="form-group text-center">
 				<button class="btn btn-success" type="button" @click="savePatientCheckup()">Submit</button>
 			</div>
 		</form>
@@ -217,6 +231,7 @@
 	 export default {
         data() {
             return {
+              'currentYear': (new Date()).getFullYear(),
               'vitals_id':'',
               'non_editable_vitals':'false',
               'vitals_data_org':[],
@@ -242,7 +257,8 @@
                 	'select_type':'',
                 	'select_value':'',
                 	'uhid_no' : '',
-                  'last_vist' : ''
+                  'last_vist' : '',
+                  'age' : ''
             	 }
             }
         },
@@ -272,8 +288,10 @@
 	        $(document).on("select2:select",'#patient', function (e) {
               let patientId = $(this).val();
               vm.patientData.patient_id=patientId;
+             
               vm.patientEmpty();
               vm.enable_vitals();
+               vm.getAgeOfPatient(patientId);
           });
 	         
 	          
@@ -297,6 +315,30 @@
             this.$root.$on('patientEmpty',this.patientEmpty);
         },
        methods: {
+        getAgeOfPatient(patientId){
+           var vm =this;
+           var getpatientId = patientId;
+          
+           User.getAgeOfPatient(getpatientId).then(
+            (response) => {
+               console.log(response.data.data);
+               var patientAge = '';
+               if(response.data.data.age > 999){
+                 patientAge = currentYear - patientAge ; 
+                 if(patientAge == 0){
+                   vm.patientData.age =  1  
+                 }else
+                 vm.patientData.age = patientAge;
+               }else{
+                patientAge = response.data.data.age;
+               }
+                vm.patientData.age = patientAge;  
+              
+                 },
+            
+            );
+
+         },
         newPatient()
           {
               var vm =this;
@@ -327,13 +369,15 @@
                       $.each(response.data.data, function(key, value) {
                       let name = value.first_name +' '+value.last_name;
                       let pid  = value.id ;
+                      let age  = value.age ;
                       let uhid_no  = value.uhid_no ;
                       patient_list_new.push({
                           name:name,
                           id:pid,
-                          uhid_no:uhid_no
+                          uhid_no:uhid_no,
+                          age:age
                         });
-                        });
+                      });
                     
                      vm.patientData.patient_option = patient_list_new;
                      },

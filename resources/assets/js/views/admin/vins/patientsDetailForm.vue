@@ -62,7 +62,7 @@
 	                    	<label for="first_name" class="control-label">First Name : </label>
 	                	</div>
 		                <div class="col-md-6">
-							<input class="form-control" type = "text" v-validate="'required|alpha'" id = "first_name" name="first_name" value=""  v-model="patientData.fname" :readonly="patientData.case == 'old'"/>
+							<input class="form-control" type = "text" v-validate="'required|alpha_spaces'" id = "first_name" name="first_name" value=""  v-model="patientData.fname" :readonly="patientData.case == 'old'"/>
 							<i v-show="errors.has('first_name')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('first_name')"> 
 								Please enter valid first name.
@@ -74,7 +74,7 @@
 		                   	<label for="middle_name" class="control-label">Middle Name: </label>
 		                </div>
 		                <div class="col-md-6">
-							<input class="form-control" type="text" id="middle_name" name="middle_name" value=""  v-model="patientData.mname" :disabled="patientData.case == 'old'"  v-validate="'alpha'"/>
+							<input class="form-control" type="text" id="middle_name" name="middle_name" value=""  v-model="patientData.mname" :disabled="patientData.case == 'old'"  v-validate="'alpha_spaces'"/>
 							<i v-show="errors.has('middle_name')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('middle_name')">
 			                	Please enter valid middle name.
@@ -88,7 +88,7 @@
 	                		<label for="last_name" class="control-label">Last Name: </label>
 	                	</div>
 	                	<div class="col-md-6">
-							<input class="form-control" type="text" id="last_name" name="last_name" value="" v-model="patientData.lname" v-validate="'required|alpha'" :disabled="patientData.case == 'old'"/>
+							<input class="form-control" type="text" id="last_name" name="last_name" value="" v-model="patientData.lname" v-validate="'required|alpha_spaces'" :disabled="patientData.case == 'old'"/>
 							<i v-show="errors.has('last_name')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('last_name')">
 	            	         	Please enter valid lastname.

@@ -441,6 +441,18 @@ class PatientsDetailFormController extends Controller
 
     }
 
+    public function getAgeOfPatient(Request $request){
+
+         $patient_id = $request ->id;
+         $patientAge = $this->patientOBJ->getAgeOfPatient($patient_id);
+
+        if ($patientAge) {
+            return ['code' => '200','data'=>$patientAge, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+    }
+
 
 
 }
