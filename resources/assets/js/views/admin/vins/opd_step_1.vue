@@ -490,7 +490,7 @@
           {
               var vm =this;
               
-              setInterval(function() {
+              //setInterval(function() {
 
                  vm.getResults();
                 // $('#patient').select2('destroy');
@@ -499,7 +499,7 @@
                     tags:false 
                   });
 
-              }, 8000);
+              //}, 8000);
 
             },
           getResults(patient_list_new) {

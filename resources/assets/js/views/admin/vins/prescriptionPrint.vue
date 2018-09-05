@@ -10,11 +10,39 @@
 
                          <tr v-for="(res,index) in prescriptData" v-if="res.remove=='false'" :id="res.pid">
 
-                                <td>{{++index}} ] {{res.name}} :ORAL <span v-if="res.clock_quantity_1!='0'"> {{res.clock_quantity_1}}</span>
-                                    <span v-if="res.clock_quantity_2!='0'"> <span v-if="res.clock_quantity_1!='0'"> ______</span>{{res.clock_quantity_2}}</span><span v-if="res.clock_quantity_3!='0'"> <span v-if="res.clock_quantity_1!='0' || res.clock_quantity_2!='0'"> ______</span>{{res.clock_quantity_3}}</span><span v-if="res.clock_quantity_4!='0'"><span v-if="res.clock_quantity_1!='0' || res.clock_quantity_2!='0' || res.clock_quantity_3!='0'">  ______</span>{{res.clock_quantity_4}}</span>
-                                    <span v-if="res.clock_quantity_1!='0' || res.clock_quantity_2!='0' || res.clock_quantity_3!='0' || res.clock_quantity_4!='0'">
+                                <td>{{++index}} ] {{res.name}} :ORAL
+                                    
+                                    <span v-if="res.type=='Q-Hrs'">
+                                        <span v-for="(item,index) in res.total_qhrs">
+
+                                            <span v-if="index!=0 && res['clock_quantity_'+(index+1)]!='0'">
+                                               <span v-if=""> ______</span>
+                                            </span>
+                                            <span v-if="res['clock_quantity_'+(index+1)]!='0'"> {{res['clock_quantity_'+(index+1)]}}</span>
+                                        </span>
+                                    </span>
+                                    <span v-else>
+                                        <span v-if="res.clock_quantity_1!='0'"> {{res.clock_quantity_1}}</span>
+                                        <span v-if="res.clock_quantity_2!='0'"> <span v-if="res.clock_quantity_1!='0'"> ______</span>{{res.clock_quantity_2}}</span><span v-if="res.clock_quantity_3!='0'"> <span v-if="res.clock_quantity_1!='0' || res.clock_quantity_2!='0'"> ______</span>{{res.clock_quantity_3}}</span><span v-if="res.clock_quantity_4!='0'"><span v-if="res.clock_quantity_1!='0' || res.clock_quantity_2!='0' || res.clock_quantity_3!='0'">  ______</span>{{res.clock_quantity_4}}</span>
+                                    </span>
+                                    
+                                    <span v-if="res.type=='Q-Hrs'">
+                                        [
+                                         <span v-for="(item,index) in res.total_qhrs">
+                                            <span v-if="index!=0 && res['clock_time_'+(index+1)]!='0' && res['clock_time_'+(index+1)]!='--:--'">
+                                               <span v-if=""> ______</span>
+                                            </span>
+                                            <span v-if="res['clock_time_'+(index+1)]!='0' && res['clock_time_'+(index+1)]!='--:--'"> {{res['clock_time_'+(index+1)]}}</span>
+                                        </span>
+                                        ]
+                                    </span>
+                                    <span v-else>
+                                        <span v-if="res.clock_quantity_1!='0' || res.clock_quantity_2!='0' || res.clock_quantity_3!='0' || res.clock_quantity_4!='0'">
                                          [ <span v-if="res.clock_quantity_1!='0'"> {{res.clock_time_1}}</span><span v-if="res.clock_quantity_2!='0'"><span v-if="res.clock_quantity_1!='0'"> ______</span> {{res.clock_time_2}}</span><span v-if="res.clock_quantity_3!='0'"><span v-if="res.clock_quantity_1!='0' || res.clock_quantity_2!='0'"> ______</span> {{res.clock_time_3}}</span><span v-if="res.clock_quantity_4!='0'"><span v-if="res.clock_quantity_1!='0' || res.clock_quantity_2!='0' || res.clock_quantity_3!='0'"> ______</span>{{res.clock_time_4}}</span> ] 
                                     </span>
+                                    </span>
+                                    
+                                  
                                     <span v-if="(res.clock_suggest!='' && res.clock_suggest!='--')">
                                         [ <span>{{res.clock_suggest}}</span> ]
                                     </span>
