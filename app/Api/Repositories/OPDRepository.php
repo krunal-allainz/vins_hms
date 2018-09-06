@@ -268,6 +268,14 @@
 	 			$radiology_obj->special_request=$radio['special_request'];
 	 			$radiology_obj->referance=0;
 	 			$radiology_obj->details=$radio['textData'];
+	 			if(isset($radio['body_part_side']))
+	 			{
+	 				$radiology_obj->body_part_side=$radio['body_part_side'];
+	 			}
+	 			if($radio['type']=='other')
+	 			{
+	 				$radiology_obj->radiology_other = $radio['radiologyOther'];;
+	 			}
 	 			if($radio['type']=='X-Rays')
 	 			{
 	 				$radiology_obj->subtype = '';
@@ -307,6 +315,7 @@
  		/*for radiology */
  		if(!empty($radiology_data))
  		{
+ 			
  			foreach($radiology_data as $r_data)
  			{
  				$radiology_obj_2=new Radiology();
@@ -319,6 +328,15 @@
 	 			$radiology_obj_2->referance=1;
 	 			$radiology_obj_2->details=$r_data['textData'];
 	 			$image_data=$r_data['imgData'];
+	 			if(isset($r_data['body_part_side']))
+	 			{
+	 				$radiology_obj_2->body_part_side=$r_data['body_part_side'];
+	 			}
+	 			
+	 			if($radio['type']=='other')
+	 			{
+	 				$radiology_obj_2->radiology_other = $r_data['radiologyOther'];;
+	 			}
 	 			if($r_data['type']=='X-Rays')
 	 			{
 	 				// $radiology_obj_2->subtype=$r_data['x_ray_type'];
