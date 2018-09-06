@@ -19,6 +19,8 @@ class Radiology extends Model
               'special_request',
               'details',
               'attachments',
-              'referance'
+              'referance',
+              'body_part_side',
+              'radiology_other'
         ];
 }
