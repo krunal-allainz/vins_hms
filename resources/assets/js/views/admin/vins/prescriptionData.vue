@@ -150,43 +150,69 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-2">
-                    <div class="col-md-12" >
-                      <div class=" input-group">
-                        <div class="input-group-append" >
-                            <span class="input-group-text" >{{pres_clock.clock_quantity_1}}</span>
-                        </div>
-                        <div class="input-group-append" >
-                            <span class="input-group-text" >{{pres_clock.clock_quantity_2}}</span>
-                        </div>
-                        <div class="input-group-append" >
-                            <span class="input-group-text" >{{pres_clock.clock_quantity_3}}</span>
-                        </div>
-                          <div class="input-group-append" >
-                            <span class="input-group-text" >{{pres_clock.clock_quantity_4}}</span>
-                        </div>
-                      </div>  
+
+                  <span v-if="pres_clock.type=='Q-Hrs'">
+                    <div class="col-md-2">
+                      <div class="col-md-12" >
+                        <div class=" input-group">
+                          <div class="input-group-append" v-for="(item,index) in pres_clock.total_qhrs">
+                              <span class="input-group-text" >{{pres_clock['clock_quantity_'+(index+1)]}}</span>
+                          </div>
+                        </div>  
+                      </div>
                     </div>
-                  </div>
-               
-                 <div class="col-md-3">
-                  <div class="col-md-12">
-                    <div class=" input-group">
-                      <div class="input-group-append">
-                          <span class="input-group-text point" @click="editPrescriptionResult(pres_clock.pid,pres_clock.clock_time_1,pres_clock.clock_quantity_1,1)" v-if="">{{pres_clock.clock_time_1}}</span>
+                  </span>
+                  <span v-else>
+                      <div class="col-md-2">
+                        <div class="col-md-12" >
+                          <div class=" input-group">
+                            <div class="input-group-append" >
+                                <span class="input-group-text" >{{pres_clock.clock_quantity_1}}</span>
+                            </div>
+                            <div class="input-group-append" >
+                                <span class="input-group-text" >{{pres_clock.clock_quantity_2}}</span>
+                            </div>
+                            <div class="input-group-append" >
+                                <span class="input-group-text" >{{pres_clock.clock_quantity_3}}</span>
+                            </div>
+                              <div class="input-group-append" >
+                                <span class="input-group-text" >{{pres_clock.clock_quantity_4}}</span>
+                            </div>
+                          </div>  
+                        </div>
                       </div>
-                      <div class="input-group-append">
-                          <span class="input-group-text point" @click="editPrescriptionResult(pres_clock.pid,pres_clock.clock_time_2,pres_clock.clock_quantity_2,2)" v-if="">{{pres_clock.clock_time_2}}</span>
+                  </span>
+                   <span v-if="pres_clock.type=='Q-Hrs'">
+                    <div class="col-md-3">
+                      <div class="col-md-12" >
+                        <div class=" input-group">
+                            <div class="input-group-append" v-for="(item2,index2) in pres_clock.total_qhrs">
+                                <span class="input-group-text point" @click="editPrescriptionResult(pres_clock.pid,pres_clock['clock_time_'+(index2+1)],pres_clock['clock_quantity_'+(index2+1)],(index2+1))" v-if="">{{pres_clock['clock_time_'+(index2+1)]}}</span>
+                            </div>
+                        </div>  
                       </div>
-                      <div class="input-group-append">
-                          <span class="input-group-text point" @click="editPrescriptionResult(pres_clock.pid,pres_clock.clock_time_3,pres_clock.clock_quantity_3,3)" v-if="">{{pres_clock.clock_time_3}}</span>
+                    </div>
+                  </span>
+                  <span v-else>
+                      <div class="col-md-3">
+                        <div class="col-md-12">
+                          <div class=" input-group">
+                            <div class="input-group-append">
+                                <span class="input-group-text point" @click="editPrescriptionResult(pres_clock.pid,pres_clock.clock_time_1,pres_clock.clock_quantity_1,1)" v-if="">{{pres_clock.clock_time_1}}</span>
+                            </div>
+                            <div class="input-group-append">
+                                <span class="input-group-text point" @click="editPrescriptionResult(pres_clock.pid,pres_clock.clock_time_2,pres_clock.clock_quantity_2,2)" v-if="">{{pres_clock.clock_time_2}}</span>
+                            </div>
+                            <div class="input-group-append">
+                                <span class="input-group-text point" @click="editPrescriptionResult(pres_clock.pid,pres_clock.clock_time_3,pres_clock.clock_quantity_3,3)" v-if="">{{pres_clock.clock_time_3}}</span>
+                            </div>
+                            <div class="input-group-append">
+                                <span class="input-group-text point" @click="editPrescriptionResult(pres_clock.pid,pres_clock.clock_time_4,pres_clock.clock_quantity_4,4)" v-if="">{{pres_clock.clock_time_4}}</span>
+                            </div>
+                            </div>  
+                        </div>
                       </div>
-                      <div class="input-group-append">
-                          <span class="input-group-text point" @click="editPrescriptionResult(pres_clock.pid,pres_clock.clock_time_4,pres_clock.clock_quantity_4,4)" v-if="">{{pres_clock.clock_time_4}}</span>
-                      </div>
-                      </div>  
-                  </div>
-                </div>
+                  </span>
                 <div class="col-md-2">
                   <div class="col-md-12">
                      <div class=" input-group">
@@ -263,6 +289,7 @@
                 'prespFinalRes':[],
                 'clock_all_timing':[],
                 'presp_length':0,
+                
                 'HMTOption':[
                     {'id':'OD','text':'OD'},
                     {'id':'BD','text':'BD'},
@@ -311,7 +338,8 @@
                     'old_clock_value':'',
                     'how_many_times':'',
                     'qhrs':'',
-                    'clock_suggest':''
+                    'clock_suggest':'',
+                    'total_qhrs':0,
 
                 }
                 
@@ -332,20 +360,27 @@
            
             $('#how_many_times').on("select2:select", function (e) {
                 vm.prescriptFinalData.how_many_times=$(this).val();
-                  setTimeout(function(){
-                    $('#qhrs').select2({
-                      placeholder: 'Select' 
-                    });
-                    $('#qhrs').on("select2:select", function (e) {
-                      vm.prescriptFinalData.qhrs=$(this).val();
-                    });
-                  },500);
-                  vm.multipleClockResult($(this).val());
+                  
+                  if(vm.prescriptFinalData.how_many_times!='Q-Hrs')
+                  {
+                      vm.multipleClockResult($(this).val());
+                  }
+                  else
+                  {
+                      vm.prespFinalRes=[];
+                      setTimeout(function(){
+                        $('#qhrs').select2({
+                          placeholder: 'Select' 
+                        });
+                        $('#qhrs').on("select2:select", function (e) {
+
+                            vm.prescriptFinalData.qhrs=$(this).val();
+                            vm.multipleClockResult('Q-Hrs');
+                        });
+                    },500);
+                  }
+
               });
-             
-
-
-             
             /*for lab data end*/
             setTimeout(function(){
                 vm.initData();
@@ -450,6 +485,11 @@
               let vm=this;
               let p_name=this.prescriptFinalData.prescription;
               let p_id=this.prescriptFinalData.prescription_id;
+              if(vm.prescriptFinalData.how_many_times=='Q-Hrs' && vm.prescriptFinalData.qhrs=='')
+              {
+                  toastr.error('Please select Q-Hrs.', 'Prescription error', {timeOut: 5000});
+                  return false;
+              }
               setTimeout(function(){
                   $('.clockpicker').clockpicker({donetext: 'Done',autoclose: true});
                   $('.clockpicker').clockpicker().find('input').change(function(){
@@ -569,12 +609,23 @@
               }
                if(how_val=='Q-Hrs')
               {
-                  vm.prespFinalRes.push({'name':p_name,'type':how_val,'pid':p_id,'clock_time':'08:00','clock_quantity':'1','clock_suggest':vm.prescriptFinalData.clock_suggest,'remove':'false','t_quantity':0,'t_days':vm.prescriptFinalData.total_prescription_days});
+                  let qhrs_org=vm.prescriptFinalData.qhrs;
+                  let val_qhrs=24/parseInt(qhrs_org);
+                  vm.prescriptFinalData.total_qhrs=Math.floor(val_qhrs);
+                  let i=0;
+                  let qhrs_data=[];
+                  let org_val="00:00";
+                  for(i=0;i<vm.prescriptFinalData.total_qhrs;i++)
+                  {
+                      qhrs_data.push({'name':p_name,'type':how_val,'pid':p_id,'clock_time':org_val,'clock_quantity':'1','clock_suggest':vm.prescriptFinalData.clock_suggest,'remove':'false','t_quantity':0,'t_days':vm.prescriptFinalData.total_prescription_days});
+                      org_val=moment.utc(org_val,'HH:mm').add(vm.prescriptFinalData.qhrs,'hour').format('HH:mm');
+                  }
+                  vm.prespFinalRes=qhrs_data;
               }
+              //console.log(vm.prespFinalRes);
               vm.prescriptFinalData.how_many_times=how_val;
               vm.prescriptFinalData.prescription_report=vm.prespFinalRes;
               return false;
-              
           },
           saveClockResult()
           {
@@ -610,6 +661,7 @@
             let vm=this;
             let message="";
             //console.log(vm.prescriptFinalData.prescription_report);
+            //return false;
             _.forEach(vm.prescriptFinalData.prescription_report, function(value, key) {
                 let check_update=vm.check_duplicate(value.pid,value.type,vm.prescriptFinalData.prescriptionNameList,'update');
                 let check_duplicate=vm.check_duplicate(value.pid,value.type,vm.prescriptFinalData.prescriptionNameList,'duplicate');
@@ -640,6 +692,7 @@
                 }
                 else
                 {
+                    
                     vm.addMedicinOntime(value);
                 }
 
@@ -651,64 +704,102 @@
               let vm =this;
 
               var qhrs="";
+              var tot_qhrs="";
               if(array.type=='Q-Hrs')
               {
                   qhrs=vm.prescriptFinalData.qhrs;
+                  tot_qhrs=vm.prescriptFinalData.total_qhrs;
               }
               
               vm.t_qt=parseInt(vm.t_qt)+parseInt(array.clock_quantity);
               clocktimedata.push({'pid':array.pid,'type':array.type,'name':array.name,'timing':array.clock_time,'quantity':array.clock_quantity,'remove':'false'});
-              //console.log(clocktimedata);
+             
               clocktimedata= _.sortBy(clocktimedata, [function(o) { return o.timing; }]);
-               let i=0;
+               
             let objIndex = vm.prescriptFinalData.prescriptionNameList.findIndex((obj => obj.pid == array.pid && obj.remove=='false'));
               vm.prescriptFinalData.prescriptionNameList[objIndex].total_quantity=vm.t_qt;
               vm.prescriptFinalData.prescriptionNameList[objIndex].total_prescription_days=vm.prescriptFinalData.total_prescription_days;
               vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest=vm.prescriptFinalData.clock_suggest;
               vm.prescriptFinalData.prescriptionNameList[objIndex].qhrs=qhrs;
-            _.find(clocktimedata, function(res) {
-                if(res.remove=='false')
-                {
-                    if(res.pid==array.pid)
-                    {
-                        if(i==0)
-                        {
-                          
-                            vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_1 = res.timing; 
-                            vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_1 = res.quantity; 
-                            //vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_1 = res.clock_suggest; 
-                        }
-                        if(i==1)
-                        {
-                          
-                            vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_2 = res.timing; 
-                            vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_2 = res.quantity; 
-
-                            // vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_2 = res.clock_suggest; 
-
-                        }
-                        if(i==2)
-                        {
-                          
-                            vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_3 = res.timing; 
-                            vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_3 = res.quantity;
-                             //vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_3 = res.clock_suggest; 
-
-                        }
-                        if(i==3)
-                        {
-                          
-                            vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_4 = res.timing; 
-                            vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_4 = res.quantity;
-                             //vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_4 = res.clock_suggest; 
-
-                        }
-                        i++;
-                    }
-                }
-                //console.log(vm.prescriptFinalData.prescriptionNameList);
+              vm.prescriptFinalData.prescriptionNameList[objIndex].total_qhrs=tot_qhrs;
+              if(array.type=='Q-Hrs')
+              {
+                     let i=1;
+                     //console.log('fdsfdsf');
+                  _.forEach(clocktimedata, function(res) {
+                      if(res.remove=='false')
+                      {
+                          if(res.pid==array.pid)
+                          {
+                              var col_name='clock_time_'+i;
+                              var col_qty='clock_quantity_'+i;
+                              var o_time='--:--';
+                              var o_qty=0;
+                              if(res.timing!="")
+                              {
+                                  o_time=res.timing;
+                              }
+                              if(res.quantity!="")
+                              {
+                                  o_qty=res.quantity;
+                              }
+                              vm.prescriptFinalData.prescriptionNameList[objIndex][col_name]= o_time; 
+                              vm.prescriptFinalData.prescriptionNameList[objIndex][col_qty] = o_qty;
+                              i++;
+                          }
+                      }
+                  });
+                  //console.log(vm.prescriptFinalData.prescriptionNameList,'edit');
                   
-              });  
+              }
+              else
+              {
+                  let i=0;
+                  _.find(clocktimedata, function(res) {
+                    if(res.remove=='false')
+                    {
+                        if(res.pid==array.pid)
+                        {
+                            if(i==0)
+                            {
+                              
+                                vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_1 = res.timing; 
+                                vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_1 = res.quantity; 
+                                //vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_1 = res.clock_suggest; 
+                            }
+                            if(i==1)
+                            {
+                              
+                                vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_2 = res.timing; 
+                                vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_2 = res.quantity; 
+
+                                // vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_2 = res.clock_suggest; 
+
+                            }
+                            if(i==2)
+                            {
+                              
+                                vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_3 = res.timing; 
+                                vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_3 = res.quantity;
+                                 //vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_3 = res.clock_suggest; 
+
+                            }
+                            if(i==3)
+                            {
+                              
+                                vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_4 = res.timing; 
+                                vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_4 = res.quantity;
+                                 //vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_4 = res.clock_suggest; 
+
+                            }
+                            i++;
+                        }
+                    }
+                    //console.log(vm.prescriptFinalData.prescriptionNameList);
+                      
+                  }); 
+              }
+           
             
              return 'okay'; 
 
@@ -729,13 +820,50 @@
                   array.clock_quantity=clock_quantity_1;
               }
               var qhrs="";
+              var tot_qhrs="";
               if(array.type=='Q-Hrs')
               {
                   qhrs=vm.prescriptFinalData.qhrs;
+                  tot_qhrs=vm.prescriptFinalData.total_qhrs;
               }
 
               clocktimedata.push({'pid':array.pid,'type':array.type,'name':array.name,'timing':array.clock_time,'quantity':array.clock_quantity,'remove':'false'});
-               vm.prescriptFinalData.prescriptionNameList.push({'pid': array.pid,'name':array.name,'type':array.type,'total_quantity':array.clock_quantity,'clock_time_1':array.clock_time,'clock_quantity_1':array.clock_quantity,'clock_time_2':clock_time_2,'clock_quantity_2':clock_quantity_2,'clock_time_3':clock_time_3,'clock_time_4':clock_time_4,'clock_quantity_3':clock_quantity_3,'clock_quantity_4':clock_quantity_4,'clock_suggest':vm.prescriptFinalData.clock_suggest,'total_prescription_days':vm.prescriptFinalData.total_prescription_days,'qhrs':qhrs,'remove':'false'});
+              var obj = {};
+               if(array.type=='Q-Hrs')
+              {
+                    let i=1;
+                    let new_qhrs_arr=[];
+                    var new_prescript_array=[];
+                    for(i=1;i<=vm.prescriptFinalData.total_qhrs;i++)  
+                    {
+                        var clock_val='--:--';
+                        var clock_qty=0;
+
+                        if(i==1)
+                        {
+                            clock_val=array.clock_time;
+                            clock_qty=array.clock_quantity;
+
+                        }
+                        
+                        var clock_name='clock_time_'+i;
+                        var clock_quantity_name='clock_quantity_'+i;
+                        obj[clock_name]=clock_val;
+                        obj[clock_quantity_name]=clock_qty;
+                    }
+                  
+                      new_prescript_array.push({'pid': array.pid,'name':array.name,'type':array.type,'total_quantity':array.clock_quantity,'clock_suggest':vm.prescriptFinalData.clock_suggest,'total_prescription_days':vm.prescriptFinalData.total_prescription_days,'qhrs':qhrs,'total_qhrs':tot_qhrs,'remove':'false'});
+                     new_qhrs_arr= _.merge(new_prescript_array[0],obj);
+                     vm.prescriptFinalData.prescriptionNameList.push(new_qhrs_arr);
+                   
+                  
+              }
+              else
+              {
+                 
+                vm.prescriptFinalData.prescriptionNameList.push({'pid': array.pid,'name':array.name,'type':array.type,'total_quantity':array.clock_quantity,'clock_time_1':array.clock_time,'clock_quantity_1':array.clock_quantity,'clock_time_2':clock_time_2,'clock_quantity_2':clock_quantity_2,'clock_time_3':clock_time_3,'clock_time_4':clock_time_4,'clock_quantity_3':clock_quantity_3,'clock_quantity_4':clock_quantity_4,'clock_suggest':vm.prescriptFinalData.clock_suggest,'total_prescription_days':vm.prescriptFinalData.total_prescription_days,'qhrs':qhrs,'total_qhrs':tot_qhrs,'remove':'false'});
+              }
+             
                 return vm.prescriptFinalData.prescriptionNameList;
 
           },
@@ -767,6 +895,8 @@
               var length=0;
               var i=0;
               var repeat='No';
+              let vm=this;
+             
               for(i=0;i<array.length;i++)
               {
                   if(array[i]['pid']==id && array[i]['type']==type)
@@ -774,7 +904,7 @@
                           length++;
                   }
               }
-              
+             
               if(type=='BD' && length>1)
               {
                   repeat='Yes';
@@ -795,7 +925,7 @@
               {
                   repeat='Yes';
               }
-               if(type=='Q-Hrs' && length>0)
+               if(type=='Q-Hrs' && length>vm.prescriptFinalData.total_qhrs)
               {
                   repeat='Yes';
               }
@@ -809,15 +939,19 @@
               {
                   if(array[i]['pid']==pid && array[i]['remove']=='false')
                   {
-                      if(array[i]['clock_time_1']==time)
+                      if(array[i]['clock_time_1']==time && time!="")
                       {
                           length++;
                       }
-                      else if(array[i]['clock_time_2']==time)
+                      else if(array[i]['clock_time_2']==time && time!="")
                       {
                           length++;
                       }
-                      else if(array[i]['clock_time_3']==time)
+                      else if(array[i]['clock_time_3']==time && time!="")
+                      {
+                          length++;
+                      }
+                      else if(array[i]['clock_time_4']==time && time!="")
                       {
                           length++;
                       }
@@ -925,61 +1059,93 @@
                   vm.prescriptFinalData.prescription_id=final_result.pid;
                   vm.prescriptFinalData.how_many_times=final_result.type;
                   vm.prescriptFinalData.qhrs=final_result.qhrs;
+                  setTimeout(function(){
+                        $('#qhrs').select2({
+                          placeholder: 'Select' 
+                        });
+                         $("#qhrs").prop("disabled", true);
+                    },500);
+                  vm.prescriptFinalData.total_qhrs=final_result.total_qhrs;
                   $("#prescription").val(final_result.pid).trigger('change');
                   $("#how_many_times").val(final_result.type).trigger('change');
                   $("#qhrs").val(final_result.qhrs).trigger('change');
                   $("#prescription").prop("disabled", true);
                   $("#how_many_times").prop("disabled", true);
+                 
                   vm.prescriptFinalData.prescription_quantity=final_result.total_quantity;
                   vm.prescriptFinalData.total_prescription_days=final_result.total_prescription_days;
                   vm.prescriptFinalData.clock_suggest=final_result.clock_suggest;
                   vm.prescriptFinalData.clock_type=type;
                   vm.prescriptFinalData.clock_value=clock_time;
-
-                    if(type==1) 
-                    {
-                        if(res.clock_time_1==clock_time)
-                        {
-                            var final_clock_time=vm.prescriptFinalData.old_clock_value=final_result.clock_time_1;
-                            vm.prescriptFinalData.clock_time=final_result.clock_time_1;
-                            var final_clock_quantity=vm.prescriptFinalData.clock_quantity=final_result.clock_quantity_1;
-                           // var final_clock_suggest=vm.prescriptFinalData.clock_suggest=final_result.clock_suggest_1;
-                            //return false;
-                        }
-                    }
-                    else if(type==2)
-                    {
-                        if(res.clock_time_2==clock_time)
-                        {
-                            var final_clock_time=vm.prescriptFinalData.old_clock_value=final_result.clock_time_2;
-                            vm.prescriptFinalData.clock_time=final_result.clock_time_2;
-                           var final_clock_quantity= vm.prescriptFinalData.clock_quantity=final_result.clock_quantity_2;
-                             //var final_clock_suggest=vm.prescriptFinalData.clock_suggest=final_result.clock_suggest_2;
-                            //return false;
-                        }
-                    }
-                    else if(type==3)
-                    {
-                        if(res.clock_time_3==clock_time)
-                        {
-                            var final_clock_time=vm.prescriptFinalData.old_clock_value=final_result.clock_time_3;
-                            vm.prescriptFinalData.clock_time=final_result.clock_time_3;
-                            var final_clock_quantity=vm.prescriptFinalData.clock_quantity=final_result.clock_quantity_3;
-                            //var final_clock_suggest=vm.prescriptFinalData.clock_suggest=final_result.clock_suggest_3;
-                            //return false;
-                        }
-                    }
-                    else if(type==4)
-                    {
-                        if(res.clock_time_4==clock_time)
-                        {
-                            var final_clock_time=vm.prescriptFinalData.old_clock_value=final_result.clock_time_4;
-                            vm.prescriptFinalData.clock_time=final_result.clock_time_4;
-                            var final_clock_quantity=vm.prescriptFinalData.clock_quantity=final_result.clock_quantity_4;
-                             //var final_clock_suggest=vm.prescriptFinalData.clock_suggest=final_result.clock_suggest_4;
-                            //return false;
-                        }
-                    }
+                  var c_time="";
+                  if(final_result.type=='Q-Hrs')
+                  {
+                     
+                      let i=0;
+                      for(i=1;i<=final_result.total_qhrs;i++)
+                      {
+                          if(type==i)
+                          {
+                            c_time="";
+                            if(final_result['clock_time_'+i]!='--:--' && final_result['clock_time_'+i]!="")
+                            {
+                                c_time=final_result['clock_time_'+i];
+                            }
+                             var final_clock_time=vm.prescriptFinalData.old_clock_value=c_time;
+                             vm.prescriptFinalData.clock_time=final_result['clock_time_'+i];
+                             var final_clock_quantity=vm.prescriptFinalData.clock_quantity=final_result['clock_quantity_'+i];
+                          }
+                         
+                      }
+                  }
+                  else
+                  {
+                      if(type==1) 
+                      {
+                          if(res.clock_time_1==clock_time)
+                          {
+                              var final_clock_time=vm.prescriptFinalData.old_clock_value=final_result.clock_time_1;
+                              vm.prescriptFinalData.clock_time=final_result.clock_time_1;
+                              var final_clock_quantity=vm.prescriptFinalData.clock_quantity=final_result.clock_quantity_1;
+                             // var final_clock_suggest=vm.prescriptFinalData.clock_suggest=final_result.clock_suggest_1;
+                              //return false;
+                          }
+                      }
+                      else if(type==2)
+                      {
+                          if(res.clock_time_2==clock_time)
+                          {
+                              var final_clock_time=vm.prescriptFinalData.old_clock_value=final_result.clock_time_2;
+                              vm.prescriptFinalData.clock_time=final_result.clock_time_2;
+                             var final_clock_quantity= vm.prescriptFinalData.clock_quantity=final_result.clock_quantity_2;
+                               //var final_clock_suggest=vm.prescriptFinalData.clock_suggest=final_result.clock_suggest_2;
+                              //return false;
+                          }
+                      }
+                      else if(type==3)
+                      {
+                          if(res.clock_time_3==clock_time)
+                          {
+                              var final_clock_time=vm.prescriptFinalData.old_clock_value=final_result.clock_time_3;
+                              vm.prescriptFinalData.clock_time=final_result.clock_time_3;
+                              var final_clock_quantity=vm.prescriptFinalData.clock_quantity=final_result.clock_quantity_3;
+                              //var final_clock_suggest=vm.prescriptFinalData.clock_suggest=final_result.clock_suggest_3;
+                              //return false;
+                          }
+                      }
+                      else if(type==4)
+                      {
+                          if(res.clock_time_4==clock_time)
+                          {
+                              var final_clock_time=vm.prescriptFinalData.old_clock_value=final_result.clock_time_4;
+                              vm.prescriptFinalData.clock_time=final_result.clock_time_4;
+                              var final_clock_quantity=vm.prescriptFinalData.clock_quantity=final_result.clock_quantity_4;
+                               //var final_clock_suggest=vm.prescriptFinalData.clock_suggest=final_result.clock_suggest_4;
+                              //return false;
+                          }
+                      }
+                  }
+                    
                     vm.prespFinalRes.push({'name':final_result.name,'type':final_result.type,'pid':final_result.pid,'clock_time':final_clock_time,'clock_quantity':final_clock_quantity,'clock_suggest':final_result.clock_suggest,'remove':'false','t_quantity':final_result.total_quantity,'t_days':final_result.total_prescription_days,'old_clock_value':final_clock_time,'clock_type':type});
                     setTimeout(function(){
                       $('.clockpicker').clockpicker({donetext: 'Done',autoclose: true});
@@ -1031,6 +1197,7 @@
                     
                     vm.prescriptFinalData.prescriptionNameList[objIndex].total_prescription_days=vm.prescriptFinalData.total_prescription_days;
                      vm.prescriptFinalData.prescriptionNameList[objIndex].qhrs=vm.prescriptFinalData.qhrs;
+                     vm.prescriptFinalData.prescriptionNameList[objIndex].total_qhrs=vm.prescriptFinalData.total_qhrs;
                       vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest=vm.prescriptFinalData.clock_suggest;
                      let get_type=vm.prescriptFinalData.prescription_report[0].clock_type;
                      //for prescription clock time list 
@@ -1135,45 +1302,82 @@
                     clocktimedata[objIndex_clock].quantity=vm.prescriptFinalData.prescription_report[0].clock_quantity;
                     clocktimedata[objIndex_clock].clock_suggest=clock_suggest;
                     clocktimedata= _.sortBy(clocktimedata, [function(o) { return o.timing; }]);
-                    let i=0;
-                    var f_quantity=0;
-                     _.find(clocktimedata, function(res) {
-                          if(res.pid==vm.prescriptFinalData.prescription_report[0].pid)
-                          {
-                              if(i==0)
+                    let f_quantity=0;
+                    if(vm.prescriptFinalData.prescriptionNameList[objIndex].type=='Q-Hrs')
+                    {
+                         let i=1;
+                          //console.log('fdsfdsf');
+                          
+                          _.forEach(clocktimedata, function(res) {
+                              if(res.remove=='false')
                               {
-                                  vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_1 = res.timing; 
-                                  vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_1 = res.quantity; 
-                                  //vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_1 = res.clock_suggest; 
+                                  if(res.pid==vm.prescriptFinalData.prescription_report[0].pid)
+                                  {
+                                      var col_name='clock_time_'+i;
+                                      var col_qty='clock_quantity_'+i;
+                                      var o_time='--:--';
+                                      var o_qty=0;
+                                      if(res.timing!="")
+                                      {
+                                          o_time=res.timing;
+                                      }
+                                      if(res.quantity!="")
+                                      {
+                                          o_qty=res.quantity;
+                                      }
+                                      vm.prescriptFinalData.prescriptionNameList[objIndex][col_name]= o_time; 
+                                      vm.prescriptFinalData.prescriptionNameList[objIndex][col_qty] = o_qty;
+                                      i++;
+                                      f_quantity=parseInt(f_quantity)+parseInt(vm.prescriptFinalData.prescriptionNameList[objIndex][col_qty]);
+                                  }
                               }
-                              if(i==1)
+                          });
+                          
+                    }
+                    else
+                    {
+                        let i=0;
+                       
+                         _.find(clocktimedata, function(res) {
+                              if(res.pid==vm.prescriptFinalData.prescription_report[0].pid)
                               {
-                                  vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_2 = res.timing; 
-                                  vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_2 = res.quantity; 
-                                  // vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_2 = res.clock_suggest; 
-                              }
-                              if(i==2)
-                              {
-                                  vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_3 = res.timing; 
-                                  vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_3 = res.quantity; 
-                                  //vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_3 = res.clock_suggest; 
-                              }
-                              if(i==3)
-                              {
-                                  vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_4 = res.timing; 
-                                  vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_4 = res.quantity; 
-                                   //vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_4 = res.clock_suggest; 
-                              }
-                              i++;
+                                  if(i==0)
+                                  {
+                                      vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_1 = res.timing; 
+                                      vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_1 = res.quantity; 
+                                      //vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_1 = res.clock_suggest; 
+                                  }
+                                  if(i==1)
+                                  {
+                                      vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_2 = res.timing; 
+                                      vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_2 = res.quantity; 
+                                      // vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_2 = res.clock_suggest; 
+                                  }
+                                  if(i==2)
+                                  {
+                                      vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_3 = res.timing; 
+                                      vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_3 = res.quantity; 
+                                      //vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_3 = res.clock_suggest; 
+                                  }
+                                  if(i==3)
+                                  {
+                                      vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_4 = res.timing; 
+                                      vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_4 = res.quantity; 
+                                       //vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest_4 = res.clock_suggest; 
+                                  }
+                                  i++;
 
-                              f_quantity=parseInt(vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_1)+parseInt(vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_2)+parseInt(vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_3)+parseInt(vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_4);
-                          }
-                            
-                    });
+                                  f_quantity=parseInt(vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_1)+parseInt(vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_2)+parseInt(vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_3)+parseInt(vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_4);
+                              }
+                                
+                        });
+                    }
+                    
                     vm.prescriptFinalData.prescriptionNameList[objIndex].total_quantity=f_quantity;
                     vm.class_type='ADD';
                     $("#prescription").prop("disabled", false);
                     $("#how_many_times").prop("disabled", false);
+                    $("#qhrs").prop("disabled", false);
                     vm.clearPrespData();
                     return false;   
                 }
