@@ -5,12 +5,12 @@
 
                 <div class="col-md-12">
                   <div class="table-responsive">
-                    <table class="table" id="">
+                    <table class="table" v-if="setPresPrint" id="">
                         <tbody>
-
+                        
                          <tr v-for="(res,index) in prescriptData" v-if="res.remove=='false'" :id="res.pid">
-
-                                <td>{{++index}} ] {{res.name}} :ORAL
+                                    
+                                <td>  {{++index}}] {{res.name}} :ORAL
                                     
                                     <span v-if="res.type=='Q-Hrs'">
                                         <span v-for="(item,index) in res.total_qhrs">
@@ -52,40 +52,41 @@
                                     <span v-else>TO BE CONTINUE</span>
                             </td>
                             <td v-if="removeBtn==1"><i class="fa fa-remove point" @click="removePrescript(res.pid)"></i></td> 
-                          </tr>
-                        </tbody>
-                    </table>
-                  </div>
-                  <div class="table-responsive">
-                    <table class="table table-striped table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Index</th>
-                                <th>Prescription Name</th>
-                                <th>How Many Times</th>
-                                <th>Total Quantity</th>
-                                <th>QHRS</th>
-                                <th>Total Days</th>
-                                <th>Suggetion</th>
-                                <th v-if="removeBtn==1">Action</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                         <tr v-for="(res2,index) in prescriptData" v-if="res2.remove=='false'" :id="res2.pid">
-                                <td>{{++index}} </td>
-                                <td>{{res2.name}}</td>
-                                <td>{{res2.type}}</td>
-                                <td>{{res2.total_quantity*res2.total_prescription_days}}</td>
-                                <td>{{res2.qhrs}}</td>
-                                <td>{{res2.total_prescription_days}}</td>
-                                <td>{{res2.clock_suggest}}</td>
                             
-                            <td v-if="removeBtn==1"><i class="fa fa-remove point" @click="removePrescript(res2.pid)"></i></td>
                           </tr>
                         </tbody>
                     </table>
                   </div>
+                <!--   <div class="table-responsive">
+                  <table class="table table-striped table-bordered">
+                      <thead>
+                          <tr>
+                              <th>Index</th>
+                              <th>Prescription Name</th>
+                              <th>How Many Times</th>
+                              <th>Total Quantity</th>
+                              <th>QHRS</th>
+                              <th>Total Days</th>
+                              <th>Suggetion</th>
+                              <th v-if="removeBtn==1">Action</th>
+                
+                          </tr>
+                      </thead>
+                      <tbody>
+                       <tr v-for="(res2,index) in prescriptData" v-if="res2.remove=='false'" :id="res2.pid">
+                              <td>{{++index}} </td>
+                              <td>{{res2.name}}</td>
+                              <td>{{res2.type}}</td>
+                              <td>{{res2.total_quantity*res2.total_prescription_days}}</td>
+                              <td>{{res2.qhrs}}</td>
+                              <td>{{res2.total_prescription_days}}</td>
+                              <td>{{res2.clock_suggest}}</td>
+                          
+                          <td v-if="removeBtn==1"><i class="fa fa-remove point" @click="removePrescript(res2.pid)"></i></td>
+                        </tr>
+                      </tbody>
+                  </table>
+                </div> -->
                 </div>
               </div>
     </div>
@@ -110,6 +111,9 @@
                 'lab_val_size':0,
                 'prescriptDataPage': [],
                 'count_false':0,
+                'counter':0,
+                'hide':0,
+                'setPresPrint':true,
                 
             }
         },
@@ -143,6 +147,8 @@
                 vm.prescriptData=presp_array;
                 var array_presp=_.filter(vm.prescriptData, ['remove', 'false']);
                 vm.count_false=array_presp.length;
+                vm.setPresPrint = false;
+                vm.setPresPrint = true;
             }
             
           }

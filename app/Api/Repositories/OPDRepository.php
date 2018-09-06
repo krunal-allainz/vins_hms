@@ -3,6 +3,7 @@
  use euro_hms\Models\OpdDetails;
  use euro_hms\Models\Laboratory;
  use euro_hms\Models\PrescriptionDetails;
+  use euro_hms\Models\PrescriptionClockDetails;
  use euro_hms\Models\OPDReferences;
  use euro_hms\Models\Radiology;
  use euro_hms\Models\CrossDetails;
@@ -185,19 +186,36 @@
 	 			$prescription_obj->how_many_times=$prescription['type'];
 	 			$prescription_obj->total_prescription_days=$prescription['total_prescription_days'];
 	 			$prescription_obj->total_quantity=$prescription['total_quantity'];
-	 			$prescription_obj->clock_quantity_1=$prescription['clock_quantity_1'];
-	 			$prescription_obj->clock_quantity_2=$prescription['clock_quantity_2'];
-	 			$prescription_obj->clock_quantity_3=$prescription['clock_quantity_3'];
-	 			$prescription_obj->clock_time_1=$prescription['clock_time_1'];
-	 			$prescription_obj->clock_time_2=$prescription['clock_time_2'];
-	 			$prescription_obj->clock_time_3=$prescription['clock_time_3'];
-	 			$prescription_obj->clock_suggest_1=$prescription['clock_suggest'];
-	 			/*$prescription_obj->clock_suggest_2=$prescription['clock_suggest_2'];
-	 			$prescription_obj->clock_suggest_3=$prescription['clock_suggest_3'];*/
-
+	 			$prescription_obj->clock_suggest=$prescription['clock_suggest'];
 	 			$prescription_obj->qhrs=$prescription['qhrs'];
+	 			$prescription_obj->total_qhrs=$prescription['total_qhrs'];
 	 			$prescription_obj->remove=$prescription['remove'];
 	 			$prescription_obj->save();
+	 			$last_prescription_id=$prescription_obj->id;
+
+	 			if($prescription['type']=='Q-Hrs')
+	 			{
+	 					for($i=1;$i<=$prescription['total_qhrs'];$i++)
+		 				{
+
+		 					$prescription_clock_obj=new PrescriptionClockDetails();
+		 					$prescription_clock_obj->prescription_id=$last_prescription_id;
+		 					$prescription_clock_obj->clock_quantity=$prescription['clock_quantity_'.$i];
+				 			$prescription_clock_obj->clock_time=$prescription['clock_time_'.$i];
+				 			$prescription_clock_obj->save();
+		 				}
+	 			}
+	 			else
+	 			{
+	 				for($i=1;$i<=4;$i++)
+	 				{
+	 					$prescription_clock_obj=new PrescriptionClockDetails();
+	 					$prescription_clock_obj->prescription_id=$last_prescription_id;
+	 					$prescription_clock_obj->clock_quantity=$prescription['clock_quantity_'.$i];
+			 			$prescription_clock_obj->clock_time=$prescription['clock_time_'.$i];
+			 			$prescription_clock_obj->save();
+	 				}
+	 			}
 	 		}
  		}
  		if($reff_data['referral']=='physiotherapy')
