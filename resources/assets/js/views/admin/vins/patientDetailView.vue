@@ -25,7 +25,6 @@
                     </td>
                  	<td>
                  	<b>Age :</b> 
-                     <span>{{patientinfo.age}}</span>
                      <span v-if="(patientinfo.age > 1000)">
 							<span v-if="(((currentYear) - (patientinfo.age)) > 0)">{{(currentYear) - (patientDetail.age)}}</span>	
 							<span v-else> 1</span>

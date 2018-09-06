@@ -62,7 +62,6 @@
                         {{ patientData.token_id}}
                       </td>
                       <td data-v-744e717e="" class="" v-if="user_type == 3" v-text="consultantName(patientData.user_details)">
-                       
                       </td>
                       <td data-v-744e717e="" class="" v-if="user_type == 1">
                       <a :href="'/opd_form'"> <i class="fa fa-user-md text-info mr-3 text-info mr-3" @click="setPatientId(patientData.patient_id)" title="opd form"></i></a>
@@ -214,6 +213,7 @@
                 'patientDetailInfo' : {
                   'patientDetail' : '',
                   'opdDetails' : '',
+                  'patientCaseDetail' : ''
                 },
 
                 'doctore_Id' : this.$store.state.Users.userDetails.id,
@@ -318,9 +318,9 @@
               (response) => { 
                 if(response.data.code == 200){
                    this.patientDetailInfo.patientDetail = response.data.data.patientDetail;
+                   this.patientDetailInfo.patientCaseDetail = response.data.data.caseDetail;
                    var opdDetailList = [];
                     $.each(response.data.data.opdDetails, function(key, value) {
-                      console.log(value);
                       let advice = JSON.parse(value.advice);
                       let history  = JSON.parse(value.history) ;
                       let past_history  = JSON.parse(value.past_history) ;
