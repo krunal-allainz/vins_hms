@@ -16,14 +16,16 @@ const state = {
     'opdData':{},
     'opd_resultData':{},
     'radioData':{},
-    'neuroExaminationData':{},
-    'vascExaminationData':{},
+    'neuroExaminationData':'',
+    'vascExaminationData':'',
     'laboratoryData':{},
     'saveOpd':false,
     'prescriptionData':{},
     'refferelReportData':{},
     'step4Data':{},
-    'curStep':1
+    'curStep':1,
+    'provisionalDiagnosis' : '',
+    'diagnosis' : ''
 
 
  }
@@ -81,6 +83,12 @@ const actions = {
   saveStep4Data({commit},step4Data) {
     commit(types.SET_Step4_DATA, step4Data);
   },
+   saveProvisionalDiagnosis({commit},provisionalDiagnosis) {
+    commit(types.SET_Provisional_Diagnosis, provisionalDiagnosis);
+  },
+   saveDiagnosis({commit},diagnosis) {
+    commit(types.SET_Diagnosis, diagnosis);
+  },
   SetPatientData ({commit},ipdId) {
     
     user.getpatientDetail(ipdId).then(
@@ -95,7 +103,6 @@ const actions = {
     (response) => {
       if(response.data.code == 200) {
         commit(types.SET_IPD_DATA, response.data.data);
-        
       }
     },
     
@@ -168,6 +175,14 @@ const mutations = {
 
       state.step4Data = step4data;
   },
+  [types.SET_Provisional_Diagnosis](state, provisionalDiagnosis){
+
+      state.provisionalDiagnosis = provisionalDiagnosis;
+  },
+  [types.SET_Diagnosis](state, diagnosis){
+
+      state.diagnosis = diagnosis;
+  },
   [types.RESET_OPD_FORM] (state) {
     // console.log(patientData)
       state.opdData = {};
@@ -175,10 +190,12 @@ const mutations = {
       state.radioData = {};
       state.prescriptionData = {};
       state.laboratoryData = {};
-      state.neuroExaminationData = {};
-      state.vascExaminationData = {};
+      state.neuroExaminationData = '';
+      state.vascExaminationData ='' ;
       state.refferelReportData={};
       state.step4Data={};
+      state.provisionalDiagnosis = '';
+      state.diagnosis = '';
   },
   [types.SAVE_OPD_DATA] (state) {
   },

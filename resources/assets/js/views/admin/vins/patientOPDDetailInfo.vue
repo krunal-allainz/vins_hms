@@ -83,7 +83,7 @@
 	</tr>
 	</tbody>
 </table>
-<table v-if="(patientAllOpdDetail != '')">
+<!--<table v-if="(patientAllOpdDetail != '')">
 	<tr>
 		  <td v-if="(patientAllOpdDetail.adviceData != null)">
                 	<div>
@@ -136,7 +136,7 @@
 						</div>
 					</td>
 	</tr>
-</table>
+</table> -->
 </template>
 <script>	
 	export default {

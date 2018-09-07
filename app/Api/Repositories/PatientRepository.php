@@ -131,8 +131,6 @@
 
                   $newPatOPDNo = sprintf("%04d",$lastOPD);
                   $insertedOPDId=$opd_prefix.$year.$newPatOPDNo;
-                 
-
                     $caseData = OpdDetails::create([
                       'opd_id'=>$insertedOPDId,
                         'patient_id'=> $patientId,

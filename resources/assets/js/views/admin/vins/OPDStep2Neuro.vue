@@ -7,10 +7,39 @@
 			</div>
 		</div>
 	</div>
-
   <form action>
-    <div class="row">
+    <div class="row form-group">
       <div class="col-md-6" style="padding: 0px;">
+        <div class="col-md-6">
+          <label for="examination" class="control-label">Examination : </label>
+        </div>
+        <div class="col-md-6">
+          <textarea  class="form-control"  id="examination" name="examination" value="" v-model="neuroExaminationData"  ></textarea>
+        </div>
+      </div>
+    </div>
+     <div class="row form-group">
+            <div class="col-md-6" style="padding: 0px;">
+              <div class="col-md-6">  
+                <label for="date">Provisional Diagnostic:</label>
+              </div>
+              <div class="col-md-12">
+                <textarea class="form-control" name="provisional_diagnosis" id="provisional_diagnosis" v-model="provisionalDiagnosis" v-validate="'required'"></textarea>
+                <i v-show="errors.has('provisional_diagnosis')" class="fa fa-warning"></i>
+                <span class="help is-danger" v-show="errors.has('provisional_diagnosis')">
+                   Please enter provisional diagnostic.
+                </span>
+              </div>
+            </div>
+        </div>
+    <div class="row form-group">
+      <button type="button" class="btn btn-primary btn-submit text-right " @click="prev()" >Previous</button>
+      <button type="button" class="btn btn-primary btn-submit text-right ml-10" @click="next()" >Next</button>
+     
+    </div>
+  </form>
+ 
+    <!-- <div class="col-md-6" style="padding: 0px;">
         
           <div class="col-md-6">
           <label for="plantars" class="control-label">Motor Examination : </label>
@@ -19,7 +48,7 @@
           <textarea  class="form-control"  id="motor_examination" name="motor_examination" value="" v-model="neuroExaminationData.motor_examination"  ></textarea>
         </div>
       </div>
-      <div class="col-md-6" style="padding: 0px;">
+       <div class="col-md-6" style="padding: 0px;">
        
         <div class="col-md-6">
           <label for="plantars" class="control-label">Sensory Examination : </label>
@@ -27,9 +56,10 @@
         <div class="col-md-6">
           <textarea  class="form-control"  id="sensory_examination" name="sensory_examination" value="" v-model="neuroExaminationData.sensory_examination"></textarea>
         </div>
-      </div>
+         <hr />
+      </div> 
     </div>
-    <hr />
+   
 
     <div class="row">
       <div class="table-responsive">
@@ -141,7 +171,7 @@
 					<input class="form-control" type="text" id="neck_stiffness" name="neck_stiffness" value="" v-model="neuroExaminationData.neck_stiffness" />
         </div>
       </div>
-    </div>
+    </div> 
 
     <div class="row form-group">
       <div class="col-md-6">
@@ -152,20 +182,9 @@
 					<input class="form-control" type="text" id="diagnosis" name="diagnosis" value="" v-model="neuroExaminationData.diagnosis"/>
         </div>
       </div>
-    </div>
-  
-
-    <div class="row form-group">
-      <button type="button" class="btn btn-primary btn-submit text-right " @click="prev()" >Previous</button>
-      <button type="button" class="btn btn-primary btn-submit text-right ml-10" @click="next()" >Next</button>
-     
-    </div>
-  </form>
- 
+    </div> -->
+    
 </div>
-
-
-
 </template>
 <script >
 	import User from '../../../api/users.js'
@@ -187,31 +206,33 @@
                 'patient_id': this.$store.state.Patient.patientId,
                	'ipd_id': this.$store.state.Patient.ipdId,
                 'hasError':true,
-                'neuroExaminationData': {
-                  'right_biceps' : '',
-                  'right_triceps' : '',
-                  'right_supinator' : '',
-                  'right_knee' : '',
-                  'right_ankle' : '',
-                  'right_hoffmann' : '',
-                  'right_ff' : '',
-                  'left_biceps' : '',
-                  'left_triceps' : '',
-                  'left_supinator' : '',
-                  'left_knee' : '',
-                  'left_ankle' : '',
-                  'left_hoffmann' : '',
-                  'left_ff' : '',
-                  'plantars' : '',
-                  'romberg' : '',
-                  'gait' : '',
-                  'cerebellar' : '',
-                  'neck_stiffness' : '',
-                  'diagnosis' : '',
-                  'motor_examination' : '',
-                  'sensory_examination' : '',
-                  'follow_up':''
-								}
+                'neuroExaminationData' : '',
+                'provisionalDiagnosis':'',
+        //         'neuroExaminationData': {
+        //           'right_biceps' : '',
+        //           'right_triceps' : '',
+        //           'right_supinator' : '',
+        //           'right_knee' : '',
+        //           'right_ankle' : '',
+        //           'right_hoffmann' : '',
+        //           'right_ff' : '',
+        //           'left_biceps' : '',
+        //           'left_triceps' : '',
+        //           'left_supinator' : '',
+        //           'left_knee' : '',
+        //           'left_ankle' : '',
+        //           'left_hoffmann' : '',
+        //           'left_ff' : '',
+        //           'plantars' : '',
+        //           'romberg' : '',
+        //           'gait' : '',
+        //           'cerebellar' : '',
+        //           'neck_stiffness' : '',
+        //           'diagnosis' : '',
+        //           'motor_examination' : '',
+        //           'sensory_examination' : '',
+        //           'follow_up':''
+								// }
             }
         },
 				components: {
@@ -229,7 +250,6 @@
 				 });
            $(document).on("select2:select",'.ls-select2', function (e) {
              if(this.id == 'cerebellar') {
-                console.log($(this).val());
                 vm.neuroExaminationData.cerebellar=$(this).val();
              } 
              
@@ -243,6 +263,7 @@
           initData(){
             let vm =this;
             vm.neuroExaminationData = _.cloneDeep(this.$store.state.Patient.neuroExaminationData);
+            vm.provisional_diagnosis = _.cloneDeep(this.$store.state.Patient.provisionalDiagnosis);
             if(vm.neuroExaminationData.cerebellar)
             {
               $("#cerebellar").val(vm.neuroExaminationData.cerebellar).trigger('change.select2');
@@ -252,11 +273,13 @@
           prev() {
               let vm =this;
               vm.$store.dispatch('saveNeuroExamination', _.cloneDeep(vm.neuroExaminationData)) ;
+              vm.$store.dispatch('saveProvisionalDiagnosis', _.cloneDeep(vm.provisionalDiagnosis)) ;
               vm.$root.$emit('prev');
           },
           next() {
             let vm =this;
             vm.$store.dispatch('saveNeuroExamination', _.cloneDeep(vm.neuroExaminationData)) ;
+             vm.$store.dispatch('saveProvisionalDiagnosis', _.cloneDeep(vm.provisionalDiagnosis)) ;
             vm.$root.$emit('next');
           },
 		    GetSelectComponent(componentName) {
