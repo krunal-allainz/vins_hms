@@ -65,7 +65,7 @@
                       </td>
                       <td data-v-744e717e="" class="" v-if="user_type == 1">
                       <a :href="'/opd_form'"> <i class="fa fa-user-md text-info mr-3 text-info mr-3" @click="setPatientId(patientData.patient_id)" title="opd form"></i></a>
-                       <i class="fa fa-eye text-info mr-3 text-info mr-3"  data-toggle="modal" data-target="#patientDetailModal" @click="getPatientInfo(patientData.patient_id)" ></i> 
+                      <!-- <i class="fa fa-eye text-info mr-3 text-info mr-3"  data-toggle="modal" data-target="#patientDetailModal" @click="getPatientInfo(patientData.patient_id)" ></i> -->
                         <patientDetailInfo ref="modal" :showPatientDetail="patientDetailInfo"></patientDetailInfo>
                       </td>
                     </tr>
