@@ -177,13 +177,12 @@
                     </div>
                     <div class="col-md-6">
                       <div class=" input-group">
-                      <input type="text" name="temp" id="temp" class="form-control number-with-validation"  v-model="opdData.temp" v-validate="'required|numeric|min_value:1'" pattern="\d{1,3}(\.\d{0,1})?" >
+                      <input type="text" name="temp" id="temp" class="form-control number-with-validation"  v-model="opdData.temp" v-validate="'decimal:1|required|min_value:1|max_value:999'">
                         <div class="input-group-append">
                             <span class="input-group-text ">°F</span>
                         </div>
                       
                       </div>
-                      <i v-show="errors.has('temp')" class="fa fa-warning"></i>
                       <span class="help is-danger" v-show="errors.has('temp')">
                          Please enter valid temprature.
                       </span>
