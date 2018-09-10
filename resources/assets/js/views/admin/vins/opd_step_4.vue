@@ -400,7 +400,7 @@
                             'step4Data':this.$store.state.Patient.step4Data,
                             'crossRefer': this.crossRefer,
                             'reffData':this.$store.state.Patient.refferelReportData,
-                            'diagnosis':this.$store.state.Patient.diagnosis,
+                            'diagnosis':this.$store.state.Patient.diagnosis,  
                             'provisionalDiagnosis':this.$store.state.Patient.provisionalDiagnosis,
                           };
                           this.saveOpdData(oData);
