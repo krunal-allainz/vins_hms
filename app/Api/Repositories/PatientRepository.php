@@ -144,10 +144,7 @@
                     {
                       $data['case_type']='new_case';
                    
-                    }/*else{
-                        $opdData =  $this->getOPDDetailsByPatientId($patientId);
-                      $sectionId    = $opdData->id;
-                    }*/
+                    }
                      $sectionId = $caseData->id;
                    /* start add case management data */
                   $patientCaseInsert = PatientCaseManagment::create([
@@ -162,7 +159,7 @@
                     'created_at' =>Carbon::now(),
                     'updated_at' =>Carbon::now(),
                  ]);
-                  
+
                  
                    $tokenInsert =  TokenManagment::create([
                     'token'=>$data['token_no'],
