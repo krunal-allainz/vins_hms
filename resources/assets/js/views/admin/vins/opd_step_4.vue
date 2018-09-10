@@ -117,7 +117,6 @@
             <div class="modal-footer">
               <button  type="button" class="btn btn-primary"  @click="ClickHereToPrint()">Print</button>
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
-             
             </div>  
           </div>  
         </div>  
@@ -209,6 +208,7 @@
             
             var oData = {
               'opdData':this.$store.state.Patient.opdData,
+              'patientCase':this.$store.state.Patient.patientCase,
               'resultData':this.$store.state.Patient.opd_resultData,
               'doctor':doctor,
               'department':department,
@@ -389,6 +389,7 @@
                           
                           var oData = {
                             'opdData':this.$store.state.Patient.opdData,
+                            'patientCase':this.$store.state.Patient.patientCase,
                             'resultData':this.$store.state.Patient.opd_resultData,
                             'doctor':doctor,
                             'department':department,

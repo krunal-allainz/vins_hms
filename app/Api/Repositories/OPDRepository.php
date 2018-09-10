@@ -108,7 +108,8 @@
  		$crossRefer=$request->all()['data']['crossRefer'];
  		$diagnosis =$request->all()['data']['diagnosis'];
  		$provisional_diagnosis = $request->all()['data']['provisionalDiagnosis'];
- 		
+ 		$patientCaseData =$request->all()['data']['patientCase'];
+ 		dd($patientCaseData);
  		if($department=='Vascular')
  		{
  			$examinationData=$request->all()['data']['vascExaminationData'];
@@ -522,11 +523,11 @@
  		  $advice = $result['opdDetails']->advice;
  		  $history = $result['opdDetails']->history;
  		$pastHistory = $result['opdDetails']->past_history;
- 		$examinationData =  $result['opdExaminationData']->examination_data;
+ 		//$examinationData =  $result['opdExaminationData']->examination_data;
  		  $result['adviceData'] = json_decode($advice,true); 
  		  $result['historyData'] = json_decode($history,true); 
  		  $result['past_historyData'] = json_decode($pastHistory,true); 
- 		  $result['opdExaminationDataList'] = json_decode($examinationData,true); 
+ 		 // $result['opdExaminationDataList'] = json_decode($examinationData,true); 
 
  		 return $result;
  	}

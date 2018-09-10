@@ -365,5 +365,8 @@ export default {
   },
   getPatientOpdDetailByOpdId(opdId){
      return api.post('opd/patientallopddetail',{'id':opdId});
+  },
+  getPatientCaseAndTokenDetailByOpdId(opdId){
+     return api.post('patient/patientcaseandtokendetailinfo',{'opdId':opdId});
   }
 }
