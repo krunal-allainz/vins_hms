@@ -84,20 +84,14 @@
 									                        <tr>
 									                            <th>#</th>
 									                            <th>Name</th>
-									                           <!--  <th>Date</th> -->
-									                           <!--  <th>Result</th> -->
-									                            <!-- <th>Assigning Dr</th> -->
-									                            <!-- <th>Action</th> -->
+									                           
 									                        </tr>
 									                        </thead>
 									                        <tbody>
 									                         <tr :id="res.tr_id" v-for="(res,index) in labReportData">
 									                            <td>{{++index}}</td> 
 									                            <td>{{res.name }}</td>
-									                           <!--  <td>{{res.lab_date.time}}</td> -->
-									                            <!-- <td>{{res.result}}</td> -->
-									                            <!-- <td>{{res.assign}}</td> -->
-									                            <!-- <td> <i class="fa fa-remove" @click="removeLaboratory(res.id)"></i></td> -->
+									                          
 									                          </tr>
 
 									                        </tbody>
@@ -246,6 +240,7 @@
 
 			 	</div>
 			 	<div v-if="(printType == 'opd_case')"  >
+
 			 			<div class='row'>
 			 				<div class='col-md-12 text-center'>
 			 					<h4>OPD CASE</h4>
@@ -253,6 +248,7 @@
 			 			</div>
 				 		
     	 	 			<div v-for="reportName in checkedreportList">
+
 	    	 	 			<div v-if="(reportName == 'Advice + follow ups')">
 		    	 	 			<div v-if="(adviceType == 'text' && advice != '')">
 		    	 	 				<div class='col-md-6 text-left'>
@@ -325,6 +321,7 @@
         							</div>
     	 	 					</div>
     	 	 					<div v-if="(reportName == 'Laboratory')">
+    	 	 						abc
     	 	 						<div class='row' v-if="(labReportData)">
 										<div class='col-md-12 text-center'>
 						 					<h4>Lab Report</h4>
@@ -338,20 +335,14 @@
 									                    <tr>
 									                    <th>#</th>
 									                    <th>Name</th>
-									                   <!--  <th>Date</th>
-									                   <th>Result</th> -->
-									                    <!-- <th>Assigning Dr</th> -->
-									                    <!-- <th>Action</th> -->
+									                  
 									                    </tr>
 									                </thead>
 									                <tbody>
 									                    <tr :id="res.tr_id" v-for="(res,index) in labReportData">
 									                            <td>{{++index}}</td> 
 									                            <td>{{res.name }}</td>
-									                            <!-- <td>{{res.lab_date.time}}</td>
-									                            <td>{{res.result}}</td> -->
-									                           <!--  <td>{{res.assign}}</td> -->
-									                            <!-- <td> <i class="fa fa-remove" @click="removeLaboratory(res.id)"></i></td> -->
+									                           
 									                    </tr>
 
 									                </tbody>

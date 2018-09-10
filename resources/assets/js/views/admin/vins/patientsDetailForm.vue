@@ -26,6 +26,18 @@
 		            	</span>
 		          	</div>
 		        </div>
+		        <div class="col-md-6">
+	      				<div class="col-md-6">
+	                    	<label for="uhid_no" class="control-label">UHID No : </label>
+	                	</div>
+		                <div class="col-md-6">
+							<input class="form-control" type = "text" v-validate="'required'" id = "uhid_no" name="uhid_no" value=""  v-model="patientData.uhid_no" :readonly="patientData.case == 'old'"/>
+							<i v-show="errors.has('uhid_no')" class="fa fa-warning"></i>
+							<span class="help is-danger" v-show="errors.has('uhid_no')"> 
+								Please enter UHID No.
+			              	</span>
+		                </div>
+		            </div>
 
 				<!-- <div class="col-md-6">
 			    	<div class="col-md-6">
@@ -50,7 +62,7 @@
 	                    	<label for="first_name" class="control-label">First Name : </label>
 	                	</div>
 		                <div class="col-md-6">
-							<input class="form-control" type = "text" v-validate="'required|alpha'" id = "first_name" name="first_name" value=""  v-model="patientData.fname" :readonly="patientData.case == 'old'"/>
+							<input class="form-control" type = "text" v-validate="'required|alpha_spaces'" id = "first_name" name="first_name" value=""  v-model="patientData.fname" :readonly="patientData.case == 'old'"/>
 							<i v-show="errors.has('first_name')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('first_name')"> 
 								Please enter valid first name.
@@ -62,7 +74,7 @@
 		                   	<label for="middle_name" class="control-label">Middle Name: </label>
 		                </div>
 		                <div class="col-md-6">
-							<input class="form-control" type="text" id="middle_name" name="middle_name" value=""  v-model="patientData.mname" :disabled="patientData.case == 'old'"  v-validate="'alpha'"/>
+							<input class="form-control" type="text" id="middle_name" name="middle_name" value=""  v-model="patientData.mname" :disabled="patientData.case == 'old'"  v-validate="'alpha_spaces'"/>
 							<i v-show="errors.has('middle_name')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('middle_name')">
 			                	Please enter valid middle name.
@@ -76,7 +88,7 @@
 	                		<label for="last_name" class="control-label">Last Name: </label>
 	                	</div>
 	                	<div class="col-md-6">
-							<input class="form-control" type="text" id="last_name" name="last_name" value="" v-model="patientData.lname" v-validate="'required|alpha'" :disabled="patientData.case == 'old'"/>
+							<input class="form-control" type="text" id="last_name" name="last_name" value="" v-model="patientData.lname" v-validate="'required|alpha_spaces'" :disabled="patientData.case == 'old'"/>
 							<i v-show="errors.has('last_name')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('last_name')">
 	            	         	Please enter valid lastname.
@@ -196,7 +208,7 @@
 			      		<label class="control-label" for="consulting_dr">Consulting Dr..: </label>
 					</div>
 					<div class="col-md-6">
-			      		<select class="form-control ls-select2"  id="consulting_dr" name="consulting_dr"  v-model="patientData.consulting_dr" v-validate="'required'">
+			      		<select class="form-control ls-select2"  id="consulting_dr" name="consulting_dr" v-validate="'required'">
 							 <option :value="doctor.id" v-for="doctor in patientData.consulting_dr_option">{{doctor.text}}</option>
 			      		</select>
 			      		<i v-show="errors.has('consulting_dr')" class="fa fa-warning"></i>
@@ -230,7 +242,8 @@
 			          	</div>
 		          	<div class="col-md-6">
 		            	<select  class="form-control ls-select2" v-validate="'required'" id ="token_status" name="token_status" >
-		            		<option value="waiting" selected="selected">waiting</option>
+		            		<option value="">Select</option>
+		            		<option value="waiting">waiting</option>
 		              		<option value="pending">pending</option>
 		            	</select>
 		          	</div>
@@ -242,7 +255,8 @@
 			            	<label for="case_type" >Case Type:</label>
 			          	</div>
 		          	<div class="col-md-6">
-		            	<select  class="form-control ls-select2" v-validate="'required'" id = "case_type" name="case_type" value="" v-model="patientData.case_type">
+		            	<select  class="form-control ls-select2" v-validate="'required'" id="case_type" name="case_type">
+		            		<option value="">Select</option>
 		              		<option value="cross_reference">Cross Reference</option>
 		              		<option value="reports">Reports</option>
 		              		<option value="follow_ups">Follow ups</option>
@@ -356,7 +370,7 @@
                 	'mob_no': '',
                 	'reference_dr': '',
                 	'consulting_dr':'',
-                	'consulting_dr_option':consult_list,
+                	'consulting_dr_option':{},
                 	'age' : '',
                 	'display_age' : '',
                 	'appointment_datetime': {
@@ -366,8 +380,9 @@
                 	'patient_id':'',
                 	'case_type' : '',
                 	'token_no' : '',
-                	'token_status' : 'waiting',
-                	'token_validation' : 0
+                	'token_status' : '',
+                	'token_validation' : 0,
+                	'uhid_no':''
                 }
             }
         },
@@ -385,6 +400,22 @@
 					placeholder: "Select",
 					tags: false,
 				});
+
+				/*for consulting dr */
+				consult_list=[];
+			    User.generateUserDetailsByType(1,'Active').then(
+			    	 (response) => {
+	           	 		let consult_data  = response.data.data;
+	           	 		$.each(consult_data, function(key, value) {
+	               	 		let name =  value.first_name +' '+value.last_name;
+	               	 		let id  = value.id ;
+	               	 		consult_list.push({text:name, id:id});
+	           	 		});
+	           	 		vm.patientData.consulting_dr_option=consult_list;
+	           	 	},
+	           	 	(error) => {
+	        	 	},
+				);
 				if(vm.patientData.token_validation != 0){
 	  				vm.patientData.token_no = '';
 	  			}
@@ -406,49 +437,43 @@
      //            }
      //        });
 				vm.patientData.type = 'opd';
-
-	          	$('.ls-select2').on("select2:select", function (e) {
-		             if(this.id == 'case'){
+				$('#case').on("select2:select", function (e) {
 		             	vm.patientData.case = $(this).val();
 		             	if($(this).val()=='new')		
 		             	{
+		             		console.log('dsdsf');
 		             		//vm.userlistData={};
+		             		$('#case_type').select2('destroy');
 		             		vm.initPatientData();
 		             	}
-		             }
-		             else if(this.id == 'gender') {
-		             	vm.patientData.gender = $(this).val();		
+		             	else if($(this).val()=='old')
+		             	{
+		             		vm.initPatientData();
+		             		setTimeout(function(){
+			             		$('#case_type').select2({
+									placeholder: "Select",
+									tags: false,
+								});
+								$('#case_type').on("select2:select", function (e) {
+		                			vm.patientData.case_type=$(this).val();
+          						});
 
-		             } else if(this.id == 'type') {
-		             	vm.patientData.type = $(this).val();		
-		             } else if(this.id == 'case_type') {
-		             	vm.patientData.case_type = $(this).val();		
-		             }
-		             else if(this.id == 'token_status') {
-		             	vm.patientData.token_status = $(this).val();		
-		             }
-
-		             else if(this.id == 'consulting_dr'){
-		             	vm.patientData.consulting_dr = $(this).val();			
-		             }else{
-
-		             }
-				});
-
-			/*for consulting dr */
-
-				    User.generateUserDetailsByType(1,'Active').then(
-				    	 (response) => {
-	               	 		let consult_data  = response.data.data;
-	               	 		$.each(consult_data, function(key, value) {
-		               	 		let name =  value.first_name +' '+value.last_name;
-		               	 		let id  = value.id ;
-		               	 		consult_list.push({text:name, id:id});
-	               	 		});
-	               	 	},
-	               	 	(error) => {
-	            	 	},
-					);
+							},500);
+		             	}
+		            });
+					$('#consulting_dr').on("select2:select", function (e) {
+						vm.patientData.consulting_dr = $(this).val();
+					});	
+					$('#type').on("select2:select", function (e) {
+						vm.patientData.type = $(this).val();
+					});	
+					$('#token_status').on("select2:select", function (e) {
+						vm.patientData.token_status = $(this).val();
+					});	
+					$('#gender').on("select2:select", function (e) {
+						vm.patientData.gender = $(this).val(); 
+					});
+			
         },
         created: function(){
         	this.$root.$on('patientData',this.setPatientData);
@@ -550,23 +575,21 @@
             		}
         			this.patientData.patient_id=pDetails.id;
         			this.patientData.fname = pDetails.first_name;
+        			this.patientData.uhid_no = pDetails.uhid_no;
             		this.patientData.mname = pDetails.middle_name;
             		this.patientData.lname = pDetails.last_name;
             		this.patientData.ph_no = pDetails.ph_no;
             		this.patientData.mob_no = pDetails.mob_no;
             		this.patientData.type = pDetails.type;
             		this.patientData.gender = pDetails.gender;
-            		$('#gender').val(pDetails.gender).trigger('change');
             		this.patientData.address = pDetails.address;
             		this.patientData.reference_dr = pDetails.references;
             		this.patientData.dob.time = pDetails.dob;
             		this.patientData.consulting_dr = pDetails.consultant_id;
-            		
             		this.patientData.type = pDetails.type;
             		$('#type').val(pDetails.type).trigger('change');
-
-            		$('#gender').val(pDetails.gender).change();
-            		$('#consulting_dr').val(pDetails.consultant_id).change();
+            		$('#gender').val(pDetails.gender).trigger('change');
+            		$('#consulting_dr').val(pDetails.consultant_id).trigger('change');
             		
             		//this.getAgeCal();
         		}
@@ -603,14 +626,12 @@
 	
 				//convert the date string in the format of dd/mm/yyyy into a JS date object	
 				parseDate(dateStr) {
-				  var dateParts = dateStr.split("-");	
-				
-				   return new Date(dateParts[2], (dateParts[1] - 1), dateParts[0]);		
+				  	var dateParts = dateStr.split("-");
+				   	return new Date(dateParts[2], (dateParts[1] - 1), dateParts[0]);		
 				},	
 	
 				//is valid date format	
 				calculateAge (dateOfBirth, dateToCalculate) {
-				
 				    var calculateYear = dateToCalculate.getFullYear();	
 				    var calculateMonth = dateToCalculate.getMonth();	
 				    var calculateDay = dateToCalculate.getDate();	
@@ -683,8 +704,21 @@
 			      }
 			    },
 		    initPatientData(){
-		    	var vm = this;
+		    	var vm = this;   
 		    	vm.patientData.patient_id = '';
+		    	$('#consulting_dr').select2("destroy");
+		    	//$('#token_status').select2("destroy");
+		    	//setTimeout(function(){
+             		$('#consulting_dr').select2({
+						placeholder: "Select",
+						tags: false,
+					});
+					$('#token_status').select2({
+						placeholder: "Select",
+						tags: false,
+					});
+				//},500);
+		    	vm.patientData.uhid_no = '';
 		    	vm.patientData.fname = '';
 		    	vm.patientData.mname = '';
 		    	vm.patientData.lname = '';
@@ -697,9 +731,13 @@
 		    	vm.patientData.consulting_dr = '';
 		    	vm.patientData.age = '';
 		    	vm.patientData.type = 'opd';
+		    	vm.patientData.case_type = '';
+		    	vm.patientData.token_status = '';
 		    	vm.patientData.appointment_datetime.time = '';
 		    	$("#gender").val('').trigger('change.select2');
 		    	$("#consulting_dr").val('').trigger('change.select2');
+		    	$("#case_type").val('').trigger('change.select2');
+		    	$("#token_status").val('').trigger('change.select2');
 		    },
 		    deleteConfirmed() {
 		      },
@@ -723,7 +761,11 @@
 		    					localStorage.setItem("Status",1)
     							window.location.reload(); 
     							//this.$router.go();
-		                	} else if(response.data.code == 300) {
+		                	} 
+		                	else if(response.data.code == 301) {
+		                		toastr.error(response.data.message, 'Error', {timeOut: 5000});
+		                	} 
+		                	else if(response.data.code == 300) {
 		                		toastr.error('Something goes wrong.', 'Error', {timeOut: 5000});
 		                	} else{
 		                		

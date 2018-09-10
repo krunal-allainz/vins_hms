@@ -30,7 +30,7 @@
 							<input type="checkbox" :value="mainCat.reportListId" id="mainCat.reportListId" v-model="checkedreportList" @click="check($event)"> {{mainCat.reportListId}}
 						</li>
 					</ul>
-					<span class="help is-danger" v-if="(reportListSelect == 1)">
+					<span class="help is-danger" v-if="(checkedreportList.length == 0)">
                   			Please select any report Type.
                 	</span> 
 				</div>
@@ -38,7 +38,7 @@
 					<!-- <button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button> -->
 					<button type="button" class="btn btn-primary btn-submit text-right" @click="print_multiple_report()">Print</button>
 
-					<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button>
+					<!-- <button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button> -->
 					<!-- <button ty pe="button" lass="btn btn-primary btn-submit text-right" >Print</button> -->
 
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -203,6 +203,7 @@
 					'patientCheckupDetail' : this.patientCheckupDetail,
 					'department' : this.department,
 					'doctoreName' : this.doctoreName,
+					'reference' : this.reference
 				};
 
 		      	User.printOPDCaseMultipleData(OPDCaseData).then(	
@@ -240,6 +241,7 @@
        			let vm = this;
        			User.getPatientOpdData(opdId).then(
        				(response) => {
+       					//console.log(response.data.data);
        				if(response.data.data.opdDetails){
        				 	 vm.ReportPageData.opdData = response.data.data.opdDetails;
        				}
@@ -264,8 +266,8 @@
        				if(response.data.data.opdprescriptionData){
        				  vm.ReportPageData.prescriptionReportData = response.data.data.opdprescriptionData;
        				}
-       				if(response.data.data.past_history){
-       				  vm.ReportPageData.past_history =response.data.data.past_history; 
+       				if(response.data.data.past_historyData){
+       				  vm.ReportPageData.past_history =response.data.data.past_historyData; 
        				}
        				if(response.data.data.historyData){
        				  vm.ReportPageData.historyData =response.data.data.historyData; 
@@ -300,8 +302,8 @@
 	  							if(response.data.code == 200){
 	  							vm.patientCheckupDetail = response.data.data;
 	  							}
-	  							var sectionOpdId = vm.sectionOpdId;
-			  				User.getPatientCaseDetailByOpdId(sectionOpdId).then(
+	  							var OpdId = vm.opdId;
+			  				User.getPatientCaseDetailByOpdId(OpdId).then(
 			  					(response) => {
 				  					if(response.data.code == 200){
 				  					vm.reference = response.data.data.references;
@@ -356,6 +358,7 @@
 		   	  ClickHereToPrint() {
 				
 				let vm = this;
+
 				var  OPDCaseData = {
 							
 							'priscriptionData': this.prescriptiData,
@@ -372,7 +375,8 @@
 							'patientDetail' : this.patientDetail,
 							'patientCheckupDetail' : this.patientCheckupDetail,
 							'department' : this.department,
-							'doctoreName' : this.doctoreName
+							'doctoreName' : this.doctoreName,
+							'reference' : this.reference
 						};
 
 				      	User.printOPDCaseData(OPDCaseData).then(	

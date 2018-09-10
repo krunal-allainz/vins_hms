@@ -3,6 +3,7 @@
  use euro_hms\Models\OpdDetails;
  use euro_hms\Models\Laboratory;
  use euro_hms\Models\PrescriptionDetails;
+  use euro_hms\Models\PrescriptionClockDetails;
  use euro_hms\Models\OPDReferences;
  use euro_hms\Models\Radiology;
  use euro_hms\Models\CrossDetails;
@@ -15,8 +16,10 @@
  use euro_hms\Models\PatientCaseManagment;
  use euro_hms\Api\Repositories\PatientRepository;
  use euro_hms\Api\Repositories\UserRepository;
+ use euro_hms\Models\OpdDetailsOption;
  use Carbon\Carbon;
  use DB;
+
  class OPDRepository 
  {
  	/**
@@ -100,8 +103,11 @@
  		$cross_opd_data=$request->all()['data']['reffData']['reffreal_cross_array'];
  		$lab_opd_data=$request->all()['data']['reffData']['reffreal_laboratory_array'];
  		$radio_opd_data=$request->all()['data']['reffData']['reffreal_radiology_array'];
+
  		$step4_data=$request->all()['data']['step4Data'];
  		$crossRefer=$request->all()['data']['crossRefer'];
+ 		$diagnosis =$request->all()['data']['diagnosis'];
+ 		$provisional_diagnosis = $step4_data['provisional_diagnosis'];
  		
  		if($department=='Vascular')
  		{
@@ -133,6 +139,7 @@
 			$data_patient_checkup_obj->pain=$data['pain_value'];
 			$data_patient_checkup_obj->save();
  		}
+
 		//opd details
 		if($opd_id_org)
 		{
@@ -173,6 +180,19 @@
 		 		//$opdData->consultant_id=$data['consulting_dr'];
 		 		$opdData->save();
 		}
+
+		//opd detail option
+		$opdDetailsOptionObj = new OpdDetailsOption();
+		$opdDetailsOptionObj->opd_id=$opd_id_org;
+		$opdDetailsOptionObj->history=$history_final;
+		$opdDetailsOptionObj->advice=$advice_final;
+		$opdDetailsOptionObj->past_history=$past_history_final;
+		$opdDetailsOptionObj->provisional_diagnosis =$provisional_diagnosis ;
+		$opdDetailsOptionObj->follow_up =$step4_data['follow_up'] ;
+		$opdDetailsOptionObj->diagnosis = $diagnosis ;
+		$opdDetailsOptionObj->status = 1 ;
+		$opdDetailsOptionObj->save();
+
  		//save prescription
  		if(!empty($prescription_data))
  		{
@@ -185,19 +205,35 @@
 	 			$prescription_obj->how_many_times=$prescription['type'];
 	 			$prescription_obj->total_prescription_days=$prescription['total_prescription_days'];
 	 			$prescription_obj->total_quantity=$prescription['total_quantity'];
-	 			$prescription_obj->clock_quantity_1=$prescription['clock_quantity_1'];
-	 			$prescription_obj->clock_quantity_2=$prescription['clock_quantity_2'];
-	 			$prescription_obj->clock_quantity_3=$prescription['clock_quantity_3'];
-	 			$prescription_obj->clock_time_1=$prescription['clock_time_1'];
-	 			$prescription_obj->clock_time_2=$prescription['clock_time_2'];
-	 			$prescription_obj->clock_time_3=$prescription['clock_time_3'];
-	 			$prescription_obj->clock_suggest_1=$prescription['clock_suggest'];
-	 			/*$prescription_obj->clock_suggest_2=$prescription['clock_suggest_2'];
-	 			$prescription_obj->clock_suggest_3=$prescription['clock_suggest_3'];*/
-
+	 			$prescription_obj->clock_suggest=$prescription['clock_suggest'];
 	 			$prescription_obj->qhrs=$prescription['qhrs'];
+	 			$prescription_obj->total_qhrs=$prescription['total_qhrs'];
 	 			$prescription_obj->remove=$prescription['remove'];
 	 			$prescription_obj->save();
+	 			$last_prescription_id=$prescription_obj->id;
+
+	 			if($prescription['type']=='Q-Hrs')
+	 			{
+	 					for($i=1;$i<=$prescription['total_qhrs'];$i++)
+		 				{
+		 					$prescription_clock_obj=new PrescriptionClockDetails();
+		 					$prescription_clock_obj->prescription_id=$last_prescription_id;
+		 					$prescription_clock_obj->clock_quantity=$prescription['clock_quantity_'.$i];
+				 			$prescription_clock_obj->clock_time=$prescription['clock_time_'.$i];
+				 			$prescription_clock_obj->save();
+		 				}
+	 			}
+	 			else
+	 			{
+	 				for($i=1;$i<=4;$i++)
+	 				{
+	 					$prescription_clock_obj=new PrescriptionClockDetails();
+	 					$prescription_clock_obj->prescription_id=$last_prescription_id;
+	 					$prescription_clock_obj->clock_quantity=$prescription['clock_quantity_'.$i];
+			 			$prescription_clock_obj->clock_time=$prescription['clock_time_'.$i];
+			 			$prescription_clock_obj->save();
+	 				}
+	 			}
 	 		}
  		}
  		if($reff_data['referral']=='physiotherapy')
@@ -250,6 +286,14 @@
 	 			$radiology_obj->special_request=$radio['special_request'];
 	 			$radiology_obj->referance=0;
 	 			$radiology_obj->details=$radio['textData'];
+	 			if(isset($radio['body_part_side']))
+	 			{
+	 				$radiology_obj->body_part_side=$radio['body_part_side'];
+	 			}
+	 			if($radio['type']=='other')
+	 			{
+	 				$radiology_obj->radiology_other = $radio['radiologyOther'];
+	 			}
 	 			if($radio['type']=='X-Rays')
 	 			{
 	 				$radiology_obj->subtype = '';
@@ -289,6 +333,7 @@
  		/*for radiology */
  		if(!empty($radiology_data))
  		{
+ 			
  			foreach($radiology_data as $r_data)
  			{
  				$radiology_obj_2=new Radiology();
@@ -301,6 +346,15 @@
 	 			$radiology_obj_2->referance=1;
 	 			$radiology_obj_2->details=$r_data['textData'];
 	 			$image_data=$r_data['imgData'];
+	 			if(isset($r_data['body_part_side']))
+	 			{
+	 				$radiology_obj_2->body_part_side=$r_data['body_part_side'];
+	 			}
+	 			
+	 			if($radio['type']=='other')
+	 			{
+	 				$radiology_obj_2->radiology_other = $r_data['radiologyOther'];
+	 			}
 	 			if($r_data['type']=='X-Rays')
 	 			{
 	 				// $radiology_obj_2->subtype=$r_data['x_ray_type'];
@@ -344,13 +398,14 @@
  			$examination_obj->user_id=$user_id;
  			$examination_obj->department=$department;
  			$examination_data=array();
- 			foreach($examinationData as $key=>$value)
- 			{
- 				$exam[$key]=$value;
- 				$examination_data[]=$exam;
- 			}
+ 			// foreach($examinationData as $key=>$value)
+ 			// {
+ 			// 	$exam[$key]=$value;
+ 			// 	$examination_data[]=$exam;
+ 			// }
  			//print_r($examination_data);exit;
- 			$examination_obj->examination_data=json_encode($examination_data);
+ 			//$examination_obj->examination_data=json_encode($examination_data);
+ 			$examination_obj->examination_data = $examinationData;
  			$examination_obj->save();
  		}
  		$patient_data=array();
@@ -474,6 +529,35 @@
  		  $result['opdExaminationDataList'] = json_decode($examinationData,true); 
 
  		 return $result;
+ 	}
+
+     /**
+     *
+     * get Patient opd Details by Opd id by case type   *  also for dash board patient detail view
+     *
+     **/
+ 	public function getPatientOpdDetailByOpdId($opdId){
+ 		 $result = array();
+ 		 $result['opdDetails'] = OpdDetails::where('id',$opdId)->first();
+ 		 $result['opdExaminationData'] = Examination::where('opd_id',$opdId)->orderBy('id','DESC')->get();
+ 		 $result['opdReferalphysioData'] = OPDPhysioDetails::where('opd_id',$opdId)->get();
+ 		 $result['opdReferalCrossData'] = CrossDetails::where('opd_id',$opdId)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
+ 		 $result['opdReferalLaboraryData'] =LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.opd_id',$opdId)->where('laboratory_details.referance',0)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
+ 		  $result['opdReferalRadiologyData'] = Radiology::where('opd_id',$opdId)->where('referance',0)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
+ 		  $result['opdLabData'] = LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.opd_id',$opdId)->where('laboratory_details.referance',1)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
+ 		  $result['opdRadiologyData'] = Radiology::where('opd_id',$opdId)->where('referance',1)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
+ 		  $result['opdprescriptionData'] = PrescriptionDetails::join('prescription_drugs','prescription_drugs.id','=','prescription_details.prescription_drug_id')->where('prescription_details.opd_id',$opdId)->get();
+ 		  $advice = $result['opdDetails']->advice;
+ 		  $history = $result['opdDetails']->history;
+ 		$pastHistory = $result['opdDetails']->past_history;
+ 		//$examinationData =  $result['opdExaminationData']->examination_data;
+ 		  $result['adviceData'] = json_decode($advice,true); 
+ 		  $result['historyData'] = json_decode($history,true); 
+ 		  $result['past_historyData'] = json_decode($pastHistory,true); 
+ 		  // $result['opdExaminationDataList'] = json_decode($examinationData,true); 
+ 		 return $result;
+
+
  	}
  	
  }

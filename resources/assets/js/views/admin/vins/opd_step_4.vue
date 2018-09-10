@@ -1,16 +1,12 @@
 <template>
     <div class="container">
-        <div class="row form-group">
-            <div class="col-md-6">
-              <div class="col-md-6">
-                <label for="date">Provisional Diagnostic:</label>
+     <div class="row form-group">
+            <div class="col-md-6" style="padding: 0px;">
+              <div class="col-md-6">  
+                <label for="date">Diagnostic:</label>
               </div>
               <div class="col-md-12">
-                <textarea class="form-control" name="provisional_diagnosis" id="provisional_diagnosis" v-model="step4Data.provisional_diagnosis" v-validate="'required'"></textarea>
-                <i v-show="errors.has('provisional_diagnosis')" class="fa fa-warning"></i>
-                <span class="help is-danger" v-show="errors.has('provisional_diagnosis')">
-                   Please enter provisional diagnostic.
-                </span>
+                <input class="form-control" name="diagnosis" id="diagnosis" v-model="diagnosis" />
               </div>
             </div>
         </div>
@@ -111,10 +107,8 @@
               <button type="button" class="closem btn btn-default" @click="confirm_popup()">Close</button>
             </div>
           </div>
-
         </div>
       </div>
-
       <div id="receiptPrintModal" class="modal hide">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -159,7 +153,7 @@
           this.$root.$on('crossReferSave', this.crossReferSave);
 
         },
-       props:['doctor'],
+       props:['doctor','validatorErrorArray'],
         data() {
             return {
                 'footer' : 'footer',
@@ -175,12 +169,13 @@
                 'hasError':true,
                 'refferalId':'',
                 'crossRefer':false,
+                'diagnosis' : '',
                 'step4Data': {
                   'advice':'',
                   'adviceType': 'scribble',
                   'signaturePad':{},
                   'signaturePad2_src':'',
-                  'provisional_diagnosis':'',
+                  'provisional_diagnosis':this.$store.state.Patient.provisionalDiagnosis,
                   'follow_up':''
                 }
             }
@@ -191,6 +186,7 @@
             $('.ls-select2').select2({
               placeholder: "Select",
             });
+             vm.step4Data.provisional_diagnosis = _.cloneDeep(this.$store.state.Patient.provisionalDiagnosis);
             setTimeout(function(){
               vm.examinationChangeImage();
               vm.initData();
@@ -222,13 +218,16 @@
               'neuroExaminationData':this.$store.state.Patient.neuroExaminationData,
               'prescriptionData':this.$store.state.Patient.prescriptionData,
               'step4Data':this.$store.state.Patient.step4Data,
-              'reffData':this.$store.state.Patient.refferelReportData
+              'reffData':this.$store.state.Patient.refferelReportData,
+              'diagnosis':this.$store.state.Patient.diagnosis,
+              'provisionalDiagnosis':this.$store.state.Patient.provisionalDiagnosis,
             };
             this.saveOpdData(oData);
           },
           initData() {
             let vm =this;
             var oldData = _.cloneDeep(vm.$store.state.Patient.step4Data);
+             vm.step4Data.provisional_diagnosis = _.cloneDeep(this.$store.state.Patient.provisionalDiagnosis);
             if(!(jQuery.isEmptyObject(oldData))) 
             {
                vm.step4Data=oldData;
@@ -239,6 +238,7 @@
               let vm =this;
               vm.saveRefData();
               vm.$store.dispatch('saveStep4Data',vm.step4Data);
+              vm.$store.dispatch('saveDiagnosis',vm.diagnosis);
 
               vm.$root.$emit('prev');
           },
@@ -372,10 +372,18 @@
 
                 let vm = this;
                 this.saveRefData(); 
+                if(vm.$store.state.Patient.opdData.setErrorData.error)
+                {
+                    
+                    vm.$root.$emit('setCurSteps',1);
+                    return false;
+                }
                 this.$validator.validateAll().then(
                 (response) => {
+
                 if (!this.errors.any()) {
                         vm.$store.dispatch('saveStep4Data',_.cloneDeep(vm.step4Data));
+                         vm.$store.dispatch('saveDiagnosis',vm.diagnosis);
                           let department = this.$store.state.Users.userDetails.department;
                           let doctor = this.$store.state.Users.userDetails.id;
                           
@@ -391,10 +399,13 @@
                             'prescriptionData':this.$store.state.Patient.prescriptionData,
                             'step4Data':this.$store.state.Patient.step4Data,
                             'crossRefer': this.crossRefer,
-                            'reffData':this.$store.state.Patient.refferelReportData
+                            'reffData':this.$store.state.Patient.refferelReportData,
+                            'diagnosis':this.$store.state.Patient.diagnosis,
+                            'provisionalDiagnosis':this.$store.state.Patient.provisionalDiagnosis,
                           };
                           this.saveOpdData(oData);
                         } else {
+                          console.log(this.errors);
                           toastr.error('Please enter all required fields.', 'Error', {timeOut: 5000});
                         }
                         },
@@ -410,11 +421,11 @@
                       if(response.data.code == 200) {
                         if(vm.crossRefer == true){
                             toastr.success('Record has been saved', 'Success', {timeOut: 5000});
-
                         }
                         vm.modal_enabled='true';
                         let opd_id = response.data.data.opd_pr_id;
                         vm.$store.dispatch('SetOpdId',opd_id);
+                        vm.$store.dispatch('saveDiagnosis',vm.diagnosis);
                         vm.patient_opd_details=response.data.data;
                         $('#receiptAddModel').modal('show');
                       } else if(response.data.code == 300) {

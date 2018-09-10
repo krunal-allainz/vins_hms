@@ -3,11 +3,11 @@
 	<table>
 		<tbody>
 			<tr>
-				<td><label><b>Patient's Name:</b></label><span><b>{{$data['patientDetail']['first_name']}}
+				<td class="text-left"><label><b>Patient's Name:</b></label><span><b>{{$data['patientDetail']['first_name']}}
 								{{$data['patientDetail']['middle_name']}}
 							    {{$data['patientDetail']['last_name']}}</b></span></td>
 							    <td></td>
-				<td><label><b>UHID :</b></label><b>{{$data['patientDetail']['uhid_no']}}</b></td>
+				<td class="text-right"><label><b>UHID :</b></label><b>{{$data['patientDetail']['uhid_no']}}</b></td>
 			</tr>
 			<tr>
 				<td><label><b>Address :</b></label>{{$data['patientDetail']['address']}}</td>
@@ -15,9 +15,9 @@
 				<td><label><b>Date :</b></label><b>{{$data['todayDate']}}</b></td>
 			</tr>
 			<tr>
-				<td><label><b>Mob No:</b></label><b>{{$data['patientDetail']['mob_no']}}</b></td>
-				<td><label><b>Phone No:</b></label>{{$data['patientDetail']['ph_no']}}</td>
-				<td><label><b>Age/Sex:</b></label>
+				<td class="text-left"><label><b>Mob No:</b></label><b>{{$data['patientDetail']['mob_no']}}</b></td>
+				<td class="text-center"><label><b>Phone No:</b></label>{{$data['patientDetail']['ph_no']}}</td>
+				<td class="text-right"><label><b>Age/Sex:</b></label>
 					<span>
 						@if($data['patientDetail']['age'] > 1000)
 							@if(((now()->year) - ($data['patientDetail']['age'])) > 0)
@@ -38,10 +38,11 @@
 			</tr>
 			<tr>
 				<td><label><b>Consulting Dr.:</b></label>
-						{{$data['signatureName']}}
+						{{$data['doctoreName']}}
 				</td>
 				<td></td>
-				<td>	<label><b>Ref By Dr.:</b></label></td>
+				<td>	<label><b>Ref By Dr.:</b></label>
+				{{ $data['reference']}}</td>
 			</tr>
 			<tr>
 				<td>	<label><b>Speciality:</b></label>

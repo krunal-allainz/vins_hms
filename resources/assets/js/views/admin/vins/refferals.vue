@@ -41,13 +41,27 @@
                   <select class="form-control ls-select2" id="radiology_type_opd" name="radiology_type_opd">
                     <option v-for="type in investigationData.radiologyType" :value="type.value">{{type.text}}</option>
                   </select>
-                  
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="col-md-12" v-if="resultData.type=='other'">
+                  <label> Other Parts</label>
+                  <input type="text" name="radiology_other_text" id="radiology_other_text" class="form-control" v-model="resultData.radiologyOther">
                 </div>
               </div>
             </div>
+             <div class="row form-group">
+                    <div class="col-md-6">
+                      <div class="col-md-12">
+                          <label>Body Part Side:</label><br>
+                          <select class = "form-control ls-select2" id = "body_part_side" name = "body_part_side">
+                              <option v-for="bps in investigationData.bodyPartSide" :value="bps.value">{{bps.text}}</option>
+                          </select>
+                      </div>
+                    </div>
+                </div>
             <div class="row form-group">
               <div class="col-md-6">
-
                 <div class="col-md-12">
                   <label>Body Parts:</label>
                   <br>
@@ -75,7 +89,7 @@
                  <div class="col-md-12">
                     <label>Select Qualifires:</label>
                     <br>  
-                      <select class="form-control ls-select2" id="radiology_qualifier_opd" name="radiology_qualifier_opd" v-if="resultData.type == 'MRI'" v-model="resultData.qualifier">
+                      <select class="form-control ls-select2" id="radiology_qualifier_opd" name="radiology_qualifier_opd" v-if="(resultData.type == 'MRI' && resultData.bodyPart != 'Spine')" v-model="resultData.qualifier">
                         <option v-for="obj in investigationData.radiologyQualifier" :value="obj.text">{{obj.text}}</option>
                       </select>
                       <input type="text" name="qualifier_opd" id="qualifier_opd" class="form-control" v-model="resultData.qualifier" v-else>
@@ -299,7 +313,19 @@
                     {text:'X-Rays',value:'X-Rays'},
                     {text:'CT',value:'CT'},
                     {text:'MRI',value:'MRI'},
-                    /*{text:'Other',value:'other'}*/
+                    {text:'Ultra Sound',value:'ultra_sound'},
+                    {text:'Doppler',value:'Doppler'},
+                    {text:'Echo Cardiography',value:'echo_cardiography'},
+                    {text:'PET-CT',value:'PET-CT'},
+                    {text:'Bone Densitometry (DXA)',value:'bone_densitometry'},
+                    {text:'Other',value:'other'},
+                  ],
+                  'bodyPartSide':[
+                    {text:'Select',value:''},
+                    {text:'Right',value:'Right'},
+                    {text:'Left',value:'Left'},
+                    {text:'Bilateral',value:'Bilateral'},
+                    {text:'AP Lateral Oblique',value:'ap_lateral_oblique'}
                   ],
                   'radiologySubType':[
                       {text:'',value:''},
@@ -329,6 +355,10 @@
                       {text:'Knee',value:'knee'},
                       {text:'Shoulder',value:'shoulder'},
                       {text:'Pelvis',value:'pelvis'},
+                      {text:'Chest PA',value:'chest_pa'},
+                      {text:'Cervical Spine',value:'cervical_spine'},
+                      {text:'Dorsal Spine',value:'dorsal_spine'},
+                      {text:'Lumbar Spine',value:'lumbar_spine'},
                       {text:'Other',value:'other'},
                   ],
                   'CT':'',     
@@ -343,6 +373,7 @@
                       {text:'Whole Abdomen', value:'whole_abdomen'},
                       {text:'CT Angiography', value:'ct_angiography'},
                       {text:'Guided Procedure:Biopsy', value:'guided_procedure'},
+                      {text:'Other',value:'other'},
                      ],
                   'brain_options':[
                       {text:'',value:''},
@@ -411,7 +442,9 @@
                     'subtype_text_enable':false,
                     'qualifier_text_enable':false,
                     'special_request':'',
-                    'removed':false
+                    'removed':false,
+                    'body_part_side':'',
+                    'radiologyOther':''
                 },
               'reffData': {
                 'reffreal_cross_array':[],
@@ -518,6 +551,7 @@
                 vm.resultData.spine_option_value="";
                 vm.resultData.bodyPart ="";
                 vm.resultData.subType="";
+                vm.resultData.subtype_text_enable = false;
                 $('#radiology_spine_opd').select2("destroy");
                 $("#radiology_subtype_opd").val('').trigger('change.select2');
                 if(type_opd_val=='MRI')
@@ -542,6 +576,9 @@
                 vm.radioSubType();
                 
             } 
+            if(this.id == 'body_part_side') {
+                vm.resultData.body_part_side=$("#body_part_side").select2().val();
+            }
             if(this.id == 'radiology_subtype_opd') {
                     
               let q_data=vm.investigationData.radiologyQualifierReal;
@@ -549,22 +586,31 @@
               vm.resultData.bodyPart = radiologySubType_val;
               vm.resultData.subType=radiologySubType_val;
                 //vm.investigationData.radiologySubType =  radiologySubType_val;
-
+                 vm.resultData.subtype_text_enable = false;
 
                 $("#radiology_qualifier_opd").val('').trigger('change.select2');
                 vm.resultData.qualifier = '';
                 vm.resultData.qualifier_text_enable = false;
                 vm.resultData.qualifierPart = '';
-                
+                if(vm.resultData.type=='MRI')
+                    {
+                        setTimeout(function(){
+                            $('#radiology_qualifier_opd').select2({
+                                    placeholder: "Select",
+                                    tags:false 
+                                  }); 
+                        },500);
+                    }
                 if(radiologySubType_val=='Spine')
                 {
+                   $('#radiology_qualifier_opd').select2("destroy");
                     setTimeout(function(){
                             $('#radiology_spine_opd').select2({
                               placeholder: "Select",
                               tags:false 
                             }); 
                     },500);
-
+                     vm.resultData.subtype_text_enable = false;
                    
                 }
                 else if(radiologySubType_val=='Brain')
@@ -706,7 +752,7 @@
            saveRadiologyReport()
           {
               let vm =this;
-              if(vm.resultData.type == '' || vm.resultData.bodyPart == '' ){
+              if(vm.resultData.type == '' ){
                   toastr.error('Please select report data.', 'Report error', {timeOut: 5000});
                   return false;
               }
