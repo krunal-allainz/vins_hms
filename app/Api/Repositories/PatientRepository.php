@@ -131,8 +131,6 @@
 
                   $newPatOPDNo = sprintf("%04d",$lastOPD);
                   $insertedOPDId=$opd_prefix.$year.$newPatOPDNo;
-                 
-
                     $caseData = OpdDetails::create([
                       'opd_id'=>$insertedOPDId,
                         'patient_id'=> $patientId,
@@ -548,10 +546,8 @@
 
           $result = array();
           $result['patientDetail'] =  PatientDetailsForm::where('id',$patientId)->first();
-          $result['opdDetails'] = OpdDetails::join('patient_case_managment','patient_case_managment.section_id','=','opd_details.opd_id')->where('opd_details.patient_id',$patientId)->get();
-          // $result['tokenDetail'] = TokenManagment::where('patient_id',$patientId)->get();
-          $result['caseDetail'] = PatientCaseManagment::where('patient_id',$patientId)->get();
-
+          $result['caseDetail'] = PatientCaseManagment::join('users','users.id','=','patient_case_managment.consultant_id')->select('patient_case_managment.*','patient_case_managment.section_id as opdId','users.*')->groupBy('patient_case_managment.patient_id')->orderBy('patient_case_managment.created_at','desc')->where('patient_case_managment.patient_id',$patientId)->get();
+          $result['opdDetails'] =  OpdDetails::select('*','id as opdid')->groupBy('patient_id')->orderBy('created_at','desc')->where('patient_id',$patientId)->get();
           return $result;
     }
 

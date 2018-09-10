@@ -33,7 +33,7 @@
 						<label><b>Phone No:</b></label>
 							{{patientDetail.ph_no}}
 					</div>
-					<div class="col-md-4 text-center">
+					<div class="col-md-4">
 					 	<label><b>Age/Sex:</b></label>
 						<span v-if="(patientDetail.age > 1000)">
 							<span v-if="(((currentYear) - (patientDetail.age)) > 0)">{{(currentYear) - (patientDetail.age)}}</span>	

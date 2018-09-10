@@ -362,5 +362,8 @@ export default {
   },
   getAgeOfPatient(patientId){
     return api.post('patient/getPatientAge',{'id':patientId});
+  },
+  getPatientOpdDetailByOpdId(opdId){
+     return api.post('opd/patientallopddetail',{'id':opdId});
   }
 }
