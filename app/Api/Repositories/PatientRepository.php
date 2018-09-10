@@ -141,12 +141,11 @@
                         'appointment_datetime'=> $a_time
                     ]);
                       if($data['case_type']=='')
-                  {
+                    {
                       $data['case_type']='new_case';
                    
-                  }
-                     $opdData =  $this->getOPDDetailsByPatientId($patientId);
-                      $sectionId    = $opdData->id;
+                    }
+                     $sectionId = $caseData->id;
                    /* start add case management data */
                   $patientCaseInsert = PatientCaseManagment::create([
                     'case_type' =>$data['case_type'],
@@ -161,6 +160,7 @@
                     'updated_at' =>Carbon::now(),
                  ]);
 
+                 
                    $tokenInsert =  TokenManagment::create([
                     'token'=>$data['token_no'],
                     'date' =>  date('d-m-Y H:i:s'),
