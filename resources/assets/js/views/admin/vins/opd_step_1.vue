@@ -508,13 +508,27 @@
         methods: {
           setCurSteps(step){
             let vm = this;
-            vm.opdFormCheck();
-            vm.curStep = step;
+                vm.curStep = step;  
+            vm.opdData =  _.cloneDeep(vm.$store.state.Patient.opdData);
+                vm.resultData = _.cloneDeep(vm.$store.state.Patient.opd_resultData);
+                if(vm.patient_select_enable==true)
+                {
+                 $('#patient').val(vm.opdData.patientlist).trigger('change:select2');
+                }
+            vm.initLastData();
+                
+            setTimeout(function(){
+                vm.opdFormCheck();
+                
+            },1500);
+            
           },
           opdFormCheck()
           {
-               this.$validator.validateAll().then(
+            let vm =this;
+               vm.$validator.validateAll().then(
                 (response) => {
+                  console.log(' errror',vm.errors);
                   if (!this.errors.any()) {
                       console.log('qqq'); 
                   } 
@@ -758,7 +772,7 @@
           },
           prev(){
             let vm =this;
-            vm.$root.$emit('submitNeuroData');
+            // vm.$root.$emit('submitNeuroData');
             // setTimeout(function(){
               if(vm.curStep> 0){
                 vm.curStep = vm.curStep-1;
@@ -780,9 +794,9 @@
             if(vm.curStep == 1){
                 this.$validator.validateAll().then(
               (response) => {
-
+                  console.log('this.errors',this.errors);
                 if (this.errors.any()) {
-                   vm.opdData.setErrorData = {'error':true,'steps':curStep}
+                   vm.opdData.setErrorData = {'error':true,'steps':vm.curStep}
                   vm.onNextStep();
                    
                   }
@@ -798,6 +812,7 @@
           {
                let vm =this;
               vm.curStep = vm.curStep+1;
+
               vm.$store.dispatch('setOpdData',vm.opdData);
               vm.$store.dispatch('setResData',vm.finalResultData);
           },
