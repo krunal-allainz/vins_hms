@@ -3,13 +3,36 @@
     <div class="page-header">
       <div class="row">
         <div class="col-md-6">
-        <h3>Examination</h3>
+        <h3>Examination</h3>  
         </div>
       </div>
     </div>
-
     <form action="" method="post">
+     <div class="row form-group">
+      <div class="col-md-6" >
+        <div class="col-md-6">
+          <label for="examination" class="control-label">Examination : </label>
+        </div>
+        <div class="col-md-6">
+          <textarea  class="form-control"  id="examination" name="examination" value="" v-model="vascularExaminationData"  ></textarea>
+        </div>
+      </div>
+     </div>
       <div class="row form-group">
+            <div class="col-md-6" style="padding: 0px;">
+              <div class="col-md-6">  
+                <label for="date">Provisional Diagnostic:</label>
+              </div>
+              <div class="col-md-12">
+                <textarea class="form-control" name="provisional_diagnosis" id="provisional_diagnosis" v-model="provisionalDiagnosis" v-validate="'required'"></textarea>
+                <i v-show="errors.has('provisional_diagnosis')" class="fa fa-warning"></i>
+                <span class="help is-danger" v-show="errors.has('provisional_diagnosis')">
+                   Please enter provisional diagnostic.
+                </span>
+              </div>
+            </div>
+        </div>
+      <!--<div class="row form-group">
          <div class="col-md-6">
           <div class="col-md-6">
             <label>Pulsations : </label>
@@ -112,7 +135,6 @@
           <label>Varicose Vein Pattern : </label>
         </div>
       </div>
-
       <div class="row form-check form-inline">
         <div class="col-md-3">
           <label>
@@ -146,7 +168,7 @@
           <div class="col-md-4">
              <textarea  class="form-control"  id="vasculartext3" name="vasculartext3" value="" v-model="vascularExaminationData.vasculartext3"  ></textarea>
           </div>
-    </div>
+    </div> 
 
       <div class="row form-group">
         <div class="col-md-12">
@@ -157,7 +179,7 @@
             <input class="form-control" type="text" name="clinical_diagnosis" id="clinical_diagnosis" v-model="vascularExaminationData.clinical_diagnosis" />
           </div>
         </div>
-      </div>
+      </div> -->
           <div class="text-left row form-group">
          <div class="col-md-12">
            <button type="button" class="btn btn-primary btn-submit text-right " @click="prev()" >Previous</button>
@@ -185,43 +207,45 @@
                 'ipd_id': this.$store.state.Patient.ipdId,
                 'patient_opd_details':[],
                 'modal_enabled':'false',
-                'vascularExaminationData': {
-                  'vitals' : '',
-                  'temp' : '',
-                  'pulse' : '',
-                  'rr' : '',
-                  'bp' : '',
-                  'ulcer' : '',
-                  'gangrene' : '',
-                  'pulsations' : '',
-                  'car_r' : '',
-                  'sca_r' : '',
-                  'br_r' : '',
-                  'rad_r' : '',
-                  'ul_r' : '',
-                  'fem_r' : '',
-                  'pop_r' : '',
-                  'pt_r' : '',
-                  'dp_r' : '',
-                  'car_l' : '',
-                  'sca_l' : '',
-                  'br_l' : '',
-                  'rad_l' : '',
-                  'ul_l' : '',
-                  'fem_l' : '',
-                  'pop_l' : '',
-                  'pt_l' : '',
-                  'dp_l' : '',
-                  'doppler_abpi' : '',
-                  'gsv' : '',
-                  'ssv' : '',
-                  'both' : '',
-                  'ipv' : '',
-                  'clinical_diagnosis' : '',
-                  'vasculartext1' : '',
-                  'vasculartext2' : '',
-                  'vasculartext3' : '',
-                }
+                'vascularExaminationData' : '',
+                'provisionalDiagnosis':'',
+                // 'vascularExaminationData': {
+                //   'vitals' : '',
+                //   'temp' : '',
+                //   'pulse' : '',
+                //   'rr' : '',
+                //   'bp' : '',
+                //   'ulcer' : '',
+                //   'gangrene' : '',
+                //   'pulsations' : '',
+                //   'car_r' : '',
+                //   'sca_r' : '',
+                //   'br_r' : '',
+                //   'rad_r' : '',
+                //   'ul_r' : '',
+                //   'fem_r' : '',
+                //   'pop_r' : '',
+                //   'pt_r' : '',
+                //   'dp_r' : '',
+                //   'car_l' : '',
+                //   'sca_l' : '',
+                //   'br_l' : '',
+                //   'rad_l' : '',
+                //   'ul_l' : '',
+                //   'fem_l' : '',
+                //   'pop_l' : '',
+                //   'pt_l' : '',
+                //   'dp_l' : '',
+                //   'doppler_abpi' : '',
+                //   'gsv' : '',
+                //   'ssv' : '',
+                //   'both' : '',
+                //   'ipv' : '',
+                //   'clinical_diagnosis' : '',
+                //   'vasculartext1' : '',
+                //   'vasculartext2' : '',
+                //   'vasculartext3' : '',
+                // }
             }
         },
         components: {
@@ -241,15 +265,18 @@
           initData(){
             let vm =this;
             vm.vascularExaminationData = _.cloneDeep(this.$store.state.Patient.vascExaminationData);
+            vm.provisional_diagnosis = _.cloneDeep(this.$store.state.Patient.provisionalDiagnosis);
           },
           prev() {
               let vm =this;
               vm.$store.dispatch('saveVascularExamination', _.cloneDeep(vm.vascularExaminationData)) ;
+                vm.$store.dispatch('saveProvisionalDiagnosis', _.cloneDeep(vm.provisionalDiagnosis)) ;
               vm.$root.$emit('prev');
           },
           next() {
             let vm =this;
              vm.$store.dispatch('saveVascularExamination', _.cloneDeep(vm.vascularExaminationData)) ;
+               vm.$store.dispatch('saveProvisionalDiagnosis', _.cloneDeep(vm.provisionalDiagnosis)) ;
             vm.$root.$emit('next','test');
 
           },

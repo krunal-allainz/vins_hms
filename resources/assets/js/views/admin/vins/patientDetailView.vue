@@ -20,11 +20,11 @@
                  <tr>
                  	<td>
                  	 <b>Address :</b> 
-                     <span>{{patientinfo.address}}</span>
+                     <span v-if="(patientinfo.address != null)">{{patientinfo.address}}</span>
+                     <span v-if="(patientinfo.address == null)">N/A</span>
                     </td>
                  	<td>
                  	<b>Age :</b> 
-                     <span>{{patientinfo.age}}</span>
                      <span v-if="(patientinfo.age > 1000)">
 							<span v-if="(((currentYear) - (patientinfo.age)) > 0)">{{(currentYear) - (patientDetail.age)}}</span>	
 							<span v-else> 1</span>
@@ -35,10 +35,14 @@
                  <tr>
                  	<td>
                  	 <b>Mob No : </b> 
-                     <span>{{patientinfo.mob_no}}</span></td>
+                     <span v-if="(patientinfo.mob_no != null)">{{patientinfo.mob_no}}</span>
+                     <span v-if="(patientinfo.mob_no == null)">N/A</span>
+                     </td>
                  	<td>
                  	 <b>Phone No:</b> 
-                     <span>{{patientinfo.ph_no}}</span></td>
+                     <span v-if="(patientinfo.ph_no != null)">{{patientinfo.ph_no}}</span>
+                     <span v-if="(patientinfo.ph_no == null)">N/A</span>
+                     </td>
                  </tr>
              </tbody>
             </table>

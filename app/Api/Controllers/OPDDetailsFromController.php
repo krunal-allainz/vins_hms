@@ -262,5 +262,25 @@ class OPDDetailsFromController extends Controller
     }
     
 
+    /**
+    * 
+    *  get Patient opd Details by Opd id by case type   *  also for dash board patient detail view
+    *
+    **/
+    public function getPatientOpdDetailByOpdId(Request $request){
+        
+        $opdId = $request->id;
+        $opdDetail=$this->opdObj->getPatientOpdDetailByOpdId($opdId);
+            if($opdDetail)
+            {
+                return ['code' => '200','data'=>$opdDetail, 'message' => 'Record Sucessfully created'];
+            }   
+            else
+            {
+                return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+            }
+
+    }
+
    
 }
