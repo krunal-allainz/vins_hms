@@ -153,7 +153,7 @@
           this.$root.$on('crossReferSave', this.crossReferSave);
 
         },
-       props:['doctor'],
+       props:['doctor','validatorErrorArray'],
         data() {
             return {
                 'footer' : 'footer',
@@ -372,8 +372,15 @@
 
                 let vm = this;
                 this.saveRefData(); 
+                if(vm.$store.state.Patient.opdData.setErrorData.error)
+                {
+                    
+                    vm.$root.$emit('setCurSteps',1);
+                    return false;
+                }
                 this.$validator.validateAll().then(
                 (response) => {
+
                 if (!this.errors.any()) {
                         vm.$store.dispatch('saveStep4Data',_.cloneDeep(vm.step4Data));
                          vm.$store.dispatch('saveDiagnosis',vm.diagnosis);
@@ -398,6 +405,7 @@
                           };
                           this.saveOpdData(oData);
                         } else {
+                          console.log(this.errors);
                           toastr.error('Please enter all required fields.', 'Error', {timeOut: 5000});
                         }
                         },
