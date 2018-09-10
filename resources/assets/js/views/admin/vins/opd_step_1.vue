@@ -10,7 +10,7 @@
     <div class="row">
       <step-progress-bar :curstep="curStep"></step-progress-bar>
     </div>
-    <form action="" method="post" enctype="multipart/formdata">
+    <form action="" method="post" id="opd_form_id" enctype="multipart/formdata" >
       <div v-if="curStep == 1">
         <div class="row form-group" v-show="patient_select_enable==true">
           <div class="col-md-6">
@@ -313,7 +313,7 @@
         <OPDStep3 :labData="opdData.laboratoryALLData"></OPDStep3>
     </div>
     <div class="row form-group"  v-if="curStep == 4">
-        <OPDStep4 :doctor="doctor"></OPDStep4>
+        <OPDStep4 :doctor="doctor" :validatorErrorArray="validateErrors"></OPDStep4>
     </div>
     <div class="row form-group">
       <div class="col-md-6">
@@ -321,7 +321,7 @@
       </div>
     </div>
     </form>
-  </div>
+  </div> 
 </template>
 
 <script >
@@ -347,6 +347,7 @@
         data() {
             return {
               'footer' : 'footer',
+              'validateErrors':{},
               'currentYear': new Date().getFullYear(),
               'type': 'opdForms',
               'doctor':this.$store.state.Users.userDetails.first_name + " "+ this.$store.state.Users.userDetails.last_name ,
@@ -390,9 +391,10 @@
                 'last_vist' : '',
                 'physio_details':'',
                 'laboratoryALLData':[],
-              }
-            }
-        }, 
+                'setErrorData':{},
+              },
+          }
+        },
         components: {
          createPatientDetail,
          OPDStep2Vascular,
@@ -421,6 +423,8 @@
              this.$root.$on('next', this.next);
              this.$root.$on('patientData',this.setPatientData);
              this.$root.$on('patientEmpty',this.patientEmpty);
+             this.$root.$on('check_validation',this.check_validation);
+             this.$root.$on('setCurSteps',this.setCurSteps);
         },
         
         mounted(){
@@ -435,6 +439,7 @@
           let opd_list_new=[];
            //if(this.$store.state.Patient.patientId != ''){
               vm.patient_id= this.$store.state.Patient.patientId;
+              
               vm.opdData.patientlist=vm.patient_id;
              // $('#patient').val(vm.patient_id).trigger('change:select2');
               vm.get_vitals();
@@ -502,13 +507,37 @@
 
         },
         methods: {
+          setCurSteps(step){
+            let vm = this;
+            vm.opdFormCheck();
+            vm.curStep = step;
+          },
+          opdFormCheck()
+          {
+               this.$validator.validateAll().then(
+                (response) => {
+                  if (!this.errors.any()) {
+                      console.log('qqq'); 
+                  } 
+                  else
+                  {   
+                     console.log('sdsada');
+
+                  }
+               },
+               (error) => {
+                }
+              )
+              // return false;
+              
+          },
            getAgeOfPatient(patientId){
            var vm =this;
            var getpatientId = patientId;
           
            User.getAgeOfPatient(getpatientId).then(
             (response) => {
-               console.log(response.data.data);
+               
                var patientAge = '';
                if(response.data.data.age > 999){
                  patientAge = currentYear - patientAge ; 
@@ -745,25 +774,33 @@
             }
             vm.initLastData();
           },
+         
           next() {
             let vm =this;
+            this.tpt = [];
+            if(vm.curStep == 1){
                 this.$validator.validateAll().then(
-                (response) => {
-                
-                  if (!this.errors.any()) {
-                      vm.curStep = vm.curStep+1;
-                      vm.$store.dispatch('setOpdData',vm.opdData);
-                      vm.$store.dispatch('setResData',vm.finalResultData);
-                  } else {
-                     toastr.error('Please enter all required fields.', 'Error', {timeOut: 5000});
-                  }
-               },
-               (error) => {
-                 
+              (response) => {
 
+                if (this.errors.any()) {
+                   vm.opdData.setErrorData = {'error':true,'steps':curStep}
+                  vm.onNextStep();
+                   
+                  }
+                },
+                (error) => {
                 }
-              )
-            
+                );
+            } else {
+              vm.onNextStep();
+            }
+          },
+          onNextStep()
+          {
+               let vm =this;
+              vm.curStep = vm.curStep+1;
+              vm.$store.dispatch('setOpdData',vm.opdData);
+              vm.$store.dispatch('setResData',vm.finalResultData);
           },
           initLastData(){
             let vm = this;

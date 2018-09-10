@@ -194,8 +194,12 @@ const mutations = {
       state.vascExaminationData ='' ;
       state.refferelReportData={};
       state.step4Data={};
+      state.patientId='';
+      state.opdId='';
+      state.patientData={};
       state.provisionalDiagnosis = '';
       state.diagnosis = '';
+
   },
   [types.SAVE_OPD_DATA] (state) {
   },
