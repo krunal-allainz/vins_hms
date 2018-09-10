@@ -107,7 +107,7 @@
  		$step4_data=$request->all()['data']['step4Data'];
  		$crossRefer=$request->all()['data']['crossRefer'];
  		$diagnosis =$request->all()['data']['diagnosis'];
- 		$provisional_diagnosis = $step4_data['provisional_diagnosis'];
+ 		$provisional_diagnosis = $request->all()['data']['provisionalDiagnosis'];
  		
  		if($department=='Vascular')
  		{
