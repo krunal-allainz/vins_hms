@@ -275,9 +275,26 @@
           },
           next() {
             let vm =this;
-             vm.$store.dispatch('saveVascularExamination', _.cloneDeep(vm.vascularExaminationData)) ;
-               vm.$store.dispatch('saveProvisionalDiagnosis', _.cloneDeep(vm.provisionalDiagnosis)) ;
-            vm.$root.$emit('next','test');
+            this.$validator.validateAll().then(
+              (response) => {
+            
+                  //console.log('this.errors',this.errors);
+                  if (this.errors.any()) {
+
+                    console.log(vm.error);
+                    // vm.setErrorData = {'error':true,'steps':vm.curStep}
+                  } else {
+                    console.log('tesdt');
+
+
+                  }
+                },
+                (error) => {
+                }
+                );
+            //  vm.$store.dispatch('saveVascularExamination', _.cloneDeep(vm.vascularExaminationData)) ;
+            //    vm.$store.dispatch('saveProvisionalDiagnosis', _.cloneDeep(vm.provisionalDiagnosis)) ;
+            vm.$root.$emit('next');
 
           },
 

@@ -301,12 +301,7 @@
       </div>
     </div>
     <div class="row" v-if="curStep == 2"> 
-       <div class="col-md-12" v-if="department == 'Neurology' || department == 'Neurosurgery'">
-            <OPDStep2Neuro :doctor="doctor"></OPDStep2Neuro>
-        </div>
-        <div class="col-md-12" v-if="department == 'Vascular'">
-          <OPDStep2Vascular :doctor="doctor"></OPDStep2Vascular>
-        </div>
+       <OPDStep2></OPDStep2>
     </div>
     <div class="row form-group"  v-if="curStep == 3">
         <OPDStep3 :labData="opdData.laboratoryALLData"></OPDStep3>
@@ -328,8 +323,7 @@
 
   import User from '../../../api/users.js';
   import createPatientDetail from './createPatientDetail.vue';
-  import OPDStep2Vascular from './OPDStep2Vascular.vue';
-  import OPDStep2Neuro from './OPDStep2Neuro.vue';
+  import OPDStep2 from './opd_step_2.vue';
   import OPDStep3 from './investigation.vue';
   import OPDStep4 from './opd_step_4.vue';
   import SignaturePad from 'signature_pad';
@@ -366,6 +360,7 @@
                 'status' : '',
                 'token_no' : '',
               },
+              'setErrorData':{},
               'opdData': {
                 'pain_value':0,
                 'patientlist':'',
@@ -396,14 +391,12 @@
                 'last_vist' : '',
                 'physio_details':'',
                 'laboratoryALLData':[],
-                'setErrorData':{},
               },
           }
         },
         components: {
          createPatientDetail,
-         OPDStep2Vascular,
-         OPDStep2Neuro,
+         OPDStep2,
          card,
          patientSearch,
          OPDStep3,
@@ -515,7 +508,7 @@
           setCurSteps(step){
             let vm = this;
                 vm.curStep = step;  
-            vm.opdData =  _.cloneDeep(vm.$store.state.Patient.opdData);
+                vm.opdData =  _.cloneDeep(vm.$store.state.Patient.opdData);
                 vm.resultData = _.cloneDeep(vm.$store.state.Patient.opd_resultData);
                 if(vm.patient_select_enable==true)
                 {
@@ -525,8 +518,7 @@
                 
             setTimeout(function(){
                 vm.opdFormCheck();
-                
-            },1500);
+            },500);
             
           },
           opdFormCheck()
@@ -534,15 +526,15 @@
             let vm =this;
                vm.$validator.validateAll().then(
                 (response) => {
-                  console.log(' errror',vm.errors);
-                  if (!this.errors.any()) {
-                      console.log('qqq'); 
-                  } 
-                  else
-                  {   
-                     console.log('sdsada');
-
-                  }
+                 if (!this.errors.any()) {
+                    vm.setErrorData={};
+                    vm.$store.dispatch('setErrorData',vm.setErrorData);
+                 }
+                 else
+                 {
+                    toastr.error('Please enter all required fields.', 'Error', {timeOut: 5000});
+                 }
+                  
                },
                (error) => {
                 }
@@ -819,31 +811,36 @@
           next() {
             let vm =this;
             this.tpt = [];
+            
             if(vm.curStep == 1){
-                this.$validator.validateAll().then(
+              this.$validator.validateAll().then(
               (response) => {
-                 // console.log('this.errors',this.errors);
-                if (this.errors.any()) {
-                   vm.opdData.setErrorData = {'error':true,'steps':vm.curStep}
-                  vm.onNextStep();
-                   
+                  //console.log('this.errors',this.errors);
+                  if (this.errors.any()) {
+                    vm.setErrorData = {'error':true,'steps':vm.curStep}
+                  } else {
+                    if(vm.setErrorData.steps == vm.curStep ){
+
+                      vm.setErrorData = {'error':false,'steps':''}
+                    }
                   }
+                  vm.onNextStep();
                 },
                 (error) => {
                 }
                 );
             } else {
               vm.onNextStep();
-            }
+           }
           },
           onNextStep()
           {
-               let vm =this;
+              let vm =this;
               vm.curStep = vm.curStep+1;
-
               vm.$store.dispatch('setOpdData',vm.opdData);
               vm.$store.dispatch('setResData',vm.finalResultData);
               vm.$store.dispatch('setPatientCase',vm.patientCase);
+              vm.$store.dispatch('setErrorData',vm.setErrorData);
           },
           initLastData(){
             let vm = this;

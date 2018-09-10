@@ -372,10 +372,10 @@
 
                 let vm = this;
                 this.saveRefData(); 
-                if(vm.$store.state.Patient.opdData.setErrorData.error)
+                if(vm.$store.state.Patient.setErrorData.error)
                 {
                     
-                    vm.$root.$emit('setCurSteps',1);
+                    vm.$root.$emit('setCurSteps',vm.$store.state.Patient.setErrorData.steps);
                     return false;
                 }
                 this.$validator.validateAll().then(
@@ -406,7 +406,7 @@
                           };
                           this.saveOpdData(oData);
                         } else {
-                          console.log(this.errors);
+                          
                           toastr.error('Please enter all required fields.', 'Error', {timeOut: 5000});
                         }
                         },

@@ -26,7 +26,8 @@ const state = {
     'step4Data':{},
     'curStep':1,
     'provisionalDiagnosis' : '',
-    'diagnosis' : ''
+    'diagnosis' : '',
+    'setErrorData':{}
 
 
  }
@@ -69,6 +70,10 @@ const actions = {
   SetUhidNo ({commit},uhid_no) {
     // console(uhid_no);
     commit(types.SET_UHID_NO, uhid_no)
+  },
+  setErrorData ({commit},setErrorData) {
+    // console(uhid_no);
+    commit(types.SET_ERROR_DATA, setErrorData)
   },
   saveNeuroExamination({commit},neuroData) {
     // console(uhid_no);
@@ -144,6 +149,9 @@ const mutations = {
   [types.SET_UHID_NO] (state, uhid_no) {
       state.uhid_no = uhid_no
   },
+  [types.SET_ERROR_DATA] (state, setErrorData) {
+      state.setErrorData = setErrorData
+  },
   [types.SET_PATIENT_DATA] (state, patientData) {
       state.patientData = patientData.patient_details;
       state.admitDatetime = patientData.admit_datetime;
@@ -207,6 +215,7 @@ const mutations = {
       state.patientData={};
       state.provisionalDiagnosis = '';
       state.diagnosis = '';
+      state.setErrorData={};
 
   },
   [types.SAVE_OPD_DATA] (state) {
