@@ -192,13 +192,12 @@
                     </div>
                     <div class="col-md-6">
                       <div class=" input-group">
-                      <input type="text" name="temp" id="temp" class="form-control number-with-validation"  v-model="opdData.temp" v-validate="'required|numeric|min_value:1'" pattern="\d{1,3}(\.\d{0,1})?" >
+                      <input type="text" name="temp" id="temp" class="form-control number-with-validation"  v-model="opdData.temp" v-validate="'decimal:1|required|min_value:1|max_value:999'">
                         <div class="input-group-append">
                             <span class="input-group-text ">°F</span>
                         </div>
                       
                       </div>
-                      <i v-show="errors.has('temp')" class="fa fa-warning"></i>
                       <span class="help is-danger" v-show="errors.has('temp')">
                          Please enter valid temprature.
                       </span>
@@ -509,13 +508,27 @@
         methods: {
           setCurSteps(step){
             let vm = this;
-            vm.opdFormCheck();
-            vm.curStep = step;
+                vm.curStep = step;  
+            vm.opdData =  _.cloneDeep(vm.$store.state.Patient.opdData);
+                vm.resultData = _.cloneDeep(vm.$store.state.Patient.opd_resultData);
+                if(vm.patient_select_enable==true)
+                {
+                 $('#patient').val(vm.opdData.patientlist).trigger('change:select2');
+                }
+            vm.initLastData();
+                
+            setTimeout(function(){
+                vm.opdFormCheck();
+                
+            },1500);
+            
           },
           opdFormCheck()
           {
-               this.$validator.validateAll().then(
+            let vm =this;
+               vm.$validator.validateAll().then(
                 (response) => {
+                  console.log(' errror',vm.errors);
                   if (!this.errors.any()) {
                       console.log('qqq'); 
                   } 
@@ -759,7 +772,7 @@
           },
           prev(){
             let vm =this;
-            vm.$root.$emit('submitNeuroData');
+            // vm.$root.$emit('submitNeuroData');
             // setTimeout(function(){
               if(vm.curStep> 0){
                 vm.curStep = vm.curStep-1;
@@ -781,9 +794,9 @@
             if(vm.curStep == 1){
                 this.$validator.validateAll().then(
               (response) => {
-
+                  console.log('this.errors',this.errors);
                 if (this.errors.any()) {
-                   vm.opdData.setErrorData = {'error':true,'steps':curStep}
+                   vm.opdData.setErrorData = {'error':true,'steps':vm.curStep}
                   vm.onNextStep();
                    
                   }
@@ -799,6 +812,7 @@
           {
                let vm =this;
               vm.curStep = vm.curStep+1;
+
               vm.$store.dispatch('setOpdData',vm.opdData);
               vm.$store.dispatch('setResData',vm.finalResultData);
           },
