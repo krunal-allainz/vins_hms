@@ -358,6 +358,7 @@
                 'error':false,
                 'steps':''
               },
+              'setLocalErrors':false,
               'opdData': {
                 'pain_value':0,
                 'patientlist':'',
@@ -441,6 +442,9 @@
             
          // }
           vm.$store.dispatch('resetOpdForm');
+          if(vm.setLocalErrors == false){
+              vm.$store.dispatch('resetErrorData');
+          }
 
          /*for laboratory data*/
             let labpratory_all_data=[];
@@ -504,6 +508,7 @@
         methods: {
           setCurSteps(step){
             let vm = this;
+                vm.setLocalErrors = true;
                 vm.curStep = step;  
                 vm.opdData =  _.cloneDeep(vm.$store.state.Patient.opdData);
                 vm.resultData = _.cloneDeep(vm.$store.state.Patient.opd_resultData);

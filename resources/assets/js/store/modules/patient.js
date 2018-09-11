@@ -125,6 +125,10 @@ const actions = {
       commit(types.SET_PRESCRIPTION_DATA,prescriptionData);
     
   },
+  resetErrorData({commit}) {
+      commit(types.RESET_ERROR_DATA);
+
+  }
 }
 
 // mutations
@@ -207,6 +211,10 @@ const mutations = {
       state.patientData={};
       state.provisionalDiagnosis = '';
       state.diagnosis = '';
+      // state.setErrorData = {
+      //   'error':false,
+      //   'steps':''
+      // }
       // state.setErrorData={};
 
   },
@@ -218,9 +226,12 @@ const mutations = {
   [types.SET_PRESCRIPTION_DATA] (state,pData) {
     state.prescriptionData = pData;
   },
-  
-  
-  
+  [types.RESET_ERROR_DATA] (state) {
+    state.setErrorData= {
+      'error':false,
+      'steps':''
+    }
+  },
 }
 
 export default {
