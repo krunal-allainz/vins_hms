@@ -14,6 +14,7 @@ const state = {
   	'patientData': {},
     'ipdData': {},
     'opdData':{},
+    'patientCase':{},
     'opd_resultData':{},
     'radioData':{},
     'neuroExaminationData':'',
@@ -50,6 +51,9 @@ const actions = {
   },
   setOpdData({commit},opdData) {
     commit(types.SET_OPD_DATA, opdData);
+  },
+  setPatientCase({commit},patientCase){
+      commit(types.SET_PATIENT_CASE, patientCase);
   },
   setResData({commit},resultData) {
     commit(types.SET_OPD_RESULT_DATA, resultData);
@@ -195,6 +199,9 @@ const mutations = {
 
       state.diagnosis = diagnosis;
   },
+  [types.SET_PATIENT_CASE](state, patientCase){
+      state.patientCase = patientCase;
+  },
   [types.RESET_OPD_FORM] (state) {
     // console.log(patientData)
       state.opdData = {};
@@ -208,6 +215,7 @@ const mutations = {
       state.step4Data={};
       state.patientId='';
       state.opdId='';
+      state.patientCase = '';
       state.patientData={};
       state.provisionalDiagnosis = '';
       state.diagnosis = '';

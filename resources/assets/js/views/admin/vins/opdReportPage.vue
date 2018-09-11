@@ -246,7 +246,7 @@
        				 	 vm.ReportPageData.opdData = response.data.data.opdDetails;
        				}
        				if(response.data.data.opdExaminationDataList){
-       				  vm.ReportPageData.ExaminationData = response.data.data.opdExaminationDataList;
+       				  vm.ReportPageData.ExaminationData = response.data.data.opdExaminationData;
        				}
        				if(response.data.data.opdReferalLaboraryData){
        				  vm.ReportPageData.labReferalReportData = response.data.data.opdReferalLaboraryData;

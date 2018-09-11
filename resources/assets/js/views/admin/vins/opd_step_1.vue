@@ -354,6 +354,12 @@
               'totalStep':4,
               'opd_id':'',
               'patient_id':'',
+              'patientCase' : {
+                'id': '',
+                'type' : '',
+                'status' : '',
+                'token_no' : '',
+              },
               'setErrorData': {
                 'error':false,
                 'steps':''
@@ -691,6 +697,25 @@
               this.initPatientData();
             }
           },
+          getPatientCaseAndTokenDetailByOpdId(opdId){
+            let vm=this;
+            User.getPatientCaseAndTokenDetailByOpdId(opdId).then(
+               (response) => {
+                if(response.data.code == 200){
+                  vm.patientCase.id =response.data.data.caseId;
+                  vm.patientCase.type = response.data.data.case_type;
+                  vm.patientCase.status = response.data.data.status;
+                  vm.patientCase.token_no =  response.data.data.token;
+                  vm.patientCase.main_case_id  = response.data.data.main_case_id;
+                  vm.patientCase.token_date = response.data.data.date;
+                }
+               },
+               (error) => {
+                    },
+
+              );
+
+          },
           get_vitals()
           {
              let vm=this;
@@ -708,12 +733,14 @@
                     (response) => {
                       let opdID ;
                       opdID = response.data.data.id;
+                      vm.getPatientCaseAndTokenDetailByOpdId(opdID);
                       User.getLastOPDIdByPatientId(vm.opdData.patientlist).then(
                           (response) => {
                             let lastVist;
                             lastVist = response.data.data.appointment_datetime;
                               vm.opdData.opd_id=opdID;
                               vm.opd_id=opdID;
+
                               if(lastVist)
                               {
                                   vm.opdData.last_vist=lastVist;
@@ -785,6 +812,7 @@
             
             vm.opdData =  _.cloneDeep(vm.$store.state.Patient.opdData);
             vm.resultData = _.cloneDeep(vm.$store.state.Patient.opd_resultData);
+            vm.patientCase = _.cloneDeep(vm.$store.state.Patient.patientCase);
             if(vm.patient_select_enable==true)
             {
                  $('#patient').val(vm.opdData.patientlist).trigger('change:select2');
@@ -807,7 +835,6 @@
 
                       vm.setErrorData = {'error':false,'steps':''}
                     }
-
                   }
                   vm.$store.dispatch('setErrorData',vm.setErrorData);
                   vm.onNextStep();
@@ -825,6 +852,8 @@
               vm.curStep = vm.curStep+1;
               vm.$store.dispatch('setOpdData',vm.opdData);
               vm.$store.dispatch('setResData',vm.finalResultData);
+              vm.$store.dispatch('setPatientCase',vm.patientCase);
+              vm.$store.dispatch('setErrorData',vm.setErrorData);
           },
           initLastData(){
             let vm = this;

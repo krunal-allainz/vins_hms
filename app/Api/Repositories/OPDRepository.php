@@ -17,6 +17,7 @@
  use euro_hms\Api\Repositories\PatientRepository;
  use euro_hms\Api\Repositories\UserRepository;
  use euro_hms\Models\OpdDetailsOption;
+ use euro_hms\Models\TokenManagment;
  use Carbon\Carbon;
  use DB;
 
@@ -108,6 +109,7 @@
  		$crossRefer=$request->all()['data']['crossRefer'];
  		$diagnosis =$request->all()['data']['diagnosis'];
  		$provisional_diagnosis = $request->all()['data']['provisionalDiagnosis'];
+ 		$patientCaseData =$request->all()['data']['patientCase'];
  		
  		if($department=='Vascular')
  		{
@@ -139,7 +141,9 @@
 			$data_patient_checkup_obj->pain=$data['pain_value'];
 			$data_patient_checkup_obj->save();
  		}
-
+        //patient case status
+        $caseStatusManagment = TokenManagment::where('opd_id',$data['opd_id'])->where('patient_case_id',$patientCaseData['id'])->where('token',$patientCaseData['token_no'])->where('date',$patientCaseData['token_date'])->update(array('status' => 'examine'));
+        
 		//opd details
 		if($opd_id_org)
 		{
@@ -522,11 +526,11 @@
  		  $advice = $result['opdDetails']->advice;
  		  $history = $result['opdDetails']->history;
  		$pastHistory = $result['opdDetails']->past_history;
- 		$examinationData =  $result['opdExaminationData']->examination_data;
+ 		//$examinationData =  $result['opdExaminationData']->examination_data;
  		  $result['adviceData'] = json_decode($advice,true); 
  		  $result['historyData'] = json_decode($history,true); 
  		  $result['past_historyData'] = json_decode($pastHistory,true); 
- 		  $result['opdExaminationDataList'] = json_decode($examinationData,true); 
+ 		 // $result['opdExaminationDataList'] = json_decode($examinationData,true); 
 
  		 return $result;
  	}

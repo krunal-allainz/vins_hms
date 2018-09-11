@@ -22,3 +22,5 @@ export const SET_Provisional_Diagnosis = 'SET_Provisional_Diagnosis'
 export const SET_Diagnosis = 'SET_Diagnosis'
 export const SET_ERROR_DATA = 'SET_ERROR_DATA'
 export const RESET_ERROR_DATA = 'RESET_ERROR_DATA'
+export const SET_PATIENT_CASE = 'SET_PATIENT_CASE'
+

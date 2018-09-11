@@ -2,8 +2,8 @@
 	<div class='row'>
 		<div class='col-md-12 text-center'>
 			<h5>Cross Referal</h5>
-	</div>
-			<div class="row">
+	    </div>
+		<div class="row">
         	<div class="col-md-12">
         	  <div class="">
                 <table class="table table-striped table-bordered" id="radio_list">
@@ -28,7 +28,5 @@
                     </table>
                 </div>
         	</div>
-        </div>
-  	
-	
-	@endif
+        </div>  	
+@endif
