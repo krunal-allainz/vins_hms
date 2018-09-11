@@ -690,7 +690,7 @@
             User.getPatientCaseAndTokenDetailByOpdId(opdId).then(
                (response) => {
                 if(response.data.code == 200){
-                  vm.patientCase.id =response.data.data.id;
+                  vm.patientCase.id =response.data.data.caseId;
                   vm.patientCase.type = response.data.data.case_type;
                   vm.patientCase.status = response.data.data.status;
                   vm.patientCase.token_no =  response.data.data.token;

@@ -17,6 +17,7 @@
  use euro_hms\Api\Repositories\PatientRepository;
  use euro_hms\Api\Repositories\UserRepository;
  use euro_hms\Models\OpdDetailsOption;
+ use euro_hms\Models\TokenManagment;
  use Carbon\Carbon;
  use DB;
 
@@ -109,7 +110,7 @@
  		$diagnosis =$request->all()['data']['diagnosis'];
  		$provisional_diagnosis = $request->all()['data']['provisionalDiagnosis'];
  		$patientCaseData =$request->all()['data']['patientCase'];
- 		dd($patientCaseData);
+ 		
  		if($department=='Vascular')
  		{
  			$examinationData=$request->all()['data']['vascExaminationData'];
@@ -140,7 +141,9 @@
 			$data_patient_checkup_obj->pain=$data['pain_value'];
 			$data_patient_checkup_obj->save();
  		}
-
+        //patient case status
+        $caseStatusManagment = TokenManagment::where('opd_id',$data['opd_id'])->where('patient_case_id',$patientCaseData['id'])->where('token',$patientCaseData['token_no'])->where('date',$patientCaseData['token_date'])->update(array('status' => 'examine'));
+        
 		//opd details
 		if($opd_id_org)
 		{
