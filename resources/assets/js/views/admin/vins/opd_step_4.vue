@@ -3,7 +3,7 @@
      <div class="row form-group">
             <div class="col-md-6" style="padding: 0px;">
               <div class="col-md-6">  
-                <label for="date">Diagnostic:</label>
+                <label for="date">Diagnosis:</label>
               </div>
               <div class="col-md-12">
                 <input class="form-control" name="diagnosis" id="diagnosis" v-model="diagnosis" />
