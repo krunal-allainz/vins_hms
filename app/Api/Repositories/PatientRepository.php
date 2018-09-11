@@ -74,8 +74,8 @@
 		$patientData->consultant=$data['consulting_dr'];
 		$patientData->case_type=$data['case'];
 		$patientData->appointment_datetime=$data['appointment_datetime']['time'];
-		/*for patient details end*/
 
+		/*for patient details end*/
         if($data['case'] == 'new') {
            $patientD =  PatientDetailsForm::orderBy('id', 'desc')->first();
             if($patientD == null){   
@@ -114,7 +114,7 @@
     			$patientData->save();
     			/*for patient details end*/
         }
-//dd($data['consulting_dr']);
+
         if ($patientId) {
 
             if($patientType == "opd"){
@@ -159,7 +159,6 @@
                     'created_at' =>Carbon::now(),
                     'updated_at' =>Carbon::now(),
                  ]);
-
                  
                    $tokenInsert =  TokenManagment::create([
                     'token'=>$data['token_no'],
