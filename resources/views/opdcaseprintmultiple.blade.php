@@ -372,7 +372,9 @@
 		 
 		@elseif($checkout=='Past History')
 				@include('pastHistoryReportdata')
-		@endif
+		@elseif($checkout=='Examination')
+			@include('examinationReportData')
+		@endif	
 	@endif
 		
 		<div  style="height:70px;" class="text-right">

@@ -117,16 +117,16 @@
               {
                 'reportListId': 'Investigation Radiology'
               },
-              // {
-              //   'reportListId': 'Examination'
-              // },
+               {
+                 'reportListId': 'Examination'
+               },
               {
                 'reportListId': 'Referrals'
               }] ,
               'ReportPageData' : {
             'labReferalReportData' : {},
             'radiologyReferalReportData' : {},
-            'ExaminationData' : {},
+            'ExaminationData' : '',
             'opdData' : {},
             'CrossReferalData' : {},
             'phisioyoData' : {},

@@ -249,9 +249,9 @@
 						placeholder: "Select",
 				 });
            $(document).on("select2:select",'.ls-select2', function (e) {
-             if(this.id == 'cerebellar') {
-                vm.neuroExaminationData.cerebellar=$(this).val();
-             } 
+            // if(this.id == 'cerebellar') {
+                vm.neuroExaminationData=$(this).val();
+             //} 
              
           });
          setTimeout(function(){
@@ -264,10 +264,10 @@
             let vm =this;
             vm.neuroExaminationData = _.cloneDeep(this.$store.state.Patient.neuroExaminationData);
             vm.provisional_diagnosis = _.cloneDeep(this.$store.state.Patient.provisionalDiagnosis);
-            if(vm.neuroExaminationData.cerebellar)
-            {
-              $("#cerebellar").val(vm.neuroExaminationData.cerebellar).trigger('change.select2');
-            }
+            // if(vm.neuroExaminationData.cerebellar)
+            // {
+            //   $("#cerebellar").val(vm.neuroExaminationData.cerebellar).trigger('change.select2');
+            // }
             
           },
           prev() {

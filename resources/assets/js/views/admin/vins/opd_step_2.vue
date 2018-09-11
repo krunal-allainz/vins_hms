@@ -121,6 +121,8 @@
               (response) => {
                 // console.log(response,this.errors,vm.errors,'this.errors');
                 // return false;
+                  vm.$store.dispatch('saveVascularExamination', _.cloneDeep(vm.vascularExaminationData)) ;
+              vm.$store.dispatch('saveProvisionalDiagnosis', _.cloneDeep(vm.provisionalDiagnosis)) ;
                   if(!vm.$store.state.Patient.setErrorData.error)
                   {
                       if (this.errors.any()) {

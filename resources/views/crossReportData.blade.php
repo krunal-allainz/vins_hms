@@ -1,4 +1,4 @@
-@if(isset($data['ReportPageData']['CrossReferalData']))
+@if(isset($data['ReportPageData']['CrossReferalData']) && $data['ReportPageData']['CrossReferalData'] != null)
 	<div class='row'>
 		<div class='col-md-12 text-center'>
 			<h5>Cross Referal</h5>
