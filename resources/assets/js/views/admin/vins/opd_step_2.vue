@@ -51,7 +51,7 @@
     export default {
         data() {
             return {
-                'setErrorData':{},
+                'setErrorData':{'error':false,'steps':''},
                 'modal_val':0,
                 'footer' : 'footer',
                 'deleteConfirmMsg':'Are you sure you want to exit from receipt form?',
@@ -70,7 +70,7 @@
            patientReceiptForm,
        },
        created: function() {
-         this.$root.$on('setCurSteps',this.setCurSteps);
+         
         },
        mounted() {
         var vm =this;
@@ -80,72 +80,105 @@
         
        },
         methods: {
-          setCurSteps(step){
-            let vm = this;
-            vm.curStep = 2;
-            vm.initData();
-                
-            setTimeout(function(){
-                vm.step2FormCheck();
-            },500);
-            
-          },
+         
           initData(){
             let vm =this;
             vm.vascularExaminationData = _.cloneDeep(this.$store.state.Patient.vascExaminationData);
             vm.provisional_diagnosis = _.cloneDeep(this.$store.state.Patient.provisionalDiagnosis);
+            vm.opdFormCheck();
+            
           },
-          step2FormCheck()
-          {
-            let vm =this;
-               vm.$validator.validateAll().then(
-                (response) => {
-                 if (!this.errors.any()) {
-                    vm.setErrorData={};
-                    vm.$store.dispatch('setErrorData',vm.setErrorData);
-                 }
-                 else
-                 {
-                    toastr.error('Please enter all required fields.', 'Error', {timeOut: 5000});
-                 }
-                  
-               },
-               (error) => {
-                }
-              )
-              // return false;
-              
-          },
+          
           prev() {
               let vm =this;
               vm.$store.dispatch('saveVascularExamination', _.cloneDeep(vm.vascularExaminationData)) ;
               vm.$store.dispatch('saveProvisionalDiagnosis', _.cloneDeep(vm.provisionalDiagnosis)) ;
               vm.$root.$emit('prev');
           },
+          // next(){
+          //    let vm =this;
+          //    if(!vm.$store.state.Patient.setErrorData.error)
+          //     {
+          //         this.$validator.validateAll().then(
+          //           (response) => {
+          //             if (this.errors.any()) {
+          //               vm.setErrorData = {'error':true,'steps':2}
+          //             } else {
+          //             if(vm.setErrorData.steps == 2 ){
+
+          //               vm.setErrorData = {'error':false,'steps':''}
+          //             }
+          //              }
+          //            },
+          //       (error) => {
+          //       }
+          //       );
+          //     }
+          // },
           next() {
             let vm =this;
             this.$validator.validateAll().then(
               (response) => {
+                // console.log(response,this.errors,vm.errors,'this.errors');
+                // return false;
                   if(!vm.$store.state.Patient.setErrorData.error)
                   {
                       if (this.errors.any()) {
                         vm.setErrorData = {'error':true,'steps':2}
                       } else {
-                      if(vm.setErrorData.steps == 2 ){
+                      if(vm.$store.state.Patient.setErrorData.steps == 2 ){
 
                         vm.setErrorData = {'error':false,'steps':''}
                       }
                     }
-                    
                     vm.$store.dispatch('setErrorData',vm.setErrorData);
+                  } else {
+                    if (this.errors.any()) {
+                        vm.setErrorData = {'error':true,'steps':2}
+                      } else {
+                      if(vm.$store.state.Patient.setErrorData.steps == 2 ){
+
+                        vm.setErrorData = {'error':false,'steps':''}
+                      }
                   }
+                    vm.$store.dispatch('setErrorData',vm.setErrorData);
+
+                }
                    vm.$root.$emit('next');
                 },
                 (error) => {
                 }
                 );
           },
+            opdFormCheck()
+          {
+            let vm =this;
+            let step=2;
+            if(vm.$store.state.Patient.setErrorData.error == true )
+            {
+              vm.$validator.validateAll().then(
+                (response) => {
+                  /*console.log(this.errors.any());
+                  if (!this.errors.any()) {
+                    
+                    let setErrorData={'error':false,'steps':''};
+                    vm.$store.dispatch('setErrorData',setErrorData);
+                  }
+                  else{*/
+                     if(vm.$store.state.Patient.setErrorData.steps == 2){
 
+                        toastr.error('Please enter all required fields. qqqq', 'Error', {timeOut: 100});
+                     }
+                 /* }*/
+                                   
+               },
+               (error) => {
+                }
+              )
+            }
+              // return false;
+              
+          },
         GetSelectComponent(componentName) {
            this.$router.push({name: componentName})
         },

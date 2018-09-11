@@ -372,9 +372,9 @@
 
                 let vm = this;
                 this.saveRefData(); 
+                
                 if(vm.$store.state.Patient.setErrorData.error)
                 {
-                    
                     vm.$root.$emit('setCurSteps',vm.$store.state.Patient.setErrorData.steps);
                     return false;
                 }

@@ -354,7 +354,10 @@
               'totalStep':4,
               'opd_id':'',
               'patient_id':'',
-              'setErrorData':{},
+              'setErrorData': {
+                'error':false,
+                'steps':''
+              },
               'opdData': {
                 'pain_value':0,
                 'patientlist':'',
@@ -508,21 +511,23 @@
                 {
                  $('#patient').val(vm.opdData.patientlist).trigger('change:select2');
                 }
-            vm.initLastData();
-                
-            setTimeout(function(){
-                vm.opdFormCheck();
-            },500);
-            
+                vm.initLastData();
+                if(step == 1)
+                {  
+                  setTimeout(function(){
+                      vm.opdFormCheck(step);
+                  },500);
+                }
           },
-          opdFormCheck()
+          opdFormCheck(step)
           {
             let vm =this;
-               vm.$validator.validateAll().then(
+            
+                vm.$validator.validateAll().then(
                 (response) => {
                  if (!this.errors.any()) {
-                    vm.setErrorData={};
-                    vm.$store.dispatch('setErrorData',vm.setErrorData);
+                    let setErrorData={'error':false,'steps':''};
+                    vm.$store.dispatch('setErrorData',setErrorData);
                  }
                  else
                  {
@@ -533,6 +538,8 @@
                (error) => {
                 }
               )
+            
+               
               // return false;
               
           },
@@ -797,6 +804,7 @@
                     }
 
                   }
+                  vm.$store.dispatch('setErrorData',vm.setErrorData);
                   vm.onNextStep();
                 },
                 (error) => {
@@ -812,7 +820,6 @@
               vm.curStep = vm.curStep+1;
               vm.$store.dispatch('setOpdData',vm.opdData);
               vm.$store.dispatch('setResData',vm.finalResultData);
-              vm.$store.dispatch('setErrorData',vm.setErrorData);
           },
           initLastData(){
             let vm = this;

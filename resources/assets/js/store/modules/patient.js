@@ -26,7 +26,7 @@ const state = {
     'curStep':1,
     'provisionalDiagnosis' : '',
     'diagnosis' : '',
-    'setErrorData':{}
+    'setErrorData':{'error':false,'steps':''}
 
 
  }
@@ -207,7 +207,7 @@ const mutations = {
       state.patientData={};
       state.provisionalDiagnosis = '';
       state.diagnosis = '';
-      state.setErrorData={};
+      // state.setErrorData={};
 
   },
   [types.SAVE_OPD_DATA] (state) {
