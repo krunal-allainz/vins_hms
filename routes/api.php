@@ -226,6 +226,9 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         $api->post('opd/patientopddetail', '\euro_hms\Api\Controllers\OPDDetailsFromController@getPatientOpdData');
         $api->post('patient/getPatientAge', '\euro_hms\Api\Controllers\PatientsDetailFormController@getAgeOfPatient');
         $api->post('opd/patientallopddetail', '\euro_hms\Api\Controllers\OPDDetailsFromController@getPatientOpdDetailByOpdId');
+
+        $api->post('patient/patientcaseandtokendetailinfo', '\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientCaseAndTokenDetailByOpdId');
+
         
         });
 

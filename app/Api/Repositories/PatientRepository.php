@@ -679,5 +679,12 @@
           return $result;
 
     }
+
+   public function getPatientCaseAndTokenDetailByOpdId($opdId)
+   {
+       $result = PatientCaseManagment::select('patient_case_managment.id as caseId','patient_case_managment.case_type','patient_case_managment.section_id','patient_case_managment.patient_id','patient_case_managment.references','patient_case_managment.main_case_id','token_managment.token','token_managment.date','token_managment.status')->join('token_managment','token_managment.patient_case_id','=','patient_case_managment.id')->where('token_managment.opd_id',$opdId)->where('patient_case_managment.section_id',$opdId)->orderBy('patient_case_managment.id','DESC')->first();
+      
+       return $result;
+   }
  }
 ?>

@@ -25,7 +25,6 @@ class CreatePatientCaseManagmentTable extends Migration
             $table->integer('consultant_id')->nullable();
             $table->dateTime('appointment_datetime')->nullable();
             $table->integer('main_case_id')->nullable();
-            $table->string('case_status')->nullable();
             $table->boolean('status')->nullable();
             $table->timestamps();
         });

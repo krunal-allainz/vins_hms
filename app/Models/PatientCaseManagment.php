@@ -17,6 +17,7 @@ class PatientCaseManagment extends Model
               'patient_id',
               'references',
               'consultant_id',
+              'main_case_id',
               'appointment_datetime',
               'status',
         ];
