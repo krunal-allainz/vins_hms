@@ -13,13 +13,13 @@
         <div class="col-md-6">
           <label for="examination" class="control-label">Examination : </label>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-12">
           <textarea  class="form-control"  id="examination" name="examination" value="" v-model="vascularExaminationData"  ></textarea>
         </div>
       </div>
      </div>
       <div class="row form-group">
-            <div class="col-md-6" style="padding: 0px;">
+            <div class="col-md-6">
               <div class="col-md-6">  
                 <label for="date">Provisional Diagnostic:</label>
               </div>
@@ -84,8 +84,11 @@
           initData(){
             let vm =this;
             vm.vascularExaminationData = _.cloneDeep(this.$store.state.Patient.vascExaminationData);
-            vm.provisional_diagnosis = _.cloneDeep(this.$store.state.Patient.provisionalDiagnosis);
-            vm.opdFormCheck();
+            vm.provisionalDiagnosis = _.cloneDeep(this.$store.state.Patient.provisionalDiagnosis);
+             if(vm.$store.state.Patient.setErrorData.error && vm.$store.state.Patient.setErrorData.steps == 2) {
+
+                vm.opdFormCheck();
+             }
             
           },
           
@@ -95,26 +98,7 @@
               vm.$store.dispatch('saveProvisionalDiagnosis', _.cloneDeep(vm.provisionalDiagnosis)) ;
               vm.$root.$emit('prev');
           },
-          // next(){
-          //    let vm =this;
-          //    if(!vm.$store.state.Patient.setErrorData.error)
-          //     {
-          //         this.$validator.validateAll().then(
-          //           (response) => {
-          //             if (this.errors.any()) {
-          //               vm.setErrorData = {'error':true,'steps':2}
-          //             } else {
-          //             if(vm.setErrorData.steps == 2 ){
-
-          //               vm.setErrorData = {'error':false,'steps':''}
-          //             }
-          //              }
-          //            },
-          //       (error) => {
-          //       }
-          //       );
-          //     }
-          // },
+         
           next() {
             let vm =this;
             this.$validator.validateAll().then(
@@ -136,17 +120,20 @@
                     vm.$store.dispatch('setErrorData',vm.setErrorData);
                   } else {
                     if (this.errors.any()) {
-                        vm.setErrorData = {'error':true,'steps':2}
+                        // vm.setErrorData = {'error':true,'steps':2}
                       } else {
                       if(vm.$store.state.Patient.setErrorData.steps == 2 ){
 
                         vm.setErrorData = {'error':false,'steps':''}
+                        vm.$store.dispatch('setErrorData',vm.setErrorData);
                       }
                   }
-                    vm.$store.dispatch('setErrorData',vm.setErrorData);
+                    
 
                 }
-                   vm.$root.$emit('next');
+                  vm.$store.dispatch('saveVascularExamination', _.cloneDeep(vm.vascularExaminationData)) ;
+                  vm.$store.dispatch('saveProvisionalDiagnosis', _.cloneDeep(vm.provisionalDiagnosis)) ;
+                  vm.$root.$emit('next');
                 },
                 (error) => {
                 }
@@ -160,18 +147,12 @@
             {
               vm.$validator.validateAll().then(
                 (response) => {
-                  /*console.log(this.errors.any());
-                  if (!this.errors.any()) {
-                    
-                    let setErrorData={'error':false,'steps':''};
-                    vm.$store.dispatch('setErrorData',setErrorData);
-                  }
-                  else{*/
+                 
                      if(vm.$store.state.Patient.setErrorData.steps == 2){
 
                         toastr.error('Please enter all required fields. qqqq', 'Error', {timeOut: 100});
                      }
-                 /* }*/
+                  
                                    
                },
                (error) => {
