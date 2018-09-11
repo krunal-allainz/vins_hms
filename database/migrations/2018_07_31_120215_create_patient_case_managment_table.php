@@ -14,7 +14,7 @@ class CreatePatientCaseManagmentTable extends Migration
     public function up()
     {
         Schema::create('patient_case_managment', function (Blueprint $table) {
-             $table->increments('id');
+            $table->increments('id');
              $table->string('case_type')->nullable();
              $table->string('section_type')->nullable();
              $table->string('section_id')->nullable()->references('opd_id')

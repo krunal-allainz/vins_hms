@@ -360,7 +360,10 @@
                 'status' : '',
                 'token_no' : '',
               },
-              'setErrorData':{},
+              'setErrorData': {
+                'error':false,
+                'steps':''
+              },
               'opdData': {
                 'pain_value':0,
                 'patientlist':'',
@@ -514,21 +517,23 @@
                 {
                  $('#patient').val(vm.opdData.patientlist).trigger('change:select2');
                 }
-            vm.initLastData();
-                
-            setTimeout(function(){
-                vm.opdFormCheck();
-            },500);
-            
+                vm.initLastData();
+                if(step == 1)
+                {  
+                  setTimeout(function(){
+                      vm.opdFormCheck(step);
+                  },500);
+                }
           },
-          opdFormCheck()
+          opdFormCheck(step)
           {
             let vm =this;
-               vm.$validator.validateAll().then(
+            
+                vm.$validator.validateAll().then(
                 (response) => {
                  if (!this.errors.any()) {
-                    vm.setErrorData={};
-                    vm.$store.dispatch('setErrorData',vm.setErrorData);
+                    let setErrorData={'error':false,'steps':''};
+                    vm.$store.dispatch('setErrorData',setErrorData);
                  }
                  else
                  {
@@ -539,6 +544,8 @@
                (error) => {
                 }
               )
+            
+               
               // return false;
               
           },
@@ -824,6 +831,7 @@
                       vm.setErrorData = {'error':false,'steps':''}
                     }
                   }
+                  vm.$store.dispatch('setErrorData',vm.setErrorData);
                   vm.onNextStep();
                 },
                 (error) => {
