@@ -205,10 +205,11 @@
                 </div>
                 <div class="col-md-6">
 					<div class="col-md-6">
-			      		<label class="control-label" for="consulting_dr">Consulting Dr..: </label>
+			      		<label class="control-label" >Consulting Dr..: </label>
 					</div>
 					<div class="col-md-6">
 			      		<select class="form-control ls-select2"  id="consulting_dr" name="consulting_dr" v-validate="'required'">
+			      			<option value="">Select</option>
 							 <option :value="doctor.id" v-for="doctor in patientData.consulting_dr_option">{{doctor.text}}</option>
 			      		</select>
 			      		<i v-show="errors.has('consulting_dr')" class="fa fa-warning"></i>
@@ -249,6 +250,18 @@
 		          	</div>
 		        </div>
             </div>
+            <!-- <div class="row" >
+			        	<div class="col-md-6 ">
+			            	<label>Token1 Status:</label>
+			          	</div>
+		          	<div class="col-md-6">
+		            	<select  class="form-control" v-validate="'required'" id ="token_status1" name="token_status1" >
+		            		<option value="">Select</option>
+		            		<option value="waiting1">waiting1</option>
+		              		<option value="pending1">pending1</option>
+		            	</select>
+		          	</div>
+		        </div> -->
               <div class="row form-group" v-if="(patientData.case == 'old')" >
                 	<div class="col-md-6">
 			        	<div class="col-md-6 ">
@@ -706,17 +719,17 @@
 		    initPatientData(){
 		    	var vm = this;   
 		    	vm.patientData.patient_id = '';
-		    	$('#consulting_dr').select2("destroy");
+		    	// $('#consulting_dr').select2("destroy");
 		    	//$('#token_status').select2("destroy");
 		    	//setTimeout(function(){
-             		$('#consulting_dr').select2({
-						placeholder: "Select",
-						tags: false,
-					});
-					$('#token_status').select2({
-						placeholder: "Select",
-						tags: false,
-					});
+     //         		$('#consulting_dr').select2({
+					// 	placeholder: "Select",
+					// 	tags: false,
+					// });
+					// $('#token_status').select2({
+					// 	placeholder: "Select",
+					// 	tags: false,
+					// });
 				//},500);
 		    	vm.patientData.uhid_no = '';
 		    	vm.patientData.fname = '';
@@ -728,16 +741,16 @@
 		    	vm.patientData.ph_no = '';
 		    	vm.patientData.mob_no = '';
 		    	vm.patientData.reference_dr = '';
-		    	vm.patientData.consulting_dr = '';
+		    	// vm.patientData.consulting_dr = '';
 		    	vm.patientData.age = '';
 		    	vm.patientData.type = 'opd';
 		    	vm.patientData.case_type = '';
-		    	vm.patientData.token_status = '';
+		    	// vm.patientData.token_status = '';
 		    	vm.patientData.appointment_datetime.time = '';
 		    	$("#gender").val('').trigger('change.select2');
-		    	$("#consulting_dr").val('').trigger('change.select2');
+		    	// $("#consulting_dr").val('').trigger('change.select2');
 		    	$("#case_type").val('').trigger('change.select2');
-		    	$("#token_status").val('').trigger('change.select2');
+		    	// $("#token_status").val('').trigger('change.select2');
 		    },
 		    deleteConfirmed() {
 		      },
