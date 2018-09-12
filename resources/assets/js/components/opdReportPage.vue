@@ -169,7 +169,7 @@
             let vm = this;
             User.getPatientOpdData(opdId).then(
               (response) => {
-                vm.ReportPageData.opdData = response.data.data.opdDetails;
+                vm.ReportPageData.opdData = response.data.data.opdOptionDetails;
                 vm.ReportPageData.ExaminationData = response.data.data.opdExaminationData;
                 vm.ReportPageData.labReferalReportData = response.data.data.opdReferalLaboraryData;
                 vm.ReportPageData.radiologyReferalReportData = response.data.data.opdReferalRadiologyData;

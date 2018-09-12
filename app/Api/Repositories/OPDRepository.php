@@ -149,7 +149,16 @@
 		{
 			$opdData=OpdDetails::findOrFail($opd_id_org);
  		
-		 		if($step4_data['adviceType']=='text')
+		 		
+		 		// $opdData->advice=$advice_final;
+		 		// $opdData->history=$history_final;
+		 		// $opdData->past_history=$past_history_final;
+		 		// $opdData->provisional_diagnosis=$step4_data['provisional_diagnosis'];
+		 		// $opdData->follow_up=$step4_data['follow_up'];
+		 		//$opdData->consultant_id=$data['consulting_dr'];
+		 		$opdData->save();
+		}
+		if($step4_data['adviceType']=='text')
 		 		{
 		 			$advice=array('type'=>$step4_data['adviceType'],'value'=>$step4_data['advice']);
 		 		}
@@ -176,15 +185,6 @@
 		 		$advice_final=json_encode($advice);
 		 		$history_final=json_encode($history);
 		 		$past_history_final=json_encode($past_history);
-		 		$opdData->advice=$advice_final;
-		 		$opdData->history=$history_final;
-		 		$opdData->past_history=$past_history_final;
-		 		$opdData->provisional_diagnosis=$step4_data['provisional_diagnosis'];
-		 		$opdData->follow_up=$step4_data['follow_up'];
-		 		//$opdData->consultant_id=$data['consulting_dr'];
-		 		$opdData->save();
-		}
-
 		//opd detail option
 		$opdDetailsOptionObj = new OpdDetailsOption();
 		$opdDetailsOptionObj->opd_id=$opd_id_org;
@@ -516,6 +516,7 @@
  	public function getPatientOpdData($opdId){
  		 $result = array();
  		 $result['opdDetails'] = OpdDetails::where('id',$opdId)->first();
+ 		 $result['opdOptionDetails'] = OpdDetailsOption::where('opd_id',$opdId)->orderBy('id','DESC')->first();
  		 $result['opdExaminationData'] = Examination::where('opd_id',$opdId)->orderBy('id','DESC')->first();
  		 $result['opdReferalphysioData'] = OPDPhysioDetails::where('opd_id',$opdId)->first();
  		 $result['opdReferalCrossData'] = CrossDetails::where('opd_id',$opdId)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
@@ -524,9 +525,9 @@
  		  $result['opdLabData'] = LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.opd_id',$opdId)->where('laboratory_details.referance',1)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
  		  $result['opdRadiologyData'] = Radiology::where('opd_id',$opdId)->where('referance',1)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
  		  $result['opdprescriptionData'] = PrescriptionDetails::join('prescription_drugs','prescription_drugs.id','=','prescription_details.prescription_drug_id')->where('prescription_details.opd_id',$opdId)->get();
- 		  $advice = $result['opdDetails']->advice;
- 		  $history = $result['opdDetails']->history;
- 		$pastHistory = $result['opdDetails']->past_history;
+ 		  $advice = $result['opdOptionDetails']->advice;
+ 		  $history = $result['opdOptionDetails']->history;
+ 		$pastHistory = $result['opdOptionDetails']->past_history;
  		//$examinationData =  $result['opdExaminationData']->examination_data;
  		  $result['adviceData'] = json_decode($advice,true); 
  		  $result['historyData'] = json_decode($history,true); 
@@ -560,7 +561,7 @@
  		  $result['adviceData'] = json_decode($advice,true); 
  		  $result['historyData'] = json_decode($history,true); 
  		  $result['past_historyData'] = json_decode($pastHistory,true); 
- 		  //dd( $result['opdExaminationData'] );
+ 		  
  		  // $result['opdExaminationDataList'] = json_decode($examinationData,true); 
  		 return $result;
 
