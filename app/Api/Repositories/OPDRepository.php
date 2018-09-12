@@ -355,7 +355,7 @@
 	 				$radiology_obj_2->body_part_side=$r_data['body_part_side'];
 	 			}
 	 			
-	 			if($radio['type']=='other')
+	 			if($r_data['type']=='other')
 	 			{
 	 				$radiology_obj_2->radiology_other = $r_data['radiologyOther'];
 	 			}
