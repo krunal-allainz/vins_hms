@@ -10,6 +10,7 @@ class PrescriptionClockDetails extends Model
         protected $table = 'prescription_clock_details';
 
         protected $fillable=[
+        	  'opd_id',
               'prescription_id',
               'clock_time',
               'clock_quantity',

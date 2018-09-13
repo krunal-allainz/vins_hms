@@ -11,7 +11,27 @@
       <step-progress-bar :curstep="curStep"></step-progress-bar>
     </div>
     <form action="" method="post" id="opd_form_id" enctype="multipart/formdata" >
+      <div class="row form-group">
+      <div class="col-md-6">
+          <button type="button" class="btn btn-warning btn-submit text-right " @click="reloadOPDFOrm()">Reset OPD Form</button>
+      </div>
+    </div>
       <div v-if="curStep == 1">
+         <span v-if="pageName=='EDIT'">
+          <div class="row form-group">
+            <div class="col-md-12">
+                 <div class="col-md-6">
+                  <div class="col-md-6 ">
+                    <label for="date">Patient Name</label>
+                  </div>
+                  <div class="col-md-6">
+                    <label>{{patient_name}}</label>
+                  </div>  
+                </div>
+            </div>
+          </div>
+      </span>
+      
         <div class="row form-group" v-show="patient_select_enable==true">
           <div class="col-md-6">
             <div class="col-md-6 ">
@@ -28,7 +48,6 @@
           <div v-if="isPatientSearch">
             <patientSearch v-if="patient_select_enable==false" :user_id="doctor_id" ref="opd_form"></patientSearch>
           </div>
-         
           <div class="row form-group">
             <div class="col-md-6" v-if="patient_select_enable==true">
               <div class="col-md-6">
@@ -40,8 +59,10 @@
                 <button type="button" class="btn btn-primary" @click="patient_select_change(false)">Select Patient</button>
               </div>
             </div>
-
-            <div class="col-md-6" v-show="(opdData.last_vist != '')">
+          </div>   
+     
+          <div class="row form-group" v-show="(opdData.last_vist != '')">
+            <div class="col-md-6" >
               <div class="col-md-6 ">
                 <label for="opd_no">Last Visit:</label>
               </div>
@@ -49,10 +70,10 @@
                 {{opdData.last_vist}}
                </div>
             </div>
-          </div>         
+          </div>      
           <div class="row form-group">
             <div class="col-md-12">
-                 <div class="col-md-6"  v-if="opdData.uhid_no!=''">
+                 <div class="col-md-6">
                   <div class="col-md-6 " v-if="opdData.uhid_no!=''" >
                     <label for="date">UHID No:</label>
                   </div>
@@ -250,7 +271,7 @@
               </div>
             </div>
         </div>
-        <div class="col-md-6" v-if="opdData.signaturePad_src!=''">
+        <div class="col-md-6" v-if="opdData.signaturePad_src!='' && opdData.historyType != 'text' && opdData.signaturePad_src!== null">
           <div class="col-md-12">
               <label for="history">History Preview:     <i class="fa fa-download fa-lg red" @click="download(opdData.signaturePad_src,'History')" aria-hidden="true"></i></label>
             </div>
@@ -290,7 +311,7 @@
               </div>
             </div>
         </div>
-         <div class="col-md-6" v-if="opdData.signaturePad1_src!=''">
+         <div class="col-md-6" v-if="opdData.signaturePad1_src!='' && opdData.pastHistoryType != 'text' && opdData.signaturePad1_src!== null">
           <div class="col-md-12">
               <label for="history">Past history Preview:  <i class="fa fa-download fa-lg red" @click="download(opdData.signaturePad1_src,'Past history')" aria-hidden="true"></i></label>
             </div>
@@ -340,6 +361,8 @@
         data() {
             return {
               'footer' : 'footer',
+              'pageName':'ADD',
+              'patient_name':'',
               'validateErrors':{},
               'currentYear': new Date().getFullYear(),
               'type': 'opdForms',
@@ -375,8 +398,6 @@
                 'name':'',
                 'age':'',
                 'gender':'',
-                'weight':'',
-                'height': '',
                 'history':'',
                 'historyType': 'scribble',
                 'past_history':'',
@@ -395,6 +416,7 @@
                 'last_vist' : '',
                 'physio_details':'',
                 'laboratoryALLData':[],
+                'signaturePad1':{}
               },
           }
         },
@@ -412,7 +434,9 @@
             if(this.opdData.weight!='' && this.opdData.height!=''){
               var height_met = this.opdData.height / 100;
               var bmiVal = (this.opdData.weight )/(height_met * height_met);
-              return bmiVal.toFixed(1);
+              var bm_val=bmiVal.toFixed(1);
+              this.opdData.bmi=bm_val;
+              return bm_val;
             } else {
               return 0;
             }
@@ -439,14 +463,19 @@
             tags:false 
           });
           let opd_list_new=[];
-           //if(this.$store.state.Patient.patientId != ''){
+
+          if(vm.$store.state.Patient.setPage=='EDIT')
+          {
+              vm.pageName='EDIT';
+              vm.setUpdateData();
+          }
+          else
+          {
               vm.patient_id= this.$store.state.Patient.patientId;
-              
               vm.opdData.patientlist=vm.patient_id;
-             // $('#patient').val(vm.patient_id).trigger('change:select2');
               vm.get_vitals();
-            
-         // }
+          }
+          
           vm.$store.dispatch('resetOpdForm');
           if(vm.setLocalErrors == false){
               vm.$store.dispatch('resetErrorData');
@@ -512,6 +541,44 @@
 
         },
         methods: {
+          setUpdateData()
+          {
+              var vm =this;
+              vm.patient_id= vm.$store.state.Patient.patientId;
+              vm.opd_id= vm.$store.state.Patient.opdId;
+              User.getUPdateOPDInfo(vm.patient_id,vm.opd_id).then(
+              (response) => {
+                if(response.data.code==200)
+                {
+                    let all_opd_data=response.data.data;
+                    vm.opdData=all_opd_data.opdData;
+                    vm.opdData.signaturePad={};
+                    vm.opdData.signaturePad1={};
+
+                    vm.patient_name=_.cloneDeep(all_opd_data.patient_name);
+                    //vm.$store.dispatch('setOpdData',all_opd_data.opdData);
+                    vm.$store.dispatch('saveExaminationData',all_opd_data.examinationData);
+                    vm.$store.dispatch('saveProvisionalDiagnosis',all_opd_data.provisionalDiagnosis);
+                    vm.$store.dispatch('saveLabReportData',all_opd_data.laboratoryData);
+                    vm.$store.dispatch('saveRadioData',all_opd_data.radioData);
+                    vm.$store.dispatch('saveStep4Data',all_opd_data.step4Data);
+                    vm.$store.dispatch('saveDiagnosis',all_opd_data.diagnosis);
+                    vm.$store.dispatch('saveReferralReportData',all_opd_data.reffData);
+                    vm.$store.dispatch('setPrescriptionData',all_opd_data.prescriptionData);
+
+                }
+               
+              },
+              (error) => 
+              {
+              },
+            );
+          },
+          reloadOPDFOrm()
+          {
+            this.$store.dispatch('reloadOpdForm');
+            location.reload();
+          },
           setCurSteps(step){
             let vm = this;
                 vm.setLocalErrors = true;
@@ -656,8 +723,8 @@
           {
               let vm =this;
               vm.opdData.last_vist="";
-             vm.opdData.patientlist="";
-             vm.patient_id="";
+              vm.opdData.patientlist="";
+              vm.patient_id="";
               vm.opdData.uhid_no="";
               vm.opdData.weight="";
               vm.opdData.height="";
@@ -681,8 +748,8 @@
             {
               let pDetails=patientData.searchdata;
               //for opd list
-                this.opdData.uhid_no=pDetails.uhid_no;
-                this.opdData.patientlist=pDetails.id;
+                vm.opdData.uhid_no=pDetails.uhid_no;
+                vm.opdData.patientlist=pDetails.id;
                 vm.patient_id=pDetails.id;
                 vm.get_vitals();
             }
@@ -784,11 +851,11 @@
                   }
                   else if(vitals_data.code==300)
                   {
-                   
+                    //toastr.error('Record not found', 'Error', {timeOut: 5000});
                   }
                   else
                   {
-                     
+                     //toastr.error('Something went wrong.', 'Error', {timeOut: 5000});
                   }
                 },
                 (error) => {
@@ -889,6 +956,7 @@
           },
           setHistoryType(res,type){
             var vm =this;
+            
             if(res == 'present'){
               vm.opdData.historyType = type;
             } else if(res == 'past') {
@@ -958,7 +1026,10 @@
               return response;
             },
           examinationChangeImage() {
+            console.log('fdsfds');
             var vm =this;
+            vm.opdData.signaturePad="";
+            vm.opdData.signaturePad1="";
             // savePNGButton.addEventListener("click", function (event) {
             var wrapper = document.getElementById("signature-pad");
             var wrapper1 = document.getElementById("signature-pad1");
@@ -968,6 +1039,7 @@
             var clear_past_history_scribble = document.getElementById("clear_past_history_scribble");
             var save_history_scribble = document.getElementById("save_history_scribble");
             var save_past_history_scribble = document.getElementById("save_past_history_scribble");
+            
             vm.opdData.signaturePad = new SignaturePad(canvas, {
               backgroundColor: 'rgb(255, 255, 255)',
             });
