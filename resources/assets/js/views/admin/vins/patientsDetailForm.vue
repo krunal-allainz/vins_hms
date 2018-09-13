@@ -7,7 +7,7 @@
 				</div>
 			</div>
 		</div>
-		<form method = "post">
+		<form method = "post" id="patientDetailFormDataCaps">
 			<div class="row form-group">
 		    	<div class="col-md-6">
 		        	<div class="col-md-6 ">
@@ -17,8 +17,8 @@
 
 		            	<select  class="form-control ls-select2" v-validate="'required'" id = "case" name="case" value="" v-model="patientData.case">
 		            		<option> Select </option>
-		              		<option value="new">New</option>
-		              		<option value="old">Old</option>
+		              		<option value="new">NEW</option>
+		              		<option value="old">OLD</option>
 		            	</select>
 		            	<i v-show="errors.has('case')" class="fa fa-warning"></i>
 		            	<span class="help is-danger" v-show="errors.has('case')">
@@ -31,7 +31,7 @@
 	                    	<label for="uhid_no" class="control-label">UHID No : </label>
 	                	</div>
 		                <div class="col-md-6">
-							<input class="form-control" type = "text" v-validate="'required'" id = "uhid_no" name="uhid_no" value=""  v-model="patientData.uhid_no" :readonly="patientData.case == 'old'" @input="isCapslock"/>
+							<input class="form-control" type = "text" v-validate="'required'" id = "uhid_no" name="uhid_no" value=""  v-model="patientData.uhid_no" :readonly="patientData.case == 'old'" />
 							<i v-show="errors.has('uhid_no')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('uhid_no')"> 
 								Please enter UHID No.
@@ -128,8 +128,8 @@
 	                    <div class="col-md-6">
 							<select  class="form-control ls-select2" id = "gender" name="gender" :disabled="patientData.case == 'old'">
 	            				<option value="">Select</option>
-	            				<option value="M">Male</option>
-				            	<option value="F">Female</option>
+	            				<option value="M">MALE</option>
+				            	<option value="F">FEMALE</option>
 				          	</select>
 				          	<i v-show="errors.has('gender')" class="fa fa-warning"></i>
 				          	<span class="help is-danger" v-show="errors.has('gender')">
@@ -208,7 +208,7 @@
 			      		<label class="control-label" >Consulting Dr..: </label>
 					</div>
 					<div class="col-md-6">
-			      		<select class="form-control ls-select2"  id="consulting_dr" name="consulting_dr" v-validate="'required'">
+			      		<select class="form-control ls-select2"  id="consulting_dr" name="consulting_dr" v-validate="'required'" >
 			      			<option value="">Select</option>
 							 <option :value="doctor.id" v-for="doctor in patientData.consulting_dr_option">{{doctor.text}}</option>
 			      		</select>
@@ -244,24 +244,12 @@
 		          	<div class="col-md-6">
 		            	<select  class="form-control ls-select2" v-validate="'required'" id ="token_status" name="token_status" >
 		            		<option value="">Select</option>
-		            		<option value="waiting">waiting</option>
-		              		<option value="pending">pending</option>
+		            		<option value="waiting">WAITING</option>
+		              		<option value="pending">PENDING</option>
 		            	</select>
 		          	</div>
 		        </div>
             </div>
-            <!-- <div class="row" >
-			        	<div class="col-md-6 ">
-			            	<label>Token1 Status:</label>
-			          	</div>
-		          	<div class="col-md-6">
-		            	<select  class="form-control" v-validate="'required'" id ="token_status1" name="token_status1" >
-		            		<option value="">Select</option>
-		            		<option value="waiting1">waiting1</option>
-		              		<option value="pending1">pending1</option>
-		            	</select>
-		          	</div>
-		        </div> -->
               <div class="row form-group" v-if="(patientData.case == 'old')" >
                 	<div class="col-md-6">
 			        	<div class="col-md-6 ">
@@ -270,10 +258,10 @@
 		          	<div class="col-md-6">
 		            	<select  class="form-control ls-select2" v-validate="'required'" id="case_type" name="case_type">
 		            		<option value="">Select</option>
-		              		<option value="cross_reference">Cross Reference</option>
-		              		<option value="reports">Reports</option>
-		              		<option value="follow_ups">Follow ups</option>
-		              		<option value="new_consult">New Consult</option>
+		              		<option value="cross_reference">CROSS REFERENCE</option>
+		              		<option value="reports">REPORTS</option>
+		              		<option value="follow_ups">FOLLOW UP</option>
+		              		<option value="new_consult">NEW CONSULT</option>
 		            	</select>
 		            	<i v-show="errors.has('case_type')" class="fa fa-warning"></i>
 		            	<span class="help is-danger" v-show="errors.has('case_type')">
@@ -404,7 +392,12 @@
         	patientSearch
         },
         mounted() {
+
         	let vm =this;
+    //     		document.onkeypress = function (e) {
+				// e = e || window.event;
+				// vm.isCapsLockOn(e);
+				// }
 		       if(vm.$store.state.Users.userDetails.user_type != '3'){
 		       		vm.$root.$emit('logout','You are not authorise to access this page');	
 		       }
@@ -453,7 +446,6 @@
 		             	vm.patientData.case = $(this).val();
 		             	if($(this).val()=='new')		
 		             	{
-		             		console.log('dsdsf');
 		             		//vm.userlistData={};
 		             		$('#case_type').select2('destroy');
 		             		vm.initPatientData();
@@ -491,36 +483,26 @@
         	this.$root.$on('patientData',this.setPatientData);
         	this.$root.$on('patientEmpty',this.patientEmpty);
         },
+        
         methods: {
-        	isCapslock(e){
-        			console.log('test');
-   			 e = (e) ? e : window.event;
+        	isCapsLockOn: function(e) {
+        		 e.getModifierState('CapsLock');
+        		//Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_CAPS_LOCK, true);
+				var keyCode = e.keyCode ? e.keyCode : e.which;
+				var shiftKey = e.shiftKey ? e.shiftKey : ((keyCode == 16) ? true : false);
+				return (((keyCode >= 65 && keyCode <= 90) && !shiftKey) || ((keyCode >= 97 && keyCode <= 122) && shiftKey))
+		},
+		showCapsLockMsg: function(e) {
+			let vm = this;
+			var warningElement = document.getElementById('capsLockWarning');
 
-		    var charCode = false;
-		    if (e.which) {
-		        charCode = e.which;
-		    } else if (e.keyCode) {
-		        charCode = e.keyCode;
-		    }
-
-		    var shifton = false;
-		    if (e.shiftKey) {
-		        shifton = e.shiftKey;
-		    } else if (e.modifiers) {
-		        shifton = !!(e.modifiers & 4);
-		    }
-
-		    if (charCode >= 97 && charCode <= 122 && shifton) {
-		        return true;
-		    }
-
-		    if (charCode >= 65 && charCode <= 90 && !shifton) {
-		        return true;
-		    }
-
-   				 return false;
-
-			},
+			if (vm.isCapsLockOn(e)){
+				warningElement.style.display = 'block';
+			}else{
+				warningElement.style.display = 'none';
+			}
+			
+		},
         	checkAppomentData(){
         		let vm = this;
         		let appointmentDate = vm.patientData.appointment_datetime.time.split(" ");
@@ -554,13 +536,11 @@
         	{
         		this.initPatientData();
         	},
-
-        	  getAgeCal () { 
+        	getAgeCal () { 
         	  	let vm =this;
 		        vm.handleDOBChanged();
-		      },
-		      getBirthYear(){ 
-
+		    },
+		    getBirthYear(){ 
 		      	 let getYearForage = 0;
 		      	 this.patientData.dob.time = null;
 		      	
@@ -591,7 +571,6 @@
 	  			return vm.patientData.token_no;
 		      },
 		      getAgeFromYear(year){
-				
 		      	let getYear = 0;
 		      	this.patientData.display_age = 1;
 		      	getYear = this.currentYear - year - 1;
@@ -830,4 +809,5 @@
 		  },
 
     }
+
 </script>

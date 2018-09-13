@@ -530,3 +530,9 @@ input.number-with-validation:invalid {
     width : 900px;
     height : auto;   
 }
+#patientDetailFormDataCaps input{
+    text-transform : uppercase;
+}
+#patientDetailFormDataCaps #consulting_dr .selection .select2-container--default .select2-selection--single .select2-selection__rendered{
+    text-transform : uppercase;
+}
