@@ -31,7 +31,7 @@
 	                    	<label for="uhid_no" class="control-label">UHID No : </label>
 	                	</div>
 		                <div class="col-md-6">
-							<input class="form-control" type = "text" v-validate="'required'" id = "uhid_no" name="uhid_no" value=""  v-model="patientData.uhid_no" :readonly="patientData.case == 'old'"/>
+							<input class="form-control" type = "text" v-validate="'required'" id = "uhid_no" name="uhid_no" value=""  v-model="patientData.uhid_no" :readonly="patientData.case == 'old'" @input="isCapslock"/>
 							<i v-show="errors.has('uhid_no')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('uhid_no')"> 
 								Please enter UHID No.
@@ -405,7 +405,6 @@
         },
         mounted() {
         	let vm =this;
-
 		       if(vm.$store.state.Users.userDetails.user_type != '3'){
 		       		vm.$root.$emit('logout','You are not authorise to access this page');	
 		       }
@@ -493,6 +492,35 @@
         	this.$root.$on('patientEmpty',this.patientEmpty);
         },
         methods: {
+        	isCapslock(e){
+        			console.log('test');
+   			 e = (e) ? e : window.event;
+
+		    var charCode = false;
+		    if (e.which) {
+		        charCode = e.which;
+		    } else if (e.keyCode) {
+		        charCode = e.keyCode;
+		    }
+
+		    var shifton = false;
+		    if (e.shiftKey) {
+		        shifton = e.shiftKey;
+		    } else if (e.modifiers) {
+		        shifton = !!(e.modifiers & 4);
+		    }
+
+		    if (charCode >= 97 && charCode <= 122 && shifton) {
+		        return true;
+		    }
+
+		    if (charCode >= 65 && charCode <= 90 && !shifton) {
+		        return true;
+		    }
+
+   				 return false;
+
+			},
         	checkAppomentData(){
         		let vm = this;
         		let appointmentDate = vm.patientData.appointment_datetime.time.split(" ");
