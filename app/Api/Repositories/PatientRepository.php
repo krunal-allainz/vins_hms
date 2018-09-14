@@ -516,10 +516,21 @@
       $reportQuery->join('token_managment', function ($join1) {
                   $join1->on('token_managment.patient_case_id', '=', 'patient_case_managment.id');
         });
+
         if($user_type == 1)
         {
-           $reportQuery->where('patient_case_managment.consultant_id',$user_id)->whereIn('token_managment.status',['waiting','vital']);
+             if($status=='waiting')
+             {
+                  $reportQuery->where('patient_case_managment.consultant_id',$user_id)->whereIn('token_managment.status',['waiting','vital']);
+
+             }
+           else if($status=='examine')
+           {
+                
+               $reportQuery->where('patient_case_managment.consultant_id',$user_id)->whereIn('token_managment.status',['examine']);
+           }
         } 
+
         if($user_type==2)
         {
             $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case'])->where('token_managment.status','waiting');
@@ -530,8 +541,9 @@
         }
             $reportQuery->whereDate('patient_case_managment.appointment_datetime',Carbon::today()->format('Y-m-d'))->with('userDetails');
          $reportQuery->select('*','token_managment.token as token_id')->groupBy('patient_case_managment.patient_id')->orderBy('patient_case_managment.created_at','desc');
-
-         return  $reportQuery->paginate($noOfRecord);
+         $r_query=$reportQuery->paginate($noOfRecord);
+        // print_r($r_query);
+         return $r_query;
     // return PatientDetailsForm::where('consultant_id',$id)->paginate($noOfRecord);
      
     }
@@ -685,6 +697,18 @@
        $result = PatientCaseManagment::select('patient_case_managment.id as caseId','patient_case_managment.case_type','patient_case_managment.section_id','patient_case_managment.patient_id','patient_case_managment.references','patient_case_managment.main_case_id','token_managment.token','token_managment.date','token_managment.status')->join('token_managment','token_managment.patient_case_id','=','patient_case_managment.id')->where('token_managment.opd_id',$opdId)->where('patient_case_managment.section_id',$opdId)->orderBy('patient_case_managment.id','DESC')->first();
       
        return $result;
+   }
+
+   public function getPatientLastVisitById($pid)
+   {
+        $today=Carbon::now()->format('Y-m-d');
+        $result = PatientCaseManagment::where('patient_id',$pid)->whereDate('appointment_datetime','<',$today)->orderBy('id','DESC')->first();
+        $las_visit="N/A";
+        if(isset($result->appointment_datetime) && $result->appointment_datetime!='')
+        {
+            $las_visit=$result->appointment_datetime;
+        }
+        return $las_visit;
    }
  }
 ?>

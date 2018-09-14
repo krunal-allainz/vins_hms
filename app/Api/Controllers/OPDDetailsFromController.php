@@ -207,6 +207,16 @@ class OPDDetailsFromController extends Controller
     }
 
     /**
+     * [editDetails description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function editDetails(Request $request)
+    {
+        return $this->opdObj->editOPD($request);
+    }
+
+    /**
      * [getOPDCounters description]
      * @return [type] [description]
      */
@@ -280,6 +290,45 @@ class OPDDetailsFromController extends Controller
                 return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
             }
 
+    }
+
+    /**
+     * [getOPDDetailsByPatientID description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getOPDDetailsByPatient(Request $request)
+    {
+        $pid = $request->patient_id;
+        $opdDetail=$this->opdObj->getOPDDetailsByPatientID($pid);
+        if($opdDetail)
+        {
+            return ['code' => '200','data'=>$opdDetail, 'message' => 'Record Sucessfully created'];
+        }   
+        else
+        {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+    }
+
+    /**
+     * [getUPdateOPDInfo description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getUPdateOPDInfo(Request $request)
+    {
+        $pid = $request->patient_id;
+        $oid = $request->opdId;
+        $opdDetail=$this->opdObj->getUpdateOPDDetails($pid,$oid);
+        if($opdDetail)
+        {
+            return ['code' => '200','data'=>$opdDetail, 'message' => 'Record Sucessfully created'];
+        }   
+        else
+        {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
     }
 
    
