@@ -17,8 +17,7 @@ const state = {
     'patientCase':{},
     'opd_resultData':{},
     'radioData':{},
-    'neuroExaminationData':'',
-    'vascExaminationData':'',
+    'examinationData':'',
     'laboratoryData':{},
     'saveOpd':false,
     'prescriptionData':{},
@@ -27,7 +26,8 @@ const state = {
     'curStep':1,
     'provisionalDiagnosis' : '',
     'diagnosis' : '',
-    'setErrorData':{'error':false,'steps':''}
+    'setErrorData':{'error':false,'steps':''},
+    'setPage':'ADD'
 
 
  }
@@ -64,8 +64,11 @@ const actions = {
   SetIpdId ({commit},ipdId) {
     commit(types.SET_IPD_ID, ipdId)
   },
-    SetOpdId ({commit},opdId) {
+  SetOpdId ({commit},opdId) {
     commit(types.SET_OPD_ID, opdId)
+  },
+  SetPage ({commit},setPage) {
+    commit(types.SET_PAGE, setPage)
   },
   SetUhidNo ({commit},uhid_no) {
     // console(uhid_no);
@@ -79,9 +82,9 @@ const actions = {
     // console(uhid_no);
     commit(types.SET_NEURO_DATA, neuroData)
   },
-  saveVascularExamination({commit},vascData) {
+  saveExaminationData({commit},examinationData) {
     // console(uhid_no);
-    commit(types.SET_VASC_DATA, vascData)
+    commit(types.SET_EXAMINATION_DATA, examinationData)
   },
   saveLabReportData({commit},labReportData){
     commit(types.SET_LAB_REPORT_DATA,labReportData)
@@ -121,6 +124,10 @@ const actions = {
       commit(types.RESET_OPD_FORM);
     
   },
+  reloadOpdForm({commit}) {
+      commit(types.RELOAD_OPD_FORM);
+    
+  },
   saveOpdData({commit,state}) {
     
 
@@ -143,7 +150,9 @@ const mutations = {
   [types.SET_OPD_ID] (state, opdId) {
     state.opdId = opdId
   },
-  
+  [types.SET_PAGE] (state, setPage) {
+    state.setPage = setPage
+  },
   [types.SET_PATIENT_ID] (state, patientId) {
       state.patientId = patientId
   },
@@ -180,6 +189,9 @@ const mutations = {
   [types.SET_VASC_DATA] (state, vascData) {
       state.vascExaminationData = vascData;
   },
+  [types.SET_EXAMINATION_DATA] (state, examinationData) {
+      state.examinationData = examinationData;
+  },
   [types.SET_LAB_REPORT_DATA](state, labData){
 
       state.laboratoryData = {'type':labData};
@@ -213,18 +225,32 @@ const mutations = {
       state.vascExaminationData ='' ;
       state.refferelReportData={};
       state.step4Data={};
-      state.patientId='';
-      state.opdId='';
       state.patientCase = '';
       state.patientData={};
       state.provisionalDiagnosis = '';
       state.diagnosis = '';
-      // state.setErrorData = {
-      //   'error':false,
-      //   'steps':''
-      // }
-      // state.setErrorData={};
-
+      state.examinationData = '';
+  },
+  [types.RELOAD_OPD_FORM] (state) {
+    // console.log(patientData)
+      state.opdData = {};
+      state.opd_resultData = {};
+      state.radioData = {};
+      state.prescriptionData = {};
+      state.laboratoryData = {};
+      state.neuroExaminationData = '';
+      state.vascExaminationData ='' ;
+      state.refferelReportData={};
+      state.step4Data={};
+      state.patientCase = '';
+      state.patientData={};
+      state.provisionalDiagnosis = '';
+      state.diagnosis = '';
+      state.patientId='';
+      state.opdId='';
+      state.setErrorData={'error':false,'steps':''};
+      state.setPage='ADD';
+      state.examinationData = '';
   },
   [types.SAVE_OPD_DATA] (state) {
   },

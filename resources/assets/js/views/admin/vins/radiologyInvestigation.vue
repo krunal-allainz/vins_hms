@@ -206,7 +206,7 @@
 </div>
 </template>
 <script >
-    var resData=[];
+    
 	import User from '../../../api/users.js';
 	import _ from 'lodash';
     import card from "./card.vue"
@@ -259,6 +259,7 @@
                 },
                 'imgGallery':'',
                 'finalResultData':[],
+                'radiologyData':[],
                /* 'investigationData' : {
                 	'neurology': {
                 		'radiology':{
@@ -409,6 +410,8 @@
         mounted() {
              "use strict"
             let vm =this;
+            vm.initResData();
+
 			if(vm.$store.state.Users.userDetails.user_type != '1'){
               vm.$root.$emit('logout','You are not authorise to access this page'); 
             }
@@ -416,7 +419,7 @@
 					 placeholder: "Select",
 
 			    });
-                 vm.finalResultData = _.cloneDeep(vm.$store.state.Patient.radioData);
+                 
             $('#radio_div').on('click','#btn-img-file',function(){
                 if(vm.resultData.uploadType == 'image'){
 
@@ -511,6 +514,17 @@
         },
         
         methods: {
+            initResData()
+            {
+                let vm=this;
+                 var radio_data = _.cloneDeep(vm.$store.state.Patient.radioData);
+                 if(radio_data.length)
+                 {
+                    vm.finalResultData = radio_data;
+                    vm.radiologyData=radio_data;
+                 }
+                
+            },
             viewGallery(gid) {
 
                 let vm = this;
@@ -555,8 +569,8 @@
 
             },
             saveReport() {
-                // var resData=[];
                 let vm =this;
+                var resData=vm.radiologyData;
                  // resData.push= vm.finalResultData;
                  $('#radiology_special_request').select2("destroy");
                  $('#radiology_qualifier').select2("destroy");
@@ -566,9 +580,9 @@
                     return false;
                 }
                 vm.resultData.id = resData.length;
-                resData.push(vm.resultData);
-                
-                vm.finalResultData = _.cloneDeep(resData);
+                resData.push(vm.resultData); 
+                vm.radiologyData=resData;
+                vm.finalResultData = _.cloneDeep(vm.radiologyData);
 
                 vm.initData();
                 vm.setRadioData();
