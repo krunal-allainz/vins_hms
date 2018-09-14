@@ -32,7 +32,6 @@
         $sectionId = '';
         $opdInsert = 0;
 
-      
         if($data['case'] == 'new') {
         	$patientData=new PatientDetailsForm();
            $opdInsert  = 1;
@@ -40,8 +39,13 @@
         else
         {
         	$patientId =$data['patient_id'];
+            if($data['reportstatus'] == 'yes'){
+                $data['case_type'] = 'reports';
+                 $opdInsert = 0;
+            }
            if($data['case_type']  == 'new_consult'){
               $opdInsert = 1;
+          
           }else{
              $opdData =  $this->getOPDDetailsByPatientId($patientId);
              $opdInsert = 0;
@@ -178,7 +182,10 @@
               }else{
                 $insertedOPDId = $opdData->id;
                  $sectionId    = $opdData->id;
-                 
+                 if( $data['case_type'] = 'reports'){
+                  
+                 }
+                  
                    /* start add case management data */
                   $patientCaseInsert = PatientCaseManagment::create([
                     'case_type' =>$data['case_type'],

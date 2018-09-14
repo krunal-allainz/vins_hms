@@ -54,7 +54,6 @@
       		</div>
       		
       		<patientSearch v-if="patientData.case == 'old'" :user_id="0" ref="patientDetailForm"></patientSearch>
-      		
       		<div>
       			<div class="row form-group">
 	      			<div class="col-md-6">
@@ -177,7 +176,6 @@
 						<i v-show="errors.has('address')" class="fa fa-warning"></i>
 				      	<span class="help is-danger" v-show="errors.has('address')">
 		                	Please enter valid address.
-
 		                </span>
 		            </div>
 		        </div>
@@ -218,10 +216,8 @@
 		                </span>
 					</div>
 				</div>	
-             
-             
             </div>
-            <div class="row form-group">
+            <div class="row form-group" v-show="(patientData.reportstatus == 'no')">
             	 <div class="col-md-6">
 		        	<div class="col-md-6 ">
 			        	<label for="case_type">Token No:</label>
@@ -251,7 +247,20 @@
 		        </div>
             </div>
               <div class="row form-group" v-if="(patientData.case == 'old')" >
-                	<div class="col-md-6">
+              		<div class="col-md-6">
+              		<div class="col-md-6">
+              				<label for="" >Report</label>
+              			</div>
+              			<div class="col-md-6">
+              				<input type="radio" id="yes" value="yes" v-model="patientData.reportstatus">
+								<label for="yes">Yes</label>
+								<br>
+							<input type="radio" id="no" value="no" v-model="patientData.reportstatus">
+								<label for="no">No</label>
+								<br>
+              			</div>
+              		</div>
+                	<div class="col-md-6" v-show="(patientData.reportstatus == 'no')">
 			        	<div class="col-md-6 ">
 			            	<label for="case_type" >Case Type:</label>
 			          	</div>
@@ -259,7 +268,7 @@
 		            	<select  class="form-control ls-select2" v-validate="'required'" id="case_type" name="case_type">
 		            		<option value="">Select</option>
 		              		<option value="cross_reference">CROSS REFERENCE</option>
-		              		<option value="reports">REPORTS</option>
+		              		// <option value="reports">REPORTS</option>
 		              		<option value="follow_ups">FOLLOW UP</option>
 		              		<option value="new_consult">NEW CONSULT</option>
 		            	</select>
@@ -323,8 +332,7 @@
 			          'box-shadow': '0 1px 3px 0 rgba(0, 0, 0, 0.2)',
 			          'border-radius': '2px',
 			          'color': '#5F5F5F'
-			      		},
-			      	
+			      		},			      	
 			      },
                 'option': {
                     type: 'day',
@@ -363,6 +371,7 @@
                 	'dob': {
                 		time:''
                 	},
+                	'reportstatus':'no',
                 	'mname': '',
                 	'lname': '',
                 	'gender': '',
@@ -483,10 +492,9 @@
         	this.$root.$on('patientData',this.setPatientData);
         	this.$root.$on('patientEmpty',this.patientEmpty);
         },
-        
         methods: {
         	isCapsLockOn: function(e) {
-        		 e.getModifierState('CapsLock');
+        		// e.getModifierState('CapsLock');
         		//Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_CAPS_LOCK, true);
 				var keyCode = e.keyCode ? e.keyCode : e.which;
 				var shiftKey = e.shiftKey ? e.shiftKey : ((keyCode == 16) ? true : false);

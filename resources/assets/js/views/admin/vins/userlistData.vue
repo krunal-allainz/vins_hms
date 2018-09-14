@@ -43,17 +43,13 @@
                 'userData': {
 
                 	'userlist':this.userlistData,
-                	
                 },
             }
         },
         mounted() {
-        	
-			
         },
         methods: {
          initData() {
-
           },
            getUserDetails(id)
 		    {
@@ -62,6 +58,7 @@
 		    	{
 		    		User.generatePatientDetailsByID(id).then(
 		                (response) => {
+		                	let vm = this;
 		                	//let pData = response.data;
 		                	let pData = {'searchdata':response.data.data,'code':response.data.code};
 		                	this.$root.$emit('patientData',pData);
