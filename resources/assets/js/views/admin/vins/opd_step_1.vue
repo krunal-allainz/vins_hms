@@ -62,28 +62,29 @@
           </div>   
      
           <div class="row form-group" v-show="(opdData.last_vist != '')">
-            <div class="col-md-6" >
-              <div class="col-md-6 ">
-                <label for="opd_no">Last Visit:</label>
+            <div class="col-md-6">
+              <div class="col-md-6" >
+                <div class="col-md-6 ">
+                  <label for="opd_no">Last Visit:</label>
+                </div>
+                 <div class="col-md-9">
+                  {{opdData.last_vist}}
+                 </div>
               </div>
-               <div class="col-md-6">
-                {{opdData.last_vist}}
-               </div>
             </div>
-          </div>      
-          <div class="row form-group">
-            <div class="col-md-12">
+            <div class="col-md-6">
                  <div class="col-md-6">
                   <div class="col-md-6 " v-if="opdData.uhid_no!=''" >
                     <label for="date">UHID No:</label>
                   </div>
-                  <div class="col-md-6" v-if="opdData.uhid_no!=''" >
+                  <div class="col-md-9" v-if="opdData.uhid_no!=''" >
                    <!--  <input type="text" class="form-control"  v-model="opdData.uhid_no" readonly=""> -->
                     <label>{{opdData.uhid_no}}</label>
                   </div>  
                 </div>
             </div>
-          </div>
+          </div>      
+         
           <div class="row form-group">
             <div class="col-md-6">
               <div class="col-md-6">
@@ -464,17 +465,7 @@
           });
           let opd_list_new=[];
 
-          if(vm.$store.state.Patient.setPage=='EDIT')
-          {
-              vm.pageName='EDIT';
-              vm.setUpdateData();
-          }
-          else
-          {
-              vm.patient_id= this.$store.state.Patient.patientId;
-              vm.opdData.patientlist=vm.patient_id;
-              vm.get_vitals();
-          }
+          
           
           vm.$store.dispatch('resetOpdForm');
           if(vm.setLocalErrors == false){
@@ -537,10 +528,30 @@
           },500);
           // vm.getResults();
           vm.getResults();
-          vm.newPatient(); 
+          vm.newPatient();
+          vm.initData();
 
         },
         methods: {
+          initData()
+          {
+              if(vm.$store.state.Patient.setPage=='EDIT')
+              {
+                  vm.pageName='EDIT';
+                  vm.setUpdateData();
+              }
+              else
+              {
+                  vm.patient_id= this.$store.state.Patient.patientId;
+                  vm.opdData.patientlist=vm.patient_id;
+                  if(vm.opdData.patientlist)
+                  {
+                      vm.getAgeOfPatient(patientId);
+                      vm.get_vitals();
+                  }
+                  
+              }
+          },
           setUpdateData()
           {
               var vm =this;
@@ -800,34 +811,14 @@
                     (response) => {
                       let opdID ;
                       opdID = response.data.data.id;
+                      vm.opd_id=opdID;
+                      vm.opdData.opd_id=opdID;
                       vm.getPatientCaseAndTokenDetailByOpdId(opdID);
-                      User.getLastOPDIdByPatientId(vm.opdData.patientlist).then(
-                          (response) => {
-                            let lastVist;
-                            lastVist = response.data.data.appointment_datetime;
-                              vm.opdData.opd_id=opdID;
-                              vm.opd_id=opdID;
-
-                              if(lastVist)
-                              {
-                                  vm.opdData.last_vist=lastVist;
-                              }
-                              else
-                              {
-                                   vm.opdData.last_vist="N/A";
-                              }
-                              
-                            },
-                            (error) => {
-                            },
-                      );
-                     
-                      
-                      },
-                      (error) => {
-                      },
+                      vm.getPatientLastVisit(vm.opdData.patientlist);
+                    },
+                    (error) => {
+                    },
                 );
-
               User.getVitalsInfoByPatientId(vm.opdData.patientlist).then(
               (response) => {
                 let vitals_data=response.data.data;
@@ -862,8 +853,23 @@
                 },
             );
           },
-        
-        
+          getPatientLastVisit(p_id)
+          {
+              let vm=this;
+              User.getPatientLastVisitById(p_id).then(
+                (response) => {
+                  if(response.data.code==200)
+                  {
+                      let lastVist;
+                      lastVist = response.data.data;
+                      vm.opdData.last_vist=lastVist;
+                  }
+                   
+                  },
+                  (error) => {
+                  },
+              );
+          },
           updateUhidNo(uhid) {
             let vm = this;
             vm.opdData.uhid_no = uhid;
@@ -1026,7 +1032,7 @@
               return response;
             },
           examinationChangeImage() {
-            console.log('fdsfds');
+            
             var vm =this;
             vm.opdData.signaturePad="";
             vm.opdData.signaturePad1="";

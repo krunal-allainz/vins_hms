@@ -466,6 +466,21 @@ class PatientsDetailFormController extends Controller
 
     }
 
+    /**
+     * [getPatientLastVisitById description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getPatientLastVisitById(Request $request){
+        $patient_id = $request ->patient_id;
+        $patient_last_visit = $this->patientOBJ->getPatientLastVisitById($patient_id);
+        if ($patient_last_visit) {
+        return ['code' => '200','data'=>$patient_last_visit, 'message' => 'Record Sucessfully created'];
+        } else {
+        return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+    }
+
 
 
 }

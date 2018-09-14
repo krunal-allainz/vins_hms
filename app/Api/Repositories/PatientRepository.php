@@ -698,5 +698,17 @@
       
        return $result;
    }
+
+   public function getPatientLastVisitById($pid)
+   {
+        $today=Carbon::now()->format('Y-m-d');
+        $result = PatientCaseManagment::where('patient_id',$pid)->whereDate('appointment_datetime','<',$today)->orderBy('id','DESC')->first();
+        $las_visit="N/A";
+        if(isset($result->appointment_datetime) && $result->appointment_datetime!='')
+        {
+            $las_visit=$result->appointment_datetime;
+        }
+        return $las_visit;
+   }
  }
 ?>

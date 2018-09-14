@@ -405,7 +405,7 @@
                         }if($status == 'examine'){
                           vm.patientDataExamine.patient_list = response.data.data.data;
                         } else {
-                           vm.patientData.patient_list = response.data.data.data;
+                            vm.patientDataPending.patient_list = response.data.data.data;
                         }
                          
                           vm.makePagination(response.data.data,$status);

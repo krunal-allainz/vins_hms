@@ -708,6 +708,9 @@
  			$result['prescriptionData']=$prescript_array;
 
  			//for physio details
+ 			$result['reffData']['referral']='';
+ 			$result['reffData']['laboratory']='';
+ 			$result['reffData']['physio_details']='';
  			$physio_details=OPDPhysioDetails::where('opd_id',$opd_id)->orderBy('id','desc')->first();
  			if($physio_details)
  			{

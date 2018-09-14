@@ -375,7 +375,7 @@ export default {
   getUPdateOPDInfo(pid,oid){
      return api.post('opd/getUPdateOPDInfo',{'patient_id':pid,'opdId':oid});
   },
-  generateEditOpdDetails(opd_data) {
-    return api.post('opd/editOpdDetails',{'data':opd_data})
+  getPatientLastVisitById(pid) {
+    return api.post('patient/getPatientLastVisitById',{'patient_id':pid})
   },
 }

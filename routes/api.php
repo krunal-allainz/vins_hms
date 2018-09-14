@@ -236,6 +236,9 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
         //for getting update opd info for patient
         $api->post('opd/getUPdateOPDInfo', '\euro_hms\Api\Controllers\OPDDetailsFromController@getUPdateOPDInfo');
+
+        //for getting patient last visit
+        $api->post('patient/getPatientLastVisitById', '\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientLastVisitById');
         
         });
 
