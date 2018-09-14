@@ -326,7 +326,7 @@
        <OPDStep2></OPDStep2>
     </div>
     <div class="row form-group"  v-if="curStep == 3">
-        <OPDStep3 :labData="opdData.laboratoryALLData"></OPDStep3>
+        <OPDStep3 :labData="laboratoryALLData"></OPDStep3>
     </div>
     <div class="row form-group"  v-if="curStep == 4">
         <OPDStep4 :doctor="doctor" :validatorErrorArray="validateErrors"></OPDStep4>
@@ -363,6 +363,7 @@
             return {
               'footer' : 'footer',
               'pageName':'ADD',
+              'laboratoryALLData':[],
               'patient_name':'',
               'validateErrors':{},
               'currentYear': new Date().getFullYear(),
@@ -477,7 +478,7 @@
             User.generateAllLaboratoryListByChild().then(
               (response) => {
                 let lab_data = response.data.data;
-                vm.opdData.laboratoryALLData = lab_data;
+                vm.laboratoryALLData = lab_data;
                 $('#laboratory_report_opd').select2({
                   placeholder: 'Select',
                   data:lab_data
@@ -535,6 +536,7 @@
         methods: {
           initData()
           {
+            let vm=this;
               if(vm.$store.state.Patient.setPage=='EDIT')
               {
                   vm.pageName='EDIT';
@@ -557,6 +559,7 @@
               var vm =this;
               vm.patient_id= vm.$store.state.Patient.patientId;
               vm.opd_id= vm.$store.state.Patient.opdId;
+              
               User.getUPdateOPDInfo(vm.patient_id,vm.opd_id).then(
               (response) => {
                 if(response.data.code==200)

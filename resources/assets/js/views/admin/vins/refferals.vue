@@ -162,7 +162,7 @@
       <!-- for laboratory -->
 
         <!-- for physiotherapy -->
-        <div class="row form-group" v-show="reffData.referral == 'physiotherapy' ">
+        <div class="row form-group" v-show="reffData.referral == 'physiotherapy' || reffData.physio_details!=''">
           <div class="col-md-6">
           <div class="col-md-12">
             <label class="control-label" for="label_1">Details </label>

@@ -981,7 +981,8 @@
 	 			}
 	 		}
  		}
- 		if($reff_data['referral']=='physiotherapy')
+ 		
+ 		if($reff_data['physio_details']!='')
  		{
  			$del=OPDPhysioDetails::where('opd_id',$opd_id_org)->delete();
  			$physio_obj=new OPDPhysioDetails();
