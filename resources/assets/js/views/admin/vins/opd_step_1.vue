@@ -242,7 +242,7 @@
             <div class="col-md-12" v-show="opdData.historyType == 'scribble'">
               <div id="signature-pad" class="signature-pad">
                 <div class="signature-pad--body">
-                  <canvas class="can-img" id="history_scribble" height="200px" width="500px" ></canvas> 
+                  <canvas class="can-img w-100" id="history_scribble"  ></canvas> 
                 </div>
                 <div><button type="button" id="clear_history_scribble" class="btn btn-md btn-danger">Clear</button>
                 <button type="button" id="save_history_scribble" class="btn btn-md btn-primary">Save</button></div>
@@ -281,7 +281,7 @@
             <div class="col-md-12" v-show="opdData.pastHistoryType == 'scribble'">
               <div id="signature-pad1" class="signature-pad">
                 <div class="signature-pad--body">
-                  <canvas class="can-img" id="past_history_scribble" height="200px" width="500px" ></canvas> 
+                  <canvas class="can-img w-100" id="past_history_scribble" ></canvas> 
                 </div>
                 <div>
                   <button type="button" id="clear_past_history_scribble" class="btn btn-md btn-danger">Clear</button>
@@ -893,6 +893,10 @@
               vm.opdData.historyType = type;
             } else if(res == 'past') {
               vm.opdData.pastHistoryType = type;
+
+            }
+            if(type == 'scribble'){
+
             }
           },
           
@@ -960,14 +964,15 @@
           examinationChangeImage() {
             var vm =this;
             // savePNGButton.addEventListener("click", function (event) {
-            var wrapper = document.getElementById("signature-pad");
-            var wrapper1 = document.getElementById("signature-pad1");
+            // var wrapper = document.getElementById("signature-pad");
+            // var wrapper1 = document.getElementById("signature-pad1");
+            
             var canvas = document.getElementById("history_scribble");
             var canvas1 = document.getElementById("past_history_scribble");
-            var clear_history_scribble = document.getElementById("clear_history_scribble");
-            var clear_past_history_scribble = document.getElementById("clear_past_history_scribble");
-            var save_history_scribble = document.getElementById("save_history_scribble");
-            var save_past_history_scribble = document.getElementById("save_past_history_scribble");
+            // var clear_history_scribble = document.getElementById("clear_history_scribble");
+            // var clear_past_history_scribble = document.getElementById("clear_past_history_scribble");
+            // var save_history_scribble = document.getElementById("save_history_scribble");
+            // var save_past_history_scribble = document.getElementById("save_past_history_scribble");
             vm.opdData.signaturePad = new SignaturePad(canvas, {
               backgroundColor: 'rgb(255, 255, 255)',
             });
@@ -978,24 +983,73 @@
             window.onresize = vm.resizeCanvas;
             vm.resizeCanvas(canvas);
             vm.resizeCanvas(canvas1);
-            clear_history_scribble.addEventListener("click", function (event) {
+            vm.clearHistory('clear_history_scribble');
+            vm.clearHistory('clear_past_history_scribble');
+            vm.saveHistory('save_history_scribble');
+            vm.saveHistory('save_past_history_scribble');
+            // clear_history_scribble.addEventListener("click", function (event) {
+            //   vm.opdData.signaturePad.clear();
+            //   vm.opdData.signaturePad_src='';
+            // });
+            // clear_past_history_scribble.addEventListener("click", function (event) {
+            //   vm.opdData.signaturePad1.clear();
+            //   vm.opdData.signaturePad1_src='';
+            // });
+            // save_history_scribble.addEventListener("click", function (event) {
+            //   vm.opdData.signaturePad_src = vm.opdData.signaturePad.toDataURL();
+            // });
+            // save_past_history_scribble.addEventListener("click", function (event) {
+            //   vm.opdData.signaturePad1_src = vm.opdData.signaturePad1.toDataURL();
+            // });
+          },
+          setSignaturePad(canvasData) {
+            if(canvasData == 'history_scribble') {
+              var canvas = document.getElementById(canvasData);
+              vm.opdData.signaturePad = new SignaturePad(canvas, {
+                backgroundColor: 'rgb(255, 255, 255)',
+              });
+            } 
+            if(canvasData == 'past_history_scribble') {
+              var canvas = document.getElementById(canvasData);
+              vm.opdData.signaturePad = new SignaturePad(canvas, {
+                backgroundColor: 'rgb(255, 255, 255)',
+              });
+            }
+           
+          },
+          clearHistory(data) {
+            let vm =this;
+            if(data == 'clear_history_scribble') {
+              var clear_history_scribble = document.getElementById(data);
+              clear_history_scribble.addEventListener("click", function (event) {
               vm.opdData.signaturePad.clear();
               vm.opdData.signaturePad_src='';
             });
-            clear_past_history_scribble.addEventListener("click", function (event) {
+            } else if(data == 'clear_past_history_scribble') {
+              var clear_past_history_scribble = document.getElementById("clear_past_history_scribble");
+              clear_past_history_scribble.addEventListener("click", function (event) {
               vm.opdData.signaturePad1.clear();
               vm.opdData.signaturePad1_src='';
             });
-            save_history_scribble.addEventListener("click", function (event) {
+            }
+            
+          },
+          saveHistory(data){
+            let vm =this;
+            if(data == 'save_history_scribble') {
+               var save_history_scribble = document.getElementById(data);
+                save_history_scribble.addEventListener("click", function (event) {
               vm.opdData.signaturePad_src = vm.opdData.signaturePad.toDataURL();
             });
-            save_past_history_scribble.addEventListener("click", function (event) {
+          } else if(data == 'save_past_history_scribble') {
+             var save_past_history_scribble = document.getElementById(data);
+              save_past_history_scribble.addEventListener("click", function (event) {
               vm.opdData.signaturePad1_src = vm.opdData.signaturePad1.toDataURL();
             });
-          },
+          }
         }
                       
-           
     }
+  }
         
 </script>
