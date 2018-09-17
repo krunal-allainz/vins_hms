@@ -592,7 +592,7 @@
  			$last_visit_arr=$this->objPatient->getLastOPDIdByPatientId($patient_id);
  			$result['opdData']['age']=$p_details->age;
  			$result['opdData']['uhid_no']=$p_details->uhid_no;
- 			$result['opdData']['last_visit']=$last_visit_arr->appointment_datetime;
+ 			$result['opdData']['last_vist']=$this->objPatient->getPatientLastVisitById($patient_id);
  			//checkup details
  			$patientcheckup=PatientCheckUp::where('opd_id',$opd_id)->orderBy('id','desc')->first();
  			
