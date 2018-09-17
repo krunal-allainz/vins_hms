@@ -568,7 +568,6 @@
                     vm.opdData=all_opd_data.opdData;
                     vm.opdData.signaturePad={};
                     vm.opdData.signaturePad1={};
-
                     vm.patient_name=_.cloneDeep(all_opd_data.patient_name);
                     //vm.$store.dispatch('setOpdData',all_opd_data.opdData);
                     vm.$store.dispatch('saveExaminationData',all_opd_data.examinationData);
