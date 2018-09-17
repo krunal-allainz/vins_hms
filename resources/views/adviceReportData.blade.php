@@ -10,7 +10,6 @@
 						<span class='text-left' style="padding-left:30px;">{{$data['ReportPageData']['adviceData']['value']}}</span>
 					</div>
 				@endif
-				
 			</div>
 		</div>
 		@endif
@@ -19,7 +18,6 @@
 			<div class='col-md-6 text-left'>
 				<span class='text-left'><b>Advice :-</b></span>
 			</div>
-			
 					<div class='col-md-12 text-left'>
 					    <img src="{{$data['ReportPageData']['adviceData']['value']}}" title="Advice">
 					</div> 
