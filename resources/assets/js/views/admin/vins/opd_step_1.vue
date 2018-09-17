@@ -31,7 +31,7 @@
             </div>
           </div>
       </span>
-      
+      <span v-else>
         <div class="row form-group" v-show="patient_select_enable==true">
           <div class="col-md-6">
             <div class="col-md-6 ">
@@ -60,7 +60,7 @@
               </div>
             </div>
           </div>   
-     
+        </span>
           <div class="row form-group" v-show="(opdData.last_vist != '')">
             <div class="col-md-6">
               <div class="col-md-6" >
@@ -540,6 +540,7 @@
               if(vm.$store.state.Patient.setPage=='EDIT')
               {
                   vm.pageName='EDIT';
+                  $('#patient').select2('destroy');
                   vm.setUpdateData();
               }
               else
