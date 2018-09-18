@@ -36,7 +36,7 @@
                                     <td>
                                       <i class="fa fa-eye" data-toggle="modal" data-target="#patientDetailModal" @click="getPatientInfo(opd_data.patient_id)"></i>
                                       <patientDetailInfo ref="modal" :showPatientDetail="patientDetailInfo"></patientDetailInfo>
-                                      <a  v-if="opd_data.t_status=='examine'" :href="'/opd_form'"> <i class="fa fa-pencil" @click="setPatientInfo(opd_data.patient_id,opd_data.opd_id)" title="opd form"></i></a>
+                                      <a  v-if="opd_data.t_status=='examine' || opd_data.is_report==1" :href="'/opd_form'"> <i class="fa fa-pencil" @click="setPatientInfo(opd_data.patient_id,opd_data.opd_id)" title="opd form"></i></a>
                                     </td>
                                 </tr>
                               </tbody>

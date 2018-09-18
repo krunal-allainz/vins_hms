@@ -239,6 +239,10 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
         //for getting patient last visit
         $api->post('patient/getPatientLastVisitById', '\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientLastVisitById');
+
+        //for getting case type report or follower of patient
+        $api->post('patient/getPatientCaseTypeById','\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientCaseTypeById');
+
         
         });
 
