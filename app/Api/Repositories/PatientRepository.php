@@ -514,6 +514,14 @@
       return TokenManagment::where('date','like',$date.'%')->Where('token',$token)->count();
     }
 
+    /**
+     * [getPatientList description]
+     * @param  [type] $user_type  [description]
+     * @param  [type] $noOfRecord [description]
+     * @param  [type] $user_id    [description]
+     * @param  string $status     [description]
+     * @return [type]             [description]
+     */
     public function getPatientList($user_type,$noOfRecord,$user_id,$status='waiting'){
       // dd($user_type,$noOfRecord,$user_id);
       $reportQuery= PatientDetailsForm::join('patient_case_managment', function ($join) {
@@ -525,6 +533,7 @@
 
         if($user_type == 1)
         {
+              $reportQuery->where('patient_case_managment.case_type','!=','reports');
              if($status=='waiting')
              {
                   $reportQuery->where('patient_case_managment.consultant_id',$user_id)->whereIn('token_managment.status',['waiting','vital']);
