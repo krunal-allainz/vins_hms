@@ -467,7 +467,6 @@
           let opd_list_new=[];
 
           
-          console.log(this.$store.state.Patient.patientId);
           vm.$store.dispatch('resetOpdForm');
           if(vm.setLocalErrors == false){
               vm.$store.dispatch('resetErrorData');
@@ -545,7 +544,6 @@
               }
               else
               {
-                console.log(this.$store.state.Patient.patientId,'patientId')
                   vm.patient_id= parseInt(this.$store.state.Patient.patientId);
                   vm.opdData.patientlist=vm.patient_id;
                   if(vm.opdData.patientlist)
@@ -904,7 +902,6 @@
             if(vm.curStep == 1){
               this.$validator.validateAll().then(
               (response) => {
-                  //console.log('this.errors',this.errors);
                   if (this.errors.any()) {
                     vm.setErrorData = {'error':true,'steps':vm.curStep}
                   } else {
@@ -930,7 +927,7 @@
               vm.$store.dispatch('setOpdData',vm.opdData);
               vm.$store.dispatch('setResData',vm.finalResultData);
               vm.$store.dispatch('setPatientCase',vm.patientCase);
-              vm.$store.dispatch('setErrorData',vm.setErrorData);
+              // vm.$store.dispatch('setErrorData',vm.setErrorData);
           },
           initLastData(){
             let vm = this;

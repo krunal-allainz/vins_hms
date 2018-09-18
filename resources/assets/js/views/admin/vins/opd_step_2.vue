@@ -85,7 +85,7 @@
             let vm =this;
             vm.examinationData = _.cloneDeep(this.$store.state.Patient.examinationData);
             vm.provisionalDiagnosis = _.cloneDeep(this.$store.state.Patient.provisionalDiagnosis);
-             if(vm.$store.state.Patient.setErrorData.error && vm.$store.state.Patient.setErrorData.steps == 2) {
+             if(vm.$store.state.Patient.setErrorData.error && vm.$store.state.Patient.setErrorData.steps == 2 && vm.$store.state.Patient.opdSubmit) {
 
                 vm.opdFormCheck();
              }
@@ -104,7 +104,6 @@
 
             this.$validator.validateAll().then(
               (response) => {
-                // console.log(response,this.errors,vm.errors,'this.errors');
                 // return false;
                  
                   if(!vm.$store.state.Patient.setErrorData.error)
