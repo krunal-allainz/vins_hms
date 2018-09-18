@@ -492,7 +492,8 @@
           $(document).on("select2:select",'.ls-select2', function (e) { 
             if(this.id == 'referral'){
                vm.setRadioReferral();
-              vm.reffData.referral=$(this).val();
+               let ref=$(this).val();
+              vm.reffData.referral=ref;
               //vm.finalResultData = '';
               if($(this).val() != 'physiotherapy') {
                 vm.reffData.physio_details = "";
@@ -707,9 +708,20 @@
               if(!(jQuery.isEmptyObject(reffData)))
               {
                   vm.reffData=reffData;
-                  vm.ref_cross_array=reffData.reffreal_cross_array;
-                  vm.ref_lab_array=reffData.reffreal_laboratory_array;
-                  vm.ref_radio_array=reffData.reffreal_radiology_array;
+                  if(reffData.reffreal_cross_array)
+                  {
+                      vm.ref_cross_array=_.cloneDeep(reffData.reffreal_cross_array);
+                  }
+                  if(reffData.reffreal_laboratory_array)
+                  {
+                      vm.ref_lab_array=_.cloneDeep(reffData.reffreal_laboratory_array);
+
+                  }
+                  if(reffData.reffreal_radiology_array)
+                  {
+                      vm.ref_radio_array=_.cloneDeep(reffData.reffreal_radiology_array);
+                  }
+                  
               }
             },
             saveReport() {
@@ -815,9 +827,15 @@
               let vm =this;
               if(vm.laboratory_array.length>0)
               {
-
+                
                  _.forEach(vm.laboratory_array, function(value, key) {
-                    let matches=_.some(vm.ref_lab_array,['lab_id',value]);
+                    
+                    let objArray=vm.ref_lab_array;
+                    let matches={};
+                    if(vm.ref_lab_array)
+                    {
+                        matches=objArray.find(function (obj) { return obj.lab_id == value; });
+                    }
                     if(matches)
                     {
                         vm.setLabReferral();
@@ -855,7 +873,25 @@
           saveCrossReport()
           {
                 let vm =this;
-                let matches2=_.some(vm.ref_cross_array,['value',vm.reffData.cross_type_ext]);
+                let matches2={};
+                let objArray=vm.ref_cross_array;
+                if(vm.cross_internal=='true')
+                {
+                    
+                    if(vm.ref_cross_array)
+                    {
+                        matches2=objArray.find(function (obj) { return obj.value == vm.internal_array; });
+                    }
+                }
+                else
+                {
+                    if(vm.ref_cross_array)
+                    {
+                        matches2=objArray.find(function (obj) { return obj.value == vm.reffData.cross_type_ext; });
+                    }
+                }
+                
+                
                 if(matches2)
                 {
                     vm.setCrossReferral();

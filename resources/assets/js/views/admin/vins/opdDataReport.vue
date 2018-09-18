@@ -1,5 +1,36 @@
 <template>
 	<div>
+		<div v-for="reportName in checkedreportList" v-show="(reportName == 'Advice + follow ups')" >
+				<adviseReportdata :adviceData="ReportPageData.adviceData"></adviseReportdata>
+				<followupReportData :followupData="ReportPageData.opdData.follow_up"></followupReportData>
+		</div>
+
+		<div v-for="reportName in checkedreportList" v-show="(reportName == 'Radiology')" >	 
+			<!-- Radiology referal start -->
+			 	<radiologyDataReport :radiologyReferalReportData="ReportPageData.radiologyReferalReportData" :printType="printType" ></radiologyDataReport>
+			 	<!-- Radiology referal end -->
+		</div>
+
+		<div v-for="reportName in checkedreportList" v-show="(reportName == 'Laboratory')" >
+				<!-- lab referal data start -->
+			 	<labDataReport :labReferalData="ReportPageData.labReferalReportData"  :printType="printType" :checkedreportList="checkedreportList" ></labDataReport>
+			 	<!-- lab referal data end -->
+		</div>
+
+		<div v-for="reportName in checkedreportList" v-show="(reportName == 'Prescription')" >
+			 	<!-- print Perceptions Report start  -->
+			 	<prescriptionPrint :prescriptData="prescriptiData" :removeBtn="0" :checkedreportList="checkedreportList" :printType="printType"> </prescriptionPrint>
+			 	<!-- print Perceptions Report end -->
+		</div>
+
+		<div v-for="reportName in checkedreportList" v-show="(reportName == 'History')" >
+			<historyReportData :historyData="ReportPageData.historyData"></historyReportData>
+		</div>	
+
+		<div v-for="reportName in checkedreportList" v-show="(reportName == 'Past History')" >
+			<pastHistoryReportData :past_history="ReportPageData.past_history"></pastHistoryReportData>
+		</div>
+		
 		<div v-for="reportName in checkedreportList" v-show="(reportName == 'Investigation Lab')" >
 		<!-- lab report data start-->
 			<labDataReport :labReportData="ReportPageData.labReportData"  :checkedreportList="checkedreportList"   :printType="printType"></labDataReport>
@@ -12,23 +43,8 @@
 		<!-- Radiology report data end -->
 		</div>
 
-		<div v-for="reportName in checkedreportList" v-show="(reportName == 'Laboratory')" >
-			
-				<!-- lab referal data start -->
-			 	<labDataReport :labReferalData="ReportPageData.labReferalReportData"  :printType="printType"></labDataReport :checkedreportList="checkedreportList">
-			 	<!-- lab referal data end -->
-		</div>
-
-		<div v-for="reportName in checkedreportList" v-show="(reportName == 'Radiology')" >	 
-			<!-- Radiology referal start -->
-			 	<radiologyDataReport :radiologyReferalReportData="ReportPageData.radiologyReferalReportData" :printType="printType" ></radiologyDataReport>
-			 	<!-- Radiology referal end -->
-		</div>
-
-		<div v-for="reportName in checkedreportList" v-show="(reportName == 'Prescription')" >
-			 	<!-- print Perceptions Report start  -->
-			 	<prescriptionPrint :prescriptData="prescriptiData" :removeBtn="0" :checkedreportList="checkedreportList" :printType="printType"> </prescriptionPrint>
-			 	<!-- print Perceptions Report end -->
+		<div v-for="reportName in checkedreportList" v-show="(reportName == 'Examination')" >
+				<examinationReportData :examData="ReportPageData.examinationData" :checkedreportList="checkedreportList" :printType="printType"></examinationReportData>
 		</div>
 
 		<div v-for="reportName in checkedreportList" v-show="(reportName == 'Referrals')" >
@@ -37,19 +53,9 @@
 			 	<!-- cross referal  report data end-->
 		</div>
 
-			 <div v-for="reportName in checkedreportList" v-show="(reportName == 'Advice + follow ups')" >
-				<adviseReportdata :adviceData="ReportPageData.adviceData"></adviseReportdata>
+		
+		
 			
-				<followupReportData :followupData="ReportPageData.opdData.follow_up"></followupReportData>
-			</div>	
-		<div v-for="reportName in checkedreportList" v-show="(reportName == 'Examination')" >
-		</div>	
-		<div v-for="reportName in checkedreportList" v-show="(reportName == 'Past History')" >
-			<pastHistoryReportData :past_history="ReportPageData.past_history"></pastHistoryReportData>
-		</div>
-		<div v-for="reportName in checkedreportList" v-show="(reportName == 'History')" >
-			<historyReportData :historyData="ReportPageData.historyData"></historyReportData>
-		</div>		
 	</div>
 </template>
 <script>
@@ -62,6 +68,7 @@
 	import followupReportData from './followupReportData.vue';
 	import historyReportData from './historyReportData.vue';
 	import pastHistoryReportData from './pastHistoryReportData.vue';
+	import examinationReportData from './examinationOrgReportData.vue';
 	
 		export default {
 		props:['ReportPageData','checkedreportList','printType','prescriptiData','adviceData','historyData','past_history'],
@@ -74,7 +81,8 @@
           adviseReportdata,
           followupReportData,
           historyReportData,
-          pastHistoryReportData
+          pastHistoryReportData,
+          examinationReportData
 		}
 
 	}

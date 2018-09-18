@@ -427,6 +427,9 @@
                             'provisionalDiagnosis':this.$store.state.Patient.provisionalDiagnosis,
                           };
                           vm.editOpdData(oData);
+                          vm.$store.dispatch('SetPatientId', '');
+                          vm.$store.dispatch('SetOpdId', '');
+                          vm.$store.dispatch('SetPage', 'ADD');
                         } else {
                           
                           toastr.error('Please enter all required fields.', 'Error', {timeOut: 5000});

@@ -38,7 +38,7 @@
 					<!-- <button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button> -->
 					<button type="button" class="btn btn-primary btn-submit text-right" @click="print_multiple_report()">Print</button>
 
-					<!-- <button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button> -->
+				 <button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button>
 					<!-- <button ty pe="button" lass="btn btn-primary btn-submit text-right" >Print</button> -->
 
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -140,6 +140,7 @@
 		      	'past_history' : {},
 		      	'historyData' : {},
 		      	'adviceData' : {},
+		      	'examinationData':{},
 		      }
 			}
 		},
@@ -245,13 +246,13 @@
        				 	 vm.ReportPageData.opdData = response.data.data.opdOptionDetails;
        				}
        				if(response.data.data.opdExaminationData){
-       				  vm.ReportPageData.ExaminationData = response.data.data.opdExaminationData.examination_data;
+       				  vm.ReportPageData.examinationData = response.data.data.opdExaminationData.examination_data;
        				}
        				if(response.data.data.opdReferalLaboraryData){
        				  vm.ReportPageData.labReferalReportData = response.data.data.opdReferalLaboraryData;
        				}
        				if(response.data.data.opdReferalRadiologyData){
-       				  vm.ReportPageData.radiologyReferalReportData = response.data.data.opdReferalRadiologyData;
+       				  	vm.ReportPageData.radiologyReferalReportData = response.data.data.opdReferalRadiologyData;
        				}
        				if(response.data.data.opdReferalCrossData){
        				  vm.ReportPageData.CrossReferalData = response.data.data.opdReferalCrossData;
@@ -274,6 +275,7 @@
        				if(response.data.data.adviceData){
        				  vm.ReportPageData.adviceData =response.data.data.adviceData; 
        				}
+       				
        				},
        				(error) => {
        				}

@@ -510,6 +510,7 @@
  		  $result['opdLabData'] = LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.opd_id',$opdId)->where('laboratory_details.referance',1)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
  		  $result['opdRadiologyData'] = Radiology::where('opd_id',$opdId)->where('referance',1)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
  		  $result['opdprescriptionData'] = PrescriptionDetails::join('prescription_drugs','prescription_drugs.id','=','prescription_details.prescription_drug_id')->where('prescription_details.opd_id',$opdId)->get();
+ 		  
  		  $advice = $result['opdOptionDetails']->advice;
  		  $history = $result['opdOptionDetails']->history;
  		$pastHistory = $result['opdOptionDetails']->past_history;
@@ -737,21 +738,29 @@
  			$lab_details=LaboratoryDetails::where('opd_id',$opd_id)->orderBy('id','asc')->get();
  			$lab_array=array();
  			$index_lab=1;
+ 			
  			foreach($lab_details as $lab)
  			{
  				if($lab->referance==0)
  				{
+
  					$rest_lab=array();
- 					$rest_lab['id']=$index_lab;
- 					$lab_det=$this->getLabpratoryNameById($lab->laboratory_id);
-	 				$rest_lab['name']=$lab_det->name;
-	 				$rest_lab['remove']=$lab->remove;
-	 				$lab_array[]=$rest_lab;
-	 				$index_lab++;
+ 					if(($lab->laboratory_id)!="")
+					{
+						$rest_lab['id']=$index_lab;
+						$rest_lab['lab_id']=$lab->laboratory_id;
+	 					$lab_det=$this->getLabpratoryNameById($lab->laboratory_id);
+		 				$rest_lab['name']=$lab_det->name;
+		 				$rest_lab['remove']=$lab->remove;
+		 				$lab_array[]=$rest_lab;
+		 				$index_lab++;
+					}
+ 					
  				}
  				
  			}
  			$result['reffData']['reffreal_laboratory_array']=$lab_array;
+
 
  			//for radiology data last step
  			$radio_details=Radiology::where('opd_id',$opd_id)->orderBy('id','asc')->get();
@@ -1016,7 +1025,11 @@
 	 			$lab_obj->referance=0;
  				$lab_obj->opd_id=$opd_id_org;
  				$lab_obj->user_id=$user_id;
- 				$lab_obj->laboratory_id=$lab['lab_id'];
+ 				if(isset($lab['lab_id']))
+ 				{
+ 					$lab_obj->laboratory_id=$lab['lab_id'];
+ 				}
+ 				
  				$lab_obj->remove='false';
  				$lab_obj->save();
  			}
