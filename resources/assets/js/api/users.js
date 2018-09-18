@@ -368,5 +368,17 @@ export default {
   },
   getPatientCaseAndTokenDetailByOpdId(opdId){
      return api.post('patient/patientcaseandtokendetailinfo',{'opdId':opdId});
-  }
+  },
+  getOPDDetailsByPatient(pid){
+     return api.post('opd/getopddetailsbypatient',{'patient_id':pid});
+  },
+  getUPdateOPDInfo(pid,oid){
+     return api.post('opd/getUPdateOPDInfo',{'patient_id':pid,'opdId':oid});
+  },
+  generateEditOpdDetails(opd_data) {
+    return api.post('opd/editOpdDetails',{'data':opd_data})
+  },
+  getPatientLastVisitById(pid) {
+    return api.post('patient/getPatientLastVisitById',{'patient_id':pid})
+  },
 }

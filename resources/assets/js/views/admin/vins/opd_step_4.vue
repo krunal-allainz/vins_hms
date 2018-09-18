@@ -40,7 +40,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6" v-if="step4Data.signaturePad2_src!=''">
+            <div class="col-md-6" v-if="step4Data.signaturePad2_src!='' && step4Data.adviceType != 'text' && step4Data.signaturePad2_src!== null">
               <div class="col-md-12">
                   <label for="history">Advice Preview:  <i class="fa fa-download fa-lg red" @click="download(step4Data.signaturePad2_src,'Advice')" aria-hidden="true"></i></label>
                 </div>
@@ -88,7 +88,14 @@
           </div>
          <div class="row form-group">
               <button type="button" class="btn btn-primary btn-submit text-right " @click="prev()" >Previous</button>
-              <button class="btn btn-primary btn-submit text-right ml-10" type="button" @click="saveOPDForm()">Save Data</button>
+              <span v-if="pageName=='EDIT'">
+                  <button class="btn btn-primary btn-submit text-right ml-10" type="button" @click="EditOPDForm()">Edit Data</button>
+                  <EditOPDConfirmModal :editConfirmMsg="editConfirmMsg"></EditOPDConfirmModal>
+              </span>
+              <span v-else>
+                <button class="btn btn-primary btn-submit text-right ml-10" type="button" @click="saveOPDForm()">Save Data</button>
+              </span>
+              
         </div>
         
       <OPDConfirmModal :deleteConfirmMsg="deleteConfirmMsg"></OPDConfirmModal>
@@ -129,6 +136,7 @@
     import refferals from './refferals.vue';
     import prescriptionData from './prescriptionData.vue';
     import OPDConfirmModal from '../../../components/OPDConfirmModal.vue';
+    import EditOPDConfirmModal from '../../../components/EditOPDConfirmModal.vue';
     import SelectPatientModal from '../../../components/SelectPatientModal.vue';
     import SignaturePad from 'signature_pad';
     import patientReceiptForm from './patientsReceiptForm.vue';
@@ -143,39 +151,43 @@
            OPDConfirmModal,
            SelectPatientModal,
            patientReceiptForm,
-           refferals
+           refferals,
+           EditOPDConfirmModal
         },
         created: function() {
           this.$root.$on('printReceipt', this.printReceipt);
           this.$root.$on('confirmed', this.confirm_opd);
           this.$root.$on('setReferralId', this.setReferralId);
           this.$root.$on('crossReferSave', this.crossReferSave);
+          this.$root.$on('edit_confirmed', this.editConfirmed);
 
         },
        props:['doctor','validatorErrorArray'],
         data() {
             return {
+                'pageName':'ADD',
                 'footer' : 'footer',
                 'currentDatetime': moment().format('DD-MM-YYYY hh:mm A'),
                 'deleteConfirmMsg':'Are you sure you want to exit from receipt form?',
+                'editConfirmMsg':'Are you sure you want to Edit OPD Form Data?',
                 'modal_enabled':'false',
-                                'type': 'neuroExamination',
+                'type': 'neuroExamination',
                 'patient_id': this.$store.state.Patient.patientId,
                 'ipd_id': this.$store.state.Patient.ipdId,
                 'doctor_id':this.$store.state.Users.userDetails.id,
-                  'department':this.$store.state.Users.userDetails.department,
+                'department':this.$store.state.Users.userDetails.department,
                 'user_type':this.$store.state.Users.userDetails.user_type,
                 'hasError':true,
                 'refferalId':'',
                 'crossRefer':false,
                 'diagnosis' : '',
                 'step4Data': {
-                  'advice':'',
-                  'adviceType': 'scribble',
-                  'signaturePad':{},
-                  'signaturePad2_src':'',
-                  'provisional_diagnosis':this.$store.state.Patient.provisionalDiagnosis,
-                  'follow_up':''
+                'advice':'',
+                'adviceType': 'scribble',
+                'signaturePad':{},
+                'signaturePad2_src':'',
+                'provisional_diagnosis':this.$store.state.Patient.provisionalDiagnosis,
+                'follow_up':''
                 }
             }
                
@@ -190,12 +202,23 @@
               vm.examinationChangeImage();
               vm.initData();
             },500);
-            
+            if(vm.$store.state.Patient.setPage=='EDIT')
+            {
+                vm.pageName='EDIT';
+            }
         },
         filters:{
             
         },
         methods: {
+          editConfirmed()
+          {
+              this.editOPDData();
+          },
+          EditOPDForm()
+          {
+               $('#edit_confirm_modal').modal('show');
+          },
           setReferralId(refId){
             this.refferalId = refId;
           },
@@ -227,7 +250,7 @@
           initData() {
             let vm =this;
             var oldData = _.cloneDeep(vm.$store.state.Patient.step4Data);
-             vm.step4Data.provisional_diagnosis = _.cloneDeep(this.$store.state.Patient.provisionalDiagnosis);
+             vm.diagnosis = _.cloneDeep(this.$store.state.Patient.diagnosis);
             if(!(jQuery.isEmptyObject(oldData))) 
             {
                vm.step4Data=oldData;
@@ -367,6 +390,84 @@
               }
             });
           },
+          editOPDData()
+          {
+              let vm = this;
+                vm.saveRefData(); 
+                
+                if(vm.$store.state.Patient.setErrorData.error)
+                {
+                    vm.$root.$emit('setCurSteps',vm.$store.state.Patient.setErrorData.steps);
+                    return false;
+                }
+                this.$validator.validateAll().then(
+                (response) => {
+
+                if (!this.errors.any()) {
+                        vm.$store.dispatch('saveStep4Data',_.cloneDeep(vm.step4Data));
+                         vm.$store.dispatch('saveDiagnosis',vm.diagnosis);
+                          let department = this.$store.state.Users.userDetails.department;
+                          let doctor = this.$store.state.Users.userDetails.id;
+                          
+                          var oData = {
+                            'opdData':this.$store.state.Patient.opdData,
+                            'patientCase':this.$store.state.Patient.patientCase,
+                            'resultData':this.$store.state.Patient.opd_resultData,
+                            'doctor':doctor,
+                            'department':department,
+                            'radioData':this.$store.state.Patient.radioData,
+                            'laboratoryData':this.$store.state.Patient.laboratoryData,
+                            'examinationData':this.$store.state.Patient.examinationData,
+                            'neuroExaminationData':this.$store.state.Patient.neuroExaminationData,
+                            'prescriptionData':this.$store.state.Patient.prescriptionData,
+                            'step4Data':this.$store.state.Patient.step4Data,
+                            'crossRefer': this.crossRefer,
+                            'reffData':this.$store.state.Patient.refferelReportData,
+                            'diagnosis':this.$store.state.Patient.diagnosis,  
+                            'provisionalDiagnosis':this.$store.state.Patient.provisionalDiagnosis,
+                          };
+                          vm.editOpdData(oData);
+                        } else {
+                          
+                          toastr.error('Please enter all required fields.', 'Error', {timeOut: 5000});
+                        }
+                        },
+                    (error) => {
+                    }
+                    )
+          },
+          editOpdData(oData)
+          {
+               let vm =this;
+               $("body .js-loader").addClass('d-none');
+                User.generateEditOpdDetails(oData).then((response) => {
+                    
+                      if(response.data.code == 200) {
+                        if(vm.crossRefer == true){
+                            toastr.success('Record has been saved', 'Success', {timeOut: 300});
+                        }
+                        
+                        let opd_id = response.data.data.opd_pr_id;
+                        vm.$store.dispatch('SetOpdId',opd_id);
+                        vm.$store.dispatch('saveDiagnosis',vm.diagnosis);
+                        vm.patient_opd_details=response.data.data;
+                        $('#edit_confirm_modal').modal('hide');
+                        toastr.success('OPD Successfully Edited.', 'Error', {timeOut: 300});
+                        vm.$router.push({'name':'opdreport'});
+                      } else if(response.data.code == 300) {
+                            $('#edit_confirm_modal').modal('hide');
+                            toastr.error('Record not added.', 'Error', {timeOut: 5000});
+                           //vm.$router.push({'name':'opd_form_thankyou'});
+                          } else{
+                             $('#edit_confirm_modal').modal('hide');
+                             toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
+                          }
+                          // vm.$router.push({'name':'opd_form_thankyou'}); 
+                  },
+                  (error) => {toastr.error('Something goes wrong', 'Error', {timeOut: 5000});}
+                );    
+
+          },
           saveOPDForm() {
             // $("body .js-loader").removeClass('d-none');
 
@@ -395,7 +496,7 @@
                             'department':department,
                             'radioData':this.$store.state.Patient.radioData,
                             'laboratoryData':this.$store.state.Patient.laboratoryData,
-                            'vascExaminationData':this.$store.state.Patient.vascExaminationData,
+                            'examinationData':this.$store.state.Patient.examinationData,
                             'neuroExaminationData':this.$store.state.Patient.neuroExaminationData,
                             'prescriptionData':this.$store.state.Patient.prescriptionData,
                             'step4Data':this.$store.state.Patient.step4Data,
@@ -404,7 +505,7 @@
                             'diagnosis':this.$store.state.Patient.diagnosis,  
                             'provisionalDiagnosis':this.$store.state.Patient.provisionalDiagnosis,
                           };
-                          this.saveOpdData(oData);
+                          vm.saveOpdData(oData);
                         } else {
                           
                           toastr.error('Please enter all required fields.', 'Error', {timeOut: 5000});

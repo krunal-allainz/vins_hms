@@ -15,6 +15,7 @@ class CreatePrescriptionClockDetails extends Migration
     {
         Schema::create('prescription_clock_details', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('opd_id')->nullable();
             $table->integer('prescription_id')->nullable();
             $table->string('clock_time')->nullable();
             $table->string('clock_quantity')->nullable();

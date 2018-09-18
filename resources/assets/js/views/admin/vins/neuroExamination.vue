@@ -394,7 +394,6 @@
             let vm =this;
            
               // vm.$store.dispatch('saveNeuroExamination',vm.neuroExaminationData);
-           
           },
           prev() {
               let vm =this;

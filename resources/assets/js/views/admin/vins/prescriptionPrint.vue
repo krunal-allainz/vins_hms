@@ -13,7 +13,7 @@
                                 <td>  {{++index}}] {{res.name}} :ORAL
                                     
                                     <span v-if="res.type=='Q-Hrs'">
-                                        <span v-for="(item,index) in res.total_qhrs">
+                                        <span v-for="(item,index) in parseInt(res.total_qhrs)">
 
                                             <span v-if="index!=0 && res['clock_quantity_'+(index+1)]!='0'">
                                                <span v-if=""> ______</span>
@@ -28,7 +28,7 @@
                                     
                                     <span v-if="res.type=='Q-Hrs'">
                                         [
-                                         <span v-for="(item,index) in res.total_qhrs">
+                                         <span v-for="(item,index) in parseInt(res.total_qhrs)">
                                             <span v-if="index!=0 && res['clock_time_'+(index+1)]!='0' && res['clock_time_'+(index+1)]!='--:--'">
                                                <span v-if=""> ______</span>
                                             </span>

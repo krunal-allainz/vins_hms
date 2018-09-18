@@ -155,7 +155,7 @@
                     <div class="col-md-2">
                       <div class="col-md-12" >
                         <div class=" input-group">
-                          <div class="input-group-append" v-for="(item,index) in pres_clock.total_qhrs">
+                          <div class="input-group-append" v-for="(item,index) in parseInt(pres_clock.total_qhrs)">
                               <span class="input-group-text" >{{pres_clock['clock_quantity_'+(index+1)]}}</span>
                           </div>
                         </div>  
@@ -186,7 +186,7 @@
                     <div class="col-md-3">
                       <div class="col-md-12" >
                         <div class=" input-group">
-                            <div class="input-group-append" v-for="(item2,index2) in pres_clock.total_qhrs">
+                            <div class="input-group-append" v-for="(item2,index2) in parseInt(pres_clock.total_qhrs)">
                                 <span class="input-group-text point" @click="editPrescriptionResult(pres_clock.pid,pres_clock['clock_time_'+(index2+1)],pres_clock['clock_quantity_'+(index2+1)],(index2+1))" v-if="">{{pres_clock['clock_time_'+(index2+1)]}}</span>
                             </div>
                         </div>  
@@ -443,21 +443,18 @@
           {
             let vm =this;
             let all_prescription=_.cloneDeep(vm.$store.state.Patient.prescriptionData);
-            
+           
             if(all_prescription)
             {
                 if(all_prescription.length)
                 {
-                  
-                  vm.prescriptFinalData.prescriptionNameList = _.cloneDeep(all_prescription);
-                  vm.prescriptFinalData.finalPrescriptionAllData = _.cloneDeep(all_prescription);
+                  vm.prescriptFinalData.prescriptionNameList =_.cloneDeep(vm.$store.state.Patient.prescriptionData);
+                  vm.prescriptFinalData.finalPrescriptionAllData = _.cloneDeep(vm.$store.state.Patient.prescriptionData);
                   vm.priscription_add_disabled=true;
                   vm.show_prescription_result_data_enable=true;
                   let array_presp=_.filter(vm.prescriptFinalData.prescriptionNameList, ['remove', 'false']);
-                  vm.presp_length=array_presp.length;
-                  
+                  vm.presp_length=array_presp.length; 
                 }
-                
             }
           },
           clearPrespData()
@@ -981,8 +978,8 @@
           {
             let vm =this;
             vm.prescriptFinalData.finalPrescriptionAllData=_.cloneDeep(vm.prescriptFinalData.prescriptionNameList);
-             let finalData = _.cloneDeep(vm.prescriptFinalData.finalPrescriptionAllData);
-             vm.$store.dispatch('setPrescriptionData',finalData);
+            let finalData = _.cloneDeep(vm.prescriptFinalData.finalPrescriptionAllData);
+            vm.$store.dispatch('setPrescriptionData',finalData);
           },
           savePrescription() {
 

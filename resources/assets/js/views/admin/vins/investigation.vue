@@ -81,7 +81,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                            <tr v-if="res.removed == false" :id="res.tr_id" v-for="(res,index) in finalLaboratoryData">
+                            <tr :id="res.tr_id" v-for="(res,index) in finalLaboratoryData">
                                 <td>{{++index}}</td> 
                                 <td>{{res.text }}</td>
                                 <td>{{res.lab_date.time}}</td>
@@ -356,15 +356,15 @@
           },
           setLaboratoryData() {
                 let vm =this;
-                 vm.$store.dispatch('saveLabReportData',vm.finalLaboratoryData);
+                vm.$store.dispatch('saveLabReportData',vm.finalLaboratoryData);
             },
             prev() {
               let vm =this;
-              vm.$root.$emit('prev','test');
+              vm.$root.$emit('prev');
           },
           next() {
             let vm =this;
-            vm.$root.$emit('next','test');
+            vm.$root.$emit('next');
 
           },
          initData() {
@@ -375,9 +375,9 @@
                 let id_array=_.map(all_lab, 'id');
                 //$('#laboratory_report').select2('val',id_array);
                 $('#laboratory_report').val(id_array).trigger('change')
-                
-                vm.laboratoryData.laboratory_report = _.cloneDeep(vm.$store.state.Patient.laboratoryData.type);
-                vm.finalLaboratoryData = _.cloneDeep(vm.$store.state.Patient.laboratoryData.type);
+               let lab_array=_.cloneDeep(vm.$store.state.Patient.laboratoryData.type);
+                vm.laboratoryData.laboratory_report = all_lab;
+                vm.finalLaboratoryData = all_lab;
             }
            
           },

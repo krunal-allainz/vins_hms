@@ -171,6 +171,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
          //for adding opd details
         $api->post('opd/addOpdDetails', '\euro_hms\Api\Controllers\OPDDetailsFromController@addDetails');
         
+          //for editing opd details
+        $api->post('opd/editOpdDetails', '\euro_hms\Api\Controllers\OPDDetailsFromController@editDetails');
 
         /* get total number of patient by type*/
         $api->post('patient/total','\euro_hms\Api\Controllers\PatientsDetailFormController@getNumberOfPatient');
@@ -229,6 +231,14 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
         $api->post('patient/patientcaseandtokendetailinfo', '\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientCaseAndTokenDetailByOpdId');
 
+        //for getting opd case details list table for patient
+        $api->post('opd/getopddetailsbypatient', '\euro_hms\Api\Controllers\OPDDetailsFromController@getOPDDetailsByPatient');
+
+        //for getting update opd info for patient
+        $api->post('opd/getUPdateOPDInfo', '\euro_hms\Api\Controllers\OPDDetailsFromController@getUPdateOPDInfo');
+
+        //for getting patient last visit
+        $api->post('patient/getPatientLastVisitById', '\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientLastVisitById');
         
         });
 

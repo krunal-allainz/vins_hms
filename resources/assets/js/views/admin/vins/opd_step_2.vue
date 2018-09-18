@@ -14,7 +14,7 @@
           <label for="examination" class="control-label">Examination : </label>
         </div>
         <div class="col-md-12">
-          <textarea  class="form-control"  id="examination" name="examination" value="" v-model="vascularExaminationData"  ></textarea>
+          <textarea  class="form-control"  id="examination" name="examination" value="" v-model="examinationData"  ></textarea>
         </div>
       </div>
      </div>
@@ -61,7 +61,7 @@
                 'ipd_id': this.$store.state.Patient.ipdId,
                 'patient_opd_details':[],
                 'modal_enabled':'false',
-                'vascularExaminationData' : '',
+                'examinationData' : '',
                 'provisionalDiagnosis':'',
             }
         },
@@ -83,7 +83,7 @@
          
           initData(){
             let vm =this;
-            vm.vascularExaminationData = _.cloneDeep(this.$store.state.Patient.vascExaminationData);
+            vm.examinationData = _.cloneDeep(this.$store.state.Patient.examinationData);
             vm.provisionalDiagnosis = _.cloneDeep(this.$store.state.Patient.provisionalDiagnosis);
              if(vm.$store.state.Patient.setErrorData.error && vm.$store.state.Patient.setErrorData.steps == 2) {
 
@@ -94,16 +94,19 @@
           
           prev() {
               let vm =this;
-              vm.$store.dispatch('saveVascularExamination', _.cloneDeep(vm.vascularExaminationData)) ;
-              vm.$store.dispatch('saveProvisionalDiagnosis', _.cloneDeep(vm.provisionalDiagnosis)) ;
+              vm.$store.dispatch('saveExaminationData',vm.examinationData) ;
+              vm.$store.dispatch('saveProvisionalDiagnosis', vm.provisionalDiagnosis) ;
               vm.$root.$emit('prev');
           },
          
           next() {
             let vm =this;
+
             this.$validator.validateAll().then(
               (response) => {
-               
+                // console.log(response,this.errors,vm.errors,'this.errors');
+                // return false;
+                 
                   if(!vm.$store.state.Patient.setErrorData.error)
                   {
                       if (this.errors.any()) {
@@ -128,8 +131,8 @@
                     
 
                 }
-                  vm.$store.dispatch('saveVascularExamination', _.cloneDeep(vm.vascularExaminationData)) ;
-                  vm.$store.dispatch('saveProvisionalDiagnosis', _.cloneDeep(vm.provisionalDiagnosis)) ;
+                  vm.$store.dispatch('saveExaminationData',vm.examinationData) ;
+                  vm.$store.dispatch('saveProvisionalDiagnosis', vm.provisionalDiagnosis) ;
                   vm.$root.$emit('next');
                 },
                 (error) => {

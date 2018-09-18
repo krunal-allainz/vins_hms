@@ -133,6 +133,7 @@
           </div>
           <div class="col-md-12">
             <select class="form-control ls-select2" name="internal" id="internal" >
+              <option value="">Select</option>
               <option :value="doc.name" v-for="doc in doctorOption">{{doc.name}}</option>
             </select>
           </div>
@@ -161,7 +162,7 @@
       <!-- for laboratory -->
 
         <!-- for physiotherapy -->
-        <div class="row form-group" v-show="reffData.referral == 'physiotherapy' ">
+        <div class="row form-group" v-show="reffData.referral == 'physiotherapy' || reffData.physio_details!=''">
           <div class="col-md-6">
           <div class="col-md-12">
             <label class="control-label" for="label_1">Details </label>
@@ -530,7 +531,6 @@
             }
             else if(this.id == 'internal'){
               var val_cross_array=$(this).val();
-              console.log('asd',$(this).val());
               vm.internal_array=val_cross_array;
             }
             else if(this.id == 'laboratory_report_opd'){
@@ -707,6 +707,9 @@
               if(!(jQuery.isEmptyObject(reffData)))
               {
                   vm.reffData=reffData;
+                  vm.ref_cross_array=reffData.reffreal_cross_array;
+                  vm.ref_lab_array=reffData.reffreal_laboratory_array;
+                  vm.ref_radio_array=reffData.reffreal_radiology_array;
               }
             },
             saveReport() {
@@ -862,21 +865,6 @@
                 if(vm.internal_array.length>0)
                 {
                   vm.ref_cross_array.push({'id':vm.ref_cross_array.length+1,'type':vm.reffData.referral,'subtype':'Internal','value':vm.internal_array});
-
-                   // _.forEach(vm.internal_array, function(value, key) {
-                   //    let matches=_.some(vm.ref_cross_array,['value',value]);
-                   //    if(matches)
-                   //    {
-                   //        vm.setCrossReferral();
-                   //        toastr.error('This record already exist', 'Error', {timeOut: 5000});
-                   //        return false;
-                   //    }
-                   //    else
-                   //    {
-                   //      vm.ref_cross_array.push({'id':vm.ref_cross_array.length+1,'type':vm.reffData.referral,'subtype':'Internal','value':value});
-                   //    }
-                      
-                   //  });
                 }
                 if(vm.reffData.cross_type_ext)
                 {
