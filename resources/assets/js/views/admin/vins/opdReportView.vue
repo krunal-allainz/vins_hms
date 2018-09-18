@@ -6,6 +6,7 @@
 			<div>
 				<vinsletterheadheaderpart></vinsletterheadheaderpart>
 				<!-- Patient Detail Start -->
+
 				<patientDetailReport :patientDetail="patientDetail" :consult_dr="doctoreName" :todayDate="todayDate"  :department="department" :reg_no="regNo" :refer_dr="reference">
 				</patientDetailReport>
 				<!-- patient Detail Report End -->
@@ -32,11 +33,9 @@
 			 	<!-- cross referal  report data end-->
 
 			 	<!-- print Perceptions Report start -->
-			 	<printPerceptionsReportData :ReportPageData="ReportPageData" :prescriptData="prescriptiData" :adviceData="adviceData":checkedreportList="checkedreportList" :printType="printType" v-show="(printType == 'print_perceptions')"></printPerceptionsReportData>
+			 	<printPerceptionsReportData :ReportPageData="ReportPageData" :prescriptData="prescriptiData" :adviceData="adviceData":checkedreportList="checkedreportList" :printType="printType" v-show="(printType == 'print_perceptions')"></printPerceptionsReportData> 
 			 	<!-- print Perceptions Report end  -->
-
-			 
-
+			 	
 			 	<!-- opd data start -->
 			 	<opdDataReport :ReportPageData="ReportPageData" :prescriptiData="prescriptiData" :adviceData="adviceData" :historyData="historyData" :past_history="past_history" :checkedreportList="checkedreportList" :printType="printType" v-show="(printType == 'opd_case')"></opdDataReport>
 			 	<!-- opd data end -->

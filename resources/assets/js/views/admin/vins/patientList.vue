@@ -462,10 +462,3 @@
          }
      }
 </script>
-<style>
-.modal-dialog{
-  width:1200px !important;
-  max-width:1200px !important;
-  max-height:100%;
-}
-</style>

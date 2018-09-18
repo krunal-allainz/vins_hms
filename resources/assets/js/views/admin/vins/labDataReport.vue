@@ -28,7 +28,7 @@
 			</div>
 		</div>
 	</div>
-	{{checkedreportList}}
+	
 	<div v-for="reportName in checkedreportList" v-show="(reportName == 'Laboratory')">
 		<div class='row'>
 			<div class='col-md-12 text-center'>
