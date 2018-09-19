@@ -1,25 +1,31 @@
 <template>
 	<div>
-		<div v-if="(adviceData.type == 'text' && adviceData != '')">
-			<div class='col-md-6 text-left'>
-						 				<span class='text-left'><b>Advice :-</b></span>
-						 			</div>
-						 			<div class='row'>
-					 					<div class='col-md-12 text-left' v-if ="(adviceData.type == 'text')">
-					 							<span class='text-left' style="padding-left:30px;"> {{advice}}</span>
-					 					</div>
-									</div>
-		    	 	 			</div> 
-		    	 	 			<div v-if="(adviceData.type !== 'text' && adviceData.value != null)">
-		    	 	 				<div class='col-md-6 text-left'>
-						 				<span class='text-left'><b>Advice :-</b></span>
-						 			</div>
-						 			<div class='row'>
-					 					<div class='col-md-12 text-left' v-if ="(adviceData.type != 'text')">
-								            <img :src="adviceData.value" title="Advice">
-								        </div>  
-									</div>
-		    	 	 			</div>
+		<div v-if="(adviceData.type == 'text')" class="report_space">
+			<div class='col-md-6 '>
+				<span class="report_title">Advice :-</span>
+			</div>
+			
+			<div class='col-md-12' v-if ="(adviceData.type == 'text' && adviceData.value!='' && adviceData.value!=null)">
+					<span class="report_details"> {{adviceData.value}}</span>
+			</div>
+			<div class='col-md-12' v-else>
+				<span class="report_details">No record found.</span>
+			</div>
+		
+		</div> 
+			<div v-if="(adviceData.type !== 'text')" class="report_space">
+				<div class='col-md-6 text-left'>
+				<span class="report_title">Advice :-</span>
+			</div>
+			<div>
+				<div class='col-md-12' v-if ="(adviceData.type != 'text' && adviceData.value!='' && adviceData.value!=null)" >
+	            <img :src="adviceData.value" title="Advice">
+	        </div> 
+	        <div class='col-md-12' v-else>
+				<span class="report_details">No record found.</span>
+			</div> 
+		</div>
+			</div>
 	</div>	
 </template>
 <script>

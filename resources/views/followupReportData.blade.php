@@ -1,12 +1,12 @@
 @if(isset($data['ReportPageData']['opdData']['follow_up']) && $data['ReportPageData']['opdData']['follow_up'] != '')
-		<div  style="padding-left: 35px;">
-			<div class='col-md-6 text-left'>
-				<span class='text-left'><b>Followup :-</b></span>
-			</div>
-			<div >
-					<div class='col-md-12 text-left'>
-					   {{$data['ReportPageData']['opdData']['follow_up']}}
-					</div> 
-			</div>
-		</div>
-		@endif 
+<div>
+	<div class='col-md-6 '>
+		<span class='report_title'>Followup:-</span>
+	</div>
+	<div >
+		<div class='col-md-12'>
+		   <span class="report_details">{{$data['ReportPageData']['opdData']['follow_up']}}</span>
+		</div> 
+	</div>
+</div>
+@endif 

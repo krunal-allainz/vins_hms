@@ -14,54 +14,72 @@
       @include('patientDetailReport')
       @include('patientCheckupReport')
         @if(in_array('Advice + follow ups',$data['checkedreportList'] ))
-          @include('adviceReportData')
-          @include('followupReportData')
+          <div class="report_space report_left_pad">
+              @include('adviceReportData')
+              @include('followupReportData')
+          </div>
         @endif
         @if(in_array('Radiology',$data['checkedreportList'] ))
-          @include('radiologyReportData')
+          <div class="report_space report_left_pad">
+            @include('radiologyReportData')
+          </div>
         @endif  
 
         @if(in_array('Laboratory',$data['checkedreportList'] ))
-          @include('labReportData')
+          <div class="report_space report_left_pad">
+            @include('labReportData')
+          </div>
         @endif
 
         @if(in_array('Prescription',$data['checkedreportList'] ))
           @if(isset($data['priscriptionData']))
-              @if(!empty($data['priscriptionData']))
-              @include('prescriptionReportData')
-            @endif
+              <div class="report_space report_left_pad">
+                @include('prescriptionReportData')
+              </div>
           @endif
         @endif
 
         @if(in_array('History',$data['checkedreportList'] ))
-          @include('historyReportData')
+          <div class="report_space report_left_pad">
+            @include('historyReportData')
+          </div>
         @endif
 
         @if(in_array('Past History',$data['checkedreportList'] ))
-          @include('pastHistoryReportdata')
+          <div class="report_space report_left_pad">
+            @include('pastHistoryReportdata')
+          </div>
         @endif
         
         @if(in_array('Investigation Lab',$data['checkedreportList'] ))
-          @include('labPatientReportData')
+          <div class="report_space report_left_pad">
+            @include('labPatientReportData')
+          </div>
         @endif
 
         @if(in_array('Investigation Radiology',$data['checkedreportList'] ))
-          @include('radiologyPatientReportData')
+          <div class="report_space report_left_pad">
+            @include('radiologyPatientReportData')
+          </div>
         @endif
         
         @if(in_array('Examination',$data['checkedreportList'] ))
-          @include('examinationReportData')
+          <div class="report_space report_left_pad">
+            @include('examinationReportData')
+          </div>
         @endif
         
         @if(in_array('Referrals',$data['checkedreportList'] ))
-          @include('crossReportData')
+          <div class="report_space report_left_pad">
+            @include('crossReportData')
+          </div>
         @endif
     </div>
     <div id="footer" class="footer" style="background-color: dodgerblue;color: white;bottom:0;width:100%;height:130px;left:0;position:fixed;">
       <div class="row text-center">
         <div class="col-md-12">
             <div class="text-center text-capitalize"  style="text-align: center;">  
-                <h2  class="text-center text-capitalize" style="text-align: center;color:white;"><u><b><i>Vadodara Institute Of Neurological Sciences</i></b></u></h2>  
+                <h2  class="text-center text-capitalize" style="text-align: center;color:white;font-size:22px;"><u><b>Vadodara Institute Of Neurological Sciences</b></u></h2>  
             </div>  
           </div>
         </div>

@@ -1,5 +1,5 @@
 <template>
-	<div class="">
+	<div class="report_style">
 		<hr style="border-top: dashed  1px;" />
 		<div >
 			<div class="row">

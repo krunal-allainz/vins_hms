@@ -187,7 +187,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                            <tr v-if="res.removed == false" v-for="(res,index) in finalResultData">
+                            <tr v-for="(res,index) in finalResultData">
                                 <td>{{++index}}</td>
                                 <td>{{res.type}}</td>
                                 <td>{{res.bodyPart}}</td>
@@ -547,13 +547,18 @@
                 });
             },
             removeReport(did) {
+
                 let vm =this;
                 // _.pullAt(resData, 0);
-                _.find(vm.finalResultData, function(res) {
+                /*_.find(vm.finalResultData, function(res) {
                     if(res.id == did) {
                          res.removed = true;
                     }
+                });*/
+                 _.remove(vm.finalResultData, function(o) {
+                    return o.id==did;
                 });
+                
                 vm.initData();
                 vm.setRadioData();
 

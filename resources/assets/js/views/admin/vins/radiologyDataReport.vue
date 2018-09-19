@@ -1,15 +1,13 @@
 <template>
 	<div>
 		<div v-if="(radiologyReferalReportData)" >
-			 <div class='row'>
-			 	<div class='col-md-12 text-center'>
-			 		<h5>Radiology Report </h5>
-			 	</div>
-			 </div>
-			 <div class="row">
+			 
+		 	<div class='col-md-12'>
+		 		<span class="report_title">Radiology Report:-</span>
+		 	</div>
         		<div class="col-md-12">
         			<div class="">
-                		<table class="table table-striped table-bordered" id="radio_list">
+                		<table class="table table-striped table-bordered report_table" id="radio_list" >
                         <thead>
                         <tr>
                             <th>#</th>
@@ -20,33 +18,37 @@
 			                <th>Details</th>
 			            </tr>
 						</thead>
-						<tbody>
-						<tr v-for="(res,index) in radiologyReferalReportData">
-		                    <td>{{++index}}</td>
-		                    <td>{{res.type}}</td>
-		                    <td>{{res.bodyparts}}</td>
-		                    <td>{{res.qualifiers}}</td>
-		                    <td>{{res.special_request}}</td>
-		                    <td>{{res.details}}</td>
-		                    <!-- <td>{{res.details | strLimit}}</td> -->
-		                    <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
-		                </tr>
+
+						<tbody v-if="radiologyReferalReportData.length>0">
+							<tr v-for="(res,index) in radiologyReferalReportData" >
+			                    <td>{{++index}}</td>
+			                    <td>{{res.type}}</td>
+			                    <td>{{res.bodyparts}}</td>
+			                    <td>{{res.qualifiers}}</td>
+			                    <td>{{res.special_request}}</td>
+			                    <td>{{res.details}}</td>
+			                    <!-- <td>{{res.details | strLimit}}</td> -->
+			                    <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
+			                </tr>
                     </tbody>
+                    <tbody v-else>
+                    	<tr>
+			               <td colspan="6">No data found.</td>
+			            </tr>
+                	</tbody>
 					</table>
 					</div>
 				</div>
-			</div>
+			
 		</div>	
 		<div v-for="reportName in checkedreportList" v-show="(reportName == 'Investigation Radiology' && printType == 'opd_case')" v-if="(radiologyReportData)">
-			<div class='row'>
-			 	<div class='col-md-12 text-center'>
-			 	<h5>Investigation Radiology Report</h5>
-			 	</div>
-			 </div>
-			 <div class="row">
+			
+		 	<div class='col-md-12'>
+		 		<span class="report_title">Investigation Radiology Report:-</span>
+		 	</div>
         		<div class="col-md-12">
         			<div class="">
-                		<table class="table table-striped table-bordered" id="radio_list">
+                		<table class="table table-striped table-bordered report_table" id="radio_list">
                         <thead>
                         <tr>
                             <th>#</th>
@@ -57,7 +59,7 @@
 			                <th>Details</th>
 			            </tr>
 						</thead>
-						<tbody>
+						<tbody v-if="radiologyReportData.length>0">
 						<tr  v-for="(res,index) in radiologyReportData">
 		                    <td>{{++index}}</td>
 		                    <td>{{res.type}}</td>
@@ -68,11 +70,16 @@
 		                    <!-- <td>{{res.details | strLimit}}</td> -->
 		                    <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
 		                </tr>
-                    </tbody>
+	                    </tbody>
+	                     <tbody v-else>
+	                    	<tr>
+				               <td colspan="6">No data found.</td>
+				            </tr>
+	                	</tbody>
 					</table>
 					</div>
 				</div>
-			</div>
+			
 		</div> 	
 	</div>
 </template>

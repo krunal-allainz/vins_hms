@@ -1,29 +1,38 @@
 @if(isset($data['ReportPageData']['adviceData']) )
 	@if($data['ReportPageData']['adviceData']['type'] == 'text') 
-		<div  style="padding-left: 35px;">
-			<div class='col-md-6 text-left'>
-				<span class='text-left'><b>Advice :-</b></span>
+		<div class="report_space">
+			<div class='col-md-6'>
+				<span class='report_title'>Advice:-</span>
 			</div>
-			<div class='row'>
-				@if ($data['ReportPageData']['adviceData']['type'] == 'text')
-					<div class='col-md-12 text-left'>
-						<span class='text-left' style="padding-left:30px;">{{$data['ReportPageData']['adviceData']['value']}}</span>
+			<div >
+				@if ($data['ReportPageData']['adviceData']['type'] == 'text' && $data['ReportPageData']['adviceData']['value']!='')
+					<div class='col-md-12'>
+						<span class="report_details">{{$data['ReportPageData']['adviceData']['value']}}</span>
+					</div>
+				@else
+					<div class='col-md-12'>
+						<span class="report_details">No record found.</span>
 					</div>
 				@endif
+
 				
 			</div>
 		</div>
 		@endif
-		@if($data['ReportPageData']['adviceData']['type'] != 'text' && $data['ReportPageData']['adviceData']['value'] != '')
-		<div  style="padding-left: 35px;">
-			<div class='col-md-6 text-left'>
-				<span class='text-left'><b>Advice :-</b></span>
+		@if($data['ReportPageData']['adviceData']['type'] != 'text')
+		<div  class="report_space">
+			<div class='col-md-6'>
+				<span class='report_title'>Advice:-</span>
 			</div>
-			
-					<div class='col-md-12 text-left'>
-					    <img src="{{$data['ReportPageData']['adviceData']['value']}}" title="Advice">
-					</div> 
-			
+			@if($data['ReportPageData']['adviceData']['value']!='')
+				<div class='col-md-12'>
+				    <img src="{{$data['ReportPageData']['adviceData']['value']}}" title="Advice">
+				</div> 
+			@else
+				<div class='col-md-12'>
+					<span class="report_details">No record found.</span>
+				</div>
+			@endif
 		</div>
 		@endif
 @endif

@@ -1,13 +1,16 @@
 <template>
 	<div>
-		<div class='col-md-12 text-left'>
-			<span class='text-left'><b>Provisional Diagnostic :-</b></span>
+		<div class='col-md-12'>
+			<span class='report_title'>Provisional Diagnostic:-</span>
 		</div>
-		<div class='row'>
-			<div class='col-md-12 text-left'>
-				<span class='text-left' style="padding-left:30px;"> {{data}}</span>
-			</div>
+		
+		<div class='col-md-12' v-if="data!='' && data!=null">
+			<span class='report_details'> {{data}}</span>
 		</div>
+		<div class='col-md-12' v-else>
+			<span class='report_details'>No record found.</span>
+		</div>
+		
 	</div>	
 </template>
 <script>

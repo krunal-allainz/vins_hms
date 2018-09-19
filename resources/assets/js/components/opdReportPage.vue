@@ -127,6 +127,7 @@
             'labReferalReportData' : {},
             'radiologyReferalReportData' : {},
             'ExaminationData' : '',
+            'examinationData':'',
             'opdData' : {},
             'CrossReferalData' : {},
             'phisioyoData' : {},
@@ -170,6 +171,7 @@
             User.getPatientOpdData(opdId).then(
               (response) => {
                 vm.ReportPageData.opdData = response.data.data.opdOptionDetails;
+                vm.ReportPageData.examinationData = response.data.data.opdExaminationData;
                 vm.ReportPageData.ExaminationData = response.data.data.opdExaminationData;
                 vm.ReportPageData.labReferalReportData = response.data.data.opdReferalLaboraryData;
                 vm.ReportPageData.radiologyReferalReportData = response.data.data.opdReferalRadiologyData;

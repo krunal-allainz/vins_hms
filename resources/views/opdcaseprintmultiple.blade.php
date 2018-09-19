@@ -31,6 +31,46 @@
 		break-inside: avoid; 
 		break-before: avoid; 
 	}
+	.report_space
+	{
+	    margin-bottom:30px;
+	}
+	.report_left_pad
+	{
+		padding-left: 35px;
+	}
+	.report_title
+	{
+	    font-family: "Times New Roman", Times, serif;
+	    font-style: bold;
+	    font-size : 20px;
+	    text-align:left;
+	}
+	.report_details
+	{
+	    font-family: "Times New Roman", Times, serif;
+	    font-size : 14px;
+	    text-align:left;
+	    
+	}
+	.report_table th
+	{
+	    font-family: "Times New Roman", Times, serif;
+	    font-size : 16px;
+	    font-style: bold;
+	    text-align:left;
+	}
+	.report_table td
+	{
+	    font-family: "Times New Roman", Times, serif;
+	    font-size : 14px;
+	    text-align:left;
+	}
+	.report_style
+	{
+	    font-family: "Times New Roman", Times, serif;
+	}
+
 	.row {
 	    margin-right: -15px;
 	    margin-left: -15px;
@@ -315,109 +355,107 @@
     </style>
 </head>
 <body>
-<?php $i=0;?>
-@if(count($data['checkedreportList'])>0)
-	@foreach($data['checkedreportList'] as $checkout)
-		@if($i>0)
-			<div class="page-break"></div>
-		@endif
-		<div class="container">
-	    <div class=""> 
-	       <div class="row">
-	        <div class="col-md-12" style="padding-left:25px;">
-	            <img src="https://vins.allianzcloud.com/assets/img/nabh_vins_logo.png" id="logo-desk" alt="NABH Logo" class="hidden-sm-down" height="" width="30%">
-	        </div>
-	      </div>
-
-	    </div>  
-	      
-		@include('patientDetailReport')
-		@include('patientCheckupReport')
-
-	  @if($data['printType'] == 'opd_case')
-	  <div >
-	  	
-			<div class='col-md-12 text-center'>
-				<h5>OPD CASE </h5>
-			</div>
-	  	
-		@if($checkout=='Advice + follow ups')
-			@include('adviceReportData')
-			@include('followupReportData')
-		
-		@elseif($checkout=='Radiology')
-			@include('radiologyReportData')
-		
-		@elseif($checkout=='Laboratory')
-			@include('labReportData')
-		
-		@elseif($checkout == 'Investigation Radiology')
-			@include('radiologyPatientReportData')
-		
-		@elseif($checkout == 'Investigation Lab')
-			@include('labPatientReportData')
-		
-		@elseif($checkout=='Prescription')
-			@if(isset($data['priscriptionData']))
-		  		@if(!empty($data['priscriptionData']))
-				@include('prescriptionReportData')
+	<div class="report_style">
+		<?php $i=0;?>
+		@if(count($data['checkedreportList'])>0)
+			@foreach($data['checkedreportList'] as $checkout)
+				@if($i>0)
+					<div class="page-break"></div>
 				@endif
-			@endif
-		
-		@elseif($checkout== 'Referrals')
-			@include('crossReportData')
-		
-		@elseif($checkout=='History')
-			@include('historyReportData')
-		 
-		@elseif($checkout=='Past History')
-				@include('pastHistoryReportdata')
-		@elseif($checkout=='Examination')
-			@include('examinationReportData')
-		@endif	
-	@endif
-		
-		<div  style="height:70px;" class="text-right">
-		<img src="{{$url.'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/>
-	</div>
-	<div style="height:70px;" class="text-right">
-	 	<span><b>{{$data['doctoreName']}}</b></span><br/>
-	 	<span><b>{{$data['department']}}</b></span><br>
-	 	<span><b>{{$data['regNo']}}</b></span>
-	</div>
-	<div style="">
-	</div>
-	
-	   <div class="footer" style="background-color: dodgerblue;color: white;bottom:0;width:100%;height:130px;left:0;position:fixed;">
+				<div class="container">
+			    <div class=""> 
+			       <div class="row">
+			        <div class="col-md-12" style="padding-left:25px;">
+			            <img src="https://vins.allianzcloud.com/assets/img/nabh_vins_logo.png" id="logo-desk" alt="NABH Logo" class="hidden-sm-down" height="" width="30%">
+			        </div>
+			      </div>
 
-	      <div class="text-center">
-	          <div class="col-md-12">
-	              <div class="text-center text-capitalize"  style="text-align: center;">
-	                  <h2  class="text-center text-capitalize" style="text-align: center;color:white;"><u><b><i>Vadodara Institute Of Neurological Sciences</i></b></u></h2>  
-	              </div>  
-	            </div>
-	        </div>
-	      <div class="row text-center">	
-	      	<div class="col-md-12 text-center">	
-	      		<div class="text-center"><span>99,Urmi Society, Opp Haveli Productivity Road, Akota Vadodara - 7 (Guj.), INDIA </span></div>	
-	      	</div>	
-		  </div>
-	    
-		<div class="row text-center" >
-		      	<div class="col-md-12 text-center">	
-		      		<div class="text-center">
-		      			<span style="padding-right: 5px;"><i class="fa fa-phone-square" aria-hidden="true" style="padding-right: 2px;"></i>+91-265-232 37 78,233 13 43,234 17 87 </span>
-		      			<span style="padding-right: 5px;"><i class="fa fa-mobile" aria-hidden="true"  style="padding-right: 2px;"></i>+91 99 78 99 99 40</span>
-		      			<span style="padding-right: 5px;"><i class="fa fa-envelope" aria-hidden="true"  style="padding-right: 2px;"></i>mail@vinshospital.com</span>
-		      			<span style="padding-right: 5px;"> <i class="fa fa-globe" aria-hidden="true"  style="padding-right: 2px;"></i>www.vinshospital.com</span>
-		      		</div>	
-		      	</div>	
-			  </div>
+			    </div>  
+			      
+				@include('patientDetailReport')
+				@include('patientCheckupReport')
+
+			  @if($data['printType'] == 'opd_case')
+			  <div>
+			  	<div class="report_left_pad">
+					@if($checkout=='Advice + follow ups')
+
+						@include('adviceReportData')
+						@include('followupReportData')
+					
+					@elseif($checkout=='Radiology')
+						@include('radiologyReportData')
+					
+					@elseif($checkout=='Laboratory')
+						@include('labReportData')
+					
+					@elseif($checkout == 'Investigation Radiology')
+						@include('radiologyPatientReportData')
+					
+					@elseif($checkout == 'Investigation Lab')
+						@include('labPatientReportData')
+					
+					@elseif($checkout=='Prescription')
+						@if(isset($data['priscriptionData']))
+							@include('prescriptionReportData')
+						@endif
+					
+					@elseif($checkout== 'Referrals')
+						@include('crossReportData')
+					
+					@elseif($checkout=='History')
+						@include('historyReportData')
+					 
+					@elseif($checkout=='Past History')
+							@include('pastHistoryReportdata')
+					@elseif($checkout=='Examination')
+						@include('examinationReportData')
+					@endif	
+				@endif
 			</div>
-		</div>
+				
+				<div  style="height:70px;" class="text-right">
+				<img src="{{$url.'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/>
+			</div>
+			<div style="height:70px;" class="text-right">
+			 	<span><b>{{$data['doctoreName']}}</b></span><br/>
+			 	<span><b>{{$data['department']}}</b></span><br>
+			 	<span><b>{{$data['regNo']}}</b></span>
+			</div>
+			<div style="">
+			</div>
+			
+			   <div class="footer" style="background-color: dodgerblue;color: white;bottom:0;width:100%;height:130px;left:0;position:fixed;">
+
+			      <div class="text-center">
+			          <div class="col-md-12">
+			              <div class="text-center text-capitalize"  style="text-align: center;">
+			                  <h2  class="text-center text-capitalize" style="text-align: center;color:white;"><u><b><i>Vadodara Institute Of Neurological Sciences</i></b></u></h2>  
+			              </div>  
+			            </div>
+			        </div>
+			      <div class="row text-center">	
+			      	<div class="col-md-12 text-center">	
+			      		<div class="text-center"><span>99,Urmi Society, Opp Haveli Productivity Road, Akota Vadodara - 7 (Guj.), INDIA </span></div>	
+			      	</div>	
+				  </div>
+			    
+				<div class="row text-center" >
+				      	<div class="col-md-12 text-center">	
+				      		<div class="text-center">
+				      			<span style="padding-right: 5px;"><i class="fa fa-phone-square" aria-hidden="true" style="padding-right: 2px;"></i>+91-265-232 37 78,233 13 43,234 17 87 </span>
+				      			<span style="padding-right: 5px;"><i class="fa fa-mobile" aria-hidden="true"  style="padding-right: 2px;"></i>+91 99 78 99 99 40</span>
+				      			<span style="padding-right: 5px;"><i class="fa fa-envelope" aria-hidden="true"  style="padding-right: 2px;"></i>mail@vinshospital.com</span>
+				      			<span style="padding-right: 5px;"> <i class="fa fa-globe" aria-hidden="true"  style="padding-right: 2px;"></i>www.vinshospital.com</span>
+				      		</div>	
+				      	</div>	
+					  </div>
+					</div>
+				</div>
+				</div>
+				<?php $i++;?>
+			@endforeach
+		@endif
 	</div>
-		<?php $i++;?>
-	@endforeach
-@endif
 </body>
 <html>
