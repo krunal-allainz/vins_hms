@@ -387,5 +387,7 @@ export default {
   getPatientCaseTypeById(pid){
       return api.post('patient/getPatientCaseTypeById',{'patient_id':pid})
   },
-
+  updatePatient(patientData){
+     return api.post('patient/update',{'patientData':patientData})
+  }
 }

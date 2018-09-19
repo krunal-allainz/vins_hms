@@ -268,8 +268,11 @@
 		          	</div>
 		        </div>
             </div>
-       		<div class="form-group text-center">
+       		<div class="form-group text-center" v-show="(action == 'add')">
 				<button class="btn btn-success" type="button" @click="savePatient()">Submit</button>
+			</div>
+			<div class="form-group text-center" v-show="(action == 'edit')">
+				<button class="btn btn-success" type="button" @click="updatePatient()">Update</button>
 			</div>
 		</form>
 	</div>
@@ -495,20 +498,33 @@
         },
         methods: {
         	setPatientDetail(patientId){
+        		let vm =this;
         		User.getPatientDetailInfo(patientId).then(
         			(response) => {
         				
         				if(response.data.code == 200){
-        			   		//vm.getPatientData = response.data.data.patientDetail;
+        			   		vm.getPatientData = response.data.data.patientDetail;
+        			   		console.log(vm.getPatientData);
         			   		vm.patientData.fname = response.data.data.patientDetail.first_name;
         			   		vm.patientData.mname = response.data.data.patientDetail.middle_name;
         			   		vm.patientData.lname = response.data.data.patientDetail.last_name;
         			   		vm.patientData.address = response.data.data.patientDetail.address;
         			   		vm.patientData.ph_no = response.data.data.patientDetail.ph_no;
         			   		vm.patientData.mob_no = response.data.data.patientDetail.mob_no;
-        			   		vm.patientData.age = response.data.data.patientDetail.age;
+        			   		if(response.data.data.patientDetail.age > 1000){
+        			   			let getAge = vm.currentYear - response.data.data.patientDetail.age;
+        			   			if(getAge > 0){
+        			   				vm.patientData.age = getAge;
+        			   			}else{
+        			   				vm.patientData.age = 1;
+        			   			}
+        			   		}else{
+        			   			vm.patientData.age = response.data.data.patientDetail.age;
+        			   		}
         			   		vm.patientData.gender = response.data.data.patientDetail.gender;
-        			   		vm.patientData.dob = response.data.data.patientDetail.dob;
+        			   		if(response.data.data.patientDetail.dob != ''){
+        			   			vm.patientData.dob.time = response.data.data.patientDetail.dob;
+        			   		}
         			   		vm.patientData.uhid_no = response.data.data.patientDetail.uhid_no;
 
         			   	}
@@ -867,6 +883,51 @@
                 	  toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
                 }
                 )
+			},
+			updatePatient(){
+
+				this.patientData.type = 'opd';
+		    	this.$validator.validateAll().then(
+	            (response) => {
+	            	if (!this.errors.any()) { 
+	            		 $("body .js-loader").removeClass('d-none');
+	            		 var pData = {'patientData':this.patientData};
+
+				    	User.updatePatient(pData).then(
+		                (response) => {
+		                	if(response.data.code == 200) {
+		                		
+		    					var uhidNo=response.data.data.uhid_no;
+								$("#createPatientDetail").modal("hide");
+		    					this.$store.dispatch('SetUhidNo',uhidNo);
+		    					localStorage.setItem("Status",1)
+    							window.location.reload(); 
+    							//this.$router.go();
+		                	} 
+		                	else if(response.data.code == 301) {
+		                		toastr.error(response.data.message, 'Error', {timeOut: 5000});
+		                	} 
+		                	else if(response.data.code == 300) {
+		                		toastr.error('Something goes wrong.', 'Error', {timeOut: 5000});
+		                	} else{
+		                		
+		                	 toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
+		                	}
+		                	 $("body .js-loader").addClass('d-none');
+		                },
+		                (error) => {
+		                	 $("body .js-loader").addClass('d-none');
+		                	  toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
+
+		                }
+		                )
+			    	}
+			    },
+                (error) => {
+                	  toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
+                }
+                )
+
 			}
 		  },
 

@@ -783,5 +783,15 @@
 
         return $patientList;
    }
+
+   /**
+   *
+   *
+   *
+   **/
+
+   public function updatePatient($patientData){
+
+   }
  }
 ?>

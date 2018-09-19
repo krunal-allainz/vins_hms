@@ -83,6 +83,7 @@ export default {
                             })
                             setTimeout(function(){
                                 jQuery('.js-loader').addClass('d-none');
+                                
                                 if(vm.$store.state.Users.userDetails.user_type == 1){
                                         vm.$router.push({'name':'dashboard'});
                                         

@@ -521,4 +521,24 @@ class PatientsDetailFormController extends Controller
         }
     }
 
+    /**
+    *
+    *
+    *
+    **/
+
+    public function updatePatient(Request $request){
+        $patientData = $request->patientData;
+        $patientUpdate=$this->patientOBJ->updatePatient($patientList);                                       
+     
+     if($patientUpdate)
+        {
+            return ['code' => 200 ,'data'=>$patientUpdate,'message'=>'Update patient data successfully.'];
+        }
+        else
+        {
+            return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
+        }   
+    }
+
 }
