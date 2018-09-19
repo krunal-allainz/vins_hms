@@ -559,7 +559,37 @@
               var vm =this;
               vm.patient_id= vm.$store.state.Patient.patientId;
               vm.opd_id= vm.$store.state.Patient.opdId;
-              
+              vm.opdData.signaturePad="";
+            vm.opdData.signaturePad1="";
+              setTimeout(function(){
+              if(vm.opdData.historyType == 'scribble'){
+                console.log('sss');
+                  var canvas = document.getElementById("history_scribble");
+                   vm.opdData.signaturePad = new SignaturePad(canvas, {
+                    backgroundColor: 'rgb(255, 255, 255)',
+                  });
+                    window.onresize = vm.resizeCanvas;
+                  vm.resizeCanvas(canvas);
+                  vm.clearHistory('clear_history_scribble');
+
+                  vm.saveHistory('save_history_scribble');
+                }
+              if(vm.opdData.pastHistoryType == 'scribble'){
+                console.log('asdassss');
+                  
+                  var canvas1 = document.getElementById("past_history_scribble");
+                  vm.opdData.signaturePad1 = new SignaturePad(canvas1, {
+                    backgroundColor: 'rgb(255, 255, 255)',
+                  });
+                  window.onresize = vm.resizeCanvas;
+                  vm.resizeCanvas(canvas1);
+                  vm.clearHistory('clear_past_history_scribble');
+
+                  vm.saveHistory('save_past_history_scribble');
+                
+              }
+            },500)
+            
               User.getUPdateOPDInfo(vm.patient_id,vm.opd_id).then(
               (response) => {
                 if(response.data.code==200)
@@ -983,7 +1013,7 @@
                   vm.saveHistory('save_history_scribble');
 
                 } else {
-                  vm.opdData.signaturePad1="";
+                  // vm.opdData.signaturePad1="";
 
                   var canvas1 = document.getElementById("past_history_scribble");
                   vm.opdData.signaturePad1 = new SignaturePad(canvas1, {
@@ -1062,7 +1092,7 @@
               return response;
             },
           examinationChangeImage() {
-            
+            console.log('rere');
             var vm =this;
             vm.opdData.signaturePad="";
             vm.opdData.signaturePad1="";
