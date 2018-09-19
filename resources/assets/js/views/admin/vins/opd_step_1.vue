@@ -3,7 +3,7 @@
     <div class="page-header">
       <div class="row text-center">
         <div class="col-md-12">
-          <h1>OPD Form</h1>
+          <h1>OPD Form <i class="fa fa-refresh red" title="Refresh opd form" aria-hidden="true" @click="reloadOpdForm()"></i></h1>
         </div>
       </div>
     </div>
@@ -11,11 +11,7 @@
       <step-progress-bar :curstep="curStep"></step-progress-bar>
     </div>
     <form action="" method="post" id="opd_form_id" enctype="multipart/formdata" >
-      <div class="row form-group">
-      <div class="col-md-6">
-          <button type="button" class="btn btn-warning btn-submit text-right " @click="reloadOPDFOrm()">Reset OPD Form</button>
-      </div>
-    </div>
+      
       <div v-if="curStep == 1">
          <span v-if="pageName=='EDIT'">
           <div class="row form-group">
@@ -454,10 +450,12 @@
              this.$root.$on('patientEmpty',this.patientEmpty);
              this.$root.$on('check_validation',this.check_validation);
              this.$root.$on('setCurSteps',this.setCurSteps);
+             this.$on('mountedMethod',this.mounted);
         },
         
         mounted(){
          var vm =this;
+         console.log('hi');
           if(vm.$store.state.Users.userDetails.user_type != '1'){
               vm.$root.$emit('logout','You are not authorise to access this page'); 
           }
@@ -534,6 +532,7 @@
 
         },
         methods: {
+          
           initData()
           {
             let vm=this;
@@ -560,7 +559,10 @@
               var vm =this;
               vm.patient_id= vm.$store.state.Patient.patientId;
               vm.opd_id= vm.$store.state.Patient.opdId;
-              
+              vm.opdData.signaturePad="";
+              vm.opdData.signaturePad1="";
+            
+            
               User.getUPdateOPDInfo(vm.patient_id,vm.opd_id).then(
               (response) => {
                 if(response.data.code==200)
@@ -580,6 +582,9 @@
                     vm.$store.dispatch('saveReferralReportData',all_opd_data.reffData);
                     vm.$store.dispatch('setPrescriptionData',all_opd_data.prescriptionData);
 
+                      setTimeout(function(){
+                        vm.examinationChangeImage();
+                      },500)
                 }
                
               },
@@ -588,10 +593,13 @@
               },
             );
           },
-          reloadOPDFOrm()
+          reloadOpdForm()
           {
+
             this.$store.dispatch('reloadOpdForm');
             location.reload();
+            // this.$mount();
+            // console.log('fff');
           },
           setCurSteps(step){
             let vm = this;
@@ -984,7 +992,7 @@
                   vm.saveHistory('save_history_scribble');
 
                 } else {
-                  vm.opdData.signaturePad1="";
+                  // vm.opdData.signaturePad1="";
 
                   var canvas1 = document.getElementById("past_history_scribble");
                   vm.opdData.signaturePad1 = new SignaturePad(canvas1, {
@@ -1063,7 +1071,6 @@
               return response;
             },
           examinationChangeImage() {
-            
             var vm =this;
             vm.opdData.signaturePad="";
             vm.opdData.signaturePad1="";
