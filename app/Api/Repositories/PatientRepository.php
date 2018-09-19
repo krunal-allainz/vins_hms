@@ -32,13 +32,13 @@
         $sectionId = '';
         $opdInsert = 0;
 
-      
         if($data['case'] == 'new') {
         	$patientData=new PatientDetailsForm();
            $opdInsert  = 1;
         }
         else
         {
+
           	$patientId =$data['patient_id'];
              if($data['case_type']  == 'new_consult'){
                 $opdInsert = 1;
@@ -54,7 +54,7 @@
           	{
           		return ['code' => '300','data'=>'', 'message' => 'Record not found'];
           	}
-        	
+       	
         }
         //echo $data['case_type'];exit;
             /*patient details*/
@@ -179,6 +179,7 @@
             else
             {
                 $insertedOPDId = $opdData->id;
+
                 $sectionId    = $opdData->id;
                 /* start add case management data */
                 $is_report=0;

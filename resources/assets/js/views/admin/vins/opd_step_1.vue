@@ -384,6 +384,7 @@
                 'type' : '',
                 'status' : '',
                 'token_no' : '',
+                'token_date' : '',
               },
               'setErrorData': {
                 'error':false,

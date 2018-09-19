@@ -26,7 +26,6 @@
 					'dailyOPD' : '0',
 					'monthlyPatient' : '0',
 					'monthlyOPD' : '0',
-
 				},
 				'type' : 'OPD',
 				'doctor_id':this.$store.state.Users.userDetails.id,

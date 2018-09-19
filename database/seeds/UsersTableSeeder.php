@@ -212,7 +212,6 @@ class UsersTableSeeder extends Seeder
             'last_name'=>'Thakore',
             'email'=>'vijay.thakore@gmail.com',
             'status'=>'Active'],
-
         ]);
 
 //Cardiology
@@ -367,6 +366,82 @@ class UsersTableSeeder extends Seeder
             'status'=>'Active'],
 
         ]);
+
+          DB::table('users')->insert([
+            // ['person_id' => '3','username' => 'tadministrator@administrator.com',
+            ['first_name'=>'receptionist',
+            'password'=>Hash::make(trim('12345678')),
+            'department'=>'',
+            'dagree'=>'',
+            'regno'=>'',
+            'user_type'=>3,
+            'mobile_no'=>'123456789',
+            'address'=>'Vadodara',
+            'user_image'=>NULL,
+            'token'=>'',
+            'is_verified'=>'1',
+            'timezone'=>NULL,
+            'last_login_time'=>NULL,
+            'is_active'=>'1',
+            'last_active_time'=>NULL,
+            'is_mobile_user'=>1,
+            'deleted_at'=>NULL,
+            'last_name'=>'receptionist',
+            'email'=>'receptionist1@gmail.com',
+            'status'=>'Active'],
+
+        ]);
+
+            DB::table('users')->insert([
+            // ['person_id' => '3','username' => 'tadministrator@administrator.com',
+            ['first_name'=>'nurse',
+            'password'=>Hash::make(trim('12345678')),
+            'department'=>'',
+            'dagree'=>'',
+            'regno'=>'',
+            'user_type'=>2,
+            'mobile_no'=>'123456789',
+            'address'=>'Vadodara',
+            'user_image'=>NULL,
+            'token'=>'',
+            'is_verified'=>'1',
+            'timezone'=>NULL,
+            'last_login_time'=>NULL,
+            'is_active'=>'1',
+            'last_active_time'=>NULL,
+            'is_mobile_user'=>1,
+            'deleted_at'=>NULL,
+            'last_name'=>'nurse',
+            'email'=>'nurse1@gmail.com',
+            'status'=>'Active'],
+
+        ]);
+
+          DB::table('users')->insert([
+            // ['person_id' => '3','username' => 'tadministrator@administrator.com',
+            ['first_name'=>'Admin',
+            'password'=>Hash::make(trim('12345678')),
+            'department'=>'',
+            'dagree'=>'',
+            'regno'=>'',
+            'user_type'=>5,
+            'mobile_no'=>'123456789',
+            'address'=>'Vadodara',
+            'user_image'=>NULL,
+            'token'=>'',
+            'is_verified'=>'1',
+            'timezone'=>NULL,
+            'last_login_time'=>NULL,
+            'is_active'=>'1',
+            'last_active_time'=>NULL,
+            'is_mobile_user'=>1,
+            'deleted_at'=>NULL,
+            'last_name'=>'admin',
+            'email'=>'admin1@gmail.com',
+            'status'=>'Active'],
+
+        ]);
+
 
 
     }
