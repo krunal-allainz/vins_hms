@@ -298,6 +298,8 @@
     export default {
         data() {
             return {
+            	'action' : 'add',
+            	'getPatientData' : {},
                 'footer' : 'footer',
                 'currentYear': new Date().getFullYear(),
 				'patient_type_option': [{id:'opd',text:'OPD'}, {id:'ipd',text:'IPD'}] ,
@@ -411,8 +413,16 @@
 				// e = e || window.event;
 				// vm.isCapsLockOn(e);
 				// }
-		       if(vm.$store.state.Users.userDetails.user_type != '3'){
+		       if(vm.$store.state.Users.userDetails.user_type != '3' && vm.$store.state.Users.userDetails.user_type != '5' ){
 		       		vm.$root.$emit('logout','You are not authorise to access this page');	
+		       }
+		       if(vm.$store.state.Patient.patientId != '')
+		       {
+		       	 vm.action = 'edit';
+		       }
+		       if(vm.action == 'edit'){
+		       		let patientId = vm.$store.state.Patient.patientId; 
+		       		vm.setPatientDetail(patientId);
 		       }
 				$('.ls-select2').select2({
 					placeholder: "Select",
@@ -484,6 +494,31 @@
         	this.$root.$on('patientEmpty',this.patientEmpty);
         },
         methods: {
+        	setPatientDetail(patientId){
+        		User.getPatientDetailInfo(patientId).then(
+        			(response) => {
+        				
+        				if(response.data.code == 200){
+        			   		//vm.getPatientData = response.data.data.patientDetail;
+        			   		vm.patientData.fname = response.data.data.patientDetail.first_name;
+        			   		vm.patientData.mname = response.data.data.patientDetail.middle_name;
+        			   		vm.patientData.lname = response.data.data.patientDetail.last_name;
+        			   		vm.patientData.address = response.data.data.patientDetail.address;
+        			   		vm.patientData.ph_no = response.data.data.patientDetail.ph_no;
+        			   		vm.patientData.mob_no = response.data.data.patientDetail.mob_no;
+        			   		vm.patientData.age = response.data.data.patientDetail.age;
+        			   		vm.patientData.gender = response.data.data.patientDetail.gender;
+        			   		vm.patientData.dob = response.data.data.patientDetail.dob;
+        			   		vm.patientData.uhid_no = response.data.data.patientDetail.uhid_no;
+
+        			   	}
+        			},
+        			(error) => {
+
+        			}
+        		);
+
+        	},
         	isCapsLockOn: function(e) {
         		// e.getModifierState('CapsLock');
         		//Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_CAPS_LOCK, true);
@@ -571,7 +606,6 @@
         		let vm=this;
         		if(patientData.code==200)
         		{
-        			
         			let pDetails=patientData.searchdata;
 
         			//for case option list

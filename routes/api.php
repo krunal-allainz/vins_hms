@@ -243,7 +243,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         //for getting case type report or follower of patient
         $api->post('patient/getPatientCaseTypeById','\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientCaseTypeById');
 
-        
+        $api->post('patient/getallpatientlist','\euro_hms\Api\Controllers\PatientsDetailFormController@getAllPatientList');
+
         });
 
         

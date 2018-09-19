@@ -73,7 +73,6 @@ export default {
             this.$validator.validateAll().then(
                 (response) => {
                     jQuery('.js-loader').removeClass('d-none');
-
                 // this.$validator.validateAll();
                 if (!this.errors.any()) {(
                     Auth.login(this.loginData).then((response) => {
@@ -81,7 +80,7 @@ export default {
                             Auth.check().then((res) => {
                                 var userId = Ls.get('userId');
                                 vm.$store.dispatch('SetUserDetailsData',userId);
-                            }) 
+                            })
                             setTimeout(function(){
                                 jQuery('.js-loader').addClass('d-none');
                                 if(vm.$store.state.Users.userDetails.user_type == 1){
@@ -94,7 +93,7 @@ export default {
                                         vm.$router.push({'name':'receptionist_dashboard'});
 
                                 }else if(vm.$store.state.Users.userDetails.user_type ==  5) {
-                                         vm.$router.push({'name':'admin_dashboard'});
+                                         vm.$router.push({'name':'admindashboard'});
                                 }else{
                                      vm.$router.push({'name':'patients_detail_form'});
 
