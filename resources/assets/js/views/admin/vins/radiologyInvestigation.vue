@@ -386,16 +386,16 @@
                     ],
                 	'others':'',
                 	'others_options':[
-                			 	{text:'',value:''},
-                			 	 {text:'other-Option 1'},
-								 {text:'other-Option 2'},
-								 {text:'other-Option 3'},
-								 {text:'other-Option 4'},
-								 {text:'other-Option 5'},
-								 {text:'other-Option 6'},
-								 {text:'other-Option 7'},
-								 {text:'other-Option 8'}
-                			 ],
+        			 	{text:'',value:''},
+        			 	{text:'other-Option 1'},
+						{text:'other-Option 2'},
+						{text:'other-Option 3'},
+						{text:'other-Option 4'},
+						{text:'other-Option 5'},
+						{text:'other-Option 6'},
+						{text:'other-Option 7'},
+						{text:'other-Option 8'}
+        			 ],
                     'radiologySpecialRequest':[
                         {text:'Neck Angio',value:'neck_angio'},
                         {text:'Brain Angio',value:'brain_angio'},
@@ -410,6 +410,7 @@
         mounted() {
              "use strict"
             let vm =this;
+            $("body .js-loader").removeClass('d-none');
             vm.initResData();
 
 			if(vm.$store.state.Users.userDetails.user_type != '1'){

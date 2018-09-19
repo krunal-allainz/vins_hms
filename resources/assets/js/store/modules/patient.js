@@ -72,11 +72,9 @@ const actions = {
     commit(types.SET_PAGE, setPage)
   },
   SetUhidNo ({commit},uhid_no) {
-    // console(uhid_no);
     commit(types.SET_UHID_NO, uhid_no)
   },
   setErrorData ({commit},setErrorData) {
-    console.log('uhid_no');
     commit(types.SET_ERROR_DATA, setErrorData)
   },
   saveNeuroExamination({commit},neuroData) {
@@ -169,7 +167,6 @@ const mutations = {
       state.uhid_no = uhid_no
   },
   [types.SET_ERROR_DATA] (state, setErrorData) {
-    console.log(setErrorData,'ddd');
       state.setErrorData = setErrorData
   },
   [types.SET_PATIENT_DATA] (state, patientData) {
@@ -222,7 +219,6 @@ const mutations = {
       state.patientCase = patientCase;
   },
   [types.RESET_OPD_FORM] (state) {
-    // console.log(patientData)
       state.opdData = {};
       state.opd_resultData = {};
       state.radioData = {};
@@ -258,6 +254,7 @@ const mutations = {
       state.setErrorData={'error':false,'steps':''};
       state.setPage='ADD';
       state.examinationData = '';
+      state.opdSubmit = false;
   },
   [types.SAVE_OPD_DATA] (state) {
   },
