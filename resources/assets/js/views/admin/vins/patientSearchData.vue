@@ -26,7 +26,6 @@
                 </div>
                 <div class="col-md-6">
                     <input class="form-control" type = "text" id = "uhid_no" name="uhid_no" value=""  v-model="patientSearchData.uhid_no"/>
-                   
                 </div>
             </div>
             <div class="col-md-6">
@@ -35,7 +34,6 @@
                 </div>
                 <div class="col-md-6">
                     <input class="form-control" type = "text" id = "mobile_no" name="mobile_no" value=""  v-model="patientSearchData.mobile_no"/>
-                   
                 </div>
             </div>
         </div>
@@ -65,8 +63,6 @@
 	import _ from 'lodash';
     export default {
     	computed:{
-            
-           
     	},
     	components: {
     		'date-picker': myDatepicker,
@@ -113,14 +109,11 @@
                         time:''
                     },
                     }
-                
             }
         },
         mounted() {
-            
         },
         filters:{
-        	
         },
         methods: {
             initSearchData(){

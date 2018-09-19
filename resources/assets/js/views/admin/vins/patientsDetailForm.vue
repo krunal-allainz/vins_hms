@@ -7,7 +7,7 @@
 				</div>
 			</div>
 		</div>
-		<form method = "post">
+		<form method = "post" id="patientDetailFormDataCaps">
 			<div class="row form-group">
 		    	<div class="col-md-6">
 		        	<div class="col-md-6 ">
@@ -17,8 +17,8 @@
 
 		            	<select  class="form-control ls-select2" v-validate="'required'" id = "case" name="case" value="" v-model="patientData.case">
 		            		<option> Select </option>
-		              		<option value="new">New</option>
-		              		<option value="old">Old</option>
+		              		<option value="new">NEW</option>
+		              		<option value="old">OLD</option>
 		            	</select>
 		            	<i v-show="errors.has('case')" class="fa fa-warning"></i>
 		            	<span class="help is-danger" v-show="errors.has('case')">
@@ -31,7 +31,7 @@
 	                    	<label for="uhid_no" class="control-label">UHID No : </label>
 	                	</div>
 		                <div class="col-md-6">
-							<input class="form-control" type = "text" v-validate="'required'" id = "uhid_no" name="uhid_no" value=""  v-model="patientData.uhid_no" :readonly="patientData.case == 'old'" @input="isCapslock"/>
+							<input class="form-control" type = "text" v-validate="'required'" id = "uhid_no" name="uhid_no" value=""  v-model="patientData.uhid_no" :readonly="patientData.case == 'old'" />
 							<i v-show="errors.has('uhid_no')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('uhid_no')"> 
 								Please enter UHID No.
@@ -54,7 +54,6 @@
       		</div>
       		
       		<patientSearch v-if="patientData.case == 'old'" :user_id="0" ref="patientDetailForm"></patientSearch>
-      		
       		<div>
       			<div class="row form-group">
 	      			<div class="col-md-6">
@@ -128,8 +127,8 @@
 	                    <div class="col-md-6">
 							<select  class="form-control ls-select2" id = "gender" name="gender" :disabled="patientData.case == 'old'">
 	            				<option value="">Select</option>
-	            				<option value="M">Male</option>
-				            	<option value="F">Female</option>
+	            				<option value="M">MALE</option>
+				            	<option value="F">FEMALE</option>
 				          	</select>
 				          	<i v-show="errors.has('gender')" class="fa fa-warning"></i>
 				          	<span class="help is-danger" v-show="errors.has('gender')">
@@ -177,7 +176,6 @@
 						<i v-show="errors.has('address')" class="fa fa-warning"></i>
 				      	<span class="help is-danger" v-show="errors.has('address')">
 		                	Please enter valid address.
-
 		                </span>
 		            </div>
 		        </div>
@@ -208,7 +206,7 @@
 			      		<label class="control-label" >Consulting Dr..: </label>
 					</div>
 					<div class="col-md-6">
-			      		<select class="form-control ls-select2"  id="consulting_dr" name="consulting_dr" v-validate="'required'">
+			      		<select class="form-control ls-select2"  id="consulting_dr" name="consulting_dr" v-validate="'required'" >
 			      			<option value="">Select</option>
 							 <option :value="doctor.id" v-for="doctor in patientData.consulting_dr_option">{{doctor.text}}</option>
 			      		</select>
@@ -218,11 +216,11 @@
 		                </span>
 					</div>
 				</div>	
-             
-             
             </div>
+
             <div class="row form-group">
-            	 <div class="col-md-6">
+            	 <div class="col-md-6" v-if="patientData.case_type!='reports'">
+
 		        	<div class="col-md-6 ">
 			        	<label for="case_type">Token No:</label>
 			        </div>
@@ -244,36 +242,37 @@
 		          	<div class="col-md-6">
 		            	<select  class="form-control ls-select2" v-validate="'required'" id ="token_status" name="token_status" >
 		            		<option value="">Select</option>
-		            		<option value="waiting">waiting</option>
-		              		<option value="pending">pending</option>
+		            		<option value="waiting">WAITING</option>
+		              		<option value="pending">PENDING</option>
 		            	</select>
 		          	</div>
 		        </div>
             </div>
-            <!-- <div class="row" >
-			        	<div class="col-md-6 ">
-			            	<label>Token1 Status:</label>
-			          	</div>
-		          	<div class="col-md-6">
-		            	<select  class="form-control" v-validate="'required'" id ="token_status1" name="token_status1" >
-		            		<option value="">Select</option>
-		            		<option value="waiting1">waiting1</option>
-		              		<option value="pending1">pending1</option>
-		            	</select>
-		          	</div>
-		        </div> -->
+
               <div class="row form-group" v-if="(patientData.case == 'old')" >
-                	<div class="col-md-6">
+              		<div class="col-md-6">
+              		<div class="col-md-6">
+              				<label for="" >Report</label>
+              			</div>
+              			<div class="col-md-6">
+              				<input type="radio" id="yes" value="yes" v-model="patientData.reportstatus">
+								<label for="yes">Yes</label>
+								<br>
+							<input type="radio" id="no" value="no" v-model="patientData.reportstatus">
+								<label for="no">No</label>
+								<br>
+              			</div>
+              		</div>
+                	<div class="col-md-6" v-show="(patientData.reportstatus == 'no')">
 			        	<div class="col-md-6 ">
 			            	<label for="case_type" >Case Type:</label>
 			          	</div>
 		          	<div class="col-md-6">
 		            	<select  class="form-control ls-select2" v-validate="'required'" id="case_type" name="case_type">
 		            		<option value="">Select</option>
-		              		<option value="cross_reference">Cross Reference</option>
-		              		<option value="reports">Reports</option>
-		              		<option value="follow_ups">Follow ups</option>
-		              		<option value="new_consult">New Consult</option>
+
+		            		<option :value="case_t.id" v-for="case_t in patientData.case_type_option">{{case_t.text}}</option>
+
 		            	</select>
 		            	<i v-show="errors.has('case_type')" class="fa fa-warning"></i>
 		            	<span class="help is-danger" v-show="errors.has('case_type')">
@@ -335,8 +334,7 @@
 			          'box-shadow': '0 1px 3px 0 rgba(0, 0, 0, 0.2)',
 			          'border-radius': '2px',
 			          'color': '#5F5F5F'
-			      		},
-			      	
+			      		},			      	
 			      },
                 'option': {
                     type: 'day',
@@ -367,7 +365,22 @@
 			        type: 'fromto',
 			       	from: moment().subtract(1, 'days').startOf('day')
 			      }],
-			     
+			     'optionReportList':[
+			     	{id:'cross_reference',text:'Cross Reference'},
+			     	{id:'reports',text:'Reports'},
+			     	{id:'new_consult',text:'New Consult'}
+			     ],
+			     'optionFollowUpList':[
+			     	{id:'cross_reference',text:'Cross Reference'},
+			     	{id:'follow_ups',text:'Follow ups'},
+			     	{id:'new_consult',text:'New Consult'}
+			     ],
+			     'optionAllList':[
+			     	{id:'cross_reference',text:'Cross Reference'},
+			     	{id:'reports',text:'Reports'},
+			     	{id:'follow_ups',text:'Follow ups'},
+			     	{id:'new_consult',text:'New Consult'}
+			     ],
                 'patientData' : {
                 	'case': '',
                 	'type' : 'opd',
@@ -375,6 +388,7 @@
                 	'dob': {
                 		time:''
                 	},
+                	'reportstatus':'no',
                 	'mname': '',
                 	'lname': '',
                 	'gender': '',
@@ -395,7 +409,8 @@
                 	'token_no' : '',
                 	'token_status' : '',
                 	'token_validation' : 0,
-                	'uhid_no':''
+                	'uhid_no':'',
+                	'case_type_option':{},
                 }
             }
         },
@@ -404,7 +419,12 @@
         	patientSearch
         },
         mounted() {
+
         	let vm =this;
+    //     		document.onkeypress = function (e) {
+				// e = e || window.event;
+				// vm.isCapsLockOn(e);
+				// }
 		       if(vm.$store.state.Users.userDetails.user_type != '3'){
 		       		vm.$root.$emit('logout','You are not authorise to access this page');	
 		       }
@@ -434,26 +454,11 @@
 				var enabledHours = [];
 				var dt = new Date();
 				var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
-				 // $("#appointment_datetime").on("change",function(e){ alert('test');
-     //            		var currentTime = new Date();
-     //            		var userTime = $("#appointment_datetime").val().split(":"); 
-     //            		if(currentTime.getHours() > parseInt(userTime[0])){
-     //               		 alert("To old value");
-     //                		$(this).focus();                
-     //            }
-     //            if(currentTime.getHours() <= parseInt(userTime[0])){
-     //                if(currentTime.getMinutes() > parseInt(userTime[1])){
-     //                    alert("To old value");
-     //                $(this).focus();
-     //                }
-     //            }
-     //        });
 				vm.patientData.type = 'opd';
 				$('#case').on("select2:select", function (e) {
 		             	vm.patientData.case = $(this).val();
 		             	if($(this).val()=='new')		
 		             	{
-		             		console.log('dsdsf');
 		             		//vm.userlistData={};
 		             		$('#case_type').select2('destroy');
 		             		vm.initPatientData();
@@ -461,6 +466,7 @@
 		             	else if($(this).val()=='old')
 		             	{
 		             		vm.initPatientData();
+		             		vm.patientData.case_type_option=vm.optionAllList;
 		             		setTimeout(function(){
 			             		$('#case_type').select2({
 									placeholder: "Select",
@@ -469,8 +475,8 @@
 								$('#case_type').on("select2:select", function (e) {
 		                			vm.patientData.case_type=$(this).val();
           						});
-
 							},500);
+
 		             	}
 		            });
 					$('#consulting_dr').on("select2:select", function (e) {
@@ -492,50 +498,29 @@
         	this.$root.$on('patientEmpty',this.patientEmpty);
         },
         methods: {
-        	isCapslock(e){
-        			console.log('test');
-   			 e = (e) ? e : window.event;
+        	isCapsLockOn: function(e) {
+        		// e.getModifierState('CapsLock');
+        		//Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_CAPS_LOCK, true);
+				var keyCode = e.keyCode ? e.keyCode : e.which;
+				var shiftKey = e.shiftKey ? e.shiftKey : ((keyCode == 16) ? true : false);
+				return (((keyCode >= 65 && keyCode <= 90) && !shiftKey) || ((keyCode >= 97 && keyCode <= 122) && shiftKey))
+		},
+		showCapsLockMsg: function(e) {
+			let vm = this;
+			var warningElement = document.getElementById('capsLockWarning');
 
-		    var charCode = false;
-		    if (e.which) {
-		        charCode = e.which;
-		    } else if (e.keyCode) {
-		        charCode = e.keyCode;
-		    }
-
-		    var shifton = false;
-		    if (e.shiftKey) {
-		        shifton = e.shiftKey;
-		    } else if (e.modifiers) {
-		        shifton = !!(e.modifiers & 4);
-		    }
-
-		    if (charCode >= 97 && charCode <= 122 && shifton) {
-		        return true;
-		    }
-
-		    if (charCode >= 65 && charCode <= 90 && !shifton) {
-		        return true;
-		    }
-
-   				 return false;
-
-			},
+			if (vm.isCapsLockOn(e)){
+				warningElement.style.display = 'block';
+			}else{
+				warningElement.style.display = 'none';
+			}
+			
+		},
         	checkAppomentData(){
         		let vm = this;
         		let appointmentDate = vm.patientData.appointment_datetime.time.split(" ");
         		var currentTime = new Date();
         		var userTime = appointmentDate[2].split(":");
-               		// if(currentTime.getHours() > parseInt(userTime[0])){
-                 //   		 alert("Please select valide time.");
-                 //    		$(this).focus();                
-                	// }
-                	// if(currentTime.getHours() <= parseInt(userTime[0])){
-                 //   		 if(currentTime.getMinutes() > parseInt(userTime[1])){
-                 //       		 alert("Please select valide time.");
-                 //    		$(this).focus();
-                 //   		 }
-               		//  }
         	},
         	compairNumbers(){ 
         		
@@ -554,13 +539,11 @@
         	{
         		this.initPatientData();
         	},
-
-        	  getAgeCal () { 
+        	getAgeCal () { 
         	  	let vm =this;
 		        vm.handleDOBChanged();
-		      },
-		      getBirthYear(){ 
-
+		    },
+		    getBirthYear(){ 
 		      	 let getYearForage = 0;
 		      	 this.patientData.dob.time = null;
 		      	
@@ -591,7 +574,6 @@
 	  			return vm.patientData.token_no;
 		      },
 		      getAgeFromYear(year){
-				
 		      	let getYear = 0;
 		      	this.patientData.display_age = 1;
 		      	getYear = this.currentYear - year - 1;
@@ -600,37 +582,77 @@
 		      	}
 		      },
         	setPatientData(patientData) {
-        		
+        		let vm=this;
         		if(patientData.code==200)
         		{
         			
         			let pDetails=patientData.searchdata;
-        			
-        			if(pDetails.dob == null){
-            			this.getAgeFromYear(pDetails.age);
-            			
-            		}else{
-            			this.patientData.display_age=pDetails.age;
-            			this.patientData.age = pDetails.age;
-            			
-            		}
-        			this.patientData.patient_id=pDetails.id;
-        			this.patientData.fname = pDetails.first_name;
-        			this.patientData.uhid_no = pDetails.uhid_no;
-            		this.patientData.mname = pDetails.middle_name;
-            		this.patientData.lname = pDetails.last_name;
-            		this.patientData.ph_no = pDetails.ph_no;
-            		this.patientData.mob_no = pDetails.mob_no;
-            		this.patientData.type = pDetails.type;
-            		this.patientData.gender = pDetails.gender;
-            		this.patientData.address = pDetails.address;
-            		this.patientData.reference_dr = pDetails.references;
-            		this.patientData.dob.time = pDetails.dob;
-            		this.patientData.consulting_dr = pDetails.consultant_id;
-            		this.patientData.type = pDetails.type;
-            		$('#type').val(pDetails.type).trigger('change');
-            		$('#gender').val(pDetails.gender).trigger('change');
-            		$('#consulting_dr').val(pDetails.consultant_id).trigger('change');
+
+        			//for case option list
+        			User.getPatientCaseTypeById(pDetails.id).then(
+        				(response)=>
+        				{
+        					if(response.data.code==200)
+        					{
+        						let case_status=response.data.data;
+        						vm.patientData.case_type_option={};
+        						vm.patientData.case_type="";
+        						setTimeout(function(){
+			             			$('#case_type').select2('destroy');
+				             		$('#case_type').select2({
+										placeholder: "Select",
+										tags: false,
+									});
+									$('#case_type').on("select2:select", function (e) {
+			                			vm.patientData.case_type=$(this).val();
+	          						});
+								},500);
+        						
+        						if(case_status=='report')
+        						{
+        							vm.patientData.case_type_option=vm.optionReportList;
+        						}
+        						else if(case_status=='follow_ups')
+        						{
+        							vm.patientData.case_type_option=vm.optionFollowUpList;
+        						}
+        						else
+        						{
+        							vm.patientData.case_type_option=vm.optionAllList;
+        						}
+        						
+        						if(pDetails.dob == null){
+			            			vm.getAgeFromYear(pDetails.age);
+			            			
+			            		}else{
+			            			vm.patientData.display_age=pDetails.age;
+			            			vm.patientData.age = pDetails.age;
+			            		}
+			        			vm.patientData.patient_id=pDetails.id;
+			        			vm.patientData.fname = pDetails.first_name;
+			        			vm.patientData.uhid_no = pDetails.uhid_no;
+			            		vm.patientData.mname = pDetails.middle_name;
+			            		vm.patientData.lname = pDetails.last_name;
+			            		vm.patientData.ph_no = pDetails.ph_no;
+			            		vm.patientData.mob_no = pDetails.mob_no;
+			            		vm.patientData.type = pDetails.type;
+			            		vm.patientData.gender = pDetails.gender;
+			            		vm.patientData.address = pDetails.address;
+			            		vm.patientData.reference_dr = pDetails.references;
+			            		vm.patientData.dob.time = pDetails.dob;
+			            		vm.patientData.consulting_dr = pDetails.consultant_id;
+			            		vm.patientData.type = pDetails.type;
+			            		$('#type').val(pDetails.type).trigger('change');
+			            		$('#gender').val(pDetails.gender).trigger('change');
+			            		$('#consulting_dr').val(pDetails.consultant_id).trigger('change');
+        					}
+
+        				},
+        				(error)=>
+        				{
+
+        				} 
+        			);
             		
             		//this.getAgeCal();
         		}
@@ -830,4 +852,5 @@
 		  },
 
     }
+
 </script>

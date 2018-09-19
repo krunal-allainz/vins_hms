@@ -65,8 +65,6 @@ export default {
                     remember: '',
                     forgotpassword: 0
                 }
-   
-
         }
     },
     methods: {
@@ -76,7 +74,7 @@ export default {
                 (response) => {
                     jQuery('.js-loader').removeClass('d-none');
 
-                                    // this.$validator.validateAll();
+                // this.$validator.validateAll();
                 if (!this.errors.any()) {(
                     Auth.login(this.loginData).then((response) => {
                         if(response == 'success'){
@@ -87,14 +85,16 @@ export default {
                             setTimeout(function(){
                                 jQuery('.js-loader').addClass('d-none');
                                 if(vm.$store.state.Users.userDetails.user_type == 1){
-                                    
                                         vm.$router.push({'name':'dashboard'});
+                                        
                                 } else if(vm.$store.state.Users.userDetails.user_type == 2 ) {
                                         vm.$router.push({'name':'vitalsinfo'});
 
                                 }else if(vm.$store.state.Users.userDetails.user_type ==  3) {
                                         vm.$router.push({'name':'receptionist_dashboard'});
 
+                                }else if(vm.$store.state.Users.userDetails.user_type ==  5) {
+                                         vm.$router.push({'name':'admin_dashboard'});
                                 }else{
                                      vm.$router.push({'name':'patients_detail_form'});
 

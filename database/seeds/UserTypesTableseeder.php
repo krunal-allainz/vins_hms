@@ -43,6 +43,13 @@ class UserTypesTableseeder extends Seeder
           'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
       	  ],
 
+           ['id' => 5,
+          'name' => 'Admin',
+          'status'=>1,
+          'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+          'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+          ],
+
         ]);
          
     }
