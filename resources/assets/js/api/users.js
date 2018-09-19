@@ -381,4 +381,8 @@ export default {
   getPatientLastVisitById(pid) {
     return api.post('patient/getPatientLastVisitById',{'patient_id':pid})
   },
+  getPatientCaseTypeById(pid){
+      return api.post('patient/getPatientCaseTypeById',{'patient_id':pid})
+  },
+
 }

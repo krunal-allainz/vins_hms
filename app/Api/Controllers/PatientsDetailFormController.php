@@ -481,6 +481,25 @@ class PatientsDetailFormController extends Controller
         }
     }
 
+    /**
+     * [getPatientCaseTypeById description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getPatientCaseTypeById(Request $request)
+    {
+        $patient_id=$request->patient_id;
+        $patient_case_type=$this->patientOBJ->getPatientCaseTypeById($patient_id);
+        if($patient_case_type)
+        {
+            return ['code' => 200 ,'data'=>$patient_case_type,'message'=>'Getting case type successfully.'];
+        }
+        else
+        {
+            return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
+        }
+    }
+
 
 
 }
