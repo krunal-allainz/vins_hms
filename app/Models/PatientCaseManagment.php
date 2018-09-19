@@ -20,6 +20,8 @@ class PatientCaseManagment extends Model
               'main_case_id',
               'appointment_datetime',
               'status',
+              'is_report',
+              'reported_date'
         ];
 
 
