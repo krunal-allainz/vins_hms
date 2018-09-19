@@ -1,6 +1,6 @@
 <template>
 	<div class="">
-----------------------------------------------------------------------------------------------------------------------------
+		<hr style="border-top: dashed  1px;" />
 		<div >
 			<div class="row">
 				<div class='col-md-6 text-left'>

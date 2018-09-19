@@ -380,14 +380,20 @@
         //query
           $reportQuery= PatientDetailsForm::join('patient_case_managment', function ($join) {
             $join->on('patient_case_managment.patient_id', '=', 'patient_details.id');
+          })->join('token_managment', function ($join1) {
+                  $join1->on('token_managment.patient_case_id', '=', 'patient_case_managment.id');
           });
           if($user_id!=0 && $user_id!="")
           {
              $reportQuery->where('patient_case_managment.consultant_id',$user_id);
           } 
+          if($user_type==1)
+          {
+               $reportQuery->whereIn('token_managment.status',['vital','waiting'])->where('patient_case_managment.case_type','!=','reports');
+          }
           if($user_type==2)
           {
-              $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case']);
+              $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case'])->where('token_managment.status','waiting');
           }
           if(($user_type==1 ||  $user_type==2) && ($search_by=='All'))
           {
@@ -515,6 +521,14 @@
       return TokenManagment::where('date','like',$date.'%')->Where('token',$token)->count();
     }
 
+    /**
+     * [getPatientList description]
+     * @param  [type] $user_type  [description]
+     * @param  [type] $noOfRecord [description]
+     * @param  [type] $user_id    [description]
+     * @param  string $status     [description]
+     * @return [type]             [description]
+     */
     public function getPatientList($user_type,$noOfRecord,$user_id,$status='waiting'){
       // dd($user_type,$noOfRecord,$user_id);
       $reportQuery= PatientDetailsForm::join('patient_case_managment', function ($join) {
@@ -526,6 +540,7 @@
 
         if($user_type == 1)
         {
+              $reportQuery->where('patient_case_managment.case_type','!=','reports');
              if($status=='waiting')
              {
                   $reportQuery->where('patient_case_managment.consultant_id',$user_id)->whereIn('token_managment.status',['waiting','vital']);
@@ -579,7 +594,7 @@
         $reportQuery= PatientDetailsForm::join('patient_case_managment', function ($join) {
                   $join->on('patient_case_managment.patient_id', '=', 'patient_details.id');
         })->join('token_managment', function ($join1) {
-                  $join1->on('token_managment.patient_id', '=', 'patient_details.id');
+                  $join1->on('token_managment.patient_case_id', '=', 'patient_case_managment.id');
         });
         if($user_id!=0 && $user_id!="")
         {
@@ -591,7 +606,7 @@
         }
         if($user_type==1 )
         {
-            $reportQuery->whereIn('token_managment.status',['vital','waiting'])->whereDate('patient_case_managment.appointment_datetime',Carbon::today()->format('Y-m-d'));
+            $reportQuery->whereIn('token_managment.status',['vital','waiting'])->where('patient_case_managment.case_type','!=','reports')->whereDate('patient_case_managment.appointment_datetime',Carbon::today()->format('Y-m-d'));
         }
 
          $reportQuery->groupBy('patient_case_managment.patient_id')->orderBy('patient_case_managment.created_at','desc');
@@ -609,7 +624,7 @@
               'patient_case_managment.case_type'
             )->get();
         
-        //$patientDetails=PatientDetailsForm::toSql();
+        //echo //$patientDetails=PatientDetailsForm::toSql(); exit;
        
         if (count($patientDetails)>0) {
             return ['code' => '200','data'=>$patientDetails, 'message' => 'Record Sucessfully created'];

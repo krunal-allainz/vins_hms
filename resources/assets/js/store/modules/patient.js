@@ -27,6 +27,7 @@ const state = {
     'provisionalDiagnosis' : '',
     'diagnosis' : '',
     'setErrorData':{'error':false,'steps':''},
+    'opdSubmit':false,
     'setPage':'ADD'
 
 
@@ -75,7 +76,7 @@ const actions = {
     commit(types.SET_UHID_NO, uhid_no)
   },
   setErrorData ({commit},setErrorData) {
-    // console(uhid_no);
+    console.log('uhid_no');
     commit(types.SET_ERROR_DATA, setErrorData)
   },
   saveNeuroExamination({commit},neuroData) {
@@ -139,7 +140,12 @@ const actions = {
   resetErrorData({commit}) {
       commit(types.RESET_ERROR_DATA);
 
-  }
+  },
+  setOpdSubmit({commit},data) {
+      commit(types.OPD_SUBMIT,data);
+
+  },
+  
 }
 
 // mutations
@@ -163,6 +169,7 @@ const mutations = {
       state.uhid_no = uhid_no
   },
   [types.SET_ERROR_DATA] (state, setErrorData) {
+    console.log(setErrorData,'ddd');
       state.setErrorData = setErrorData
   },
   [types.SET_PATIENT_DATA] (state, patientData) {
@@ -265,6 +272,9 @@ const mutations = {
       'error':false,
       'steps':''
     }
+  },
+  [types.OPD_SUBMIT] (state,data) {
+    state.opdSubmit = data;
   },
 }
 
