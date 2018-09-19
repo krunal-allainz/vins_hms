@@ -14,25 +14,24 @@
 						<span class="report_details">No record found.</span>
 					</div>
 				@endif
-
-				
 			</div>
 		</div>
 		@endif
 		@if($data['ReportPageData']['adviceData']['type'] != 'text')
-		<div  class="report_space">
-			<div class='col-md-6'>
-				<span class='report_title'>Advice:-</span>
-			</div>
-			@if($data['ReportPageData']['adviceData']['value']!='')
-				<div class='col-md-12'>
-				    <img src="{{$data['ReportPageData']['adviceData']['value']}}" title="Advice">
-				</div> 
-			@else
-				<div class='col-md-12'>
-					<span class="report_details">No record found.</span>
+			<div  class="report_space">
+				<div class='col-md-6'>
+					<span class='report_title'>Advice:-</span>
 				</div>
-			@endif
-		</div>
+
+				@if($data['ReportPageData']['adviceData']['value']!='')
+					<div class='col-md-12'>
+					    <img src="{{$data['ReportPageData']['adviceData']['value']}}" title="Advice">
+					</div> 
+				@else
+					<div class='col-md-12'>
+						<span class="report_details">No record found.</span>
+					</div>
+				@endif
+			</div>
 		@endif
 @endif

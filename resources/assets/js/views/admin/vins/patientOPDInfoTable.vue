@@ -1,7 +1,7 @@
 <template>
     <!-- Modal -->
     <div class="modal fade" id="patientOPDModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document" >
+    <div class="modal-dialog modal-lg" role="document" >
         <div class="modal-content">
         <div class="modal-header">
             <h4 class="modal-title" id="exampleModalLabel">Patient OPD Detail</h4>

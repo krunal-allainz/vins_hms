@@ -530,6 +530,7 @@ input.number-with-validation:invalid {
     width : 900px;
     height : auto;   
 }
+
 .report_space
 {
     margin-bottom:30px;
@@ -563,3 +564,18 @@ input.number-with-validation:invalid {
 {
     font-family: "Times New Roman", Times, serif;
 }
+
+#patientDetailFormDataCaps input{
+    text-transform : uppercase;
+}
+#patientDetailFormDataCaps #consulting_dr .selection .select2-container--default .select2-selection--single .select2-selection__rendered{
+    text-transform : uppercase;
+}
+.text-uppercase{
+    text-transform : uppercase;
+}
+.w-100 {
+    width:100%;
+    height:200px;   
+}
+

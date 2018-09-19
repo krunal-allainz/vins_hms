@@ -476,6 +476,7 @@
 
                 let vm = this;
                 this.saveRefData(); 
+                vm.$store.dispatch('setOpdSubmit',true);
                 
                 if(vm.$store.state.Patient.setErrorData.error)
                 {

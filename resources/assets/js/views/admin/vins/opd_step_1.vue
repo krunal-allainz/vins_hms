@@ -264,7 +264,7 @@
             <div class="col-md-12" v-show="opdData.historyType == 'scribble'">
               <div id="signature-pad" class="signature-pad">
                 <div class="signature-pad--body">
-                  <canvas class="can-img" id="history_scribble" height="200px" width="500px" ></canvas> 
+                  <canvas class="can-img w-100" id="history_scribble"  ></canvas> 
                 </div>
                 <div><button type="button" id="clear_history_scribble" class="btn btn-md btn-danger">Clear</button>
                 <button type="button" id="save_history_scribble" class="btn btn-md btn-primary">Save</button></div>
@@ -303,7 +303,7 @@
             <div class="col-md-12" v-show="opdData.pastHistoryType == 'scribble'">
               <div id="signature-pad1" class="signature-pad">
                 <div class="signature-pad--body">
-                  <canvas class="can-img" id="past_history_scribble" height="200px" width="500px" ></canvas> 
+                  <canvas class="can-img w-100" id="past_history_scribble" ></canvas> 
                 </div>
                 <div>
                   <button type="button" id="clear_past_history_scribble" class="btn btn-md btn-danger">Clear</button>
@@ -384,6 +384,7 @@
                 'type' : '',
                 'status' : '',
                 'token_no' : '',
+                'token_date' : '',
               },
               'setErrorData': {
                 'error':false,
@@ -467,7 +468,6 @@
           let opd_list_new=[];
 
           
-          
           vm.$store.dispatch('resetOpdForm');
           if(vm.setLocalErrors == false){
               vm.$store.dispatch('resetErrorData');
@@ -513,10 +513,10 @@
           $(document).on("select2:select",'#patient', function (e) { 
             vm.opdData.patientlist=$(this).val();
             vm.patient_id=$(this).val();
-            let patientId = $(this).val();
-            vm.opdData.patientlist=patientId;
-            vm.$store.dispatch('SetPatientId',patientId);
-            vm.getAgeOfPatient(patientId);
+            let pId = $(this).val();
+            vm.opdData.patientlist=pId;
+            vm.$store.dispatch('SetPatientId',pId);
+            vm.getAgeOfPatient(pId);
             vm.get_vitals();
 
           });
@@ -545,11 +545,11 @@
               }
               else
               {
-                  vm.patient_id= this.$store.state.Patient.patientId;
+                  vm.patient_id= parseInt(this.$store.state.Patient.patientId);
                   vm.opdData.patientlist=vm.patient_id;
                   if(vm.opdData.patientlist)
                   {
-                      vm.getAgeOfPatient(patientId);
+                      vm.getAgeOfPatient(vm.patient_id);
                       vm.get_vitals();
                   }
                   
@@ -903,7 +903,6 @@
             if(vm.curStep == 1){
               this.$validator.validateAll().then(
               (response) => {
-                  //console.log('this.errors',this.errors);
                   if (this.errors.any()) {
                     vm.setErrorData = {'error':true,'steps':vm.curStep}
                   } else {
@@ -929,7 +928,7 @@
               vm.$store.dispatch('setOpdData',vm.opdData);
               vm.$store.dispatch('setResData',vm.finalResultData);
               vm.$store.dispatch('setPatientCase',vm.patientCase);
-              vm.$store.dispatch('setErrorData',vm.setErrorData);
+              // vm.$store.dispatch('setErrorData',vm.setErrorData);
           },
           initLastData(){
             let vm = this;
@@ -965,12 +964,41 @@
           },
           setHistoryType(res,type){
             var vm =this;
-            
             if(res == 'present'){
               vm.opdData.historyType = type;
             } else if(res == 'past') {
               vm.opdData.pastHistoryType = type;
+
             }
+            setTimeout(function(){
+              if(type == 'scribble'){
+                if(res == 'present'){
+                  var canvas = document.getElementById("history_scribble");
+                   vm.opdData.signaturePad = new SignaturePad(canvas, {
+                    backgroundColor: 'rgb(255, 255, 255)',
+                  });
+                    window.onresize = vm.resizeCanvas;
+                  vm.resizeCanvas(canvas);
+                  vm.clearHistory('clear_history_scribble');
+
+                  vm.saveHistory('save_history_scribble');
+
+                } else {
+                  vm.opdData.signaturePad1="";
+
+                  var canvas1 = document.getElementById("past_history_scribble");
+                  vm.opdData.signaturePad1 = new SignaturePad(canvas1, {
+                    backgroundColor: 'rgb(255, 255, 255)',
+                  });
+                  window.onresize = vm.resizeCanvas;
+                  vm.resizeCanvas(canvas1);
+                  vm.clearHistory('clear_past_history_scribble');
+
+                  vm.saveHistory('save_past_history_scribble');
+                }
+              }
+            },500)
+            
           },
           
           resizeCanvas(canvas) {
@@ -1040,15 +1068,15 @@
             vm.opdData.signaturePad="";
             vm.opdData.signaturePad1="";
             // savePNGButton.addEventListener("click", function (event) {
-            var wrapper = document.getElementById("signature-pad");
-            var wrapper1 = document.getElementById("signature-pad1");
+            // var wrapper = document.getElementById("signature-pad");
+            // var wrapper1 = document.getElementById("signature-pad1");
+            
             var canvas = document.getElementById("history_scribble");
             var canvas1 = document.getElementById("past_history_scribble");
-            var clear_history_scribble = document.getElementById("clear_history_scribble");
-            var clear_past_history_scribble = document.getElementById("clear_past_history_scribble");
-            var save_history_scribble = document.getElementById("save_history_scribble");
-            var save_past_history_scribble = document.getElementById("save_past_history_scribble");
-            
+            // var clear_history_scribble = document.getElementById("clear_history_scribble");
+            // var clear_past_history_scribble = document.getElementById("clear_past_history_scribble");
+            // var save_history_scribble = document.getElementById("save_history_scribble");
+            // var save_past_history_scribble = document.getElementById("save_past_history_scribble");
             vm.opdData.signaturePad = new SignaturePad(canvas, {
               backgroundColor: 'rgb(255, 255, 255)',
             });
@@ -1059,24 +1087,73 @@
             window.onresize = vm.resizeCanvas;
             vm.resizeCanvas(canvas);
             vm.resizeCanvas(canvas1);
-            clear_history_scribble.addEventListener("click", function (event) {
+            vm.clearHistory('clear_history_scribble');
+            vm.clearHistory('clear_past_history_scribble');
+            vm.saveHistory('save_history_scribble');
+            vm.saveHistory('save_past_history_scribble');
+            // clear_history_scribble.addEventListener("click", function (event) {
+            //   vm.opdData.signaturePad.clear();
+            //   vm.opdData.signaturePad_src='';
+            // });
+            // clear_past_history_scribble.addEventListener("click", function (event) {
+            //   vm.opdData.signaturePad1.clear();
+            //   vm.opdData.signaturePad1_src='';
+            // });
+            // save_history_scribble.addEventListener("click", function (event) {
+            //   vm.opdData.signaturePad_src = vm.opdData.signaturePad.toDataURL();
+            // });
+            // save_past_history_scribble.addEventListener("click", function (event) {
+            //   vm.opdData.signaturePad1_src = vm.opdData.signaturePad1.toDataURL();
+            // });
+          },
+          setSignaturePad(canvasData) {
+            if(canvasData == 'history_scribble') {
+              var canvas = document.getElementById(canvasData);
+              vm.opdData.signaturePad = new SignaturePad(canvas, {
+                backgroundColor: 'rgb(255, 255, 255)',
+              });
+            } 
+            if(canvasData == 'past_history_scribble') {
+              var canvas = document.getElementById(canvasData);
+              vm.opdData.signaturePad = new SignaturePad(canvas, {
+                backgroundColor: 'rgb(255, 255, 255)',
+              });
+            }
+           
+          },
+          clearHistory(data) {
+            let vm =this;
+            if(data == 'clear_history_scribble') {
+              var clear_history_scribble = document.getElementById(data);
+              clear_history_scribble.addEventListener("click", function (event) {
               vm.opdData.signaturePad.clear();
               vm.opdData.signaturePad_src='';
             });
-            clear_past_history_scribble.addEventListener("click", function (event) {
+            } else if(data == 'clear_past_history_scribble') {
+              var clear_past_history_scribble = document.getElementById("clear_past_history_scribble");
+              clear_past_history_scribble.addEventListener("click", function (event) {
               vm.opdData.signaturePad1.clear();
               vm.opdData.signaturePad1_src='';
             });
-            save_history_scribble.addEventListener("click", function (event) {
+            }
+            
+          },
+          saveHistory(data){
+            let vm =this;
+            if(data == 'save_history_scribble') {
+               var save_history_scribble = document.getElementById(data);
+                save_history_scribble.addEventListener("click", function (event) {
               vm.opdData.signaturePad_src = vm.opdData.signaturePad.toDataURL();
             });
-            save_past_history_scribble.addEventListener("click", function (event) {
+          } else if(data == 'save_past_history_scribble') {
+             var save_past_history_scribble = document.getElementById(data);
+              save_past_history_scribble.addEventListener("click", function (event) {
               vm.opdData.signaturePad1_src = vm.opdData.signaturePad1.toDataURL();
             });
-          },
+          }
         }
                       
-           
     }
+  }
         
 </script>
