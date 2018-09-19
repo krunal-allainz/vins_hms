@@ -54,7 +54,6 @@
           	{
           		return ['code' => '300','data'=>'', 'message' => 'Record not found'];
           	}
-        	
         }
         //echo $data['case_type'];exit;
             /*patient details*/

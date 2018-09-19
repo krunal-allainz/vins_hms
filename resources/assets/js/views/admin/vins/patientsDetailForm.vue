@@ -259,7 +259,7 @@
 		            		<option value="">Select</option>
 
 		            		<option :value="case_t.id" v-for="case_t in patientData.case_type_option">{{case_t.text}}</option>
-		              		
+
 		            	</select>
 		            	<i v-show="errors.has('case_type')" class="fa fa-warning"></i>
 		            	<span class="help is-danger" v-show="errors.has('case_type')">
