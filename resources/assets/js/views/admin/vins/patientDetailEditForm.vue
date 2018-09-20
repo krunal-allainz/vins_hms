@@ -258,7 +258,7 @@
 
         	let vm =this
         	let patientId =  vm.patientData.patient_id;
-        		if(vm.$store.state.Users.userDetails.user_type != '5' ){
+        		if(vm.$store.state.Users.userDetails.user_type != '4' ){
 		       		vm.$root.$emit('logout','You are not authorise to access this page');	
 		       }
 		       	vm.setPatientDetail(patientId);
