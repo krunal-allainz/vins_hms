@@ -56,20 +56,7 @@
                       {{patientData.last_vist}}
                     </div>
               </div>
-		            <!--   <div class="col-md-6 ">
-		                <label for="opd_no">Select OPD No.:</label>
-		              </div>
-		              <div class="col-md-6">
-		                <select  class="form-control ls-select2" v-validate="'required'" id = "opd_no" name="opd_no" value="" v-model="patientData.opd_id" > 
-		                <option value="">Select</option>
-		                     <option :value="opd.id" v-for="opd in patientData.opd_option">{{opd.opd_id}}</option>
-		                  </select> 
-		                  <i v-show="errors.has('opd_no')" class="fa fa-warning"></i>      
-		                   <span class="help is-danger" v-show="errors.has('opd_no')">
-		                    Please Select OPD Number.
-		                  </span> 
-		              </div> -->
-          		
+		           
           		 <div class="col-md-6"  v-if="patientData.uhid_no!=''">
                   <div class="col-md-6 " v-if="patientData.uhid_no!=''" >
                     <label for="date">UHID No:</label>
@@ -79,7 +66,7 @@
                   </div>  
                 </div>
             </div>
-			<div class="row form-group">
+			       <div class="row form-group">
             		<div class="col-md-6">
 	            		 <div class="col-md-6">
 	                		<label for="date">Weight:</label>
@@ -321,7 +308,7 @@
           
            User.getAgeOfPatient(getpatientId).then(
             (response) => {
-               console.log(response.data.data);
+               
                var patientAge = '';
                if(response.data.data.age > 999){
                  patientAge = currentYear - patientAge ; 
@@ -396,57 +383,36 @@
                 (error) => {
                 },
               );
-             /*User.getLastOPDIdByPatientId(vm.patientData.patient_id).then(
-              (response) => {
-                let opdID ;
-                let lastVist;
-                opdID = response.data.data.section_id;
-                lastVist = response.data.data.appointment_datetime;
-                  vm.patientData.opd_id=opdID;
-                  if(lastVist)
-                  {
-                    vm.patientData.last_vist=lastVist;
-                  }
-                  else
-                  {
-                      vm.patientData.last_vist="N/A";
-                  }
-                  
-                },
-                (error) => {
-                },
-              );*/
-              let lastVist;
+             
+             
               User.getOPDDetailsByPatientId(vm.patientData.patient_id).then(
-                    (response) => {
-                      let opdID ;
-                      opdID = response.data.data.id;
-                      vm.patientData.opd_id=opdID;
-                     
-                      User.getLastOPDIdByPatientId(vm.patientData.patient_id).then(
-                          (response) => {
-                            
-                            lastVist = response.data.data.appointment_datetime;
-                            if(lastVist)
-                            {
-                                vm.patientData.last_vist=lastVist;
-                            }
-                            else
-                            {
-                               vm.patientData.last_vist="N/A";
-                            }
-                            
-                            },
-                            (error) => {
-                            },
-                      );
-                      
-                      
-                      },
-                      (error) => {
-                      },
+                (response) => {
+                    let opdID ;
+                    opdID = response.data.data.id;
+                    vm.patientData.opd_id=opdID;
+                    vm.getPatientLastVisit(vm.patientData.patient_id);
+                  },
+                  (error) => {
+                  },
                 );
              vm.get_vitals();
+          },
+          getPatientLastVisit(p_id)
+          {
+              let vm=this;
+              User.getPatientLastVisitById(p_id).then(
+                (response) => {
+                  if(response.data.code==200)
+                  {
+                      let lastVist;
+                      lastVist = response.data.data;
+                      vm.patientData.last_vist=lastVist;
+                  }
+                   
+                  },
+                  (error) => {
+                  },
+              );
           },
           get_vitals()
           {

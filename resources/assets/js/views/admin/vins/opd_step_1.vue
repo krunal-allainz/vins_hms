@@ -455,7 +455,6 @@
         
         mounted(){
          var vm =this;
-         console.log('hi');
           if(vm.$store.state.Users.userDetails.user_type != '1'){
               vm.$root.$emit('logout','You are not authorise to access this page'); 
           }
@@ -595,11 +594,8 @@
           },
           reloadOpdForm()
           {
-
             this.$store.dispatch('reloadOpdForm');
             location.reload();
-            // this.$mount();
-            // console.log('fff');
           },
           setCurSteps(step){
             let vm = this;
@@ -652,7 +648,7 @@
                
                var patientAge = '';
                if(response.data.data.age > 999){
-                 patientAge = currentYear - patientAge ; 
+                 patientAge = vm.currentYear - patientAge ; 
                  if(patientAge == 0){
                    vm.opdData.age =  1  
                  }else
