@@ -62,13 +62,20 @@
                 </div>
             <div class="row form-group">
               <div class="col-md-6">
-                <div class="col-md-12">
+                <div class="col-md-12" v-if="resultData.body_part_text==false">
                   <label>Body Parts:</label>
                   <br>
                   <select class="form-control ls-select2" id="radiology_subtype_opd" name="radiology_subtype_opd" v-model="resultData.subType">
                     <option v-for="obj in investigationData.radiologySubType" :value="obj.text">{{obj.text}}</option>
                   </select>
                 </div>
+                <div class="col-md-12" v-if="(resultData.body_part_text)">
+                    <label>Body Parts:</label><br>
+                    <input type="text" name="radiology_subtype_opd" id="radiology_subtype_opd" class="form-control" v-model="resultData.bodyPart" >
+                    <span class="help is-danger" v-show="errors.has('radiology_subtype_opd')">
+                        Field is required
+                    </span>     
+                  </div>
               </div>
               <div class="col-md-6">
                 <div class="col-md-12" v-if="resultData.subtype_text_enable">
@@ -445,7 +452,9 @@
                     'special_request':'',
                     'removed':false,
                     'body_part_side':'',
-                    'radiologyOther':''
+                    'radiologyOther':'',
+                    'body_part_text':false,
+                    'type_name':'',
                 },
               'reffData': {
                 'reffreal_cross_array':[],
@@ -547,7 +556,8 @@
                        
             if(this.id == 'radiology_type_opd') {
 
-                vm.resultData.type = $(this).val();
+                vm.resultData.type =  $('#radiology_type_opd').select2('data')[0].text;
+                vm.resultData.type_name = $("#radiology_type_opd").select2().val();
                 let type_opd_val=$(this).val();
                 vm.resultData.spine_option_value="";
                 vm.resultData.bodyPart ="";
@@ -750,18 +760,32 @@
             let vm =this;
             let resType = vm.resultData.type;
             let x_rayData = '';
+            let resTypeName = vm.resultData.type_name;
+            if(resTypeName=='ultra_sound' || resTypeName=='Doppler' || resTypeName=='echo_cardiography' || resTypeName=='PET-CT' || resTypeName=='bone_densitometry')
+            {
+                
+                $('#radiology_subtype_opd').select2("destroy");
+                vm.resultData.body_part_text=true;
+            }
+            else
+            {
+                  let x_rayData = '';
+                  setTimeout(function(){
+                        if(vm.resultData.type != ''){
+                            x_rayData = vm.investigationData[resType+'_options'];
+                            $('#radiology_subtype_opd').select2({
+                                placeholder: "Select",
+                            });
+                        }
+                         vm.investigationData.radiologySubType = '';
+                        vm.investigationData.radiologySubType = x_rayData;
+                    },500);
+                   
+                   
+                vm.resultData.body_part_text=false;
+            }
             
-            if(vm.resultData.type != ''){
-              x_rayData = vm.investigationData[resType+'_options'];
-              $('#radiology_subtype_opd').select2({
-                placeholder: "Select",
-              });
-
-            } 
-            vm.investigationData.radiologySubType = '';
-            setTimeout(function(){
-              vm.investigationData.radiologySubType = x_rayData;
-            },200);
+            
 
           },
            saveRadiologyReport()

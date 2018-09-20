@@ -1,103 +1,109 @@
-<div style="min-height: 350px;height: 350px;">		
+<div style="">	
+
   	@if(isset($data['priscriptionData']))
-	  	@if(!empty($data['priscriptionData']))
-		<div class='col-md-12 text-center'>
-			<span class='text-center'><b>Prescription</b></span>
+	  	
+		<div class='col-md-12'>
+			<span class='report_title'>Prescription:-</span>
 		</div>
 		<div class="table-responsive">
-			<table class="table" id="prescription_list">
+			<table class="table report_table" id="prescription_list">
 			<thead></thead>
 			<tbody>
-			<?php //print_r($data['priscriptionData']);exit;?>
-				@foreach($data['priscriptionData'] as $key=>$res)
-					@if($res['remove']==='false')
-					<tr>
-						<td>{{++$key}} ] {{$res['name']}} :ORAL
-							
-							@if($res['type']=='Q-Hrs')
-								@for($i=1;$i<=$res['total_qhrs'];$i++)
-									@if($i!=1 && $res['clock_quantity_'.$i]!=0)
-										 ______ 
-									@endif
-									@if($res['clock_quantity_'.$i]!=0)
-										{{$res['clock_quantity_'.$i]}}
-									@endif
-								@endfor
-							@else
-								@if($res['clock_quantity_1']!='0')
-								{{$res['clock_quantity_1']}}
-								@endif
-			                    @if($res['clock_quantity_2']!='0') 
-			                        @if($res['clock_quantity_1']!='0') ______ 
-			                    	@endif
-									{{$res['clock_quantity_2']}}
-			                     @endif
-								@if($res['clock_quantity_3']!='0') 
-			                    	@if($res['clock_quantity_1']!='0' || $res['clock_quantity_2']!='0') ______
-			                    	@endif
-			                          {{$res['clock_quantity_3']}}
-			                    @endif
-			                    @if($res['clock_quantity_4']!='0')
-			                    	@if($res['clock_quantity_1']!='0' || $res['clock_quantity_2']!='0' || $res['clock_quantity_3']!='0')  ______ 
-			                    	@endif
-			                    	{{$res['clock_quantity_4']}}
-			                    @endif
-							@endif
-							
-							@if($res['type']=='Q-Hrs')
-								[
+				@if(count($data['priscriptionData'])>0)
+					@foreach($data['priscriptionData'] as $key=>$res)
+						@if($res['remove']==='false')
+						<tr>
+							<td>{{++$key}} ] {{$res['name']}} :ORAL
+								
+								@if($res['type']=='Q-Hrs')
 									@for($i=1;$i<=$res['total_qhrs'];$i++)
-										@if($i!=1 && $res['clock_time_'.$i]!=0)
+										@if($i!=1 && $res['clock_quantity_'.$i]!=0)
 											 ______ 
 										@endif
-										@if($res['clock_time_'.$i]!="")
-											{{$res['clock_time_'.$i]}}
+										@if($res['clock_quantity_'.$i]!=0)
+											{{$res['clock_quantity_'.$i]}}
 										@endif
 									@endfor
-								]
-							@else
-								@if($res['clock_quantity_1']!='0' || $res['clock_quantity_2']!='0' || $res['clock_quantity_3']!='0' || $res['clock_quantity_4']!='0')
-									[ 
-					                    @if($res['clock_quantity_1']!='0') 
-					                        {{$res['clock_time_1']}}
-					                    @endif
-					                    @if($res['clock_quantity_2']!='0')
-					                    	@if($res['clock_quantity_1']!='0') ______
-					                    	@endif
-					                        {{$res['clock_time_2']}}
-					                    @endif
-					                    @if($res['clock_quantity_3']!='0')
-					                        @if($res['clock_quantity_1']!='0' || $res['clock_quantity_2']!='0') ______
-					                        @endif {{$res['clock_time_3']}}
-					                    @endif
-					                    	@if($res['clock_quantity_4']!='0')
-					                           @if($res['clock_quantity_1']!='0' || $res['clock_quantity_2']!='0' || $res['clock_quantity_3']!='0') ______ 
-					                        @endif
-					                    	   {{$res['clock_time_4']}}
-					                    @endif
-					                 ]
-					            @endif
+								@else
+									@if($res['clock_quantity_1']!='0')
+									{{$res['clock_quantity_1']}}
+									@endif
+				                    @if($res['clock_quantity_2']!='0') 
+				                        @if($res['clock_quantity_1']!='0') ______ 
+				                    	@endif
+										{{$res['clock_quantity_2']}}
+				                     @endif
+									@if($res['clock_quantity_3']!='0') 
+				                    	@if($res['clock_quantity_1']!='0' || $res['clock_quantity_2']!='0') ______
+				                    	@endif
+				                          {{$res['clock_quantity_3']}}
+				                    @endif
+				                    @if($res['clock_quantity_4']!='0')
+				                    	@if($res['clock_quantity_1']!='0' || $res['clock_quantity_2']!='0' || $res['clock_quantity_3']!='0')  ______ 
+				                    	@endif
+				                    	{{$res['clock_quantity_4']}}
+				                    @endif
+								@endif
+								
+								@if($res['type']=='Q-Hrs')
+									[
+										@for($i=1;$i<=$res['total_qhrs'];$i++)
+											@if($i!=1 && $res['clock_time_'.$i]!=0)
+												 ______ 
+											@endif
+											@if($res['clock_time_'.$i]!="")
+												{{$res['clock_time_'.$i]}}
+											@endif
+										@endfor
+									]
+								@else
+									@if($res['clock_quantity_1']!='0' || $res['clock_quantity_2']!='0' || $res['clock_quantity_3']!='0' || $res['clock_quantity_4']!='0')
+										[ 
+						                    @if($res['clock_quantity_1']!='0') 
+						                        {{$res['clock_time_1']}}
+						                    @endif
+						                    @if($res['clock_quantity_2']!='0')
+						                    	@if($res['clock_quantity_1']!='0') ______
+						                    	@endif
+						                        {{$res['clock_time_2']}}
+						                    @endif
+						                    @if($res['clock_quantity_3']!='0')
+						                        @if($res['clock_quantity_1']!='0' || $res['clock_quantity_2']!='0') ______
+						                        @endif {{$res['clock_time_3']}}
+						                    @endif
+						                    	@if($res['clock_quantity_4']!='0')
+						                           @if($res['clock_quantity_1']!='0' || $res['clock_quantity_2']!='0' || $res['clock_quantity_3']!='0') ______ 
+						                        @endif
+						                    	   {{$res['clock_time_4']}}
+						                    @endif
+						                 ]
+						            @endif
 
-							@endif
-							
-		                      
-							@if(($res['clock_suggest']!='--' && $res['clock_suggest']!='') )
-								[{{$res['clock_suggest']}}]
-							@endif
-							@if($res['qhrs']!='') <span>		[{{$res['qhrs']}}]
-							</span>
-							@endif
-		                                &#9747;
-							@if($res['total_prescription_days']!='')
-		                        {{$res['total_prescription_days']}}
-		                         <span> DAYS </span>
-		                    @else
-		                        <span> TO BE CONTINUE </span>
-		                    @endif
-						</td>
-		            </tr>
-		        @endif
-			@endforeach
+								@endif
+								
+			                      
+								@if(($res['clock_suggest']!='--' && $res['clock_suggest']!='') )
+									[{{$res['clock_suggest']}}]
+								@endif
+								@if($res['qhrs']!='') <span>		[{{$res['qhrs']}}]
+								</span>
+								@endif
+			                                &#9747;
+								@if($res['total_prescription_days']!='')
+			                        {{$res['total_prescription_days']}}
+			                         <span> DAYS </span>
+			                    @else
+			                        <span> TO BE CONTINUE </span>
+			                    @endif
+							</td>
+			            </tr>
+			       		@endif
+					@endforeach
+				@else
+					<tr>
+    					<td>No record found.</td>
+					</tr>
+				@endif
 			</tbody>
 			</table>
 			</div>
@@ -133,5 +139,6 @@
 	            </table>
 		</div> */
 		@endphp
-		@endif
+		
 	@endif
+</div>

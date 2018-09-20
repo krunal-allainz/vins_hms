@@ -330,6 +330,9 @@ export default {
   getAllPatientListByDoctoreIdAndPaggination(page_url,type,noofRecord,id,$status) { 
       return api.post(page_url,{'type':type,'noOfRecord':noofRecord,'id':id,'status':$status});
   },
+  getAllPatientListWithPaggination(page_url,userType,noofRecord,userId,$status) { 
+      return api.post(page_url,{'userType':userType,'noofRecord':noofRecord,'userId':userId,'status':$status});
+  },
   getPatientDetailInfo(patientId){
      return api.post('patient/patientDetailInfo',{'patientId':patientId});
   },
@@ -384,5 +387,7 @@ export default {
   getPatientCaseTypeById(pid){
       return api.post('patient/getPatientCaseTypeById',{'patient_id':pid})
   },
-
+  updatePatient(patientData){
+     return api.post('patient/update',{'patientData':patientData})
+  }
 }

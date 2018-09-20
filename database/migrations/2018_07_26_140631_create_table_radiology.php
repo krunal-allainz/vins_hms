@@ -26,6 +26,7 @@ class CreateTableRadiology extends Migration
             $table->string('referance')->nullable();
             $table->string('body_part_side')->nullable();
             $table->string('radiology_other')->nullable();
+            $table->string('type_name')->nullable();
             $table->timestamps();
         });
     }

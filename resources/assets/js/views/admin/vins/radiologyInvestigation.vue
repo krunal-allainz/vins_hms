@@ -31,14 +31,21 @@
                     </div>
                 </div>
                 <div class="row form-group">
-    				<div class="col-md-6">
+    				<div class="col-md-6" v-if="resultData.body_part_text==false">
     					<label>Body Parts:</label><br>
     					<select class = "form-control ls-select2" id = "radiology_subtype" name = "radiology_subtype" v-validate="'required'">
     						<option v-for="obj in investigationData.radiologySubType" :value="obj.text">{{obj.text}}</option>
     					</select>
                         <span class="help is-danger" v-show="errors.has('radiology_subtype')">
-                  Field is required
-                </span>     
+                            Field is required
+                        </span>     
+                    </div>
+                    <div class="col-md-6" v-if="(resultData.body_part_text)">
+                        <label>Body Parts:</label><br>
+                        <input type="text" name="radiology_subtype" id="radiology_subtype" class="form-control" v-model="resultData.bodyPart" >
+                        <span class="help is-danger" v-show="errors.has('radiology_subtype')">
+                            Field is required
+                        </span>     
                     </div>
 
                     <div class="col-md-6" v-if="resultData.subtype_text_enable" v-validate="'required'">
@@ -187,7 +194,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                            <tr v-if="res.removed == false" v-for="(res,index) in finalResultData">
+                            <tr v-for="(res,index) in finalResultData">
                                 <td>{{++index}}</td>
                                 <td>{{res.type}}</td>
                                 <td>{{res.bodyPart}}</td>
@@ -254,7 +261,9 @@
                     'removed':false,
                     'qualifierOtherPart':'',
                     'body_part_side':'',
-                    'radiologyOther':''
+                    'radiologyOther':'',
+                    'body_part_text':false,
+                    'type_name':'',
 
                 },
                 'imgGallery':'',
@@ -431,7 +440,8 @@
             
 	        $('#radio_div').on("select2:select", '.ls-select2',function (e) {
                 if(this.id == 'radiology_type') {
-	        		vm.resultData.type = $("#radiology_type").select2().val();
+	        		vm.resultData.type_name = $("#radiology_type").select2().val();
+                    vm.resultData.type = $('#radiology_type').select2('data')[0].text;       
 	        		vm.radioSubType();
 
                 } 
@@ -547,13 +557,18 @@
                 });
             },
             removeReport(did) {
+
                 let vm =this;
                 // _.pullAt(resData, 0);
-                _.find(vm.finalResultData, function(res) {
+                /*_.find(vm.finalResultData, function(res) {
                     if(res.id == did) {
                          res.removed = true;
                     }
+                });*/
+                 _.remove(vm.finalResultData, function(o) {
+                    return o.id==did;
                 });
+                
                 vm.initData();
                 vm.setRadioData();
 
@@ -701,12 +716,39 @@
     		radioSubType(){
         		let vm =this;
         		let resType = vm.resultData.type;
+                let resTypeName = vm.resultData.type_name;
+
+
                   $('#radiology_subtype').val('').trigger('change');
                     vm.resultData.subType="";
                     vm.investigationData.radiologyQualifier="";
                     vm.resultData.bodyPart ="";
                     vm.resultData.subtype_text_enable = false;
                     
+                    if(resTypeName=='ultra_sound' || resTypeName=='Doppler' || resTypeName=='echo_cardiography' || resTypeName=='PET-CT' || resTypeName=='bone_densitometry')
+                    {
+                        
+                        $('#radiology_subtype').select2("destroy");
+                        vm.resultData.body_part_text=true;
+                    }
+                    else
+                    {
+                          let x_rayData = '';
+                          setTimeout(function(){
+                                if(vm.resultData.type != ''){
+                                    x_rayData = vm.investigationData[resType+'_options'];
+                                    $('#radiology_subtype').select2({
+                                        placeholder: "Select",
+                                    });
+                                }
+                                 vm.investigationData.radiologySubType = '';
+                                vm.investigationData.radiologySubType = x_rayData;
+                            },500);
+                           
+                           
+                        vm.resultData.body_part_text=false;
+                    }
+
                     if(resType=='MRI')
                     {
                    
@@ -726,17 +768,7 @@
                         $('#radiology_qualifier').select2("destroy");
                         $('#radiology_special_request').select2("destroy");
                     }
-        		let x_rayData = '';
-        		if(vm.resultData.type != ''){
-        			x_rayData = vm.investigationData[resType+'_options'];
-        			$('#radiology_subtype').select2({
-						placeholder: "Select",
-			  		});
-        		}
-        		vm.investigationData.radiologySubType = '';
-        		setTimeout(function(){
-					vm.investigationData.radiologySubType = x_rayData;
-        		},200)
+        		
         	},
         	radioType(){
         	

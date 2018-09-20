@@ -530,6 +530,41 @@ input.number-with-validation:invalid {
     width : 900px;
     height : auto;   
 }
+
+.report_space
+{
+    margin-bottom:30px;
+}
+.report_title
+{
+    font-family: "Times New Roman", Times, serif;
+    font-style: bold;
+    font-size : 20px;
+    text-align:left;
+}
+.report_details
+{
+    font-family: "Times New Roman", Times, serif;
+    font-size : 14px;
+    text-align:left;
+    
+}
+.report_table th
+{
+    font-family: "Times New Roman", Times, serif;
+    font-size : 16px;
+    font-style: bold;
+}
+.report_table td
+{
+    font-family: "Times New Roman", Times, serif;
+    font-size : 14px;
+}
+.report_style
+{
+    font-family: "Times New Roman", Times, serif;
+}
+
 #patientDetailFormDataCaps input{
     text-transform : uppercase;
 }
@@ -543,3 +578,4 @@ input.number-with-validation:invalid {
     width:100%;
     height:200px;   
 }
+

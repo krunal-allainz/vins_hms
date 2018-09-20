@@ -278,6 +278,7 @@
 	 			$radiology_obj->opd_id=$opd_id_org;
 	 			$radiology_obj->user_id=$user_id;
 	 			$radiology_obj->type=$radio['type'];
+	 			$radiology_obj->type_name=$radio['type_name'];
 	 			$radiology_obj->bodyparts=$radio['bodyPart'];
 	 			$radiology_obj->qualifiers=$radio['qualifier'];
 	 			$radiology_obj->special_request=$radio['special_request'];
@@ -337,6 +338,7 @@
 	 			$radiology_obj_2->opd_id=$opd_id_org;
 	 			$radiology_obj_2->user_id=$user_id;
 	 			$radiology_obj_2->type=$r_data['type'];
+	 			$radiology_obj_2->type_name=$r_data['type_name'];
 	 			$radiology_obj_2->bodyparts=$r_data['bodyPart'];
 	 			$radiology_obj_2->qualifiers=$r_data['qualifier'];
 	 			$radiology_obj_2->special_request=$r_data['special_request'];
@@ -502,7 +504,13 @@
  		 $result = array();
  		 $result['opdDetails'] = OpdDetails::where('id',$opdId)->first();
  		 $result['opdOptionDetails'] = OpdDetailsOption::where('opd_id',$opdId)->orderBy('id','DESC')->first();
- 		 $result['opdExaminationData'] = Examination::where('opd_id',$opdId)->orderBy('id','DESC')->first();
+ 		 $exam_data="";
+ 		 $exam_new_data= Examination::where('opd_id',$opdId)->orderBy('id','DESC')->first();
+ 		 if(!empty($exam_new_data))
+ 		 {
+ 		 	$exam_data=$exam_new_data->examination_data;
+ 		 }
+ 		 $result['opdExaminationData'] =$exam_data;
  		 $result['opdReferalphysioData'] = OPDPhysioDetails::where('opd_id',$opdId)->first();
  		 $result['opdReferalCrossData'] = CrossDetails::where('opd_id',$opdId)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
  		 $result['opdReferalLaboraryData'] =LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.opd_id',$opdId)->where('laboratory_details.referance',0)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
@@ -643,6 +651,11 @@
  					$result['opdData']['signaturePad1_src']=$past_history_array['value'];
  				}
  			}
+ 			$result['step4Data']['advice']='';
+ 			$result['step4Data']['adviceType']='scribble';
+ 			$result['step4Data']['signaturePad']=array();
+ 			$result['step4Data']['signaturePad2_src']='';
+ 			$result['step4Data']['provisional_diagnosis']='';
  			$advice_array=json_decode($option_details->advice,true);
  			if(count($advice_array)>0)
  			{
@@ -773,14 +786,23 @@
  				{
  					$rest_radio=array();
 	 				$rest_radio['id']=$index_radio;
-	 				$rest_radio['type']=$radio->type;
+	 				$rest_radio['uploadType']='image';
 		 			$rest_radio['bodyPart']=$radio->bodyparts;
+		 			$rest_radio['qualifierPart']='';
+	 				$rest_radio['type']=$radio->type;
+	 				$rest_radio['spine_option_value']=$radio->subtype;
+	 				$rest_radio['subType']=$radio->bodyparts;
 		 			$rest_radio['qualifier']=$radio->qualifiers;
-		 			$rest_radio['special_request']=$radio->special_request;
+		 			$rest_radio['imgData']='';
 		 			$rest_radio['textData']=$radio->details;
+		 			$rest_radio['subtype_text_enable']=false;
+		 			$rest_radio['qualifier_text_enable']=false;
+		 			$rest_radio['special_request']=$radio->special_request;
+		 			$rest_radio['removed']=$radio->removed;
 		 			$rest_radio['body_part_side']=$radio->body_part_side;
 		 			$rest_radio['radiologyOther']=$radio->radiology_other;
-		 			$rest_radio['spine_option_value']=$radio->subtype;
+					$rest_radio['body_part_text']=false;
+		 			$rest_radio['type_name']=$radio->type_name;
 	 				$radio_array[]=$rest_radio;
 	 				$index_radio++;
  				}
@@ -818,21 +840,23 @@
  					$rest_radio_2=array();
 	 				$rest_radio_2['id']=$radio_index;
 	 				$rest_radio_2['uploadType']='image';
+	 				$rest_radio_2['bodyPart']=$radio_2->bodyparts;
+	 				$rest_radio_2['bodyPart_others']='';
+	 				$rest_radio_2['type']=$radio_2->type;
+	 				$rest_radio_2['spine_option_value']=$radio_2->subtype;
+	 				$rest_radio_2['subType']=$radio_2->bodyparts;
+	 				$rest_radio_2['qualifier']=$radio_2->qualifiers;
 	 				$rest_radio_2['imgData']='';
+	 				$rest_radio_2['textData']=$radio_2->details;
 	 				$rest_radio_2['subtype_text_enable']=false;
 	 				$rest_radio_2['qualifier_radio_text_enable']=false;
+	 				$rest_radio_2['special_request']=$radio_2->special_request;
+	 				$rest_radio_2['removed']=$radio_2->removed;
 	 				$rest_radio_2['qualifierOtherPart']='';
-	 				$rest_radio_2['bodyPart_others']='';
-	 				$rest_radio_2['subType']=$radio_2->bodyparts;
-	 				$rest_radio_2['type']=$radio_2->type;
-		 			$rest_radio_2['bodyPart']=$radio_2->bodyparts;
-		 			$rest_radio_2['qualifier']=$radio_2->qualifiers;
-		 			$rest_radio_2['special_request']=$radio_2->special_request;
-		 			$rest_radio_2['textData']=$radio_2->details;
-		 			$rest_radio_2['body_part_side']=$radio_2->body_part_side;
-		 			$rest_radio_2['radiologyOther']=$radio_2->radiology_other;
-		 			$rest_radio_2['spine_option_value']=$radio_2->subtype;
-		 			$rest_radio_2['removed']=false;
+	 				$rest_radio_2['body_part_side']=$radio_2->body_part_side;
+	 				$rest_radio_2['radiologyOther']=$radio_2->radiology_other;
+	 				$rest_radio_2['body_part_text']=false;
+	 				$rest_radio_2['type_name']=$radio_2->type_name;
 	 				$radio_array_2[]=$rest_radio_2;
 	 				$radio_index++;
  				}
@@ -906,11 +930,12 @@
        
         
 		//opd details 
+		$advice=array('type'=>'scribble','value'=>'');
  		if($step4_data['adviceType']=='text')
  		{
  			$advice=array('type'=>$step4_data['adviceType'],'value'=>$step4_data['advice']);
  		}
- 		else
+ 		else if(isset($step4_data['signaturePad2_src']))
  		{
  			$advice=array('type'=>$step4_data['adviceType'],'value'=>$step4_data['signaturePad2_src']);
  		}
@@ -949,10 +974,10 @@
 		
 
  		//save prescription
+ 		$del=PrescriptionDetails::where('opd_id',$opd_id_org)->delete();
+ 		$del_sub=PrescriptionClockDetails::where('opd_id',$opd_id_org)->delete();
  		if(!empty($prescription_data))
  		{
- 			$del=PrescriptionDetails::where('opd_id',$opd_id_org)->delete();
- 			$del_sub=PrescriptionClockDetails::where('opd_id',$opd_id_org)->delete();
  			foreach($prescription_data as $prescription)
 	 		{
 	 			$prescription_obj=new PrescriptionDetails();
@@ -995,10 +1020,9 @@
 	 			}
 	 		}
  		}
- 		
+ 		$del=OPDPhysioDetails::where('opd_id',$opd_id_org)->delete();
  		if($reff_data['physio_details']!='')
  		{
- 			$del=OPDPhysioDetails::where('opd_id',$opd_id_org)->delete();
  			$physio_obj=new OPDPhysioDetails();
 			$physio_obj->opd_id=$opd_id_org;
 			$physio_obj->user_id=$user_id;
@@ -1006,10 +1030,11 @@
 			$physio_obj->save();
  		}
  		
- 		//opd cross references 
+ 		//opd cross references
+ 		$del=CrossDetails::where('opd_id',$opd_id_org)->delete(); 
  		if(!empty($cross_opd_data))
  		{	
- 			$del=CrossDetails::where('opd_id',$opd_id_org)->delete();
+ 			
  			foreach($cross_opd_data as $cross)
  			{
  				$cross_obj=new CrossDetails();
@@ -1021,9 +1046,10 @@
  			}
  		}
  		//opd laboratory references 
+ 		$del=LaboratoryDetails::where('opd_id',$opd_id_org)->where('referance',0)->delete();
  		if(!empty($lab_opd_data))
  		{	
- 			$del=LaboratoryDetails::where('opd_id',$opd_id_org)->where('referance',0)->delete();
+ 			
  			foreach($lab_opd_data as $lab)
  			{
  				$lab_obj=new LaboratoryDetails();
@@ -1040,15 +1066,16 @@
  			}
  		}
  		//opd radiology references 
+ 		$del=Radiology::where('opd_id',$opd_id_org)->where('referance',0)->delete();
  		if(!empty($radio_opd_data))
- 		{	
- 			$del=Radiology::where('opd_id',$opd_id_org)->where('referance',0)->delete();
+ 		{
  			foreach($radio_opd_data as $radio)
  			{
  				$radiology_obj=new Radiology();
 	 			$radiology_obj->opd_id=$opd_id_org;
 	 			$radiology_obj->user_id=$user_id;
 	 			$radiology_obj->type=$radio['type'];
+	 			$radiology_obj->type_name=$radio['type_name'];
 	 			$radiology_obj->bodyparts=$radio['bodyPart'];
 	 			$radiology_obj->qualifiers=$radio['qualifier'];
 	 			$radiology_obj->special_request=$radio['special_request'];
@@ -1077,9 +1104,9 @@
  			}
  		}
  		/*for form -2 library*/
+ 		$del=LaboratoryDetails::where('opd_id',$opd_id_org)->where('referance',1)->delete();
  		if(!empty($labdata))
  		{
- 			$del=LaboratoryDetails::where('opd_id',$opd_id_org)->where('referance',1)->delete();
  			foreach($labdata['type'] as $lab)
  			{
 				$lab_obj_2=new LaboratoryDetails();
@@ -1099,15 +1126,16 @@
  		}
  		/*for form -2 library*/
  		/*for radiology */
+ 		$del=Radiology::where('opd_id',$opd_id_org)->where('referance',1)->delete();
  		if(!empty($radiology_data))
  		{
- 			$del=Radiology::where('opd_id',$opd_id_org)->where('referance',1)->delete();
  			foreach($radiology_data as $r_data)
  			{
  				$radiology_obj_2=new Radiology();
 	 			$radiology_obj_2->opd_id=$opd_id_org;
 	 			$radiology_obj_2->user_id=$user_id;
 	 			$radiology_obj_2->type=$r_data['type'];
+	 			$radiology_obj_2->type_name=$radio['type_name'];
 	 			$radiology_obj_2->bodyparts=$r_data['bodyPart'];
 	 			$radiology_obj_2->qualifiers=$r_data['qualifier'];
 	 			$radiology_obj_2->special_request=$r_data['special_request'];
@@ -1159,9 +1187,10 @@
  		}
  		/*for radiology */
  		/*for examination*/
+ 		$del=Examination::where('opd_id',$opd_id_org)->delete();
  		if(!empty($examinationData))
  		{
- 			$del=Examination::where('opd_id',$opd_id_org)->delete();
+ 			
  			$examination_obj=new Examination();
  			$examination_obj->opd_id=$opd_id_org;
  			$examination_obj->user_id=$user_id;

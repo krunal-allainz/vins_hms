@@ -1,30 +1,40 @@
 @if(isset($data['ReportPageData']['historyData']) )
 	@if($data['ReportPageData']['historyData']['type'] == 'text' )	
-		<div  style="padding-left: 35px;">
-			<div class='col-md-6 text-left'>
-				<span class='text-left'><b>History :-</b></span>
+		<div>
+			<div class='col-md-6'>
+				<span class="report_title">History:-</span>
 			</div>
-			<div class='row'>
-				@if ($data['ReportPageData']['historyData']['type'] == 'text')
-					<div class='col-md-12 text-left'>
-						<span class='text-left' style="padding-left:30px;">{{$data['ReportPageData']['historyData']['value']}}</span>
+			<div>
+			@if ($data['ReportPageData']['historyData']['type'] == 'text')
+				@if($data['ReportPageData']['historyData']['value']!='')
+					<div class='col-md-12'>
+						<span class='report_details'>{{$data['ReportPageData']['historyData']['value']}}</span>
+					</div>
+				@else
+					<div class='col-md-12'>
+						<span class='report_details'>No record found.</span>
 					</div>
 				@endif
-				
+			@endif
 			</div>
 		</div>
-		<br/>
+		
 		@endif
-		@if($data['ReportPageData']['historyData']['type'] != 'text' && $data['ReportPageData']['historyData']['value'] != '')
-		<div  style="padding-left: 35px;">
-			<div class='col-md-6 text-left'>
-				<span class='text-left'><b>History :-</b></span>
+		@if($data['ReportPageData']['historyData']['type'] != 'text')
+		<div>
+			<div class='col-md-6'>
+				<span class="report_title">History:-</span>
 			</div>
-			<div class='row'>
-					<div class='col-md-12 text-left'>
-					    <img src="{{$data['ReportPageData']['historyData']['value']}}" title="History">
-					</div> 
-			</div>
+			@if($data['ReportPageData']['historyData']['value']!='')
+				<div class='col-md-12'>
+				    <img src="{{$data['ReportPageData']['historyData']['value']}}" title="History">
+				</div>
+			@else
+				<div class='col-md-12'>
+					<span class='report_details'>No record found.</span>
+				</div>
+			@endif 
+			
 		</div>
 		@endif 
 @endif

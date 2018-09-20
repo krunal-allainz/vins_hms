@@ -37,7 +37,50 @@
 	    outline: 0;*/
 	}
 	.page-break { display: block; page-break-after: always; }
-	
+	.report_space
+	{
+	    margin-bottom:20px;
+
+	}
+	.report_title
+	{
+	    font-family: "Times New Roman", Times, serif;
+	    font-style: bold;
+	    font-size : 20px;
+	    text-align:left;
+	}
+	.report_left_pad
+	{
+		padding-left: 35px;
+	}
+	.report_details
+	{
+	    font-family: "Times New Roman", Times, serif;
+	    font-size : 14px;
+	    text-align:left;
+	    
+	}
+
+	.report_table th
+	{
+	    font-family: "Times New Roman", Times, serif;
+	    font-size : 16px;
+	    font-style: bold;
+	    text-align: left;
+	}
+	.report_table td
+	{
+	    font-family: "Times New Roman", Times, serif;
+	    font-size : 14px;
+	    text-align: left;
+	}
+	.report_style
+	{
+	    font-family: "Times New Roman", Times, serif;
+	}
+	table.table-bordered, th, td, tbody, thead, tr {
+    	border: 1px solid #ddd !important;
+	}
 	.row {
 	    margin-right: -15px;
 	    margin-left: -15px;
@@ -327,7 +370,7 @@
 </head>
 <body>
 @if($data['printType'] == 'opd_case')
-  	<div class="container">
+  	<div class="container report_style">
   		@include('opdReportPrint')
 	</div>
 @else
@@ -342,37 +385,58 @@
 	 @include('patientDetailReport')
 	 @include('patientCheckupReport')
 	 @if($data['printType'] == 'lab')
-	 	@include('labReportData')
+	 	<div class="report_left_pad">
+	 		@include('labReportData')
+	 	</div>
 	 @endif
 	@if($data['printType'] == 'radiology')
-		@include('radiologyReportData')
+		<div class="report_left_pad">
+			@include('radiologyReportData')
+		</div>
 	@endif
 	@if($data['printType'] == 'prescription')
-	  @include('prescriptionReportData')
-	  @include('crossReportData')
+		<div class="report_space report_left_pad">
+	  		@include('prescriptionReportData')
+	  	</div>
+	  	<div class="report_space report_left_pad">
+	  		@include('crossReportData')
+	  	</div>
 	@endif
 
 	  @if($data['printType'] == 'print_perceptions')
-	  	@if(!empty(isset($data['ReportPageData']['opdData']['provisional_diagnosis'])))
-	  	<div  style="padding-left: 35px;">
-				<div class='col-md-6 text-left'>
-					<span class='text-left'><b>Provisional Diagnostic :-</b></span>
+	  	
+	  		<div class="report_space report_left_pad">
+				<div class='col-md-6'>
+					<span class='report_title'>Provisional Diagnostic :-</span>
 				</div>
-				<div class='row'>
-					<div class='col-md-12 text-left'>
-						<span class='text-left' style="padding-left:30px;">{{$data['ReportPageData']['opdData']['provisional_diagnosis']}}</span>
-					</div>
+				<div class=''>
+					@if($data['ReportPageData']['opdData']['provisional_diagnosis']!='')
+						<div class='col-md-12'>
+							<span class='report_details'>{{$data['ReportPageData']['opdData']['provisional_diagnosis']}}</span>
+						</div>
+					@else
+						<div class='col-md-12'>
+							<span class='report_details'>No record found.</span>
+						</div>
+					@endif
 				</div>
 			</div>
-			@endif
+			
 			@if(isset($data['priscriptionData']))
-		  		@if(!empty($data['priscriptionData']))
+	  			<div class="report_space report_left_pad">
 					@include('prescriptionReportData')
-				@endif
+				</div>
+				
 			@endif
+			<div class="report_space report_left_pad">
 				@include('adviceReportData')
-				@include('crossReportData')
+			</div>
+			<div class="report_space report_left_pad">
 				@include('followupReportData')
+			</div>
+			<div class="report_space report_left_pad">
+				@include('crossReportData')
+			</div>
 			
 			
 	  @endif

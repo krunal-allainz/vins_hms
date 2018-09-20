@@ -1,16 +1,16 @@
 <template id="">
 
-    <div  style="background-color: dodgerblue;color: white;background-color: dodgerblue;color: white;position:absolute;bottom:0;width:100%;height:120px;left:0">
+    <div  style="background-color: dodgerblue;color: white;background-color: dodgerblue;color: white;position:absolute;bottom:0;width:100%;height:120px;left:0" class="report_style">
       <div class="row text-center">
           <div class="col-md-12 text-center">
               <div class="text-center text-capitalize"  style="text-align: center;">  
-                  <h2  class="text-center text-capitalize" style="text-align: center;color:white;"><u><b><i>Vadodara Institute Of Neurological Sciences</i></b></u></h2>  
+                  <h2  class="text-center text-capitalize" style="text-align: center;color:white;font-size:22px;"><b><u>Vadodara Institute Of Neurological Sciences</u></b></h2>  
               </div>  
             </div>
         </div>
       <div class="row text-center">	
       	<div class="col-md-12 text-center">	
-      		<div class="text-center"><span>99,Urmi Society, Opp Haveli Productivity Road, Akota Vadodara - 7 (Guj.), INDIA </span></div>	
+      		<div class="text-center report_style"><span>99,Urmi Society, Opp Haveli Productivity Road, Akota Vadodara - 7 (Guj.), INDIA </span></div>	
       	</div>	
 	  </div>
     

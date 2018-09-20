@@ -140,7 +140,7 @@
 		      	'past_history' : {},
 		      	'historyData' : {},
 		      	'adviceData' : {},
-		      	'examinationData':{},
+		      	'examinationData':'',
 		      }
 			}
 		},
@@ -242,11 +242,12 @@
        			let vm = this;
        			User.getPatientOpdData(opdId).then(
        				(response) => {
+					
        				if(response.data.data.opdOptionDetails){
        				 	 vm.ReportPageData.opdData = response.data.data.opdOptionDetails;
        				}
        				if(response.data.data.opdExaminationData){
-       				  vm.ReportPageData.examinationData = response.data.data.opdExaminationData.examination_data;
+       				  vm.ReportPageData.examinationData = response.data.data.opdExaminationData;
        				}
        				if(response.data.data.opdReferalLaboraryData){
        				  vm.ReportPageData.labReferalReportData = response.data.data.opdReferalLaboraryData;

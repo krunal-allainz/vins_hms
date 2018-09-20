@@ -104,6 +104,9 @@ import vinsletterheadfooterpart from './views/admin/vins/vins_letter_footer.vue'
 import patientList from './views/admin/vins/patientList.vue'
 import vitalsinfo from './views/admin/vins/vitalsInfo.vue'
 import physiotherapyForm from './views/admin/vins/physiotherapyForm.vue'
+import AdminDashboard from './views/admin/vins/adminDashboard.vue'
+import patientDetailEdit from './views/admin/vins/patientDetailEditForm.vue'
+import allPatientList from './views/admin/vins/allPatientList.vue'
 
 
 //for opd recipt list
@@ -161,10 +164,28 @@ const routes = [
                 name: 'receptionist_dashboard'
             },
             {
+                path: 'admindashboard',
+                component: AdminDashboard,
+                meta: { requiresAuth: true },
+                name: 'admindashboard'
+            },
+            {
+                path: 'all_patient_list',
+                component: allPatientList,
+                meta: { requiresAuth: true },
+                name: 'all_patient_list'
+            },
+            {
                 path: '/opd_form',
                 component: opdForm,
                 meta: { requiresAuth: true },
                 name: 'opd_form'
+            },
+            {
+                path: '/patient_detail_edit',
+                component: patientDetailEdit,
+                meta: { requiresAuth: true },
+                name: 'patient_detail_edit'
             },
              {
                 path: '/patient_list',
