@@ -107,6 +107,7 @@ import physiotherapyForm from './views/admin/vins/physiotherapyForm.vue'
 import AdminDashboard from './views/admin/vins/adminDashboard.vue'
 import patientDetailEdit from './views/admin/vins/patientDetailEditForm.vue'
 import allPatientList from './views/admin/vins/allPatientList.vue'
+import patientOpdViewPage from './views/admin/vins/patientOpdViewPage.vue'
 
 
 //for opd recipt list
@@ -180,6 +181,12 @@ const routes = [
                 component: opdForm,
                 meta: { requiresAuth: true },
                 name: 'opd_form'
+            },
+            {
+                path: '/opd_view_page',
+                component: patientOpdViewPage,
+                meta: { requiresAuth: true },
+                name: 'opd_view_page'
             },
             {
                 path: '/patient_detail_edit',

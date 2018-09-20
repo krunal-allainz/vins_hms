@@ -336,6 +336,9 @@ export default {
   getPatientDetailInfo(patientId){
      return api.post('patient/patientDetailInfo',{'patientId':patientId});
   },
+  getPatientDetailAndOpdInfo(patientId,opdId){
+     return api.post('patient/patientDetailAndOpdInfo',{'patientId':patientId,'opdId':opdId});
+  },
   getDoctoreInfoById(doctoreId,typeId){
     return api.post('user/getdoctoreinfobyid',{'id' :doctoreId , 'typeId' : typeId});
   },

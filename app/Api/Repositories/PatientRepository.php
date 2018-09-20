@@ -594,8 +594,22 @@
           $result['patientDetail'] =  PatientDetailsForm::where('id',$patientId)->first();
           $result['caseDetail'] = PatientCaseManagment::join('users','users.id','=','patient_case_managment.consultant_id')->select('patient_case_managment.*','patient_case_managment.section_id as opdId','users.*')->groupBy('patient_case_managment.patient_id')->orderBy('patient_case_managment.created_at','desc')->where('patient_case_managment.patient_id',$patientId)->get();
           $result['opdDetails'] =  OpdDetails::select('*','id as opdid')->groupBy('patient_id')->orderBy('created_at','desc')->where('patient_id',$patientId)->get();
+
           return $result;
     }
+
+    /**
+    *
+    *
+    **/
+
+    public function getPatientDetailAndOpdInfo($patientId,$opdId){
+       $result = array();
+          $result['patientDetail'] =  PatientDetailsForm::where('id',$patientId)->first();
+           $result['caseDetail'] = PatientCaseManagment::join('users','users.id','=','patient_case_managment.consultant_id')->select('patient_case_managment.*','patient_case_managment.section_id as opdId','users.*')->groupBy('patient_case_managment.patient_id')->orderBy('patient_case_managment.created_at','desc')->where('patient_case_managment.section_id',$opdId)->get();
+          $result['opdDetails'] =  OpdDetails::select('*','id as opdid')->groupBy('patient_id')->orderBy('created_at','desc')->where('patient_id',$patientId)->get();
+    }
+
 
     /**
      * [getAllPatientName description]
