@@ -132,12 +132,12 @@
 </template>
 
 <script>
-if(localStorage.getItem("user_add"))
+/*if(localStorage.getItem("user_add"))
     {
         toastr.success('User has been added successfully', 'Add User', {timeOut: 5000});
         localStorage.removeItem("user_add");
         //localStorage.clear();
-    }
+    }*/
 	import User from '../../../api/users.js';
 
     export default {
@@ -267,7 +267,7 @@ if(localStorage.getItem("user_add"))
                                     if(response.data.status_code == 200){
                                         toastr.success('User added successfully', 'Create User', {timeOut: 5000});
                                         this.initialState();
-                                        localStorage.setItem("user_add",1)
+                                        //localStorage.setItem("user_add",1)
                                        // window.location.reload();
                                     } else if (response.data.status_code == 301) {
                                         //this.initialState();
