@@ -93,7 +93,7 @@ export default {
                                 }else if(vm.$store.state.Users.userDetails.user_type ==  3) {
                                         vm.$router.push({'name':'receptionist_dashboard'});
 
-                                }else if(vm.$store.state.Users.userDetails.user_type ==  5) {
+                                }else if(vm.$store.state.Users.userDetails.user_type ==  4) {
                                          vm.$router.push({'name':'admindashboard'});
                                 }else{
                                      vm.$router.push({'name':'patients_detail_form'});
