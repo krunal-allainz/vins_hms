@@ -117,7 +117,7 @@
         </div>
       </div>
       <div id="receiptPrintModal" class="modal hide">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header"> </div>
             <div class="modal-body"><div id="printContent"></div> </div>

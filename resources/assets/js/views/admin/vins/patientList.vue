@@ -187,7 +187,7 @@
          <!-- examine patient list -->
         <div class="card bg-success-card" v-if="user_type == 1">
             <h4 class="card-header">
-               <div>Examine Patient List</div>
+               <div>Examined Patient List</div>
             </h4>
           <div class="card-body">
             <div data-v-744e717e="" class="card p-3">

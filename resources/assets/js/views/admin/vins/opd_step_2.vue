@@ -21,7 +21,7 @@
       <div class="row form-group">
             <div class="col-md-6">
               <div class="col-md-6">  
-                <label for="date">Provisional Diagnostic:</label>
+                <label for="date">Provisional Diagnosis:</label>
               </div>
               <div class="col-md-12">
                 <textarea class="form-control" name="provisional_diagnosis" id="provisional_diagnosis" v-model="provisionalDiagnosis" v-validate="'required'"></textarea>
@@ -74,10 +74,9 @@
         },
        mounted() {
         var vm =this;
-        setTimeout(function(){
-          vm.initData();
-        },2000);
-        
+        $("body .js-loader").removeClass('d-none');
+        vm.initData();
+        $("body .js-loader").addClass('d-none');
        },
         methods: {
          
@@ -107,7 +106,7 @@
                 // return false;
                  
                   if(!vm.$store.state.Patient.setErrorData.error)
-                  {
+                   {
                       if (this.errors.any()) {
                         vm.setErrorData = {'error':true,'steps':2}
                       } else {
