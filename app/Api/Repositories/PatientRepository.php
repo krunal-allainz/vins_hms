@@ -791,6 +791,10 @@
    **/
 
    public function updatePatient($patientData){
+      $data = $patientData['patientData'];
+      $patientId = $data['patient_id'];
+      $reportQuery = PatientDetailsForm::where('id',$patientId)->update(array('first_name' => $data['fname'] ,'middle_name' => $data['mname'],'last_name' => $data['lname'], 'ph_no' => $data['ph_no'] , 'mob_no' =>  $data['mob_no'] ,'address' => $data['address'], 'age' => $data['age'] ,'dob' => $data['dob']['time']));
+      return $reportQuery;
 
    }
  }

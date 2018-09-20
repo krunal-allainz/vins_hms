@@ -51,7 +51,12 @@
                         				{{ patientData.uhid_no}}
                       				</td>
                       				<td data-v-744e717e="" class="">
-                        				{{ patientData.age}}
+
+                        		 	<span class="text-uppercase" v-if="(patientData.age > 1000)">
+									<span class="text-uppercase" v-if="(((currentYear) - (patientData.age)) > 0)">{{(currentYear) - (patientData.age)}}</span>	
+									<span class="text-uppercase" v-if="(((currentYear) - (patientData.age)) == 0)"> 1</span>
+									</span>
+									<span v-if="(patientData.age  < 1000)">{{patientData.age}}</span>
                       				</td>
                       				<td data-v-744e717e="" class="numeric">
                         				<span v-if="(patientData.gender == 'F')">Female</span>
@@ -59,7 +64,7 @@
                       				</td> 
                       				
                       				<td data-v-744e717e="" class="">
-                      					<a :href="'/patients_detail_form'"> <i class="fa fa-user-md text-info mr-3 text-info mr-3" @click="setPatientId(patientData.patient_id)" title="patient detail form"></i></a>
+                      					<a :href="'/patient_detail_edit'"> <i class="fa fa-user-md text-info mr-3 text-info mr-3" @click="setPatientId(patientData.patient_id)" title="patient detail form"></i></a>
                       				</td>
                   				 </tr>
                   			</tbody>
@@ -92,6 +97,7 @@
 	export default {
 		 data() {
 		 	return {
+		 	  'currentYear': (new Date()).getFullYear(),
 		 	  'user':this.$store.state.Users.userDetails.first_name + " "+ this.$store.state.Users.userDetails.last_name ,
               'user_id':0,
               'user_type':this.$store.state.Users.userDetails.user_type,
@@ -106,16 +112,16 @@
 		 	 if(vm.$store.state.Users.userDetails.user_type != '5'){
               vm.$root.$emit('logout','You are not authorise to access this page'); 
           }
-		 	let userId = vm.user_id;
-		 	let userType = vm.user_type;
-		 	let status = '';
-		 	let no_of_page = vm.perPage;
 		 	let page_url = '/patient/getallpatientlist';
-		 	vm.getPatientList(page_url,userType,no_of_page,userId,status);
+		 	vm.getPatientList(page_url);
 		 },
 		 methods:{
-		 	getPatientList(page_url,userType,no_of_page,userId,status){
+		 	getPatientList(page_url){
 		 		let vm = this;
+		 		let userId = vm.user_id;
+		 		let userType = vm.user_type;
+		 		let status = '';
+		 		let no_of_page = vm.perPage;
 		 		User.getAllPatientListWithPaggination(page_url,userType,no_of_page,userId,status).then(
 		 			 (response) => {
 		 			 	vm.getPatientData = response.data.data.data;

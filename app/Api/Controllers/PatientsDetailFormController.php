@@ -522,15 +522,14 @@ class PatientsDetailFormController extends Controller
     }
 
     /**
-    *
+    *  update patient Detail
     *
     *
     **/
 
     public function updatePatient(Request $request){
         $patientData = $request->patientData;
-        $patientUpdate=$this->patientOBJ->updatePatient($patientList);                                       
-     
+        $patientUpdate=$this->patientOBJ->updatePatient($patientData);                                       
      if($patientUpdate)
         {
             return ['code' => 200 ,'data'=>$patientUpdate,'message'=>'Update patient data successfully.'];
