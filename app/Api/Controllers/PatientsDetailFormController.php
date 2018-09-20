@@ -500,6 +500,44 @@ class PatientsDetailFormController extends Controller
         }
     }
 
+    /**
+    *
+    *
+    **/
 
+    public function getAllPatientList(Request $request){
+        $userType = $request->userType;
+        $userId = $request->userId ;
+        $noOfPage = $request->noofRecord;
+        $status = $request->status;
+         $patientList=$this->patientOBJ->getAllPatientList($userType,$noOfPage,$userId,$status);
+         if($patientList)
+        {
+            return ['code' => 200 ,'data'=>$patientList,'message'=>'Getting case type successfully.'];
+        }
+        else
+        {
+            return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
+        }
+    }
+
+    /**
+    *  update patient Detail
+    *
+    *
+    **/
+
+    public function updatePatient(Request $request){
+        $patientData = $request->patientData;
+        $patientUpdate=$this->patientOBJ->updatePatient($patientData);                                       
+     if($patientUpdate)
+        {
+            return ['code' => 200 ,'data'=>$patientUpdate,'message'=>'Update patient data successfully.'];
+        }
+        else
+        {
+            return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
+        }   
+    }
 
 }
