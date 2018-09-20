@@ -412,14 +412,13 @@
             let vm =this;
             $("body .js-loader").removeClass('d-none');
             vm.initResData();
-
+             $("body .js-loader").addClass('d-none');
 			if(vm.$store.state.Users.userDetails.user_type != '1'){
               vm.$root.$emit('logout','You are not authorise to access this page'); 
             }
-            	$('.ls-select2').select2({
-					 placeholder: "Select",
-
-			    });
+            $('.ls-select2').select2({
+				placeholder: "Select",
+            });
                  
             $('#radio_div').on('click','#btn-img-file',function(){
                 if(vm.resultData.uploadType == 'image'){
