@@ -411,7 +411,7 @@
 				// e = e || window.event;
 				// vm.isCapsLockOn(e);
 				// }
-		       if(vm.$store.state.Users.userDetails.user_type != '3' && vm.$store.state.Users.userDetails.user_type != '5' ){
+		       if(vm.$store.state.Users.userDetails.user_type != '3' && vm.$store.state.Users.userDetails.user_type != '4' ){
 		       		vm.$root.$emit('logout','You are not authorise to access this page');	
 		       }
 				$('.ls-select2').select2({
