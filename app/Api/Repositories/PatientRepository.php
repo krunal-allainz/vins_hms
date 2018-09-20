@@ -54,7 +54,6 @@
           	{
           		return ['code' => '300','data'=>'', 'message' => 'Record not found'];
           	}
-       	
         }
         //echo $data['case_type'];exit;
             /*patient details*/
@@ -610,6 +609,7 @@
         })->join('token_managment', function ($join1) {
                   $join1->on('token_managment.patient_case_id', '=', 'patient_case_managment.id');
         });
+
         if($user_id!=0 && $user_id!="")
         {
            $reportQuery->where('patient_case_managment.consultant_id',$user_id);
@@ -638,8 +638,6 @@
               'patient_case_managment.case_type'
             )->get();
         
-        //echo //$patientDetails=PatientDetailsForm::toSql(); exit;
-       
         if (count($patientDetails)>0) {
             return ['code' => '200','data'=>$patientDetails, 'message' => 'Record Sucessfully created'];
         } else {
@@ -770,6 +768,34 @@
           $type="follow_ups";
       }
       return $type;
+   }
+
+   /**
+   *
+   *
+   **/
+
+   public function getAllPatientList($userType,$noOfPage,$userId,$status){
+//      if($userType == 5 && $status == ''){
+        $reportQuery = PatientDetailsForm::select('id as patient_id','first_name as fname','middle_name  as mname','last_name as lname','dob as bdate','age as age','gender as gender','address as address','ph_no as ph_no','mob_no as mob_no','uhid_no as uhid_no')->orderBy('id','desc');
+  //    }
+        $patientList=$reportQuery->paginate($noOfPage);
+
+        return $patientList;
+   }
+
+   /**
+   *
+   *
+   *
+   **/
+
+   public function updatePatient($patientData){
+      $data = $patientData['patientData'];
+      $patientId = $data['patient_id'];
+      $reportQuery = PatientDetailsForm::where('id',$patientId)->update(array('first_name' => $data['fname'] ,'middle_name' => $data['mname'],'last_name' => $data['lname'], 'ph_no' => $data['ph_no'] , 'mob_no' =>  $data['mob_no'] ,'address' => $data['address'], 'age' => $data['age'] ,'dob' => $data['dob']['time']));
+      return $reportQuery;
+
    }
  }
 ?>

@@ -21,6 +21,11 @@
                     </vmenu-item> 
                 </vmenu>
                 </div>
+                <div v-if="userRole == 5">
+                      <vmenu-item link="/all_patient_list" icon="ti-layout">
+                            &nbsp; Patient List
+                        </vmenu-item> 
+                </div>
                 <div v-if="userRole == 3">
                     <vmenu>
                         <vmenu-item link="/patients_detail_form" icon="ti-layout">
