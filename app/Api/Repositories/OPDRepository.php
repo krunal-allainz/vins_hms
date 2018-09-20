@@ -278,6 +278,7 @@
 	 			$radiology_obj->opd_id=$opd_id_org;
 	 			$radiology_obj->user_id=$user_id;
 	 			$radiology_obj->type=$radio['type'];
+	 			$radiology_obj->type_name=$radio['type_name'];
 	 			$radiology_obj->bodyparts=$radio['bodyPart'];
 	 			$radiology_obj->qualifiers=$radio['qualifier'];
 	 			$radiology_obj->special_request=$radio['special_request'];
@@ -337,6 +338,7 @@
 	 			$radiology_obj_2->opd_id=$opd_id_org;
 	 			$radiology_obj_2->user_id=$user_id;
 	 			$radiology_obj_2->type=$r_data['type'];
+	 			$radiology_obj_2->type_name=$r_data['type_name'];
 	 			$radiology_obj_2->bodyparts=$r_data['bodyPart'];
 	 			$radiology_obj_2->qualifiers=$r_data['qualifier'];
 	 			$radiology_obj_2->special_request=$r_data['special_request'];
@@ -649,6 +651,11 @@
  					$result['opdData']['signaturePad1_src']=$past_history_array['value'];
  				}
  			}
+ 			$result['step4Data']['advice']='';
+ 			$result['step4Data']['adviceType']='scribble';
+ 			$result['step4Data']['signaturePad']=array();
+ 			$result['step4Data']['signaturePad2_src']='';
+ 			$result['step4Data']['provisional_diagnosis']='';
  			$advice_array=json_decode($option_details->advice,true);
  			if(count($advice_array)>0)
  			{
@@ -779,15 +786,23 @@
  				{
  					$rest_radio=array();
 	 				$rest_radio['id']=$index_radio;
-	 				$rest_radio['type']=$radio->type;
+	 				$rest_radio['uploadType']='image';
 		 			$rest_radio['bodyPart']=$radio->bodyparts;
+		 			$rest_radio['qualifierPart']='';
+	 				$rest_radio['type']=$radio->type;
+	 				$rest_radio['spine_option_value']=$radio->subtype;
+	 				$rest_radio['subType']=$radio->bodyparts;
 		 			$rest_radio['qualifier']=$radio->qualifiers;
-		 			$rest_radio['special_request']=$radio->special_request;
+		 			$rest_radio['imgData']='';
 		 			$rest_radio['textData']=$radio->details;
+		 			$rest_radio['subtype_text_enable']=false;
+		 			$rest_radio['qualifier_text_enable']=false;
+		 			$rest_radio['special_request']=$radio->special_request;
+		 			$rest_radio['removed']=$radio->removed;
 		 			$rest_radio['body_part_side']=$radio->body_part_side;
 		 			$rest_radio['radiologyOther']=$radio->radiology_other;
-		 			$rest_radio['spine_option_value']=$radio->subtype;
-		 			$rest_radio_2['removed']=$radio->removed;
+					$rest_radio['body_part_text']=false;
+		 			$rest_radio['type_name']=$radio->type_name;
 	 				$radio_array[]=$rest_radio;
 	 				$index_radio++;
  				}
@@ -825,21 +840,23 @@
  					$rest_radio_2=array();
 	 				$rest_radio_2['id']=$radio_index;
 	 				$rest_radio_2['uploadType']='image';
+	 				$rest_radio_2['bodyPart']=$radio_2->bodyparts;
+	 				$rest_radio_2['bodyPart_others']='';
+	 				$rest_radio_2['type']=$radio_2->type;
+	 				$rest_radio_2['spine_option_value']=$radio_2->subtype;
+	 				$rest_radio_2['subType']=$radio_2->bodyparts;
+	 				$rest_radio_2['qualifier']=$radio_2->qualifiers;
 	 				$rest_radio_2['imgData']='';
+	 				$rest_radio_2['textData']=$radio_2->details;
 	 				$rest_radio_2['subtype_text_enable']=false;
 	 				$rest_radio_2['qualifier_radio_text_enable']=false;
+	 				$rest_radio_2['special_request']=$radio_2->special_request;
+	 				$rest_radio_2['removed']=$radio_2->removed;
 	 				$rest_radio_2['qualifierOtherPart']='';
-	 				$rest_radio_2['bodyPart_others']='';
-	 				$rest_radio_2['subType']=$radio_2->bodyparts;
-	 				$rest_radio_2['type']=$radio_2->type;
-		 			$rest_radio_2['bodyPart']=$radio_2->bodyparts;
-		 			$rest_radio_2['qualifier']=$radio_2->qualifiers;
-		 			$rest_radio_2['special_request']=$radio_2->special_request;
-		 			$rest_radio_2['textData']=$radio_2->details;
-		 			$rest_radio_2['body_part_side']=$radio_2->body_part_side;
-		 			$rest_radio_2['radiologyOther']=$radio_2->radiology_other;
-		 			$rest_radio_2['spine_option_value']=$radio_2->subtype;
-		 			$rest_radio_2['removed']=$radio_2->removed;
+	 				$rest_radio_2['body_part_side']=$radio_2->body_part_side;
+	 				$rest_radio_2['radiologyOther']=$radio_2->radiology_other;
+	 				$rest_radio_2['body_part_text']=false;
+	 				$rest_radio_2['type_name']=$radio_2->type_name;
 	 				$radio_array_2[]=$rest_radio_2;
 	 				$radio_index++;
  				}
@@ -1058,6 +1075,7 @@
 	 			$radiology_obj->opd_id=$opd_id_org;
 	 			$radiology_obj->user_id=$user_id;
 	 			$radiology_obj->type=$radio['type'];
+	 			$radiology_obj->type_name=$radio['type_name'];
 	 			$radiology_obj->bodyparts=$radio['bodyPart'];
 	 			$radiology_obj->qualifiers=$radio['qualifier'];
 	 			$radiology_obj->special_request=$radio['special_request'];
@@ -1117,6 +1135,7 @@
 	 			$radiology_obj_2->opd_id=$opd_id_org;
 	 			$radiology_obj_2->user_id=$user_id;
 	 			$radiology_obj_2->type=$r_data['type'];
+	 			$radiology_obj_2->type_name=$radio['type_name'];
 	 			$radiology_obj_2->bodyparts=$r_data['bodyPart'];
 	 			$radiology_obj_2->qualifiers=$r_data['qualifier'];
 	 			$radiology_obj_2->special_request=$r_data['special_request'];

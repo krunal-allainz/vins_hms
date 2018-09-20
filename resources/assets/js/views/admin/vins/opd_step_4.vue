@@ -182,12 +182,12 @@
                 'crossRefer':false,
                 'diagnosis' : '',
                 'step4Data': {
-                'advice':'',
-                'adviceType': 'scribble',
-                'signaturePad':{},
-                'signaturePad2_src':'',
-                'provisional_diagnosis':this.$store.state.Patient.provisionalDiagnosis,
-                'follow_up':''
+                  'advice':'',
+                  'adviceType': 'scribble',
+                  'signaturePad':{},
+                  'signaturePad2_src':'',
+                  'provisional_diagnosis':this.$store.state.Patient.provisionalDiagnosis,
+                  'follow_up':''
                 }
             }
                

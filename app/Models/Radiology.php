@@ -21,6 +21,7 @@ class Radiology extends Model
               'attachments',
               'referance',
               'body_part_side',
-              'radiology_other'
+              'radiology_other',
+              'type_name'
         ];
 }
