@@ -1,12 +1,14 @@
-@if(isset($data['ReportPageData']['examinationData']) && $data['ReportPageData']['examinationData'] != '')
-	<div  style="padding-left: 35px;">
-		<div class='col-md-6 text-left'>
-		<span class='text-left'><b>Examination :-</b></span>
-		</div>
-		<div class='row'>
-				<div class='col-md-12 text-left'>
-				<span class='text-left' style="padding-left:30px;">{{$data['ReportPageData']['examinationData']}}</span>
-				</div>
-		</div>
+<div>
+	<div class='col-md-6'>
+		<span class='report_title'>Examination:-</span>
 	</div>
-@endif
+	@if($data['ReportPageData']['examinationData']!='')
+		<div class='col-md-12'>
+			<span class='report_details'>{{$data['ReportPageData']['examinationData']}}</span>
+		</div>
+	@else
+		<div class='col-md-12'>
+			<span class='report_details'>No Record found.</span>
+		</div>
+	@endif
+</div>

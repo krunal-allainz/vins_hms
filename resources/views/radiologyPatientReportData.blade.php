@@ -1,40 +1,43 @@
-@if(isset($data['ReportPageData']['radiologyReportData']) && !empty($data['ReportPageData']['radiologyReportData']))
-
-		<div class='row'>
-		<div class='col-md-12 text-center'>
-			<h5>Investigation Radiology Report</h5>
+@if(isset($data['ReportPageData']['radiologyReportData']))
+	<div class=''>
+		<div class='col-md-12'>
+			<span class="report_title">Investigation Radiology Report:-</span>
 		</div>
-		<div class="row"  >
+		<div class=""  >
         	<div class="col-md-12">
-        	  <div class="">
-                <table class="table table-striped table-bordered" id="radio_list">
-                  <thead>
-                    <tr>
-                    <!--  <th>#</th> -->
-                     <th>Type</th>
-                     <th>Body parts</th>
-                     <th>Qualifier</th>
-                     <th>Special request</th>
-                     <th>Details</th>
-                    </tr>
-                 </thead>
-                 <tbody>
-                 @if($data['ReportPageData']['radiologyReportData'])
-                 @foreach($data['ReportPageData']['radiologyReportData'] as $index=>$res)
-                 <tr class="text-center">
-                            <!-- <td>{{++$index}}</td> -->
-                            <td>{{$res['type']}}</td>
-                            <td>{{$res['bodyparts']}}</td>
-                            <td>{{$res['qualifiers']}}</td>
-                            <td>{{$res['special_request']}}</td>
-                            <td>{{$res['details']}}</td>
-                    </tr>
-                    @endforeach
-                @endif
+        	    <div class="">
+                    <table class="table table-striped table-bordered report_table" id="radio_list">
+                        <thead>
+                            <tr>
+                            <!--  <th>#</th> -->
+                             <th>Type</th>
+                             <th>Body parts</th>
+                             <th>Qualifier</th>
+                             <th>Special request</th>
+                             <th>Details</th>
+                            </tr>
+                         </thead>
+                         <tbody>
+                            @if(count($data['ReportPageData']['radiologyReportData']))
+                                 @foreach($data['ReportPageData']['radiologyReportData'] as $index=>$res)
+                                     <tr class="text-center">
+                                        <!-- <td>{{++$index}}</td> -->
+                                        <td>{{$res['type']}}</td>
+                                        <td>{{$res['bodyparts']}}</td>
+                                        <td>{{$res['qualifiers']}}</td>
+                                        <td>{{$res['special_request']}}</td>
+                                        <td>{{$res['details']}}</td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="5">No data found.</td>
+                                </tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>
-        	</div>
+            </div>
         </div>
   	</div>
 

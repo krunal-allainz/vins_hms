@@ -1,18 +1,20 @@
 <template>
 	<div>
 		<div v-if="(printType == 'print_perceptions')" 	>
-			<div class="row">
+			<div class="report_space">
 				<provisionalDiagnosticReportData :data="ReportPageData.opdData.provisional_diagnosis"></provisionalDiagnosticReportData>
 			</div>
 			
-			<div v-if="presp_count(prescriptData)>0" >
-							<prescriptionPrint :prescriptData="prescriptData" :removeBtn="0"> </prescriptionPrint>
+			<div class="report_space">
+				<prescriptionPrint :prescriptData="prescriptData" :removeBtn="0"> </prescriptionPrint>
 			</div>
-			<div>
+			<div class="report_space">
 				<adviseReportdata :adviceData="adviceData"></adviseReportdata>
-			</div>		
+			</div>
+			<div class="report_space">
 				<crossReportData :CrossReferalData="ReportPageData.CrossReferalData" ></crossReportData>
-			<div>
+			</div>		
+			<div class="report_space">
 				<followupReportData :followupData="ReportPageData.opdData.follow_up"></followupReportData>
 			</div>
 

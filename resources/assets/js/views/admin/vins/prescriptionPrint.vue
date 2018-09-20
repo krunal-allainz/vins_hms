@@ -1,12 +1,12 @@
 <template>
-    <div class="container" v-if="presp_count(prescriptData)>0">
-        <h5>Prescription Print</h5>
+    <div class="container">
+        <span class="report_title">Prescription Print:-</span>
             <div class="form-group">
-
                 <div class="col-md-12">
                   <div class="table-responsive">
-                    <table class="table" v-if="setPresPrint" id="">
-                        <tbody>
+                    <table class="table report_table" v-if="setPresPrint" id="">
+                      
+                        <tbody v-if="presp_count(prescriptData)>0">
                         
                          <tr v-for="(res,index) in prescriptData" v-if="res.remove=='false'" :id="res.pid">
                                     
@@ -53,6 +53,11 @@
                             </td>
                             <td v-if="removeBtn==1"><i class="fa fa-remove point" @click="removePrescript(res.pid)"></i></td> 
                             
+                          </tr>
+                        </tbody>
+                        <tbody v-else>
+                          <tr>
+                            <td>No Reord found.</td>
                           </tr>
                         </tbody>
                     </table>

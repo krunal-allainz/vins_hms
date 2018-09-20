@@ -17,7 +17,7 @@
 			 	<!-- patient checkup detail end -->
 
 			 	<!-- lab referal data start -->
-			 	<labDataReport :labReferalData="ReportPageData.labReferalReportData"  :printType="printType" v-show="(printType == 'lab')"></labDataReport>
+			 	<labDataReport :labReferalData="ReportPageData.labReferalReportData"  :printType="printType" v-if="(printType == 'lab')"></labDataReport>
 			 	<!-- lab referal data end -->
 
 			 	<!-- Radiology referal start -->
