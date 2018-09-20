@@ -562,7 +562,6 @@
               vm.opdData.signaturePad="";
               vm.opdData.signaturePad1="";
             
-            
               User.getUPdateOPDInfo(vm.patient_id,vm.opd_id).then(
               (response) => {
                 if(response.data.code==200)
@@ -652,7 +651,7 @@
                
                var patientAge = '';
                if(response.data.data.age > 999){
-                 patientAge = currentYear - patientAge ; 
+                 patientAge = vm.currentYear - patientAge ; 
                  if(patientAge == 0){
                    vm.opdData.age =  1  
                  }else
