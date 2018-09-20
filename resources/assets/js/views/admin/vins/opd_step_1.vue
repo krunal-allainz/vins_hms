@@ -455,7 +455,6 @@
         
         mounted(){
          var vm =this;
-         console.log('hi');
           if(vm.$store.state.Users.userDetails.user_type != '1'){
               vm.$root.$emit('logout','You are not authorise to access this page'); 
           }
@@ -594,11 +593,8 @@
           },
           reloadOpdForm()
           {
-
             this.$store.dispatch('reloadOpdForm');
             location.reload();
-            // this.$mount();
-            // console.log('fff');
           },
           setCurSteps(step){
             let vm = this;
