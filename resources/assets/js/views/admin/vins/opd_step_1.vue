@@ -561,7 +561,6 @@
               vm.opdData.signaturePad="";
               vm.opdData.signaturePad1="";
             
-            
               User.getUPdateOPDInfo(vm.patient_id,vm.opd_id).then(
               (response) => {
                 if(response.data.code==200)
