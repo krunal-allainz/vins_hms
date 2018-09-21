@@ -21,6 +21,16 @@
                        <patientDetailView :patientinfo="showPatientDetail.patientDetail"></patientDetailView>
                         </div>
                     </div>
+                     <h5 class="mb-0">
+                        <button class="btn btn-link mt-0" data-toggle="collapse" data-target="#collapseeight" aria-expanded="true" aria-controls="collapseeight">
+                           Patient  CheckUp Info
+                        </button>
+                      </h5>
+                    <div id="collapseeight" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                       <patientCheckupViewDetail :patientCheckupDetail="showPatientDetail.patientCheckupDetail"></patientCheckupViewDetail>
+                        </div>
+                    </div>
                     <h5 class="mb-0">
                         <button class="btn btn-link mt-0" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseTwo">
                            Case Detail
@@ -38,10 +48,9 @@
                      </h5>
                      <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                         <div class="card-body">
-                         <patientOPDDetailInfo :patientOPDDetail="showPatientDetail.opdOptionDetails"></patientOPDDetailInfo> 
+                         <patientOPDDetailInfo :patientOPDDetail="showPatientDetail.opdOptionDetails" :advice="showPatientDetail.advice" :history="showPatientDetail.history" :past_history="showPatientDetail.past_history" :follow_up="showPatientDetail.opdOptionDetails.follow_up" :provisonal_daignostic="showPatientDetail.opdOptionDetails.provisional_diagnosis"></patientOPDDetailInfo> 
                         </div>
                     </div>
-
                       <h5 class="mb-0" >
                         <button class="btn btn-link mt-0" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
                            Referal Data
@@ -49,8 +58,9 @@
                      </h5>
                      <div id="collapseFour" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                         <div class="card-body">
-                        <labDataViewDetail :labReferalData="showPatientDetail.opdReferalLaboraryData"></labDataViewDetail>
-                        <reportViewDetail :radiologyReferalReportData="showPatientDetail.opdReferalLaboraryData"></reportViewDetail>
+                        <labDataViewDetail :labReferalData="showPatientDetail.opdReferalLaboraryData" :printType='lab'></labDataViewDetail>
+                        <reportViewDetail :radiologyReferalReportData="showPatientDetail.opdReferalRadiologyData" :printType='radio'></reportViewDetail>
+                          <patientCrossReferalViewDetail :CrossReferalData="showPatientDetail.opdReferalCrossData"></patientCrossReferalViewDetail>
                         </div>
                     </div>
                       <h5 class="mb-0" >
@@ -60,8 +70,9 @@
                      </h5>
                      <div id="collapseFive" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                         <div class="card-body">
-                        <labDataViewDetail :labReportData="showPatientDetail.opdLabData"></labDataViewDetail>
-                        <reportViewDetail :radiologyReportData="showPatientDetail.opdRadiologyData"></reportViewDetail>
+                        <labDataViewDetail :labReportData="showPatientDetail.opdLabData" :printType='investigationLab'></labDataViewDetail>
+                        <reportViewDetail :radiologyReportData="showPatientDetail.opdRadiologyData" :printType='investigationRadio'></reportViewDetail>
+
                         </div>
                     </div>
                       <h5 class="mb-0" >
@@ -100,6 +111,8 @@
     import examinationviewDetail from './examinationviewDetail.vue';
     import labDataViewDetail from './labDataViewDetail.vue';
     import reportViewDetail from './reportViewDetail.vue';
+    import patientCrossReferalViewDetail from './patientCrossReferalViewDetail.vue';
+    import patientCheckupViewDetail from './patientCheckupViewDetail.vue';
 	    export default {
        // props: ['patientId','opdId','showPatientDetail'],
         data() {
@@ -107,6 +120,10 @@
                 'patientId' : this.$store.state.Patient.patientId,
                 'opdId' :this.$store.state.Patient.opdId, 
                 'page' :this.$store.state.Patient.setPage,
+                'investigationRadio' : 'investigationRadio',
+                'investigationLab' : 'investigationLab',
+                'radio' : 'radio',
+                'lab' : 'lab',
                 'showPatientDetail' : {
                     'opdDetails' : '',
                     'patientCaseDetail' : '',
@@ -120,6 +137,10 @@
                     'opdLabData' : '',
                     'opdRadiologyData' : '',
                     'opdprescriptionData' : '',
+                    'advice' : {},
+                    'history' : {},
+                    'past_history' : {},
+                    'patientCheckupDetail' : {},
                 }
             }
         },
@@ -130,7 +151,9 @@
             examinationviewDetail,
             labDataViewDetail,
             reportViewDetail,
-            patientPrescriptionDetail
+            patientPrescriptionDetail,
+            patientCrossReferalViewDetail,
+            patientCheckupViewDetail
           },
          mounted(){
             var vm = this;
@@ -149,45 +172,51 @@
                   (response) => { 
                     if(response.data.code == 200){
                         var vm = this;
-                       this.showPatientDetail.patientDetail = response.data.data.patientDetail;
-                       this.showPatientDetail.patientCaseDetail = response.data.data.caseDetail;
-                       this.showPatientDetail.opdprescriptionData =  response.data.data.opdprescriptionData;
+                        User.generatePatientCheckUpDetails(vm.opdId).then(
+  							(response) => {
+	  							if(response.data.code == 200){
+	  							vm.showPatientDetail.patientCheckupDetail = response.data.data;
+	  							}
+	  						},
+	  							   (error) => {
+									    },
+						  	); 
+
+                       vm.showPatientDetail.patientDetail = response.data.data.patientDetail;
+                       vm.showPatientDetail.patientCaseDetail = response.data.data.caseDetail;
+                       vm.showPatientDetail.opdprescriptionData =  response.data.data.opdprescriptionData;
              
 
                       if(response.data.data.opdExaminationData){
                       vm.showPatientDetail.opdExaminationData = response.data.data.opdExaminationData;
                     }
                     if(response.data.data.opdReferalLaboraryData){
-                      vm.showPatientDetail.labReferalReportData = response.data.data.opdReferalLaboraryData;
+                      vm.showPatientDetail.opdReferalLaboraryData = response.data.data.opdReferalLaboraryData;
                     }
                     if(response.data.data.opdReferalRadiologyData){
-                        vm.showPatientDetail.radiologyReferalReportData = response.data.data.opdReferalRadiologyData;
+                        vm.showPatientDetail.opdReferalRadiologyData = response.data.data.opdReferalRadiologyData;
                     }
                     if(response.data.data.opdReferalCrossData){
-                      vm.showPatientDetail.CrossReferalData = response.data.data.opdReferalCrossData;
+                      vm.showPatientDetail.opdReferalCrossData = response.data.data.opdReferalCrossData;
                     }
                     if(response.data.data.opdLabData){
-                      vm.showPatientDetail.labReportData = response.data.data.opdLabData;
+                      vm.showPatientDetail.opdLabData = response.data.data.opdLabData;
                     }
                     if(response.data.data.opdRadiologyData){
-                      vm.showPatientDetail.radiologyReportData = response.data.data.opdRadiologyData;
+                      vm.showPatientDetail.opdRadiologyData = response.data.data.opdRadiologyData;
                     }
-                       var opdDetailList = [];
-                        $.each(response.data.data.opdOptionDetails, function(key, value) {
-                          let advice = JSON.parse(value.advice);
-                          let history  = JSON.parse(value.history) ;
-                          let past_history  = JSON.parse(value.past_history) ;
-                          let followup = value.follow_up;
-                          let provisonal_daignostic = value.provisional_diagnosis;
-                          opdDetailList.push({
-                              advice:advice,
-                              history:history,
-                              past_history:past_history,
-                              followup :followup,
-                              provisonal_daignostic : provisonal_daignostic
-                            });
-                        });
-                         this.showPatientDetail.opdOptionDetails = opdDetailList;
+                     if(response.data.data.opdOptionDetails){
+                      vm.showPatientDetail.opdOptionDetails = response.data.data.opdOptionDetails;
+                    }
+                     if(response.data.data.adviceData){
+                      vm.showPatientDetail.advice = response.data.data.adviceData;
+                    }
+                    if(response.data.data.historyData){
+                      vm.showPatientDetail.history = response.data.data.historyData;
+                    }
+                    if(response.data.data.past_historyData){
+                      vm.showPatientDetail.past_history = response.data.data.past_historyData;
+                    }
 
                      }else{
                         toastr.error('Record not found', 'Error', {timeOut: 5000});

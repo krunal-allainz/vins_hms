@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div v-if="(radiologyReferalReportData)" >
+		<div  v-show="(printType == 'radio')" v-if="(radiologyReferalReportData)">
 			 
 		 	<div class='col-md-12'>
 		 		<span class="report_title">Radiology Report:-</span>
@@ -41,7 +41,7 @@
 				</div>
 			
 		</div>	
-		<div v-for="reportName in checkedreportList" v-show="(reportName == 'Investigation Radiology' && printType == 'opd_case')" v-if="(radiologyReportData)">
+		<div  v-show="(printType == 'investigationRadio')" v-if="(radiologyReportData)">
 			
 		 	<div class='col-md-12'>
 		 		<span class="report_title">Investigation Radiology Report:-</span>

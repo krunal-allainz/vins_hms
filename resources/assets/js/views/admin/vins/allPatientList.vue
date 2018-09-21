@@ -13,7 +13,7 @@
               			<table data-v-744e717e="" class="table">
                   			<thead data-v-744e717e="">
                     			<tr data-v-744e717e="">
-                    				 <th data-v-744e717e="" class="sortable sorting-asc" style="width: 200px;">
+                    				 <th data-v-744e717e="" class="sortable sorting-asc " style="width: 200px;">
                                 		First Name 
                         			 </th>
                         			 <th style="width: auto;">
@@ -41,30 +41,31 @@
                   			</thead>
                   			<tbody data-v-744e717e="">
                   				 <tr data-v-744e717e="" v-for="patientData in getPatientData">
-                  				 	<td data-v-744e717e="" class="">
+                  				 	<td data-v-744e717e="" class="text-uppercase">
                        					{{ patientData.fname}}
                       				</td>
-                      				<td data-v-744e717e="" class="">
+                      				<td data-v-744e717e="" class="text-uppercase">
                        					{{ patientData.lname}}
                       				</td>
-                      				<td data-v-744e717e="" class="">
+                      				<td data-v-744e717e="" class="text-uppercase">
                         				{{ patientData.uhid_no}}
                       				</td>
-                      				<td data-v-744e717e="" class="">
+                      				<td data-v-744e717e="" class="text-uppercase">
 
                         		 	<span class="text-uppercase" v-if="(patientData.age > 1000)">
-									<span class="text-uppercase" v-if="(((currentYear) - (patientData.age)) > 0)">{{(currentYear) - (patientData.age)}}</span>	
+									<span class="text-uppercase" v-if="(((currentYear) - (patientData.age)) > 0)">{{(currentYear) - (patientData.age) - 1}}</span>	
 									<span class="text-uppercase" v-if="(((currentYear) - (patientData.age)) == 0)"> 1</span>
 									</span>
 									<span v-if="(patientData.age  < 1000)">{{patientData.age}}</span>
                       				</td>
-                      				<td data-v-744e717e="" class="numeric">
+                      				<td data-v-744e717e="" class="numeric text-uppercase">
                         				<span v-if="(patientData.gender == 'F')">Female</span>
                         				<span v-if="(patientData.gender == 'M')">Male</span>
                       				</td> 
                       				
                       				<td data-v-744e717e="" class="">
                       					<a :href="'/patient_detail_edit'"> <i class="fa fa-user-md text-info mr-3 text-info mr-3" @click="setPatientId(patientData.patient_id)" title="patient detail form"></i></a>
+                                <i class="fa fa-table text-info mr-3 text-info mr-3"  @click="getPatientOPDInfo(patientData.patient_id)" ></i>
                       				</td>
                   				 </tr>
                   			</tbody>
@@ -90,10 +91,14 @@
               	</div>
             </div>
 		</div>
+     <span v-if="open_opd_modal"> 
+          <patientOPDInfoTable ref="modal" :patientDataID="pid"></patientOPDInfoTable>
+        </span>
 	</div>
 </template>
 <script>
 	import User from '../../../api/users.js';
+  import patientOPDInfoTable from './patientOPDInfoTable.vue';
 	export default {
 		 data() {
 		 	return {
@@ -105,8 +110,13 @@
               'pagination': {},
               'perPage' : 5,
               'patientId' :'',
+               'open_opd_modal':false,
+               'getPatientOPDInfo ' : '',
 		 	}
 		 },
+       created: function() {
+             this.$root.$on('close_modal', this.close_modal);
+        },
 		  mounted(){
 		 	let vm = this;
 		 	 if(vm.$store.state.Users.userDetails.user_type != '4'){
@@ -115,7 +125,28 @@
 		 	let page_url = '/patient/getallpatientlist';
 		 	vm.getPatientList(page_url);
 		 },
+     components: {
+            patientOPDInfoTable
+    },
 		 methods:{
+       close_modal()
+          {
+              this.pid='';
+              this.open_opd_modal=false;
+          },
+           getPatientOPDInfo(p_id)
+          {
+              this.pid=p_id;
+              this.open_opd_modal=true;
+              setTimeout(function(){
+                $('#patientOPDModal').modal('show');
+              },500)
+          },
+          close: function () {
+              this.$emit('close');
+              this.title = '';
+              this.body = '';
+            },
 		 	getPatientList(page_url){
 		 		let vm = this;
 		 		let userId = vm.user_id;

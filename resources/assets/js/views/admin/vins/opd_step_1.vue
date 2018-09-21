@@ -508,6 +508,7 @@
             });
           },500);
           $(document).on("select2:select",'#patient', function (e) { 
+            vm.patientEmpty();
             vm.opdData.patientlist=$(this).val();
             vm.patient_id=$(this).val();
             let pId = $(this).val();
@@ -752,7 +753,7 @@
               vm.opdData.bp_diastolic="";
               vm.opdData.temp="";
               vm.opdData.pain_value=0;
-              vm.opdData.select_value="";
+              
               
           },
           pain_value(pain){
@@ -827,9 +828,10 @@
                 );
               User.getVitalsInfoByPatientId(vm.opdData.patientlist).then(
               (response) => {
-                let vitals_data=response.data.data;
+                   let vitals_data=response.data.data;
                   if(vitals_data.code==200)
                   {
+                      
                       let patient_checkup_details=vitals_data.data;
                       vm.opdData.height =patient_checkup_details.height;
                       vm.opdData.weight =patient_checkup_details.weight;

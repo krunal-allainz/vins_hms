@@ -1,12 +1,12 @@
 <template>
 	<div class="container">
-        <span class="report_title">Prescription Print:-</span>
+      <!--   <span class="report_title">Prescription Print:-</span> -->
             <div class="form-group">
                 <div class="col-md-12">
                   <div class="table-responsive">
-                    <table class="table report_table" id="">
+                    <table class="table report_table"  v-if="setPresPrint" id="">
                       
-                        <tbody"
+                        <tbody v-if="presp_count(prescriptData)>0">
                         
                          <tr v-for="(res,index) in prescriptData" v-if="res.remove=='false'" :id="res.pid">
                                     
@@ -56,7 +56,8 @@
                           </tr>
                         </tbody>
                         <tbody v-else>
-                          <tr>
+                        
+                          <tr >
                             <td>No Reord found.</td>
                           </tr>
                         </tbody>
@@ -69,5 +70,28 @@
 <script>
 	export default {
 		props:['prescriptData'],
+     data() {
+            return {
+               'notValid':false,
+                'footer' : 'footer',
+                'currentYear': new Date().getFullYear(),
+                'lab_val_size':0,
+                'prescriptDataPage': [],
+                'count_false':0,
+                'counter':0,
+                'hide':0,
+                'setPresPrint':true,
+            }
+          },
+    methods: {
+            presp_count(array)
+            {
+                var vm=this;
+                var array_presp=_.filter(array, ['remove', 'false']);
+                vm.count_false=array_presp.length;
+                return  vm.count_false;
+
+            },
+          }
 	}
 </script>

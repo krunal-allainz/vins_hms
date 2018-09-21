@@ -146,7 +146,8 @@
 			$data_patient_checkup_obj->save();
  		}
         //patient case status
-        $caseStatusManagment = TokenManagment::where('opd_id',$data['opd_id'])->where('patient_case_id',$patientCaseData['id'])->where('token',$patientCaseData['token_no'])->where('date',$patientCaseData['token_date'])->update(array('status' => 'examine'));
+       
+        $caseStatusManagment = TokenManagment::where('opd_id',$opd_id_org)->where('patient_case_id',$patientCaseData['id'])->where('token',$patientCaseData['token_no'])->where('date',$patientCaseData['token_date'])->update(array('status' => 'examine'));
         
 		
 		if($step4_data['adviceType']=='text')
@@ -419,7 +420,7 @@
  			$patient_data['department']=$this->objUser->getDepartmentById($opd_details['patientDetails']->consultant_id);
  		}
  		if($crossRefer == true) {
- 			dd(Carbon::now());
+ 			
  			$doctor_rec = $this->objUser->getUserDetaileById($user_id);
  			$doctor_name =$doctor_rec->first_name.' '.$doctor_rec->last_name;
 			$caseManagement = new PatientCaseManagment();
@@ -1266,15 +1267,16 @@
       $result['opdReferalRadiologyData'] = Radiology::where('opd_id',$opdId)->where('referance',0)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
       $result['opdLabData'] = LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.opd_id',$opdId)->where('laboratory_details.referance',1)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
       $result['opdRadiologyData'] = Radiology::where('opd_id',$opdId)->where('referance',1)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
-      $result['opdprescriptionData'] = PrescriptionDetails::join('prescription_drugs','prescription_drugs.id','=','prescription_details.prescription_drug_id')->where('prescription_details.opd_id',$opdId)->get();
+      $result['opdprescriptionData'] = PrescriptionDetails::join('prescription_drugs','prescription_drugs.id','=','prescription_details.prescription_drug_id')->join('prescription_clock_details','prescription_clock_details.prescription_id','=','prescription_details.id')->where('prescription_details.opd_id',$opdId)->get();
       
-    //  $advice = $result['opdOptionDetails']->advice;
-    //  $history = $result['opdOptionDetails']->history;
-    //$pastHistory = $result['opdOptionDetails']->past_history;
+      $advice = $result['opdOptionDetails']->advice;
+      $history = $result['opdOptionDetails']->history;
+    $pastHistory = $result['opdOptionDetails']->past_history;
     //$examinationData =  $result['opdExaminationData']->examination_data;
-     // $result['adviceData'] = json_decode($advice,true); 
-     //// $result['historyData'] = json_decode($history,true); 
-     // $result['past_historyData'] = json_decode($pastHistory,true); 
+     //
+      $result['adviceData'] = json_decode($advice,true); 
+      $result['historyData'] = json_decode($history,true); 
+      $result['past_historyData'] = json_decode($pastHistory,true); 
      // $result['opdExaminationDataList'] = json_decode($examinationData,true); 
 
      return $result;

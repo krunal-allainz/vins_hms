@@ -45,23 +45,23 @@
                   </thead>
                   <tbody data-v-744e717e="">
                     <tr data-v-744e717e=""     v-for="patientData in patientData.patient_list">
-                      <td data-v-744e717e="" class="">
+                      <td data-v-744e717e="" class="text-uppercase">
                        {{ patientData.first_name}}
                       </td> <!---->
-                      <td data-v-744e717e="" class="">
+                      <td data-v-744e717e="" class="text-uppercase">
                        {{ patientData.last_name}}
                       </td>
-                      <td data-v-744e717e="" class="numeric">
+                      <td data-v-744e717e="" class="numeric text-uppercase">
                         <span v-if="(patientData.gender == 'F')">Female</span>
                         <span v-if="(patientData.gender == 'M')">Male</span>
                       </td> 
-                      <td data-v-744e717e="" class="">
+                      <td data-v-744e717e="" class="text-uppercase">
                         {{ patientData.uhid_no}}
                       </td>
-                      <td data-v-744e717e="" class="">
+                      <td data-v-744e717e="" class="text-uppercase">
                         {{ patientData.token_id}}
                       </td>
-                      <td data-v-744e717e="" class="" v-if="user_type == 3" v-text="consultantName(patientData.user_details)">
+                      <td data-v-744e717e="" class="text-uppercase" v-if="user_type == 3" v-text="consultantName(patientData.user_details)">
                       </td>
                       <td data-v-744e717e="" class="" v-if="user_type == 1">
                       <a :href="'/opd_form'"> <i class="fa fa-user-md text-info mr-3 text-info mr-3" @click="setPatientId(patientData.patient_id)" title="opd form"></i></a>
@@ -142,20 +142,20 @@
                   </thead>
                   <tbody data-v-744e717e="">
                     <tr data-v-744e717e="" v-for="patientData in patientDataPending.patient_list">
-                      <td data-v-744e717e="" class="">
+                      <td data-v-744e717e="" class="text-uppercase">
                        {{ patientData.first_name}}
                       </td> <!---->
-                      <td data-v-744e717e="" class="">
+                      <td data-v-744e717e="" class="text-uppercase">
                        {{ patientData.last_name}}
                       </td>
-                      <td data-v-744e717e="" class="numeric">
+                      <td data-v-744e717e="" class="numeric text-uppercase">
                         <span v-if="(patientData.gender == 'F')">Female</span>
                         <span v-if="(patientData.gender == 'M')">Male</span>
                       </td> 
-                      <td data-v-744e717e="" class="">
+                      <td data-v-744e717e="" class="text-uppercase">
                         {{ patientData.uhid_no}}
                       </td>
-                      <td data-v-744e717e="" class="">
+                      <td data-v-744e717e="" class="text-uppercase">
                         {{ patientData.token_id}}
                       </td>
                       
@@ -241,20 +241,20 @@
                   </thead>
                   <tbody data-v-744e717e="">
                     <tr data-v-744e717e="" v-for="patientData in patientDataExamine.patient_list">
-                      <td data-v-744e717e="" class="">
+                      <td data-v-744e717e="" class="text-uppercase">
                        {{ patientData.first_name}}
                       </td> <!---->
-                      <td data-v-744e717e="" class="">
+                      <td data-v-744e717e="" class="text-uppercase">
                        {{ patientData.last_name}}
                       </td>
-                      <td data-v-744e717e="" class="numeric">
+                      <td data-v-744e717e="" class="numeric text-uppercase">
                         <span v-if="(patientData.gender == 'F')">Female</span>
                         <span v-if="(patientData.gender == 'M')">Male</span>
                       </td> 
-                      <td data-v-744e717e="" class="">
+                      <td data-v-744e717e="" class="text-uppercase">
                         {{ patientData.uhid_no}}
                       </td>
-                      <td data-v-744e717e="" class="">
+                      <td data-v-744e717e="" class="text-uppercase">
                         {{ patientData.token_id}}
                       </td>
                       
@@ -343,27 +343,27 @@
                   </thead>
                   <tbody data-v-744e717e="">
                     <tr data-v-744e717e="" v-for="patientData in patientDataReport.patient_list">
-                      <td data-v-744e717e="" class="">
+                      <td data-v-744e717e="" class="text-uppercase">
                        {{ patientData.first_name}}
                       </td> <!---->
-                      <td data-v-744e717e="" class="">
+                      <td data-v-744e717e="" class="text-uppercase">
                        {{ patientData.last_name}}
                       </td>
-                      <td data-v-744e717e="" class="numeric">
+                      <td data-v-744e717e="" class="numeric text-uppercase">
                         <span v-if="(patientData.gender == 'F')">Female</span>
                         <span v-if="(patientData.gender == 'M')">Male</span>
                       </td> 
-                      <td data-v-744e717e="" class="">
+                      <td data-v-744e717e="" class="text-uppercase">
                         {{ patientData.uhid_no}}
                       </td>
                      <!--  <td data-v-744e717e="" class="">
                        {{ patientData.token_id}}
                      </td> -->
                       
-                      <td data-v-744e717e="" class="" v-if="user_type == 3" v-text="consultantName(patientData.user_details)">
+                      <td data-v-744e717e="" class="text-uppercase" v-if="user_type == 3" v-text="consultantName(patientData.user_details)">
                        
                       </td>
-                      <td data-v-744e717e="" class="" v-if="user_type == 1">
+                      <td data-v-744e717e="" class="text-uppercase" v-if="user_type == 1">
 
                       <!-- <a :href="'/opd_form'"> <i class="fa fa-user-md text-info mr-3 text-info mr-3" @click="setPatientId(patientData.patient_id)" title="opd form"></i></a> -->
                       
