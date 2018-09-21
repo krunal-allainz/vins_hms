@@ -29,10 +29,10 @@
                                     <tbody>
                                       <tr v-for="(opd_data, index) in opdPatientData">
                                           <td>{{++index}}</td>
-                                          <td>{{opd_data.first_name}} {{opd_data.last_name}}</td>
-                                          <td>{{opd_data.uhid_no}}</td>
-                                          <td>{{opd_data.token_no}}</td>
-                                          <td>{{opd_data.last_visit}}</td>
+                                          <td class="text-uppercase">{{opd_data.first_name}} {{opd_data.last_name}}</td>
+                                          <td class="text-uppercase">{{opd_data.uhid_no}}</td>
+                                          <td class="text-uppercase">{{opd_data.token_no}}</td>
+                                          <td class="text-uppercase">{{opd_data.last_visit}}</td>
                                           <td>
                                             <!--<a :href="'/opd_view_page'"><i class="fa fa-eye" data-toggle="modal" data-target="#patientDetailModal" @click="getPatientInfo(opd_data.patient_id,opd_data.opd_id)"></i></a>-->
 

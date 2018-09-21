@@ -1,11 +1,9 @@
 <template>
 	<table width="500">
-    	<thead>
-        	<tr v-if="(patientinfo != null)">
-               <th >{{patientinfo.first_name}}    {{patientinfo.middle_name}}  {{patientinfo.last_name}} </th>
+    <tbody>
+        	 <tr v-if="(patientinfo != null)">
+               <td >  <b>Name : </b> <span class="text-uppercase">{{patientinfo.first_name}}    {{patientinfo.middle_name}}  {{patientinfo.last_name}} </span></td>
             </tr>
-            </thead>
-              <tbody>
             	 <tr v-if="(patientinfo != null)">
                    <td v-if="(patientinfo.gender != null)">
                        <b>Gender : </b>
