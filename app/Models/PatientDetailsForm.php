@@ -53,7 +53,8 @@ class PatientDetailsForm extends Model
 
     public function getDobAttribute($value)
     {
-      if($value != null){
+     
+      if($value != null && $value != ''){
           return Carbon::parse($value)->format('d-m-Y');
       }else{
         return null;

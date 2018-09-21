@@ -53,7 +53,7 @@
                       				<td data-v-744e717e="" class="text-uppercase">
 
                         		 	<span class="text-uppercase" v-if="(patientData.age > 1000)">
-									<span class="text-uppercase" v-if="(((currentYear) - (patientData.age)) > 0)">{{(currentYear) - (patientData.age)}}</span>	
+									<span class="text-uppercase" v-if="(((currentYear) - (patientData.age)) > 0)">{{(currentYear) - (patientData.age) - 1}}</span>	
 									<span class="text-uppercase" v-if="(((currentYear) - (patientData.age)) == 0)"> 1</span>
 									</span>
 									<span v-if="(patientData.age  < 1000)">{{patientData.age}}</span>
