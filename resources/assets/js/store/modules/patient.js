@@ -29,8 +29,6 @@ const state = {
     'setErrorData':{'error':false,'steps':''},
     'opdSubmit':false,
     'setPage':'ADD'
-
-
  }
 
  // getters

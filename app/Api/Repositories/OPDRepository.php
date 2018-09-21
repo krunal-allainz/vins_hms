@@ -1268,13 +1268,14 @@
       $result['opdRadiologyData'] = Radiology::where('opd_id',$opdId)->where('referance',1)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
       $result['opdprescriptionData'] = PrescriptionDetails::join('prescription_drugs','prescription_drugs.id','=','prescription_details.prescription_drug_id')->where('prescription_details.opd_id',$opdId)->get();
       
-    //  $advice = $result['opdOptionDetails']->advice;
-    //  $history = $result['opdOptionDetails']->history;
-    //$pastHistory = $result['opdOptionDetails']->past_history;
+      $advice = $result['opdOptionDetails']->advice;
+      $history = $result['opdOptionDetails']->history;
+    $pastHistory = $result['opdOptionDetails']->past_history;
     //$examinationData =  $result['opdExaminationData']->examination_data;
-     // $result['adviceData'] = json_decode($advice,true); 
-     //// $result['historyData'] = json_decode($history,true); 
-     // $result['past_historyData'] = json_decode($pastHistory,true); 
+     //
+      $result['adviceData'] = json_decode($advice,true); 
+      $result['historyData'] = json_decode($history,true); 
+      $result['past_historyData'] = json_decode($pastHistory,true); 
      // $result['opdExaminationDataList'] = json_decode($examinationData,true); 
 
      return $result;

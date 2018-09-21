@@ -35,8 +35,8 @@
                                           <td>{{opd_data.last_visit}}</td>
                                           <td>
                                             <!--<a :href="'/opd_view_page'"><i class="fa fa-eye" data-toggle="modal" data-target="#patientDetailModal" @click="getPatientInfo(opd_data.patient_id,opd_data.opd_id)"></i></a>-->
-                                            <router-link :to="{ path: 'opd_view_page', props: { patientId: opd_data.patient_id }}" :patientId="opd_data.patient_id "><i class="fa fa-eye" @click="SetPatientOpdView(opd_data.patient_id,opd_data.opd_id)" ></i></router-link>
-                                            <a  v-if="opd_data.t_status=='examine' || opd_data.is_report==1" :href="'/opd_form'"> <i class="fa fa-pencil" @click="setPatientInfo(opd_data.patient_id,opd_data.opd_id)" title="opd form"></i></a>
+                                            <router-link :to="{ path: 'opd_view_page', props: { patientId: opd_data.patient_id }}" :patientId="opd_data.patient_id "><i class="fa fa-eye" @click="SetPatientOpdView(opd_data.patient_id,opd_data.opd_id,opd_data.case_id)" ></i></router-link>
+                                            <a  v-show="(user_type != 4)" v-if="opd_data.t_status=='examine' || opd_data.is_report==1 " :href="'/opd_form'"> <i class="fa fa-pencil" @click="setPatientInfo(opd_data.patient_id,opd_data.opd_id)" title="opd form"></i></a>
                                           </td>
                                       </tr>
                                     </tbody>
@@ -93,7 +93,7 @@
               var vm =this;
               vm.$root.$emit('close_modal');
           },
-          SetPatientOpdView(patientId,opdId){
+          SetPatientOpdView(patientId,opdId,caseId){
               let vm =this;
               vm.isPatientOpdViewPage = true;
               if(vm.isPatientOpdViewPage == true){
