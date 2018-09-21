@@ -313,7 +313,7 @@
       */
     public function getOPDDetailsByPatientId($pid)
     {
-        return OpdDetails::where('patient_id',$pid)->first();
+        return OpdDetails::where('patient_id',$pid)->orderBy('id','desc')->first();
     }
 
     /**

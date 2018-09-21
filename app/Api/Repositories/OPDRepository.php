@@ -146,7 +146,8 @@
 			$data_patient_checkup_obj->save();
  		}
         //patient case status
-        $caseStatusManagment = TokenManagment::where('opd_id',$data['opd_id'])->where('patient_case_id',$patientCaseData['id'])->where('token',$patientCaseData['token_no'])->where('date',$patientCaseData['token_date'])->update(array('status' => 'examine'));
+       
+        $caseStatusManagment = TokenManagment::where('opd_id',$opd_id_org)->where('patient_case_id',$patientCaseData['id'])->where('token',$patientCaseData['token_no'])->where('date',$patientCaseData['token_date'])->update(array('status' => 'examine'));
         
 		
 		if($step4_data['adviceType']=='text')
@@ -419,7 +420,7 @@
  			$patient_data['department']=$this->objUser->getDepartmentById($opd_details['patientDetails']->consultant_id);
  		}
  		if($crossRefer == true) {
- 			dd(Carbon::now());
+ 			
  			$doctor_rec = $this->objUser->getUserDetaileById($user_id);
  			$doctor_name =$doctor_rec->first_name.' '.$doctor_rec->last_name;
 			$caseManagement = new PatientCaseManagment();
