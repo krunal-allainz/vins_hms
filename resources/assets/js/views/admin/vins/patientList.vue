@@ -3,7 +3,7 @@
         <div class="card bg-success-card">
             <h4 class="card-header">
                 <div v-if="user_type == 3">Waiting patient list</div>
-                <div v-else>Waiting patient List</div>
+                <div v-else>Waiting patient list</div>
             </h4>
           <div class="card-body">
             <div data-v-744e717e="" class="card p-3" v-if="patientData.patient_list.length>0">
@@ -99,7 +99,7 @@
         </div>
         <div class="card bg-success-card" v-if="user_type == 3">
             <h4 class="card-header">
-               <div>Pending patient List</div>
+               <div>Pending patient list</div>
             </h4>
           <div class="card-body">
             <div data-v-744e717e="" class="card p-3" v-if="patientDataPending.patient_list.length>0">
@@ -198,7 +198,7 @@
          <!-- examine patient list -->
         <div class="card bg-success-card" v-if="user_type == 1">
             <h4 class="card-header">
-               <div>Examined Patient List</div>
+               <div>Examined patient list</div>
             </h4>
           <div class="card-body">
             <div data-v-744e717e="" class="card p-3" v-if="patientDataExamine.patient_list.length>0">
@@ -300,7 +300,7 @@
          <!-- Report patient LIst -->
           <div class="card bg-success-card" v-if="user_type == 1">
             <h4 class="card-header">
-               <div>Report Patient List</div>
+               <div>Report patient list</div>
             </h4>
           <div class="card-body">
             <div data-v-744e717e="" class="card p-3" v-if="patientDataReport.patient_list.length>0">
@@ -433,7 +433,7 @@
                 'pendingPagination': {},
                 'examinePagination': {},
                 'reportPagination': {},
-                'perPage' : 5,
+                'perPage' : 10,
                 'patientId' :'',
                 'pid':'',
                 'open_opd_modal':false,
