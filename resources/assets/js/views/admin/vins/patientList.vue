@@ -3,10 +3,10 @@
         <div class="card bg-success-card">
             <h4 class="card-header">
                 <div v-if="user_type == 3">Waiting patient list</div>
-                <div v-else>Patient List</div>
+                <div v-else>Waiting patient List</div>
             </h4>
           <div class="card-body">
-            <div data-v-744e717e="" class="card p-3">
+            <div data-v-744e717e="" class="card p-3" v-if="patientData.patient_list.length>0">
               <div data-v-744e717e="" class="table-header">
                   <h4 data-v-744e717e="" class="table-title text-center mt-3"></h4>
               </div>
@@ -89,6 +89,11 @@
                 </div>
                </div>
             </div>
+            <div v-else>
+              <h6 class="card-header">
+               <div>No records available</div>
+            </h6>
+            </div>
           </div>
         </div>
         <div class="card bg-success-card" v-if="user_type == 3">
@@ -96,7 +101,7 @@
                <div>Pending patient List</div>
             </h4>
           <div class="card-body">
-            <div data-v-744e717e="" class="card p-3">
+            <div data-v-744e717e="" class="card p-3" v-if="patientDataPending.patient_list.length>0">
               <div data-v-744e717e="" class="table-header">
                   <h4 data-v-744e717e="" class="table-title text-center mt-3"></h4>
               </div>
@@ -182,6 +187,11 @@
                 </div>
                </div>
             </div>
+            <div v-else>
+              <h6 class="card-header">
+               <div>No records available</div>
+            </h6>
+            </div>
           </div>
         </div>
          <!-- examine patient list -->
@@ -190,7 +200,7 @@
                <div>Examined Patient List</div>
             </h4>
           <div class="card-body">
-            <div data-v-744e717e="" class="card p-3">
+            <div data-v-744e717e="" class="card p-3" v-if="patientDataExamine.patient_list.length>0">
               <div data-v-744e717e="" class="table-header">
                   <h4 data-v-744e717e="" class="table-title text-center mt-3"></h4>
               </div>
@@ -279,6 +289,11 @@
                 </div>
                </div>
             </div>
+            <div v-else>
+              <h6 class="card-header">
+               <div>No records available</div>
+            </h6>
+            </div>
           </div>
         </div>
          <!-- Report patient LIst -->
@@ -287,7 +302,7 @@
                <div>Report Patient List</div>
             </h4>
           <div class="card-body">
-            <div data-v-744e717e="" class="card p-3">
+            <div data-v-744e717e="" class="card p-3" v-if="patientDataReport.patient_list.length>0">
               <div data-v-744e717e="" class="table-header">
                   <h4 data-v-744e717e="" class="table-title text-center mt-3"></h4>
               </div>
@@ -375,6 +390,11 @@
                     </div>
                 </div>
                </div>
+            </div>
+            <div v-else>
+              <h6 class="card-header">
+               <div>No records available</div>
+            </h6>
             </div>
           </div>
         </div>

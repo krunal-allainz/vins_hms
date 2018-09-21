@@ -522,6 +522,7 @@
                },
                saveOpdData(oData){
                 let vm =this;
+                $("body .js-loader").removeClass('d-none');
                 User.generateAddOpdDetails(oData).then((response) => {
                     $("body .js-loader").addClass('d-none');
                       if(response.data.code == 200) {
