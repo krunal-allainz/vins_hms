@@ -10,7 +10,7 @@
         </div>
       <div class="row text-center">	
       	<div class="col-md-12 text-center">	
-      		<div class="text-center report_style"><span>99,Urmi Society, Opp Haveli Productivity Road, Akota Vadodara - 7 (Guj.), INDIA </span></div>	
+      		<div class="text-center"><span>99,Urmi Society, Opp Haveli Productivity Road, Akota Vadodara - 7 (Guj.), INDIA </span></div>	
       	</div>	
 	  </div>
     
@@ -36,7 +36,7 @@
     position:absolute;
     bottom:0;
     width:100%;
-    height:80px;
+    height:auto;
     left:0
   }
 </style>
