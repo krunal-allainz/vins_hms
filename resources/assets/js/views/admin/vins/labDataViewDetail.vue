@@ -1,7 +1,7 @@
 <template>
 	<div>	
 	
-	<div v-show="(printType == 'lab')">
+	<div v-show="(printType == 'lab')" v-if="(labReferalData)">
 		
 		<div class='col-md-12'>
 			<span class="report_title">Lab Report:-</span>
@@ -17,8 +17,8 @@
 								<th>Name</th>
 							</tr>
 						</thead>
-						<tbody v-if="orgLabReffData.length>0">
-							<tr :id="res.id" v-for="(res,index) in orgLabReffData">
+						<tbody v-if="labReferalData.length>0">
+							<tr :id="res.id" v-for="(res,index) in labReferalData">
 								<td>{{++index}}</td> 
 								<td>{{res.name}}</td>		
 							</tr>
@@ -34,40 +34,8 @@
 		</div>
 	</div>
 	
-	<div v-for="reportName in checkedreportList" v-show="(reportName == 'Laboratory' && refferance=='0')">
-		
-		<div class='col-md-12'>
-			<span class="report_title">Lab Report:-</span>
-		</div>
-		
-		 <div class="form-group" >
-			<div class="col-md-12">
-				<div class="">
-					<table class="table table-striped table-bordered report_table" id="laboratory_table_list">
-						<thead>
-							<tr>
-								<th>#</th>
-								<th>Name</th>
-							</tr>
-						</thead>
-						<tbody v-if="orgLabReffData.length>0">
-							<tr :id="res.id" v-for="(res,index) in orgLabReffData">
-								<td>{{++index}}</td> 
-								<td>{{res.name}}</td>		
-							</tr>
-						</tbody>
-						<tbody v-else>
-	                    	<tr>
-				               <td colspan="2">No data found.</td>
-				            </tr>
-		                </tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<div v-for="reportName in checkedreportList" v-show="(reportName == 'Investigation Lab' && printType == 'opd_case' && refferance=='1')">
+
+	<div v-if="(labReportData)" v-show="(printType == 'investigationLab')">
 		
 		<div class='col-md-12'>
 			<span class="report_title">Investigation Lab Report:-</span>
@@ -86,8 +54,8 @@
 						<th>Result</th>
 					</tr>
 			   		 </thead>
-					<tbody v-if="orgLabReportData.length>0">
-						<tr :id="res.id" v-for="(res,index) in orgLabReportData">
+					<tbody v-if="labReportData.length>0">
+						<tr :id="res.id" v-for="(res,index) in labReportData">
 							<td>{{++index}}</td> 
 							<td>{{res.name }}</td>
 							<td>{{res.date }}</td>

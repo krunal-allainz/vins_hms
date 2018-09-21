@@ -65,6 +65,7 @@
                       				
                       				<td data-v-744e717e="" class="">
                       					<a :href="'/patient_detail_edit'"> <i class="fa fa-user-md text-info mr-3 text-info mr-3" @click="setPatientId(patientData.patient_id)" title="patient detail form"></i></a>
+                                <i class="fa fa-table text-info mr-3 text-info mr-3"  @click="getPatientOPDInfo(patientData.patient_id)" ></i>
                       				</td>
                   				 </tr>
                   			</tbody>
@@ -90,10 +91,14 @@
               	</div>
             </div>
 		</div>
+     <span v-if="open_opd_modal"> 
+          <patientOPDInfoTable ref="modal" :patientDataID="pid"></patientOPDInfoTable>
+        </span>
 	</div>
 </template>
 <script>
 	import User from '../../../api/users.js';
+  import patientOPDInfoTable from './patientOPDInfoTable.vue';
 	export default {
 		 data() {
 		 	return {
@@ -105,8 +110,13 @@
               'pagination': {},
               'perPage' : 5,
               'patientId' :'',
+               'open_opd_modal':false,
+               'getPatientOPDInfo ' : '',
 		 	}
 		 },
+       created: function() {
+             this.$root.$on('close_modal', this.close_modal);
+        },
 		  mounted(){
 		 	let vm = this;
 		 	 if(vm.$store.state.Users.userDetails.user_type != '4'){
@@ -115,7 +125,28 @@
 		 	let page_url = '/patient/getallpatientlist';
 		 	vm.getPatientList(page_url);
 		 },
+     components: {
+            patientOPDInfoTable
+    },
 		 methods:{
+       close_modal()
+          {
+              this.pid='';
+              this.open_opd_modal=false;
+          },
+           getPatientOPDInfo(p_id)
+          {
+              this.pid=p_id;
+              this.open_opd_modal=true;
+              setTimeout(function(){
+                $('#patientOPDModal').modal('show');
+              },500)
+          },
+          close: function () {
+              this.$emit('close');
+              this.title = '';
+              this.body = '';
+            },
 		 	getPatientList(page_url){
 		 		let vm = this;
 		 		let userId = vm.user_id;
