@@ -13,7 +13,7 @@
 			</thead>
 			<tbody>
 				<tr v-for="patientCase in patientCaseDetail" >
-					<td><i class="fa fa-user-md text-info mr-3 text-info mr-3"  @click="getOpdDetail(patientCase.opdId)" data-toggle="collapse" data-target="#collapseOpdDetail" aria-expanded="true" aria-controls="collapseOpdDetail"></i> </td>
+					<!-- <td><i class="fa fa-user-md text-info mr-3 text-info mr-3"  @click="getOpdDetail(patientCase.opdId)" data-toggle="collapse" data-target="#collapseOpdDetail" aria-expanded="true" aria-controls="collapseOpdDetail"></i> </td> -->
 					<td class="text-center">
 						<span v-if="(patientCase.case_type == 'new_case')">new</span>
 						<span v-if="(patientCase.case_type == 'cross_reference')">Cross Reference</span>
