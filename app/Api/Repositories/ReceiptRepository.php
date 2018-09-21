@@ -155,8 +155,14 @@
 		        	$procedures_val=$data_all['physiotherapy_procedures_id'];
 		        }
       		$fullname=$data_all['patientDetails']['first_name'].' '.$data_all['patientDetails']['last_name'];
-      		$age=Carbon::parse($data_all['patientDetails']['dob'])->format('Y-m-d');
-      		$age_val=Carbon::parse($age)->diff(\Carbon\Carbon::now())->format('%y Years');
+      		$age="";
+      		$age_val="";
+      		if($data_all['patientDetails']['dob']!=null && $data_all['patientDetails']['dob']!='')
+      		{
+      			$age=Carbon::parse($data_all['patientDetails']['dob'])->format('Y-m-d');
+      			$age_val=Carbon::parse($age)->diff(\Carbon\Carbon::now())->format('%y Years');
+      		}
+      		
       		//echo $age_val;exit;
       		
       		$gender='Female';
