@@ -13,7 +13,7 @@
               			<table data-v-744e717e="" class="table">
                   			<thead data-v-744e717e="">
                     			<tr data-v-744e717e="">
-                    				 <th data-v-744e717e="" class="sortable sorting-asc" style="width: 200px;">
+                    				 <th data-v-744e717e="" class="sortable sorting-asc " style="width: 200px;">
                                 		First Name 
                         			 </th>
                         			 <th style="width: auto;">
@@ -41,16 +41,16 @@
                   			</thead>
                   			<tbody data-v-744e717e="">
                   				 <tr data-v-744e717e="" v-for="patientData in getPatientData">
-                  				 	<td data-v-744e717e="" class="">
+                  				 	<td data-v-744e717e="" class="text-uppercase">
                        					{{ patientData.fname}}
                       				</td>
-                      				<td data-v-744e717e="" class="">
+                      				<td data-v-744e717e="" class="text-uppercase">
                        					{{ patientData.lname}}
                       				</td>
-                      				<td data-v-744e717e="" class="">
+                      				<td data-v-744e717e="" class="text-uppercase">
                         				{{ patientData.uhid_no}}
                       				</td>
-                      				<td data-v-744e717e="" class="">
+                      				<td data-v-744e717e="" class="text-uppercase">
 
                         		 	<span class="text-uppercase" v-if="(patientData.age > 1000)">
 									<span class="text-uppercase" v-if="(((currentYear) - (patientData.age)) > 0)">{{(currentYear) - (patientData.age)}}</span>	
@@ -58,7 +58,7 @@
 									</span>
 									<span v-if="(patientData.age  < 1000)">{{patientData.age}}</span>
                       				</td>
-                      				<td data-v-744e717e="" class="numeric">
+                      				<td data-v-744e717e="" class="numeric text-uppercase">
                         				<span v-if="(patientData.gender == 'F')">Female</span>
                         				<span v-if="(patientData.gender == 'M')">Male</span>
                       				</td> 

@@ -1266,7 +1266,7 @@
       $result['opdReferalRadiologyData'] = Radiology::where('opd_id',$opdId)->where('referance',0)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
       $result['opdLabData'] = LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.opd_id',$opdId)->where('laboratory_details.referance',1)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
       $result['opdRadiologyData'] = Radiology::where('opd_id',$opdId)->where('referance',1)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
-      $result['opdprescriptionData'] = PrescriptionDetails::join('prescription_drugs','prescription_drugs.id','=','prescription_details.prescription_drug_id')->where('prescription_details.opd_id',$opdId)->get();
+      $result['opdprescriptionData'] = PrescriptionDetails::join('prescription_drugs','prescription_drugs.id','=','prescription_details.prescription_drug_id')->join('prescription_clock_details','prescription_clock_details.prescription_id','=','prescription_details.id')->where('prescription_details.opd_id',$opdId)->get();
       
       $advice = $result['opdOptionDetails']->advice;
       $history = $result['opdOptionDetails']->history;
