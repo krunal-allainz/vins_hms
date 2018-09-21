@@ -787,16 +787,27 @@
         return $patientList;
    }
 
+   
    /**
-   *
-   *
-   *
-   **/
-
+    * [updatePatient description]
+    * @param  [type] $patientData [description]
+    * @return [type]              [description]
+    */
    public function updatePatient($patientData){
       $data = $patientData['patientData'];
       $patientId = $data['patient_id'];
-      $reportQuery = PatientDetailsForm::where('id',$patientId)->update(array('first_name' => $data['fname'] ,'middle_name' => $data['mname'],'last_name' => $data['lname'], 'ph_no' => $data['ph_no'] , 'mob_no' =>  $data['mob_no'] ,'address' => $data['address'], 'age' => $data['age'] ,'dob' => $data['dob']['time']));
+      $data_patient['first_name'] = $data['fname'];
+      $data_patient['middle_name'] = $data['mname'];
+      $data_patient['last_name'] = $data['lname'];
+      $data_patient['ph_no'] = $data['ph_no'] ;
+      $data_patient['mob_no'] =  $data['mob_no'];
+      $data_patient['address'] = $data['address'];
+      $data_patient['age'] = $data['age'];
+      $data_patient['dob']=null;
+      if($data['dob']['time'])
+        $data_patient['dob'] = Carbon::createFromFormat('d-m-Y', $data['dob']['time'])->format('Y-m-d');
+      $data_patient['gender'] = $data['gender'];
+      $reportQuery = PatientDetailsForm::where('id',$patientId)->update($data_patient);
       return $reportQuery;
 
    }

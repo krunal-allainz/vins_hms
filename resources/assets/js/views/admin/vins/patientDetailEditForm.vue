@@ -146,7 +146,7 @@
 	                    	<label for="uhid_no" class="control-label">UHID No : </label>
 	                	</div>
 		                <div class="col-md-6">
-							<input class="form-control" type = "text" v-validate="'required'" id = "uhid_no" name="uhid_no" value=""  v-model="patientData.uhid_no"  />
+							<input class="form-control" type = "text" v-validate="'required'" id = "uhid_no" name="uhid_no" value=""  v-model="patientData.uhid_no"  disabled="" />
 							<i v-show="errors.has('uhid_no')" class="fa fa-warning"></i>
 							<span class="help is-danger" v-show="errors.has('uhid_no')"> 
 								Please enter UHID No.
@@ -294,7 +294,7 @@
         			   		vm.patientData.ph_no = response.data.data.patientDetail.ph_no;
         			   		vm.patientData.mob_no = response.data.data.patientDetail.mob_no;
         			   		if(response.data.data.patientDetail.age > 1000){
-        			   			let getAge = vm.currentYear - response.data.data.patientDetail.age;
+        			   			let getAge = vm.currentYear - response.data.data.patientDetail.age-1;
         			   			if(getAge > 0){
         			   				vm.patientData.age = getAge;
         			   				vm.patientData.display_age = getAge;
@@ -307,10 +307,9 @@
         			   			vm.patientData.display_age = response.data.data.patientDetail.age;
         			   		}
         			   		vm.patientData.gender = response.data.data.patientDetail.gender;
-        			   		$('#gender').val(response.data.data.patientDetail.gender).trigger('change');
-        			   		if(response.data.data.patientDetail.dob != ''){
-        			   			vm.patientData.dob.time = response.data.data.patientDetail.dob;
-        			   		}
+        			   		$('#gender').val(vm.patientData.gender ).trigger('change');
+        			   		vm.patientData.dob.time = response.data.data.patientDetail.dob;
+        			   		
         			   		vm.patientData.uhid_no = response.data.data.patientDetail.uhid_no;
 
         			   	}
@@ -361,14 +360,12 @@
 		        vm.handleDOBChanged();
 		    },
 		    getBirthYear(){ 
-		      	 let getYearForage = 0;
-		      	 this.patientData.dob.time = null;
-		      	
-		      		let patientAge = this.patientData.display_age;
-		      	     getYearForage =   this.currentYear - patientAge - 1;
-		      	      this.patientData.age = getYearForage;
-		      		
-		      	 return true;
+		      	let getYearForage = 0;
+		      	this.patientData.dob.time = null;
+	      		let patientAge = this.patientData.display_age;
+	      	    getYearForage =   this.currentYear - patientAge - 1 ;
+	      	    this.patientData.age = getYearForage ;
+		      	return true;
 		      	
 		      },
 		      getAgeFromYear(year){
@@ -436,7 +433,10 @@
 			            		vm.patientData.gender = pDetails.gender;
 			            		vm.patientData.address = pDetails.address;
 			            		vm.patientData.reference_dr = pDetails.references;
-			            		vm.patientData.dob.time = pDetails.dob;
+			            		if(pDetails.dob!=''){
+			            			console.log('dsds');
+			            			vm.patientData.dob.time = pDetails.dob;
+			            		}
 			            		vm.patientData.consulting_dr = pDetails.consultant_id;
 			            		vm.patientData.type = pDetails.type;
 			            		$('#type').val(pDetails.type).trigger('change');

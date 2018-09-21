@@ -608,7 +608,6 @@
         						
         						if(pDetails.dob == null){
 			            			vm.getAgeFromYear(pDetails.age);
-			            			
 			            		}else{
 			            			vm.patientData.display_age=pDetails.age;
 			            			vm.patientData.age = pDetails.age;
