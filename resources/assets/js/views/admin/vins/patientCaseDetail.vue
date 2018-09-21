@@ -1,40 +1,37 @@
 <template>
 	<div v-if="(patientCaseDetail != '')">
-		<table>
+		<table class="report_table table table-striped table-bordered">
 			<thead>
 			<tr>
-				<th width="70px;"></th>
-				<th class="text-center" width="70px;">Case Type</th>
-				<th class="text-center"  width="150px;">Last Vist</th>
-				<th class="text-center"   width="150px;">Reference Dr</th>
-				<th class="text-center"   width="150px;">Consultant Dr</th>
+				
+				<th width="70px;">Case Type</th>
+				<th  width="150px;">Last Vist</th>
+				<th   width="150px;">Reference Dr</th>
+				<th   width="150px;">Consultant Dr</th>
 					
 			</tr>
 			</thead>
 			<tbody>
 				<tr v-for="patientCase in patientCaseDetail" >
-					<!-- <td><i class="fa fa-user-md text-info mr-3 text-info mr-3"  @click="getOpdDetail(patientCase.opdId)" data-toggle="collapse" data-target="#collapseOpdDetail" aria-expanded="true" aria-controls="collapseOpdDetail"></i> </td> -->
-					<td class="text-center">
+					
+					<td>
 						<span v-if="(patientCase.case_type == 'new_case')">new</span>
 						<span v-if="(patientCase.case_type == 'cross_reference')">Cross Reference</span>
 						<span v-if="(patientCase.case_type == 'follow_ups')">Follow Up</span>
 						<span v-if="(patientCase.case_type == 'reports')">Reports</span>
 					</td>
-					<td class="text-center">
+					<td>
 						<span>{{patientCase.appointment_datetime}}</span>
 					</td>
-					<td class="text-center">
+					<td>
 						<span>{{patientCase.references}}</span>
 					</td>
-					<td class="text-center"	>
+					<td>
 						<span>{{patientCase.first_name}} {{patientCase.last_name}}</span>
 					</td>
 
 					</tr>
-					<tr><td>
-						 <div id="collapseOpdDetail" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-						 	  <patientOPDDetailInfo :patientAllOpdDetail="patientOPDDetail"></patientOPDDetailInfo> 
-						 </div></td></tr>
+					
 			</tbody>
 		</table>
 	</div>
