@@ -331,5 +331,23 @@ class OPDDetailsFromController extends Controller
         }
     }
 
+    /**
+    *
+    *
+    *
+    *
+    **/
+
+    public function getPatientDetailAndOpdInfo(Request $request){
+         $patientId = $request->patientId;
+         $opdId =  $request->opdId;
+        $patientDetail = $this->opdObj->getPatientDetailAndOpdInfo($patientId,$opdId);
+        if ($patientDetail) {
+            return ['code' => '200','data'=>$patientDetail, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+    }
+
    
 }
