@@ -33,7 +33,7 @@
 					</tr>
 					<tr><td>
 						 <div id="collapseOpdDetail" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-						 	  <patientOPDDetailInfo :patientAllOpdDetail="opdDetail"></patientOPDDetailInfo> 
+						 	  <patientOPDDetailInfo :patientAllOpdDetail="opdOptionDetails"></patientOPDDetailInfo> 
 						 </div></td></tr>
 			</tbody>
 		</table>

@@ -594,8 +594,11 @@
           $result['patientDetail'] =  PatientDetailsForm::where('id',$patientId)->first();
           $result['caseDetail'] = PatientCaseManagment::join('users','users.id','=','patient_case_managment.consultant_id')->select('patient_case_managment.*','patient_case_managment.section_id as opdId','users.*')->groupBy('patient_case_managment.patient_id')->orderBy('patient_case_managment.created_at','desc')->where('patient_case_managment.patient_id',$patientId)->get();
           $result['opdDetails'] =  OpdDetails::select('*','id as opdid')->groupBy('patient_id')->orderBy('created_at','desc')->where('patient_id',$patientId)->get();
+
           return $result;
     }
+
+  
 
     /**
      * [getAllPatientName description]
@@ -741,7 +744,7 @@
    public function getPatientLastVisitById($pid)
    {
         $today=Carbon::now()->format('Y-m-d');
-        $result = PatientCaseManagment::where('patient_id',$pid)->whereDate('appointment_datetime','<',$today)->orderBy('id','DESC')->first();
+        $result = PatientCaseManagment::join('token_managment', 'patient_case_managment.id', '=', 'token_managment.patient_case_id')->where('patient_case_managment.patient_id',$pid)->where('token_managment.status','examine')->orderBy('patient_case_managment.id','DESC')->first();
         $las_visit="N/A";
         if(isset($result->appointment_datetime) && $result->appointment_datetime!='')
         {

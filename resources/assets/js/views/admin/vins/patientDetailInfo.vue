@@ -40,7 +40,7 @@
                      </h5>
                      <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                         <div class="card-body">
-                        <patientOPDDetailInfo :patientOPDDetail="showPatientDetail.opdDetails"></patientOPDDetailInfo> 
+                        <patientOPDDetailInfo :patientOPDDetail="showPatientDetail.opdDetails" ></patientOPDDetailInfo> 
                         </div>
                     </div>
                 </div>

@@ -455,7 +455,6 @@
         
         mounted(){
          var vm =this;
-         console.log('hi');
           if(vm.$store.state.Users.userDetails.user_type != '1'){
               vm.$root.$emit('logout','You are not authorise to access this page'); 
           }
@@ -542,7 +541,7 @@
                   $('#patient').select2('destroy');
                   vm.setUpdateData();
               }
-              else
+              else if(vm.$store.state.Patient.setPage=='PLIST')
               {
                   vm.patient_id= parseInt(this.$store.state.Patient.patientId);
                   vm.opdData.patientlist=vm.patient_id;
@@ -561,7 +560,6 @@
               vm.opd_id= vm.$store.state.Patient.opdId;
               vm.opdData.signaturePad="";
               vm.opdData.signaturePad1="";
-            
             
               User.getUPdateOPDInfo(vm.patient_id,vm.opd_id).then(
               (response) => {
@@ -595,11 +593,8 @@
           },
           reloadOpdForm()
           {
-
             this.$store.dispatch('reloadOpdForm');
             location.reload();
-            // this.$mount();
-            // console.log('fff');
           },
           setCurSteps(step){
             let vm = this;
@@ -652,7 +647,7 @@
                
                var patientAge = '';
                if(response.data.data.age > 999){
-                 patientAge = currentYear - patientAge ; 
+                 patientAge = vm.currentYear - patientAge ; 
                  if(patientAge == 0){
                    vm.opdData.age =  1  
                  }else

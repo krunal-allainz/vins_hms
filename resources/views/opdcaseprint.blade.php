@@ -407,7 +407,7 @@
 	  	
 	  		<div class="report_space report_left_pad">
 				<div class='col-md-6'>
-					<span class='report_title'>Provisional Diagnostic :-</span>
+					<span class='report_title'>Provisional Diagnosis:-</span>
 				</div>
 				<div class=''>
 					@if($data['ReportPageData']['opdData']['provisional_diagnosis']!='')

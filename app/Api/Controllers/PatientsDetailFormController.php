@@ -363,6 +363,7 @@ class PatientsDetailFormController extends Controller
 
     }
 
+    
     /**
      * [getVitalsInfoByPatientId description]
      * @param  Request $request [description]
