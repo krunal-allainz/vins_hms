@@ -252,7 +252,7 @@
                       </td>
                       <td data-v-744e717e="" class="" v-if="user_type == 1">
 
-                      <a :href="'/opd_form'"> <i class="fa fa-user-md text-info mr-3 text-info mr-3" @click="setPatientId(patientData.patient_id)" title="opd form"></i></a>
+                      <!-- <a :href="'/opd_form'"> <i class="fa fa-user-md text-info mr-3 text-info mr-3" @click="setPatientId(patientData.patient_id)" title="opd form"></i></a> -->
                       
                       <i class="fa fa-table text-info mr-3 text-info mr-3"  @click="getPatientOPDInfo(patientData.patient_id)" ></i>
                      
@@ -550,7 +550,8 @@
           setPatientId(patientInfo){
              var vm =this;
             vm.patientId = patientInfo;
-            vm.$store.dispatch('SetPatientId', vm.patientId);             // 
+            vm.$store.dispatch('SetPatientId', vm.patientId); 
+           vm.$store.dispatch('SetPage', 'PLIST');              
           },
           setPerPage(e){
             let vm =this;
