@@ -75,6 +75,22 @@
           </div>
         @endif
     </div>
+    <div style="height: 70px;" class="text-right">
+      <img src="{{$url.'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/>
+    </div>  
+    <div style="height: 70px;" class="text-right">
+      <!-- <img  :src="{{$url.'/assets/img/timestamp/'.$data['timeStamp'].'.png'}}" height="66" width="182"/> -->
+      <span><b>{{$data['doctoreName']}}</b></span><br/>
+      <span><b>{{$data['timeStamp']}}</b></span><br>
+      <span><b>{{$data['regNo']}}</b></span>
+    </div>
+    <div style="">
+    <!-- <div class="row" style="padding-right:20px;font-size: 15px;right:0px;">
+      <div class='col-md-12 text-right'>
+        <span class='text-right'><b>Consultant's Signature</b></span>
+      </div>
+    </div> -->  
+    </div>
     <div id="footer" class="footer" style="background-color: dodgerblue;color: white;bottom:0;width:100%;height:130px;left:0;position:fixed;">
       <div class="row text-center">
         <div class="col-md-12">

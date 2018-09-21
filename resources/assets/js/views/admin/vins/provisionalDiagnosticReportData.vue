@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class='col-md-12'>
-			<span class='report_title'>Provisional Diagnostic:-</span>
+			<span class='report_title'>Provisional Diagnosis:-</span>
 		</div>
 		
 		<div class='col-md-12' v-if="data!='' && data!=null">

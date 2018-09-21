@@ -44,7 +44,7 @@
                 </div>
               </div>
               <div class="col-md-6">
-                <div class="col-md-12" v-if="resultData.type=='other'">
+                <div class="col-md-12" v-if="resultData.type=='Other'">
                   <label> Other Parts</label>
                   <input type="text" name="radiology_other_text" id="radiology_other_text" class="form-control" v-model="resultData.radiologyOther">
                 </div>
