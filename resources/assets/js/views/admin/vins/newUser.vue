@@ -58,7 +58,7 @@
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-md-3">
-                                    <label for="email" class="control-label float-right txt_media1">EmailId :</label>
+                                    <label for="email" class="control-label float-right txt_media1">Email Id :</label>
                                     </div>
                                     <div class="col-md-9">
                                         <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" v-model="userData.email" v-validate="'required|email'" @input="checkExistUser('email')">

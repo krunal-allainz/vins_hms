@@ -12,7 +12,7 @@
 			<tr>
 				<td><label><b>Address :</b></label><span class="text-uppercase">{{$data['patientDetail']['address']}}</span></td>
 				<td></td>
-				<td><label><b>Date :</b></label><span class="text-uppercase"><b>{{$data['todayDate']}}</b></span></td>
+				<td class="text-right"><label><b>Date :</b></label><span class="text-uppercase"><b>{{$data['todayDate']}}</b></span></td>
 			</tr>
 			<tr>
 				<td class="text-left"><label><b>Mob No:</b></label><span class="text-uppercase"><b>{{$data['patientDetail']['mob_no']}}</b></span></td>
@@ -41,7 +41,7 @@
 					<span class="text-uppercase">	{{$data['doctoreName']}}</span>
 				</td>
 				<td></td>
-				<td>	<label><b>Ref By Dr.:</b></label>
+				<td class="text-right">	<label><b>Ref By Dr.:</b></label>
 				<span>{{ $data['reference']}}</span></td>
 			</tr>
 			<tr>

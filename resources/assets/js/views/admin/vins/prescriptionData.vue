@@ -96,6 +96,16 @@
 
             </div>
           </div>
+          <div class="row form-group">
+            <div class="col-md-9">
+                  <div class="col-md-12">
+                    <label for="prescription">Prescription Details:</label>
+                  </div>
+                  <div class="col-md-12">
+                    <textarea v-model="prescriptFinalData.details" name="presp_details" id="presp_details" class="form-control"></textarea>
+                  </div>
+                </div>
+          </div>
             <div class="row">
                   <div class="col-md-1">
                       <button type="button" v-if="class_type=='ADD'" class="btn btn-primary"  @click="saveClockResult()">Add</button>
@@ -242,6 +252,7 @@
                 </div>
               </div>
           </div>
+
             <div class="row form-group">
                 <div class="col-md-3">
                     <div class="col-md-12"><br></div>
@@ -340,6 +351,7 @@
                     'qhrs':'',
                     'clock_suggest':'',
                     'total_qhrs':0,
+                    'details':''
 
                 }
                 

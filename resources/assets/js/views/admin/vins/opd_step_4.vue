@@ -169,7 +169,7 @@
                 'footer' : 'footer',
                 'currentDatetime': moment().format('DD-MM-YYYY hh:mm A'),
                 'deleteConfirmMsg':'Are you sure you want to exit from receipt form?',
-                'editConfirmMsg':'Are you sure you want to Edit OPD Form Data?',
+                'editConfirmMsg':'Patient History Already Exist. Do you want to Add and Save Data?',
                 'modal_enabled':'false',
                 'type': 'neuroExamination',
                 'patient_id': this.$store.state.Patient.patientId,
@@ -427,8 +427,8 @@
                             'provisionalDiagnosis':this.$store.state.Patient.provisionalDiagnosis,
                           };
                           vm.editOpdData(oData);
-                          vm.$store.dispatch('SetPatientId', '');
-                          vm.$store.dispatch('SetOpdId', '');
+                          //vm.$store.dispatch('SetPatientId', '');
+                          //vm.$store.dispatch('SetOpdId', '');
                           vm.$store.dispatch('SetPage', 'ADD');
                         } else {
                           
@@ -522,6 +522,7 @@
                },
                saveOpdData(oData){
                 let vm =this;
+                $("body .js-loader").removeClass('d-none');
                 User.generateAddOpdDetails(oData).then((response) => {
                     $("body .js-loader").addClass('d-none');
                       if(response.data.code == 200) {
@@ -532,6 +533,7 @@
                         let opd_id = response.data.data.opd_pr_id;
                         vm.$store.dispatch('SetOpdId',opd_id);
                         vm.$store.dispatch('saveDiagnosis',vm.diagnosis);
+                        vm.$store.dispatch('SetPage', 'ADD');
                         vm.patient_opd_details=response.data.data;
                         $('#receiptAddModel').modal('show');
                       } else if(response.data.code == 300) {

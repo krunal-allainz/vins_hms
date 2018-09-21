@@ -570,15 +570,15 @@
  	 */
  	public function getOPDDetailsByPatientID($pid)
  	{
-
  		$getOPDDetails=DB::table('patient_details')
         ->join('opd_details', 'patient_details.id', '=', 'opd_details.patient_id')
         ->join('patient_case_managment', 'opd_details.id', '=', 'patient_case_managment.section_id')
         ->join('token_managment', 'patient_case_managment.id', '=', 'token_managment.patient_case_id')
         ->select('patient_details.first_name', 'patient_details.last_name', 'patient_case_managment.id as case_id','patient_case_managment.appointment_datetime as last_visit','token_managment.token as token_no','patient_details.uhid_no','token_managment.status as t_status','patient_details.id as patient_id','opd_details.id as opd_id','patient_case_managment.is_report')
         ->where('patient_details.id',$pid)
-        ->groupBy('opd_details.patient_id')
+        ->groupBy('patient_case_managment.section_id')
         ->get();
+        //echo $getOPDDetails;
         return $getOPDDetails;
  	}
 

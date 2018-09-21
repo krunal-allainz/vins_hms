@@ -541,7 +541,7 @@
                   $('#patient').select2('destroy');
                   vm.setUpdateData();
               }
-              else
+              else if(vm.$store.state.Patient.setPage=='PLIST')
               {
                   vm.patient_id= parseInt(this.$store.state.Patient.patientId);
                   vm.opdData.patientlist=vm.patient_id;

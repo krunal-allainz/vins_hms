@@ -1,6 +1,6 @@
 <template id="">
 
-    <div  style="background-color: dodgerblue;color: white;background-color: dodgerblue;color: white;position:absolute;bottom:0;width:100%;height:120px;left:0" class="report_style">
+    <div   class="report_style">
       <div class="row text-center">
           <div class="col-md-12 text-center">
               <div class="text-center text-capitalize"  style="text-align: center;">  
@@ -27,3 +27,16 @@
 </div>
   
 </template>
+<style scoped>
+  .report_style {
+    background-color: dodgerblue;
+    color: white;
+    background-color: dodgerblue;
+    color: white;
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height:80px;
+    left:0
+  }
+</style>
