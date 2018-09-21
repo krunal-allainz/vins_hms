@@ -82,7 +82,7 @@
                      </h5>
                      <div id="collapseSix" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                         <div class="card-body">
-                            <examinationviewDetail :examination="showPatientDetail.opdExaminationData"></examinationviewDetail>
+                            <examinationviewDetail :examData="showPatientDetail.opdExaminationData"></examinationviewDetail>
                         </div>
                     </div>
                     <h5 class="mb-0" >
@@ -108,7 +108,7 @@
     import patientOPDDetailInfo from './patientOPDDetailInfo.vue';
     import patientCaseDetail from './patientCaseDetail.vue';
     import patientPrescriptionDetail from './patientPrescriptionDetail.vue';
-    import examinationviewDetail from './examinationviewDetail.vue';
+    import examinationviewDetail from './examinationOrgReportData.vue';
     import labDataViewDetail from './labDataViewDetail.vue';
     import reportViewDetail from './reportViewDetail.vue';
     import patientCrossReferalViewDetail from './patientCrossReferalViewDetail.vue';
