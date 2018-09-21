@@ -135,7 +135,8 @@
          mounted(){
             var vm = this;
             if(vm.page == 'VIEW'){
-                vm.getPatientInfo(vm.patientId,vm.opdId)
+                 $("div").removeClass("modal-backdrop fade show");
+                vm.getPatientInfo(vm.patientId,vm.opdId);
             }
          },
          methods: {
