@@ -6,7 +6,7 @@
         	<table>
             <tbody>
             <tr>
-                <td width="30%" >
+                <td width="100%" >
                 	<adviceViewDetail :adviceData="advice"></adviceViewDetail>
 				</td>
 			<tr>
