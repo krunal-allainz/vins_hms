@@ -35,8 +35,7 @@
                                           <td>{{opd_data.last_visit}}</td>
                                           <td>
                                             <!--<a :href="'/opd_view_page'"><i class="fa fa-eye" data-toggle="modal" data-target="#patientDetailModal" @click="getPatientInfo(opd_data.patient_id,opd_data.opd_id)"></i></a>-->
-                                            <i class="fa fa-eye" @click="SetPatientOpdView(opd_data.patient_id,opd_data.opd_id)" ></i>
-                                           
+                                            <router-link :to="{ path: 'opd_view_page', props: { patientId: opd_data.patient_id }}" :patientId="opd_data.patient_id "><i class="fa fa-eye" @click="SetPatientOpdView(opd_data.patient_id,opd_data.opd_id)" ></i></router-link>
                                             <a  v-if="opd_data.t_status=='examine' || opd_data.is_report==1" :href="'/opd_form'"> <i class="fa fa-pencil" @click="setPatientInfo(opd_data.patient_id,opd_data.opd_id)" title="opd form"></i></a>
                                           </td>
                                       </tr>
@@ -61,19 +60,18 @@
     import User from '../../../api/users.js';
     import card from "./card.vue";
    // import patientDetailInfo from './patientDetailInfo.vue';
-    import patientOpdViewPage from './patientOpdViewPage.vue';
+   // import patientOpdViewPage from './patientOpdViewPage.vue';
      export default {
-        
          data() {
             return {
               'doctore_Id' : this.$store.state.Users.userDetails.id,
               'user_type':this.$store.state.Users.userDetails.user_type,
               'opdPatientData':{},
-              'patientDetailInfo' : {
-                  'patientDetail' : '',
-                  'opdDetails' : '',
-                  'patientCaseDetail' : ''
-              },
+              // 'patientDetailInfo' : {
+              //     'patientDetail' : '',
+              //     'opdDetails' : '',
+              //     'patientCaseDetail' : ''
+              // },
               'patientId':'',
               'isPatientOpdViewPage':false
 
@@ -83,7 +81,7 @@
         components: {
             card,
           //  patientDetailInfo,
-            patientOpdViewPage
+         //   patientOpdViewPage
         },
         mounted(){
             let vm =this;
@@ -99,8 +97,9 @@
               let vm =this;
               vm.isPatientOpdViewPage = true;
               if(vm.isPatientOpdViewPage == true){
-                this.$route.push('/opd_view_page');
-               // vm.$route.push(path :'/opd_view_page',name: 'opd_view_page',components : 'patientOpdViewPage',params:{'patient_id' :patientId,'opdId' :opdId });
+                vm.$store.dispatch('SetPatientId', patientId);
+                vm.$store.dispatch('SetOpdId', opdId);
+                vm.$store.dispatch('SetPage', 'VIEW');
               }
               
           },
@@ -120,40 +119,7 @@
                       },
                    );
             },
-             getPatientInfo(patientInfo,opdId)   {
-                var vm =this;
-               // let opdId = opdId;
-                vm.patientId = patientInfo;
-                User.getPatientDetailAndOpdInfo(vm.patientId,opdId).then(
-                  (response) => { 
-                    if(response.data.code == 200){
-                       this.patientDetailInfo.patientDetail = response.data.data.patientDetail;
-                       this.patientDetailInfo.patientCaseDetail = response.data.data.caseDetail;
-                       var opdDetailList = [];
-                        $.each(response.data.data.opdDetails, function(key, value) {
-                          let advice = JSON.parse(value.advice);
-                          let history  = JSON.parse(value.history) ;
-                          let past_history  = JSON.parse(value.past_history) ;
-                          let followup = value.follow_up;
-                          let provisonal_daignostic = value.provisional_diagnosis;
-                          opdDetailList.push({
-                              advice:advice,
-                              history:history,
-                              past_history:past_history,
-                              followup :followup,
-                              provisonal_daignostic : provisonal_daignostic
-                            });
-                        });
-                         this.patientDetailInfo.opdDetails = opdDetailList;
-
-                     }else{
-                        toastr.error('Record not found', 'Error', {timeOut: 5000});
-                     }
-                  },
-                  (error) => {
-                     },
-                  );
-              },
+            
               setPatientInfo(patient_id,opd_id){
                 var vm =this;
                 vm.$store.dispatch('SetPatientId', patient_id);

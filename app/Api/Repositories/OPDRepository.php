@@ -16,6 +16,7 @@
  use euro_hms\Models\PatientCaseManagment;
  use euro_hms\Api\Repositories\PatientRepository;
  use euro_hms\Api\Repositories\UserRepository;
+ use euro_hms\Models\PatientDetailsForm;
  use euro_hms\Models\OpdDetailsOption;
  use euro_hms\Models\TokenManagment;
  use euro_hms\Models\PrescriptionDrugs;
@@ -1240,6 +1241,45 @@
  		}
  		
  	}
+
+ 	  /**
+    *
+    *
+    **/
+
+    public function getPatientDetailAndOpdInfo($patientId,$opdId){
+       $result = array();
+          $result['patientDetail'] =  PatientDetailsForm::where('id',$patientId)->first();
+           $result['caseDetail'] = PatientCaseManagment::join('users','users.id','=','patient_case_managment.consultant_id')->select('patient_case_managment.*','patient_case_managment.section_id as opdId','users.*')->groupBy('patient_case_managment.patient_id')->orderBy('patient_case_managment.created_at','desc')->where('patient_case_managment.section_id',$opdId)->get();
+          $result['opdDetails'] =  OpdDetails::select('*','id as opdid')->groupBy('patient_id')->orderBy('created_at','desc')->where('patient_id',$patientId)->get();
+           $result['opdOptionDetails'] = OpdDetailsOption::where('opd_id',$opdId)->orderBy('id','DESC')->first();
+     $exam_data="";
+     $exam_new_data= Examination::where('opd_id',$opdId)->orderBy('id','DESC')->first();
+     if(!empty($exam_new_data))
+     {
+      $exam_data=$exam_new_data->examination_data;
+     }
+     $result['opdExaminationData'] =$exam_data;
+     $result[''] = OPDPhysioDetails::where('opd_id',$opdId)->first();
+     $result['opdReferalCrossData'] = CrossDetails::where('opd_id',$opdId)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
+     $result['opdReferalLaboraryData'] =LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.opd_id',$opdId)->where('laboratory_details.referance',0)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
+      $result['opdReferalRadiologyData'] = Radiology::where('opd_id',$opdId)->where('referance',0)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
+      $result['opdLabData'] = LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.opd_id',$opdId)->where('laboratory_details.referance',1)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
+      $result['opdRadiologyData'] = Radiology::where('opd_id',$opdId)->where('referance',1)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
+      $result['opdprescriptionData'] = PrescriptionDetails::join('prescription_drugs','prescription_drugs.id','=','prescription_details.prescription_drug_id')->where('prescription_details.opd_id',$opdId)->get();
+      
+    //  $advice = $result['opdOptionDetails']->advice;
+    //  $history = $result['opdOptionDetails']->history;
+    //$pastHistory = $result['opdOptionDetails']->past_history;
+    //$examinationData =  $result['opdExaminationData']->examination_data;
+     // $result['adviceData'] = json_decode($advice,true); 
+     //// $result['historyData'] = json_decode($history,true); 
+     // $result['past_historyData'] = json_decode($pastHistory,true); 
+     // $result['opdExaminationDataList'] = json_decode($examinationData,true); 
+
+     return $result;
+    }
+
  	
  }
 ?>
