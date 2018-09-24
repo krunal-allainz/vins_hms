@@ -1140,7 +1140,7 @@
 	 			$radiology_obj_2->opd_id=$opd_id_org;
 	 			$radiology_obj_2->user_id=$user_id;
 	 			$radiology_obj_2->type=$r_data['type'];
-	 			$radiology_obj_2->type_name=$radio['type_name'];
+	 			$radiology_obj_2->type_name=$r_data['type_name'];
 	 			$radiology_obj_2->bodyparts=$r_data['bodyPart'];
 	 			$radiology_obj_2->qualifiers=$r_data['qualifier'];
 	 			$radiology_obj_2->special_request=$r_data['special_request'];
