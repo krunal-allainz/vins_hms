@@ -35,7 +35,7 @@
                                             <span v-if="res['clock_time_'+(index+1)]!='0' && res['clock_time_'+(index+1)]!='--:--'"> {{res['clock_time_'+(index+1)]}}</span>
                                         </span>
                                         ]
-                                    </spans                                    <span v-else>
+                                    </span>                                  <span v-else>
                                         <span v-if="res.clock_quantity_1!='0' || res.clock_quantity_2!='0' || res.clock_quantity_3!='0' || res.clock_quantity_4!='0'">
                                          [ <span v-if="res.clock_quantity_1!='0'"> {{res.clock_time_1}}</span><span v-if="res.clock_quantity_2!='0'"><span v-if="res.clock_quantity_1!='0'"> ______</span> {{res.clock_time_2}}</span><span v-if="res.clock_quantity_3!='0'"><span v-if="res.clock_quantity_1!='0' || res.clock_quantity_2!='0'"> ______</span> {{res.clock_time_3}}</span><span v-if="res.clock_quantity_4!='0'"><span v-if="res.clock_quantity_1!='0' || res.clock_quantity_2!='0' || res.clock_quantity_3!='0'"> ______</span>{{res.clock_time_4}}</span> ] 
                                     </span>
