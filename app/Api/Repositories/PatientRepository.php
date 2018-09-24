@@ -778,11 +778,35 @@
    *
    **/
 
-   public function getAllPatientList($userType,$noOfPage,$userId,$status){
-//      if($userType == 5 && $status == ''){
-        $reportQuery = PatientDetailsForm::select('id as patient_id','first_name as fname','middle_name  as mname','last_name as lname','dob as bdate','age as age','gender as gender','address as address','ph_no as ph_no','mob_no as mob_no','uhid_no as uhid_no')->orderBy('id','desc');
-  //    }
-        $patientList=$reportQuery->paginate($noOfPage);
+   public function getAllPatientList($status,$userType,$noOfPage,$userId){
+         $reportQuery = PatientDetailsForm::select('patient_details.id as patient_id','patient_details.first_name as fname','patient_details.middle_name  as mname','patient_details.last_name as lname','patient_details.dob as bdate','patient_details.age as age','patient_details.gender as gender','patient_details.address as address','patient_details.ph_no as ph_no','patient_details.mob_no as mob_no','patient_details.uhid_no as uhid_no');
+
+          $reportQuery->join('patient_case_managment', function ($join) {
+                  $join->on('patient_case_managment.patient_id', '=', 'patient_details.id');
+          });
+           $reportQuery->join('token_managment', function ($join1) {
+                  $join1->on('token_managment.patient_case_id', '=', 'patient_case_managment.id');
+        
+            });
+
+
+      if($status == 'waiting'){
+         $reportQuery->where('patient_case_managment.case_type','!=','reports');
+         $reportQuery->whereIn('token_managment.status',['waiting','vital']);
+       
+      }else if($status == 'examine'){
+         $reportQuery->where('patient_case_managment.case_type','!=','reports');
+         $reportQuery->whereIn('token_managment.status',['examine']);
+
+      }else if ($status == 'reports'){
+           $reportQuery->where('patient_case_managment.case_type','reports')->where('patient_case_managment.is_report',1);
+      }else{
+         $reportQuery->where('patient_case_managment.case_type','!=','reports');
+         $reportQuery->whereIn('token_managment.status',['waiting','vital','examine']);
+
+      }
+  
+        $patientList=$reportQuery->orderBy('token_managment.created_at','desc')->paginate($noOfPage);
 
         return $patientList;
    }
