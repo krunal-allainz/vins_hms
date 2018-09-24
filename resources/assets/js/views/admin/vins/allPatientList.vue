@@ -5,7 +5,7 @@
                 <div>Waiting patient list </div>
             </h4>
             <div class="card-body">
-            	<div data-v-744e717e="" class="card p-3">
+            	<div data-v-744e717e="" class="card p-3"  v-if="(waitingPagination.total > 0)">
               		<div data-v-744e717e="" class="table-header">
                   		<h4 data-v-744e717e="" class="table-title text-center mt-3"></h4>
               		</div>
@@ -82,13 +82,18 @@
                       				<option data-v-744e717e="" value="50">50</option>
                    					<!--     <option data-v-744e717e="" value="-1">All</option> -->
                     			</select> 
-                     		<div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(pagination.current_page > 0)">
-                        		<span data-v-744e717e="">Showing </span> {{pagination.current_page}} - {{pagination.to}} of {{pagination.total}}
+                     		<div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(waitingPagination.total > 0)">
+                        		<span data-v-744e717e="">Showing </span> {{waitingPagination.current_page}} - {{waitingPagination.to}} of {{waitingPagination.total}}
                         		<span data-v-744e717e="">records</span>
                    			</div>
                			</div>
               		 </div>
               	</div>
+                  <div data-v-744e717e="" class="card p-3" v-else>
+                     <div data-v-744e717e="" class="table-responsive">
+                         <span> No Record Found</span>
+                      </div>
+                 </div>
             </div>
 		</div>
     <div class="card bg-success-card">
@@ -96,7 +101,7 @@
                 <div>Examined patient list </div>
             </h4>
             <div class="card-body">
-              <div data-v-744e717e="" class="card p-3">
+              <div data-v-744e717e="" class="card p-3" v-if="(examinePagination.total > 0)">
                   <div data-v-744e717e="" class="table-header">
                       <h4 data-v-744e717e="" class="table-title text-center mt-3"></h4>
                   </div>
@@ -173,26 +178,31 @@
                               <option data-v-744e717e="" value="50">50</option>
                             <!--     <option data-v-744e717e="" value="-1">All</option> -->
                           </select> 
-                        <div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(pagination.current_page > 0)">
-                            <span data-v-744e717e="">Showing </span> {{pagination.current_page}} - {{pagination.to}} of {{pagination.total}}
+                        <div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(examinePagination.total > 0)">
+                            <span data-v-744e717e="">Showing </span> {{examinePagination.current_page}} - {{examinePagination.to}} of {{examinePagination.total}}
                             <span data-v-744e717e="">records</span>
                         </div>
                     </div>
                    </div>
                 </div>
+                  <div data-v-744e717e="" class="card p-3" v-else>
+                     <div data-v-744e717e="" class="table-responsive">
+                         <span> No Record Found</span>
+                      </div>
+                 </div>
             </div>
     </div>
     <div class="card bg-success-card">
       <h4 class="card-header">
-                <div>Report patient list </div>
-            </h4>
-            <div class="card-body">
-              <div data-v-744e717e="" class="card p-3">
-                  <div data-v-744e717e="" class="table-header">
-                      <h4 data-v-744e717e="" class="table-title text-center mt-3"></h4>
-                  </div>
-                  <div data-v-744e717e="" class="table-responsive">
-                    <table data-v-744e717e="" class="table">
+          <div>Report patient list </div>
+      </h4>
+      <div class="card-body">
+         <div data-v-744e717e="" class="card p-3" v-if="(reportPagination.total > 0)">
+           <div data-v-744e717e="" class="table-header">
+              <h4 data-v-744e717e="" class="table-title text-center mt-3"></h4>
+            </div>
+            <div data-v-744e717e="" class="table-responsive">
+                    <table data-v-744e717e="" class="table" >
                         <thead data-v-744e717e="">
                           <tr data-v-744e717e="">
                              <th data-v-744e717e="" class="sortable sorting-asc " style="width: 200px;">
@@ -264,13 +274,18 @@
                               <option data-v-744e717e="" value="50">50</option>
                             <!--     <option data-v-744e717e="" value="-1">All</option> -->
                           </select> 
-                        <div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(pagination.current_page > 0)">
-                            <span data-v-744e717e="">Showing </span> {{pagination.current_page}} - {{pagination.to}} of {{pagination.total}}
+                        <div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(reportPagination.total > 0)">
+                            <span data-v-744e717e="">Showing </span> {{reportPagination.current_page}} - {{reportPagination.to}} of {{reportPagination.total}}
                             <span data-v-744e717e="">records</span>
                         </div>
                     </div>
                    </div>
                 </div>
+                 <div data-v-744e717e="" class="card p-3" v-else>
+                     <div data-v-744e717e="" class="table-responsive">
+                         <span> No Record Found</span>
+                      </div>
+                 </div>
             </div>
     </div>
      <span v-if="open_opd_modal"> 
