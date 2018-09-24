@@ -7,6 +7,7 @@
  use Carbon\Carbon;
  use DB;
  use euro_hms\Api\Repositories\UserRepository;
+ use euro_hms\Api\Repositories\PatientRepository;
 
  class ReceiptRepository 
  {
@@ -109,9 +110,20 @@
 		          $receipt->created_at=Carbon::now();
 		          $receipt->updated_at=Carbon::now();
 		          $receipt->save();
-		        
+	        	  //for patient details
+	        	  $pbj_patient=new PatientRepository;
+  				  $p_details=$pbj_patient->getPatientDetailsById($request->formData['patient_id']);
+  				  $fullname=$p_details->first_name.' '.$p_details->last_name;
+  				  $age="";
+	      		 $age_val="";
+	      		 if($p_details->dob!=null && $p_details->dob!='')
+	      		 {
+	      			$age=Carbon::parse($p_details->dob)->format('Y-m-d');
+	      			$age_val=Carbon::parse($age)->diff(Carbon::now())->format('%y Years');
+	      		 } 
+	      		 $gender=$p_details->gender;
 				
-		        $data = ['receiptId'=>$receiptId,'receiptNumber'=>$receiptNumber,'caseNo'=>$request->formData['case_no'],'chagredName'=>$request->formData['charges_type'],'amount'=>$request->formData['chargeAmount'],'case_type'=>$request->formData['case_type'],'charges_type'=>$request->formData['charges_type'],'charges_type_val'=>$charges_id,'charges'=>$request->formData['chargeAmount'],'department'=>$request->formData['department'],'procedures_val'=>$procedures_val,'procedures_charges'=>$request->formData['procedure_charges'],'other_charges_category'=>$request->formData['other_charges_category'],'consult_id'=>$request->formData['consult'],'other_charges'=>$request->formData['other_charges'],'date_receipt'=>$date_receipt];
+		        $data = ['receiptId'=>$receiptId,'receiptNumber'=>$receiptNumber,'caseNo'=>$request->formData['case_no'],'chagredName'=>$request->formData['charges_type'],'amount'=>$request->formData['chargeAmount'],'case_type'=>$request->formData['case_type'],'charges_type'=>$request->formData['charges_type'],'charges_type_val'=>$charges_id,'charges'=>$request->formData['chargeAmount'],'department'=>$request->formData['department'],'procedures_val'=>$procedures_val,'procedures_charges'=>$request->formData['procedure_charges'],'other_charges_category'=>$request->formData['other_charges_category'],'consult_id'=>$request->formData['consult'],'other_charges'=>$request->formData['other_charges'],'date_receipt'=>$date_receipt,'fullname'=>$fullname,'age'=>$age_val,'gender'=>$gender];
 		        return $data;	
       }
 
@@ -160,10 +172,10 @@
       		if($data_all['patientDetails']['dob']!=null && $data_all['patientDetails']['dob']!='')
       		{
       			$age=Carbon::parse($data_all['patientDetails']['dob'])->format('Y-m-d');
-      			$age_val=Carbon::parse($age)->diff(\Carbon\Carbon::now())->format('%y Years');
+      			$age_val=Carbon::parse($age)->diff(Carbon::now())->format('%y Years');
       		}
       		
-      		//echo $age_val;exit;
+      		
       		
       		$gender='Female';
       		if($data_all['patientDetails']['gender']=='M')

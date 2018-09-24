@@ -22,10 +22,10 @@
          	<thead>	
          		<tr>	
          			<td class="text-left"><b>ReceiptNo</b> : {{$data['receiptNumber']}}</td>	
-         			<td class="text-center"><b>Date</b> : {{date('d/m/Y', strtotime($data['date_receipt'] )) }}</td>	
+         			<td class="text-center"><b>Date</b> : {{date('d-m-Y', strtotime($data['date_receipt'] )) }}</td>	
          		</tr>	
          		<tr>	
-         			<td class="text-left"><b>PatientName</b> : <span class="text-uppercase">{{$formData['name']}}</span></td>	
+         			<td class="text-left"><b>Patient Name</b> : <span class="text-uppercase">{{$formData['name']}}</span></td>	
          			<td class="text-center"><b>OPD CASE NO : {{$data['caseNo']}}</b></td>	
          		</tr>	
          		<tr>	
@@ -38,11 +38,12 @@
          		</tr>
                
                 <tr>    
-                    <td class="text-left"><b>Case Type</b> : 
-                        @if($data['case_type']==1)
-                            <span class="text-uppercase">OPD</span>
-                        @elseif($data['case_type']==2)
+                    <td class="text-left"><b>Case Type</b> :
+                            
+                        @if($data['case_type']==2)
                             <span class="text-uppercase">IPD</span>
+                        @else
+                            <span class="text-uppercase">OPD</span>
                         @endif
                     </td> 
 
