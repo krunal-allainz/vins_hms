@@ -560,10 +560,6 @@ input.number-with-validation:invalid {
     
     font-size : 14px;
 }
-.report_style
-{
-   
-}
 
 #patientDetailFormDataCaps input{
     text-transform : uppercase;
@@ -581,6 +577,7 @@ input.number-with-validation:invalid {
 #printData label {
     margin-bottom: 0px;
 }
+
 .prescription_details
 {
     border: 1px solid #ced4da;
@@ -593,4 +590,16 @@ input.number-with-validation:invalid {
 .point
 {
     cursor:pointer;
+}
+.can-img {
+    width:100%;
+}
+.report_style[data-v-562b2494] {
+    background-color: #1e90ff;
+    color: #fff;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: auto;
+    left: 0;
 }

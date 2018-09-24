@@ -92,7 +92,7 @@
                      </h5>
                      <div id="collapseSeven" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                         <div class="card-body">
-                        <patientPrescriptionDetail :prescriptData="showPatientDetail.opdprescriptionData"></patientPrescriptionDetail>
+                        <patientPrescriptionDetail :prescriptData="showPatientDetail.opdprescriptionData" :prescriptionclockDetail="showPatientDetail.prescriptionclockDetail"></patientPrescriptionDetail>
                         
                         </div>
                     </div>
@@ -141,6 +141,7 @@
                     'history' : {},
                     'past_history' : {},
                     'patientCheckupDetail' : {},
+                    'prescriptionclockDetail' : '',
                 }
             }
         },
@@ -185,7 +186,7 @@
                        vm.showPatientDetail.patientDetail = response.data.data.patientDetail;
                        vm.showPatientDetail.patientCaseDetail = response.data.data.caseDetail;
                        vm.showPatientDetail.opdprescriptionData =  response.data.data.opdprescriptionData;
-             
+                       vm.showPatientDetail.prescriptionclockDetail = response.data.data.prescriptionclockDetail;
 
                       if(response.data.data.opdExaminationData){
                       vm.showPatientDetail.opdExaminationData = response.data.data.opdExaminationData;

@@ -1270,11 +1270,19 @@
       $result['opdReferalRadiologyData'] = Radiology::where('opd_id',$opdId)->where('referance',0)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
       $result['opdLabData'] = LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.opd_id',$opdId)->where('laboratory_details.referance',1)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
       $result['opdRadiologyData'] = Radiology::where('opd_id',$opdId)->where('referance',1)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
-      $result['opdprescriptionData'] = PrescriptionDetails::join('prescription_drugs','prescription_drugs.id','=','prescription_details.prescription_drug_id')->join('prescription_clock_details','prescription_clock_details.prescription_id','=','prescription_details.id')->where('prescription_details.opd_id',$opdId)->get();
-      
+      $result['opdprescriptionData'] = PrescriptionDetails::select('prescription_details.id as preId','prescription_details.opd_id as opd_id','prescription_details.prescription_drug_id','prescription_details.total_quantity','prescription_details.total_prescription_days','prescription_details.clock_suggest','prescription_details.qhrs as qhrs','prescription_details.total_qhrs as total_qhrs
+      	','prescription_details.how_many_times','prescription_details.remove','prescription_drugs.id as drugsId','prescription_drugs.name as name','prescription_drugs.type as type','prescription_drugs.doctor as doctor','prescription_drugs.status as status')->join('prescription_drugs','prescription_drugs.id','=','prescription_details.prescription_drug_id')->where('prescription_details.opd_id',$opdId)->get();
+      foreach($result['opdprescriptionData'] as $prescription){
+      		$priscriptionClockData = array();
+      		$prescriptionId = $prescription->preId ;
+      		$priscriptionClockData = PrescriptionClockDetails::where('opd_id',$opdId)->where('prescription_id',$prescriptionId)->get();
+      		$prescriptionData[$prescriptionId] = $priscriptionClockData;
+      }
+
+      $result['prescriptionclockDetail'] = $prescriptionData;
       $advice = $result['opdOptionDetails']->advice;
       $history = $result['opdOptionDetails']->history;
-    $pastHistory = $result['opdOptionDetails']->past_history;
+      $pastHistory = $result['opdOptionDetails']->past_history;
     //$examinationData =  $result['opdExaminationData']->examination_data;
      //
       $result['adviceData'] = json_decode($advice,true); 
