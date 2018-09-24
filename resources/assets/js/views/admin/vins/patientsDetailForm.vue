@@ -186,7 +186,7 @@
                     </div>
                     <div class="col-md-6">
                     	<div class="radio">
-						  <label><input type="radio" id="appointment_date_select" name="appointment_date_select" value="walk_in" v-model="patientData.appointment_date_select" @change="setAppointment()">Walk-In</label>
+						  <label><input type="radio" id="appointment_date_select" name="appointment_date_select" value="walk_in" v-model="patientData.appointment_date_select" @change="setAppointment()" checked="checked">Walk-In</label>
 						</div>
 						<div class="radio">
 						  <label><input type="radio" id="appointment_date_select" name="appointment_date_select" value="appointment" v-model="patientData.appointment_date_select" @change="setAppointment()">Appointment</label>
@@ -393,7 +393,7 @@
                 	'age' : '',
                 	'display_age' : '',
                 	'appointment_datetime': {
-                		time:''
+                		time:'',
                 	},
                 	'validatenumber' : '',
                 	'patient_id':'',
@@ -403,7 +403,7 @@
                 	'token_validation' : 0,
                 	'uhid_no':'',
                 	'case_type_option':{},
-                	'appointment_date_select':'',
+                	'appointment_date_select':'walk_in',
                 }
             }
         },
@@ -414,10 +414,7 @@
         mounted() {
 
         	let vm =this;
-    //     		document.onkeypress = function (e) {
-				// e = e || window.event;
-				// vm.isCapsLockOn(e);
-				// }
+    
 		       if(vm.$store.state.Users.userDetails.user_type != '3' && vm.$store.state.Users.userDetails.user_type != '4' ){
 		       		vm.$root.$emit('logout','You are not authorise to access this page');	
 		       }
@@ -484,6 +481,12 @@
 					$('#gender').on("select2:select", function (e) {
 						vm.patientData.gender = $(this).val(); 
 					});
+					if(vm.patientData.appointment_date_select=='walk_in')
+					{
+						
+						vm.patientData.appointment_datetime.time=moment().format('DD-MM-YYYY HH:mm:ss');
+					}
+					
 			
         },
         created: function(){
@@ -495,7 +498,7 @@
         	{
         		let vm=this;
         		let app_val=vm.patientData.appointment_date_select;
-        		vm.patientData.appointment_datetime.time="";
+        		//vm.patientData.appointment_datetime.time="";
         		if(app_val=='walk_in')
         		{
         			vm.patientData.appointment_datetime.time=moment().format('DD-MM-YYYY HH:mm:ss');
@@ -773,18 +776,6 @@
 		    initPatientData(){
 		    	var vm = this;   
 		    	vm.patientData.patient_id = '';
-		    	// $('#consulting_dr').select2("destroy");
-		    	//$('#token_status').select2("destroy");
-		    	//setTimeout(function(){
-     //         		$('#consulting_dr').select2({
-					// 	placeholder: "Select",
-					// 	tags: false,
-					// });
-					// $('#token_status').select2({
-					// 	placeholder: "Select",
-					// 	tags: false,
-					// });
-				//},500);
 		    	vm.patientData.uhid_no = '';
 		    	vm.patientData.fname = '';
 		    	vm.patientData.mname = '';
@@ -795,12 +786,11 @@
 		    	vm.patientData.ph_no = '';
 		    	vm.patientData.mob_no = '';
 		    	vm.patientData.reference_dr = '';
-		    	// vm.patientData.consulting_dr = '';
 		    	vm.patientData.age = '';
 		    	vm.patientData.type = 'opd';
 		    	vm.patientData.case_type = '';
-		    	// vm.patientData.token_status = '';
-		    	vm.patientData.appointment_datetime.time = '';
+		    	vm.patientData.appointment_date_select='walk_in';
+		    	vm.patientData.appointment_datetime.time=moment().format('DD-MM-YYYY HH:mm:ss');;
 		    	$("#gender").val('').trigger('change.select2');
 		    	// $("#consulting_dr").val('').trigger('change.select2');
 		    	$("#case_type").val('').trigger('change.select2');
