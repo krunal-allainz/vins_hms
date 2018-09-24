@@ -33,7 +33,7 @@
                                                <span v-if=""> ______</span>
                                             </span>
                                             <span v-if="res['clock_time_'+(index+1)]!='0' && res['clock_time_'+(index+1)]!='--:--'"> {{res['clock_time_'+(index+1)]}}</span>
-                                        </span>
+                                         </span>
                                         ]
                                     </span>                                   
                                     <span v-else>

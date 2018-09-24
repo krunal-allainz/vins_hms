@@ -510,7 +510,7 @@ class PatientsDetailFormController extends Controller
         $userId = $request->userId ;
         $noOfPage = $request->noofRecord;
         $status = $request->status;
-         $patientList=$this->patientOBJ->getAllPatientList($userType,$noOfPage,$userId,$status);
+         $patientList=$this->patientOBJ->getAllPatientList($status,$userType,$noOfPage,$userId);
          if($patientList)
         {
             return ['code' => 200 ,'data'=>$patientList,'message'=>'Getting case type successfully.'];

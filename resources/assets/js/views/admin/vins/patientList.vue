@@ -205,7 +205,6 @@
               <div data-v-744e717e="" class="table-header">
                   <h4 data-v-744e717e="" class="table-title text-center mt-3"></h4>
               </div>
-
               <div data-v-744e717e="" class="table-responsive">
                 <table data-v-744e717e="" class="table">
                   <thead data-v-744e717e="">
