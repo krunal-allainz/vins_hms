@@ -148,7 +148,7 @@ class UserRepository {
      */
     public function getUserNameById($id) {
         $record=User::where('id', $id)->first();
-        return strtolower($record->first_name.'_'.$record->last_name);
+        return strtolower($record->first_name.' '.$record->last_name);
     }
 
     /**
