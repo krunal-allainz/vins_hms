@@ -19,7 +19,7 @@ class CreateTablePrescriptionDetails extends Migration
             $table->integer('user_id')->nullable();
             $table->integer('prescription_drug_id')->nullable();
             $table->integer('total_quantity')->nullable();
-            $table->integer('how_many_times')->nullable();
+            $table->string('how_many_times')->nullable();
             $table->integer('total_prescription_days')->nullable();
             $table->string('clock_suggest')->nullable();
             $table->string('qhrs')->nullable();
