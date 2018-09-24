@@ -19,6 +19,7 @@ class PrescriptionDetails extends Model
               'clock_suggest',
               'qhrs',
               'total_qhrs',
+              'details',
               'remove',
               
         ];

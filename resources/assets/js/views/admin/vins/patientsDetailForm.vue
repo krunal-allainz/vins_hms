@@ -185,7 +185,13 @@
                      </label>
                     </div>
                     <div class="col-md-6">
-						<date-picker  :date.sync="patientData.appointment_datetime" :option="timeoption" id = "appointment_datetime" class="" type="datetime" name="appointment_datetime"   v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" :limit="limit2"   :disabledDates="disabledDates" @change="checkAppomentData()" ></date-picker> 
+                    	<div class="radio">
+						  <label><input type="radio" id="appointment_date_select" name="appointment_date_select" value="walk_in" v-model="patientData.appointment_date_select" @change="setAppointment()">Walk-In</label>
+						</div>
+						<div class="radio">
+						  <label><input type="radio" id="appointment_date_select" name="appointment_date_select" value="appointment" v-model="patientData.appointment_date_select" @change="setAppointment()">Appointment</label>
+						</div>
+						<date-picker v-if="patientData.appointment_date_select=='appointment'" :date.sync="patientData.appointment_datetime" :option="timeoption" id = "appointment_datetime" class="" type="datetime" name="appointment_datetime"   v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" :limit="limit2"   :disabledDates="disabledDates" @change="checkAppomentData()" ></date-picker> 
 						<i v-show="errors.has('appointment_datetime')" class="fa fa-warning"></i>
 						<span class="help is-danger" v-show="errors.has('appointment_datetime')">
 	            			Please enter valid appointment datetime.
@@ -397,6 +403,7 @@
                 	'token_validation' : 0,
                 	'uhid_no':'',
                 	'case_type_option':{},
+                	'appointment_date_select':'',
                 }
             }
         },
@@ -484,6 +491,20 @@
         	this.$root.$on('patientEmpty',this.patientEmpty);
         },
         methods: {
+        	setAppointment()
+        	{
+        		let vm=this;
+        		let app_val=vm.patientData.appointment_date_select;
+        		vm.patientData.appointment_datetime.time="";
+        		if(app_val=='walk_in')
+        		{
+        			vm.patientData.appointment_datetime.time=moment().format('DD-MM-YYYY HH:mm:ss');
+        		}
+        		else
+        		{
+        			vm.patientData.appointment_datetime.time="";
+        		}
+        	},
         	isCapsLockOn: function(e) {
         		// e.getModifierState('CapsLock');
         		//Toolkit.getDefaultToolkit().setLockingKeyState(KeyEvent.VK_CAPS_LOCK, true);

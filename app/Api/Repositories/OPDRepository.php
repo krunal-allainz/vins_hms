@@ -201,6 +201,7 @@
 	 			$prescription_obj->prescription_drug_id=$prescription['pid'];
 	 			$prescription_obj->how_many_times=$prescription['type'];
 	 			$prescription_obj->total_prescription_days=$prescription['total_prescription_days'];
+	 			$prescription_obj->details=$prescription['details'];
 	 			$prescription_obj->total_quantity=$prescription['total_quantity'];
 	 			$prescription_obj->clock_suggest=$prescription['clock_suggest'];
 	 			$prescription_obj->qhrs=$prescription['qhrs'];
@@ -687,6 +688,7 @@
  				$rest_presp['name']=$this->getPrescriptionNameById($presp->prescription_drug_id);
  				$rest_presp['type']=$presp->how_many_times;
  				$rest_presp['total_prescription_days']=$presp->total_prescription_days;
+ 				$rest_presp['details']=$presp->details;
  				$rest_presp['total_quantity']=$presp->total_quantity;
  				$rest_presp['clock_suggest']=$presp->clock_suggest;
  				$rest_presp['qhrs']="";
@@ -988,6 +990,7 @@
 	 			$prescription_obj->prescription_drug_id=$prescription['pid'];
 	 			$prescription_obj->how_many_times=$prescription['type'];
 	 			$prescription_obj->total_prescription_days=$prescription['total_prescription_days'];
+	 			$prescription_obj->details=$prescription['details'];
 	 			$prescription_obj->total_quantity=$prescription['total_quantity'];
 	 			$prescription_obj->clock_suggest=$prescription['clock_suggest'];
 	 			$prescription_obj->qhrs=$prescription['qhrs'];
@@ -1137,7 +1140,7 @@
 	 			$radiology_obj_2->opd_id=$opd_id_org;
 	 			$radiology_obj_2->user_id=$user_id;
 	 			$radiology_obj_2->type=$r_data['type'];
-	 			$radiology_obj_2->type_name=$radio['type_name'];
+	 			$radiology_obj_2->type_name=$r_data['type_name'];
 	 			$radiology_obj_2->bodyparts=$r_data['bodyPart'];
 	 			$radiology_obj_2->qualifiers=$r_data['qualifier'];
 	 			$radiology_obj_2->special_request=$r_data['special_request'];
