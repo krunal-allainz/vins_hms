@@ -24,6 +24,7 @@ class CreateTablePrescriptionDetails extends Migration
             $table->string('clock_suggest')->nullable();
             $table->string('qhrs')->nullable();
             $table->string('total_qhrs')->nullable();
+            $table->text('details')->nullable();
             $table->string('remove')->nullable();
             $table->timestamps();
         });
