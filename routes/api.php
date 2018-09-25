@@ -152,6 +152,9 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
          //for getting username by id 
         $api->post('user/getUserNameById', '\euro_hms\Api\Controllers\UserController@getUserNameById');
 
+         $api->post('user/getusernameforsignature', '\euro_hms\Api\Controllers\UserController@getUserNameByIdForSignature');
+        
+
         //for getting laboratoey list  by type and id 
         $api->post('opd/getLaboratoryData', '\euro_hms\Api\Controllers\OPDDetailsFromController@getLaboratoryData');
 
@@ -248,6 +251,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         $api->post('patient/getallpatientlist','\euro_hms\Api\Controllers\PatientsDetailFormController@getAllPatientList');
 
         $api->post('patient/update','\euro_hms\Api\Controllers\PatientsDetailFormController@updatePatient');
+
+          $api->post('patient/statusupdate','\euro_hms\Api\Controllers\PatientsDetailFormController@updatePatientStatus');
 
         });
 

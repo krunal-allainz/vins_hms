@@ -16,6 +16,9 @@
 			 	<labDataReport :labReferalData="ReportPageData.labReferalReportData"  :printType="printType" :checkedreportList="checkedreportList" :refferance="0"></labDataReport>
 			 	<!-- lab referal data end -->
 		</div>
+		<div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Diagnosis')" >
+				<diagnosisReportData :data="ReportPageData.opdData.diagnosis"></diagnosisReportData>
+		</div>
 
 		<!-- <div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Prescription')" >
 			 	print Perceptions Report start
@@ -47,6 +50,10 @@
 				<examinationReportData :examData="ReportPageData.examinationData" :checkedreportList="checkedreportList" :printType="printType"></examinationReportData>
 		</div> -->
 
+		<div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Examination')" >
+				<examinationReportData :examData="ReportPageData.examinationData" :checkedreportList="checkedreportList" :printType="printType"></examinationReportData>
+		</div>
+
 		<div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Referrals')" >
 			 	<!-- cross referal report data start  -->
 			 	<crossReportData :CrossReferalData="ReportPageData.CrossReferalData" :checkedreportList="checkedreportList" :printType="printType"></crossReportData>
@@ -69,6 +76,7 @@
 	import historyReportData from './historyReportData.vue';
 	import pastHistoryReportData from './pastHistoryReportData.vue';
 	import examinationReportData from './examinationOrgReportData.vue';
+	import diagnosisReportData from './diagnosisReportData.vue';
 	
 		export default {
 		props:['ReportPageData','checkedreportList','printType','prescriptiData','adviceData','historyData','past_history'],
@@ -82,7 +90,8 @@
           followupReportData,
           historyReportData,
           pastHistoryReportData,
-          examinationReportData
+          examinationReportData,
+          diagnosisReportData
 		}
 
 	}

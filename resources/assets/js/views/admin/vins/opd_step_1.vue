@@ -245,7 +245,6 @@
               <button type="button" class="btn btn-submit" @click="setHistoryType('present','text')">Text</button>
               <button type="button" class="btn btn-warning" @click="setHistoryType('present','scribble')">Scribble</button>
             </div>
-
         </div>
         
       </div>

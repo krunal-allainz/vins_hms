@@ -199,6 +199,16 @@ class UserController extends BaseController
         return $this->userRepoObj->getUserNameById($request->all()['id']);
     }
 
+    /**
+     * get user name for signature
+     * 
+     * 
+     */
+    public function getUserNameByIdForSignature(Request $request)
+    {
+        return $this->userRepoObj->getUserNameByIdForSignature($request->all()['id']);
+    }
+
      /**
      * [getUserDetailById description]
      * @param  Request $request [description]

@@ -410,6 +410,8 @@
 							@include('pastHistoryReportdata')
 					@elseif($checkout=='Examination')
 						@include('examinationReportData')
+					@elseif($checkout=='Diagnosis')
+						@include('diagnosisReportData')
 					@endif	
 				@endif
 			</div>

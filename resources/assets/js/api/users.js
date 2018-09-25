@@ -273,6 +273,9 @@ export default {
   generateUserNameById(consult_id) {
     return api.post('user/getUserNameById',{'id' :consult_id});
   },
+  generateUserNameByIdForSignature(consult_id) {
+    return api.post('user/getusernameforsignature',{'id' :consult_id});
+  },
   generateLaboratoryData(data_obj) {
     return api.post('opd/getLaboratoryData',{'data' :data_obj});
   },
@@ -392,5 +395,8 @@ export default {
   },
   updatePatient(patientData){
      return api.post('patient/update',{'patientData':patientData})
+  },
+  patientCaseStatusChage(patientId,status){
+     return api.post('patient/statusupdate',{'patientId':patientId,'status':status})
   }
 }
