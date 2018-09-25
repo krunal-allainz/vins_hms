@@ -92,7 +92,7 @@
                      </h5>
                      <div id="collapseSeven" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                         <div class="card-body">
-                        <patientPrescriptionDetail :prescriptData="showPatientDetail.opdprescriptionData" :prescriptionclockDetail="showPatientDetail.prescriptionclockDetail"></patientPrescriptionDetail>
+                        <patientPrescriptionDetail :prescriptData="showPatientDetail.opdprescriptionData"></patientPrescriptionDetail>
                         
                         </div>
                     </div>
@@ -107,7 +107,7 @@
 	import patientDetailView from './patientDetailView.vue';
     import patientOPDDetailInfo from './patientOPDDetailInfo.vue';
     import patientCaseDetail from './patientCaseDetail.vue';
-    import patientPrescriptionDetail from './patientPrescriptionDetail.vue';
+    import patientPrescriptionDetail from './prescriptionReportData.vue';
     import examinationviewDetail from './examinationOrgReportData.vue';
     import labDataViewDetail from './labDataViewDetail.vue';
     import reportViewDetail from './reportViewDetail.vue';
@@ -186,7 +186,7 @@
                        vm.showPatientDetail.patientDetail = response.data.data.patientDetail;
                        vm.showPatientDetail.patientCaseDetail = response.data.data.caseDetail;
                        vm.showPatientDetail.opdprescriptionData =  response.data.data.opdprescriptionData;
-                       vm.showPatientDetail.prescriptionclockDetail = response.data.data.prescriptionclockDetail;
+                       //vm.showPatientDetail.prescriptionclockDetail = response.data.data.prescriptionclockDetail;
 
                       if(response.data.data.opdExaminationData){
                       vm.showPatientDetail.opdExaminationData = response.data.data.opdExaminationData;

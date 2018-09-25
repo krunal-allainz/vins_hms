@@ -25,7 +25,7 @@
 			 	<!-- Radiology referal end -->
 
 			 	<!-- print Perceptions Report start  -->
-			 	<prescriptionPrint :prescriptData="prescriptiData" :removeBtn="0" :checkedreportList="checkedreportList" :printType="printType" v-show="(printType == 'prescription')"> </prescriptionPrint>
+			 	<prescriptionPrint :prescriptData="ReportPageData.prescriptionReportData" :removeBtn="0" :checkedreportList="checkedreportList" :printType="printType" v-show="(printType == 'prescription')"> </prescriptionPrint>
 			 	<!-- print Perceptions Report end -->
 
 			 	<!-- cross referal report data start  -->
@@ -33,11 +33,11 @@
 			 	<!-- cross referal  report data end-->
 
 			 	<!-- print Perceptions Report start -->
-			 	<printPerceptionsReportData :ReportPageData="ReportPageData" :prescriptData="prescriptiData" :adviceData="adviceData":checkedreportList="checkedreportList" :printType="printType" v-show="(printType == 'print_perceptions')"></printPerceptionsReportData> 
+			 	<printPerceptionsReportData :ReportPageData="ReportPageData" :prescriptData="ReportPageData.prescriptionReportData" :adviceData="adviceData":checkedreportList="checkedreportList" :printType="printType" v-show="(printType == 'print_perceptions')"></printPerceptionsReportData> 
 			 	<!-- print Perceptions Report end  -->
 			 	
 			 	<!-- opd data start -->
-			 	<opdDataReport :ReportPageData="ReportPageData" :prescriptiData="prescriptiData" :adviceData="adviceData" :historyData="historyData" :past_history="past_history" :checkedreportList="checkedreportList" :printType="printType" v-show="(printType == 'opd_case')"></opdDataReport>
+			 	<opdDataReport :ReportPageData="ReportPageData" :prescriptiData="ReportPageData.prescriptionReportData" :adviceData="adviceData" :historyData="historyData" :past_history="past_history" :checkedreportList="checkedreportList" :printType="printType" v-show="(printType == 'opd_case')"></opdDataReport>
 			 	<!-- opd data end -->
 
 			 	<signatureReportData :department="department" :regNo="regNo" :doctoreName="doctoreName" :signatureName="signatureName"></signatureReportData>
@@ -56,7 +56,7 @@
 	import labDataReport from './labDataReport.vue';
 	import radiologyDataReport from './radiologyDataReport.vue';
 	import prescriptionData from './prescriptionData.vue';
-	import prescriptionPrint from './prescriptionPrint.vue';
+	import prescriptionPrint from './prescriptionReportData.vue';
 	import printPerceptionsReportData from './printPerceptionsReportData.vue';
 	import crossReportData from './crossReportData.vue';
 	import opdDataReport from './opdDataReport.vue';
@@ -65,7 +65,7 @@
 	import _ from 'lodash';
 	
 	export default {
-		props: ['opdId','patinetId','todayDate','patientDetail','patientCheckupDetail','department','regNo','doctoreName','signatureName','consultntId','reference','ReportPageData','printType','checkedreportList','reportListSelect','prescriptiData','adviceData','historyData','past_history'],
+		props: ['opdId','patinetId','todayDate','patientDetail','patientCheckupDetail','department','regNo','doctoreName','signatureName','consultntId','reference','ReportPageData','printType','checkedreportList','reportListSelect','adviceData','historyData','past_history'],
 		data() {
 			return{
 		      }

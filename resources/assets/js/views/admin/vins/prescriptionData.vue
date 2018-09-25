@@ -150,118 +150,120 @@
 
             </div>
             <div v-for="pres_clock in prescriptFinalData.prescriptionNameList">
-               <div class="row form-group clock_result" :id="'presct_table_'+pres_clock.pid" v-if="pres_clock.remove=='false'">
-                  <div class="col-md-3">
-                      <div class="col-md-12">
-                        <div class=" input-group">
-                        <div class="input-group-append">
-                            <span class="input-group-text ">{{(pres_clock.name==''?'Prescription Name':pres_clock.name)}}</span>
+              <div :id="'presct_table_'+pres_clock.pid" v-if="pres_clock.remove=='false'" class="clock_result">
+                 <div class="row form-group">
+                    <div class="col-md-3">
+                        <div class="col-md-12">
+                          <div class=" input-group">
+                          <div class="input-group-append">
+                              <span class="input-group-text ">{{(pres_clock.name==''?'Prescription Name':pres_clock.name)}}</span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  <span v-if="pres_clock.type=='Q-Hrs'">
-                    <div class="col-md-2">
-                      <div class="col-md-12" >
-                        <div class=" input-group">
-                          <div class="input-group-append" v-for="(item,index) in parseInt(pres_clock.total_qhrs)">
-                              <span class="input-group-text" >{{pres_clock['clock_quantity_'+(index+1)]}}</span>
-                          </div>
-                        </div>  
-                      </div>
-                    </div>
-                  </span>
-                  <span v-else>
+                    <span v-if="pres_clock.type=='Q-Hrs'">
                       <div class="col-md-2">
                         <div class="col-md-12" >
                           <div class=" input-group">
-                            <div class="input-group-append" >
-                                <span class="input-group-text" >{{pres_clock.clock_quantity_1}}</span>
-                            </div>
-                            <div class="input-group-append" >
-                                <span class="input-group-text" >{{pres_clock.clock_quantity_2}}</span>
-                            </div>
-                            <div class="input-group-append" >
-                                <span class="input-group-text" >{{pres_clock.clock_quantity_3}}</span>
-                            </div>
-                              <div class="input-group-append" >
-                                <span class="input-group-text" >{{pres_clock.clock_quantity_4}}</span>
+                            <div class="input-group-append" v-for="(item,index) in parseInt(pres_clock.total_qhrs)">
+                                <span class="input-group-text" >{{pres_clock['clock_quantity_'+(index+1)]}}</span>
                             </div>
                           </div>  
                         </div>
                       </div>
-                  </span>
-                   <span v-if="pres_clock.type=='Q-Hrs'">
-                    <div class="col-md-3">
-                      <div class="col-md-12" >
-                        <div class=" input-group">
-                            <div class="input-group-append" v-for="(item2,index2) in parseInt(pres_clock.total_qhrs)">
-                                <span class="input-group-text point" @click="editPrescriptionResult(pres_clock.pid,pres_clock['clock_time_'+(index2+1)],pres_clock['clock_quantity_'+(index2+1)],(index2+1))" v-if="">{{pres_clock['clock_time_'+(index2+1)]}}</span>
-                            </div>
-                        </div>  
-                      </div>
-                    </div>
-                  </span>
-                  <span v-else>
-                      <div class="col-md-3">
-                        <div class="col-md-12">
-                          <div class=" input-group">
-                            <div class="input-group-append">
-                                <span class="input-group-text point" @click="editPrescriptionResult(pres_clock.pid,pres_clock.clock_time_1,pres_clock.clock_quantity_1,1)" v-if="">{{pres_clock.clock_time_1}}</span>
-                            </div>
-                            <div class="input-group-append">
-                                <span class="input-group-text point" @click="editPrescriptionResult(pres_clock.pid,pres_clock.clock_time_2,pres_clock.clock_quantity_2,2)" v-if="">{{pres_clock.clock_time_2}}</span>
-                            </div>
-                            <div class="input-group-append">
-                                <span class="input-group-text point" @click="editPrescriptionResult(pres_clock.pid,pres_clock.clock_time_3,pres_clock.clock_quantity_3,3)" v-if="">{{pres_clock.clock_time_3}}</span>
-                            </div>
-                            <div class="input-group-append">
-                                <span class="input-group-text point" @click="editPrescriptionResult(pres_clock.pid,pres_clock.clock_time_4,pres_clock.clock_quantity_4,4)" v-if="">{{pres_clock.clock_time_4}}</span>
-                            </div>
+                    </span>
+                    <span v-else>
+                        <div class="col-md-2">
+                          <div class="col-md-12" >
+                            <div class=" input-group">
+                              <div class="input-group-append" >
+                                  <span class="input-group-text" >{{pres_clock.clock_quantity_1}}</span>
+                              </div>
+                              <div class="input-group-append" >
+                                  <span class="input-group-text" >{{pres_clock.clock_quantity_2}}</span>
+                              </div>
+                              <div class="input-group-append" >
+                                  <span class="input-group-text" >{{pres_clock.clock_quantity_3}}</span>
+                              </div>
+                                <div class="input-group-append" >
+                                  <span class="input-group-text" >{{pres_clock.clock_quantity_4}}</span>
+                              </div>
                             </div>  
+                          </div>
+                        </div>
+                    </span>
+                     <span v-if="pres_clock.type=='Q-Hrs'">
+                      <div class="col-md-3">
+                        <div class="col-md-12" >
+                          <div class=" input-group">
+                              <div class="input-group-append" v-for="(item2,index2) in parseInt(pres_clock.total_qhrs)">
+                                  <span class="input-group-text point" @click="editPrescriptionResult(pres_clock.pid,pres_clock['clock_time_'+(index2+1)],pres_clock['clock_quantity_'+(index2+1)],(index2+1))" v-if="">{{pres_clock['clock_time_'+(index2+1)]}}</span>
+                              </div>
+                          </div>  
                         </div>
                       </div>
-                  </span>
-                <div class="col-md-2">
-                  <div class="col-md-12">
-                     <div class=" input-group">
-                        <div class="input-group-append">
-                            <span class="input-group-text ">{{(pres_clock.clock_suggest==''?'--':pres_clock.clock_suggest)}}</span>
+                    </span>
+                    <span v-else>
+                        <div class="col-md-3">
+                          <div class="col-md-12">
+                            <div class=" input-group">
+                              <div class="input-group-append">
+                                  <span class="input-group-text point" @click="editPrescriptionResult(pres_clock.pid,pres_clock.clock_time_1,pres_clock.clock_quantity_1,1)" v-if="">{{pres_clock.clock_time_1}}</span>
+                              </div>
+                              <div class="input-group-append">
+                                  <span class="input-group-text point" @click="editPrescriptionResult(pres_clock.pid,pres_clock.clock_time_2,pres_clock.clock_quantity_2,2)" v-if="">{{pres_clock.clock_time_2}}</span>
+                              </div>
+                              <div class="input-group-append">
+                                  <span class="input-group-text point" @click="editPrescriptionResult(pres_clock.pid,pres_clock.clock_time_3,pres_clock.clock_quantity_3,3)" v-if="">{{pres_clock.clock_time_3}}</span>
+                              </div>
+                              <div class="input-group-append">
+                                  <span class="input-group-text point" @click="editPrescriptionResult(pres_clock.pid,pres_clock.clock_time_4,pres_clock.clock_quantity_4,4)" v-if="">{{pres_clock.clock_time_4}}</span>
+                              </div>
+                              </div>  
+                          </div>
                         </div>
+                    </span>
+                  <div class="col-md-2">
+                    <div class="col-md-12">
+                       <div class=" input-group">
+                          <div class="input-group-append">
+                              <span class="input-group-text ">{{(pres_clock.clock_suggest==''?'--':pres_clock.clock_suggest)}}</span>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="col-md-1">
+                    <div class="col-md-12">
+                       <div class=" input-group">
+                          <div class="input-group-append">
+                              <span class="input-group-text ">{{pres_clock.type}}<span v-if="pres_clock.qhrs!=''">[{{pres_clock.qhrs}}]</span></span>
+                          </div>
                       </div>
                   </div>
-                </div>
-                <div class="col-md-1">
-                  <div class="col-md-12">
-                     <div class=" input-group">
-                        <div class="input-group-append">
-                            <span class="input-group-text ">{{pres_clock.type}}<span v-if="pres_clock.qhrs!=''">[{{pres_clock.qhrs}}]</span></span>
-                        </div>
-                    </div>
-                </div>
-                </div>
-                <div class="col-md-1">
-                  <div class="col-md-12">
-                     <div class=" input-group">
-                        <div class="input-group-append">
-                            <span class="input-group-text ">{{pres_clock.total_prescription_days}}</span>
-                        </div>
-                    </div>
-                </div>
-                </div>
-              </div>
-               <div class="row" v-if="pres_clock.details!='' && pres_clock.details!=null">
-                 <div class="col-md-12">
+                  </div>
+                  <div class="col-md-1">
                     <div class="col-md-12">
-                          <label><b>Notes:-</b></label>
-                          <div class="form-group prescription_details" >
-                              <span>{{pres_clock.details}}</span>
+                       <div class=" input-group">
+                          <div class="input-group-append">
+                              <span class="input-group-text ">{{pres_clock.total_prescription_days}}</span>
                           </div>
-                     
-                    </div>
+                      </div>
+                  </div>
+                  </div>
                 </div>
-               </div>
+                  <div class="row" v-if="pres_clock.details!='' && pres_clock.details!=null">
+                     <div class="col-md-12">
+                        <div class="col-md-12">
+                              <label><b>Notes:-</b></label>
+                              <div class="form-group prescription_details" >
+                                  <span>{{pres_clock.details}}</span>
+                              </div>
+                         
+                        </div>
+                    </div>
+                  </div>
+              </div>
           </div>
 
             <div class="row form-group">
@@ -373,12 +375,12 @@
         },
         mounted() {
             let vm=this;
-             $('#prescription').on("select2:select", function (e) {
-              let presId = $('#prescription').select2('data')[0].id;
-              vm.prescriptFinalData.prescription=$('#prescription').select2('data')[0].text;
-              vm.prescriptFinalData.prescription_id=presId;
-              vm.checkPrescription();
-           });
+            $('#prescription').on("select2:select", function (e) {
+                let presId = $('#prescription').select2('data')[0].id;
+                vm.prescriptFinalData.prescription=$('#prescription').select2('data')[0].text;
+                vm.prescriptFinalData.prescription_id=presId;
+                vm.checkPrescription();
+            });
             setTimeout(function(){vm.getPrescriptionList(); },500);
            
             $('#how_many_times').on("select2:select", function (e) {
@@ -473,7 +475,8 @@
                 if(all_prescription.length)
                 {
                   vm.prescriptFinalData.prescriptionNameList =_.cloneDeep(vm.$store.state.Patient.prescriptionData);
-                  vm.prescriptFinalData.finalPrescriptionAllData = _.cloneDeep(vm.$store.state.Patient.prescriptionData);
+                  let prespPrintData=_.filter(vm.prescriptFinalData.prescriptionNameList, function(o) { return o.remove=='false'; });
+                  vm.prescriptFinalData.finalPrescriptionAllData = _.cloneDeep(prespPrintData);
                   vm.priscription_add_disabled=true;
                   vm.show_prescription_result_data_enable=true;
                   let array_presp=_.filter(vm.prescriptFinalData.prescriptionNameList, ['remove', 'false']);
@@ -1003,8 +1006,9 @@
           storevueprescription()
           {
             let vm =this;
-            vm.prescriptFinalData.finalPrescriptionAllData=_.cloneDeep(vm.prescriptFinalData.prescriptionNameList);
-            let finalData = _.cloneDeep(vm.prescriptFinalData.finalPrescriptionAllData);
+            let prespPrintData=_.filter(vm.prescriptFinalData.prescriptionNameList, function(o) { return o.remove=='false'; });
+            vm.prescriptFinalData.finalPrescriptionAllData=_.cloneDeep(prespPrintData);
+            let finalData = _.cloneDeep(vm.prescriptFinalData.prescriptionNameList);
             vm.$store.dispatch('setPrescriptionData',finalData);
           },
           savePrescription() {

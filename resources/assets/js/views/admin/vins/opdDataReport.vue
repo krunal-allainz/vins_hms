@@ -22,7 +22,7 @@
 
 		<!-- <div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Prescription')" >
 			 	print Perceptions Report start
-			 	<prescriptionPrint :prescriptData="prescriptiData" :removeBtn="0" :checkedreportList="checkedreportList" :printType="printType"> </prescriptionPrint>
+			 	<prescriptionPrint :prescriptData="ReportPageData.prescriptionReportData" :removeBtn="0" :checkedreportList="checkedreportList" :printType="printType"> </prescriptionPrint>
 			 	print Perceptions Report end
 		</div>
 		
@@ -69,7 +69,7 @@
 	import labDataReport from './labDataReport.vue';
 	import radiologyDataReport from './radiologyDataReport.vue';
 	import prescriptionData from './prescriptionData.vue';
-	import prescriptionPrint from './prescriptionPrint.vue';
+	import prescriptionPrint from './prescriptionReportData.vue';
 	import crossReportData from './crossReportData.vue';
 	import adviseReportdata from './adviseReportdata.vue';
 	import followupReportData from './followupReportData.vue';
@@ -79,7 +79,7 @@
 	import diagnosisReportData from './diagnosisReportData.vue';
 	
 		export default {
-		props:['ReportPageData','checkedreportList','printType','prescriptiData','adviceData','historyData','past_history'],
+		props:['ReportPageData','checkedreportList','printType','adviceData','historyData','past_history'],
 		components: {
 		 labDataReport,
          radiologyDataReport,

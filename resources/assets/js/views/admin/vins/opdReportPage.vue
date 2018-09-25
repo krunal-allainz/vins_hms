@@ -86,7 +86,7 @@
 				'todayDate' : formattedDate,
 				'opdId' : this.$store.state.Patient.opdId,
 				'patinetId' : this.$store.state.Patient.patientId,
-				'prescriptiData' : this.$store.state.Patient.prescriptionData,
+				'prescriptiData' : {},
 				'opdReport' : false,
 				'consultntId' : '',
 				'consultName' : '',
@@ -131,20 +131,21 @@
 		      			'reportListId': 'Referrals'
 		      		}] ,
 		      		'ReportPageData' : {
-		      	'labReferalReportData' : {},
-		      	'radiologyReferalReportData' : {},
-		      	'ExaminationData' : '' ,
-		      	'opdData' : {},
-		      	'CrossReferalData' : {},
-		      	'phisioyoData' : {},
-		      	'labReportData' : {},
-		      	'radiologyReportData' : {},
-		      	'prescriptionReportData' : {},
-		      	'past_history' : {},
-		      	'historyData' : {},
-		      	'adviceData' : {},
-		      	'examinationData':'',
-		      }
+				      	'labReferalReportData' : {},
+				      	'radiologyReferalReportData' : {},
+				      	'ExaminationData' : '' ,
+				      	'opdData' : {},
+				      	'CrossReferalData' : {},
+				      	'phisioyoData' : {},
+				      	'labReportData' : {},
+				      	'radiologyReportData' : {},
+				      	'prescriptionReportData' : {},
+				      	'past_history' : {},
+				      	'historyData' : {},
+				      	'adviceData' : {},
+				      	'examinationData':'',
+				      	
+		      		}
 			}
 		},
 		components: {
@@ -279,6 +280,7 @@
        				if(response.data.data.adviceData){
        				  vm.ReportPageData.adviceData =response.data.data.adviceData; 
        				}
+       				
        				
        				},
        				(error) => {
