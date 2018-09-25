@@ -1,6 +1,6 @@
 <div style="">	
 
-  	@if(isset($data['priscriptionData']))
+  	@if(isset($data['ReportPageData']['prescriptionReportData']))
 	  	
 		<div class='col-md-12'>
 			<span class='report_title'>Prescription:-</span>
@@ -9,8 +9,8 @@
 			<table class="table report_table" id="prescription_list">
 			<thead></thead>
 			<tbody>
-				@if(count($data['priscriptionData'])>0)
-					@foreach($data['priscriptionData'] as $key=>$res)
+				@if(count($data['ReportPageData']['prescriptionReportData'])>0)
+					@foreach($data['ReportPageData']['prescriptionReportData'] as $key=>$res)
 						@if($res['remove']==='false')
 						<tr>
 							<td>{{++$key}} ] {{$res['name']}} :ORAL
@@ -122,7 +122,7 @@
 	                    </tr>
 	                </thead>
 	                <tbody>
-						@foreach($data['priscriptionData'] as $key2=>$res2)
+						@foreach($data['ReportPageData']['prescriptionReportData'] as $key2=>$res2)
 		                	@if($res2['remove']==='false')
 			                 <tr class="text-center">
 			                        <td>{{++$key2}} </td>
