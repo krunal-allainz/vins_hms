@@ -640,7 +640,7 @@
               'patient_case_managment.consultant_id',
               'patient_case_managment.case_type'
             )->get();
-        
+       
         if (count($patientDetails)>0) {
             return ['code' => '200','data'=>$patientDetails, 'message' => 'Record Sucessfully created'];
         } else {

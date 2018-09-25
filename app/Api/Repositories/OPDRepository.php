@@ -520,8 +520,14 @@
  		  $result['opdReferalRadiologyData'] = Radiology::where('opd_id',$opdId)->where('referance',0)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
  		  $result['opdLabData'] = LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.opd_id',$opdId)->where('laboratory_details.referance',1)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
  		  $result['opdRadiologyData'] = Radiology::where('opd_id',$opdId)->where('referance',1)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
- 		  $result['opdprescriptionData'] = PrescriptionDetails::join('prescription_drugs','prescription_drugs.id','=','prescription_details.prescription_drug_id')->where('prescription_details.opd_id',$opdId)->get();
- 		  
+
+ 		//for prescriptiondata
+ 		 	$prescript_array=$this->getPrescriptionDataForPrint($opdId);
+ 			$result['opdprescriptionData']=$prescript_array;
+ 		//for prescriptiondata over
+ 		
+ 		  /*$result['opdprescriptionData'] = PrescriptionDetails::join('prescription_drugs','prescription_drugs.id','=','prescription_details.prescription_drug_id')->where('prescription_details.opd_id',$opdId)->where('prescription_details.remove','false')->get();*/
+ 		 
  		  $advice = $result['opdOptionDetails']->advice;
  		  $history = $result['opdOptionDetails']->history;
  		$pastHistory = $result['opdOptionDetails']->past_history;
@@ -532,6 +538,54 @@
  		 // $result['opdExaminationDataList'] = json_decode($examinationData,true); 
 
  		 return $result;
+ 	}
+
+ 	public function getPrescriptionDataForPrint($opdId)
+ 	{
+ 		 $prescription_details=PrescriptionDetails::where('opd_id',$opdId)->where('remove','false')->orderBy('id','asc')->get();
+ 		  $prescript_array=array();
+
+ 			foreach($prescription_details as $presp)
+ 			{
+ 				$rest_presp=array();
+ 				$rest_presp['pid']=$presp->prescription_drug_id;
+ 				$rest_presp['name']=$this->getPrescriptionNameById($presp->prescription_drug_id);
+ 				$rest_presp['type']=$presp->how_many_times;
+ 				$rest_presp['total_prescription_days']=$presp->total_prescription_days;
+ 				$rest_presp['details']=$presp->details;
+ 				$rest_presp['total_quantity']=$presp->total_quantity;
+ 				$rest_presp['clock_suggest']=$presp->clock_suggest;
+ 				$rest_presp['qhrs']="";
+ 				$rest_presp['total_qhrs']="";
+ 				$rest_presp['remove']=$presp->remove;
+ 				$clock_details=PrescriptionClockDetails::where('prescription_id',$presp->id)->orderBy('id','asc')->get();
+ 				//print_r($clock_details);
+ 				if($rest_presp['type']=='Q-Hrs')
+	 			{	
+	 					$rest_presp['qhrs']=$presp->qhrs;
+ 						$rest_presp['total_qhrs']=$presp->total_qhrs;
+	 					$j=1;
+	 					for($i=0;$i<$presp->total_qhrs;$i++)
+		 				{
+				 			$rest_presp['clock_time_'.$j]=$clock_details[$i]['clock_time'];
+		 					$rest_presp['clock_quantity_'.$j]=$clock_details[$i]['clock_quantity'];
+				 			$j++;
+		 				}
+	 			}
+	 			else
+	 			{
+	 				$i=1;
+		 			foreach($clock_details as $clocks)
+		 			{
+					 	$rest_presp['clock_time_'.$i]=$clocks->clock_time;
+		 				$rest_presp['clock_quantity_'.$i]=$clocks->clock_quantity;
+					 	$i++;
+		 			}
+	 			}
+	 			
+ 				$prescript_array[]=$rest_presp;
+ 			}
+ 			return $prescript_array;
  	}
 
      /**
@@ -550,7 +604,11 @@
  		  $result['opdReferalRadiologyData'] = Radiology::where('opd_id',$opdId)->where('referance',0)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
  		  $result['opdLabData'] = LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.opd_id',$opdId)->where('laboratory_details.referance',1)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
  		  $result['opdRadiologyData'] = Radiology::where('opd_id',$opdId)->where('referance',1)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
- 		  $result['opdprescriptionData'] = PrescriptionDetails::join('prescription_drugs','prescription_drugs.id','=','prescription_details.prescription_drug_id')->where('prescription_details.opd_id',$opdId)->get();
+ 		  /*$result['opdprescriptionData'] = PrescriptionDetails::join('prescription_drugs','prescription_drugs.id','=','prescription_details.prescription_drug_id')->where('prescription_details.opd_id',$opdId)->where('prescription_details.remove','false')->get();*/
+ 		  	//for prescriptiondata
+ 		 		$prescript_array=$this->getPrescriptionDataForPrint($opdId);
+ 				$result['opdprescriptionData']=$prescript_array;
+ 			//for prescriptiondata over
  		  $advice = $result['opdOptionDetails']->advice;
  		  $history = $result['opdOptionDetails']->history;
  		$pastHistory = $result['opdOptionDetails']->past_history;
@@ -1270,8 +1328,12 @@
       $result['opdReferalRadiologyData'] = Radiology::where('opd_id',$opdId)->where('referance',0)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
       $result['opdLabData'] = LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.opd_id',$opdId)->where('laboratory_details.referance',1)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
       $result['opdRadiologyData'] = Radiology::where('opd_id',$opdId)->where('referance',1)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
-      $result['opdprescriptionData'] = PrescriptionDetails::select('prescription_details.id as preId','prescription_details.opd_id as opd_id','prescription_details.prescription_drug_id','prescription_details.total_quantity','prescription_details.total_prescription_days','prescription_details.clock_suggest','prescription_details.qhrs as qhrs','prescription_details.total_qhrs as total_qhrs
-      	','prescription_details.how_many_times','prescription_details.remove','prescription_drugs.id as drugsId','prescription_drugs.name as name','prescription_drugs.type as type','prescription_drugs.doctor as doctor','prescription_drugs.status as status')->join('prescription_drugs','prescription_drugs.id','=','prescription_details.prescription_drug_id')->where('prescription_details.opd_id',$opdId)->get();
+      //for prescriptiondata
+ 		 	$prescript_array=$this->getPrescriptionDataForPrint($opdId);
+ 			$result['opdprescriptionData']=$prescript_array;
+ 		//for prescriptiondata over
+     /* $result['opdprescriptionData'] = PrescriptionDetails::select('prescription_details.id as preId','prescription_details.opd_id as opd_id','prescription_details.prescription_drug_id','prescription_details.total_quantity','prescription_details.total_prescription_days','prescription_details.clock_suggest','prescription_details.qhrs as qhrs','prescription_details.total_qhrs as total_qhrs
+      	','prescription_details.how_many_times','prescription_details.remove','prescription_drugs.id as drugsId','prescription_drugs.name as name','prescription_drugs.type as type','prescription_drugs.doctor as doctor','prescription_drugs.status as status')->join('prescription_drugs','prescription_drugs.id','=','prescription_details.prescription_drug_id')->where('prescription_details.opd_id',$opdId)->where('prescription_details.remove','false')->get();
       foreach($result['opdprescriptionData'] as $prescription){
       		$priscriptionClockData = array();
       		$prescriptionId = $prescription->preId ;
@@ -1279,7 +1341,7 @@
       		$prescriptionData[$prescriptionId] = $priscriptionClockData;
       }
 
-      $result['prescriptionclockDetail'] = $prescriptionData;
+      $result['prescriptionclockDetail'] = $prescriptionData;*/
       $advice = $result['opdOptionDetails']->advice;
       $history = $result['opdOptionDetails']->history;
       $pastHistory = $result['opdOptionDetails']->past_history;
