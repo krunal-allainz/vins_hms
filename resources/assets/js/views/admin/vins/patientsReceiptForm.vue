@@ -52,9 +52,7 @@
     								<option class="level_1" value="5">Follow up</option>
     								<option class="level_1" value="6">Emergency</option>
   								 </optgroup>
-								
 							</select>
-							
 						</div>
 					</div>
 				 	<div class="col-md-6" v-if="patientReceiptData.charges_type == '2'">
