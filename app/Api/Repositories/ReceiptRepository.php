@@ -187,7 +187,7 @@
       		// }
       		
       		 if($data_all['patientDetails']['age'] > 999){
-	      		 	$age = date("Y") - $p_details->age ;
+	      		 	$age = date("Y") - $data_all['patientDetails']['age'] ;
 	      		 	if($age != 0){
 	      		 		$age_val = $age;
 	      		 	}else{

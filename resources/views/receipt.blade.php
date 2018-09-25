@@ -29,7 +29,7 @@
          			<td class="text-center"><b>OPD CASE NO : {{$data['caseNo']}}</b></td>	
          		</tr>	
          		<tr>	
-         			<td class="text-left"><b>Sex/Age</b> :{{($formData['gender'] == 'M')?'Male':'Female'}}/
+         			<td class="text-left"><b>Sex/Age</b> :{{($formData['gender'] == 'M')?'Male':'Female'}}/ 
                         @if($formData['age'] > 999)
                             @if((date('Y') - $formData['age']) != 0)
                                  {{date('Y') - $formData['age']}}
@@ -37,8 +37,9 @@
                                 1
                             @endif
                         @else
-                            {{ $formData['age']  }}
+                            {{ $formData['age']  }} 
                         @endif
+                         year 
                     </td>	
          			<td></td>	
         		</tr>	
