@@ -5,7 +5,6 @@
         <div class="col-md-6">
         <h1>OPD Receipt List</h1>
         </div>
-        
       </div>
     </div>
     <!-- jnmbnmb -->
@@ -59,7 +58,7 @@
 	       		<div class="modal-footer">	
 					<button  type="button" class="btn btn-primary"  @click="ClickHereToPrint()">Print</button>		      	
 	                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>	
-	            </div>	
+ </div>	
             </div>	
           </div>	
        </div>

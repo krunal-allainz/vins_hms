@@ -152,6 +152,16 @@ class UserRepository {
     }
 
     /**
+     * 
+     * 
+     * 
+     */
+    public function getUserNameByIdForSignature($id) {
+        $record=User::where('id', $id)->first();
+        return strtolower($record->first_name.'_'.$record->last_name);
+    }
+
+    /**
      * [getUserDetailById description]
      * @param  [type] $id [description]
      * @return [name]     [description]

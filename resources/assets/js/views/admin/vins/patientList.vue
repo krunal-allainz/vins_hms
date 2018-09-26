@@ -66,8 +66,8 @@
                       <td data-v-744e717e="" class="" v-if="user_type == 1">
                       <a :href="'/opd_form'"> <i class="fa fa-user-md text-info mr-3 text-info mr-3" @click="setPatientId(patientData.patient_id)" title="opd form"></i></a>
                         <i class="fa fa-table text-info mr-3 text-info mr-3"  @click="getPatientOPDInfo(patientData.patient_id)" ></i>
-                      
                       </td>
+                      <td v-if="user_type == 3"><button value="pending" @click="statusChange('pending',patientData.patient_id)" class="btn btn-primary btn-danger">Pending</button></td>
                     </tr>
                   </tbody>
                 </table>
@@ -166,6 +166,7 @@
                       <a :href="'/opd_form'"> <i class="fa fa-user-md text-info mr-3 text-info mr-3" @click="setPatientId(patientData.patient_id)" title="opd form"></i></a>
                       
                       </td>
+                        <td v-if="user_type == 3"><button value="waiting" @click="statusChange('waiting',patientData.patient_id)" class="btn btn-warning">Waiting</button></td>
                     </tr>
                   </tbody>
                 </table>
@@ -456,6 +457,7 @@
             }
             else if(vm.user_type == 2){
               vm.getPatientsResult('/patient/getpatientlist','waiting');
+
             }
            // vm.newPatient();
          },
@@ -463,6 +465,31 @@
              this.$root.$on('close_modal', this.close_modal);
         },
          methods: {
+          statusChange (status,patientId){
+              //alert( $(this).val());
+              User.patientCaseStatusChage(patientId,status).then(
+                   (response) => {
+                     if( response.data.code == 200){
+                       let vm =this;
+                         if(vm.user_type == 3){
+                            vm.getPatientsResult('/patient/getpatientlist','waiting');
+                            vm.getPatientsResult('/patient/getpatientlist','pending');
+                          } 
+                          if(vm.user_type == 1){
+                            vm.getPatientsResult('/patient/getpatientlist','waiting');
+                            vm.getPatientsResult('/patient/getpatientlist','examine');
+                            vm.getPatientsResult('/patient/getpatientlist','reports');
+                          }
+                          else if(vm.user_type == 2){
+                            vm.getPatientsResult('/patient/getpatientlist','waiting');
+                          }
+                     }
+                   },
+                   (error) => {
+
+                   }
+                );
+          },
           close_modal()
           {
               this.pid='';
@@ -586,7 +613,6 @@
                   }
                    else if(vm.user_type == 2) {
                    vm.getPatientsResult('/patient/getpatientlist','waiting');
-
                   }
           }
 

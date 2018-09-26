@@ -562,11 +562,11 @@
 
         if($user_type==2)
         {
-            $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case'])->where('token_managment.status','waiting');
+            $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case','cross_reference'])->where('token_managment.status','waiting');
         }
         if($user_type==3)
         {
-            $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case'])->where('token_managment.status',$status);
+            $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case','cross_reference'])->where('token_managment.status',$status);
         }
         $reportQuery->with('userDetails');
         if($status!='reports')
@@ -837,6 +837,7 @@
    }
 
 
+
     /**
      * [getPatientListSearchAdmin description]
      * @param  [type] $request [description]
@@ -943,5 +944,19 @@
 
             return $patientList;
         }
+
+   /**
+   *
+   *
+   *
+   **/
+
+   public function updatePatientStatus($patientId,$status){
+
+      $reportQuery =  TokenManagment::where('patient_id',$patientId)->update(array('status' => $status));
+
+       return $reportQuery;
+   }
+
  }
 ?>

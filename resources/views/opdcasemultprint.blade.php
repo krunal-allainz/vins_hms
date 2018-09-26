@@ -59,6 +59,11 @@
 				@include('examinationReportData')
 			</div>
 		@endif
+		@if(in_array( 'Diagnosis',$data['checkedreportList']))
+			<div class="report_left_pad">
+				@include('diagnosisReportData')
+			</div>
+		@endif
 		
 		@if(in_array('Referrals',$data['checkedreportList'] ))
 			<div class="report_left_pad">

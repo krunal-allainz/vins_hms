@@ -31,7 +31,7 @@
 						</li>
 					</ul>
 					<span class="help is-danger" v-if="(checkedreportList.length == 0)">
-                  			Please select any report Type.
+                  			Please select any report Type .
                 	</span> 
 				</div>
 
@@ -103,7 +103,7 @@
 	    		'reportList': [{
 		       		 'reportListId': 'Advice + follow ups'
 		      		}, {
-		      		  'reportListId': 'Radiology'
+		      		  'reportListId': 'Radiology test'
 		      		}, {
 		      		  'reportListId': 'Laboratory'
 		      		}, {
@@ -123,6 +123,9 @@
 		      		},
 		      		{
 		      			'reportListId': 'Examination'
+		      		},
+		      		{
+		      			'reportListId': 'Diagnosis'
 		      		},
 		      		{
 		      			'reportListId': 'Referrals'
@@ -329,7 +332,7 @@
 
 						  				}
 						  			);
-						  			User.generateUserNameById(vm.consultntId).then(
+						  			User.generateUserNameByIdForSignature(vm.consultntId).then(
 						  				(response) => {
 											vm.consultName = response.data;
 											vm.signatureName = response.data;
@@ -337,7 +340,6 @@
 									    (error) => {
 									    },
 						  			); 
-  			
 				  				},
 				  				(error) => {
 
