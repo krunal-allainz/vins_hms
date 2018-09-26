@@ -171,6 +171,12 @@ class UserRepository {
         return $record;
     }
 
+    public function getUserDetailByUserId($userId){
+       $record=User::where('id', $userId)->first();
+        return $record;
+
+    }
+
     public function checkExistUser($type,$value){
       return  User::where($type,$value)->count();
     }
@@ -183,6 +189,25 @@ class UserRepository {
         $result['department'] = $record->department;
         $result['regNo'] = $record->RegNo;
         return $result;
+    }
+
+    public function deleteUserById($userId){
+      $result = User::where('id',$userId)->delete();
+       return $result;
+    }
+
+    public function editUserById($userData,$userId){
+       $fname = $userData['fName'];
+       $lname = $userData['lName'];
+       $mno = $userData['mobileNo'];
+       $address =  $userData['address'];
+       $userType =  $userData['userType'];
+       $dept =  $userData['department'];
+
+      $result = User::where('id',$userId)->update(array('first_name' => $fname, 'last_name' => $lname , 'mobile_no' => $mno , 'address' => $address ,'user_type' => $userType , 'department' => $dept));
+
+      return $result ;
+
     }
 
 }

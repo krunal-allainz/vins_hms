@@ -147,9 +147,17 @@ class UserController extends BaseController
       
         return $this->userRepoObj->getUserDetailsByID($request->all()['userId']);
     }
+
+
     public function getUserDetails()
     {
-        return $this->userRepoObj->getUserDetails();
+        $userDetails =  $this->userRepoObj->getUserDetails();
+
+        if ($userDetails) {
+            return ['code' => '200','data'=>$userDetails, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
     }
     /**
      * [getDepartmentByName description]
@@ -220,6 +228,16 @@ class UserController extends BaseController
         return $this->userRepoObj->getUserDetaileById($id);
     }
 
+    public function getUserDetailByUserId(Request $request){
+        $userId = $request->userId;
+        $userData = $this->userRepoObj->getUserDetailByUserId($userId);
+         
+        if ($userData) {
+            return ['code' => '200','data'=>$userData, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+    }
     /**
     *
     *
@@ -267,6 +285,40 @@ class UserController extends BaseController
 
          if ($result) {
             return ['code' => '200','data'=>$result, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+
+    }
+
+    /**
+    *
+    *
+    *
+    **/
+
+    public function deleteUserById(Request $request){
+        $userId = $request->userId; 
+
+        $result = $this->userRepoObj->deleteUserById($userId);
+         if ($result) {
+            return ['code' => '200','data'=>$result, 'message' => 'Record Sucessfully deleted'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+    }
+
+    /**
+    *
+    *
+    **/
+
+    public function editUserById(Request $request){
+        $userData = $request->userData;
+        $userId = $request->userId;
+         $result = $this->userRepoObj->editUserById($userData,$userId);
+         if ($result) {
+            return ['code' => '200','data'=>$result, 'message' => 'Record Sucessfully updated'];
         } else {
             return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
         }

@@ -14,6 +14,7 @@
                                 <th>Email Id </th>
                                 <th>Address</th>
                                 <th>Mobile No</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -25,6 +26,12 @@
                                 <td>{{user.email }}</td>
                                 <td>{{user.address}}</td>
                                 <td>{{user.mobile_no}}</td>
+                                <td>
+                                      <a  :href="'/user/edit/'+user.id"> <i class="fa fa-pencil"  title="User edit"></i></a>
+                                      <a > <i class="fa fa-trash"  title="User delete" @click="deleteUser(user.id)"  ></i></a>
+
+
+                                </td>
                               </tr>
                         </tbody>
                     </table>
@@ -35,11 +42,13 @@
      </template>
 <script>
     import User from '../../../api/users.js';
+    import userDetailEdit from './userDetailEdit.vue'
 
     export default {
         data() {
             return {
-                  'getUserData':''
+                  'deleteConfirmMsg':'Are you sure you want to delete this user?',
+                  'getUserData':'',
             }
         },
         mounted() {
@@ -47,12 +56,33 @@
             var vm = this;
           User.getAllUsersDetails().then(
             (response)=>{
-                            userData=response.data;
+                console.log(response.data);
+                            userData=response.data.data;
                             vm.getUserData = userData;
                         },
             (error)=>{
                      }
             );
+        },
+        methods: {
+            deleteUser(userId){
+                let vm = this;
+                if(confirm(vm.deleteConfirmMsg))
+                {
+                    User.deleteUserById(userId).then(
+                     (responce) => {
+                        
+                     },
+                     (error) => {
+
+                     }
+                );
+                }
+       
+        
+               
+
+            }
         }
     }
 </script>

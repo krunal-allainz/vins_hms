@@ -398,5 +398,17 @@ export default {
   },
   patientCaseStatusChage(patientId,status){
      return api.post('patient/statusupdate',{'patientId':patientId,'status':status})
-  }
+  },
+  getAllUsersDetails(){
+     return api.post('user/getUserDetails');
+  },
+  deleteUserById(userId){
+     return api.post('user/delete',{'userId' : userId});
+  },
+  getUserDetailByUserId(userId){
+    return api.post('user/getUserDetailByUserId',{'userId' : userId});
+  },
+  editUser(userData,userId) {
+    return api.post('user/edit',{'userData' : userData , 'userId' :userId})
+  },
 }
