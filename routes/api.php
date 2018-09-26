@@ -249,6 +249,9 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
         $api->post('patient/update','\euro_hms\Api\Controllers\PatientsDetailFormController@updatePatient');
 
+        //for admin dashbord patient search
+        $api->post('patient/getPatientListSearchAdmin','\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientListSearchAdmin');
+
         });
 
         

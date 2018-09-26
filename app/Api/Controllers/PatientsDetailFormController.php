@@ -540,4 +540,24 @@ class PatientsDetailFormController extends Controller
         }   
     }
 
+    /**
+     * [getPatientListSearchAdmin description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getPatientListSearchAdmin(Request $request)
+    {
+        $patientList=$this->patientOBJ->getPatientListSearchAdmin($request);      
+        if($patientList)
+        {
+            return ['code' => 200 ,'data'=>$patientList,'message'=>'Getting case type successfully.'];
+        }
+        else
+        {
+            return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
+        }
+                                      
+        
+    }
+
 }

@@ -392,5 +392,10 @@ export default {
   },
   updatePatient(patientData){
      return api.post('patient/update',{'patientData':patientData})
-  }
+  },
+  generatePatientListSearchByAdminPagintion(page_url,searchData,no_of_page)
+  {
+     //return api.post('patient/getPatientListSearchAdmin',{'searchData':searchData});
+      return api.post(page_url,{'searchData':searchData,'no_of_page':no_of_page});
+  },
 }

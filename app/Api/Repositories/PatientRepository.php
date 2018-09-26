@@ -835,5 +835,113 @@
       return $reportQuery;
 
    }
+
+
+    /**
+     * [getPatientListSearchAdmin description]
+     * @param  [type] $request [description]
+     * @return [type]          [description]
+     */
+    public function getPatientListSearchAdmin($request)
+    {
+        $data = $request->all()['searchData'];
+        $search_data=$request->all()['searchData']['search_data'];
+        $search_by=$data['search_by'];
+        //$noOfPage=$data['noOfPage'];
+        //echo  $request->noofRecord;;exit;
+        //$noOfPage = $request->noofRecord;
+        $noOfPage = $request->no_of_page;
+           $date="";
+           $tes_query=0;
+           if($search_data['select_type_dob']['time']!="")
+              $date=Carbon::createFromFormat('d-m-Y', $search_data['select_type_dob']['time'])->format('Y-m-d');
+           $reportQuery = PatientDetailsForm::select('patient_details.id as patient_id','patient_details.first_name as fname','patient_details.middle_name  as mname','patient_details.last_name as lname','patient_details.dob as bdate','patient_details.age as age','patient_details.gender as gender','patient_details.address as address','patient_details.ph_no as ph_no','patient_details.mob_no as mob_no','patient_details.uhid_no as uhid_no');
+
+              $reportQuery->join('patient_case_managment', function ($join) {
+                      $join->on('patient_case_managment.patient_id', '=', 'patient_details.id');
+              });
+               $reportQuery->join('token_managment', function ($join1) {
+                      $join1->on('token_managment.patient_case_id', '=', 'patient_case_managment.id');
+            
+                });
+
+
+          if($search_by == 'waiting'){
+             $reportQuery->where('patient_case_managment.case_type','!=','reports');
+             $reportQuery->whereIn('token_managment.status',['waiting','vital']);
+           
+          }else if($search_by == 'examine'){
+             $reportQuery->where('patient_case_managment.case_type','!=','reports');
+             $reportQuery->whereIn('token_managment.status',['examine']);
+
+          }else if ($search_by == 'reports'){
+               $reportQuery->where('patient_case_managment.case_type','reports')->where('patient_case_managment.is_report',1);
+          }else{
+             $reportQuery->where('patient_case_managment.case_type','!=','reports');
+             $reportQuery->whereIn('token_managment.status',['waiting','vital','examine']);
+          }
+           if($search_by=='last_week')
+          {
+              $to=Carbon::now()->today()->format('Y-m-d');
+              $from=Carbon::now()->subDays(7)->format('Y-m-d');
+              $reportQuery->whereDate('patient_case_managment.appointment_datetime','<=',$to)
+              ->whereDate('patient_case_managment.appointment_datetime','>=',$from);
+          }
+           $reportQuery->where(function ($query) use ($search_data,$date,$tes_query) {
+              $all_stnames=explode(' ',$search_data['name']);
+
+              if($search_data['name']!='' && $tes_query==0)
+              {
+                  foreach($all_stnames as $st_name)
+                  {
+                      $query->where('first_name', 'like', '%'.$st_name.'%')
+                    ->orWhere('middle_name', 'like', '%'.$st_name.'%')
+                    ->orWhere('last_name', 'like', '%'.$st_name.'%');
+                  }
+                  $tes_query=1;
+                 
+              }
+              else if($search_data['name']!='')
+              {
+                foreach($all_stnames as $st_name)
+                  {
+                    $query->orWhere('first_name', 'like', '%'.$st_name.'%')
+                    ->orWhere('middle_name', 'like', '%'.$st_name.'%')
+                    ->orWhere('last_name', 'like', '%'.$st_name.'%');
+                  }
+              }
+              if($search_data['uhid_no']!='' && $tes_query==0)
+              {
+                  $query->where('patient_details.uhid_no',$search_data['uhid_no']);
+                  $tes_query=1;
+              }
+              else if($search_data['uhid_no']!='')
+              {
+                  $query->orWhere('patient_details.uhid_no',$search_data['uhid_no']);
+              }
+               if($date!='' && $tes_query==0)
+               {
+                   $query->whereDate('dob', $date);
+                   $tes_query=1;
+               }
+               else if($date!='')
+              {
+                   $query->orWhereRaw("DATE(dob) = ?", [$date]);
+              } 
+               if($search_data['mobile_no']!=''  && $tes_query==0)   
+               {
+                  $query->where('mob_no', 'like', '%'.$search_data['mobile_no'].'%');
+                  $tes_query=1;
+               }
+               else if($search_data['mobile_no']!='')
+               {
+                  $query->orWhere('mob_no', 'like', '%'.$search_data['mobile_no'].'%');
+               }
+          });
+            //$reportQuery->groupBy('patient_case_managment.patient_id')->orderBy('patient_case_managment.created_at','desc');
+            $patientList=$reportQuery->orderBy('token_managment.created_at','desc')->paginate($noOfPage);
+
+            return $patientList;
+        }
  }
 ?>

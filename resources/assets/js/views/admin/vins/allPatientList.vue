@@ -1,8 +1,12 @@
 <template>
 	<div class="col-lg-12 mb-3">
+    <div v-if="search_enabled=='true'">
+      <patientSearch :searchType="searchType" :page_url="search_page_url" ref="adminPatientSearch"></patientSearch>
+    </div>
 		<div class="card bg-success-card">
 			<h4 class="card-header">
                 <div>Waiting patient list </div>
+                <div class="text-right"><button type="button" class="btn btn-primary" @click="setSearchType('waiting')">Search</button></div>
             </h4>
             <div class="card-body">
             	<div data-v-744e717e="" class="card p-3"  v-if="(waitingPagination.total > 0)">
@@ -81,7 +85,8 @@
                       				<option data-v-744e717e="" value="20">20</option>
                       				<option data-v-744e717e="" value="50">50</option>
                    					<!--     <option data-v-744e717e="" value="-1">All</option> -->
-                    			</select> 
+                    			</select>
+
                      		<div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(waitingPagination.total > 0)">
                         		<span data-v-744e717e="">Showing </span> {{waitingPagination.current_page}} - {{waitingPagination.to}} of {{waitingPagination.total}}
                         		<span data-v-744e717e="">records</span>
@@ -99,6 +104,7 @@
     <div class="card bg-success-card">
       <h4 class="card-header">
                 <div>Examined patient list </div>
+                <div class="text-right"><button type="button" class="btn btn-primary" @click="setSearchType('examine')">Search</button></div>
             </h4>
             <div class="card-body">
               <div data-v-744e717e="" class="card p-3" v-if="(examinePagination.total > 0)">
@@ -195,6 +201,7 @@
     <div class="card bg-success-card">
       <h4 class="card-header">
           <div>Report patient list </div>
+          <div class="text-right"><button type="button" class="btn btn-primary" @click="setSearchType('reports')">Search</button></div>
       </h4>
       <div class="card-body">
          <div data-v-744e717e="" class="card p-3" v-if="(reportPagination.total > 0)">
@@ -296,6 +303,7 @@
 <script>
 	import User from '../../../api/users.js';
   import patientOPDInfoTable from './patientOPDInfoTable.vue';
+  import patientSearch from './patientSearchDataAdmin.vue';
 	export default {
 		 data() {
 		 	return {
@@ -318,10 +326,17 @@
               'waitingPagination': {},
               'examinePagination': {},
               'reportPagination': {},
+              'searchType':'',
+              'search_enabled':false,
+              'search_no_page':5,
+              'search_data':{},
+              'search_page_url':'/patient/getPatientListSearchAdmin',
 		 	}
 		 },
        created: function() {
              this.$root.$on('close_modal', this.close_modal);
+             this.$root.$on('searchPatientData', this.searchPatientData);
+             this.$root.$on('patientEmpty', this.setSearchData);
         },
 		  mounted(){
 		 	let vm = this;
@@ -335,27 +350,86 @@
 		 //	vm.getPatientList(page_url);
 		 },
      components: {
-            patientOPDInfoTable
+        patientOPDInfoTable,
+        patientSearch
     },
 		 methods:{
-       close_modal()
-          {
-              this.pid='';
-              this.open_opd_modal=false;
+      setSearchType(stype)
+      {
+          let vm=this;
+          vm.search_enabled='true';
+          vm.searchType=stype;
+      },
+      searchPatientData(patData,page_url)
+      {
+          let vm=this;
+          vm.search_data=patData;
+          let no_of_page = '';
+           if(vm.searchType  == 'waiting'){
+               no_of_page = vm.perPageWaiting;
+            }
+             if(vm.searchType  == 'examine'){
+               no_of_page = vm.perPageExamine;
+            }
+            if(vm.searchType  == 'reports'){
+               no_of_page = vm.perPageReport;
+            }
+
+           User.generatePatientListSearchByAdminPagintion(page_url,patData,no_of_page).then(
+                (response) => {
+                    if(response.data.code == 200) {
+                        var pData =response;
+                        if(vm.searchType == 'waiting'){
+                          vm.getWaitingPatientData =pData.data.data.data;
+                        }
+                        else if(vm.searchType == 'examine'){
+                          vm.getExaminePatientData =pData.data.data.data;
+                        }
+                        else if(vm.searchType == 'report'){
+                          vm.getReportPatientData =pData.data.data.data;
+                        }
+                        vm.makePagination(pData.data.data,vm.searchType);
+                    } else if(response.data.code == 300) {
+                        toastr.error('Record not found', 'Error', {timeOut: 5000});
+                        this.$root.$emit('patientEmpty',1);
+                    } else{
+                        toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
+                        this.$root.$emit('patientEmpty',1);
+                    }
+                       
+                    $("body .js-loader").addClass('d-none');
+                },
+                (error) => {
+                     $("body .js-loader").addClass('d-none');
+
+        });
+        vm.search_enabled='false';
+        //vm.setSearchData();
+      },
+      setSearchData()
+      {
+          let vm=this;
+          vm.search_enabled='false';
+          vm.searchType='';
+      },
+     close_modal()
+        {
+            this.pid='';
+            this.open_opd_modal=false;
+        },
+         getPatientOPDInfo(p_id)
+        {
+            this.pid=p_id;
+            this.open_opd_modal=true;
+            setTimeout(function(){
+              $('#patientOPDModal').modal('show');
+            },500)
+        },
+        close: function () {
+            this.$emit('close');
+            this.title = '';
+            this.body = '';
           },
-           getPatientOPDInfo(p_id)
-          {
-              this.pid=p_id;
-              this.open_opd_modal=true;
-              setTimeout(function(){
-                $('#patientOPDModal').modal('show');
-              },500)
-          },
-          close: function () {
-              this.$emit('close');
-              this.title = '';
-              this.body = '';
-            },
 		 	getPatientList(page_url,status){
 		 		let vm = this;
 		 		let userId = vm.user_id;
@@ -400,7 +474,8 @@
                     from : data.from,
                     to : data.to
                 }
-                  if(status == 'waiting') {
+ 
+                if(status == 'waiting') {
 
                   this.waitingPagination = pagination;
                 }
@@ -426,31 +501,63 @@
           },
           setPerPage(e){
             let vm =this;
-              // vm.getPatientList('/patient/getallpatientlist');
+            if(vm.searchType == 'waiting' || vm.searchType == 'examine'|| vm.searchType == 'reports')
+            {
+                vm.searchPatientData(vm.search_data,'/patient/getPatientListSearchAdmin');
+            }
+            else
+            {
+                // vm.getPatientList('/patient/getallpatientlist');
               vm.getPatientList('/patient/getallpatientlist','waiting');
               vm.getPatientList('/patient/getallpatientlist','examine');
               vm.getPatientList('/patient/getallpatientlist','reports');
+            }
+              
           },
            setPerPageExamine(e){
             let vm =this;
-              // vm.getPatientList('/patient/getallpatientlist');
+
+            if(vm.searchType == 'examine')
+            {
+                vm.searchPatientData(vm.search_data,'/patient/getPatientListSearchAdmin');
+            }
+            else
+            {
+                // vm.getPatientList('/patient/getallpatientlist');
               vm.getPatientList('/patient/getallpatientlist','waiting');
               vm.getPatientList('/patient/getallpatientlist','examine');
               vm.getPatientList('/patient/getallpatientlist','reports');
+            }
+              // vm.getPatientList('/patient/getallpatientlist');
+            
           },
            setPerPageWaiting(e){
             let vm =this;
-              // vm.getPatientList('/patient/getallpatientlist');
+            if(vm.searchType == 'waiting')
+            {
+                vm.searchPatientData(vm.search_data,'/patient/getPatientListSearchAdmin');
+            }
+            else
+            {
+                // vm.getPatientList('/patient/getallpatientlist');
               vm.getPatientList('/patient/getallpatientlist','waiting');
               vm.getPatientList('/patient/getallpatientlist','examine');
               vm.getPatientList('/patient/getallpatientlist','reports');
+            }
           },
            setPerPageReport(e){
             let vm =this;
-              // vm.getPatientList('/patient/getallpatientlist');
+            if(vm.searchType == 'reports')
+            {
+                vm.searchPatientData(vm.search_data,'/patient/getPatientListSearchAdmin');  
+            }
+            else
+            {
+                // vm.getPatientList('/patient/getallpatientlist');
               vm.getPatientList('/patient/getallpatientlist','waiting');
               vm.getPatientList('/patient/getallpatientlist','examine');
               vm.getPatientList('/patient/getallpatientlist','reports');
+            }
           }
 
 		 },
