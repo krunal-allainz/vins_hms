@@ -258,6 +258,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
         $api->post('patient/statusupdate','\euro_hms\Api\Controllers\PatientsDetailFormController@updatePatientStatus');
 
+        //for counting receipt print click
+        $api->post('receipt/updatePrintCounter','\euro_hms\Api\Controllers\ReceiptController@updatePrintCounter');
 
         });
 

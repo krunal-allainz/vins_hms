@@ -261,8 +261,8 @@ export default {
   removeReceipt(id){
      return api.post('patient/receipt/remove',{'id':id});
   },
-  generateReceiptDataById(id,type){
-      return api.post('patient/receipt/view',{'id':id,'type':type});
+  generateReceiptDataById(id,type,rec_type){
+      return api.post('patient/receipt/view',{'id':id,'type':type,'rec_type':rec_type});
   },
   generateUserDetailsByType(type,status){
       return api.post('user/getUserDetailByUserType',{'type':type,'status':status});
@@ -398,11 +398,14 @@ export default {
   },
   generatePatientListSearchByAdminPagintion(page_url,searchData,no_of_page)
   {
-     //return api.post('patient/getPatientListSearchAdmin',{'searchData':searchData});
       return api.post(page_url,{'searchData':searchData,'no_of_page':no_of_page});
   },
   patientCaseStatusChage(patientId,status){
      return api.post('patient/statusupdate',{'patientId':patientId,'status':status})
-  }
+  },
+  generatePrintCounter(rid)
+  {
+      return api.post('receipt/updatePrintCounter',{'receipt_id':rid});
+  },
 
 }

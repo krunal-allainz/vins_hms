@@ -1,9 +1,18 @@
     <div class="container printReceiptPage">	
 			<div class="page-header">	
+                     @if(isset($formData['rec_type']) && $formData['rec_type']==2)
+                        <div class="row duplicate">   
+                             <div class="col-md-12 text-capitalize">   
+                                <h2  class="text-center"><b>Duplicate</b></h2>  
+                            </div>
+                        </div>
+                     @endif
+
 		      	  <div class="row">	
 		             <div class="col-md-12 text-center text-capitalize"  style="text-align: center;">	
 		               <h2  class="text-center text-capitalize" style="text-align: center;"><u><b>Vadodara Institute Of Neurological Sciences</b></u></h2>	
-		             </div>	
+		             </div>
+                    
 		          </div>	
        		</div>	
 			<div class="row">	
@@ -396,6 +405,10 @@ body {
     margin-right: -15px;
     margin-left: -15px;
 }
+.duplicate h2
+{
+    font-size:30px;
+}
 .text-center {
         text-align: center !important;
     }
@@ -490,6 +503,10 @@ body {
     }
     .text-right {
         text-align: right !important;
+    }
+    .duplicate h2
+    {
+        font-size:30px;
     }
     .col-md-12 {
         -ms-flex: 0 0 100%;

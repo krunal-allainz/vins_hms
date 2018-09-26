@@ -21,7 +21,19 @@ class CreateReceiptTable extends Migration
             $table->string('case_no')->nullable(); 
             $table->string('charges_name')->nullable();    
             $table->integer('amount')->nullable(); 
-            $table->dateTime('date')->nullable();  
+            $table->dateTime('date')->nullable(); 
+            $table->integer('case_type')->nullable();
+            $table->integer('charges_type_id')->nullable();
+            $table->integer('consultation_charges_id')->nullable(); 
+            $table->integer('emergency_charges_id')->nullable();
+            $table->integer('charges')->nullable();  
+            $table->string('department')->nullable();
+            $table->integer('neurological_procedures_id')->nullable();
+            $table->integer('vascular_procedures_id')->nullable();
+            $table->integer('procedures_charges')->nullable();
+            $table->integer('other_charges_id')->nullable();
+            $table->integer('other_charges')->nullable(); 
+            $table->integer('print_counter')->nullable()->default(0); 
             $table->timestamps();  
         });
     }

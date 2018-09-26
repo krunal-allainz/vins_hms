@@ -206,5 +206,18 @@
       		$data = ['receiptId'=>$data_all['receipt_id'],'receiptNumber'=>$data_all['receipt_number'],'caseNo'=>$data_all['case_no'],'chagredName'=>$data_all['charges_type_id'],'amount'=>$data_all['charges'],'case_type'=>$data_all['case_type'],'charges_type'=>$data_all['charges_type_id'],'charges_type_val'=>$charges_id,'charges'=>$data_all['charges'],'department'=>$data_all['department'],'procedures_val'=>$procedures_val,'procedures_charges'=>$data_all['procedures_charges'],'other_charges_category'=>$data_all['other_charges_id'],'other_charges'=>$data_all['other_charges'],'date_receipt'=>$date_receipt,'consult_id'=>$data_all['patientDetails']['consultant_id'],'fullname'=>$fullname,'gender'=>$gender,'age'=>$age_val];
       		 return $data;	
       }
+      public function updatePrintCounter($receipt_id)
+      {
+      		$receipt_update=Receipt::where('id',$receipt_id)->increment('print_counter',1);
+      		$receipt=Receipt::where('id',$receipt_id)->first();
+      		if($receipt_update)
+      		{
+      			return $receipt->print_counter;
+      		}
+      		else
+      		{
+      			return 0;
+      		}
+      }
  }
 ?>

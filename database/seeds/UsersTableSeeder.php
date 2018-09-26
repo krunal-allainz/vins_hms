@@ -424,7 +424,7 @@ class UsersTableSeeder extends Seeder
             'department'=>'',
             'dagree'=>'',
             'regno'=>'',
-            'user_type'=>5,
+            'user_type'=>4,
             'mobile_no'=>'123456789',
             'address'=>'Vadodara',
             'user_image'=>NULL,
