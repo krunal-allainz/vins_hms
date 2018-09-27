@@ -541,28 +541,22 @@
 							vm.patientReceiptData.charges_type=charges_type_val;
 							if(charges_type_val==1)
 							{
+								$('#emergency_type').select2('destroy');
 								setTimeout(function(){
 								    	 /*for consultation type*/
 				       	 				$('#consultation_type').select2({
 						          	 	 	placeholder: "Select",
-						          	 	 	dropdownParent: $("#receiptAddModel"),
-						          	 	 	show: true, 
-			        						backdrop: 'static',
-			        						keyboard: true
 						          	 	});
 				           	 	},500);
 							}
 							else if(charges_type_val==2)
 							{
+								$('#consultation_type').select2('destroy');
 								setTimeout(function(){
 							    	/*for emergency type*/
 			       	 				$('#emergency_type').select2({
 					          	 		placeholder: "Select",
-					          	 	 	dropdownParent: $("#receiptAddModel"),
-					          	 	 	show: true, 
-			        					backdrop: 'static',
-			        					keyboard: true
-					          	    });
+					          	 	 });
 				           	 	},500);
 							}
 			            }
