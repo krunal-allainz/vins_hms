@@ -33,11 +33,15 @@
                <td>{{res.date}}</td>
                <td>
               <!--  	<button type="button" class="btn btn-success" >Print</button> -->
-               	<button type="button" class="btn btn-success" data-toggle="modal" href="#receiptModal" id="modellink" @click="receiptPrintView(res.id,1)">Print</button>
-               	
-               	<button v-if="res.print_counter>0 || print_counter>0" type="button" class="btn btn-info" data-toggle="modal" href="#receiptModal" id="modellink" @click="receiptPrintView(res.id,2)">Print Duplicate</button>
-               
-               <button type="button" class="btn btn-danger" @click="removeReceipt(res.id)">Delete</button></td>
+
+	               	<button type="button" class="btn btn-success" data-toggle="modal" href="#receiptModal" id="modellink" @click="receiptPrintView(res.id,1)">Print</button>
+	               	
+	               	<button v-if="res.print_counter>0 || print_counter>0" type="button" class="btn btn-info" data-toggle="modal" href="#receiptModal" id="modellink" @click="receiptPrintView(res.id,2)">Print Duplicate</button>
+
+	               	<button type="button" class="btn btn-primary" data-toggle="modal" href="#receiptEditModel" id="modellinkEdit" @click="receiptEdit(res.id)">Edit</button>
+	               
+	               <!-- <button type="button" class="btn btn-danger" @click="removeReceipt(res.id)">Delete</button> -->
+           	   </td>
             </tr>
           </tbody>
         </table>
@@ -57,21 +61,40 @@
 		 			<div class="modal-header">
 		 			</div>
 		 			<div class="modal-body" id="printContent">	
-            		</div>	
+            	</div>	
 	       		<div class="modal-footer">	
 					<button  type="button" class="btn btn-primary"  @click="ClickHereToPrint()">Print</button>		      	
 	                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>	
- </div>	
+ 				</div>	
             </div>	
           </div>	
        </div>
-  </div>	
+  </div>
+
+   <div id="receiptEditModel" class="modal hide" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Patient Receipt Form</h4>
+            </div>
+            <div class="modal-body">
+                <patientReceiptForm :receipt_id="receipt_id" v-if="modal_enabled=='true'"></patientReceiptForm>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="closem btn btn-default" @click="close_popup()">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>	
   
 </div>
 </template>
 <script>
 	import User from '../../../api/users.js';
 	import moment from 'moment';
+	import patientReceiptForm from './patientsReceiptEditForm.vue';
 	let  receptDataArrays = [];
 	export default{
 		data (){
@@ -81,10 +104,18 @@
 				'prev_page_url' : '',
 				'path' : '',
 				'pagination': {},
-				'print_counter':0
+				'print_counter':0,
+				'receipt_id':'',
+				'modal_enabled':false
 			}
 		},
-
+		components: {
+           patientReceiptForm,
+        },
+         created: function() {
+             this.$root.$on('close_modal', this.close_popup);
+            
+        },
 		mounted(){
 			 let vm =this;
 			if(vm.$store.state.Users.userDetails.user_type != '3'){
@@ -95,20 +126,33 @@
 			 //this.fetchStories()/
 		},
 		methods: {
-			 next(page) {
-            this.$emit('next', page);
-        },
-          nextPage(){
-         this.pageNumber++;
-      },
-      prevPage(){
-        this.pageNumber--;
-      },
+			close_popup()
+	        {
+	        	let vm=this;
+	        	vm.modal_enabled='false';
+	            $('#receiptEditModel').modal('hide');
+	        },
+			receiptEdit(receipt_id)
+			{
+				let vm =this;
+				vm.receipt_id=receipt_id;
+				vm.modal_enabled='true';
+
+			},
+			next(page) {
+	            this.$emit('next', page);
+	        },
+	        nextPage(){
+	         	this.pageNumber++;
+	      	},
+	      	prevPage(){
+	        	this.pageNumber--;
+	      	},
 			// Our method to GET results from a Laravel endpoint
-		getResults(page_url) {
-			var vm =this;
-			 page_url = page_url || '/patient/receiptlist';
-			User.getReceiptList(page_url).then(
+			getResults(page_url) {
+				var vm =this;
+				page_url = page_url || '/patient/receiptlist';
+				User.getReceiptList(page_url).then(
 			 		(response) => {
 			 			 vm.receiptData = response.data.data;
 			 			 vm.makePagination(response.data);
@@ -116,8 +160,7 @@
 			 		(error) => {
 
 			 		}
-
-			 	);
+				);
 			},
 			removeReceipt(id){
 				
@@ -212,7 +255,7 @@
 				    catch (e) {	
 				        self.print();	
 				    }	
-				},	
+			},	
 		}
 	}
 

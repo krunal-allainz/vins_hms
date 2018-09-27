@@ -419,5 +419,13 @@ export default {
   {
       return api.post('receipt/updatePrintCounter',{'receipt_id':rid});
   },
+  getReceiptDetailsById(rid)
+  {
+      return api.post('receipt/getReceiptDetailsById',{'receipt_id':rid});
+  },
+  generateEditReceiptData(formData)
+  {
+      return api.post('receipt/editReceipt',{'formData':formData});
+  },
 
 }

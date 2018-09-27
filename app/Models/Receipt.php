@@ -28,9 +28,11 @@ class Receipt extends Model
       'charges',
       'department',
       'neurological_procedures_id',
-      'physiotherapy_procedures_id',
       'vascular_procedures_id',
-      'procedures_charges',
+      'physiotherapy_procedures_id',
+      'neurological_procedure_charges',
+      'vascular_procedure_charges',
+      'physiotherapy_procedure_charges',
       'other_charges_id',
       'other_charges',
       'created_at', 
@@ -76,6 +78,34 @@ class Receipt extends Model
 	
         $data = ['receiptId'=>$receiptId,'receiptNumber'=>$receiptNumber,'caseNo'=>$request->formData['case_no'],'chagredName'=>$request->formData['charges'],'amount'=>$request->formData['amount']];	
         return $data;	
-      }  
+      } 
+
+      /**
+       * [getDateAttribute description]
+       * @param  [type] $value [description]
+       * @return [type]        [description]
+       */
+      public function getDateAttribute($value)
+      {
+        if($value != null && $value != ''){
+            return Carbon::parse($value)->format('d-m-Y');
+        }else{
+          return null;
+        }
+      }
+
+      /**
+       * [setDateAttribute description]
+       * @param [type] $value [description]
+       */
+    public function setDateAttribute($value)
+    { 
+      if($value != ''){
+        return $this->attributes['date'] =   Carbon::createFromFormat('d-m-Y', $value);
+      }else{
+         return $this->attributes['date'] = null;
+      }
+
+    } 
 
 }

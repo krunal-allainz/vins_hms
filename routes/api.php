@@ -114,7 +114,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         $api->post('provison/getDiagnosis', '\euro_hms\Api\Controllers\DiagnosisController@getDiagnosis'); 
         $api->post('prescription/getDetails', '\euro_hms\Api\Controllers\PrescriptionDrugController@getDetails'); 
         $api->post('print/receipt', '\euro_hms\Api\Controllers\PatientsDetailFormController@printReceipt');     
-        $api->post('generate/receipt', '\euro_hms\Api\Controllers\PatientsDetailFormController@saveReceiptData'); 
+        $api->post('generate/receipt', '\euro_hms\Api\Controllers\ReceiptController@saveReceiptData'); 
         $api->post('print/opdcase','\euro_hms\Api\Controllers\OPDDetailsFromController@printCaseData');
         //for multiple print report
         $api->post('print/opdcaseMultiple','\euro_hms\Api\Controllers\OPDDetailsFromController@printCaseMultipleData');
@@ -266,6 +266,12 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
           $api->post('user/getUserDetailByUserId','\euro_hms\Api\Controllers\UserController@getUserDetailByUserId');
 
         $api->post('user/edit','\euro_hms\Api\Controllers\UserController@editUserById');
+
+        //for receipt details by receipt id
+        $api->post('receipt/getReceiptDetailsById','\euro_hms\Api\Controllers\ReceiptController@getReceiptDetailsById');
+        
+        //for receipt edit
+        $api->post('receipt/editReceipt', '\euro_hms\Api\Controllers\ReceiptController@editReceipt'); 
 
 
         });
