@@ -35,8 +35,7 @@ class UserRepository {
 
     public function getUserDetails()
     {
-        $data = DB::table('users')->get();
-        // dd($data->toArray());
+        $data = User::get();
         return $data;
     }
 
@@ -191,21 +190,37 @@ class UserRepository {
         return $result;
     }
 
-    public function deleteUserById($userId){
-      $result = User::where('id',$userId)->delete();
-       return $result;
+    public function deleteUserById($id){
+        $result = User::where('id',$id)->first();
+
+        if($result != null){
+          $result->delete();
+        }
+      return $result;
     }
 
     public function editUserById($userData,$userId){
+       $newPwd = '';
+       $dept = Null;
        $fname = $userData['fName'];
        $lname = $userData['lName'];
-       $mno = $userData['mobileNo'];
+       $mno = $userData['mobileNo'];  
        $address =  $userData['address'];
        $userType =  $userData['userType'];
-       $dept =  $userData['department'];
+       if($userType == 1){
+         $dept =  $userData['department'];
+       }
 
-      $result = User::where('id',$userId)->update(array('first_name' => $fname, 'last_name' => $lname , 'mobile_no' => $mno , 'address' => $address ,'user_type' => $userType , 'department' => $dept));
+       if($userData['password'] != ''){
+          $password = Hash::make($userData['password']);
+            $result = User::where('id',$userId)->update(array('first_name' => $fname, 'last_name' => $lname , 'mobile_no' => $mno , 'address' => $address ,'user_type' => $userType,'password' => $password, 'department' => $dept));
+       }
+        else{
 
+          $result = User::where('id',$userId)->update(array('first_name' => $fname, 'last_name' => $lname , 'mobile_no' => $mno , 'address' => $address ,'user_type' => $userType, 'department' => $dept));
+       }
+
+      
       return $result ;
 
     }

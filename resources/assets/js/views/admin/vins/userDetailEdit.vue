@@ -61,7 +61,7 @@
                                     <label for="email" class="control-label float-right txt_media1">Email Id :</label>
                                     </div>
                                     <div class="col-md-9">
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" v-model="userData.email" v-validate="'required|email'" @input="checkExistUser('email')">
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" v-model="userData.email" v-validate="'required|email'" @input="checkExistUser('email')" disabled="" >
                                         <i v-show="errors.has('email')" class="fa fa-warning"></i>
                                         <span class="help is-danger" v-show="errors.has('email')">Please enter valid email.</span>
                                          <span class="help is-danger" v-show="userEmailExist != ''">{{userEmailExist}}</span>
@@ -92,9 +92,9 @@
                                     <label for="password" class="control-label float-right txt_media1">Password :</label>
                                     </div>
                                     <div class="col-md-9">
-                                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" v-validate="'required|min:6'" v-model="userData.password">
-                                        <i v-show="errors.has('password')" class="fa fa-warning"></i>
-                                         <span class="help is-danger" v-show="errors.has('password')">Please enter valid password.</span>
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" v-validate="'min:6'" v-model="userData.password">
+                                       <!--  <i v-show="errors.has('password')" class="fa fa-warning"></i>
+                                         <span class="help is-danger" v-show="errors.has('password')">Please enter valid password.</span> -->
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -102,7 +102,7 @@
                                     <label for="confirmPassword" class="control-label float-right txt_media1">Confirm Password :</label>
                                     </div>
                                     <div class="col-md-9">
-                                        <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" v-validate="'required|confirmed:password'" name="confirmPassword" v-model="userData.confirmPassword">
+                                        <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" v-validate="'confirmed:password'" name="confirmPassword" v-model="userData.confirmPassword">
                                         <i v-show="errors.has('confirmPassword')" class="fa fa-warning"></i>
                                         <span class="help is-danger" v-show="errors.has('confirmPassword')">Confirm password didn't match.</span>
                                     </div>
@@ -217,6 +217,7 @@
            	let vm = this;
            		User.getUserDetailByUserId(userId).then(
            			 (responce) => {
+
            			 	if(responce.data.code == 200){
            			 		 vm.userData.fName = responce.data.data.first_name,
                				 vm.userData.lName = responce.data.data.last_name,
@@ -226,7 +227,9 @@
                 			 vm.userData.mobileNo =responce.data.data.mobile_no,
                              vm.userData.address =responce.data.data.address,
                              vm.userData.department =responce.data.data.department,
-                             vm.userData.userType = vm.userData.data.data.user_type
+                             vm.userData.userType = responce.data.data.user_type,
+                               $('#department').val(responce.data.data.department).trigger('change.select2');
+                              $('#userType').val( responce.data.data.user_type).trigger('change.select2');
            			 	}
            			 },
            			 (error) => {
@@ -273,15 +276,18 @@
                     if (!this.errors.any()) {
                     // if(this.$data.userData.id=="") {
                                 // here we add code for Mobile user for create user
-                                User.editUser(this.userData,this.userId).then(
+                                User.editUser(this.userData,this.edituserId).then(
                                   (response)=> {
                                     //console.log(response);
-                                    if(response.data.status_code == 200){
-                                        toastr.success('User update successfully', 'Update User', {timeOut: 5000});
+                                    if(response.data.code == 200){
+                                      
+                                       //  window.location.href = 'userList';
+                                           toastr.success('User update successfully', 'Update User', {timeOut: 5000});
+                                       //  router.push('userList');
                                       //  this.initialState();
                                         //localStorage.setItem("user_add",1)
                                        // window.location.reload();
-                                    } else if (response.data.status_code == 301) {
+                                    } else if (response.data.code == 301) {
                                         //this.initialState();
                                         toastr.error('User already exist.', 'edit User', {timeOut: 5000});
 

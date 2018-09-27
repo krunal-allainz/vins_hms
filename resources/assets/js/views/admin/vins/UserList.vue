@@ -52,26 +52,32 @@
             }
         },
         mounted() {
-            var userData;
             var vm = this;
-          User.getAllUsersDetails().then(
-            (response)=>{
-                console.log(response.data);
+            vm.getAllUsers();
+        },
+        methods: {
+            getAllUsers(){
+                var vm = this;
+                 var userData;
+                  User.getAllUsersDetails().then(
+                     (response)=>{
                             userData=response.data.data;
                             vm.getUserData = userData;
                         },
-            (error)=>{
+                    (error)=>{
                      }
-            );
-        },
-        methods: {
+                );
+            },
             deleteUser(userId){
                 let vm = this;
                 if(confirm(vm.deleteConfirmMsg))
                 {
                     User.deleteUserById(userId).then(
-                     (responce) => {
-                        
+                     (response) => {
+                        if(response.data.code == 200){
+                              toastr.success('User Delete successfully', 'Delete User', {timeOut: 5000});
+                             vm.getAllUsers();
+                        }
                      },
                      (error) => {
 
