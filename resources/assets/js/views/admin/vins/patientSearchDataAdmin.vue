@@ -107,6 +107,7 @@
             }
         },
         mounted() {
+            let vm =this;
             vm.initSearchData();
         },
         filters:{
