@@ -33,7 +33,10 @@
                <td>{{res.date}}</td>
                <td>
               <!--  	<button type="button" class="btn btn-success" >Print</button> -->
-               	<button type="button" class="btn btn-success" data-toggle="modal" href="#receiptModal" id="modellink" @click="receiptPrintView(res.id)">Print</button>
+               	<button type="button" class="btn btn-success" data-toggle="modal" href="#receiptModal" id="modellink" @click="receiptPrintView(res.id,1)">Print</button>
+               	
+               	<button v-if="res.print_counter>0 || print_counter>0" type="button" class="btn btn-info" data-toggle="modal" href="#receiptModal" id="modellink" @click="receiptPrintView(res.id,2)">Print Duplicate</button>
+               
                <button type="button" class="btn btn-danger" @click="removeReceipt(res.id)">Delete</button></td>
             </tr>
           </tbody>
@@ -77,7 +80,8 @@
 				'next_page_url' :'',
 				'prev_page_url' : '',
 				'path' : '',
-				 'pagination': {}
+				'pagination': {},
+				'print_counter':0
 			}
 		},
 
@@ -145,43 +149,39 @@
 					);
         		}
 			},
-			receiptPrintView(id) {   	
-	            	//if (!this.errors.any()) {	
-	            		// $("body .js-loader").removeClass('d-none');	
-	            		let content = [];	
-	            		let type = 'opd';	
-	            		User.generateReceiptDataById(id,type).then(	
-		                (response) => { 
-		                	$('#printContent').html('');
-			                	if ($("#printContent .printReceiptPage" ).length == 0){	
-			                		$('#printContent').append(response.data.html);	
-			                	}else{	
-			                		$('#printContent').append(response.data.html)	
-			                	}
-			                
-		                	//$('#receiptModal').modal({show:true}); 	
+			receiptPrintView(id,rec_type) {   	
+	            	
+	            let vm=this;
+        		let content = [];	
+        		let type = 'opd';
+        		
+        		User.generateReceiptDataById(id,type,rec_type).then(	
+	                (response) => { 
+	                	$('#printContent').html('');
+		                	if ($("#printContent .printReceiptPage" ).length == 0){	
+		                		$('#printContent').append(response.data.html);	
+		                	}else{	
+		                		$('#printContent').append(response.data.html)	
+		                	}
+		                
+	                	//$('#receiptModal').modal({show:true}); 	
+
+	            	},	
+	                (error) => {	
+	                	 $("body .js-loader").addClass('d-none');	
+
+	                }	
+                );
+                User.generatePrintCounter(id).then(
+        			(response) => {
+        				vm.print_counter=response.data;
+	            	},	
+	                (error) => {
+
+	                }	
+        		);
 	
-		            	},	
-		                (error) => {	
-		                	 $("body .js-loader").addClass('d-none');	
-	
-		                }	
-		                );	
-				    	/*User.printReceiptPreview(this.patientData,content).then(	
-		                (response) => {	
-		                	if(response.data.code == 200) {	
-		                		$('#receiptModal').modal({show:true});	
-	                		toastr.success('Appointment has been saved', 'Appointment Book', {timeOut: 5000});	
-		                	}	
-		                	 $("body .js-loader").addClass('d-none');	
-	
-		                },	
-		                (error) => {	
-		                	 $("body .js-loader").addClass('d-none');	
-	
-		                }	
-		                )*/	
-			    	//	
+				    	
 			},	
 			makePagination: function(data){
                 let pagination = {

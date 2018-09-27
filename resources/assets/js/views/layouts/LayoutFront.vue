@@ -74,10 +74,15 @@ export default {
           dashboardLink(){
             if(this.userType == '1'){
               return '/';
-            } else if(this.userType == '3') {
-              return '/receptionist_dashboard';
-            } else {
+            } 
+            else if(this.userType == '2') {
               return '/vitalsinfo';
+            }
+            else if(this.userType == '3') {
+              return '/receptionist_dashboard';
+            } 
+            else if(this.userType == '4') {
+              return '/admindashboard';
             }
           },
           logout(msg=''){

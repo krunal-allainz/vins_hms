@@ -541,10 +541,20 @@ class PatientsDetailFormController extends Controller
     }
 
     /**
-    *   update 
-    *
-    *
-    **/
+
+     * [getPatientListSearchAdmin description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getPatientListSearchAdmin(Request $request)
+    {
+        $patientList=$this->patientOBJ->getPatientListSearchAdmin($request);      
+        if($patientList)
+        {
+            return ['code' => 200 ,'data'=>$patientList,'message'=>'Getting case type successfully.'];
+
+        }
+    }
 
     public function updatePatientStatus(Request $request){
         $patientId = $request->patientId;
@@ -553,12 +563,18 @@ class PatientsDetailFormController extends Controller
            if($patientUpdate)
         {
             return ['code' => 200 ,'data'=>$patientUpdate,'message'=>'Update patient status successfully.'];
+
         }
         else
         {
             return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
+
+        }
+                                      
+        
+
         } 
 
-    }
+   
 
 }

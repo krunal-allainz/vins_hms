@@ -52,6 +52,7 @@ class ReceiptController extends Controller
     public function viewReceipt(Request $request){
     	$id = $request->id;
     	$type = $request->type;
+        $rec_type = $request->rec_type;
     	$receiptData = $this->receiptObj->getReceiptDetailsById($id);
         //print_r($receiptData);exit;
         $all_amt=$receiptData['charges']+$receiptData['procedures_charges']+$receiptData['other_charges'];
@@ -64,7 +65,8 @@ class ReceiptController extends Controller
             'age' =>   $receiptData['age'],  
             'gender' =>$receiptData['gender'],   
             'wordamount' => $wordAmount  ,
-            'total_amount'  =>$all_amt
+            'total_amount'  =>$all_amt,
+            'rec_type' => $rec_type
         ]; 
         $data=$receiptData;
        
@@ -81,6 +83,17 @@ class ReceiptController extends Controller
     {
     	$all=$this->receiptObj->getChargesTypes();
     	return  $all;
+    }
+
+    /**
+     * [updatePrintCounter description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function updatePrintCounter(Request $request)
+    {
+        $receipt_id = $request->receipt_id;
+        return $this->receiptObj->updatePrintCounter( $receipt_id);
     }
 
 

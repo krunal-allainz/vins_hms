@@ -252,7 +252,14 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
         $api->post('patient/update','\euro_hms\Api\Controllers\PatientsDetailFormController@updatePatient');
 
-          $api->post('patient/statusupdate','\euro_hms\Api\Controllers\PatientsDetailFormController@updatePatientStatus');
+
+        //for admin dashbord patient search
+        $api->post('patient/getPatientListSearchAdmin','\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientListSearchAdmin');
+
+        $api->post('patient/statusupdate','\euro_hms\Api\Controllers\PatientsDetailFormController@updatePatientStatus');
+
+        //for counting receipt print click
+        $api->post('receipt/updatePrintCounter','\euro_hms\Api\Controllers\ReceiptController@updatePrintCounter');
 
           $api->post('user/delete','\euro_hms\Api\Controllers\UserController@deleteUserById');
 
