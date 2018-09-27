@@ -30,7 +30,10 @@ class CreateReceiptTable extends Migration
             $table->string('department')->nullable();
             $table->integer('neurological_procedures_id')->nullable();
             $table->integer('vascular_procedures_id')->nullable();
-            $table->integer('procedures_charges')->nullable();
+            $table->integer('physiotherapy_procedures_id')->nullable();
+            $table->integer('neurological_procedure_charges')->nullable();
+            $table->integer('vascular_procedure_charges')->nullable();
+            $table->integer('physiotherapy_procedure_charges')->nullable();
             $table->integer('other_charges_id')->nullable();
             $table->integer('other_charges')->nullable(); 
             $table->integer('print_counter')->nullable()->default(0); 

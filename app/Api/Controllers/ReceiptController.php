@@ -96,5 +96,54 @@ class ReceiptController extends Controller
         return $this->receiptObj->updatePrintCounter( $receipt_id);
     }
 
+    /**
+     * [saveReceiptData description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function saveReceiptData(Request $request){ 
+
+        $receipt_id =   $this->receiptObj->saveReceipt($request);
+         if($receipt_id) {
+             return ['code' => '200','data'=>$receipt_id, 'message' => 'Patient record '];
+        } else {
+             //return ['code' => '300','patientData'=>'', 'message' => 'Record not found'];
+             return ['code' => '300','data'=>'', 'message' => 'Something went wrong'];
+        }
+    }
+
+    /**
+     * [getReceiptDetailsById description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getReceiptDetailsById(Request $request){ 
+        $rid=$request->receipt_id;
+        $r_data =   $this->receiptObj->getReceiptDataById($rid);
+         if($r_data) {
+             return ['code' => '200','data'=>$r_data, 'message' => 'Patient record '];
+        } else {
+             //return ['code' => '300','patientData'=>'', 'message' => 'Record not found'];
+             return ['code' => '300','data'=>'', 'message' => 'Something went wrong'];
+        }
+    }
+
+    /**
+     * [editReceipt description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function editReceipt(Request $request)
+    {
+        $update_receipt =   $this->receiptObj->editReceipt($request);
+         if($update_receipt) {
+             return ['code' => '200','data'=>$update_receipt, 'message' => 'Patient record '];
+        } else {
+             //return ['code' => '300','patientData'=>'', 'message' => 'Record not found'];
+             return ['code' => '300','data'=>'', 'message' => 'Something went wrong'];
+        }
+
+    }
+
 
 }

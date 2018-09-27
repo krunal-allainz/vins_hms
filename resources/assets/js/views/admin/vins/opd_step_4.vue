@@ -139,7 +139,7 @@
     import EditOPDConfirmModal from '../../../components/EditOPDConfirmModal.vue';
     import SelectPatientModal from '../../../components/SelectPatientModal.vue';
     import SignaturePad from 'signature_pad';
-    import patientReceiptForm from './patientsReceiptForm.vue';
+    import patientReceiptForm from './patientsReceiptAddForm.vue';
     import _ from 'lodash';
     export default {
         name:'',
@@ -362,11 +362,13 @@
                 self.print(); 
             } 
           },
-          printReceipt(all_data,test_val)
+          printReceipt(test_val)
           {
               let vm=this;
               $('#receiptAddModel').modal('hide');
-              if(test_val==1)
+              toastr.success('Receipt successfully added.', 'Success', {timeOut: 5000});
+              vm.$router.push({'name':'opdreport'});
+              /*if(test_val==1)
               {
                   $('#receiptPrintModal').modal('show');
                   $('#printContent').html('');
@@ -378,7 +380,7 @@
               else
               {
                   vm.$router.push({'name':'opdreport'});
-              }
+              }*/
           },
           saveRefData(){
             let vm =this;
