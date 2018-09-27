@@ -177,26 +177,7 @@ class PatientsDetailFormController extends Controller
    
     }  
    
-    public function saveReceiptData(Request $request){ 
-
-        $data =  ReceiptRepository::saveReceipt($request);
-        $all_amt=$request->formData['chargeAmount']+$request->formData['procedure_charges']+$request->formData['other_charges'];
-        $wordAmount = Terbilang::make($all_amt); 
-        $consultant_name=$this->userOBJ->getUserNameById($request->formData['consult']);  
-        $formData = [  
-            'name' => $data['fullname'],  
-            'date' => $request->formData['date_receipt'] , 
-            'consultant' =>$consultant_name,    
-            'age' =>   $data['age'],  
-            'gender' =>$data['gender'],   
-            'wordamount' => $wordAmount  ,
-            'total_amount'  =>$all_amt
-        ]; 
-        
-        $view = view("receipt",['data'=> $data,'formData' => $formData])->render();    
-        return response()->json(['html'=>$view]);  
-           
-    }
+    
 
     /**
     */

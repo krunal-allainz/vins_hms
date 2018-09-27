@@ -31,6 +31,18 @@
  		return Receipt::with('patientDetails')->where('receipt.id',$id)->first();
  	}
 
+ 	/**
+ 	 * [getReceiptDetailsById description]
+ 	 * @param  [type] $id   [description]
+ 	 * @param  [type] $type [description]
+ 	 * @return [type]       [description]
+ 	 */
+ 	public function getReceiptDataById($id){
+ 		return Receipt::with('patientDetails')->where('receipt.id',$id)->first();
+ 	}
+
+
+
 	 	/**
 	 	 * [getChargesTypes for recipt charges types]
 	 	 * @return [array] [return all types]
@@ -40,6 +52,11 @@
 	 			return ChargesType::get();
 	 	}
 
+	 	/**
+	 	 * [saveReceipt description]
+	 	 * @param  [type] $request [description]
+	 	 * @return [type]          [description]
+	 	 */
 	 	public static function saveReceipt($request){
       
 		        $lastReceipt = \DB::table('receipt')->orderBy('receipt_id', 'desc')->first();	
@@ -58,84 +75,28 @@
 		         $charges_id=0;
 		        if($charges_type_id==1)
 		        {
-		            //$charges_type_val="consultation_charges_id";
 		            $receipt->consultation_charges_id=$request->formData['consultation_type'];
 		            $charges_id=$request->formData['consultation_type'];
 		        }
 		        else if($charges_type_id==2)
 		        {
-		            //$charges_type_val="emergency_charges_id";
 		            $receipt->emergency_charges_id=$request->formData['emergency_type'];
 		            $charges_id=$request->formData['emergency_type'];
 		        }
-		        $department=$request->formData['department'];
-		        $procedures_val=0;
-		        if($department=='Neurology')
-		        {
-		            //$procedures='neurological_procedures_id';
-		            $receipt->neurological_procedures_id=$request->formData['neurological_procedures'];
-		            $procedures_val=$request->formData['neurological_procedures'];
-		        }
-		        else if($department=='Vascular')
-		        {
-		            $receipt->vascular_procedures_id=$request->formData['vascular_procedures'];
-		            //$procedures='vascular_procedures_id';
-		            $procedures_val=$request->formData['vascular_procedures'];
-		        }
-		        else if($department=='Physiotherapy')
-		        {
-		            $receipt->physiotherapy_procedures_id=$request->formData['physiotherapy_procedures'];
-		            //$procedures='vascular_procedures_id';
-		            $procedures_val=$request->formData['physiotherapy_procedures'];
-		        }
-		        $date_arr=$request->formData['date_receipt'];
-		       //	print_r($request->formData);exit;
-		          $receipt->receipt_id = $receiptId ;
-		          $receipt->receipt_number = $receiptNumber ;
-		          $date_r = Carbon::parse($date_arr['time']);
-		          $date_receipt=$date_r->format('Y-m-d H:i:s');
-		          //echo $date_receipt;exit;
-		          $receipt->date =  $date_receipt;
-		          $receipt->case_no = $request->formData['case_no'] ;
-		          $receipt->patient_id = $request->formData['patient_id'] ;
-		          $receipt->charges_name = $request->formData['charges_type'] ;
-		          $receipt->amount = $request->formData['chargeAmount'] ;
-		          $receipt->case_type = $request->formData['case_type'];
-		          $receipt->charges_type_id = $request->formData['charges_type'];
-		          $receipt->charges = $request->formData['chargeAmount'];
-		          $receipt->department = $request->formData['department'];
-		          $receipt->procedures_charges = $request->formData['procedure_charges'];
-		          $receipt->other_charges_id = $request->formData['other_charges_category'];
-		          $receipt->other_charges = $request->formData['other_charges'];
-		          $receipt->created_at=Carbon::now();
-		          $receipt->updated_at=Carbon::now();
-		          $receipt->save();
-	        	  //for patient details
-	        	  $pbj_patient=new PatientRepository;
-  				  $p_details=$pbj_patient->getPatientDetailsById($request->formData['patient_id']);
-  				  $fullname=$p_details->first_name.' '.$p_details->last_name;
-  				  $age="";
-	      		 $age_val="";
-	      		 // if($p_details->dob!=null && $p_details->dob!='')
-	      		 // {
-	      			// $age=Carbon::parse($p_details->dob)->format('Y-m-d');
-	      			// $age_val=Carbon::parse($age)->diff(Carbon::now())->format('%y Years');
-	      		 // } 
-	      		 if($p_details->age > 999){
-	      		 	$age = date("Y") - $p_details->age ;
-	      		 	if($age != 0){
-	      		 		$age_val = $age;
-	      		 	}else{
-	      		 		$age_val = 1;
-	      		 	}
-
-	      		 }else{
-	      		 	$age_val = $p_details->age;
-	      		 }
-	      		 $gender=$p_details->gender;
-				
-		        $data = ['receiptId'=>$receiptId,'receiptNumber'=>$receiptNumber,'caseNo'=>$request->formData['case_no'],'chagredName'=>$request->formData['charges_type'],'amount'=>$request->formData['chargeAmount'],'case_type'=>$request->formData['case_type'],'charges_type'=>$request->formData['charges_type'],'charges_type_val'=>$charges_id,'charges'=>$request->formData['chargeAmount'],'department'=>$request->formData['department'],'procedures_val'=>$procedures_val,'procedures_charges'=>$request->formData['procedure_charges'],'other_charges_category'=>$request->formData['other_charges_category'],'consult_id'=>$request->formData['consult'],'other_charges'=>$request->formData['other_charges'],'date_receipt'=>$date_receipt,'fullname'=>$fullname,'age'=>$age_val,'gender'=>$gender];
-		        return $data;	
+				$receipt->receipt_id = $receiptId ;
+				$receipt->receipt_number = $receiptNumber ;
+				$receipt->date = $request->formData['date_receipt']['time'];
+				$receipt->case_no = $request->formData['case_no'] ;
+				$receipt->patient_id = $request->formData['patient_id'] ;
+				$receipt->charges_name = $request->formData['charges_type'] ;
+				$receipt->amount = $request->formData['chargeAmount'] ;
+				$receipt->case_type = $request->formData['case_type'];
+				$receipt->charges_type_id = $request->formData['charges_type'];
+				$receipt->charges = $request->formData['chargeAmount'];
+				$receipt->created_at=Carbon::now();
+				$receipt->updated_at=Carbon::now();
+				$receipt->save();
+		        return $receipt->id;	
       }
 
       /**
@@ -206,8 +167,14 @@
       		$data = ['receiptId'=>$data_all['receipt_id'],'receiptNumber'=>$data_all['receipt_number'],'caseNo'=>$data_all['case_no'],'chagredName'=>$data_all['charges_type_id'],'amount'=>$data_all['charges'],'case_type'=>$data_all['case_type'],'charges_type'=>$data_all['charges_type_id'],'charges_type_val'=>$charges_id,'charges'=>$data_all['charges'],'department'=>$data_all['department'],'procedures_val'=>$procedures_val,'procedures_charges'=>$data_all['procedures_charges'],'other_charges_category'=>$data_all['other_charges_id'],'other_charges'=>$data_all['other_charges'],'date_receipt'=>$date_receipt,'consult_id'=>$data_all['patientDetails']['consultant_id'],'fullname'=>$fullname,'gender'=>$gender,'age'=>$age_val];
       		 return $data;	
       }
-      public function updatePrintCounter($receipt_id)
-      {
+
+      /**
+       * [updatePrintCounter description]
+       * @param  [type] $receipt_id [description]
+       * @return [type]             [description]
+       */
+      	public function updatePrintCounter($receipt_id)
+      	{
       		$receipt_update=Receipt::where('id',$receipt_id)->increment('print_counter',1);
       		$receipt=Receipt::where('id',$receipt_id)->first();
       		if($receipt_update)
@@ -218,6 +185,47 @@
       		{
       			return 0;
       		}
-      }
+      	}
+
+
+      	/**
+      	 * [editReceipt description]
+      	 * @param  [type] $request [description]
+      	 * @return [type]          [description]
+      	 */
+      	public function editReceipt($request)
+      	{
+  			$data=$request->formData;
+	        $receipt =Receipt::findOrFail($data['receiptId']);
+	        $charges_type_id=$data['charges_type'];
+	        $charges_id=0;
+	        if($charges_type_id==1)
+	        {
+	            $receipt->consultation_charges_id=$data['consultation_type'];
+	            $charges_id=$data['consultation_type'];
+	        }
+	        else if($charges_type_id==2)
+	        {
+	            $receipt->emergency_charges_id=$data['emergency_type'];
+	            $charges_id=$data['emergency_type'];
+	        }
+            $receipt->neurological_procedures_id=$data['neurological_procedures'];
+            $receipt->vascular_procedures_id=$data['vascular_procedures'];
+            $receipt->physiotherapy_procedures_id=$data['physiotherapy_procedures'];
+			$receipt->charges_name = $data['charges_type'] ;
+			$receipt->amount = $data['chargeAmount'] ;
+			$receipt->case_type = $data['case_type'];
+			$receipt->charges_type_id = $data['charges_type'];
+			$receipt->charges = $data['chargeAmount'];
+			$receipt->neurological_procedure_charges = $data['neurological_procedure_charges'];
+			$receipt->vascular_procedure_charges = $data['vascular_procedure_charges'];
+			$receipt->physiotherapy_procedure_charges = $data['physiotherapy_procedure_charges'];
+			$receipt->other_charges_id = $data['other_charges_category'];
+			$receipt->other_charges = $data['other_charges'];
+			$receipt->created_at=Carbon::now();
+			$receipt->updated_at=Carbon::now();
+			$receipt->save();
+			return $receipt->id;
+      	}
  }
 ?>
