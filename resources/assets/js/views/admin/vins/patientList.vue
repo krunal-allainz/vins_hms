@@ -559,7 +559,6 @@
                         }else {
                             vm.patientDataPending.patient_list = response.data.data.data;
                         }
-                         
                           vm.makePagination(response.data.data,$status);
                          },
                         (error) => {

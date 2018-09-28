@@ -33,9 +33,9 @@ class UserRepository {
         return User::select('department')->where('first_name', $name)->first();
     }
 
-    public function getUserDetails()
+    public function getUserDetails($noOfpage)
     {
-        $data = User::get();
+        $data = User::paginate($noOfpage);
         return $data;
     }
 

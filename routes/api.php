@@ -273,6 +273,9 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         //for receipt edit
         $api->post('receipt/editReceipt', '\euro_hms\Api\Controllers\ReceiptController@editReceipt'); 
 
+        $api->post('dashboard/gettimelinedata', '\euro_hms\Api\Controllers\NotificationController@show');
+
+
 
         });
 

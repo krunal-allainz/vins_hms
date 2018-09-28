@@ -403,8 +403,8 @@ export default {
   patientCaseStatusChage(patientId,status){
      return api.post('patient/statusupdate',{'patientId':patientId,'status':status})
   },
-  getAllUsersDetails(){
-     return api.post('user/getUserDetails');
+  getAllUsersDetails(pageUrl,noOfpage){
+     return api.post(pageUrl,{'noOfpage' :noOfpage });
   },
   deleteUserById(userId){
      return api.post('user/delete',{'userId' : userId});
@@ -427,5 +427,7 @@ export default {
   {
       return api.post('receipt/editReceipt',{'formData':formData});
   },
-
+  getTimelineData(doctoreId){
+      return api.post('dashboard/gettimelinedata',{'id':doctoreId});
+  }
 }

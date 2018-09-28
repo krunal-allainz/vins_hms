@@ -149,9 +149,10 @@ class UserController extends BaseController
     }
 
 
-    public function getUserDetails()
+    public function getUserDetails(Request $request)
     {
-        $userDetails =  $this->userRepoObj->getUserDetails();
+        $noOfpage = $request->noOfpage;
+        $userDetails =  $this->userRepoObj->getUserDetails($noOfpage);
 
         if ($userDetails) {
             return ['code' => '200','data'=>$userDetails, 'message' => 'Record Sucessfully created'];

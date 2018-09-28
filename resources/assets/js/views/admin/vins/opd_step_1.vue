@@ -380,6 +380,7 @@
                 'status' : '',
                 'token_no' : '',
                 'token_date' : '',
+                'consult_dr' : '',
               },
               'setErrorData': {
                 'error':false,
@@ -793,6 +794,7 @@
                   vm.patientCase.token_no =  response.data.data.token;
                   vm.patientCase.main_case_id  = response.data.data.main_case_id;
                   vm.patientCase.token_date = response.data.data.date;
+                  vm.patientCase.consult_dr = response.data.data.consultant_id;
                 }
                },
                (error) => {

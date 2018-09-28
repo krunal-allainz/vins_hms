@@ -9,26 +9,29 @@
                                 <div class="card-body">
                                     <div>
                                         <ul class="timeline timeline-update">
-                                            <li>
-                                                <div class="timeline-badge primary wow lightSpeedIn center">
+                                            <li   v-for="dat in timelineData">
+                                                 <div class="timeline-badge primary wow lightSpeedIn center">
                                                  <!--    <img src="img/authors/avatar1.jpg" height="36" width="36"
                                                          class="rounded-circle float-right" alt="avatar-image"> -->
                                                 </div>
-                                                <div class="timeline-card wow slideInLeft"
+                                                 <div class="timeline-card wow slideInLeft"
                                                      style="display:inline-block;">
                                                     <div class="timeline-heading">
-                                                        <h4 class="timeline-title">Patient Add </h4>
+                                                        <h4 class="timeline-title">{{data.title}}</h4>
                                                         <p>
-                                                            <small class="text-primary">11 hours ago</small>
+                                                            <small class="text-primary">{{data.Datadate | fromnow}} ago</small>
                                                         </p>
                                                     </div>
                                                     <div class="timeline-body">
                                                         <p>
-                                                            new patient add
+                                                           {{data.text}}
                                                         </p>
                                                     </div>
                                                 </div>
                                             </li>
+                                               
+                                               
+                                            
 
                                             <li>
                                                 <div class="timeline-badge info wow lightSpeedIn center">
@@ -102,12 +105,17 @@
                 </div>
 </template>
 <script >
+    import User from '../../../api/users.js';
+    import moment from 'moment';
     export default{
         data(){
             return {
+                'doctorId':this.$store.state.Users.userDetails.id,
+                'timelineData' : '',
             }
         },
          mounted(){
+              let vm = this;
              if ($('.timeline-update').length > 0) {
                 $('.timeline-update').newsTicker({
                     row_height: 117,
@@ -120,6 +128,21 @@
                 });
              
              }
-         }
+             vm.getTimelineData(vm.doctorId);
+         },
+           methods: {
+                getTimelineData(doctorId){
+                    let vm = this;
+                    User.getTimelineData(doctorId).then(
+                             (response)=>{
+                                    if(response.data.code == 200){
+                                      vm.timelineData = response.data.data;
+                                    }
+                            },
+                            (error)=>{
+                             }
+                    );
+                }
+           }
     }
 </script>
