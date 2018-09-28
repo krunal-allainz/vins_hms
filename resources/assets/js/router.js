@@ -108,6 +108,7 @@ import AdminDashboard from './views/admin/vins/adminDashboard.vue'
 import patientDetailEdit from './views/admin/vins/patientDetailEditForm.vue'
 import allPatientList from './views/admin/vins/allPatientList.vue'
 import patientOpdViewPage from './views/admin/vins/patientOpdViewPage.vue'
+import userDetailEdit from './views/admin/vins/userDetailEdit.vue'
 
 
 //for opd recipt list
@@ -600,6 +601,12 @@ const routes = [
                 component: UserList,
                 meta: { requiresAuth: true },
                 name: 'UserList'
+            },
+            {
+                path: '/user/edit/:id',
+                component: userDetailEdit,
+                meta: { requiresAuth: true },
+                name: 'user/edit'
             },
             {
                 path: '/receipt',

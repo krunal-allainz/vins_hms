@@ -103,7 +103,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
          $api->post('centralLineBundleChecklist/create', '\euro_hms\Api\Controllers\FormsOptionsDataController@store')->name('centralLineBundleChecklist.create');
         $api->post('patient/getDetails/{id}', '\euro_hms\Api\Controllers\PatientsDetailFormController@getDetails');
         $api->post('patient/getAll', '\euro_hms\Api\Controllers\PatientsDetailFormController@getAllPatientName');
-        $api->get('user/getUserDetails', '\euro_hms\Api\Controllers\UserController@getUserDetails');
+        $api->post('user/getUserDetails', '\euro_hms\Api\Controllers\UserController@getUserDetails');
         $api->post('user/create', '\euro_hms\Api\Controllers\UserController@createUser')->name('create.users'); 
 
         $api->post('patient/OPDDetails/{patientId}', '\euro_hms\Api\Controllers\OPDDetailsFromController@getDetails');
@@ -261,11 +261,18 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         //for counting receipt print click
         $api->post('receipt/updatePrintCounter','\euro_hms\Api\Controllers\ReceiptController@updatePrintCounter');
 
+          $api->post('user/delete','\euro_hms\Api\Controllers\UserController@deleteUserById');
+
+          $api->post('user/getUserDetailByUserId','\euro_hms\Api\Controllers\UserController@getUserDetailByUserId');
+
+        $api->post('user/edit','\euro_hms\Api\Controllers\UserController@editUserById');
+
         //for receipt details by receipt id
         $api->post('receipt/getReceiptDetailsById','\euro_hms\Api\Controllers\ReceiptController@getReceiptDetailsById');
         
         //for receipt edit
         $api->post('receipt/editReceipt', '\euro_hms\Api\Controllers\ReceiptController@editReceipt'); 
+
 
         });
 

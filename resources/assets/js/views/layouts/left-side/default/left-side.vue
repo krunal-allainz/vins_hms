@@ -22,11 +22,14 @@
                 </vmenu>
                 </div>
                 <div v-if="userRole == 4">
-                    <vmenu>
-                        <vmenu-item link="/NewUser" icon="ti-layout">
-                            &nbsp; New User
-                        </vmenu-item>
-                        <vmenu-item link="/all_patient_list" icon="ti-layout">
+                   <vmenu>
+                     <vmenu-item link="/NewUser" icon="ti-layout">
+                        &nbsp; New User
+                    </vmenu-item>
+                    <vmenu-item link="/UserList" icon="ti-layout">
+                        &nbsp; User List
+                    </vmenu-item>
+                      <vmenu-item link="/all_patient_list" icon="ti-layout">
                             &nbsp; Patient List
                         </vmenu-item>
                     </vmenu> 
