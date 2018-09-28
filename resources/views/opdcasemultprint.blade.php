@@ -1,4 +1,4 @@
-	
+
   		@include('patientDetailReport')
  		@include('patientCheckupReport')
 	  	@if(in_array( 'Advice + follow ups',$data['checkedreportList']))

@@ -13,7 +13,9 @@
 					@foreach($data['ReportPageData']['prescriptionReportData'] as $key=>$res)
 						@if($res['remove']==='false')
 						<tr>
-							<td>{{++$key}} ] {{$res['name']}} :ORAL
+							<td>
+								<span style="font-size:13px;">
+								{{++$key}} ] {{$res['name']}} :ORAL
 								
 								@if($res['type']=='Q-Hrs')
 									@for($i=1;$i<=$res['total_qhrs'];$i++)
@@ -95,6 +97,7 @@
 			                    @else
 			                        <span> TO BE CONTINUE </span>
 			                    @endif
+			                </span>
 							</td>
 			            </tr>
 			       		@endif

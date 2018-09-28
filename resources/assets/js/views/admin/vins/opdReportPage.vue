@@ -103,7 +103,7 @@
 	    		'reportList': [{
 		       		 'reportListId': 'Advice + follow ups'
 		      		}, {
-		      		  'reportListId': 'Radiology test'
+		      		  'reportListId': 'Radiology'
 		      		}, {
 		      		  'reportListId': 'Laboratory'
 		      		}, {
