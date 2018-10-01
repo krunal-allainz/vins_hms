@@ -19,7 +19,7 @@
 				<span class='report_title'>History :-</span>
 			</div>
 			<div class='col-md-12 ' v-if ="(historyData.type != 'text') && historyData.value!=null && historyData.value!=''">
-				<img :src="historyData.value" title="History">
+				<img class="report_image" :src="historyData.value" title="History">
 			</div>  
 			<div class='col-md-12 ' v-else>
 				<span class='report_details'> No record found. </span>
