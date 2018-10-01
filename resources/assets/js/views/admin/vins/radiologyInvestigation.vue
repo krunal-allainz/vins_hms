@@ -1,7 +1,6 @@
 <template>
 <div>
 	<h4>Radiology:</h4>
-
     	<div class="row form-group" id="radio_div">
     		<div class="col-md-12">
     			<div class="row form-group">
@@ -28,6 +27,45 @@
                         <select class = "form-control ls-select2" id = "body_part_side" name = "body_part_side">
                             <option v-for="bps in investigationData.bodyPartSide" :value="bps.value">{{bps.text}}</option>
                         </select>
+                    </div>
+                </div>
+                 <div class="row form-group" v-if="resultData.body_part_side=='Others'">
+                    <div class="col-md-6">
+                        <div class="col-md-12">
+                          <label for="history">Others type:</label>
+                          <button type="button" class="btn btn-submit" @click="setHistoryType('advice','text')">Text</button>
+                          <button type="button" class="btn btn-warning" @click="setHistoryType('advice','scribble')">Scribble</button>
+                        </div>
+
+                    </div>
+                </div>
+                 <div class="row form-group" v-if="resultData.body_part_side=='Others'">
+                    <div class="col-md-6">
+                        <div class="col-md-6">
+                            <label for="others">Others:</label>
+                        </div>
+                        <div class="col-md-12" v-show="resultData.body_part_others_type == 'text'">
+                            <textarea class="form-control" type="text" name="body_part_others" id="body_part_others" v-model="resultData.body_part_others"></textarea>         
+                        </div>
+                        <div class="col-md-12" v-show="resultData.body_part_others_type == 'scribble'">
+                            <div id="signature-pad3" class="signature-pad">
+                                <div class="signature-pad--body">
+                                    <canvas class="can-img" id="body_part_scribble" height="200px" width="500px" ></canvas> 
+                                </div>
+                                <div>
+                                    <button type="button" id="clear_body_part_scribble" class="btn btn-md btn-danger">Clear</button>
+                                    <button type="button" id="save_body_part_scribble" class="btn btn-md btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" v-if="resultData.signaturePad3_src!='' && resultData.body_part_others_type != 'text' && resultData.signaturePad3_src!== null">
+                      <div class="col-md-12">
+                          <label for="history">Others Preview:  <i class="fa fa-download fa-lg red" @click="download(resultData.signaturePad3_src,'Others')" aria-hidden="true"></i></label>
+                        </div>
+                        <div>
+                          <img :src="resultData.signaturePad3_src" title="Others">
+                        </div>  
                     </div>
                 </div>
                 <div class="row form-group">
@@ -216,7 +254,9 @@
     
 	import User from '../../../api/users.js';
 	import _ from 'lodash';
-    import card from "./card.vue"
+    import card from "./card.vue";
+    import SignaturePad from 'signature_pad';
+
     // import vue2Dropzone from 'vue2-dropzone'
     // import 'vue2-dropzone/dist/vue2Dropzone.css'
 
@@ -264,6 +304,10 @@
                     'radiologyOther':'',
                     'body_part_text':false,
                     'type_name':'',
+                    'body_part_others_type':'scribble',
+                    'body_part_others':'',
+                    'signaturePad':{},
+                    'signaturePad3_src':'',
 
                 },
                 'imgGallery':'',
@@ -311,7 +355,8 @@
                         {text:'Right',value:'Right'},
                         {text:'Left',value:'Left'},
                         {text:'Bilateral',value:'Bilateral'},
-                        {text:'AP Lateral Oblique',value:'ap_lateral_oblique'}
+                        {text:'AP Lateral Oblique',value:'ap_lateral_oblique'},
+                        {text:'Others',value:'Others'}
                     ],
                 	'radiologySubType':[
                 			{text:'',value:''},
@@ -447,6 +492,13 @@
                 } 
                  if(this.id == 'body_part_side') {
                      vm.resultData.body_part_side=$("#body_part_side").select2().val();
+                     if(vm.resultData.body_part_side=='Others')
+                     {
+                        //for signature pad
+                        setTimeout(function(){
+                          vm.examinationChangeImage();
+                        },500);
+                     }
                  }
                 if(this.id == 'radiology_subtype') {
                      vm.resultData.spine_option_value="";
@@ -520,10 +572,64 @@
                 }
 
 	        });
+            
 			
         },
         
         methods: {
+            setHistoryType(res,type){
+                var vm =this;
+                vm.resultData.body_part_others_type = type;
+            },
+            examinationChangeImage() {
+                var vm =this;
+                var canvas3 = document.getElementById("body_part_scribble");
+                var clear_body_part_scribble = document.getElementById("clear_body_part_scribble");
+                var save_body_part_scribble = document.getElementById("save_body_part_scribble");
+                vm.resultData.signaturePad3 = new SignaturePad(canvas3, {
+                backgroundColor: 'rgb(255, 255, 255)',
+                });
+                window.onresize = vm.resizeCanvas;
+                vm.resizeCanvas(canvas3);
+                clear_body_part_scribble.addEventListener("click", function (event) {
+                    vm.resultData.signaturePad3.clear();
+                    vm.resultData.signaturePad3_src='';
+                });
+                ;
+                save_body_part_scribble.addEventListener("click", function (event) {
+                    vm.resultData.signaturePad3_src = vm.resultData.signaturePad3.toDataURL();
+                });
+            },
+             resizeCanvas(canvas) {
+                var ratio =  Math.max(window.devicePixelRatio || 1, 1);
+                canvas.width = canvas.offsetWidth * ratio;
+                canvas.height = canvas.offsetHeight * ratio;
+                canvas.getContext("2d").scale(ratio, ratio);
+            },
+             download(dataURL, filename) {
+                var vm =this;
+                var blob = vm.dataURLToBlob(dataURL);
+                var url = window.URL.createObjectURL(blob);
+                var a = document.createElement("a");
+                a.style = "display: none";
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+            }, 
+            dataURLToBlob(dataURL) {
+                // Code taken from https://github.com/ebidel/filer.js
+                var parts = dataURL.split(';base64,');
+                var contentType = parts[0].split(":")[1];
+                var raw = window.atob(parts[1]);
+                var rawLength = raw.length;
+                var uInt8Array = new Uint8Array(rawLength);
+                for (var i = 0; i < rawLength; ++i) {
+                uInt8Array[i] = raw.charCodeAt(i);
+                }
+                return new Blob([uInt8Array], { type: contentType });
+            },    
             initResData()
             {
                 let vm=this;

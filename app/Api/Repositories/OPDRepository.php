@@ -116,7 +116,6 @@
  		$cross_opd_data=$request->all()['data']['reffData']['reffreal_cross_array'];
  		$lab_opd_data=$request->all()['data']['reffData']['reffreal_laboratory_array'];
  		$radio_opd_data=$request->all()['data']['reffData']['reffreal_radiology_array'];
-
  		$step4_data=$request->all()['data']['step4Data'];
  		$crossRefer=$request->all()['data']['crossRefer'];
  		$diagnosis =$request->all()['data']['diagnosis'];
@@ -150,7 +149,7 @@
         $caseStatusManagment = TokenManagment::where('opd_id',$opd_id_org)->where('patient_case_id',$patientCaseData['id'])->where('token',$patientCaseData['token_no'])->where('date',$patientCaseData['token_date'])->update(array('status' => 'examine'));
         
 		
-		if($step4_data['adviceType']=='text')
+				if($step4_data['adviceType']=='text')
 		 		{
 		 			$advice=array('type'=>$step4_data['adviceType'],'value'=>$step4_data['advice']);
 		 		}
@@ -290,6 +289,19 @@
 	 			if(isset($radio['body_part_side']))
 	 			{
 	 				$radiology_obj->body_part_side=$radio['body_part_side'];
+	 				if($radiology_obj->body_part_side=='Others')
+	 				{
+	 					$body_part_others=array();
+	 					if($radio['body_part_others_type']=='text')
+						{
+							$body_part_others=array('type'=>$radio['body_part_others_type'],'value'=>$radio['body_part_others']);
+						}
+						else
+						{
+							$body_part_others=array('type'=>$radio['body_part_others_type'],'value'=>$radio['signaturePad3_src']);
+						}
+						$radiology_obj->body_part_others=json_encode($body_part_others);
+	 				}
 	 			}
 	 			if($radio['type']=='other')
 	 			{
@@ -351,6 +363,19 @@
 	 			if(isset($r_data['body_part_side']))
 	 			{
 	 				$radiology_obj_2->body_part_side=$r_data['body_part_side'];
+	 				if($radiology_obj_2->body_part_side=='Others')
+	 				{
+	 					$body_part_others=array();
+	 					if($r_data['body_part_others_type']=='text')
+						{
+							$body_part_others=array('type'=>$r_data['body_part_others_type'],'value'=>$r_data['body_part_others']);
+						}
+						else
+						{
+							$body_part_others=array('type'=>$r_data['body_part_others_type'],'value'=>$r_data['signaturePad3_src']);
+						}
+						$radiology_obj_2->body_part_others=json_encode($body_part_others);
+	 				}
 	 			}
 	 			
 	 			if($r_data['type']=='other')
@@ -681,7 +706,6 @@
  			$option_details=OpdDetailsOption::where('opd_id',$opd_id)->orderBy('id','desc')->first();
  			$result['opdData']['signaturePad_src']="";
  			$result['opdData']['signaturePad1_src']="";
- 			$result['opdData']['signaturePad2_src']="";
  			$result['opdData']['historyType']="scribble";
  			$result['opdData']['pastHistoryType']="scribble";
  			$history_array=json_decode($option_details->history,true);
@@ -865,6 +889,26 @@
 		 			$rest_radio['radiologyOther']=$radio->radiology_other;
 					$rest_radio['body_part_text']=false;
 		 			$rest_radio['type_name']=$radio->type_name;
+		 			$rest_radio['body_part_others']='';
+		 			$rest_radio['body_part_others_type']='scribble';
+		 			$rest_radio['signaturePad']=array();
+		 			$rest_radio['signaturePad3_src']='';
+		 			if($radio->body_part_side=='Others')
+		 			{
+		 				$body_part_array=json_decode($radio->body_part_others,true);
+			 			if(count($body_part_array)>0)
+			 			{
+			 				$rest_radio['body_part_others_type']=$body_part_array['type'];
+			 				if($body_part_array['type']=='text')
+			 				{
+			 					$rest_radio['body_part_others']=$body_part_array['value'];
+			 				}
+			 				else
+			 				{
+			 					$rest_radio['signaturePad3_src']=$body_part_array['value'];
+			 				}
+			 			}
+		 			}
 	 				$radio_array[]=$rest_radio;
 	 				$index_radio++;
  				}
@@ -919,6 +963,26 @@
 	 				$rest_radio_2['radiologyOther']=$radio_2->radiology_other;
 	 				$rest_radio_2['body_part_text']=false;
 	 				$rest_radio_2['type_name']=$radio_2->type_name;
+	 				$rest_radio_2['body_part_others']='';
+		 			$rest_radio_2['body_part_others_type']='scribble';
+		 			$rest_radio_2['signaturePad']=array();
+		 			$rest_radio_2['signaturePad3_src']='';
+		 			if($radio->body_part_side=='Others')
+		 			{
+		 				$body_part_array=json_decode($radio_2->body_part_others,true);
+			 			if(count($body_part_array)>0)
+			 			{
+			 				$rest_radio_2['body_part_others_type']=$body_part_array['type'];
+			 				if($body_part_array['type']=='text')
+			 				{
+			 					$rest_radio_2['body_part_others']=$body_part_array['value'];
+			 				}
+			 				else
+			 				{
+			 					$rest_radio_2['signaturePad3_src']=$body_part_array['value'];
+			 				}
+			 			}
+		 			}
 	 				$radio_array_2[]=$rest_radio_2;
 	 				$radio_index++;
  				}
@@ -1147,6 +1211,20 @@
 	 			if(isset($radio['body_part_side']))
 	 			{
 	 				$radiology_obj->body_part_side=$radio['body_part_side'];
+	 				if($radiology_obj->body_part_side=='Others')
+	 				{
+	 					$body_part_others=array();
+	 					if($radio['body_part_others_type']=='text')
+						{
+							$body_part_others=array('type'=>$radio['body_part_others_type'],'value'=>$radio['body_part_others']);
+						}
+						else
+						{
+							$body_part_others=array('type'=>$radio['body_part_others_type'],'value'=>$radio['signaturePad3_src']);
+						}
+
+						$radiology_obj->body_part_others=json_encode($body_part_others);
+	 				}
 	 			}
 	 			if($radio['type']=='other')
 	 			{
@@ -1208,6 +1286,20 @@
 	 			if(isset($r_data['body_part_side']))
 	 			{
 	 				$radiology_obj_2->body_part_side=$r_data['body_part_side'];
+	 				if($radiology_obj_2->body_part_side=='Others')
+	 				{
+	 					$body_part_others=array();
+	 					if($r_data['body_part_others_type']=='text')
+						{
+							$body_part_others=array('type'=>$r_data['body_part_others_type'],'value'=>$r_data['body_part_others']);
+						}
+						else
+						{
+							$body_part_others=array('type'=>$r_data['body_part_others_type'],'value'=>$r_data['signaturePad3_src']);
+						}
+						
+						$radiology_obj_2->body_part_others=json_encode($body_part_others);     
+					}
 	 			}
 	 			
 	 			if($r_data['type']=='other')
