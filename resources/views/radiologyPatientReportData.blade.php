@@ -6,20 +6,20 @@
 		<div class=""  >
         	<div class="col-md-12">
         	    <div class="">
-                    <table class="table table-striped table-bordered report_table" id="radio_list">
-                        <thead>
-                            <tr>
-                            <!--  <th>#</th> -->
-                             <th>Type</th>
-                             <th>Body parts</th>
-                             <th>Qualifier</th>
-                             <th>Special request</th>
-                             <th>Details</th>
-                            </tr>
-                         </thead>
-                         <tbody>
-                            @if(count($data['ReportPageData']['radiologyReportData']))
-                                 @foreach($data['ReportPageData']['radiologyReportData'] as $index=>$res)
+                    @if(count($data['ReportPageData']['radiologyReportData']))
+                        <table class="table table-striped table-bordered report_table" id="radio_list">
+                            <thead>
+                                <tr>
+                                <!--  <th>#</th> -->
+                                 <th>Type</th>
+                                 <th>Body parts</th>
+                                 <th>Qualifier</th>
+                                 <th>Special request</th>
+                                 <th>Details</th>
+                                </tr>
+                             </thead>
+                             <tbody>
+                                @foreach($data['ReportPageData']['radiologyReportData'] as $index=>$res)
                                      <tr class="text-center">
                                         <!-- <td>{{++$index}}</td> -->
                                         <td>{{$res['type']}}</td>
@@ -29,16 +29,14 @@
                                         <td>{{$res['details']}}</td>
                                     </tr>
                                 @endforeach
-                            @else
-                                <tr>
-                                    <td colspan="5">No data found.</td>
-                                </tr>
-                            @endif
-                        </tbody>
-                    </table>
+                           
+                            </tbody>
+                        </table>
+                    @else
+                        <span class="report_details">No record found.</span> 
+                    @endif
                 </div>
             </div>
         </div>
   	</div>
-
-  	@endif
+@endif

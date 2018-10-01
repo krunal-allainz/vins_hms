@@ -6,30 +6,28 @@
 		 		<span class="report_title">Cross Referrals:-</span>
 		 	</div>
     		<div class="col-md-12">
-    			<div class="">
+    			<div class="" v-if="CrossReferalData.length>0">
             		<table class="table table-striped table-bordered report_table" id="radio_list">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Type</th>
-                        <th>Name</th>
-		            </tr>
-					</thead>
-					<tbody v-if="CrossReferalData.length>0">
-					<tr  v-for="(res,index) in CrossReferalData">
-	                    <td>{{++index}}</td>
-	                    <td>{{res.cross_type}}</td>
-	                    <td>{{res.cross_value}}</td>
-	                    
-	                </tr>
-                </tbody>
-                <tbody v-else>
-                	<tr>
-                		<td colspan="3">No data found.</td>
-                	</tr>
-                </tbody>
-				</table>
+	                    <thead>
+		                    <tr>
+		                        <th>#</th>
+		                        <th>Type</th>
+		                        <th>Name</th>
+				            </tr>
+						</thead>
+						<tbody >
+							<tr  v-for="(res,index) in CrossReferalData">
+			                    <td>{{++index}}</td>
+			                    <td>{{res.cross_type}}</td>
+			                    <td>{{res.cross_value}}</td>
+			                    
+			                </tr>
+	                	</tbody>
+					</table>
 				</div>
+				<div v-else>
+    				<span class="report_details">No record found.</span>
+				</div> 
 			</div>
 			
 		</div>	

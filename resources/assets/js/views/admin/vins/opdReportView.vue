@@ -4,7 +4,8 @@
 		<div id="printData" style="height: 1500px;min-height: 700px;">
 			<div  id="printContent"></div>
 			<div>
-				<vinsletterheadheaderpart></vinsletterheadheaderpart>
+				<div class="report_header"></div>
+				<!-- <vinsletterheadheaderpart></vinsletterheadheaderpart> -->
 				<!-- Patient Detail Start -->
 
 				<patientDetailReport :patientDetail="patientDetail" :consult_dr="doctoreName" :todayDate="todayDate"  :department="department" :reg_no="regNo" :refer_dr="reference">
@@ -41,7 +42,7 @@
 			 	<!-- opd data end -->
 
 			 	<signatureReportData :department="department" :regNo="regNo" :doctoreName="doctoreName" :signatureName="signatureName"></signatureReportData>
-				<vinsletterheadfooterpart></vinsletterheadfooterpart >
+				<!-- <vinsletterheadfooterpart></vinsletterheadfooterpart > -->
 			</div>
 		</div>
 		
