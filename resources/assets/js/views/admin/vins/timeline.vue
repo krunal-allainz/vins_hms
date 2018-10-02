@@ -9,7 +9,7 @@
                                 <div class="card-body">
                                     <div>
                                         <ul class="timeline timeline-update">
-                                            <li   v-for="dat in timelineData">
+                                            <li   v-for="data in timelineData">
                                                  <div class="timeline-badge primary wow lightSpeedIn center">
                                                  <!--    <img src="img/authors/avatar1.jpg" height="36" width="36"
                                                          class="rounded-circle float-right" alt="avatar-image"> -->
@@ -29,73 +29,6 @@
                                                     </div>
                                                 </div>
                                             </li>
-                                               
-                                               
-                                            
-
-                                            <li>
-                                                <div class="timeline-badge info wow lightSpeedIn center">
-                                                  <!--   <img src="img/authors/avatar.jpg" height="36" width="36"
-                                                         class="rounded-circle float-right" alt="avatar-image"> -->
-                                                </div>
-                                                <div class="timeline-card wow slideInLeft">
-                                                    <div class="timeline-heading">
-                                                        <h4 class="timeline-title">New 
-                                                        OPD</h4>
-                                                        <p>
-                                                            <small class="text-primary">July 03, 2018</small>
-                                                        </p>
-                                                    </div>
-                                                    <div class="timeline-body">
-                                                        <p>
-                                                            New OPD case added.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="timeline-badge default wow lightSpeedIn center">
-                                                  <!--   <img src="img/authors/avatar2.jpg" height="36" width="36"
-                                                         class="rounded-circle float-right" alt="avatar-image"> -->
-                                                </div>
-                                                <div class="timeline-card wow slideInLeft">
-                                                    <div class="timeline-heading">
-                                                        <h4 class="timeline-title">Vascular Patient </h4>
-                                                        <p>
-                                                            <small class="text-primary">Jan 02, 2018</small>
-                                                        </p>
-                                                    </div>
-                                                    <div class="timeline-body">
-                                                        <p>
-                                                           old patient on vascular department.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="timeline-badge primary wow lightSpeedIn center">
-                                                   <!--  <img src="img/authors/avatar3.jpg" height="36" width="36"
-                                                         class="rounded-circle float-right" alt="avatar-image"> -->
-
-                                                </div>
-                                                <div class="timeline-card wow slideInLeft"
-                                                     style="display:inline-block;">
-                                                    <div class="timeline-heading">
-                                                        <h4 class="timeline-title">Daily Status </h4>
-                                                        <p>
-                                                            <small class="text-primary"></small>
-                                                        </p>
-                                                    </div>
-                                                    <div class="timeline-body">
-                                                        <p>
-                                                           average patient count
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </li>
-
-                                         
-                                           
                                         </ul>
                                     </div>
                                 </div>

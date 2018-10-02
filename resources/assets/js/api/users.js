@@ -403,8 +403,8 @@ export default {
   patientCaseStatusChage(patientId,status){
      return api.post('patient/statusupdate',{'patientId':patientId,'status':status})
   },
-  getAllUsersDetails(pageUrl,noOfpage){
-     return api.post(pageUrl,{'noOfpage' :noOfpage });
+  getAllUsersDetails(pageUrl,noOfPage){
+     return api.post(pageUrl,{'noOfPage' :noOfPage });
   },
   deleteUserById(userId){
      return api.post('user/delete',{'userId' : userId});

@@ -3,12 +3,12 @@
         <!--First Table-->
         <div class="row">
             <div class="col-lg-12">
-                 <div class="card bg-success-card" v-if="user_type == 3">
+                 <div class="card bg-success-card">
             <h4 class="card-header">
-               <div> User list</div>
+               <div> User list {{getUserData.length}}</div>
             </h4>
           <div class="card-body">
-            <div data-v-744e717e="" class="card p-3" v-if="patientDataPending.patient_list.length>0">
+            <div data-v-744e717e="" class="card p-3" v-if="getUserData.length>0">
               <div data-v-744e717e="" class="table-header">
                   <h4 data-v-744e717e="" class="table-title text-center mt-3"></h4>
               </div>
@@ -50,7 +50,7 @@
                     </tr>
                   </thead>
                   <tbody data-v-744e717e="">
-                    <tr data-v-744e717e="" v-for="patientData in patientDataPending.patient_list">
+                    <tr data-v-744e717e="" v-for="user in getUserData">
                       <td data-v-744e717e="" class="">
                         {{user.id}}
                       </td>
@@ -92,8 +92,8 @@
                       <option data-v-744e717e="" value="50">50</option>
                    <!--     <option data-v-744e717e="" value="-1">All</option> -->
                     </select> 
-                     <div data-v-744e717e="" class="datatable-info  pb-2 mt-3">
-                        <span data-v-744e717e="">Showing </span> 1 - {{pendingPagination.to}} of {{pendingPagination.total}}
+                     <div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(pagination.total>0)">
+                        <span data-v-744e717e="">Showing </span> {{pagination.current_page}} - {{pagination.to}} of {{pagination.total}}
                         <span data-v-744e717e="">records</span>
                     </div>
                 </div>
@@ -118,9 +118,9 @@
         data() {
             return {
                   'deleteConfirmMsg':'Are you sure you want to delete this user?',
-                  'getUserData':'',
+                  'getUserData':{},
                   'pagination': {},
-                   'perPage' : 10,
+                   'perPage' : 5,
             }
         },
         mounted() {
@@ -132,11 +132,12 @@
         methods: {
             getAllUsers(pageUrl,noOfPage){
                 var vm = this;
-                 var userData;
+                var userData;
                   User.getAllUsersDetails(pageUrl,noOfPage).then(
                      (response)=>{
-                            userData=response.data.data;
+                            userData=response.data.data.data;
                             vm.getUserData = userData;
+                            vm.makePagination(response.data.data);
                         },
                     (error)=>{
                      }
@@ -150,7 +151,10 @@
                      (response) => {
                         if(response.data.code == 200){
                               toastr.success('User Delete successfully', 'Delete User', {timeOut: 5000});
-                             vm.getAllUsers();
+                               let vm =this;
+                               let pageUrl = 'user/getUserDetails/';
+                               let noOfPage = vm.perPage;
+                               vm.getAllUsers(pageUrl,noOfPage);
                         }
                      },
                      (error) => {
@@ -169,6 +173,7 @@
                         from : data.from,
                         to : data.to
                     }
+                      this.pagination = pagination;
                  },
             setPerPage(e){
             let vm =this;

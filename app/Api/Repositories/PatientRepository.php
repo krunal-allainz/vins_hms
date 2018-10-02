@@ -232,7 +232,7 @@
                     $reported_date=Carbon::now()->format('Y-m-d H:i:s');
                 }
                 $patientCaseInsert = PatientCaseManagment::create([
-                  'case_type' =>$data['case_type'],
+                  'case_type' => $data['case_type'],
                   'section_type' => $patientType,
                   'section_id' => $sectionId,
                   'patient_id' =>$patientId,

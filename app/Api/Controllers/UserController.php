@@ -71,8 +71,6 @@ class UserController extends BaseController
         // here we check that if userType is
 
 
-
-
         $userData['user']['first_name']=$data['fName'];
         $userData['user']['last_name']=$data['lName'];
         $userData['user']['email']=$data['email'];
@@ -151,8 +149,8 @@ class UserController extends BaseController
 
     public function getUserDetails(Request $request)
     {
-        $noOfpage = $request->noOfpage;
-        $userDetails =  $this->userRepoObj->getUserDetails($noOfpage);
+        $noOfPage = $request->noOfPage;
+        $userDetails =  $this->userRepoObj->getUserDetails($noOfPage);
 
         if ($userDetails) {
             return ['code' => '200','data'=>$userDetails, 'message' => 'Record Sucessfully created'];
