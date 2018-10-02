@@ -10,7 +10,7 @@
                         
                          <tr v-for="(res,index) in prescriptData" v-if="res.remove=='false'" :id="res.pid">
                                     
-                                <td>  {{++index}}] {{res.name}} :ORAL
+                                <td>  {{++index}}] <span class="text-uppercase">{{res.name}}</span> :ORAL
                                     
                                     <span v-if="res.type=='Q-Hrs'">
                                         <span v-for="(item,index) in parseInt(res.total_qhrs)">

@@ -32,28 +32,28 @@
 							@endif
 							</span>
 							@if($data['patientDetail']['gender'] == 'F')
-							<span class="text-uppercase"><b>/ Female</b></span>
+							<span class="text-uppercase">/ Female</span>
 							@else
-							<span class="text-uppercase"><b>/ Male</b></span>
+							<span class="text-uppercase">/ Male</span>
 							@endif</td>
 				</tr>
 				<tr>
 					<td><label><b>Consulting Dr.:</b></label>
-						<span class="text-uppercase">	{{$data['doctoreName']}}</span>
+						<span class="text-uppercase"><b>{{$data['doctoreName']}}</b></span>
 					</td>
 					<td></td>
 					<td class="text-right">	<label><b>Ref By Dr.:</b></label>
-					<span>{{ $data['reference']}}</span></td>
+					<span class="text-uppercase"><b>{{ $data['reference']}}</b></span></td>
 				</tr>
 				<tr>
 					<td>	<label><b>Speciality:</b></label>
-							<span class="text-uppercase">{{$data['department']}}</span></td>
+							<span class="text-uppercase"><b>{{$data['department']}}</b></span></td>
 							<td></td>
 					<td></td>
 				</tr>
 				<tr>
 					<td> 	<label><b>Dr. Reg. No:</b></label>
-							<span class="text-uppercase">{{$data['regNo']}}</span></td>
+							<span class="text-uppercase"><b>{{$data['regNo']}}</b></span></td>
 							<td></td>
 							<td></td>
 				</tr>

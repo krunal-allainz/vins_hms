@@ -19,7 +19,7 @@
 			</div>
 			<div>
 				<div class='col-md-12' v-if ="(adviceData.type != 'text' && adviceData.value!='' && adviceData.value!=null)" >
-	            <img :src="adviceData.value" title="Advice">
+	            <img class="report_image" :src="adviceData.value" title="Advice">
 	        </div> 
 	        <div class='col-md-12' v-else>
 				<span class="report_details">No record found.</span>

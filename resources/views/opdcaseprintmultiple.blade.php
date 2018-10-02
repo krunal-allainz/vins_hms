@@ -37,31 +37,39 @@
 	    outline: 0;*/
 	}
 	.page-break { display: block; page-break-after: always; }
+	.text-uppercase{
+    	text-transform : uppercase;
+	}
 	.report_header{margin-top:70px;}
 	.report_space
 	{
-	    margin-bottom:18px;
+	    margin-bottom:15px;
 
 	}
 	.report_title
 	{
 	    font-family: "Times New Roman", Times, serif;
-	    font-style: bold;
+	    font-weight:bold;
 	    font-size : 15px;
 	    text-align:left;
+
 	}
 	.report_left_pad
 	{
 		padding-left: 35px;
+		padding-right: 35px;
 	}
 	.report_details
 	{
 	    font-family: "Times New Roman", Times, serif;
-	    font-size : 13px;
-	    text-align:left;
-	    
+	    font-size : 14px;
+	    text-align: justify;
+	     line-height: 15px;
 	}
-
+	.report_table
+	{
+		line-height: 10px;
+	}
 	.report_table th
 	{
 	    font-family: "Times New Roman", Times, serif;
@@ -78,11 +86,16 @@
 	.report_style
 	{
 	    font-family: "Times New Roman", Times, serif;
+	    line-height: 11px;
 	}
 	.report_table_patient
 	{
 		font-size: 13px;
 		line-height: 10px;
+	}
+	.report_image{
+		height: 100px;
+		width: 300px;
 	}
 	table.table-bordered, th, td, tbody, thead, tr {
     	border: 1px solid #ddd !important;

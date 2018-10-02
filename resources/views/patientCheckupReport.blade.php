@@ -1,6 +1,6 @@
 <div class="container">
 	<hr style="border-top: dashed  1px;" />
-	<div class="report_left_pad">
+	<div class="report_left_pad report_table_patient">
 		<table class="report_table_patient">
 			<tr>
 				<td><label><b>PULSE -</b></label>
