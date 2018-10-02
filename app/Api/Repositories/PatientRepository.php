@@ -23,7 +23,7 @@
 
  	public function patient_add($request) 	
  	{ 
- 		$data = $request->all()['patientData']['patientData'];
+ 		    $data = $request->all()['patientData']['patientData'];
         $patientType = $request->all()['patientData']['patientType'];
         $a_time=$data['appointment_datetime']['time'];
         $user_id=$data['consulting_dr'];
@@ -191,14 +191,14 @@
                   $dataText = 'Patient add for report' ;
                 }
                 $checkNotifStatus = NotificationRepository::checkRecordStatus($consultId,$notifyType);
+
                 if( $checkNotifStatus){
                     $checkNotifStatus->data_id = $consultId;
-                    $checkNotifStatus->data_date => Carbon::now()->format('Y-m-d H:i:s'),
-                    $checkNotifStatus->data_text => $dataText,
-                    $checkNotifStatus->status => '1',
+                    $checkNotifStatus->data_date = Carbon::now()->format('Y-m-d H:i:s');
+                    $checkNotifStatus->data_text = $dataText;
+                    $checkNotifStatus->status = '1';
                     $checkNotifStatus->save();
                 }else{
-
                     $addNotificationData = Notification::create([
                     'title' => 'Patient Add',
                     'type' => $notifyType,

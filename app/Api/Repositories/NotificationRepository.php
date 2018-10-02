@@ -18,7 +18,8 @@ class NotificationRepository
     	return $result;
     }
 
-    public function checkRecordStatus($consultId,$type){
+    public static function checkRecordStatus($consultId,$type){
+        
     	$result = Notification::where('data_consult_id',$consultId)->where('type',$type)->first();
 
     	return $result;

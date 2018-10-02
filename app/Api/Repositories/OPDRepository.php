@@ -471,13 +471,14 @@
  		}
  		$consultId = $patientCaseData['consult_dr'];
  		$notifyType = 'new_opd_save';
+ 		$dataText = 'OPD case add';
  			 $checkNotifStatus = NotificationRepository::checkRecordStatus($consultId,$notifyType);
- 			if( $checkNotifStatus{
+ 			if( $checkNotifStatus){
 
  				   $checkNotifStatus->data_id = $consultId;
-                    $checkNotifStatus->data_date => Carbon::now()->format('Y-m-d H:i:s'),
-                    $checkNotifStatus->data_text => $dataText,
-                    $checkNotifStatus->status => '1',
+                    $checkNotifStatus->data_date = Carbon::now()->format('Y-m-d H:i:s');
+                    $checkNotifStatus->data_text = $dataText;
+                    $checkNotifStatus->status = '1';
                     $checkNotifStatus->save();
 
  		 	}else{
@@ -1433,15 +1434,16 @@
  			$patient_data['department']=$this->objUser->getDepartmentById($opd_details['patientDetails']->consultant_id);
  		}
 
- 		$consultId = $patientCaseData['consult_dr'];
+ 		$consultId =$opd_details['patientDetails']->consultant_id;
  		$notifyType = 'new_opd_update';
+ 		$dataText = 'OPD case update';
  			 $checkNotifStatus = NotificationRepository::checkRecordStatus($consultId,$notifyType);
- 			if( $checkNotifStatus{
+ 			if( $checkNotifStatus){
 
- 				   $checkNotifStatus->data_id = $consultId;
-                    $checkNotifStatus->data_date => Carbon::now()->format('Y-m-d H:i:s'),
-                    $checkNotifStatus->data_text => $dataText,
-                    $checkNotifStatus->status => '1',
+ 				   $checkNotifStatus->data_consult_id = $consultId;
+                    $checkNotifStatus->data_date = Carbon::now()->format('Y-m-d H:i:s');
+                    $checkNotifStatus->data_text = $dataText;
+                    $checkNotifStatus->status = '1';
                     $checkNotifStatus->save();
                     
  		 	}else{
