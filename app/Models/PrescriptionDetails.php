@@ -20,6 +20,7 @@ class PrescriptionDetails extends Model
               'qhrs',
               'total_qhrs',
               'details',
+              'other_prescription',
               'remove',
               
         ];

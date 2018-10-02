@@ -28,7 +28,8 @@ const state = {
     'diagnosis' : '',
     'setErrorData':{'error':false,'steps':''},
     'opdSubmit':false,
-    'setPage':'ADD'
+    'setPage':'ADD',
+    'otherPId':0
  }
 
  // getters
@@ -56,6 +57,9 @@ const actions = {
   },
   setResData({commit},resultData) {
     commit(types.SET_OPD_RESULT_DATA, resultData);
+  },
+  setOtherPrescCount({commit},otherPId) {
+    commit(types.SET_OTHER_PRESP_COUNT, otherPId);
   },
   saveRadioData({commit},radioData) {
     commit(types.SET_RADIO_DATA, radioData);
@@ -164,6 +168,9 @@ const mutations = {
   [types.SET_UHID_NO] (state, uhid_no) {
       state.uhid_no = uhid_no
   },
+  [types.SET_OTHER_PRESP_COUNT] (state, otherPId) {
+      state.otherPId = otherPId
+  },
   [types.SET_ERROR_DATA] (state, setErrorData) {
       state.setErrorData = setErrorData
   },
@@ -231,6 +238,7 @@ const mutations = {
       state.provisionalDiagnosis = '';
       state.diagnosis = '';
       state.examinationData = '';
+
   },
   [types.RELOAD_OPD_FORM] (state) {
     // console.log(patientData)
@@ -253,6 +261,7 @@ const mutations = {
       state.setPage='ADD';
       state.examinationData = '';
       state.opdSubmit = false;
+      state.otherPId=0;
   },
   [types.SAVE_OPD_DATA] (state) {
   },

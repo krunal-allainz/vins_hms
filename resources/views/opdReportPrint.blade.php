@@ -1,5 +1,6 @@
 <div>
-  <div id="header">
+  @include('reportHeader')
+  <!-- <div id="header">
     <div class="" style="width:100%;height:150px;top:0px;left:0;position:fixed;"> 
        <div class="row">
         <div class="col-md-12" style="padding:25px;">
@@ -7,10 +8,10 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
     <!-- <hr style="border-top: dashed  1px;" /> -->
    
-    <div class="middlePart" style="margin-top: 150px;">
+    <div class="middlePart">
       @include('patientDetailReport')
       @include('patientCheckupReport')
         @if(in_array('Advice + follow ups',$data['checkedreportList'] ))
@@ -81,49 +82,7 @@
           </div>
         @endif
     </div>
-    <div style="height: 70px;" class="text-right">
-      <img src="{{$url.'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/>
-    </div>  
-    <div style="height: 70px;" class="text-right">
-      <!-- <img  :src="{{$url.'/assets/img/timestamp/'.$data['timeStamp'].'.png'}}" height="66" width="182"/> -->
-      <span><b>{{$data['doctoreName']}}</b></span><br/>
-      <span><b>{{$data['timeStamp']}}</b></span><br>
-      <span><b>{{$data['regNo']}}</b></span>
-    </div>
-    <div style="">
-    <!-- <div class="row" style="padding-right:20px;font-size: 15px;right:0px;">
-      <div class='col-md-12 text-right'>
-        <span class='text-right'><b>Consultant's Signature</b></span>
-      </div>
-    </div> -->  
-    </div>
-    <div id="footer" class="footer" style="background-color: dodgerblue;color: white;bottom:0;width:100%;height:130px;left:0;position:fixed;">
-      <div class="row text-center">
-        <div class="col-md-12">
-            <div class="text-center text-capitalize"  style="text-align: center;">  
-                <h2  class="text-center text-capitalize" style="text-align: center;color:white;font-size:22px;"><u><b>Vadodara Institute Of Neurological Sciences</b></u></h2>  
-            </div>  
-          </div>
-        </div>
-      <div class="row text-center"> 
-        <div class="col-md-12 text-center"> 
-          <div class="text-center"><span>99,Urmi Society, Opp Haveli Productivity Road, Akota Vadodara - 7 (Guj.), INDIA </span></div>  
-        </div>  
-      </div>
-      <div class="row text-center" >
-        <div class="col-md-12 text-center"> 
-          <div class="text-center">
-            <span style="padding-right: 5px;"><i class="fa fa-phone-square" aria-hidden="true" style="padding-right: 2px;"></i>+91-265-232 37 78,233 13 43,234 17 87 </span>
-            <span style="padding-right: 5px;"><i class="fa fa-mobile" aria-hidden="true"  style="padding-right: 2px;"></i>+91 99 78 99 99 40</span>
-            <span style="padding-right: 5px;"><i class="fa fa-envelope" aria-hidden="true"  style="padding-right: 2px;"></i>mail@vinshospital.com</span>
-            <span style="padding-right: 5px;"> <i class="fa fa-globe" aria-hidden="true"  style="padding-right: 2px;"></i>www.vinshospital.com</span>
-          </div>  
-        </div>  
-      </div>
-    </div> 
+   @include('reportSignature')
+  @include('reportFooter')
   </div>
-  <style>
-  @media print {
-    .page-break { margin-top:150px; }
-  }
-</style>
+ 

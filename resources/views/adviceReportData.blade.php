@@ -25,7 +25,7 @@
 
 				@if($data['ReportPageData']['adviceData']['value']!='')
 					<div class='col-md-12'>
-					    <img src="{{$data['ReportPageData']['adviceData']['value']}}" title="Advice">
+					    <img class="report_image" src="{{$data['ReportPageData']['adviceData']['value']}}" title="Advice">
 					</div> 
 				@else
 					<div class='col-md-12'>

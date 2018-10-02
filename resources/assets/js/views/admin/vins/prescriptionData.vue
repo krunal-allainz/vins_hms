@@ -9,12 +9,20 @@
                   <select class="form-control ls-select2"  name="prescription" id="prescription" v-validate="'required'"  v-model="prescriptFinalData.prescription">
                     <option value="">Select</option>
                     <option v-for="pres in prescriptionOption"  :value="pres.id">{{pres.name}}</option>
+                    <option value="other">Others</option>
                   </select>
                  
                 </div>
               </div>
               <input type="hidden" name="prescription_quantity" id="prescription_quantity" class="form-control" v-model="prescriptFinalData.prescription_quantity" v-validate="'required|numeric'" readonly="">
-
+              <div class="col-md-3" v-if="prescriptFinalData.prescription_id=='other'">
+                <div class="col-md-12">
+                  <label for="other_prescription">Other Prescription:</label>
+                </div>
+                <div class="col-md-12">
+                    <input type="text" name="other_prescription" id="other_prescription_text" class="form-control" v-model="prescriptFinalData.other_prescription">
+                </div>
+              </div>
               <div class="col-md-3">
                 <div class="col-md-12">
                   <label for="quantity">Total Prescription Days:</label>
@@ -156,7 +164,7 @@
                         <div class="col-md-12">
                           <div class=" input-group">
                           <div class="input-group-append">
-                              <span class="input-group-text ">{{(pres_clock.name==''?'Prescription Name':pres_clock.name)}}</span>
+                              <span class="input-group-text text-uppercase">{{(pres_clock.name==''?'Prescription Name':pres_clock.name)}}</span>
                           </div>
                         </div>
                       </div>
@@ -313,6 +321,7 @@
                 'prespFinalRes':[],
                 'clock_all_timing':[],
                 'presp_length':0,
+                'other_pid':0,
                 
                 'HMTOption':[
                     {'id':'OD','text':'OD'},
@@ -364,7 +373,9 @@
                     'qhrs':'',
                     'clock_suggest':'',
                     'total_qhrs':0,
-                    'details':''
+                    'details':'',
+                    'other_prescription':'',
+                    
 
                 }
                 
@@ -377,7 +388,15 @@
             let vm=this;
             $('#prescription').on("select2:select", function (e) {
                 let presId = $('#prescription').select2('data')[0].id;
-                vm.prescriptFinalData.prescription=$('#prescription').select2('data')[0].text;
+                if(presId=='other')
+                {
+                    vm.prescriptFinalData.prescription="";
+                }
+                else
+                {
+                    vm.prescriptFinalData.prescription=$('#prescription').select2('data')[0].text;
+                }
+                
                 vm.prescriptFinalData.prescription_id=presId;
                 vm.checkPrescription();
             });
@@ -439,7 +458,7 @@
               var i=0;
               for(i=0;i<array.length;i++)
               {
-                  if(array[i]['pid']==id && array[i]['remove']=='false')
+                  if(array[i]['pid']==id && array[i]['remove']=='false' && array[i]['pid']!='other')
                   {
                       length++;
                   }
@@ -469,12 +488,13 @@
           {
             let vm =this;
             let all_prescription=_.cloneDeep(vm.$store.state.Patient.prescriptionData);
-           
+            let other_pid=_.cloneDeep(vm.$store.state.Patient.otherPId);
             if(all_prescription)
             {
                 if(all_prescription.length)
                 {
                   vm.prescriptFinalData.prescriptionNameList =_.cloneDeep(vm.$store.state.Patient.prescriptionData);
+                  vm.other_pid=other_pid;
                   let prespPrintData=_.filter(vm.prescriptFinalData.prescriptionNameList, function(o) { return o.remove=='false'; });
                   vm.prescriptFinalData.finalPrescriptionAllData = _.cloneDeep(prespPrintData);
                   vm.priscription_add_disabled=true;
@@ -489,6 +509,7 @@
               let vm=this;
               vm.prespFinalRes=[];
               vm.prescriptFinalData.prescription="";
+              vm.prescriptFinalData.other_prescription="";
               vm.prescriptFinalData.prescription_id="";
               vm.prescriptFinalData.prescription_quantity="";
               vm.prescriptFinalData.total_prescription_days="";
@@ -508,13 +529,32 @@
           { 
 
               let vm=this;
-              let p_name=this.prescriptFinalData.prescription;
+              
               let p_id=this.prescriptFinalData.prescription_id;
               if(vm.prescriptFinalData.how_many_times=='Q-Hrs' && vm.prescriptFinalData.qhrs=='')
               {
                   toastr.error('Please select Q-Hrs.', 'Prescription error', {timeOut: 5000});
                   return false;
               }
+              let p_name="";
+              if(p_id=='other')
+              {
+                  vm.other_pid=parseInt(vm.other_pid)+1;
+                  p_id='other_'+vm.other_pid;
+                  let other_val=vm.prescriptFinalData.other_prescription;
+                  p_name=other_val;
+                  if(other_val=='' || other_val==null)
+                  {
+                    vm.clearPrespData();
+                    toastr.error('Please select prescription name and must be valid.', 'Prescription error', {timeOut: 5000});
+                    return false;  
+                  }
+              }
+              else
+              {
+                p_name=vm.prescriptFinalData.prescription;
+              }
+              console.log(p_id);
               setTimeout(function(){
                   $('.clockpicker').clockpicker({donetext: 'Done',autoclose: true});
                   $('.clockpicker').clockpicker().find('input').change(function(){
@@ -605,6 +645,7 @@
                   });
                 },500);
              vm.prespFinalRes=[];
+              
               if(p_id=='' || p_id==0 || vm.prescriptFinalData.total_prescription_days=="" || vm.prescriptFinalData.total_prescription_days<1)
               {
                   vm.clearPrespData();
@@ -908,7 +949,7 @@
                   }
                   else if(check=='duplicate')
                   {
-                      if(array[i]['pid']==id && array[i]['remove']=='false' && array[i]['type']!=type)
+                      if(array[i]['pid']==id && array[i]['remove']=='false' && array[i]['type']!=type )
                       {
                           length++;
                       }
@@ -925,7 +966,7 @@
              
               for(i=0;i<array.length;i++)
               {
-                  if(array[i]['pid']==id && array[i]['type']==type)
+                  if(array[i]['pid']==id && array[i]['type']==type && array[i]['pid']!='other')
                   {
                           length++;
                   }
@@ -963,7 +1004,7 @@
               var i=0;
               for(i=0;i<array.length;i++)
               {
-                  if(array[i]['pid']==pid && array[i]['remove']=='false')
+                  if(array[i]['pid']==pid && array[i]['remove']=='false' && array[i]['pid']!='other')
                   {
                       if(array[i]['clock_time_1']==time && time!="")
                       {
@@ -1009,6 +1050,7 @@
             let prespPrintData=_.filter(vm.prescriptFinalData.prescriptionNameList, function(o) { return o.remove=='false'; });
             vm.prescriptFinalData.finalPrescriptionAllData=_.cloneDeep(prespPrintData);
             let finalData = _.cloneDeep(vm.prescriptFinalData.prescriptionNameList);
+            vm.$store.dispatch('setOtherPrescCount',vm.other_pid);
             vm.$store.dispatch('setPrescriptionData',finalData);
           },
           savePrescription() {
@@ -1082,8 +1124,20 @@
                   vm.prespFinalRes=[];
                   final_result=res;
                   vm.class_type='EDIT';
-                  vm.prescriptFinalData.prescription=final_result.name;
-                  vm.prescriptFinalData.prescription_id=final_result.pid;
+                  let pid=final_result.pid;
+                  if(pid.indexOf('other_')!= -1)
+                  {
+                      $("#prescription").val('other').trigger('change');
+                      vm.prescriptFinalData.prescription_id='other';
+                      vm.prescriptFinalData.other_prescription=final_result.name;
+                  }
+                  else
+                  {
+                      $("#prescription").val(final_result.pid).trigger('change');
+                      vm.prescriptFinalData.prescription_id=final_result.pid;
+                      vm.prescriptFinalData.prescription=final_result.name;
+                  }
+                 
                   vm.prescriptFinalData.how_many_times=final_result.type;
                   vm.prescriptFinalData.qhrs=final_result.qhrs;
                   setTimeout(function(){
@@ -1093,7 +1147,6 @@
                          $("#qhrs").prop("disabled", true);
                     },500);
                   vm.prescriptFinalData.total_qhrs=final_result.total_qhrs;
-                  $("#prescription").val(final_result.pid).trigger('change');
                   $("#how_many_times").val(final_result.type).trigger('change');
                   $("#qhrs").val(final_result.qhrs).trigger('change');
                   $("#prescription").prop("disabled", true);
@@ -1211,6 +1264,7 @@
                 {
                   clock_suggest=vm.prescriptFinalData.prescription_report[0].clock_suggest;
                 }
+                
                 let objIndex = vm.prescriptFinalData.prescriptionNameList.findIndex((obj => obj.pid == vm.prescriptFinalData.prescription_report[0].pid && obj.remove=='false'));
                 
                  var check_clocktime_edit=vm.checkClockTimeEdit(vm.prescriptFinalData.prescription_report[0].clock_time, vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_1, vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_2, vm.prescriptFinalData.prescriptionNameList[objIndex].clock_time_3,vm.prescriptFinalData.prescription_report[0].old_clock_value);
@@ -1222,7 +1276,11 @@
                 else
                 {
                   //for prescription name list
-                    
+                    let pid=vm.prescriptFinalData.prescription_report[0].pid;
+                    if(pid.indexOf('other_')!= -1)
+                    {
+                      vm.prescriptFinalData.prescriptionNameList[objIndex].name=vm.prescriptFinalData.other_prescription;
+                    }
                     vm.prescriptFinalData.prescriptionNameList[objIndex].total_prescription_days=vm.prescriptFinalData.total_prescription_days;
                      vm.prescriptFinalData.prescriptionNameList[objIndex].details=vm.prescriptFinalData.details;
                      vm.prescriptFinalData.prescriptionNameList[objIndex].qhrs=vm.prescriptFinalData.qhrs;

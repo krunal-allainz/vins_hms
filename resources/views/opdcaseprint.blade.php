@@ -37,46 +37,65 @@
 	    outline: 0;*/
 	}
 	.page-break { display: block; page-break-after: always; }
+	.text-uppercase{
+    	text-transform : uppercase;
+	}
+	.report_header{margin-top:150px;}
 	.report_space
 	{
-	    margin-bottom:20px;
+	    margin-bottom:15px;
 
 	}
 	.report_title
 	{
 	    font-family: "Times New Roman", Times, serif;
-	    font-style: bold;
-	    font-size : 20px;
+	    font-weight:bold;
+	    font-size : 15px;
 	    text-align:left;
+
 	}
 	.report_left_pad
 	{
 		padding-left: 35px;
+		padding-right: 35px;
 	}
 	.report_details
 	{
 	    font-family: "Times New Roman", Times, serif;
 	    font-size : 14px;
-	    text-align:left;
-	    
+	   text-align: justify;
+	   line-height: 15px;
 	}
-
+	.report_table
+	{
+		line-height: 10px;
+	}
 	.report_table th
 	{
 	    font-family: "Times New Roman", Times, serif;
-	    font-size : 16px;
+	    font-size : 13px;
 	    font-style: bold;
 	    text-align: left;
 	}
 	.report_table td
 	{
 	    font-family: "Times New Roman", Times, serif;
-	    font-size : 14px;
+	    font-size : 13px;
 	    text-align: left;
 	}
 	.report_style
 	{
 	    font-family: "Times New Roman", Times, serif;
+	    line-height: 11px;
+	}
+	.report_table_patient
+	{
+		font-size: 13px;
+		line-height: 10px;
+	}
+	.report_image{
+		height: 100px;
+		width: 300px;
 	}
 	table.table-bordered, th, td, tbody, thead, tr {
     	border: 1px solid #ddd !important;
@@ -374,14 +393,8 @@
   		@include('opdReportPrint')
 	</div>
 @else
-	<div class="container" style="padding:15px;">
-    <div class="" style="width:100%;height:150px;top:0px;left:0"> 
-       <div class="row">
-        <div class="col-md-12" style="padding:25px;">
-            <img src="{{$url.'/assets/img/nabh_vins_logo.png'}}" id="logo-desk" alt="NABH Logo" class="hidden-sm-down" height="auto" width="30%">
-        </div>
-      </div>
-    </div>  
+	<div class="container report_style">
+     @include('reportHeader')
 	 @include('patientDetailReport')
 	 @include('patientCheckupReport')
 	 @if($data['printType'] == 'lab')
@@ -389,99 +402,57 @@
 	 		@include('labReportData')
 	 	</div>
 	 @endif
-	@if($data['printType'] == 'radiology')
-		<div class="report_left_pad">
-			@include('radiologyReportData')
-		</div>
-	@endif
-	@if($data['printType'] == 'prescription')
-		<div class="report_space report_left_pad">
-	  		@include('prescriptionReportData')
-	  	</div>
-	  	<div class="report_space report_left_pad">
-	  		@include('crossReportData')
-	  	</div>
-	@endif
-
-	  @if($data['printType'] == 'print_perceptions')
-	  	
-	  		<div class="report_space report_left_pad">
-				<div class='col-md-6'>
-					<span class='report_title'>Provisional Diagnosis:-</span>
-				</div>
-				<div class=''>
-					@if($data['ReportPageData']['opdData']['provisional_diagnosis']!='')
-						<div class='col-md-12'>
-							<span class='report_details'>{{$data['ReportPageData']['opdData']['provisional_diagnosis']}}</span>
-						</div>
-					@else
-						<div class='col-md-12'>
-							<span class='report_details'>No record found.</span>
-						</div>
-					@endif
-				</div>
+		@if($data['printType'] == 'radiology')
+			<div class="report_left_pad">
+				@include('radiologyReportData')
 			</div>
-			
-			@if(isset($data['priscriptionData']))
-	  			<div class="report_space report_left_pad">
-					@include('prescriptionReportData')
+		@endif
+		@if($data['printType'] == 'prescription')
+			<div class="report_space report_left_pad">
+		  		@include('prescriptionReportData')
+		  	</div>
+		  	<div class="report_space report_left_pad">
+		  		@include('crossReportData')
+		  	</div>
+		@endif
+
+		  @if($data['printType'] == 'print_perceptions')
+		  	
+		  		<div class="report_space report_left_pad">
+					<div class='col-md-6'>
+						<span class='report_title'>Provisional Diagnosis:-</span>
+					</div>
+					<div class=''>
+						@if($data['ReportPageData']['opdData']['provisional_diagnosis']!='')
+							<div class='col-md-12'>
+								<span class='report_details'>{{$data['ReportPageData']['opdData']['provisional_diagnosis']}}</span>
+							</div>
+						@else
+							<div class='col-md-12'>
+								<span class='report_details'>No record found.</span>
+							</div>
+						@endif
+					</div>
 				</div>
 				
-			@endif
-			<div class="report_space report_left_pad">
-				@include('adviceReportData')
-			</div>
-			<div class="report_space report_left_pad">
-				@include('followupReportData')
-			</div>
-			<div class="report_space report_left_pad">
-				@include('crossReportData')
-			</div>
-			
-			
-	  @endif
-	 
-		<div style="height: 70px;" class="text-right">
-			<img src="{{$url.'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/>
-		</div>	
-		<div style="height: 70px;" class="text-right">
-		 	<!-- <img  :src="{{$url.'/assets/img/timestamp/'.$data['timeStamp'].'.png'}}" height="66" width="182"/> -->
-		 	<span><b>{{$data['doctoreName']}}</b></span><br/>
-		 	<span><b>{{$data['timeStamp']}}</b></span><br>
-		 	<span><b>{{$data['regNo']}}</b></span>
-		</div>
-		<div style="">
-		<!-- <div class="row" style="padding-right:20px;font-size: 15px;right:0px;">
-			<div class='col-md-12 text-right'>
-				<span class='text-right'><b>Consultant's Signature</b></span>
-			</div>
-		</div> -->	
-	</div>
-	   <div  class="footer" style="background-color: dodgerblue;color: white;bottom:0;width:100%;height:130px;left:0;position:fixed;">
-	      <div class="row text-center">
-	          <div class="col-md-12">
-	              <div class="text-center text-capitalize"  style="text-align: center;">  
-	                  <h2  class="text-center text-capitalize" style="text-align: center;color:white;"><u><b><i>Vadodara Institute Of Neurological Sciences</i></b></u></h2>  
-	              </div>  
-	            </div>
-	        </div>
-	      <div class="row text-center">	
-	      	<div class="col-md-12 text-center">	
-	      		<div class="text-center"><span>99,Urmi Society, Opp Haveli Productivity Road, Akota Vadodara - 7 (Guj.), INDIA </span></div>	
-	      	</div>	
-		  </div>
-	    
-	<div class="row text-center" >
-	      	<div class="col-md-12 text-center">	
-	      		<div class="text-center">
-	      			<span style="padding-right: 5px;"><i class="fa fa-phone-square" aria-hidden="true" style="padding-right: 2px;"></i>+91-265-232 37 78,233 13 43,234 17 87 </span>
-	      			<span style="padding-right: 5px;"><i class="fa fa-mobile" aria-hidden="true"  style="padding-right: 2px;"></i>+91 99 78 99 99 40</span>
-	      			<span style="padding-right: 5px;"><i class="fa fa-envelope" aria-hidden="true"  style="padding-right: 2px;"></i>mail@vinshospital.com</span>
-	      			<span style="padding-right: 5px;"> <i class="fa fa-globe" aria-hidden="true"  style="padding-right: 2px;"></i>www.vinshospital.com</span>
-	      		</div>	
-	      	</div>	
-		  </div>
-		</div>
+				@if(isset($data['priscriptionData']))
+		  			<div class="report_space report_left_pad">
+						@include('prescriptionReportData')
+					</div>
+					
+				@endif
+				<div class="report_space report_left_pad">
+					@include('adviceReportData')
+				</div>
+				<div class="report_space report_left_pad">
+					@include('followupReportData')
+				</div>
+				<div class="report_space report_left_pad">
+					@include('crossReportData')
+				</div>
+		@endif
+	 	@include('reportSignature')
+	 	@include('reportFooter')
 		</div>   
 	</div>
 @endif

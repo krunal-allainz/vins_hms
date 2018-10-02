@@ -2,13 +2,11 @@
     <div class="container">
         <span class="report_title">Prescription Print:-</span>
             <div class="form-group">
-                <div class="col-md-12">
+                <div class="" v-if="presp_count(prescriptData)>0">
                   <div class="table-responsive">
                     <table class="table report_table" v-if="setPresPrint" id="">
-                      
-                        <tbody v-if="presp_count(prescriptData)>0">
-                        
-                         <tr v-for="(res,index) in prescriptData" v-if="res.remove=='false'" :id="res.pid">
+                        <tbody> 
+                         <tr v-for="(res,index) in prescriptData" v-if="res.remove=='false'" :id="res.pid" class="text-uppercase">
                                     
                                 <td>  {{++index}}] {{res.name}} :ORAL
                                     
@@ -51,17 +49,12 @@
                                     <span v-if="res.total_prescription_days!=''">{{res.total_prescription_days}} DAYS </span>
                                     <span v-else>TO BE CONTINUE</span>
                             </td>
-                            <td v-if="removeBtn==1"><i class="fa fa-remove point" @click="removePrescript(res.pid)"></i></td> 
-                            
-                          </tr>
-                        </tbody>
-                        <tbody v-else>
-                          <tr>
-                            <td>No Reord found.</td>
+                            <td v-if="removeBtn==1"><i class="fa fa-remove point" @click="removePrescript(res.pid)"></i></td>
                           </tr>
                         </tbody>
                     </table>
                   </div>
+                  
                 <!--   <div class="table-responsive">
                   <table class="table table-striped table-bordered">
                       <thead>
@@ -93,6 +86,9 @@
                   </table>
                 </div> -->
                 </div>
+                <div v-else>
+                      <span class="report_details">No record found.</span>
+                  </div> 
               </div>
     </div>
 </template>

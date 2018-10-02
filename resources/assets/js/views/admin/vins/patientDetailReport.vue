@@ -1,7 +1,7 @@
 <template>
-	<div class="report_style">
+	<div class="report_left_pad">
 		<hr style="border-top: dashed  1px;" />
-		<div >
+		<div class="report_table_patient">
 			<div class="row">
 				<div class='col-md-6 text-left'>
 					 	<label ><b>Patient's Name:</b></label>

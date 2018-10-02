@@ -530,35 +530,50 @@ input.number-with-validation:invalid {
     width : 900px;
     height : auto;   
 }
-
+.report_header{margin-top:150px;}
+.report_start{
+    line-height: 17px;
+}
+.report_table_patient
+{
+    font-size: 13px;
+    line-height: 17px;
+}
 .report_space
 {
-    margin-bottom:30px;
+    margin-bottom:15px;
+}
+.report_image{
+    height: 100px;
+    width: 300px;
 }
 .report_title
 {
-    
-    font-style: bold;
-    font-size : 20px;
+    font-weight:bold;
+    font-size : 15px;
     text-align:left;
 }
 .report_details
 {
-    
     font-size : 14px;
-    text-align:left;
+    text-align: justify;
+    line-height: 15px;
     
 }
 .report_table th
 {
-    
-    font-size : 16px;
+    font-size : 13px;
     font-style: bold;
+    text-align: left;
+}
+.report_table
+{
+    line-height: 10px;
 }
 .report_table td
 {
-    
-    font-size : 14px;
+    text-align: left;
+    font-size : 13px;
 }
 
 #patientDetailFormDataCaps input{
