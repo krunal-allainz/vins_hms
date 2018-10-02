@@ -197,7 +197,15 @@
 	 			$prescription_obj=new PrescriptionDetails();
 	 			$prescription_obj->opd_id=$opd_id_org;
 	 			$prescription_obj->user_id=$user_id;
-	 			$prescription_obj->prescription_drug_id=$prescription['pid'];
+	 			if(strpos($prescription['pid'],'other_') !== false)
+	 			{
+	 				$prescription_obj->other_prescription=$prescription['name'];
+	 			}
+	 			else
+	 			{
+	 				$prescription_obj->prescription_drug_id=$prescription['pid'];
+	 			}
+	 			
 	 			$prescription_obj->how_many_times=$prescription['type'];
 	 			$prescription_obj->total_prescription_days=$prescription['total_prescription_days'];
 	 			$prescription_obj->details=$prescription['details'];
@@ -573,8 +581,17 @@
  			foreach($prescription_details as $presp)
  			{
  				$rest_presp=array();
- 				$rest_presp['pid']=$presp->prescription_drug_id;
- 				$rest_presp['name']=$this->getPrescriptionNameById($presp->prescription_drug_id);
+ 				if(($presp->prescription_drug_id==null || $presp->prescription_drug_id=="") && ($presp->other_prescription!=''))
+ 				{
+ 					$rest_presp['pid']='other';
+ 					$rest_presp['name']=$presp->other_prescription;
+ 				}
+ 				else
+ 				{
+ 					$rest_presp['pid']=$presp->prescription_drug_id;
+ 					$rest_presp['name']=$this->getPrescriptionNameById($presp->prescription_drug_id);
+ 				}
+ 				
  				$rest_presp['type']=$presp->how_many_times;
  				$rest_presp['total_prescription_days']=$presp->total_prescription_days;
  				$rest_presp['details']=$presp->details;
@@ -762,12 +779,23 @@
  			//for prescription data
  			$prescription_details=PrescriptionDetails::where('opd_id',$opd_id)->orderBy('id','asc')->get();
  			$prescript_array=array();
-
+ 			$other_pid=0;
  			foreach($prescription_details as $presp)
  			{
  				$rest_presp=array();
- 				$rest_presp['pid']=$presp->prescription_drug_id;
- 				$rest_presp['name']=$this->getPrescriptionNameById($presp->prescription_drug_id);
+ 				if(($presp->prescription_drug_id==null || $presp->prescription_drug_id=="") && ($presp->other_prescription!=''))
+ 				{
+ 					$other_pid=$other_pid+1;
+ 					$rest_presp['pid']='other_'.$other_pid;
+
+ 					$rest_presp['name']=$presp->other_prescription;
+ 				}
+ 				else
+ 				{
+ 					$rest_presp['pid']=$presp->prescription_drug_id;
+ 					$rest_presp['name']=$this->getPrescriptionNameById($presp->prescription_drug_id);
+ 				}
+ 				
  				$rest_presp['type']=$presp->how_many_times;
  				$rest_presp['total_prescription_days']=$presp->total_prescription_days;
  				$rest_presp['details']=$presp->details;
@@ -803,10 +831,11 @@
 	 			
  				$prescript_array[]=$rest_presp;
  			}
-
- 			//print_r($prescript_array);
- 			//exit;
+ 			$result['other_pid']=$other_pid;
  			$result['prescriptionData']=$prescript_array;
+ 			/*print_r($result['prescriptionData']);
+ 			exit;*/
+ 			
 
  			//for physio details
  			$result['reffData']['referral']='';
@@ -1109,7 +1138,14 @@
 	 			$prescription_obj=new PrescriptionDetails();
 	 			$prescription_obj->opd_id=$opd_id_org;
 	 			$prescription_obj->user_id=$user_id;
-	 			$prescription_obj->prescription_drug_id=$prescription['pid'];
+	 			if(strpos($prescription['pid'],'other_') !== false)
+	 			{
+	 				$prescription_obj->other_prescription=$prescription['name'];
+	 			}
+	 			else
+	 			{
+	 				$prescription_obj->prescription_drug_id=$prescription['pid'];
+	 			}
 	 			$prescription_obj->how_many_times=$prescription['type'];
 	 			$prescription_obj->total_prescription_days=$prescription['total_prescription_days'];
 	 			$prescription_obj->details=$prescription['details'];

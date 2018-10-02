@@ -2,11 +2,11 @@
     <div class="container">
         <span class="report_title">Prescription Print:-</span>
             <div class="form-group">
-                <div class="col-md-12" v-if="presp_count(prescriptData)>0">
+                <div class="" v-if="presp_count(prescriptData)>0">
                   <div class="table-responsive">
                     <table class="table report_table" v-if="setPresPrint" id="">
-                        <tbody>
-                         <tr v-for="(res,index) in prescriptData" v-if="res.remove=='false'" :id="res.pid">
+                        <tbody> 
+                         <tr v-for="(res,index) in prescriptData" v-if="res.remove=='false'" :id="res.pid" class="text-uppercase">
                                     
                                 <td>  {{++index}}] {{res.name}} :ORAL
                                     

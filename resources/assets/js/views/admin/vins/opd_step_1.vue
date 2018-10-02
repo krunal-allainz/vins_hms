@@ -580,6 +580,7 @@
                     vm.$store.dispatch('saveDiagnosis',all_opd_data.diagnosis);
                     vm.$store.dispatch('saveReferralReportData',all_opd_data.reffData);
                     vm.$store.dispatch('setPrescriptionData',all_opd_data.prescriptionData);
+                    vm.$store.dispatch('setOtherPrescCount',all_opd_data.other_pid);
 
                       setTimeout(function(){
                         vm.examinationChangeImage();

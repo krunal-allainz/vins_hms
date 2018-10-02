@@ -6,7 +6,7 @@
 			<span class='report_title'>Prescription:-</span>
 		</div>
 		<div class="table-responsive">
-			<table class="table report_table" id="prescription_list">
+			<table class="table report_table text-uppercase" id="prescription_list">
 			<thead></thead>
 			<tbody>
 				@if(count($data['ReportPageData']['prescriptionReportData'])>0)
