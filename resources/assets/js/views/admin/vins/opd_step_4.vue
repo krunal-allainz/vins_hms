@@ -399,6 +399,8 @@
                 
                 if(vm.$store.state.Patient.setErrorData.error)
                 {
+                    vm.$store.dispatch('saveStep4Data',vm.step4Data);
+                    vm.$store.dispatch('saveDiagnosis',vm.diagnosis);
                     vm.$root.$emit('setCurSteps',vm.$store.state.Patient.setErrorData.steps);
                     return false;
                 }
@@ -482,6 +484,8 @@
                 
                 if(vm.$store.state.Patient.setErrorData.error)
                 {
+                    vm.$store.dispatch('saveStep4Data',vm.step4Data);
+                    vm.$store.dispatch('saveDiagnosis',vm.diagnosis);
                     vm.$root.$emit('setCurSteps',vm.$store.state.Patient.setErrorData.steps);
                     return false;
                 }
