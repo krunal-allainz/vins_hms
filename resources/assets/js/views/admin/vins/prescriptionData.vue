@@ -715,22 +715,47 @@
                 toastr.error('Please select Q-Hrs.', 'Prescription error', {timeOut: 5000});
                 return false;
             }
-
-            let check_p=vm.checkClcokPrescription();
-            let array_presp=_.filter(vm.prescriptFinalData.prescriptionNameList, ['remove', 'false']);
-            vm.presp_length=array_presp.length;
-            vm.clearPrespData();
-            return false;
+            let total_days_val=_.toNumber(vm.prescriptFinalData.total_prescription_days);
+            if(!(_.isInteger(total_days_val)))
+            {
+                toastr.error('Please enter valid total prescription days.', 'Prescription error', {timeOut: 5000});
+                return false;
+            }
+            let q_length=0;
+            _.find(vm.prescriptFinalData.prescription_report, function(res) {
+                let res_q=_.toNumber(res.clock_quantity);
+                if(!(_.isInteger(res_q)))
+                {
+                    q_length++;  
+                }
+            });
+            if(q_length>0)
+            {
+                toastr.error('Please enter valid quantity.', 'Prescription error', {timeOut: 5000});
+                return false;
+            }
+            else
+            {
+                let check_p=vm.checkClcokPrescription();
+                let array_presp=_.filter(vm.prescriptFinalData.prescriptionNameList, ['remove', 'false']);
+                vm.presp_length=array_presp.length;
+                vm.clearPrespData();
+                return false;
+            }
+            
+            
           },
           checkClcokPrescription()
           {
             let vm=this;
             let message="";
             //console.log(vm.prescriptFinalData.prescription_report);
-            //return false;
+            //return false; 
             _.forEach(vm.prescriptFinalData.prescription_report, function(value, key) {
                 let check_update=vm.check_duplicate(value.pid,value.type,vm.prescriptFinalData.prescriptionNameList,'update');
                 let check_duplicate=vm.check_duplicate(value.pid,value.type,vm.prescriptFinalData.prescriptionNameList,'duplicate');
+                let quantity_val=_.toNumber(value.clock_quantity);
+                
                 if(check_duplicate)
                 {
                     toastr.error('Prescription already exist.', 'Prescription error', {timeOut: 5000});
@@ -1257,6 +1282,20 @@
             }
             else
             { 
+
+                let total_days_val=_.toNumber(vm.prescriptFinalData.total_prescription_days);
+                if(!(_.isInteger(total_days_val)))
+                {
+                    toastr.error('Please enter valid total prescription days.', 'Prescription error', {timeOut: 5000});
+                    return false;
+                }
+
+                 let q_val=_.toNumber(vm.prescriptFinalData.prescription_report[0].clock_quantity);
+                if(!(_.isInteger(q_val)))
+                {
+                    toastr.error('Please enter valid quantity.', 'Prescription error', {timeOut: 5000});
+                    return false;
+                }
 
                 let clock_suggest='--';
 

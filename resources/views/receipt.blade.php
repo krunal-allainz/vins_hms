@@ -86,181 +86,207 @@
              		<td class="text-center"><b>{{number_format($data['charges'], 2)}}</b></td>	
              	</tr>	
             @endif
-            @if($data['procedures_charges']!=0 && $data['procedures_charges']!='')
-            
+            @if($data['neurological_procedure_charges']!='' && $data['neurological_procedure_charges']!=0)
                 <tr height=""> 
-                    <td class="text-center"><span class="text-uppercase text-center">
-                        <?php
-                            $procedure_val="" ;
-                            if($data['department']=='Neurology')
+                    <td class="text-center">
+                        <span class="text-uppercase text-center">
+                            @php
+                                $neurological_procedures_id_val="";
+                                if($data['neurological_procedures_id']!='' && $data['neurological_procedures_id']!=0)
+                                {
+                                    if($data['neurological_procedures_id']==1)
+                                    {
+                                        $neurological_procedures_id_val="EEG";
+                                    }
+                                    if($data['neurological_procedures_id']==2)
+                                    {
+                                        $neurological_procedures_id_val="Bedside EEG";
+                                    }
+                                    if($data['neurological_procedures_id']==3)
+                                    {
+                                        $neurological_procedures_id_val="Video EEG";
+                                    }
+                                    if($data['neurological_procedures_id']==4)
+                                    {
+                                        $neurological_procedures_id_val="Nerve Conduction Studies per limb / 2 limbs";
+                                    }
+                                    if($data['neurological_procedures_id']==5)
+                                    {
+                                        $neurological_procedures_id_val="Nerve Conduction Studies (All 4 limbs)";
+                                    }
+                                    if($data['neurological_procedures_id']==6)
+                                    {
+                                        $neurological_procedures_id_val="Electromyography with disposable needle";
+                                    }
+                                    if($data['neurological_procedures_id']==7)
+                                    {
+                                        $neurological_procedures_id_val="Visual evoked potentials (VEP)";
+                                    }
+                                    if($data['neurological_procedures_id']==8)
+                                    {
+                                        $neurological_procedures_id_val="Auditory evoked potentials (BAEP)";
+                                    }
+                                    if($data['neurological_procedures_id']==9)
+                                    {
+                                        $neurological_procedures_id_val="Somatosensory potentials (SSEP) / per nerve";
+                                    }
+                                    if($data['neurological_procedures_id']==10)
+                                    {
+                                        $neurological_procedures_id_val="Facial Nerve study";
+                                    }
+                                    if($data['neurological_procedures_id']==11)
+                                    {
+                                        $neurological_procedures_id_val="Repetitive Nerve stimulation";
+                                    }
+                                    if($data['neurological_procedures_id']==12)
+                                    {
+                                        $neurological_procedures_id_val="Lumbar Puncture / +Manometry";
+                                    }
+                                    if($data['neurological_procedures_id']==13)
+                                    {
+                                        $neurological_procedures_id_val="Neostigmine Test";
+                                    }
+                                    if($data['neurological_procedures_id']==14)
+                                    {
+                                        $neurological_procedures_id_val="Bedside NCV (all 4 limbs)";
+                                    }
+                                    if($data['neurological_procedures_id']==15)
+                                    {
+                                        $neurological_procedures_id_val="Bedside NCV (2 limbs)";
+                                    }
+                                    if($data['neurological_procedures_id']==16)
+                                    {
+                                        $neurological_procedures_id_val="Bedside RNS";
+                                    }
+                                    if($data['neurological_procedures_id']==17)
+                                    {
+                                        $neurological_procedures_id_val="Stroke Management Charges";
+                                    }
+                                    
+                                }
+                        @endphp
+                        <b>{{$neurological_procedures_id_val}}</b>
+                    </span>
+                </td>    
+                <td class="text-center"><b>{{number_format($data['neurological_procedure_charges'], 2)}}</b></td>
+            </tr>
+        @endif
+        @if($data['vascular_procedure_charges']!='' && $data['vascular_procedure_charges']!=0)
+                <tr height=""> 
+                    <td class="text-center">
+                        <span class="text-uppercase text-center">
+                            @php
+                                $vascular_procedures_id_val="";
+                                if($data['vascular_procedures_id']!='' && $data['vascular_procedures_id']!=0)
+                                {
+                                    if($data['vascular_procedures_id']==1)
+                                    {
+                                        $vascular_procedures_id_val="Color Doppler (per leg)";
+                                    }
+                                     if($data['vascular_procedures_id']==2)
+                                    {
+                                        $vascular_procedures_id_val="Color Doppler Carotid";
+                                    }
+                                     if($data['vascular_procedures_id']==3)
+                                    {
+                                        $vascular_procedures_id_val="Ankle Brachial Index / TBI";
+                                    }
+                                     if($data['vascular_procedures_id']==4)
+                                    {
+                                        $vascular_procedures_id_val="Toe Brachial Index";
+                                    }
+                                     if($data['vascular_procedures_id']==5)
+                                    {
+                                        $vascular_procedures_id_val="Maximum Venous Flow";
+                                    }
+                                    if($data['vascular_procedures_id']==6)
+                                    {
+                                        $vascular_procedures_id_val="Pneumatic Compression Device";
+                                    }
+                                    if($data['vascular_procedures_id']==7)
+                                    {
+                                        $vascular_procedures_id_val="Photo Plethysmography";
+                                    }
+                                }
+                            @endphp
+                        <b>{{$vascular_procedures_id_val}}</b>
+                    </span>
+                </td>    
+                <td class="text-center"><b>{{number_format($data['vascular_procedure_charges'], 2)}}</b></td>
+            </tr>
+        @endif
+        @if($data['physiotherapy_procedure_charges']!='' && $data['physiotherapy_procedure_charges']!=0)
+            <tr height=""> 
+                <td class="text-center">
+                    <span class="text-uppercase text-center">
+                        @php
+                            $physiotherapy_procedures_id_val="";
+                            if($data['physiotherapy_procedures_id']!='' && $data['physiotherapy_procedures_id']!=0)
                             {
-                                if($data['procedures_val']==1)
+                                if($data['physiotherapy_procedures_id']==1)
                                 {
-                                    $procedure_val="EEG";
+                                    $physiotherapy_procedures_id_val="(Procedure Charges) Evaluation + Exercise Therapy (Daily)";
                                 }
-                                if($data['procedures_val']==2)
+                                if($data['physiotherapy_procedures_id']==2)
                                 {
-                                    $procedure_val="Bedside EEG";
+                                    $physiotherapy_procedures_id_val="(Procedure Charges)Evaluation + Exercise Therapy + Electro Therapy (One Modality) (Daily)";
                                 }
-                                if($data['procedures_val']==3)
+                                if($data['physiotherapy_procedures_id']==3)
                                 {
-                                    $procedure_val="Video EEG";
+                                    $physiotherapy_procedures_id_val="(Procedure Charges) Evaluation + Exercise Therapy + Electro Therapy (Two Modalities) (Daily)";
                                 }
-                                if($data['procedures_val']==4)
+                                if($data['physiotherapy_procedures_id']==4)
                                 {
-                                    $procedure_val="Nerve Conduction Studies per limb / 2 limbs";
+                                    $physiotherapy_procedures_id_val="(Procedure Charges) Evaluation + Exercise Therapy (Weekly)";
                                 }
-                                if($data['procedures_val']==5)
+                                if($data['physiotherapy_procedures_id']==5)
                                 {
-                                    $procedure_val="Nerve Conduction Studies (All 4 limbs)";
+                                    $physiotherapy_procedures_id_val="(Procedure Charges) Evaluation + Exercise Therapy + Electro Therapy (One Modality) (Weekly)";
                                 }
-                                if($data['procedures_val']==6)
+                                if($data['physiotherapy_procedures_id']==6)
                                 {
-                                    $procedure_val="Electromyography with disposable needle";
+                                    $physiotherapy_procedures_id_val="(Procedure Charges) Evaluation + Exercise therapy + Electro Therapy (Two Modalities) (Weekly)";
                                 }
-                                if($data['procedures_val']==7)
+                                if($data['physiotherapy_procedures_id']==7)
                                 {
-                                    $procedure_val="Visual evoked potentials (VEP)";
+                                    $physiotherapy_procedures_id_val="(Rehabilitation) Evaluation + Exercise Therapy (Daily)";
                                 }
-                                if($data['procedures_val']==8)
+                                if($data['physiotherapy_procedures_id']==8)
                                 {
-                                    $procedure_val="Auditory evoked potentials (BAEP)";
+                                    $physiotherapy_procedures_id_val="(Rehabilitation) Evaluation + Exercise Therapy + Assist Modality (Any One)[FES/MEntamove/Treadmill/Tilt Table/Cycling] (Daily)";
                                 }
-                                if($data['procedures_val']==9)
+                                if($data['physiotherapy_procedures_id']==9)
                                 {
-                                    $procedure_val="Somatosensory potentials (SSEP) / per nerve";
+                                    $physiotherapy_procedures_id_val="(Rehabilitation) Evaluation + Exercise Therapy + Assist Modality (2 Assist Modalities)(Daily)";
                                 }
-                                if($data['procedures_val']==10)
+                                if($data['physiotherapy_procedures_id']==10)
                                 {
-                                    $procedure_val="Facial Nerve study";
+                                    $physiotherapy_procedures_id_val="(Rehabilitation) Evaluation + Exercise Therapy + Assist Modality (All Assist Modalities)(Daily)";
                                 }
-                                if($data['procedures_val']==11)
+                                if($data['physiotherapy_procedures_id']==11)
                                 {
-                                    $procedure_val="Repetitive Nerve stimulation";
+                                    $physiotherapy_procedures_id_val="(Rehabilitation) Evaluation + Exercise Therapy (Weekly)";
                                 }
-                                if($data['procedures_val']==12)
+                                if($data['physiotherapy_procedures_id']==12)
                                 {
-                                    $procedure_val="Lumbar Puncture / +Manometry";
+                                    $physiotherapy_procedures_id_val="(Rehabilitation) Evaluation + Exercise Therapy + Assist Modality (Any One)[FES/MEntamove/Treadmill/Tilt Table/Cycling] (Weekly)";
                                 }
-                                if($data['procedures_val']==13)
+                                if($data['physiotherapy_procedures_id']==13)
                                 {
-                                    $procedure_val="Neostigmine Test";
+                                    $physiotherapy_procedures_id_val="(Rehabilitation) Evaluation + Exercise Therapy + Assist Modality (2 Assist Modalities)(Weekly)";
                                 }
-                                if($data['procedures_val']==14)
+                                if($data['physiotherapy_procedures_id']==14)
                                 {
-                                    $procedure_val="Bedside NCV (all 4 limbs)";
-                                }
-                                if($data['procedures_val']==15)
-                                {
-                                    $procedure_val="Bedside NCV (2 limbs)";
-                                }
-                                if($data['procedures_val']==16)
-                                {
-                                    $procedure_val="Bedside RNS";
-                                }
-                                if($data['procedures_val']==17)
-                                {
-                                    $procedure_val="Stroke Management Charges";
-                                }
-                                
-                            }
-                            else if($data['department']=='Vascular')
-                            {
-                                if($data['procedures_val']==1)
-                                {
-                                    $procedure_val="Color Doppler (per leg)";
-                                }
-                                 if($data['procedures_val']==2)
-                                {
-                                    $procedure_val="Color Doppler Carotid";
-                                }
-                                 if($data['procedures_val']==3)
-                                {
-                                    $procedure_val="Ankle Brachial Index / TBI";
-                                }
-                                 if($data['procedures_val']==4)
-                                {
-                                    $procedure_val="Toe Brachial Index";
-                                }
-                                 if($data['procedures_val']==5)
-                                {
-                                    $procedure_val="Maximum Venous Flow";
-                                }
-                                if($data['procedures_val']==6)
-                                {
-                                    $procedure_val="Pneumatic Compression Device";
-                                }
-                                if($data['procedures_val']==7)
-                                {
-                                    $procedure_val="Photo Plethysmography";
-                                }
-
-                            }
-                            else if($data['department']=='Physiotherapy')
-                            {
-                                if($data['procedures_val']==1)
-                                {
-                                    $procedure_val="(Procedure Charges) Evaluation + Exercise Therapy (Daily)";
-                                }
-                                if($data['procedures_val']==2)
-                                {
-                                    $procedure_val="(Procedure Charges)Evaluation + Exercise Therapy + Electro Therapy (One Modality) (Daily)";
-                                }
-                                if($data['procedures_val']==3)
-                                {
-                                    $procedure_val="(Procedure Charges) Evaluation + Exercise Therapy + Electro Therapy (Two Modalities) (Daily)";
-                                }
-                                if($data['procedures_val']==4)
-                                {
-                                    $procedure_val="(Procedure Charges) Evaluation + Exercise Therapy (Weekly)";
-                                }
-                                if($data['procedures_val']==5)
-                                {
-                                    $procedure_val="(Procedure Charges) Evaluation + Exercise Therapy + Electro Therapy (One Modality) (Weekly)";
-                                }
-                                if($data['procedures_val']==6)
-                                {
-                                    $procedure_val="(Procedure Charges) Evaluation + Exercise therapy + Electro Therapy (Two Modalities) (Weekly)";
-                                }
-                                if($data['procedures_val']==7)
-                                {
-                                    $procedure_val="(Rehabilitation) Evaluation + Exercise Therapy (Daily)";
-                                }
-                                if($data['procedures_val']==8)
-                                {
-                                    $procedure_val="(Rehabilitation) Evaluation + Exercise Therapy + Assist Modality (Any One)[FES/MEntamove/Treadmill/Tilt Table/Cycling] (Daily)";
-                                }
-                                if($data['procedures_val']==9)
-                                {
-                                    $procedure_val="(Rehabilitation) Evaluation + Exercise Therapy + Assist Modality (2 Assist Modalities)(Daily)";
-                                }
-                                if($data['procedures_val']==10)
-                                {
-                                    $procedure_val="(Rehabilitation) Evaluation + Exercise Therapy + Assist Modality (All Assist Modalities)(Daily)";
-                                }
-                                if($data['procedures_val']==11)
-                                {
-                                    $procedure_val="(Rehabilitation) Evaluation + Exercise Therapy (Weekly)";
-                                }
-                                if($data['procedures_val']==12)
-                                {
-                                    $procedure_val="(Rehabilitation) Evaluation + Exercise Therapy + Assist Modality (Any One)[FES/MEntamove/Treadmill/Tilt Table/Cycling] (Weekly)";
-                                }
-                                if($data['procedures_val']==13)
-                                {
-                                    $procedure_val="(Rehabilitation) Evaluation + Exercise Therapy + Assist Modality (2 Assist Modalities)(Weekly)";
-                                }
-                                if($data['procedures_val']==14)
-                                {
-                                    $procedure_val="(Rehabilitation) Evaluation + Exercise Therapy + Assist Modality (All Assist Modalities)(Weekly)";
+                                    $physiotherapy_procedures_id_val="(Rehabilitation) Evaluation + Exercise Therapy + Assist Modality (All Assist Modalities)(Weekly)";
                                 }
                             }
-                        ?>
-                        <b>{{$procedure_val}}</b>
-                        </span></td>    
-                    <td class="text-center"><b>{{number_format($data['procedures_charges'], 2)}}</b></td>  
-                </tr>
-            @endif
+                        @endphp
+                    <b>{{$physiotherapy_procedures_id_val}}</b>
+                </span>
+            </td>    
+            <td class="text-center"><b>{{number_format($data['physiotherapy_procedure_charges'], 2)}}</b></td>
+            </tr>
+        @endif
             @if($data['other_charges']!=0 && $data['other_charges']!='')
                 <tr height=""> 
                     <td class="text-center"><span class="text-uppercase text-center">
