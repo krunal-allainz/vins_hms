@@ -49,6 +49,7 @@
         },
          mounted(){
               let vm = this;
+              vm.getTimelineData(vm.doctorId);
              if ($('.timeline-update').length > 0) {
                  vm.getTimelineData(vm.doctorId);
                 $('.timeline-update').newsTicker({
@@ -62,7 +63,10 @@
                 });
              
              }
-             vm.getTimelineData(vm.doctorId);
+            setTimeout(function(){
+                 vm.getTimelineData(vm.doctorId);
+            },8000) ;
+              
          },
            methods: {
                 getTimelineData(doctorId){

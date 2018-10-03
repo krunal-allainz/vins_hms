@@ -638,8 +638,8 @@
             $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case','cross_reference'])->where('token_managment.status','waiting');
         }
         if($user_type==3)
-        {
-            $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case','cross_reference'])->where('token_managment.status',$status);
+        { 
+            $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case','cross_reference'])->whereIn('token_managment.status',[$status]);
         }
         $reportQuery->with('userDetails');
         if($status!='reports')
@@ -648,9 +648,9 @@
         }
        
         $reportQuery->select('*','token_managment.token as token_id')->groupBy('patient_case_managment.patient_id')->orderBy('patient_case_managment.created_at','desc');
-        //echo $reportQuery->toSql();
+
         $r_query=$reportQuery->paginate($noOfRecord);
-        // print_r($r_query);
+        
         return $r_query;
         // return PatientDetailsForm::where('consultant_id',$id)->paginate($noOfRecord);
      
