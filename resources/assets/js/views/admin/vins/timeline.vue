@@ -50,6 +50,7 @@
          mounted(){
               let vm = this;
              if ($('.timeline-update').length > 0) {
+                 vm.getTimelineData(vm.doctorId);
                 $('.timeline-update').newsTicker({
                     row_height: 117,
                     max_rows: 4,
