@@ -93,7 +93,16 @@
                      <div id="collapseSeven" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                         <div class="card-body">
                         <patientPrescriptionDetail :prescriptData="showPatientDetail.opdprescriptionData"></patientPrescriptionDetail>
-                        
+                        </div>
+                    </div>
+                    <h5 class="mb-0" >
+                        <button class="btn btn-link mt-0" data-toggle="collapse" data-target="#collapseEight" aria-expanded="true" aria-controls="collapseSeven">
+                           Diagnosis
+                         </button>
+                     </h5>
+                     <div id="collapseEight" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                        <diagnosisReportData :data="showPatientDetail.opdOptionDetails.diagnosis"></diagnosisReportData>
                         </div>
                     </div>
                 </div>
@@ -113,6 +122,7 @@
     import reportViewDetail from './reportViewDetail.vue';
     import patientCrossReferalViewDetail from './patientCrossReferalViewDetail.vue';
     import patientCheckupViewDetail from './patientCheckupViewDetail.vue';
+    import diagnosisReportData from './diagnosisReportData.vue';
 	    export default {
        // props: ['patientId','opdId','showPatientDetail'],
         data() {
@@ -142,6 +152,7 @@
                     'past_history' : {},
                     'patientCheckupDetail' : {},
                     'prescriptionclockDetail' : '',
+                    'diagnosis':'',
                 }
             }
         },
@@ -154,7 +165,8 @@
             reportViewDetail,
             patientPrescriptionDetail,
             patientCrossReferalViewDetail,
-            patientCheckupViewDetail
+            patientCheckupViewDetail,
+            diagnosisReportData
           },
          mounted(){
             var vm = this;

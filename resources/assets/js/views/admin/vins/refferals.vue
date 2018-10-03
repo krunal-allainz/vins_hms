@@ -30,6 +30,27 @@
         </div>
       </div>
     </div>
+      <div class="row form-group">
+        <div class="col-md-6" v-show="cross_internal=='true'">
+          <div class="col-md-12">
+            <label for="internal">Internal Reference:</label>
+          </div>
+          <div class="col-md-12">
+            <select class="form-control ls-select2" name="internal" id="internal" >
+              <option value="">Select</option>
+              <option :value="doctor.id" v-for="doctor in doctorOption">{{doctor.text}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6" v-show="cross_external=='true'">
+          <div class="col-md-12">
+            <label for="external">External Reference:</label>
+          </div>
+          <div class="col-md-12">
+            <input type="text" name="external" id="external" class="form-control" v-model="reffData.cross_type_ext">
+            </div>
+          </div>
+        </div>
     <div >
       <div class=" form-group" id="radio_div1" v-show="reffData.referral == 'radiology'">
         <div class="">
@@ -174,27 +195,7 @@
         </div>
       </div>
     
-      <div class="row form-group">
-        <div class="col-md-6" v-show="cross_internal=='true'">
-          <div class="col-md-12">
-            <label for="internal">Internal Reference:</label>
-          </div>
-          <div class="col-md-12">
-            <select class="form-control ls-select2" name="internal" id="internal" >
-              <option value="">Select</option>
-              <option :value="doc.name" v-for="doc in doctorOption">{{doc.name}}</option>
-            </select>
-          </div>
-        </div>
-        <div class="col-md-6" v-show="cross_external=='true'">
-          <div class="col-md-12">
-            <label for="external">External Reference:</label>
-          </div>
-          <div class="col-md-12">
-            <input type="text" name="external" id="external" class="form-control" v-model="reffData.cross_type_ext">
-            </div>
-          </div>
-        </div>
+    
         <!-- for laboratory -->
         <div class="row form-group" v-show="reffData.referral == 'laboratory' ">
           <div class="col-md-6">
@@ -331,6 +332,7 @@
         props:[],
         data() {
             return {
+              'doctor_id':this.$store.state.Users.userDetails.id,
               'prescriptionunique' : 0,
               'cross_internal':'false',
               'cross_external':'false',
@@ -342,21 +344,7 @@
               'ref_cross_array':[],
               'ref_lab_array':[],
               'ref_radio_array':[],
-              'doctorOption': [
-                  {'name':'Rakesh Shah' },
-                  {'name':'Anand Vaishnav'},
-                  {'name':'Suvorit Bhowmick'},
-                  {'name':'Mihir Acharya'},
-                  {'name':'Monish Malhotra'},
-                  {'name':'Suresh Nayak'},
-                  {'name':'Rakesh Jasani'},
-                  {'name':'Kaushik K Trivedi'},
-                  {'name':'Ketan Kapashi'},
-                  {'name':'Vijay Thakore'},
-                  {'name':'Sumit Kapadia'},
-                  {'name':'Rajesh Kantharia'},
-                  {'name':'Hemant Mathur'},
-              ],
+              'doctorOption':{},
               'investigationData':{
                   'radiologyType':[
                     {text:'',value:''},
@@ -521,6 +509,24 @@
           $('.ls-select2').select2({
                   placeholder: "Select",
           });
+
+          /*for consulting dr */
+          let doctor_list=[];
+          User.generateCrossRefferalUserList(vm.doctor_id).then(
+             (response) => {
+                  let consult_data  = response.data.data;
+                  $.each(consult_data, function(key, value) {
+                      let name =  value.first_name +' '+value.last_name;
+                      let id  = value.id ;
+                      doctor_list.push({text:name, id:id});
+                  });
+                  vm.doctorOption=doctor_list;
+                },
+                (error) => {
+              },
+        );
+
+
           vm.$root.$emit('setReferralId',this._uid)
                /*for laboratory data*/
             let labpratory_all_data=[];

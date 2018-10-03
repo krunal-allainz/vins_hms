@@ -188,6 +188,22 @@ class UserController extends BaseController
     }
 
     /**
+     * [getCrossRefferalUser description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getCrossRefferalUser(Request $request)
+    {
+        $doctor_id = $request->doctor_id;
+        $user_list=$this->userRepoObj->get_cross_refferal_user($doctor_id);
+        if ($user_list) {
+            return ['code' => '200','data'=>$user_list, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+    }
+
+    /**
      * [getDepartmentById description]
      * @param  Request $request [id]
      * @return [array]           [description]
