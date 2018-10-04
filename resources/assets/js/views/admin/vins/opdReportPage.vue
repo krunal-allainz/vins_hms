@@ -25,9 +25,10 @@
     			<div class="modal-body">
 					<div id="demo">
 					<label><b>Select Report:</b></label>
-					<ul>		
+					<ul>
+						<li><input type="checkbox" id="ckbCheckAll"  @click="checkAll(this)"/><b> Select All</b></li>		
 						<li v-for="mainCat in reportList">
-							<input type="checkbox" :value="mainCat.reportListId" id="mainCat.reportListId" v-model="checkedreportList" @click="check($event)"> {{mainCat.reportListId}}
+							<input type="checkbox" class="checkBoxClass" :value="mainCat.reportListId" id="mainCat.reportListId" v-model="checkedreportList" @click="check($event)"> {{mainCat.reportListId}}
 						</li>
 					</ul>
 					<span class="help is-danger" v-if="(checkedreportList.length == 0)">
@@ -176,6 +177,27 @@
 				}
 				this.ClickHereToPrintMultiple('opd_case');
 			},
+			checkAll(test)
+			{	
+				let vm=this;
+				if($('#ckbCheckAll').is(':checked'))
+				{
+					vm.reportListSelect = 1;
+					var check_list_data=[];
+					_.forEach(vm.reportList,function(value){
+						check_list_data.push(value.reportListId);
+					});
+					vm.checkedreportList=check_list_data;
+					$(".checkBoxClass").prop('checked', true);
+				}
+				else
+				{
+					vm.checkedreportList=[];
+					vm.reportListSelect = 0;
+					$(".checkBoxClass").prop('checked', false);
+				}
+				
+			},
        	 	check: function(e) {
 			 	let vm=this;
 	     		 if (e.target.checked) {
@@ -287,6 +309,7 @@
        				}
        			);
        		},
+
        		getPatientData(patinetId)
 			{
 				var vm=this;
