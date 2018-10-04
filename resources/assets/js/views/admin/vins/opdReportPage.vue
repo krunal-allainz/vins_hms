@@ -42,7 +42,7 @@
 				 <button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button>
 					<!-- <button ty pe="button" lass="btn btn-primary btn-submit text-right" >Print</button> -->
 
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-default close_btn" @click="close_modal()">Close</button>
 					</div>
 				</div>
 			</div>
@@ -166,6 +166,13 @@
        	vm.getPatientData(vm.patinetId);
        },
        methods: {
+       		close_modal()
+       		{
+       			let vm=this;
+       			vm.checkedreportList=[];
+				vm.reportListSelect = 0;
+				$('#generateModal').modal('hide');
+       		},
        		print_multiple_report()
 			{
 				let vm=this;
