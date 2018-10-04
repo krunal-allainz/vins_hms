@@ -20,6 +20,7 @@
  use euro_hms\Models\OpdDetailsOption;
  use euro_hms\Models\TokenManagment;
  use euro_hms\Models\PrescriptionDrugs;
+ use euro_hms\Models\Notification;
  use Carbon\Carbon;
  use DB;
 
@@ -468,6 +469,32 @@
 			// $caseManagement->status = '1';
 			// $caseManagement->save();
  		}
+ 		$consultId = $patientCaseData['consult_dr'];
+ 		$notifyType = 'new_opd_save';
+ 		$dataText = 'OPD case add';
+ 			 $checkNotifStatus = NotificationRepository::checkRecordStatus($consultId,$notifyType);
+ 			if( $checkNotifStatus){
+
+ 				   $checkNotifStatus->data_id = $consultId;
+                    $checkNotifStatus->data_date = Carbon::now()->format('Y-m-d H:i:s');
+                    $checkNotifStatus->data_text = $dataText;
+                    $checkNotifStatus->status = '1';
+                    $checkNotifStatus->save();
+
+ 		 	}else{
+ 				 $addNotificationData = Notification::create([
+                    'title' => 'OPD Data Add',
+                    'type' => $notifyType,
+                    'data_table' => 'OpdDetails',
+                    'data_id' =>$opd_id_org,
+                    'data_consult_id' => $consultId,
+                    'data_date' => Carbon::now()->format('Y-m-d H:i:s'),
+                    'data_text' => 'Opd data save',
+                    'status' => '1'
+
+                ]);
+ 			}
+
  		if(count($patient_data)>0)
  		{
  			return ['code' => '200','data'=>$patient_data, 'message' => 'Record Sucessfully created'];
@@ -1406,6 +1433,32 @@
  			$patient_data['consult_id']=$opd_details['patientDetails']->consultant_id;
  			$patient_data['department']=$this->objUser->getDepartmentById($opd_details['patientDetails']->consultant_id);
  		}
+
+ 		$consultId =$opd_details['patientDetails']->consultant_id;
+ 		$notifyType = 'new_opd_update';
+ 		$dataText = 'OPD case update';
+ 			 $checkNotifStatus = NotificationRepository::checkRecordStatus($consultId,$notifyType);
+ 			if( $checkNotifStatus){
+
+ 				   $checkNotifStatus->data_consult_id = $consultId;
+                    $checkNotifStatus->data_date = Carbon::now()->format('Y-m-d H:i:s');
+                    $checkNotifStatus->data_text = $dataText;
+                    $checkNotifStatus->status = '1';
+                    $checkNotifStatus->save();
+                    
+ 		 	}else{
+ 				 $addNotificationData = Notification::create([
+                    'title' => 'OPD Data Update',
+                    'type' => $notifyType,
+                    'data_table' => 'OpdDetails',
+                    'data_id' =>$opd_id_org,
+                    'data_consult_id' => $consultId,
+                    'data_date' => Carbon::now()->format('Y-m-d H:i:s'),
+                    'data_text' => 'Opd data Update',
+                    'status' => '1'
+
+                ]);
+ 			}
  		if($crossRefer == true) {
  			dd(Carbon::now());
  			$doctor_rec = $this->objUser->getUserDetaileById($user_id);

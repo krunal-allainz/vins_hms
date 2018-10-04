@@ -229,7 +229,7 @@
                              vm.userData.department =responce.data.data.department,
                              vm.userData.userType = responce.data.data.user_type,
                                $('#department').val(responce.data.data.department).trigger('change.select2');
-                              $('#userType').val( responce.data.data.user_type).trigger('change.select2');
+                              $('#userType').val(responce.data.data.user_type).trigger('change.select2');
            			 	}
            			 },
            			 (error) => {
