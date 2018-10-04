@@ -219,17 +219,19 @@
            			 (responce) => {
 
            			 	if(responce.data.code == 200){
-           			 		 vm.userData.fName = responce.data.data.first_name,
-               				 vm.userData.lName = responce.data.data.last_name,
-                			 vm.userData.email =responce.data.data.email,
-                			 vm.userData.password='',
-                			 vm.userData.confirmPassword='',
-                			 vm.userData.mobileNo =responce.data.data.mobile_no,
-                             vm.userData.address =responce.data.data.address,
-                             vm.userData.department =responce.data.data.department,
-                             vm.userData.userType = responce.data.data.user_type,
-                               $('#department').val(responce.data.data.department).trigger('change.select2');
-                              $('#userType').val(responce.data.data.user_type).trigger('change.select2');
+           			 		 vm.userData.fName = responce.data.data.first_name;
+               				 vm.userData.lName = responce.data.data.last_name;
+                			 vm.userData.email =responce.data.data.email;
+                			 vm.userData.password='';
+                			 vm.userData.confirmPassword='';
+                			 vm.userData.mobileNo =responce.data.data.mobile_no;
+                       vm.userData.address =responce.data.data.address;
+                       vm.userData.department =responce.data.data.department;
+                        $('#department').val(responce.data.data.department).trigger('change.select2');
+                       vm.userData.userType = responce.data.data.user_type;
+                     
+                      $('#userType').val(responce.data.data.user_type).trigger('change.select2');
+                             
            			 	}
            			 },
            			 (error) => {
