@@ -19,6 +19,7 @@ class CreateNotificationsTable extends Migration
             $table->string('type')->nullable();
             $table->string('data_table')->nullable();
             $table->integer('data_id')->nullable();
+             $table->integer('data_consult_id')->nullable();
             $table->dateTime('data_date')->nullable();
             $table->text('data_text')->nullable();
             $table->boolean('status'); 
@@ -33,6 +34,6 @@ class CreateNotificationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notifications');
+        Schema::dropIfExists('notifications_timeline');
     }
 }
