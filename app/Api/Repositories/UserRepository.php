@@ -131,6 +131,17 @@ class UserRepository {
     }
 
     /**
+     * [get_cross_refferal_user description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+     public function get_cross_refferal_user($id)
+    {
+        return User::where('id','!=',$id)->get();
+        
+    }
+
+    /**
      * [getDepartmentById description]
      * @param  [type] $id [description]
      * @return [department]     [description]

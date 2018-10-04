@@ -273,6 +273,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         //for receipt edit
         $api->post('receipt/editReceipt', '\euro_hms\Api\Controllers\ReceiptController@editReceipt'); 
 
+        //for getting cross reffreal internal user
+        $api->post('user/getCrossRefferalUser', '\euro_hms\Api\Controllers\UserController@getCrossRefferalUser');
 
         });
 
