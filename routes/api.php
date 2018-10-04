@@ -275,8 +275,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
         $api->post('dashboard/gettimelinedata', '\euro_hms\Api\Controllers\NotificationController@show');
 
-
-
+        //for getting cross reffreal internal user
+        $api->post('user/getCrossRefferalUser', '\euro_hms\Api\Controllers\UserController@getCrossRefferalUser');
         });
 
         

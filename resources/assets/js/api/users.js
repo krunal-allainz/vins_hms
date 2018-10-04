@@ -429,5 +429,9 @@ export default {
   },
   getTimelineData(doctoreId){
       return api.post('dashboard/gettimelinedata',{'id':doctoreId});
-  }
+  },
+  generateCrossRefferalUserList(doctor_id)
+  {
+      return api.post('user/getCrossRefferalUser',{'doctor_id':doctor_id});
+  },
 }

@@ -1512,17 +1512,7 @@
       //for prescriptiondata
  		 	$prescript_array=$this->getPrescriptionDataForPrint($opdId);
  			$result['opdprescriptionData']=$prescript_array;
- 		//for prescriptiondata over
-     /* $result['opdprescriptionData'] = PrescriptionDetails::select('prescription_details.id as preId','prescription_details.opd_id as opd_id','prescription_details.prescription_drug_id','prescription_details.total_quantity','prescription_details.total_prescription_days','prescription_details.clock_suggest','prescription_details.qhrs as qhrs','prescription_details.total_qhrs as total_qhrs
-      	','prescription_details.how_many_times','prescription_details.remove','prescription_drugs.id as drugsId','prescription_drugs.name as name','prescription_drugs.type as type','prescription_drugs.doctor as doctor','prescription_drugs.status as status')->join('prescription_drugs','prescription_drugs.id','=','prescription_details.prescription_drug_id')->where('prescription_details.opd_id',$opdId)->where('prescription_details.remove','false')->get();
-      foreach($result['opdprescriptionData'] as $prescription){
-      		$priscriptionClockData = array();
-      		$prescriptionId = $prescription->preId ;
-      		$priscriptionClockData = PrescriptionClockDetails::where('opd_id',$opdId)->where('prescription_id',$prescriptionId)->get();
-      		$prescriptionData[$prescriptionId] = $priscriptionClockData;
-      }
-
-      $result['prescriptionclockDetail'] = $prescriptionData;*/
+ 		//for prescriptiondata over 
       $advice = $result['opdOptionDetails']->advice;
       $history = $result['opdOptionDetails']->history;
       $pastHistory = $result['opdOptionDetails']->past_history;
