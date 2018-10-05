@@ -114,7 +114,7 @@
 	                        	<label for="age">Age: </label>
 	                		 </div>
 	                		  <div class="col-md-6">
-								<input class="form-control" type="numeric" id="age" name="age" value="" v-model="patientData.display_age" v-validate="'required|numeric|min:1|max:3'" @change="getBirthYear()" />
+								<input class="form-control" type="numeric" id="age" name="age" value="" v-model="patientData.age" v-validate="'required|numeric|min:1|max:3'"  />
 								<i v-show="errors.has('age')" class="fa fa-warning"></i>
 								<span class="help is-danger" v-show="errors.has('age')">
 			            			Please enter your age.
@@ -586,10 +586,11 @@
 		      getAgeFromYear(year){
 		      	let getYear = 0;
 		      	this.patientData.display_age = 1;
-		      	getYear = this.currentYear - year - 1;
+		      	getYear = parseInt(this.currentYear) - parseInt(year) - 1;
 		      	if(getYear != 0){
 		      		this.patientData.display_age = getYear;
 		      	}
+		      	return getYear;
 		      },
         	setPatientData(patientData) {
         		let vm=this;
@@ -629,13 +630,15 @@
         						{
         							vm.patientData.case_type_option=vm.optionAllList;
         						}
-        						
-        						if(pDetails.dob == null){
-			            			vm.getAgeFromYear(pDetails.age);
+
+        						let age="";
+        						if(pDetails.dob == null ){
+			            			age=vm.getAgeFromYear(pDetails.age);
 			            		}else{
-			            			vm.patientData.display_age=pDetails.age;
-			            			vm.patientData.age = pDetails.age;
+			            			
+			            			age=pDetails.age
 			            		}
+			            		vm.patientData.age =age;
 			        			vm.patientData.patient_id=pDetails.id;
 			        			vm.patientData.fname = pDetails.first_name;
 			        			vm.patientData.uhid_no = pDetails.uhid_no;
