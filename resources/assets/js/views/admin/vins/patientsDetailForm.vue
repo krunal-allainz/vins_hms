@@ -125,7 +125,7 @@
 	                       	<label class="control-label" for="sex">Gender: </label>
 	                    </div>
 	                    <div class="col-md-6">
-							<select  class="form-control ls-select2" id = "gender" name="gender" :disabled="patientData.case == 'old'">
+							<select  class="form-control ls-select2" id = "gender" name="gender" :disabled="patientData.case == 'old'" v-validate="'required'">
 	            				<option value="">Select</option>
 	            				<option value="M">MALE</option>
 				            	<option value="F">FEMALE</option>

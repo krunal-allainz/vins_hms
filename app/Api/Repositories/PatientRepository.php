@@ -639,7 +639,7 @@
         }
         if($user_type==3)
         { 
-            $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case','cross_reference'])->whereIn('token_managment.status',[$status]);
+            $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case','cross_reference'])->where('token_managment.status',$status);
         }
         $reportQuery->with('userDetails');
         if($status!='reports')
