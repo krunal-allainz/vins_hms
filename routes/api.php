@@ -277,6 +277,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
         //for getting cross reffreal internal user
         $api->post('user/getCrossRefferalUser', '\euro_hms\Api\Controllers\UserController@getCrossRefferalUser');
+
+        $api->post('patient/getPatientCaseTypeOfLastVisit', '\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientCaseTypeOfLastVisit');
         });
 
         

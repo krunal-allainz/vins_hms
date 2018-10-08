@@ -413,6 +413,7 @@
                 'bp_diastolic':'',
                 'temp':'',
                 'last_vist' : '',
+                'patientCaseType':'',
                 'physio_details':'',
                 'laboratoryALLData':[],
                 'signaturePad1':{}
@@ -517,10 +518,15 @@
             vm.getAgeOfPatient(pId);
             vm.get_vitals();
 
+
           });
           $(document).on('hidden.bs.modal','#createPatientDetail', function () {
             $('#case_type').val('old').trigger('change.select2');
             vm.opdData.case_type = 'old';
+             // if(vm.patientCase.type == follow_ups){
+             // //vm.setUpdateData();
+             // console.log('test')
+             //  }
           });
           setTimeout(function(){
             vm.examinationChangeImage();
@@ -532,7 +538,6 @@
 
         },
         methods: {
-          
           initData()
           {
             let vm=this;
@@ -808,6 +813,10 @@
           {
              let vm=this;
               //for uhid
+                if(vm.opdData.patientCaseType == 'follow_ups'){
+                    $('#patient').select2('destroy');
+                   vm.setUpdateData();
+                }
                 User.generatePatientDetailsByID(vm.opdData.patientlist).then(
                     (response) => {
                       let patient_data=response.data.data;
@@ -825,6 +834,7 @@
                       vm.opdData.opd_id=opdID;
                       vm.getPatientCaseAndTokenDetailByOpdId(opdID);
                       vm.getPatientLastVisit(vm.opdData.patientlist);
+                      vm.getCaseType(vm.opdData.patientlist);
                     },
                     (error) => {
                     },
@@ -880,6 +890,21 @@
                   (error) => {
                   },
               );
+          },
+          getCaseType(p_id)
+          {
+            let vm=this;
+            User.getPatientCaseTypeOfLastVisit(p_id).then(
+              (response) => {
+                  let caseType;
+                  caseType = response.data.data;
+                  vm.opdData.patientCaseType=caseType;
+
+              },
+              (error) => {
+                  },
+            );
+
           },
           updateUhidNo(uhid) {
             let vm = this;
