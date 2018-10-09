@@ -225,7 +225,9 @@ class PatientsDetailFormController extends Controller
         }
     }
 
-    public function patientCheckUpDetails(Request $request)
+    //opd related
+
+   /* public function patientCheckUpDetails(Request $request)
     {
         $oid=$request->opd_id;
         
@@ -235,7 +237,7 @@ class PatientsDetailFormController extends Controller
         } else {
             return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
         }
-    }
+    }*/
     /*
     * get  number of patient by type
     * 
@@ -376,12 +378,13 @@ class PatientsDetailFormController extends Controller
         }
     }
 
+    //OPD DETAIL
     /**
      * [getPatientCaseDetailByOpdId description]
      * @param  Request $request [description]
      * @return [type]           [description]
      */
-    public function getPatientCaseDetailByOpdId(Request $request){
+   /* public function getPatientCaseDetailByOpdId(Request $request){
         $opdId = $request->opdId;
         $patientCaseDetail = $this->patientOBJ->getPatientCaseDetailByOpdId($opdId);
         if ($patientCaseDetail) {
@@ -391,7 +394,7 @@ class PatientsDetailFormController extends Controller
             return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
         }
     }
-
+*/
     /**
      * [getOPDDetailsByPatientId description]
      * @param  Request $request [description]

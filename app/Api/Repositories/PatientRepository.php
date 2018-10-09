@@ -427,16 +427,17 @@
       return  $result;
     }
 
+     //opd related
     /**
      * [patientCheckUpDetailsByOpdId description]
      * @param  [type] $oid [description]
      * @return [type]      [description]
      */
-    public function patientCheckUpDetailsByOpdId($oid)
+   /* public function patientCheckUpDetailsByOpdId($oid)
     {
         return PatientCheckUp::where('opd_id',$oid)->orderBy('id', 'desc')->first();
     }
-
+*/
    /**
     * [getPatientListBySearch description]
     * @param  [type] $request [description]
@@ -567,7 +568,7 @@
         $userId = $request->all()['pData']['userId'];
         // dd(Carbon::now()->toDateString())
         // $tokenData-;
-         $data_patient_checkup=new PatientCheckUp;
+        $data_patient_checkup=new PatientCheckUp;
         $data_patient_checkup->user_id=$userId;
         $data_patient_checkup->height=$data['height'];
         $data_patient_checkup->weight=$data['weight'];
@@ -577,7 +578,7 @@
         $data_patient_checkup->bp=$data['bp_systolic'].'/'.$data['bp_diastolic'];
         $data_patient_checkup->temp=$data['temp'];
         $data_patient_checkup->pain=$data['pain_value'];
-        $data_patient_checkup->opd_id=$data['opd_id'];
+        $data_patient_checkup->patient_case_management_id=$data['case_id'];
         $data_patient_checkup->patient_id=$data['patient_id'];
         $data_patient_checkup->created_at=Carbon::now();
         $data_patient_checkup->updated_at=Carbon::now();
@@ -653,7 +654,7 @@
           $reportQuery->whereDate('patient_case_managment.appointment_datetime',Carbon::today()->format('Y-m-d'));
         }
        
-        $reportQuery->select('*','token_managment.token as token_id')->groupBy('patient_case_managment.patient_id')->orderBy('patient_case_managment.created_at','desc');
+        $reportQuery->select('*','token_managment.token as token_id','patient_case_managment.id as case_id')->groupBy('patient_case_managment.patient_id')->orderBy('patient_case_managment.created_at','desc');
 
         $r_query=$reportQuery->paginate($noOfRecord);
         
@@ -793,10 +794,11 @@
         
     }
 
-    public function getPatientCaseDetailByOpdId($opdId){ 
+    //OPD DETASIL
+   /* public function getPatientCaseDetailByOpdId($opdId){ 
       $result = PatientCaseManagment::where('section_id',$opdId)->orderBy('id','DESC')->first();
        return $result;
-    }
+    }*/
 
     public function movePatientWithNewReferal(){
       return 0;

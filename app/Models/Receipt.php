@@ -36,7 +36,8 @@ class Receipt extends Model
       'other_charges_id',
       'other_charges',
       'created_at', 
-      'updated_at'  
+      'updated_at',
+      'patient_case_management_id', 
   
     ];	
 	

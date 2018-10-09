@@ -24,6 +24,10 @@ class PatientCaseManagment extends Model
               'reported_date'
         ];
 
+    public function patientDetails()
+    {
+        return $this->belongsTo('euro_hms\Models\PatientDetailsForm','patient_id');
+    }
 
     public function getAppointmentDatetimeAttribute($value)
     { 

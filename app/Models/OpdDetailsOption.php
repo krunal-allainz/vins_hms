@@ -18,6 +18,7 @@ class OpdDetailsOption extends Model
       'follow_up',
       'diagnosis',
       'status',
+      'patient_case_management_id',
     ];
 
 }

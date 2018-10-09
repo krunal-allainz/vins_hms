@@ -288,12 +288,10 @@ export default {
   generateOpdIdByPatirntID(patient_id) {
     return api.post('patient/getOPDIdByPatientId',{'patient_id':patient_id})
   },
-  generatePatientCheckUpDetails(opd_id) {
+  /*generatePatientCheckUpDetails(opd_id) {
     return api.post('patient/getpatientCheckUpDetails',{'opd_id':opd_id})
-  },
-  generateAddOpdDetails(opd_data) {
-    return api.post('opd/addOpdDetails',{'data':opd_data})
-  },
+  },*/
+
   getNumberOfPatient(type,id){
     return api.post('patient/total',{'type':type,'id':id});
   },
@@ -339,9 +337,9 @@ export default {
   getPatientDetailInfo(patientId){
      return api.post('patient/patientDetailInfo',{'patientId':patientId});
   },
-  getPatientDetailAndOpdInfo(patientId,opdId){
+ /* getPatientDetailAndOpdInfo(patientId,opdId){
      return api.post('patient/patientDetailAndOpdInfo',{'patientId':patientId,'opdId':opdId});
-  },
+  },*/
   getDoctoreInfoById(doctoreId,typeId){
     return api.post('user/getdoctoreinfobyid',{'id' :doctoreId , 'typeId' : typeId});
   },
@@ -353,22 +351,22 @@ export default {
   {
        return api.post('patient/getVitalsValidity',{'vitalId':vitalId});
   },
-  getPatientCaseDetailByOpdId(opdId){
+ /* getPatientCaseDetailByOpdId(opdId){
     return api.post('patient/patientCaseDetailInfo',{'opdId':opdId});
-  },
-  getOPDDetailsByPatientId(pid)
+  },*/
+ /* getOPDDetailsByPatientId(pid)
   {
        return api.post('patient/getOPDDetailsByPatientId',{'pid':pid});
-  },
+  },*/
   printOPDCaseMultipleData(OPDCaseData){
       return api.post('print/opdcaseMultiple',{'OPDCaseData':OPDCaseData});
   },
   movePatientForNewReferal(OPDCaseData){
      return api.post('patient/movepsatientfornewreferal',{'OPDCaseData':OPDCaseData});
   },
-  getPatientOpdData(opdId){
+  /*getPatientOpdData(opdId){
      return api.post('opd/patientopddetail',{'id':opdId});
-  },
+  },*/
   getAgeOfPatient(patientId){
     return api.post('patient/getPatientAge',{'id':patientId});
   },
@@ -378,15 +376,15 @@ export default {
   getPatientCaseAndTokenDetailByOpdId(opdId){
      return api.post('patient/patientcaseandtokendetailinfo',{'opdId':opdId});
   },
-  getOPDDetailsByPatient(pid){
+ /* getOPDDetailsByPatient(pid){
      return api.post('opd/getopddetailsbypatient',{'patient_id':pid});
-  },
-  getUPdateOPDInfo(pid,oid){
+  },*/
+ /* getUPdateOPDInfo(pid,oid){
      return api.post('opd/getUPdateOPDInfo',{'patient_id':pid,'opdId':oid});
-  },
-  generateEditOpdDetails(opd_data) {
+  },*/
+  /*generateEditOpdDetails(opd_data) {
     return api.post('opd/editOpdDetails',{'data':opd_data})
-  },
+  },*/
   getPatientLastVisitById(pid) {
     return api.post('patient/getPatientLastVisitById',{'patient_id':pid})
   },
@@ -433,5 +431,38 @@ export default {
   generateCrossRefferalUserList(doctor_id)
   {
       return api.post('user/getCrossRefferalUser',{'doctor_id':doctor_id});
+  },
+  getPatientCaseDetailsByPatientId(pid)
+  {
+       return api.post('case/getPatientCaseDetailsByPatientId',{'pid':pid});
+  },
+  getPatientCaseAndTokenDetailByCaseId(caseID){
+     return api.post('case/getPatientCaseAndTokenDetailByCaseId',{'caseID':caseID});
+  },
+  generateAddOpdDetails(opd_data) {
+    return api.post('case/addOpdDetails',{'data':opd_data})
+  },
+  getUPdateOPDCaseInfo(pid,cid){
+     return api.post('case/getUPdateOPDCaseInfo',{'patient_id':pid,'caseId':cid});
+  },
+  getOPDCaseDetailsByPatientId(pid)
+  {
+       return api.post('case/getOPDCaseDetailsByPatientId',{'pid':pid});
+  },
+  generateEditOpdCaseDetails(opd_data) {
+    return api.post('case/editOpdCaseDetails',{'data':opd_data})
+  },
+  getPatientOpdCaseDataReport(cid){
+     return api.post('case/getPatientOpdCaseDataReport',{'id':cid});
+  },
+  getPatientCaseDetailById(id)
+  {
+     return api.post('case/getPatientCaseDetailById',{'id':id});
+  },
+  generatePatientCheckUpDetails(case_id) {
+    return api.post('case/getpatientCheckUpDetails',{'case_id':case_id})
+  },
+  getPatientDetailAndCaseInfo(patientId,caseId){
+     return api.post('case/patientDetailAndCaseInfo',{'patientId':patientId,'caseId':caseId});
   },
 }

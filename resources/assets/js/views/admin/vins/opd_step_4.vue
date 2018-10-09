@@ -451,15 +451,15 @@
           {
                let vm =this;
                $("body .js-loader").addClass('d-none');
-                User.generateEditOpdDetails(oData).then((response) => {
+                User.generateEditOpdCaseDetails(oData).then((response) => {
                     
                       if(response.data.code == 200) {
                         if(vm.crossRefer == true){
                             toastr.success('Record has been saved', 'Success', {timeOut: 300});
                         }
                         
-                        let opd_id = response.data.data.opd_pr_id;
-                        vm.$store.dispatch('SetOpdId',opd_id);
+                        let case_id = response.data.data.case_pr_id;
+                        vm.$store.dispatch('SetCaseId',case_id);
                         vm.$store.dispatch('saveDiagnosis',vm.diagnosis);
                         vm.patient_opd_details=response.data.data;
                         $('#edit_confirm_modal').modal('hide');
@@ -540,8 +540,8 @@
                             toastr.success('Record has been saved', 'Success', {timeOut: 5000});
                         }
                         vm.modal_enabled='true';
-                        let opd_id = response.data.data.opd_pr_id;
-                        vm.$store.dispatch('SetOpdId',opd_id);
+                        let case_id = response.data.data.case_pr_id;
+                        vm.$store.dispatch('SetCaseId',case_id);
                         vm.$store.dispatch('saveDiagnosis',vm.diagnosis);
                         vm.$store.dispatch('SetPage', 'ADD');
                         vm.patient_opd_details=response.data.data;

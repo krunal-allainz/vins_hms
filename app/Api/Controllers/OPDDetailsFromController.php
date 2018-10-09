@@ -197,15 +197,13 @@ class OPDDetailsFromController extends Controller
             }
     }
 
+    //opd related
+
     /**
      * [addDetails description]
      * @param Request $request [description]
      */
-    public function addDetails(Request $request)
-    {
-        return $this->opdObj->store($request);
-    }
-
+   
     /**
      * [editDetails description]
      * @param  Request $request [description]
@@ -337,8 +335,8 @@ class OPDDetailsFromController extends Controller
     *
     *
     **/
-
-    public function getPatientDetailAndOpdInfo(Request $request){
+    //opd related
+   /* public function getPatientDetailAndOpdInfo(Request $request){
          $patientId = $request->patientId;
          $opdId =  $request->opdId;
         $patientDetail = $this->opdObj->getPatientDetailAndOpdInfo($patientId,$opdId);
@@ -348,6 +346,6 @@ class OPDDetailsFromController extends Controller
             return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
         }
     }
-
+*/
    
 }

@@ -14,5 +14,6 @@ class CrossDetails extends Model
               'user_id',
               'cross_type',
               'cross_value',
+              'patient_case_management_id',
         ];
 }
