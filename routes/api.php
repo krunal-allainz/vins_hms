@@ -277,8 +277,9 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         //for getting cross reffreal internal user
         $api->post('user/getCrossRefferalUser', '\euro_hms\Api\Controllers\UserController@getCrossRefferalUser');
 
+
         $api->post('patient/getPatientCaseTypeOfLastVisit', '\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientCaseTypeOfLastVisit');
-        });
+       
         //for getting patient case management details
         $api->post('case/getPatientCaseDetailsByPatientId', '\euro_hms\Api\Controllers\PatientCaseManagementController@getPatientCaseDetailsByPatientId');
 
@@ -310,6 +311,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         $api->post('case/patientDetailAndCaseInfo', '\euro_hms\Api\Controllers\PatientCaseManagementController@patientDetailAndCaseInfo');
 
 });
+
 
         
 
