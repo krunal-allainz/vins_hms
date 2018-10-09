@@ -1038,7 +1038,7 @@
    }
 
    public function getPatientCaseTypeOfLastVisit($pid){
-        $result = PatientCaseManagment::join('token_managment', 'patient_case_managment.id', '=', 'token_managment.patient_case_id')->where('patient_case_managment.patient_id',$pid)->where('token_managment.status','examine')->orderBy('patient_case_managment.id','DESC')->first();
+        $result = PatientCaseManagment::join('token_managment', 'patient_case_managment.id', '=', 'token_managment.patient_case_id')->where('patient_case_managment.patient_id',$pid)->where('token_managment.status','waiting')->orderBy('patient_case_managment.id','DESC')->first();
         $caseType="N/A";
         if($result != null)
         {
