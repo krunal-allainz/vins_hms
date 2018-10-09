@@ -39,5 +39,6 @@ class PhysiotherapyDetails extends Model
 		'name_therapist',
 		'form_date',
 		'form_time',
+		'patient_case_management_id',
     ];
 }

@@ -102,9 +102,7 @@
 		let list=[];
 		let charges_list=[];
 		var patientId = '';
-		var other_option=[{id: '', text: 'Select'},{id: '1', text: 'Procedure Charges', children: [ {id:1,text:'Dressing'}, {id:2,text:'Special dressing'}, {id:3,text:'Strip Method RBS	'}, {id:4,text:'ECG'}, {id:5,text:'Enema'}, {id:6,text:'Urine Sugar (Per Test)'}, {id:7,text:'Suture Removal'}, {id:8,text:'Ambulance Charge (Within city limits only)'}, {id:9,text:'Escort with Ventilator (per hour)'}, {id:10,text:'Escort without Ventilator (per hour)'} ], "element": HTMLOptGroupElement }, {id: '2', text: 'Wound Care', children: [ {id:11,text:'Dressing - Minor'}, {id:12,text:'Dressing - Major'}, {id:13,text:'Vac (per session + actual expenditure)'}, {id:14,text:'Special Dressing'} ], "element": HTMLOptGroupElement } ];
-		/*for physiotherapy*/
-		var physio_option=[{id: '', text: 'Select'},{id: '1', text: 'Pain Management',children: [ {id:1,text:'Evaluation + Exercise Therapy (Daily)'}, {id:2,text:'Evaluation + Exercise Therapy + Electro Therapy (One Modality) (Daily)'}, {id:3,text:'Evaluation + Exercise Therapy + Electro Therapy (Two Modalities) (Daily)'}, {id:4,text:'Evaluation + Exercise Therapy (Weekly)'}, {id:5,text:'Evaluation + Exercise Therapy + Electro Therapy (One Modality) (Weekly)'}, {id:6,text:'Evaluation + Exercise therapy + Electro Therapy (Two Modalities) (Weekly)'} ], "element": HTMLOptGroupElement }, {id: '2', text: 'Rehabilitation', children: [ {id:7,text:'Evaluation + Exercise Therapy (Daily)'}, {id:8,text:'Evaluation + Exercise Therapy + Assist Modality (Any One)[FES/MEntamove/Treadmill/Tilt Table/Cycling] (Daily)'}, {id:9,text:'Evaluation + Exercise Therapy + Assist Modality (2 Assist Modalities)(Daily)'}, {id:10,text:'Evaluation + Exercise Therapy + Assist Modality (All Assist Modalities)(Daily)'},{id:11,text:'Evaluation + Exercise Therapy (Weekly)'}, {id:12,text:'Evaluation + Exercise Therapy + Assist Modality (Any One)[FES/MEntamove/Treadmill/Tilt Table/Cycling] (Weekly)'}, {id:13,text:'Evaluation + Exercise Therapy + Assist Modality (2 Assist Modalities)(Weekly)'}, {id:14,text:'Evaluation + Exercise Therapy + Assist Modality (All Assist Modalities)(Weekly)'} ], "element": HTMLOptGroupElement } ];
+		
 		
 
 		export default {
@@ -141,6 +139,7 @@
 				      }],
 					 'patientReceiptData' : {
 					 		'fullname' : '',
+					 		'case_id':this.$store.state.Patient.caseId,
 					 		'gender': '',
 					 		'case_no': '',
 					 		'case_type' : '',

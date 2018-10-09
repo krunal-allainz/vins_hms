@@ -15,5 +15,6 @@ class Examination extends Model
               'department',
               'examination_image',
               'examination_data',
+              'patient_case_management_id',
         ];
 }

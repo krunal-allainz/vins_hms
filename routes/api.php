@@ -169,13 +169,12 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         $api->post('patient/getOPDIdByPatientId', '\euro_hms\Api\Controllers\PatientsDetailFormController@getOPDIdByPatientId');
 
          //for getting patient check up details by opd id
-        $api->post('patient/getpatientCheckUpDetails', '\euro_hms\Api\Controllers\PatientsDetailFormController@patientCheckUpDetails');
+        //$api->post('patient/getpatientCheckUpDetails', '\euro_hms\Api\Controllers\PatientsDetailFormController@patientCheckUpDetails');
 
-         //for adding opd details
-        $api->post('opd/addOpdDetails', '\euro_hms\Api\Controllers\OPDDetailsFromController@addDetails');
+       
         
           //for editing opd details
-        $api->post('opd/editOpdDetails', '\euro_hms\Api\Controllers\OPDDetailsFromController@editDetails');
+        //$api->post('opd/editOpdDetails', '\euro_hms\Api\Controllers\OPDDetailsFromController@editDetails');
 
         /* get total number of patient by type*/
         $api->post('patient/total','\euro_hms\Api\Controllers\PatientsDetailFormController@getNumberOfPatient');
@@ -212,7 +211,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
          $api->post('patient/patientDetailInfo', '\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientDetailInfo');
 
-         $api->post('patient/patientDetailAndOpdInfo', '\euro_hms\Api\Controllers\OPDDetailsFromController@getPatientDetailAndOpdInfo');
+         //$api->post('patient/patientDetailAndOpdInfo', '\euro_hms\Api\Controllers\OPDDetailsFromController@getPatientDetailAndOpdInfo');
 
          //getting vitals info of patient
           $api->post('patient/getVitalsInfoByPatientId', '\euro_hms\Api\Controllers\PatientsDetailFormController@getVitalsInfoByPatientId');
@@ -223,14 +222,14 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
           //for getting username by id any type
         $api->post('user/getdoctoreinfobyid', '\euro_hms\Api\Controllers\UserController@getDoctoreInfoById');
 
-         $api->post('patient/patientCaseDetailInfo', '\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientCaseDetailByOpdId');
+         //$api->post('patient/patientCaseDetailInfo', '\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientCaseDetailByOpdId');
 
         //for getting opde details
-        $api->post('patient/getOPDDetailsByPatientId', '\euro_hms\Api\Controllers\PatientsDetailFormController@getOPDDetailsByPatientId');
+       // $api->post('patient/getOPDDetailsByPatientId', '\euro_hms\Api\Controllers\PatientsDetailFormController@getOPDDetailsByPatientId');
 
         $api->post('patient/movepsatientfornewreferal', '\euro_hms\Api\Controllers\PatientsDetailFormController@movePatientWithNewReferal');
 
-        $api->post('opd/patientopddetail', '\euro_hms\Api\Controllers\OPDDetailsFromController@getPatientOpdData');
+        //$api->post('opd/patientopddetail', '\euro_hms\Api\Controllers\OPDDetailsFromController@getPatientOpdData');
         $api->post('patient/getPatientAge', '\euro_hms\Api\Controllers\PatientsDetailFormController@getAgeOfPatient');
         $api->post('opd/patientallopddetail', '\euro_hms\Api\Controllers\OPDDetailsFromController@getPatientOpdDetailByOpdId');
 
@@ -240,7 +239,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         $api->post('opd/getopddetailsbypatient', '\euro_hms\Api\Controllers\OPDDetailsFromController@getOPDDetailsByPatient');
 
         //for getting update opd info for patient
-        $api->post('opd/getUPdateOPDInfo', '\euro_hms\Api\Controllers\OPDDetailsFromController@getUPdateOPDInfo');
+        //$api->post('opd/getUPdateOPDInfo', '\euro_hms\Api\Controllers\OPDDetailsFromController@getUPdateOPDInfo');
 
         //for getting patient last visit
         $api->post('patient/getPatientLastVisitById', '\euro_hms\Api\Controllers\PatientsDetailFormController@getPatientLastVisitById');
@@ -277,7 +276,38 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
         //for getting cross reffreal internal user
         $api->post('user/getCrossRefferalUser', '\euro_hms\Api\Controllers\UserController@getCrossRefferalUser');
-        });
+
+        //for getting patient case management details
+        $api->post('case/getPatientCaseDetailsByPatientId', '\euro_hms\Api\Controllers\PatientCaseManagementController@getPatientCaseDetailsByPatientId');
+
+        //for token details by case id
+        $api->post('case/getPatientCaseAndTokenDetailByCaseId', '\euro_hms\Api\Controllers\PatientCaseManagementController@getPatientCaseAndTokenDetailByCaseId');
+
+         //for adding opd details
+        $api->post('case/addOpdDetails', '\euro_hms\Api\Controllers\PatientCaseManagementController@storeOpd');
+
+         //for getting update opd info for case
+        $api->post('case/getUPdateOPDCaseInfo', '\euro_hms\Api\Controllers\PatientCaseManagementController@getUPdateOPDCaseInfo');
+
+        //for getting opd case list of patient
+        $api->post('case/getOPDCaseDetailsByPatientId', '\euro_hms\Api\Controllers\PatientCaseManagementController@getOPDCaseDetailsByPatientId');
+
+         //for editing opd case details
+        $api->post('case/editOpdCaseDetails', '\euro_hms\Api\Controllers\PatientCaseManagementController@editOpdCaseDetails');
+
+        //get data for reports
+        $api->post('case/getPatientOpdCaseDataReport', '\euro_hms\Api\Controllers\PatientCaseManagementController@getPatientOpdCaseDataReport');
+
+        //get case details by id 
+        $api->post('case/getPatientCaseDetailById', '\euro_hms\Api\Controllers\PatientCaseManagementController@getPatientCaseDetailById');
+
+        //get check up details by case id for opd reports
+        $api->post('case/getpatientCheckUpDetails', '\euro_hms\Api\Controllers\PatientCaseManagementController@patientCheckUpDetails');
+
+        //for getting case details for patient view page
+        $api->post('case/patientDetailAndCaseInfo', '\euro_hms\Api\Controllers\PatientCaseManagementController@patientDetailAndCaseInfo');
+
+});
 
         
 

@@ -9,6 +9,7 @@ const state = {
     'doctorId':0,
     'ipdId':'',
   	'opdId':'',
+    'caseId':'',
     'uhid_no':'',
     'admitDatetime': '',
   	'patientData': {},
@@ -69,6 +70,9 @@ const actions = {
   },
   SetOpdId ({commit},opdId) {
     commit(types.SET_OPD_ID, opdId)
+  },
+  SetCaseId ({commit},caseId) {
+    commit(types.SET_CASE_ID, caseId)
   },
   SetPage ({commit},setPage) {
     commit(types.SET_PAGE, setPage)
@@ -155,6 +159,9 @@ const mutations = {
   },
   [types.SET_OPD_ID] (state, opdId) {
     state.opdId = opdId
+  },
+  [types.SET_CASE_ID] (state, caseId) {
+    state.caseId = caseId
   },
   [types.SET_PAGE] (state, setPage) {
     state.setPage = setPage
@@ -257,6 +264,7 @@ const mutations = {
       state.diagnosis = '';
       state.patientId='';
       state.opdId='';
+      state.caseId='';
       state.setErrorData={'error':false,'steps':''};
       state.setPage='ADD';
       state.examinationData = '';
