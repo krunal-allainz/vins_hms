@@ -41,6 +41,10 @@
                             Action
                             <i data-v-744e717e="" class="fa float-right"></i>
                         </th>
+                        <th data-v-744e717e="" class="sortable" style="width: auto;" v-if="user_type == 3">
+                            Change Status
+                            <i data-v-744e717e="" class="fa float-right"></i>
+                        </th>
                     </tr>
                   </thead>
                   <tbody data-v-744e717e="">
@@ -136,6 +140,10 @@
                         </th>
                         <th data-v-744e717e="" class="sortable" style="width: auto;" v-if="user_type == 1">
                             Action
+                            <i data-v-744e717e="" class="fa float-right"></i>
+                        </th>
+                         <th data-v-744e717e="" class="sortable" style="width: auto;" v-if="user_type == 3">
+                            Change Status
                             <i data-v-744e717e="" class="fa float-right"></i>
                         </th>
                     </tr>
