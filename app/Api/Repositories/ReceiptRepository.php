@@ -84,6 +84,7 @@
 		            $charges_id=$request->formData['emergency_type'];
 		        }
 				$receipt->receipt_id = $receiptId ;
+				$receipt->patient_case_management_id = $request->formData['case_id'];
 				$receipt->receipt_number = $receiptNumber ;
 				$receipt->date = $request->formData['date_receipt']['time'];
 				$receipt->case_no = $request->formData['case_no'] ;
