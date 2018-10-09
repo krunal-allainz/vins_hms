@@ -555,6 +555,7 @@ class PatientsDetailFormController extends Controller
 
         }
     } 
+
     public function getPatientCaseTypeOfLastVisit(Request $request){
           $patient_id = $request ->patient_id;
         $patient_case_type = $this->patientOBJ->getPatientCaseTypeOfLastVisit($patient_id);
@@ -564,5 +565,6 @@ class PatientsDetailFormController extends Controller
         return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
         }        
     }
+
 
 }

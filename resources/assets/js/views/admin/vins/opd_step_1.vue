@@ -573,6 +573,7 @@
                 if(response.data.code==200)
                 {
                     let all_opd_data=response.data.data;
+
                     vm.opdData=all_opd_data.opdData;
                     vm.opdData.signaturePad={};
                     vm.opdData.signaturePad1={};
@@ -814,7 +815,7 @@
              let vm=this;
               //for uhid
                 if(vm.opdData.patientCaseType == 'follow_ups'){
-                    $('#patient').select2('destroy');
+                   $('#patient').select2('destroy');
                    vm.setUpdateData();
                 }
                 User.generatePatientDetailsByID(vm.opdData.patientlist).then(

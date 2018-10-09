@@ -346,6 +346,8 @@ class OPDDetailsFromController extends Controller
             return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
         }
     }
+
 */
+
    
 }
