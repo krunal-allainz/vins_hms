@@ -13,7 +13,7 @@ class UserTypesTableSeeder extends Seeder
     public function run()
     {
         //
-         // DB::table('user_types')->truncate();
+          DB::table('user_types')->truncate();
           DB::table('user_types')->insert([
           ['id' => 1,
           'name' => 'Doctor',

@@ -19,7 +19,7 @@
                                                     <div class="timeline-heading">
                                                         <h4 class="timeline-title">{{data.title}}</h4>
                                                         <p>
-                                                            <small class="text-primary">{{data.Datadate | fromnow}} </small>
+                                                            <small class="text-primary">{{data.Datadate}} </small>
                                                         </p>
                                                     </div>
                                                     <div class="timeline-body">
