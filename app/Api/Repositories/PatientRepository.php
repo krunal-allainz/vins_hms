@@ -21,41 +21,42 @@
         $this->patientDetailObj = new PatientDetailsForm();
     }
 
- 	public function patient_add($request) 	
- 	{ 
- 		    $data = $request->all()['patientData']['patientData'];
+  public function patient_add($request)   
+  { 
+        $data = $request->all()['patientData']['patientData'];
+
         $patientType = $request->all()['patientData']['patientType'];
         $a_time=$data['appointment_datetime']['time'];
         $user_id=$data['consulting_dr'];
         $referance=$data['reference_dr'];
- 		    $uhid="VN";
+        $uhid="VN";
         $year = date('y');
         $insertedPatientId="";
         $sectionId = '';
         $opdInsert = 0;
 
         if($data['case'] == 'new') {
-        	$patientData=new PatientDetailsForm();
+          $patientData=new PatientDetailsForm();
            $opdInsert  = 1;
         }
         else
           {
 
-          	$patientId =$data['patient_id'];
+            $patientId =$data['patient_id'];
              if($data['case_type']  == 'new_consult'){
                 $opdInsert = 1;
             }else{
                $opdData =  $this->getOPDDetailsByPatientId($patientId);
                $opdInsert = 0;
             }
-          	if($patientId!=0 && $patientId!="")
-          	{
-          		$patientData=PatientDetailsForm::findOrFail($patientId);
-          	}
-          	else
-          	{
-          		return ['code' => '300','data'=>'', 'message' => 'Record not found'];
-          	}
+            if($patientId!=0 && $patientId!="")
+            {
+              $patientData=PatientDetailsForm::findOrFail($patientId);
+            }
+            else
+            {
+              return ['code' => '300','data'=>'', 'message' => 'Record not found'];
+            }
         }
         //echo $data['case_type'];exit;
             /*patient details*/
@@ -66,21 +67,22 @@
         }
        
         $patientData->first_name=$data['fname'];
-    		$patientData->middle_name=$data['mname'];
-    		$patientData->last_name=$data['lname'];
+        $patientData->middle_name=$data['mname'];
+        $patientData->last_name=$data['lname'];
         $patientData->dob= $data['dob']['time'];
+
     		$patientData->gender=$data['gender'];
         $patientData->age=$age;
         $patientData->type=$data['type'];
-    		$patientData->address=$data['address'];
-    		$patientData->ph_no=$data['ph_no'];
-    		$patientData->mob_no=$data['mob_no'];
-    		$patientData->references=$data['reference_dr'];
-    		$patientData->consultant_id=$data['consulting_dr'];
-    		$patientData->consultant=$data['consulting_dr'];
-    		$patientData->case_type=$data['case'];
-    		$patientData->appointment_datetime=$data['appointment_datetime']['time'];
-		    /*for patient details end*/
+        $patientData->address=$data['address'];
+        $patientData->ph_no=$data['ph_no'];
+        $patientData->mob_no=$data['mob_no'];
+        $patientData->references=$data['reference_dr'];
+        $patientData->consultant_id=$data['consulting_dr'];
+        $patientData->consultant=$data['consulting_dr'];
+        $patientData->case_type=$data['case'];
+        $patientData->appointment_datetime=$data['appointment_datetime']['time'];
+        /*for patient details end*/
         if($data['case'] == 'new') 
         {
            $patientD =  PatientDetailsForm::orderBy('id', 'desc')->first();
@@ -100,23 +102,23 @@
               $uhid_no=$insertedPatientId;
            }
 
-			     /*for patient details start*/
+           /*for patient details start*/
             $check_uhid_no=$this->checkUHIDUnique($uhid_no);
             if($check_uhid_no>0)
             {
                  return ['code' => '301','data'=>'', 'message' => 'UHID No. already exist.'];
             }
-      			$patientData->uhid_no=$uhid_no;
-      			$patientData->created_at=Carbon::now();
-      		  $patientData->updated_at=Carbon::now();
-      			$patientData->save();
-      			$patientId = $patientData->id;
-      			/*for patient details end*/
+            $patientData->uhid_no=$uhid_no;
+            $patientData->created_at=Carbon::now();
+            $patientData->updated_at=Carbon::now();
+            $patientData->save();
+            $patientId = $patientData->id;
+            /*for patient details end*/
         } else {
-	        /*for patient details start*/
-    			$patientData->updated_at=Carbon::now();
-    			$patientData->save();
-    			/*for patient details end*/
+          /*for patient details start*/
+          $patientData->updated_at=Carbon::now();
+          $patientData->save();
+          /*for patient details end*/
         }
 
         if($patientId) {
@@ -295,7 +297,6 @@
 
               }
 
-              
             	/*to get OPD Id*/
             /* end add case management data */
   
@@ -358,18 +359,18 @@
 
 
         return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
- 	}
+  }
 
-	/**
-	 * [getPatientDetailsById description]
-	 * @param  [type] $id [description]
-	 * @return [type]     [description]
-	 */
-	public function getPatientDetailsById($id)
- 	{
- 		$get_patient_details=PatientDetailsForm::where('id',$id)->first();
- 		return $get_patient_details;
- 	}
+  /**
+   * [getPatientDetailsById description]
+   * @param  [type] $id [description]
+   * @return [type]     [description]
+   */
+  public function getPatientDetailsById($id)
+  {
+    $get_patient_details=PatientDetailsForm::where('id',$id)->first();
+    return $get_patient_details;
+  }
 
 
 
@@ -646,6 +647,7 @@
         }
         if($user_type==3)
         { 
+
             $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case','cross_reference'])->whereIn('token_managment.status',[$status]);
         }
         $reportQuery->with('userDetails');
@@ -1038,6 +1040,16 @@
 
        return $reportQuery;
    }
+
+   public function getPatientCaseTypeOfLastVisit($pid){
+        $result = PatientCaseManagment::join('token_managment', 'patient_case_managment.id', '=', 'token_managment.patient_case_id')->where('patient_case_managment.patient_id',$pid)->where('token_managment.status','examine')->orderBy('patient_case_managment.id','DESC')->first();
+        $caseType="N/A";
+        if($result != null)
+        {
+            $caseType=$result->case_type;
+        }
+        return $caseType;
+  }
 
  }
 ?>

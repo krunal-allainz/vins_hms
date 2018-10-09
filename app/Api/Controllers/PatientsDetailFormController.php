@@ -554,11 +554,15 @@ class PatientsDetailFormController extends Controller
             return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
 
         }
-                                      
-        
-
-        } 
-
-   
+    } 
+    public function getPatientCaseTypeOfLastVisit(Request $request){
+          $patient_id = $request ->patient_id;
+        $patient_case_type = $this->patientOBJ->getPatientCaseTypeOfLastVisit($patient_id);
+        if ($patient_case_type) {
+        return ['code' => '200','data'=>$patient_case_type, 'message' => 'Record Sucessfully created'];
+        } else {
+        return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }        
+    }
 
 }

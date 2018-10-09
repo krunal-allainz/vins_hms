@@ -425,6 +425,11 @@ export default {
   {
       return api.post('receipt/editReceipt',{'formData':formData});
   },
+
+  getPatientCaseTypeOfLastVisit(pid){
+    return api.post('patient/getPatientCaseTypeOfLastVisit',{'patient_id':pid})
+  },
+
   getTimelineData(doctoreId){
       return api.post('dashboard/gettimelinedata',{'id':doctoreId});
   },
@@ -432,6 +437,7 @@ export default {
   {
       return api.post('user/getCrossRefferalUser',{'doctor_id':doctor_id});
   },
+
   getPatientCaseDetailsByPatientId(pid)
   {
        return api.post('case/getPatientCaseDetailsByPatientId',{'pid':pid});
@@ -465,4 +471,5 @@ export default {
   getPatientDetailAndCaseInfo(patientId,caseId){
      return api.post('case/patientDetailAndCaseInfo',{'patientId':patientId,'caseId':caseId});
   },
+
 }
