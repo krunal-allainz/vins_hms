@@ -22,6 +22,7 @@ class PrescriptionDetails extends Model
               'details',
               'other_prescription',
               'remove',
+              'patient_case_management_id',
               
         ];
 
