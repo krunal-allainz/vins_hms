@@ -427,5 +427,8 @@ export default {
   {
       return api.post('receipt/editReceipt',{'formData':formData});
   },
+  getPatientCaseTypeOfLastVisit(pid){
+    return api.post('patient/getPatientCaseTypeOfLastVisit',{'patient_id':pid})
+  }
 
 }
