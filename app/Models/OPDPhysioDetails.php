@@ -12,6 +12,7 @@ class OPDPhysioDetails extends Model
     protected $fillable=[
       'opd_id',
       'user_id',
-      'details'
+      'details',
+      'patient_case_management_id',
     ];
 }

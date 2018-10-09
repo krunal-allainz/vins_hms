@@ -372,7 +372,7 @@
               'isPatientSearch':true,
               'curStep':1,
               'totalStep':4,
-              'opd_id':'',
+              'case_id':'',
               'patient_id':'',
               'patientCase' : {
                 'id': '',
@@ -391,7 +391,7 @@
                 'pain_value':0,
                 'patientlist':'',
                 'patient_option':[],
-                'opd_id':'',
+                'case_id':'',
                 'case_type': '',
                 'uhid_no': '',
                 'name':'',
@@ -564,11 +564,11 @@
           {
               var vm =this;
               vm.patient_id= vm.$store.state.Patient.patientId;
-              vm.opd_id= vm.$store.state.Patient.opdId;
+              vm.case_id= vm.$store.state.Patient.caseId;
               vm.opdData.signaturePad="";
               vm.opdData.signaturePad1="";
             
-              User.getUPdateOPDInfo(vm.patient_id,vm.opd_id).then(
+              User.getUPdateOPDCaseInfo(vm.patient_id,vm.case_id).then(
               (response) => {
                 if(response.data.code==200)
                 {
@@ -790,9 +790,9 @@
               this.initPatientData();
             }
           },
-          getPatientCaseAndTokenDetailByOpdId(opdId){
+          getPatientCaseAndTokenDetailByCaseId(caseID){
             let vm=this;
-            User.getPatientCaseAndTokenDetailByOpdId(opdId).then(
+            User.getPatientCaseAndTokenDetailByCaseId(caseID).then(
                (response) => {
                 if(response.data.code == 200){
                   vm.patientCase.id =response.data.data.caseId;
@@ -827,13 +827,13 @@
                     },
                 );
                 //for opd list
-                User.getOPDDetailsByPatientId(vm.opdData.patientlist).then(
+                User.getPatientCaseDetailsByPatientId(vm.opdData.patientlist).then(
                     (response) => {
-                      let opdID ;
-                      opdID = response.data.data.id;
-                      vm.opd_id=opdID;
-                      vm.opdData.opd_id=opdID;
-                      vm.getPatientCaseAndTokenDetailByOpdId(opdID);
+                      let caseID ;
+                      caseID = response.data.data.id;
+                      vm.case_id=caseID;
+                      vm.opdData.case_id=caseID;
+                      vm.getPatientCaseAndTokenDetailByCaseId(caseID);
                       vm.getPatientLastVisit(vm.opdData.patientlist);
                       vm.getCaseType(vm.opdData.patientlist);
                     },

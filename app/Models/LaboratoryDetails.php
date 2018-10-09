@@ -17,6 +17,7 @@ class LaboratoryDetails extends Model
               'result',
               'assign_dr',
               'remove',
-              'referance'
+              'referance',
+              'patient_case_management_id',
         ];
 }

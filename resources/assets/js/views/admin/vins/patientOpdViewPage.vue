@@ -128,7 +128,7 @@
         data() {
             return {
                 'patientId' : this.$store.state.Patient.patientId,
-                'opdId' :this.$store.state.Patient.opdId, 
+                'caseId' :this.$store.state.Patient.caseId, 
                 'page' :this.$store.state.Patient.setPage,
                 'investigationRadio' : 'investigationRadio',
                 'investigationLab' : 'investigationLab',
@@ -172,30 +172,31 @@
             var vm = this;
             if(vm.page == 'VIEW'){
                  $("div").removeClass("modal-backdrop fade show");
-                vm.getPatientInfo(vm.patientId,vm.opdId);
+                vm.getPatientInfo(vm.patientId,vm.caseId);
             }
          },
          methods: {
 
-             getPatientInfo(patientInfo,opdId)   {
+             getPatientInfo(patientInfo,caseId)   {
                 var vm =this;
-               // let opdId = opdId;
+                
                 vm.patientId = patientInfo;
-                User.getPatientDetailAndOpdInfo(vm.patientId,vm.opdId).then(
+                User.getPatientDetailAndCaseInfo(vm.patientId,vm.caseId).then(
                   (response) => { 
                     if(response.data.code == 200){
                         var vm = this;
-                        User.generatePatientCheckUpDetails(vm.opdId).then(
-  							(response) => {
-	  							if(response.data.code == 200){
-	  							vm.showPatientDetail.patientCheckupDetail = response.data.data;
-	  							}
-	  						},
-	  							   (error) => {
-									    },
-						  	); 
-
+                        User.generatePatientCheckUpDetails(vm.caseId).then(
+            							(response) => {
+          	  							if(response.data.code == 200){
+          	  							vm.showPatientDetail.patientCheckupDetail = response.data.data;
+          	  							}
+          	  						},
+  	  							   (error) => {
+  									    },
+						  	     ); 
+                       
                        vm.showPatientDetail.patientDetail = response.data.data.patientDetail;
+                       
                        vm.showPatientDetail.patientCaseDetail = response.data.data.caseDetail;
                        vm.showPatientDetail.opdprescriptionData =  response.data.data.opdprescriptionData;
                        //vm.showPatientDetail.prescriptionclockDetail = response.data.data.prescriptionclockDetail;

@@ -52,7 +52,7 @@
 		 		<div class="modal-content" >
 		 		<!--<div class="modal-header"></div>-->
 		 		<div class="modal-body">
-			 		<opdReportView :opdId="opdId" patinetId="patinetId" :todayDate="todayDate" :patientCheckupDetail="patientCheckupDetail" :signatureName="signatureName" :doctoreName="doctoreName" :regNo="regNo" :patientDetail="patientDetail" :department="department" :timeStamp="timeStamp" :reference="reference" :ReportPageData="ReportPageData" :printType="printType" :checkedreportList="checkedreportList" :prescriptiData="prescriptiData" :past_history="ReportPageData.past_history"
+			 		<opdReportView :caseId="caseId" patinetId="patinetId" :todayDate="todayDate" :patientCheckupDetail="patientCheckupDetail" :signatureName="signatureName" :doctoreName="doctoreName" :regNo="regNo" :patientDetail="patientDetail" :department="department" :timeStamp="timeStamp" :reference="reference" :ReportPageData="ReportPageData" :printType="printType" :checkedreportList="checkedreportList" :prescriptiData="prescriptiData" :past_history="ReportPageData.past_history"
 		      	:historyData="ReportPageData.historyData"
 		      	:adviceData="ReportPageData.adviceData"></opdReportView>
 			 		</div>
@@ -85,7 +85,7 @@
 			return{
 				'printType' : '',
 				'todayDate' : formattedDate,
-				'opdId' : this.$store.state.Patient.opdId,
+				'caseId' : this.$store.state.Patient.caseId,
 				'patinetId' : this.$store.state.Patient.patientId,
 				'prescriptiData' : {},
 				'opdReport' : false,
@@ -162,7 +162,7 @@
 	      }else{
 				vm.reportListSelect = 1;
 		   }
-       	vm.getOpdData(vm.opdId);
+       	vm.getOpdCaseData(vm.caseId);
        	vm.getPatientData(vm.patinetId);
        },
        methods: {
@@ -271,9 +271,10 @@
                 	}	
                 );
 			},
-       		getOpdData(opdId){
+       		getOpdCaseData(caseId){
        			let vm = this;
-       			User.getPatientOpdData(opdId).then(
+       			
+       			User.getPatientOpdCaseDataReport(caseId).then(
        				(response) => {
 					
        				if(response.data.data.opdOptionDetails){
@@ -329,18 +330,20 @@
 	  				(error) => {
 	  				}
   				);
-  				User.getOPDDetailsByPatientId(patinetId).then(
+  				/*User.getOPDCaseDetailsByPatientId(patinetId).then(
   					(response) => {
 	  					if(response.data.code == 200){
-	  						vm.opdId = response.data.data.id;
-	  						vm.sectionOpdId = response.data.data.opd_id;
-	  						User.generatePatientCheckUpDetails(vm.opdId).then(
+	  						console.log(response.data.data);
+	  						vm.caseId = response.data.data.case_id;
+	  						vm.sectionOpdId = response.data.data.opd_id;*/
+	  						User.generatePatientCheckUpDetails(vm.caseId).then(
   							(response) => {
 	  							if(response.data.code == 200){
 	  							vm.patientCheckupDetail = response.data.data;
 	  							}
-	  							var OpdId = vm.opdId;
-			  				User.getPatientCaseDetailByOpdId(OpdId).then(
+	  							var caseId = vm.caseId;
+	  							
+			  					User.getPatientCaseDetailById(caseId).then(
 			  					(response) => {
 				  					if(response.data.code == 200){
 				  					vm.reference = response.data.data.references;
@@ -381,12 +384,12 @@
 	  							}
 
   							);
-	  					}
+	  					/*}
 	  				},
 	  				(error) => {
 
 	  				}
-  				);
+  				);*/
 			},
 			GetSelectComponent(componentName) {
 		       this.$router.push({name: componentName})

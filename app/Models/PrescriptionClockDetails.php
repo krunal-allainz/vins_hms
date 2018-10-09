@@ -14,6 +14,7 @@ class PrescriptionClockDetails extends Model
               'prescription_id',
               'clock_time',
               'clock_quantity',
+              'patient_case_management_id',
         ];
 
         

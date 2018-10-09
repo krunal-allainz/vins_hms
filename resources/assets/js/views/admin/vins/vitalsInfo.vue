@@ -228,22 +228,22 @@
                'isPatientSearch':true,
                'patient_copy_vitals_enable':false,
             	 'patientData' : {
-            	 	'pain_value':0,
-                	'patient_id':'',
-                    'patient_option':[],
-                    'opd_id':'',
-                	'opd_option':[],
-            	 	'weight':'',
-                	'height': '',
-                	'bmi':'',
-                	'vitals':'',
-                	'pulse':'',
-                	'bp_systolic':'',
-                	'bp_diastolic':'',
-                	'temp':'',
-                	'select_type':'',
-                	'select_value':'',
-                	'uhid_no' : '',
+                  'pain_value':0,
+                  'patient_id':'',
+                  'patient_option':[],
+                  'case_id':'',
+                  'opd_option':[],
+                  'weight':'',
+                  'height': '',
+                  'bmi':'',
+                  'vitals':'',
+                  'pulse':'',
+                  'bp_systolic':'',
+                  'bp_diastolic':'',
+                  'temp':'',
+                  'select_type':'',
+                  'select_value':'',
+                  'uhid_no' : '',
                   'last_vist' : '',
                   'age' : ''
             	 }
@@ -385,11 +385,12 @@
               );
              
              
-              User.getOPDDetailsByPatientId(vm.patientData.patient_id).then(
+              User.getPatientCaseDetailsByPatientId(vm.patientData.patient_id).then(
                 (response) => {
-                    let opdID ;
-                    opdID = response.data.data.id;
-                    vm.patientData.opd_id=opdID;
+                    let caseID ;
+                    
+                    caseID = response.data.data.id;
+                    vm.patientData.case_id=caseID;
                     vm.getPatientLastVisit(vm.patientData.patient_id);
                   },
                   (error) => {

@@ -13,5 +13,6 @@ class RadiologyAttachments extends Model
               'opd_id',
               'radiology_id',
               'image',
+              'patient_case_management_id',
         ];
 }

@@ -20,7 +20,8 @@ class PatientCheckUp extends Model
 	'pulse',
 	'bp',
 	'temp',
-	'pain'
+	'pain',
+	'patient_case_management_id',
   ];
 
     public function patientCheckupDetails()
