@@ -55,7 +55,7 @@ class ReceiptController extends Controller
         $rec_type = $request->rec_type;
     	$receiptData = $this->receiptObj->getReceiptDetailsById($id);
         //print_r($receiptData);exit;
-        $all_amt=$receiptData['charges']+$receiptData['procedures_charges']+$receiptData['other_charges'];
+        $all_amt=$receiptData['charges']+$receiptData['neurological_procedure_charges']+$receiptData['vascular_procedure_charges']+$receiptData['physiotherapy_procedure_charges']+$receiptData['other_charges'];
         $wordAmount = Terbilang::make($all_amt); 
         $consultant_name=$this->userOBJ->getUserNameById($receiptData['consult_id']);  
         $formData = [  

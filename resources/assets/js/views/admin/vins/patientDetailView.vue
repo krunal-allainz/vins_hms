@@ -2,7 +2,7 @@
 	<table width="500">
     <tbody>
         	 <tr v-if="(patientinfo != null)">
-               <td >  <b>Name : </b> <span class="text-uppercase">{{patientinfo.first_name}}    {{patientinfo.middle_name}}  {{patientinfo.last_name}} </span></td>
+               <td >  <b>Name: </b> <span class="text-uppercase">{{patientinfo.first_name}}    {{patientinfo.middle_name}}  {{patientinfo.last_name}} </span></td>
             </tr>
             	 <tr v-if="(patientinfo != null)">
                    <td v-if="(patientinfo.gender != null)">
@@ -24,7 +24,7 @@
                  	<td>
                  	<b>Age :</b> 
                      <span class="text-uppercase" v-if="(patientinfo.age > 1000)">
-							<span class="text-uppercase" v-if="(((currentYear) - (patientinfo.age)) > 0)">{{(currentYear) - (patientDetail.age)}}</span>	
+							<span class="text-uppercase" v-if="(((currentYear) - (patientinfo.age)) > 0)">{{(currentYear) - (patientinfo.age)}}</span>	
 							<span class="text-uppercase" v-if="(((currentYear) - (patientinfo.age)) == 0)"> 1</span>
 						</span>
 						<span v-if="(patientinfo.age  < 1000)">{{patientinfo.age}}</span>

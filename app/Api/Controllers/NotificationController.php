@@ -1,12 +1,17 @@
 <?php
 
-namespace euro_hms\Http\Controllers;
+namespace euro_hms\Api\Controllers;
 
-use euro_hms\notification;
+use euro_hms\Models\Notification;
 use Illuminate\Http\Request;
+use euro_hms\Api\Repositories\NotificationRepository;
 
 class NotificationController extends Controller
 {
+
+    public function __construct(){
+        $this->notificationOBJ = new NotificationRepository();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -41,12 +46,21 @@ class NotificationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \euro_hms\notification  $notification
-     * @return \Illuminate\Http\Response
+     * 
      */
-    public function show(notification $notification)
+    public function show(Request $request)
     {
         //
+        $id = $request->id;
+        $result =  $this->notificationOBJ->getTimelineData($id);
+
+        if($result) {
+             return ['code' => '200','data'=>$result, 'message' => 'Timeline generate successfully'];
+        } else {
+             //return ['code' => '300','patientData'=>'', 'message' => 'Record not found'];
+             return ['code' => '300','data'=>'', 'message' => 'Something went wrong'];
+        }
+
     }
 
     /**

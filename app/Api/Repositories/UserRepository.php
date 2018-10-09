@@ -33,9 +33,10 @@ class UserRepository {
         return User::select('department')->where('first_name', $name)->first();
     }
 
-    public function getUserDetails()
+    public function getUserDetails($noOfPage)
     {
-        $data = User::get();
+
+        $data = User::paginate($noOfPage);
         return $data;
     }
 
@@ -127,6 +128,17 @@ class UserRepository {
         {
             return User::where('user_type',$type)->where('status',$status)->get(); 
         }
+        
+    }
+
+    /**
+     * [get_cross_refferal_user description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+     public function get_cross_refferal_user($id)
+    {
+        return User::where('id','!=',$id)->get();
         
     }
 

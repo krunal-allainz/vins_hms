@@ -71,8 +71,6 @@ class UserController extends BaseController
         // here we check that if userType is
 
 
-
-
         $userData['user']['first_name']=$data['fName'];
         $userData['user']['last_name']=$data['lName'];
         $userData['user']['email']=$data['email'];
@@ -149,9 +147,10 @@ class UserController extends BaseController
     }
 
 
-    public function getUserDetails()
+    public function getUserDetails(Request $request)
     {
-        $userDetails =  $this->userRepoObj->getUserDetails();
+        $noOfPage = $request->noOfPage;
+        $userDetails =  $this->userRepoObj->getUserDetails($noOfPage);
 
         if ($userDetails) {
             return ['code' => '200','data'=>$userDetails, 'message' => 'Record Sucessfully created'];
@@ -185,6 +184,22 @@ class UserController extends BaseController
             return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
         }
         //return 
+    }
+
+    /**
+     * [getCrossRefferalUser description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getCrossRefferalUser(Request $request)
+    {
+        $doctor_id = $request->doctor_id;
+        $user_list=$this->userRepoObj->get_cross_refferal_user($doctor_id);
+        if ($user_list) {
+            return ['code' => '200','data'=>$user_list, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
     }
 
     /**

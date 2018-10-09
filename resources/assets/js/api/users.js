@@ -403,8 +403,8 @@ export default {
   patientCaseStatusChage(patientId,status){
      return api.post('patient/statusupdate',{'patientId':patientId,'status':status})
   },
-  getAllUsersDetails(){
-     return api.post('user/getUserDetails');
+  getAllUsersDetails(pageUrl,noOfPage){
+     return api.post(pageUrl,{'noOfPage' :noOfPage });
   },
   deleteUserById(userId){
      return api.post('user/delete',{'userId' : userId});
@@ -427,8 +427,18 @@ export default {
   {
       return api.post('receipt/editReceipt',{'formData':formData});
   },
+<<<<<<< HEAD
   getPatientCaseTypeOfLastVisit(pid){
     return api.post('patient/getPatientCaseTypeOfLastVisit',{'patient_id':pid})
   }
 
+=======
+  getTimelineData(doctoreId){
+      return api.post('dashboard/gettimelinedata',{'id':doctoreId});
+  },
+  generateCrossRefferalUserList(doctor_id)
+  {
+      return api.post('user/getCrossRefferalUser',{'doctor_id':doctor_id});
+  },
+>>>>>>> dd3975a159191d573d72671936c2e53e164b30b2
 }

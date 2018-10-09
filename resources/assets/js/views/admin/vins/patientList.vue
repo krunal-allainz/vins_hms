@@ -87,8 +87,8 @@
                       <option data-v-744e717e="" value="50">50</option>
                    <!--     <option data-v-744e717e="" value="-1">All</option> -->
                     </select> 
-                     <div data-v-744e717e="" class="datatable-info  pb-2 mt-3">
-                        <span data-v-744e717e="">Showing </span> 1 - {{pagination.to}} of {{pagination.total}}
+                     <div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(pagination.total>0)">
+                        <span data-v-744e717e="">Showing </span> {{pagination.current_page}} - {{pagination.to}} of {{pagination.total}}
                         <span data-v-744e717e="">records</span>
                     </div>
                 </div>
@@ -180,9 +180,9 @@
                 </table>
               </div>
               <div data-v-744e717e="" class="table-footer">
-                <div data-v-744e717e="" class="datatable-length float-left pl-3">
+                <div data-v-744e717e="" class="datatable-length float-left pl-3" v-show="(pagination.total>0)">
                   <span data-v-744e717e="">Rows per page:</span>
-                    <select data-v-744e717e="" class="custom-select" id="perPageNo"  @change="setPerPage" v-model="perPage">
+                    <select data-v-744e717e="" class="custom-select" id="perPagePendingNo"  @change="setPerPage" v-model="perPagePending">
                     <option data-v-744e717e="" value="2">2</option>
                       <option data-v-744e717e="" value="5">5</option>
                       <option data-v-744e717e="" value="10">10</option>
@@ -190,8 +190,107 @@
                       <option data-v-744e717e="" value="50">50</option>
                    <!--     <option data-v-744e717e="" value="-1">All</option> -->
                     </select> 
-                     <div data-v-744e717e="" class="datatable-info  pb-2 mt-3">
-                        <span data-v-744e717e="">Showing </span> 1 - {{pendingPagination.to}} of {{pendingPagination.total}}
+                     <div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(pendingPagination.total>0)">
+                        <span data-v-744e717e="">Showing </span> {{pendingPagination.current_page}}  - {{pendingPagination.to}} of {{pendingPagination.total}}
+                        <span data-v-744e717e="">records</span>
+                    </div>
+                </div>
+               </div>
+            </div>
+            <div v-else>
+              <h6 class="card-header">
+               <div>No records available</div>
+            </h6>
+            </div>
+          </div>
+        </div>
+        <!-- vital patient list -->
+          <div class="card bg-success-card" v-if="user_type == 3">
+            <h4 class="card-header">
+               <div>Vital patient list</div>
+            </h4>
+          <div class="card-body">
+            <div data-v-744e717e="" class="card p-3" v-if="patientDataVital.patient_list.length>0">
+              <div data-v-744e717e="" class="table-header">
+                  <h4 data-v-744e717e="" class="table-title text-center mt-3"></h4>
+              </div>
+
+              <div data-v-744e717e="" class="table-responsive">
+                <table data-v-744e717e="" class="table">
+                  <thead data-v-744e717e="">
+                    <tr data-v-744e717e="">
+                        <th data-v-744e717e="" class="sortable sorting-asc" style="width: 200px;">
+                                First Name 
+                        </th>
+                        <th style="width: auto;">
+                            Last Name
+                             <i data-v-744e717e="" class="fa float-right"></i>
+                         </th>
+                         <th data-v-744e717e="" class="sortable" style="width: auto;">
+                            Gender
+                            <i data-v-744e717e="" class="fa float-right"></i>
+                        </th>
+                        <th data-v-744e717e="" class="sortable" style="width: auto;">
+                            UHID.No
+                            <i data-v-744e717e="" class="fa float-right"></i>
+                        </th>
+                        <th data-v-744e717e="" class="sortable" style="width: auto;">
+                            Token No
+                            <i data-v-744e717e="" class="fa float-right"></i>
+                        </th>
+                        
+                        <th data-v-744e717e="" class="sortable" style="width: auto;" v-if="user_type == 3">
+                            Consultant doctor
+                        </th>
+                        <th data-v-744e717e="" class="sortable" style="width: auto;" v-if="user_type == 1">
+                            Action
+                            <i data-v-744e717e="" class="fa float-right"></i>
+                        </th>
+                    </tr>
+                  </thead>
+                  <tbody data-v-744e717e="">
+                    <tr data-v-744e717e="" v-for="patientData in patientDataVital.patient_list">
+                      <td data-v-744e717e="" class="text-uppercase">
+                       {{ patientData.first_name}}
+                      </td> <!---->
+                      <td data-v-744e717e="" class="text-uppercase">
+                       {{ patientData.last_name}}
+                      </td>
+                      <td data-v-744e717e="" class="numeric text-uppercase">
+                        <span v-if="(patientData.gender == 'F')">Female</span>
+                        <span v-if="(patientData.gender == 'M')">Male</span>
+                      </td> 
+                      <td data-v-744e717e="" class="text-uppercase">
+                        {{ patientData.uhid_no}}
+                      </td>
+                      <td data-v-744e717e="" class="text-uppercase">
+                        {{ patientData.token_id}}
+                      </td>
+                      
+                      <td data-v-744e717e="" class="" v-text="consultantName(patientData.user_details)">
+                       
+                      </td>
+                      <td data-v-744e717e="" class="" v-if="user_type == 1">
+                      <a :href="'/opd_form'"> <i class="fa fa-user-md text-info mr-3 text-info mr-3" @click="setPatientId(patientData.patient_id)" title="opd form"></i></a>
+                      
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div data-v-744e717e="" class="table-footer">
+                <div data-v-744e717e="" class="datatable-length float-left pl-3">
+                  <span data-v-744e717e="">Rows per page:</span>
+                    <select data-v-744e717e="" class="custom-select" id="perPageVitalNo"  @change="setPerPage" v-model="perPageVital">
+                    <option data-v-744e717e="" value="2">2</option>
+                      <option data-v-744e717e="" value="5">5</option>
+                      <option data-v-744e717e="" value="10">10</option>
+                      <option data-v-744e717e="" value="20">20</option>
+                      <option data-v-744e717e="" value="50">50</option>
+                   <!--     <option data-v-744e717e="" value="-1">All</option> -->
+                    </select> 
+                     <div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(vitalPagination.total>0)">
+                        <span data-v-744e717e="">Showing </span> {{vitalPagination.current_page}} - {{vitalPagination.to}} of {{vitalPagination.total}}
                         <span data-v-744e717e="">records</span>
                     </div>
                 </div>
@@ -283,7 +382,7 @@
               <div data-v-744e717e="" class="table-footer">
                 <div data-v-744e717e="" class="datatable-length float-left pl-3">
                   <span data-v-744e717e="">Rows per page:</span>
-                    <select data-v-744e717e="" class="custom-select" id="perPageNo"  @change="setPerPage" v-model="perPage">
+                    <select data-v-744e717e="" class="custom-select" id="perPageExamineNo"  @change="setPerPage" v-model="perPageExamine">
                     <option data-v-744e717e="" value="2">2</option>
                       <option data-v-744e717e="" value="5">5</option>
                       <option data-v-744e717e="" value="10">10</option>
@@ -291,8 +390,8 @@
                       <option data-v-744e717e="" value="50">50</option>
                    <!--     <option data-v-744e717e="" value="-1">All</option> -->
                     </select> 
-                     <div data-v-744e717e="" class="datatable-info  pb-2 mt-3">
-                        <span data-v-744e717e="">Showing </span> 1 - {{examinePagination.to}} of {{examinePagination.total}}
+                     <div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(examinePagination.total>0)">
+                        <span data-v-744e717e="">Showing </span> {{examinePagination.current_page}} - {{examinePagination.to}} of {{examinePagination.total}}
                         <span data-v-744e717e="">records</span>
                     </div>
                 </div>
@@ -385,7 +484,7 @@
               <div data-v-744e717e="" class="table-footer">
                 <div data-v-744e717e="" class="datatable-length float-left pl-3">
                   <span data-v-744e717e="">Rows per page:</span>
-                    <select data-v-744e717e="" class="custom-select" id="perPageNo"  @change="setPerPage" v-model="perPage">
+                    <select data-v-744e717e="" class="custom-select" id="perPageReportNo"  @change="setPerPage" v-model="perPageReport">
                     <option data-v-744e717e="" value="2">2</option>
                       <option data-v-744e717e="" value="5">5</option>
                       <option data-v-744e717e="" value="10">10</option>
@@ -393,8 +492,8 @@
                       <option data-v-744e717e="" value="50">50</option>
                    <!--     <option data-v-744e717e="" value="-1">All</option> -->
                     </select> 
-                     <div data-v-744e717e="" class="datatable-info  pb-2 mt-3">
-                        <span data-v-744e717e="">Showing </span> 1 - {{reportPagination.to}} of {{reportPagination.total}}
+                     <div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(reportPagination.total>0)">
+                        <span data-v-744e717e="">Showing </span> {{reportPagination.current_page}} - {{reportPagination.to}} of {{reportPagination.total}}
                         <span data-v-744e717e="">records</span>
                     </div>
                 </div>
@@ -410,7 +509,6 @@
         <span v-if="open_opd_modal"> 
           <patientOPDInfoTable ref="modal" :patientDataID="pid"></patientOPDInfoTable>
         </span> 
-
 </div>
 </template>
 <script >
@@ -431,6 +529,9 @@
                 'patientDataPending' :{
                     'patient_list' : {}
                 },
+                'patientDataVital' :{
+                    'patient_list' : {}
+                },
                 'patientDataExamine' :{
                     'patient_list' : {}
                 },
@@ -439,9 +540,14 @@
                 },
                 'pagination': {},
                 'pendingPagination': {},
+                'vitalPagination': {},
                 'examinePagination': {},
                 'reportPagination': {},
                 'perPage' : 10,
+                'perPagePending' : 10,
+                'perPageVital' : 10,
+                'perPageExamine' : 10,
+                'perPageReport' : 10,
                 'patientId' :'',
                 'pid':'',
                 'open_opd_modal':false,
@@ -456,6 +562,7 @@
             let vm =this;
             if(vm.user_type == 3){
              vm.getPatientsResult('/patient/getpatientlist','waiting');
+              vm.getPatientsResult('/patient/getpatientlist','vital');
              vm.getPatientsResult('/patient/getpatientlist','pending');
             } 
             if(vm.user_type == 1){
@@ -481,6 +588,7 @@
                        let vm =this;
                          if(vm.user_type == 3){
                             vm.getPatientsResult('/patient/getpatientlist','waiting');
+                            vm.getPatientsResult('/patient/getpatientlist','vital');
                             vm.getPatientsResult('/patient/getpatientlist','pending');
                           } 
                           if(vm.user_type == 1){
@@ -539,6 +647,7 @@
                 setInterval(function() {
                   if(vm.user_type == 3){
                    vm.getPatientsResult('/patient/getpatientlist','waiting');
+                   vm.getPatientsResult('/patient/getpatientlist','vital');
                    vm.getPatientsResult('/patient/getpatientlist','pending');
                   } 
                   if(vm.user_type == 1){
@@ -555,9 +664,27 @@
                 var vm =this;
                  page_url = page_url ;
             let type = this.user_type;
+             if($status == 'vital'){
+                 let noofRecordperpage = this.perPageVital;
+             }
+             if($status == 'waiting'){
+                 let noofRecordperpage = this.perPage;
+             }
+             if($status == 'examine'){
+                 let noofRecordperpage = this.perPageExamine;
+             }
+              if($status == 'reports'){
+                 let noofRecordperpage = this.perPageReport;
+             }
+             if($status == 'pending'){
+                 let noofRecordperpage = this.perPagePending;
+             }
             let noofRecordperpage = this.perPage;
             User.getAllPatientListByDoctoreIdAndPaggination(page_url,type,noofRecordperpage,vm.doctore_Id,$status).then(
                      (response) => {
+                        if($status == 'vital'){
+                          vm.patientDataVital.patient_list = response.data.data.data;
+                        }
                         if($status == 'waiting'){
                           vm.patientData.patient_list = response.data.data.data;
                         }if($status == 'examine'){
@@ -567,7 +694,6 @@
                         }else {
                             vm.patientDataPending.patient_list = response.data.data.data;
                         }
-                         
                           vm.makePagination(response.data.data,$status);
                          },
                         (error) => {
@@ -583,6 +709,11 @@
                     total : data.total,
                     from : data.from,
                     to : data.to
+                }
+                
+                 if(status == 'vital') {
+
+                  this.vitalPagination = pagination;
                 }
                 if(status == 'waiting') {
 
@@ -612,6 +743,7 @@
             let vm =this;
                 if(vm.user_type == 3){
                    vm.getPatientsResult('/patient/getpatientlist','waiting');
+                   vm.getPatientsResult('/patient/getpatientlist','vital');
                    vm.getPatientsResult('/patient/getpatientlist','pending');
                   } 
                   if(vm.user_type == 1){

@@ -1,12 +1,16 @@
 <template>
     <div class="container">
      <div class="row form-group">
-            <div class="col-md-6" style="padding: 0px;">
+            <div class="col-md-6">
               <div class="col-md-6">  
-                <label for="date">Diagnosis:</label>
+                <label for="diagnosis">Diagnosis:</label>
               </div>
               <div class="col-md-12">
-                <input class="form-control" name="diagnosis" id="diagnosis" v-model="diagnosis" />
+                <textarea class="form-control" name="diagnosis" id="diagnosis" v-model="diagnosis" v-validate="'required'"></textarea>
+                <i v-show="errors.has('diagnosis')" class="fa fa-warning"></i>
+                  <span class="help is-danger" v-show="errors.has('diagnosis')">
+                      Please fill diagnosis.
+                  </span>
               </div>
             </div>
         </div>

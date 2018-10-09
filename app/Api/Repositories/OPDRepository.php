@@ -20,6 +20,7 @@
  use euro_hms\Models\OpdDetailsOption;
  use euro_hms\Models\TokenManagment;
  use euro_hms\Models\PrescriptionDrugs;
+ use euro_hms\Models\Notification;
  use Carbon\Carbon;
  use DB;
 
@@ -468,6 +469,32 @@
 			// $caseManagement->status = '1';
 			// $caseManagement->save();
  		}
+ 		$consultId = $patientCaseData['consult_dr'];
+ 		$notifyType = 'new_opd_save';
+ 		$dataText = 'OPD case add';
+ 			 $checkNotifStatus = NotificationRepository::checkRecordStatus($consultId,$notifyType);
+ 			if( $checkNotifStatus){
+
+ 				   $checkNotifStatus->data_id = $consultId;
+                    $checkNotifStatus->data_date = Carbon::now()->format('Y-m-d H:i:s');
+                    $checkNotifStatus->data_text = $dataText;
+                    $checkNotifStatus->status = '1';
+                    $checkNotifStatus->save();
+
+ 		 	}else{
+ 				 $addNotificationData = Notification::create([
+                    'title' => 'OPD Data Add',
+                    'type' => $notifyType,
+                    'data_table' => 'OpdDetails',
+                    'data_id' =>$opd_id_org,
+                    'data_consult_id' => $consultId,
+                    'data_date' => Carbon::now()->format('Y-m-d H:i:s'),
+                    'data_text' => 'Opd data save',
+                    'status' => '1'
+
+                ]);
+ 			}
+
  		if(count($patient_data)>0)
  		{
  			return ['code' => '200','data'=>$patient_data, 'message' => 'Record Sucessfully created'];
@@ -1406,6 +1433,32 @@
  			$patient_data['consult_id']=$opd_details['patientDetails']->consultant_id;
  			$patient_data['department']=$this->objUser->getDepartmentById($opd_details['patientDetails']->consultant_id);
  		}
+
+ 		$consultId =$opd_details['patientDetails']->consultant_id;
+ 		$notifyType = 'new_opd_update';
+ 		$dataText = 'OPD case update';
+ 			 $checkNotifStatus = NotificationRepository::checkRecordStatus($consultId,$notifyType);
+ 			if( $checkNotifStatus){
+
+ 				   $checkNotifStatus->data_consult_id = $consultId;
+                    $checkNotifStatus->data_date = Carbon::now()->format('Y-m-d H:i:s');
+                    $checkNotifStatus->data_text = $dataText;
+                    $checkNotifStatus->status = '1';
+                    $checkNotifStatus->save();
+                    
+ 		 	}else{
+ 				 $addNotificationData = Notification::create([
+                    'title' => 'OPD Data Update',
+                    'type' => $notifyType,
+                    'data_table' => 'OpdDetails',
+                    'data_id' =>$opd_id_org,
+                    'data_consult_id' => $consultId,
+                    'data_date' => Carbon::now()->format('Y-m-d H:i:s'),
+                    'data_text' => 'Opd data Update',
+                    'status' => '1'
+
+                ]);
+ 			}
  		if($crossRefer == true) {
  			dd(Carbon::now());
  			$doctor_rec = $this->objUser->getUserDetaileById($user_id);
@@ -1459,17 +1512,7 @@
       //for prescriptiondata
  		 	$prescript_array=$this->getPrescriptionDataForPrint($opdId);
  			$result['opdprescriptionData']=$prescript_array;
- 		//for prescriptiondata over
-     /* $result['opdprescriptionData'] = PrescriptionDetails::select('prescription_details.id as preId','prescription_details.opd_id as opd_id','prescription_details.prescription_drug_id','prescription_details.total_quantity','prescription_details.total_prescription_days','prescription_details.clock_suggest','prescription_details.qhrs as qhrs','prescription_details.total_qhrs as total_qhrs
-      	','prescription_details.how_many_times','prescription_details.remove','prescription_drugs.id as drugsId','prescription_drugs.name as name','prescription_drugs.type as type','prescription_drugs.doctor as doctor','prescription_drugs.status as status')->join('prescription_drugs','prescription_drugs.id','=','prescription_details.prescription_drug_id')->where('prescription_details.opd_id',$opdId)->where('prescription_details.remove','false')->get();
-      foreach($result['opdprescriptionData'] as $prescription){
-      		$priscriptionClockData = array();
-      		$prescriptionId = $prescription->preId ;
-      		$priscriptionClockData = PrescriptionClockDetails::where('opd_id',$opdId)->where('prescription_id',$prescriptionId)->get();
-      		$prescriptionData[$prescriptionId] = $priscriptionClockData;
-      }
-
-      $result['prescriptionclockDetail'] = $prescriptionData;*/
+ 		//for prescriptiondata over 
       $advice = $result['opdOptionDetails']->advice;
       $history = $result['opdOptionDetails']->history;
       $pastHistory = $result['opdOptionDetails']->past_history;

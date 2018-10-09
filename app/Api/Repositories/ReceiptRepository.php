@@ -124,29 +124,27 @@
 		            //$charges_type_val="emergency_charges_id";
 		           $charges_id=$data_all['emergency_charges_id'];
 		        }
-		        $department=$data_all['department'];
-		        $procedures_val=0;
-		        if($department=='Neurology')
-		        {
-		            $procedures_val=$data_all['neurological_procedures_id'];
-		        }
-		        else if($department=='Vascular')
-		        {
-		            $procedures_val=$data_all['vascular_procedures_id'];
-		        }
-		        else if($department=='Physiotherapy')
-		        {
-		        	$procedures_val=$data_all['physiotherapy_procedures_id'];
-		        }
+		    
+		    $n_charges=0;
+		    $v_charges=0;
+		    $p_charges=0;
+		    if($data_all['neurological_procedure_charges']!='' && $data_all['neurological_procedure_charges']!=0)
+		    {
+		    	$n_charges=$data_all['neurological_procedure_charges'];
+		    }
+		    if($data_all['vascular_procedure_charges']!='' && $data_all['vascular_procedure_charges']!=0)
+		    {
+		    	$v_charges=$data_all['vascular_procedure_charges'];
+		    }
+		    if($data_all['physiotherapy_procedure_charges']!='' && $data_all['physiotherapy_procedure_charges']!=0)
+		    {
+		    	$p_charges=$data_all['physiotherapy_procedure_charges'];
+		    }
+
       		$fullname=$data_all['patientDetails']['first_name'].' '.$data_all['patientDetails']['last_name'];
       		$age="";
       		$age_val="";
-      		// if($data_all['patientDetails']['dob']!=null && $data_all['patientDetails']['dob']!='')
-      		// {
-      		// 	$age=Carbon::parse($data_all['patientDetails']['dob'])->format('Y-m-d');
-      		// 	$age_val=Carbon::parse($age)->diff(Carbon::now())->format('%y Years');
-      		// }
-      		
+      		     		
       		 if($data_all['patientDetails']['age'] > 999){
 	      		 	$age = date("Y") - $data_all['patientDetails']['age'] ;
 	      		 	if($age != 0){
@@ -164,7 +162,7 @@
       		{
       			$gender='Male';
       		}
-      		$data = ['receiptId'=>$data_all['receipt_id'],'receiptNumber'=>$data_all['receipt_number'],'caseNo'=>$data_all['case_no'],'chagredName'=>$data_all['charges_type_id'],'amount'=>$data_all['charges'],'case_type'=>$data_all['case_type'],'charges_type'=>$data_all['charges_type_id'],'charges_type_val'=>$charges_id,'charges'=>$data_all['charges'],'department'=>$data_all['department'],'procedures_val'=>$procedures_val,'procedures_charges'=>$data_all['procedures_charges'],'other_charges_category'=>$data_all['other_charges_id'],'other_charges'=>$data_all['other_charges'],'date_receipt'=>$date_receipt,'consult_id'=>$data_all['patientDetails']['consultant_id'],'fullname'=>$fullname,'gender'=>$gender,'age'=>$age_val];
+      		$data = ['receiptId'=>$data_all['receipt_id'],'receiptNumber'=>$data_all['receipt_number'],'caseNo'=>$data_all['case_no'],'chagredName'=>$data_all['charges_type_id'],'amount'=>$data_all['charges'],'case_type'=>$data_all['case_type'],'charges_type'=>$data_all['charges_type_id'],'charges_type_val'=>$charges_id,'charges'=>$data_all['charges'],'department'=>$data_all['department'],'neurological_procedures_id'=>$data_all['neurological_procedures_id'],'vascular_procedures_id'=>$data_all['vascular_procedures_id'],'physiotherapy_procedures_id'=>$data_all['physiotherapy_procedures_id'],'neurological_procedure_charges'=>$n_charges,'vascular_procedure_charges'=>$v_charges,'physiotherapy_procedure_charges'=>$p_charges,'other_charges_category'=>$data_all['other_charges_id'],'other_charges'=>$data_all['other_charges'],'date_receipt'=>$date_receipt,'consult_id'=>$data_all['patientDetails']['consultant_id'],'fullname'=>$fullname,'gender'=>$gender,'age'=>$age_val];
       		 return $data;	
       }
 

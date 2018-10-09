@@ -25,9 +25,10 @@
     			<div class="modal-body">
 					<div id="demo">
 					<label><b>Select Report:</b></label>
-					<ul>		
+					<ul>
+						<li><input type="checkbox" id="ckbCheckAll"  @click="checkAll(this)"/><b> Select All</b></li>		
 						<li v-for="mainCat in reportList">
-							<input type="checkbox" :value="mainCat.reportListId" id="mainCat.reportListId" v-model="checkedreportList" @click="check($event)"> {{mainCat.reportListId}}
+							<input type="checkbox" class="checkBoxClass" :value="mainCat.reportListId" id="mainCat.reportListId" v-model="checkedreportList" @click="check($event)"> {{mainCat.reportListId}}
 						</li>
 					</ul>
 					<span class="help is-danger" v-if="(checkedreportList.length == 0)">
@@ -41,7 +42,7 @@
 				 <button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button>
 					<!-- <button ty pe="button" lass="btn btn-primary btn-submit text-right" >Print</button> -->
 
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-default close_btn" @click="close_modal()">Close</button>
 					</div>
 				</div>
 			</div>
@@ -165,6 +166,13 @@
        	vm.getPatientData(vm.patinetId);
        },
        methods: {
+       		close_modal()
+       		{
+       			let vm=this;
+       			vm.checkedreportList=[];
+				vm.reportListSelect = 0;
+				$('#generateModal').modal('hide');
+       		},
        		print_multiple_report()
 			{
 				let vm=this;
@@ -175,6 +183,27 @@
 					return false;
 				}
 				this.ClickHereToPrintMultiple('opd_case');
+			},
+			checkAll(test)
+			{	
+				let vm=this;
+				if($('#ckbCheckAll').is(':checked'))
+				{
+					vm.reportListSelect = 1;
+					var check_list_data=[];
+					_.forEach(vm.reportList,function(value){
+						check_list_data.push(value.reportListId);
+					});
+					vm.checkedreportList=check_list_data;
+					$(".checkBoxClass").prop('checked', true);
+				}
+				else
+				{
+					vm.checkedreportList=[];
+					vm.reportListSelect = 0;
+					$(".checkBoxClass").prop('checked', false);
+				}
+				
 			},
        	 	check: function(e) {
 			 	let vm=this;
@@ -287,6 +316,7 @@
        				}
        			);
        		},
+
        		getPatientData(patinetId)
 			{
 				var vm=this;
