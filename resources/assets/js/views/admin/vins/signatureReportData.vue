@@ -1,7 +1,8 @@
 <template>
 	<div>
 		<div class='text-right'>
-		 	<img  :src="'/assets/img/signature/'+signatureName+'.png'" height="66" width="182"/>
+		 <!-- 	<img  :src="'/assets/img/signature/'+signatureName+'.png'" height="66" width="182"/> -->
+		 	<img  :src="signatureName.signature" height="66" width="182"/>
 		 </div>	
 		<div class='text-right'>
 		 	<!-- <img  :src="'/assets/img/timestamp/'+timeStamp+'.png'" height="66" width="182"/> -->

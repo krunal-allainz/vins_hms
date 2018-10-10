@@ -52,12 +52,16 @@ class UserRepository {
         'address' => $data['address'],
         'password' => $data['password'],
         'mobile_no'=>$data['mobile_no'],
+        'dagree' => $data['dagree'],
+        'regno' => $data['regNo'],
+        'signature_path' => $data['signaturefile'],
         'token' => $data['token'],
         'status'=>'Active',
         'is_verified' => 1,
         'is_active' =>  1,
         //'user_image'=>(isset($data['user_image']) && $data['user_image']!='') ?  $data['user_image'] : ''
         ];
+
         $user = User::create($userData);
         $user->attachRole(1);
         return ['status'=>'created','user'=>$user];
@@ -168,8 +172,8 @@ class UserRepository {
      * 
      */
     public function getUserNameByIdForSignature($id) {
-        $record=User::where('id', $id)->first();
-        return strtolower($record->first_name.'_'.$record->last_name);
+        $record=User::select('signature_path as signature')->where('id', $id)->first();
+        return $record;
     }
 
     /**
@@ -214,22 +218,31 @@ class UserRepository {
     public function editUserById($userData,$userId){
        $newPwd = '';
        $dept = Null;
+       $dagree = null;
+       $regNo = null;
+       $signature_path = null;
+
        $fname = $userData['fName'];
        $lname = $userData['lName'];
        $mno = $userData['mobileNo'];  
        $address =  $userData['address'];
        $userType =  $userData['userType'];
+
+
        if($userType == 1){
          $dept =  $userData['department'];
+         $dagree =   $userData['dagree'];
+         $regNo =   $userData['regNo'];
+         $signature_path =  $userData['signaturefile'];
        }
 
        if($userData['password'] != ''){
           $password = Hash::make($userData['password']);
-            $result = User::where('id',$userId)->update(array('first_name' => $fname, 'last_name' => $lname , 'mobile_no' => $mno , 'address' => $address ,'user_type' => $userType,'password' => $password, 'department' => $dept));
+            $result = User::where('id',$userId)->update(array('first_name' => $fname, 'last_name' => $lname , 'mobile_no' => $mno , 'address' => $address ,'user_type' => $userType,'password' => $password, 'department' => $dept,'dagree' =>  $dagree,'RegNo' => $regNo , 'signature_path' => $signature_path));
        }
         else{
 
-          $result = User::where('id',$userId)->update(array('first_name' => $fname, 'last_name' => $lname , 'mobile_no' => $mno , 'address' => $address ,'user_type' => $userType, 'department' => $dept));
+          $result = User::where('id',$userId)->update(array('first_name' => $fname, 'last_name' => $lname , 'mobile_no' => $mno , 'address' => $address ,'user_type' => $userType, 'department' => $dept,'dagree' =>  $dagree,'RegNo' => $regNo , 'signature_path' => $signature_path));
        }
 
       

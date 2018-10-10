@@ -7,7 +7,7 @@
 				</div>
 			</div>
 		</div>
-		<form method="post"> 
+		<form method="post" enctype="multipart/form-data"> 
             <div class="row">
                 <div class="col-md-12">
                         <div class="card-body">
@@ -54,6 +54,41 @@
                                         </select> 
                                         <i v-show="errors.has('department')" class="fa fa-warning"></i>
                                         <span class="help is-danger" v-show="errors.has('department')">Please select Department.</span>
+                                    </div>
+                                </div>
+                                 <div class="row form-group" v-if="userData.userType == 1">
+                                    <div class="col-md-3">
+                                    <label for="dagree" class="control-label float-right txt_media1">Dagree:</label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="dagree" name="dagree" v-validate="'required'" placeholder="Dagree" v-model="userData.dagree">
+                                        <i v-show="errors.has('dagree')" class="fa fa-warning"></i>
+                                        <span class="help is-danger" v-show="errors.has('dagree')">Please enter valid dagree.</span>
+                                    </div>
+                                </div>
+                                <div class="row form-group" v-if="userData.userType == 1">
+                                    <div class="col-md-3">
+                                    <label for="ragNo" class="control-label float-right txt_media1">Reg no:</label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="regNo" name="regNo" v-validate="'required'" placeholder="RegNo" v-model="userData.regNo">
+                                        <i v-show="errors.has('regNo')" class="fa fa-warning"></i>
+                                        <span class="help is-danger" v-show="errors.has('regNo')">Please enter valid Register No.</span>
+                                    </div>
+                                </div>
+                                <div class="row form-group" v-if="userData.userType == 1">
+                                    <div class="col-md-3">
+                                     <label for="signature" class="control-label float-right txt_media1">Signature :</label>
+                                    </div>
+                                    <div class="col-md-9"  v-if="!userData.signaturefile">
+                                       
+                                    <input id="signature" name="signature" type="file" multiple class="btn btn-info  "  @change="previewFile" accept="image/*" > 
+                                        <i v-show="errors.has('signature')" class="fa fa-warning"></i>
+                                        <span class="help is-danger" v-show="errors.has('signature')">Please enter valid Signature.</span>
+                                    </div>
+                                    <div v-else>
+                                          <img :src="userData.signaturefile" />
+                                            <i class="fa fa-trash" @click="removeImage">Remove image</i>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -161,7 +196,10 @@
                                               {text:'Ortho'},
                                               {text:'Others'}
                                             ],
-                                'department':''
+                                'department':'',
+                                'dagree':'',
+                                'regNo':'',
+                                'signaturefile' : {},
                            // 	'userIamge': ''
                     },
                     'userEmailExist' : '',
@@ -212,6 +250,33 @@
 
         },
         methods: {
+            previewFile(e){
+                 let vm =this;
+                var imgData = [];
+                var files = e.target.files || e.dataTransfer.files;
+                    if (files.length > 0)
+                    { 
+                          this.createImage(files[0]);
+                    }else{
+
+                    return;
+                    }
+                    
+            },
+            createImage(file) {
+
+                  var image = new Image();
+                  var reader = new FileReader();
+                  var vm = this;
+
+                  reader.onload = (e) => {
+                    vm.userData.signaturefile = e.target.result;
+                  };
+                  reader.readAsDataURL(file);
+            },
+             removeImage: function (e) {
+                 this.userData.signaturefile = '';
+             },
              initialState() {
                 this.$data.userData.fName = '',
                 this.$data.userData.lName =  '',
@@ -221,7 +286,10 @@
                 this.$data.userData.mobileNo ='',
                 this.$data.userData.address ='',
                 this.$data.userData.department ='',
-                this.$data.userData.userType =''    
+                this.$data.userData.userType ='',
+                this.$data.userData.dagree =''    
+                this.$data.userData.regNo =''    
+                this.$data.userData.signature =''        
             },
             checkExistUser(type){ 
                 let vm = this;
