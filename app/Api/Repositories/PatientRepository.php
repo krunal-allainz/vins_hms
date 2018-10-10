@@ -651,8 +651,7 @@
         }
         if($user_type==3)
         { 
-
-            $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case','cross_reference'])->whereIn('token_managment.status',[$status]);
+            $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case','cross_reference'])->where('token_managment.status',$status);
         }
         $reportQuery->with('userDetails');
         if($status!='reports')
@@ -1046,7 +1045,9 @@
    }
 
    public function getPatientCaseTypeOfLastVisit($pid){
-        $result = PatientCaseManagment::join('token_managment', 'patient_case_managment.id', '=', 'token_managment.patient_case_id')->where('patient_case_managment.patient_id',$pid)->where('token_managment.status','examine')->orderBy('patient_case_managment.id','DESC')->first();
+
+        $result = PatientCaseManagment::join('token_managment', 'patient_case_managment.id', '=', 'token_managment.patient_case_id')->where('patient_case_managment.patient_id',$pid)->where('token_managment.status','waiting')->orderBy('patient_case_managment.id','DESC')->first();
+
         $caseType="N/A";
         if($result != null)
         {

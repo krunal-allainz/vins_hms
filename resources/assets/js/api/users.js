@@ -437,7 +437,9 @@ export default {
   {
       return api.post('user/getCrossRefferalUser',{'doctor_id':doctor_id});
   },
-
+  getPatientCaseTypeOfLastVisit(pid){
+    return api.post('patient/getPatientCaseTypeOfLastVisit',{'patient_id':pid})
+  },
   getPatientCaseDetailsByPatientId(pid)
   {
        return api.post('case/getPatientCaseDetailsByPatientId',{'pid':pid});
@@ -471,5 +473,4 @@ export default {
   getPatientDetailAndCaseInfo(patientId,caseId){
      return api.post('case/patientDetailAndCaseInfo',{'patientId':patientId,'caseId':caseId});
   },
-
 }
