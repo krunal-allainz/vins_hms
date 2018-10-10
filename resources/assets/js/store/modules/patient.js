@@ -30,7 +30,7 @@ const state = {
     'setErrorData':{'error':false,'steps':''},
     'opdSubmit':false,
     'setPage':'ADD',
-    'otherPId':0
+    'otherPId':0,
  }
 
  // getters

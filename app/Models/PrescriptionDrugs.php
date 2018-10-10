@@ -13,6 +13,7 @@ class PrescriptionDrugs extends Model
               'name',
               'doctor',
               'type',
+              'remove',
               'status',
         ];
 }

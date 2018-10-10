@@ -109,7 +109,8 @@ import patientDetailEdit from './views/admin/vins/patientDetailEditForm.vue'
 import allPatientList from './views/admin/vins/allPatientList.vue'
 import patientOpdViewPage from './views/admin/vins/patientOpdViewPage.vue'
 import userDetailEdit from './views/admin/vins/userDetailEdit.vue'
-
+import prescriptionList from './views/admin/vins/prescriptionList.vue'
+import prescriptionAdd from './views/admin/vins/prescriptionAdd.vue'
 
 //for opd recipt list
 import opdreceiptlist from './views/admin/vins/opd_receipt_list.vue'
@@ -185,6 +186,18 @@ const routes = [
                 component: allPatientList,
                 meta: { requiresAuth: true },
                 name: 'all_patient_list'
+            },
+            {
+                path: 'prescription_list',
+                component: prescriptionList,
+                meta: { requiresAuth: true },
+                name: 'prescription_list'
+            },
+            {
+                path: 'prescription_add',
+                component: prescriptionAdd,
+                meta: { requiresAuth: true },
+                name: 'prescription_add'
             },
             {
                 path: '/opd_form',
