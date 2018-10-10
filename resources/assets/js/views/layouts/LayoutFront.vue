@@ -76,7 +76,7 @@ export default {
               return '/';
             } 
             else if(this.userType == '2') {
-              return '/vitalsinfo';
+              return '/nurse_dashbord';
             }
             else if(this.userType == '3') {
               return '/receptionist_dashboard';

@@ -127,6 +127,9 @@ import opdreport from './views/admin/vins/opdReportPage.vue'
 // Receptionist Dashboard
 import DashboardReceptionist from './views/admin/vins/dashboard_receptionist.vue'
 
+//nurse dashbord
+import DashboardNurse from './views/admin/vins/dashbord_nurse.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -164,6 +167,12 @@ const routes = [
                 component: DashboardReceptionist,
                 meta: { requiresAuth: true },
                 name: 'receptionist_dashboard'
+            },
+            {
+                path: '/nurse_dashbord',
+                component: DashboardNurse,
+                meta: { requiresAuth: true },
+                name: 'nurse_dashbord'
             },
             {
                 path: 'admindashboard',

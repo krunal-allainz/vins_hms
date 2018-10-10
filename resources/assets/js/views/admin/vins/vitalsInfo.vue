@@ -14,7 +14,7 @@
               			<label for="patient">Select Patient:</label>
             		</div>
            			<div class="col-md-6">
-           				<select  class="form-control ls-select2" id = "patient" name="patient" value="" > 
+           				<select  class="form-control ls-select2" id = "patient" name="patient" v-model="patientData.patient_id"> 
            					 <option value="">Select</option>
                    				<option :value="pat.id" v-for="pat in patientData.patient_option">{{pat.name}}</option>
                 		</select> 
@@ -262,6 +262,7 @@
 		            placeholder: "Select",
 		            tags:false 
 		          });
+               vm.initData();
                vm.getResults();
               vm.newPatient(); 
              
@@ -275,7 +276,6 @@
 	        $(document).on("select2:select",'#patient', function (e) {
               let patientId = $(this).val();
               vm.patientData.patient_id=patientId;
-             
               vm.patientEmpty();
               vm.enable_vitals();
                vm.getAgeOfPatient(patientId);
@@ -302,6 +302,22 @@
             this.$root.$on('patientEmpty',this.patientEmpty);
         },
        methods: {
+        initData()
+        {
+            let vm=this;
+            let pId=vm.$store.state.Patient.patientId;
+            if(vm.$store.state.Patient.setPage=='VITALS')
+            {
+                if(pId)
+                {
+                    vm.patientData.patient_id=pId;
+                    vm.patientEmpty();
+                    vm.enable_vitals();
+                    vm.getAgeOfPatient(pId);
+                }
+            }
+            
+        },
         getAgeOfPatient(patientId){
            var vm =this;
            var getpatientId = patientId;
@@ -311,7 +327,7 @@
                
                var patientAge = '';
                if(response.data.data.age > 999){
-                 patientAge = currentYear - patientAge ; 
+                 patientAge = vm.currentYear - patientAge ; 
                  if(patientAge == 0){
                    vm.patientData.age =  1  
                  }else
@@ -555,33 +571,32 @@
 	            		if (!this.errors.any()) { 
 	            		 $("body .js-loader").removeClass('d-none');
 	            		 var pData = {'patientData':this.patientData,'userId':this.user_id};
-					    	User.savePatientCheckup(pData).then(
-					    		  (response) => {
-			                 	if(response.data.code == 200) {
-			                 		toastr.success('Patient checkup detail have been saved', 'patient checkup', {timeOut: 5000});
-
-			                 	}else if(response.data.code == 300) {
-			                		toastr.error('Record not found.Please enter valid search value.', 'Error', {timeOut: 5000});
-			                	} else{
-			                		
-			                	 toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
-			                	 }	
-                          setTimeout(function(){
-                            $("body .js-loader").addClass('d-none');
-                            window.location.reload(); 
-                          },1500)
-	       			    			},
-		                	  (error) => {
+					    	    User.savePatientCheckup(pData).then(
+  					    		  (response) => {
                           $("body .js-loader").addClass('d-none');
-		               		  }
-			               )
-			    	}
-			    },
+  			                 	if(response.data.code == 200) {
+                            vm.$store.dispatch('SetPage', ''); 
+  			                 		toastr.success('Patient vital details have been saved', 'Vitals', {timeOut: 5000});
+                            vm.$router.push({'name':'nurse_dashbord'});
+
+  			                 	}else if(response.data.code == 300) {
+  			                		 toastr.error('Record not found.Please enter valid search value.', 'Error', {timeOut: 5000});
+  			                	} else{
+  			                	    toastr.error('Something goes wrong', 'Error', {timeOut: 5000});
+  			                	 }	
+                           
+  	       			    			},
+  		                	  (error) => {
+                            $("body .js-loader").addClass('d-none');
+  		               		  }
+  			               )
+  			    	      }
+  			         },
                 (error) => {
                 	
                 }
                 )
-			}
+			   }
 		  },
     }
 </script>
