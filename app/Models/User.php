@@ -44,6 +44,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
         'department',
         'dagree',
         'regno',
+        'signature_path',
         'status'
     ];
 

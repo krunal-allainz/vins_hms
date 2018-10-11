@@ -78,11 +78,12 @@ class UserController extends BaseController
         $userData['user']['mobile_no']=$data['mobileNo'];
         $userData['user']['user_type']=$data['userType'];
         $userData['user']['department']=$data['department'];
+        $userData['user']['dagree']=$data['dagree'];
+        $userData['user']['regNo']=$data['regNo'];
+        $userData['user']['signaturefile']=$data['signaturefile'];
         $userData['user']['status']='Active';
         // We cant Allow untikl its set password
         $userData['user']['password']=$userPassword;
-
-
         $userData['user']['token'] = $token;
         \Log::info($userData);
         \Log::info('Insert in UserTable');
@@ -92,6 +93,7 @@ class UserController extends BaseController
             return ['status_code' => '301', 'message' => 'User Already exist.'];
 
         }
+          
         $userRes=$this->userRepoObj->create($userData['user']);
        \Log::info('deleted user');
         if($userRes['status'] == false )
