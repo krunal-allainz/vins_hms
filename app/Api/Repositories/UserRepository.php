@@ -173,7 +173,7 @@ class UserRepository {
      */
     public function getUserNameByIdForSignature($id) {
         $record=User::select('signature_path as signature')->where('id', $id)->first();
-        return $record;
+        return json_encode($record->signature);
     }
 
     /**
