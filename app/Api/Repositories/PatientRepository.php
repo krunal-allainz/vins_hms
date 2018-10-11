@@ -643,7 +643,11 @@
 
         if($user_type==2)
         {
-            $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case','cross_reference'])->where('token_managment.status','waiting');
+            if($status=='waiting')
+            {
+              $reportQuery->whereIn('patient_case_managment.case_type',['follow_ups','new_consult','new_case'])->where('token_managment.status','waiting');
+            }
+            
         }
         if($user_type==3)
         { 

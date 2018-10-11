@@ -48,7 +48,7 @@
 		
 		<div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Examination')" >
 				<examinationReportData :examData="ReportPageData.examinationData" :checkedreportList="checkedreportList" :printType="printType"></examinationReportData>
-		</div> -->
+		</div> 
 
 		<div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Examination')" >
 				<examinationReportData :examData="ReportPageData.examinationData" :checkedreportList="checkedreportList" :printType="printType"></examinationReportData>

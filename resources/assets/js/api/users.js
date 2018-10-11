@@ -473,4 +473,19 @@ export default {
   getPatientDetailAndCaseInfo(patientId,caseId){
      return api.post('case/patientDetailAndCaseInfo',{'patientId':patientId,'caseId':caseId});
   },
+  getPrescriptionList(page_url,userType,noofRecord,userId){
+     return api.post(page_url,{'userType':userType,'noofRecord':noofRecord,'userId':userId});
+  },
+ createPrescription(prescriptionData) {
+      return api.post('prescription/create',{'prescriptionData':prescriptionData})
+  },
+  getPrescriptionDetailsById(id) {
+      return api.post('prescription/getPrescriptionDetailsById',{'id':id})
+  },
+  editPrescription(prescriptionData) {
+      return api.post('prescription/edit',{'prescriptionData':prescriptionData})
+  },
+  deletePrescription(id) {
+      return api.post('prescription/delete',{'id':id})
+  },
 }
