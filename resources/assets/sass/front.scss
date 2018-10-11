@@ -226,7 +226,7 @@ body > #app .header {
 .logout-text, logout-text:visited, logout-text:focus{
     padding-right: 15px;
     color: white !important;
-    width: 200px;
+    /*width: 200px;*/
     margin-top: -25px;
     padding-bottom: 5px;
     position: relative;
@@ -621,9 +621,13 @@ input.number-with-validation:invalid {
 .profile-text{
     padding-right:15px;
     color:white !important;
-    width:135px;
     margin-top:-25px;
     padding-bottom:5px;
     position:relative;
     float:right;
+}
+.action-list-head{
+     position:relative;
+    float:right;
+    width:230px;
 }
