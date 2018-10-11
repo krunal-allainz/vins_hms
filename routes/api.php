@@ -325,6 +325,27 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
          //for prescription delete
         $api->post('prescription/delete', '\euro_hms\Api\Controllers\PrescriptionDrugController@deletePrescription');
 
+         //for importing prescription
+        $api->post('prescription/importPrescriptionFile', '\euro_hms\Api\Controllers\PrescriptionDrugController@importPrescriptionFile');
+
+          //for getting laboratory List
+        $api->post('laboratory/getLaboratoryList', '\euro_hms\Api\Controllers\LaboratoryController@getLaboratoryList');
+
+         //for laboratory add
+        $api->post('laboratory/create', '\euro_hms\Api\Controllers\LaboratoryController@createLaboratory');
+
+        //for laboratory details by id
+        $api->post('laboratory/getLaboratoryDetailsById', '\euro_hms\Api\Controllers\LaboratoryController@getLaboratoryDetailsById');
+
+         //for laboratory edit
+        $api->post('laboratory/edit', '\euro_hms\Api\Controllers\LaboratoryController@editLaboratory');
+
+         //for laboratory delete
+        $api->post('laboratory/delete', '\euro_hms\Api\Controllers\LaboratoryController@deleteLaboratory');
+
+         //for importing laboratory
+        $api->post('laboratory/importLaboratoryFile', '\euro_hms\Api\Controllers\LaboratoryController@importLaboratoryFile');
+
 });
 
 

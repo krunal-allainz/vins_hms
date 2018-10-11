@@ -213,4 +213,24 @@ class PrescriptionDrugController extends Controller
             return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
         }
     }
+
+    /**
+     * [importPrescriptionFile description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function importPrescriptionFile(Request $request)
+    {
+        $import_file=$this->prescObj->importPrescriptionFile($request);
+        if($import_file)
+        {
+            return back()->with('success', 'Thanks for registering!');
+            //return ['code' => 200 ,'data'=>$import_file,'message'=>'Prescription successfully edited.'];
+        }
+        else
+        {
+            return back()->with('error', 'Thanks for registering!');
+            //return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
+        }
+    }
 }

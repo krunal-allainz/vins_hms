@@ -8,6 +8,7 @@ import * as types from './mutation-types'
 import Patient from './modules/patient'
 import Users from './modules/users'
 import Prescription from './modules/prescription'
+import Laboratory from './modules/laboratory'
 
 import createPersistedState from 'vuex-persistedstate'
 // import VuexPersist from 'vuex-persist';
@@ -43,6 +44,7 @@ export default new Vuex.Store({
     Patient,
     Users,
     Prescription,
+    Laboratory,
     // Pitch,
     // Users
   },

@@ -34,6 +34,9 @@
                         </vmenu-item>
                         <vmenu-item link="/prescription_list" icon="ti-layout">
                             &nbsp; Prescriptions
+                        </vmenu-item>
+                         <vmenu-item link="/laboratory_list" icon="ti-layout">
+                            &nbsp; Laboratory
                         </vmenu-item> 
                     </vmenu> 
                 </div>

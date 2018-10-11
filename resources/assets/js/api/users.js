@@ -488,4 +488,20 @@ export default {
   deletePrescription(id) {
       return api.post('prescription/delete',{'id':id})
   },
+  getLaboratoryList(page_url,userType,noofRecord,userId){
+     return api.post(page_url,{'userType':userType,'noofRecord':noofRecord,'userId':userId});
+  },
+ createLaboratory(laboratoryData) {
+      return api.post('laboratory/create',{'laboratoryData':laboratoryData})
+  },
+  getLaboratoryDetailsById(id) {
+      return api.post('laboratory/getLaboratoryDetailsById',{'id':id})
+  },
+  editLaboratory(laboratoryData) {
+      return api.post('laboratory/edit',{'laboratoryData':laboratoryData})
+  },
+  deleteLaboratory(id) {
+      return api.post('laboratory/delete',{'id':id})
+  },
+  
 }
