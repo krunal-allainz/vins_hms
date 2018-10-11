@@ -12,6 +12,8 @@
                     <H1 class="text-white bg-dark text-center mt-50">  PATIENT MANAGEMENT DASHBOARD</H1>
                   <!-- Sidebar toggle button -->
               </nav>
+                <a :href="'/user/edit/'+user_id" class="profile-text">
+                  <i class="fa fa-user"></i>Profile</a>
                 <a href="#" class="logout-text text-right" @click.prevent="logout()"><i class="fa fa-sign-out"></i>Logout</a>
 
                 <ul class="action-list">
@@ -48,11 +50,13 @@ import left_side from './left-side/default/left-side';
 export default {
         components : {
              SiteFooter,
-             left_side
+             left_side,
+
         },
         data(){
           return {
             // 'userType': '',
+            'user_id' : this.$store.state.Users.userDetails.id,
           }
         },
         created: function() {

@@ -17,7 +17,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <input type="text" class="form-control" id="firstName"
-                                               placeholder="First Name" v-validate="'required|alpha'" v-model="userData.fName" name="firstName">
+                                               placeholder="First Name" v-validate="'required|alpha_spaces'" v-model="userData.fName" name="firstName">
                                         <i v-show="errors.has('firstName')" class="fa fa-warning"></i>
                                         <span class="help is-danger" v-show="errors.has('firstName')">Please enter valid first name.</span>
                                     </div>
@@ -27,7 +27,7 @@
                                     <label for="lastName" class="control-label float-right txt_media1">Last Name :</label>
                                     </div>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" id="lastName" name="lastName" v-validate="'required|alpha'" placeholder="Last Name" v-model="userData.lName">
+                                        <input type="text" class="form-control" id="lastName" name="lastName" v-validate="'required|alpha_spaces'" placeholder="Last Name" v-model="userData.lName">
                                         <i v-show="errors.has('lastName')" class="fa fa-warning"></i>
                                         <span class="help is-danger" v-show="errors.has('lastName')">Please enter valid last name.</span>
                                     </div>
@@ -122,7 +122,7 @@
                                         </textarea>
                                     </div>
                                 </div>
-                                 <div class="row form-group">
+                                 <div class="row form-group" v-if="(user_type != 4)">
                                     <div class="col-md-3">
                                     <label for="password" class="control-label float-right txt_media1">Password :</label>
                                     </div>
@@ -132,7 +132,7 @@
                                          <span class="help is-danger" v-show="errors.has('password')">Please enter valid password.</span> -->
                                     </div>
                                 </div>
-                                <div class="row form-group">
+                                <div class="row form-group" v-if="(user_type != 4)">
                                     <div class="col-md-3">
                                     <label for="confirmPassword" class="control-label float-right txt_media1">Confirm Password :</label>
                                     </div>
@@ -178,6 +178,8 @@
     export default {
         data() {
             return {
+                    'login_user_id' :this.$store.state.Users.userDetails.id,
+                    'user_type' :this.$store.state.Users.userDetails.user_type,
             		'edituserId' : this.$route.params.id,
                     'userData' : {
                             	'fName':'',
@@ -210,6 +212,12 @@
         mounted() {
             var vm = this;
             let user_type = [] ;
+             if(vm.$store.state.Users.userDetails.user_type != '4'){
+                if(vm.edituserId != vm.login_user_id)
+                {
+                    vm.$root.$emit('logout','You are not authorise to access this page'); 
+                }
+             }
             //setTimeout(function(){
                 $('.ls-select2').select2({
                     placeholder: "Select"
