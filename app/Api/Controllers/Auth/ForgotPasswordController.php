@@ -93,17 +93,17 @@ class ForgotPasswordController extends Controller
                     'SUBJECT' => 'Reset Password Link',    
                     'WITH-ATTECHMENT'  => 'no' 
                 ];
-              //   MailNotification::mailSendDetail($type,$emailData);
+                MailNotification::mailSendDetail($type,$emailData);
 
 
                  
 
            //  if($userObj->is_mobile_user == 1) {
-           // //   $email_templates = 'emails.users.mobile_create';
-           //    $email_msg = 'Euro-Sportring email verification';
+         //    $email_templates = 'emails.email_template';
+          //    $email_msg = 'Euro-Sportring email verification';
            //    $email_details['is_mobile_user'] = 1;
            //  }
-            // Common::sendMail($email_details, $recipient, $email_msg, $email_templates);
+            // Common::sendMail($emailData, $reseEmail, $email_msg, $email_templates);
                $data = [
                     'status' => 200 ,
                     'token' => $token , 

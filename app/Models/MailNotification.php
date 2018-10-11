@@ -2,13 +2,22 @@
 
 namespace euro_hms\Models;
 
- use Illuminate\Database\Eloquent\Model;	
+ use Illuminate\Database\Eloquent\Model;
+
+use Illuminate\Bus\Queueable;	
  use euro_hms\Mail\SendMail;	
+ use Illuminate\Mail\Mailable;
  use Illuminate\Support\Facades\Mail;	
+ use Illuminate\Http\Request;
+ use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Queue\ShouldQueue;
+
  	
- class MailNotification extends Model	
+ class MailNotification extends model	
  {	
     //	
+
+    //use Queueable, SerializesModels;
 	
     /**	
 		This fucntiona use for check whick template will use for send mail	
@@ -16,31 +25,37 @@ namespace euro_hms\Models;
 	
 	
     static function mailSendDetail($type,$emailData){	
-    			
+    		
     	if($type == 'password_reset_link'){	
     	   $content = MailNotification::useTemplate(1);	
-    	   MailNotification::sendMail($emailData,$content);	
+    	  MailNotification::sendMail($emailData,$content);	
     	}	
 	
     }	
 	
 	
     static function sendMail($emailData,$content){ 	
-    	    $content = $content->content;	
+    	    $content1 = $content->content;	
     	   	
     	    foreach ($emailData as $key=>$value){	
     	    	//echo $key.'=='.$value;	
 	
-				str_replace('{{'.$key.'}}',$value, $content); 	
+				str_replace('{{'.$key.'}}',$value, $content1); 	
     	    }	
     	    	
-    	    return $content;	
+    	   $emailData['content'] = $content1;
+           
     	    if($emailData['WITH-ATTECHMENT'] == 'no'){	
-		    		return Mail::to($emailData['EMAIL'])->send($emailData, $emailData['SUBJECT'],$content,'mital.sharma@netfonia.us','');	
+		    		// Mail::to($emailData['EMAIL'])->send($emailData, $emailData['SUBJECT'],$content1,'mital.sharma@netfonia.us','');
+               return  Mail::to($emailData['EMAIL'])->send(new sendMail($emailData,$emailData['SUBJECT'],'emails.email_template','mital.sharma@netfonia.us',''));
+
+
 		    }else{	
 		    	$attachment = '';	
-		    	return Mail::to($emailData['EMAIL'])->send($emailData, $emailData['SUBJECT'],$content,'mital.sharma@netfonia.us',$attachments);	
-		    }	
+		    	//return Mail::to($emailData['EMAIL'])->send($emailData, $emailData['SUBJECT'],$content1,'mital.sharma@netfonia.us',$attachments);
+                return Mail::to($emailData['EMAIL'])->send(new sendMail($emailData,$emailData['SUBJECT'],'emails.email_template','mital.sharma@netfonia.us',$attachments));	
+		    }
+               	
     }	
 	
     static function useTemplate($id){	
