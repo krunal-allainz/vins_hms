@@ -9,29 +9,29 @@
                 </div>
                 <div v-if="userRole == 1">
                 <vmenu>
-                    <vmenu-item link="/NewUser" icon="ti-layout">
-                        &nbsp; New User
-                    </vmenu-item>
                     
                     <vmenu-item link="/opd_form" icon="ti-layout">
                         &nbsp; OPD Form
                     </vmenu-item>
                     <vmenu-item link="/patient_list" icon="ti-layout">
                         &nbsp; Patient List
-                    </vmenu-item> 
+                    </vmenu-item>
                 </vmenu>
                 </div>
                 <div v-if="userRole == 4">
                    <vmenu>
-                     <vmenu-item link="/NewUser" icon="ti-layout">
-                        &nbsp; New User
-                    </vmenu-item>
-                    <vmenu-item link="/UserList" icon="ti-layout">
-                        &nbsp; User List
-                    </vmenu-item>
-                      <vmenu-item link="/all_patient_list" icon="ti-layout">
+                        <vmenu-item link="/NewUser" icon="ti-layout">
+                            &nbsp; New User
+                        </vmenu-item>
+                        <vmenu-item link="/UserList" icon="ti-layout">
+                            &nbsp; User List
+                        </vmenu-item>
+                        <vmenu-item link="/all_patient_list" icon="ti-layout">
                             &nbsp; Patient List
                         </vmenu-item>
+                        <vmenu-item link="/prescription_list" icon="ti-layout">
+                            &nbsp; Prescriptions
+                        </vmenu-item> 
                     </vmenu> 
                 </div>
                 <div v-if="userRole == 3">
@@ -44,7 +44,7 @@
                         </vmenu-item>
                     </vmenu>
                 </div>
-                <vmenu>
+            <vmenu>
                 <!--     <vsub-menu title="Emergeny Patient" icon="ti-layout">
                         <vmenu-item link="/er_observation" icon="ti-desktop">
                              ER Observation

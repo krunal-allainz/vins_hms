@@ -184,7 +184,7 @@
 	          	   
 	          	   vm.patientReceiptData.patient_name=vm.patientOPDDetails.p_name;
 	          	   vm.patientReceiptData.patient_id=vm.patientOPDDetails.patient_id;
-	          	   vm.patientReceiptData.case_no=vm.patientOPDDetails.opd_id;
+	          	   vm.patientReceiptData.case_no=vm.patientOPDDetails.case_pr_id;
 	          	   vm.patientReceiptData.department=vm.patientOPDDetails.department;
 	          	   vm.patientReceiptData.consult=vm.patientOPDDetails.consult_id;
 	          	   /*for receipt charges types start*/

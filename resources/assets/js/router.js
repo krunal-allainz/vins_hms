@@ -109,7 +109,8 @@ import patientDetailEdit from './views/admin/vins/patientDetailEditForm.vue'
 import allPatientList from './views/admin/vins/allPatientList.vue'
 import patientOpdViewPage from './views/admin/vins/patientOpdViewPage.vue'
 import userDetailEdit from './views/admin/vins/userDetailEdit.vue'
-
+import prescriptionList from './views/admin/vins/prescriptionList.vue'
+import prescriptionAdd from './views/admin/vins/prescriptionAdd.vue'
 
 //for opd recipt list
 import opdreceiptlist from './views/admin/vins/opd_receipt_list.vue'
@@ -126,6 +127,9 @@ import opdreport from './views/admin/vins/opdReportPage.vue'
 
 // Receptionist Dashboard
 import DashboardReceptionist from './views/admin/vins/dashboard_receptionist.vue'
+
+//nurse dashbord
+import DashboardNurse from './views/admin/vins/dashbord_nurse.vue'
 
 Vue.use(VueRouter)
 
@@ -166,6 +170,12 @@ const routes = [
                 name: 'receptionist_dashboard'
             },
             {
+                path: '/nurse_dashbord',
+                component: DashboardNurse,
+                meta: { requiresAuth: true },
+                name: 'nurse_dashbord'
+            },
+            {
                 path: 'admindashboard',
                 component: AdminDashboard,
                 meta: { requiresAuth: true },
@@ -176,6 +186,18 @@ const routes = [
                 component: allPatientList,
                 meta: { requiresAuth: true },
                 name: 'all_patient_list'
+            },
+            {
+                path: 'prescription_list',
+                component: prescriptionList,
+                meta: { requiresAuth: true },
+                name: 'prescription_list'
+            },
+            {
+                path: 'prescription_add',
+                component: prescriptionAdd,
+                meta: { requiresAuth: true },
+                name: 'prescription_add'
             },
             {
                 path: '/opd_form',

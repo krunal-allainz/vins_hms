@@ -310,6 +310,21 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         //for getting case details for patient view page
         $api->post('case/patientDetailAndCaseInfo', '\euro_hms\Api\Controllers\PatientCaseManagementController@patientDetailAndCaseInfo');
 
+         //for getting prescription List
+        $api->post('prescription/getPrescriptionList', '\euro_hms\Api\Controllers\PrescriptionDrugController@getPrescriptionList');
+
+         //for prescription add
+        $api->post('prescription/create', '\euro_hms\Api\Controllers\PrescriptionDrugController@createPrescription');
+
+        //for prescription details by id
+        $api->post('prescription/getPrescriptionDetailsById', '\euro_hms\Api\Controllers\PrescriptionDrugController@getPrescriptionDetailsById');
+
+         //for prescription edit
+        $api->post('prescription/edit', '\euro_hms\Api\Controllers\PrescriptionDrugController@editPrescription');
+
+         //for prescription delete
+        $api->post('prescription/delete', '\euro_hms\Api\Controllers\PrescriptionDrugController@deletePrescription');
+
 });
 
 

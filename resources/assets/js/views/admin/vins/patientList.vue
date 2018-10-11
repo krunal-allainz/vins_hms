@@ -37,7 +37,7 @@
                         <th data-v-744e717e="" class="sortable" style="width: auto;" v-if="user_type == 3">
                             Consultant doctor
                         </th>
-                        <th data-v-744e717e="" class="sortable" style="width: auto;" v-if="user_type == 1">
+                        <th data-v-744e717e="" class="sortable" style="width: auto;" v-if="user_type == 1 || user_type == 2">
                             Action
                             <i data-v-744e717e="" class="fa float-right"></i>
                         </th>
@@ -47,8 +47,10 @@
                         </th>
                     </tr>
                   </thead>
-                  <tbody data-v-744e717e="">
-                    <tr data-v-744e717e=""     v-for="patientData in patientData.patient_list">
+                  <tbody data-v-744e717e="" v-for="patientData in patientData.patient_list">
+                    
+                    <tr data-v-744e717e="" >
+                        
                       <td data-v-744e717e="" class="text-uppercase">
                        {{ patientData.first_name}}
                       </td> <!---->
@@ -68,9 +70,12 @@
                       <td data-v-744e717e="" class="text-uppercase" v-if="user_type == 3" v-text="consultantName(patientData.user_details)">
                       </td>
                       <td data-v-744e717e="" class="" v-if="user_type == 1">
-                      <a :href="'/opd_form'"> <i class="fa fa-user-md text-info mr-3 text-info mr-3" @click="setPatientId(patientData.patient_id)" title="opd form"></i></a>
-                        <i class="fa fa-table text-info mr-3 text-info mr-3"  @click="getPatientOPDInfo(patientData.patient_id)" ></i>
+                          <a :href="'/opd_form'"> <i class="fa fa-user-md text-info mr-3 text-info mr-3" @click="setPatientId(patientData.patient_id,'PLIST')" title="opd form"></i></a>
+                          <i class="fa fa-table text-info mr-3 text-info mr-3"  @click="getPatientOPDInfo(patientData.patient_id)" ></i>
                       </td>
+                       <td data-v-744e717e="" class="" v-if="user_type == 2">
+                           <a :href="'/vitalsinfo'"> <i class="fa fa-user-md text-info mr-3 text-info mr-3" @click="setPatientId(patientData.patient_id,'VITALS')" title="Vitals Info"></i></a>
+                       </td>
                       <td v-if="user_type == 3"><button value="pending" @click="statusChange('pending',patientData.patient_id)" class="btn btn-primary btn-danger">Pending</button></td>
                     </tr>
                   </tbody>
@@ -101,6 +106,7 @@
             </div>
           </div>
         </div>
+       
         <div class="card bg-success-card" v-if="user_type == 3">
             <h4 class="card-header">
                <div>Pending patient list</div>
@@ -171,7 +177,7 @@
                        
                       </td>
                       <td data-v-744e717e="" class="" v-if="user_type == 1">
-                      <a :href="'/opd_form'"> <i class="fa fa-user-md text-info mr-3 text-info mr-3" @click="setPatientId(patientData.patient_id)" title="opd form"></i></a>
+                      <a :href="'/opd_form'"> <i class="fa fa-user-md text-info mr-3 text-info mr-3" @click="setPatientId(patientData.patient_id,'PLIST')" title="opd form"></i></a>
                       
                       </td>
                         <td v-if="user_type == 3"><button value="waiting" @click="statusChange('waiting',patientData.patient_id)" class="btn btn-warning">Waiting</button></td>
@@ -204,6 +210,7 @@
             </div>
           </div>
         </div>
+        
         <!-- vital patient list -->
           <div class="card bg-success-card" v-if="user_type == 3">
             <h4 class="card-header">
@@ -242,7 +249,7 @@
                         <th data-v-744e717e="" class="sortable" style="width: auto;" v-if="user_type == 3">
                             Consultant doctor
                         </th>
-                        <th data-v-744e717e="" class="sortable" style="width: auto;" v-if="user_type == 1">
+                        <th data-v-744e717e="" class="sortable" style="width: auto;" v-if="user_type == 1 || user_type == 2">
                             Action
                             <i data-v-744e717e="" class="fa float-right"></i>
                         </th>
@@ -271,7 +278,7 @@
                        
                       </td>
                       <td data-v-744e717e="" class="" v-if="user_type == 1">
-                      <a :href="'/opd_form'"> <i class="fa fa-user-md text-info mr-3 text-info mr-3" @click="setPatientId(patientData.patient_id)" title="opd form"></i></a>
+                      <a :href="'/opd_form'"> <i class="fa fa-user-md text-info mr-3 text-info mr-3" @click="setPatientId(patientData.patient_id,'PLIST')" title="opd form"></i></a>
                       
                       </td>
                     </tr>
@@ -733,11 +740,19 @@
                 }
                 //this.$set('pagination', pagination)
             },
-          setPatientId(patientInfo){
+          setPatientId(patientInfo,page){
              var vm =this;
-            vm.patientId = patientInfo;
-            vm.$store.dispatch('SetPatientId', vm.patientId); 
-           vm.$store.dispatch('SetPage', 'PLIST');              
+              vm.patientId = patientInfo;
+              vm.$store.dispatch('SetPatientId', vm.patientId);
+              if(page=='VITALS') 
+              {
+                  vm.$store.dispatch('SetPage', 'VITALS');  
+              }
+              else
+              {
+                  vm.$store.dispatch('SetPage', 'PLIST');  
+              }
+                          
           },
           setPerPage(e){
             let vm =this;
