@@ -9,9 +9,6 @@
                 </div>
                 <div v-if="userRole == 1">
                 <vmenu>
-                    <vmenu-item link="/NewUser" icon="ti-layout">
-                        &nbsp; New User
-                    </vmenu-item>
                     
                     <vmenu-item link="/opd_form" icon="ti-layout">
                         &nbsp; OPD Form
@@ -50,7 +47,7 @@
                         </vmenu-item>
                     </vmenu>
                 </div>
-                <vmenu>
+            <vmenu>
                 <!--     <vsub-menu title="Emergeny Patient" icon="ti-layout">
                         <vmenu-item link="/er_observation" icon="ti-desktop">
                              ER Observation

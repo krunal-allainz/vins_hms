@@ -82,6 +82,7 @@
         $patientData->consultant=$data['consulting_dr'];
         $patientData->case_type=$data['case'];
         $patientData->appointment_datetime=$data['appointment_datetime']['time'];
+        $pname = $data['fname'].''.$data['mname'].''.$data['lname'];
         /*for patient details end*/
         if($data['case'] == 'new') 
         {
@@ -199,7 +200,7 @@
                   $dataText = 'Patient add for report' ;
                 }
                 $checkNotifStatus = NotificationRepository::checkRecordStatus($consultId,$notifyType);
-
+                
                 if( $checkNotifStatus){
                     $checkNotifStatus->data_id = $consultId;
                     $checkNotifStatus->data_date = Carbon::now()->format('Y-m-d H:i:s');
@@ -208,7 +209,7 @@
                     $checkNotifStatus->save();
                 }else{
                     $addNotificationData = Notification::create([
-                    'title' => 'Patient Add',
+                    'title' => $pname,
                     'type' => $notifyType,
                     'data_table' => 'PatientCaseManagment',
                     'data_id' =>$patientCaseInsert->id,
@@ -264,6 +265,8 @@
                 ]);
 
                  $dataText = '';
+                 $consultId =  $data['consulting_dr'];
+                 $notifyType = 'case_add';
                 if($data['case_type'] == 'new_case'){
                   $dataText = 'New patient add' ;
                 }else if($data['case_type'] == 'new_consult'){
@@ -276,9 +279,18 @@
                   $dataText = 'Patient add for report' ;
                 }
 
+                 $checkNotifStatus = NotificationRepository::checkRecordStatus($consultId,$notifyType);
                 $lastpatientCaseId = $patientCaseInsert->id;
-                  $addNotificationData = Notification::create([
-                    'title' => 'Patient Add',
+                
+                if( $checkNotifStatus){
+                    $checkNotifStatus->data_id = $consultId;
+                    $checkNotifStatus->data_date = Carbon::now()->format('Y-m-d H:i:s');
+                    $checkNotifStatus->data_text = $dataText;
+                    $checkNotifStatus->status = '1';
+                    $checkNotifStatus->save();
+                }else{
+                    $addNotificationData = Notification::create([
+                    'title' => $pname,
                     'type' => 'case_add',
                     'data_table' => 'PatientCaseManagment',
                     'data_id' =>  $lastpatientCaseId,
@@ -286,8 +298,9 @@
                     'data_date' => Carbon::now()->format('Y-m-d H:i:s'),
                     'data_text' => $dataText,
                     'status' => '1',
+                     ]);
 
-                ]);
+                }
 
                 if ($tokenInsert && $patientCaseInsert) {
                   return ['code' => '200','data'=>['token'=> $data['token_no'],'opdId' => $insertedOPDId,'uhid_no'=>$patientData->uhid_no], 'message' => 'Record Sucessfully created'];
