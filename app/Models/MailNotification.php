@@ -3,15 +3,10 @@
 namespace euro_hms\Models;
 
  use Illuminate\Database\Eloquent\Model;
-
-use Illuminate\Bus\Queueable;	
  use euro_hms\Mail\SendMail;	
- use Illuminate\Mail\Mailable;
  use Illuminate\Support\Facades\Mail;	
- use Illuminate\Http\Request;
- use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
-
+ 
+ 
  	
  class MailNotification extends model	
  {	
@@ -28,9 +23,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
     		
     	if($type == 'password_reset_link'){	
     	   $content = MailNotification::useTemplate(1);	
-    	  MailNotification::sendMail($emailData,$content);	
+    	 return MailNotification::sendMail($emailData,$content);	
     	}	
-	
+        
+	   
     }	
 	
 	
@@ -44,17 +40,27 @@ use Illuminate\Contracts\Queue\ShouldQueue;
     	    }	
     	    	
     	   $emailData['content'] = $content1;
-           $emailDetail['data'] = $emailData;
-           
-    	    if($emailData['WITH-ATTECHMENT'] == 'no'){	
-		    		// Mail::to($emailData['EMAIL'])->send($emailData, $emailData['SUBJECT'],$content1,'mital.sharma@netfonia.us','');
-               return  Mail::to($emailData['EMAIL'])->send(new sendMail($emailDetail,$emailData['SUBJECT'],'emails.email_template','mital.sharma@netfonia.us',''));
+          $from  = config('mail.from.address');
+    	   
+            try {
+                 if($emailData['WITH-ATTECHMENT'] == 'no'){ 
+                    // Mail::to($emailData['EMAIL'])->send($emailData, $emailData['SUBJECT'],$content1,'mital.sharma@netfonia.us','');
+                     Mail::to($emailData['EMAIL'])->send(new sendMail($emailData,$emailData['SUBJECT'],'emails.email_template',$from ,''));
+                     return 1;
+                }else{  
+                     $attachment = '';   
+                     //return Mail::to($emailData['EMAIL'])->send($emailData, $emailData['SUBJECT'],$content1,'mital.sharma@netfonia.us',$attachments);
+                     Mail::to($emailData['EMAIL'])->send(new sendMail($emailData,$emailData['SUBJECT'],'emails.email_template',$from ,$attachments));    
+                     return 1;
+                }
 
-		    }else{	
-		    	$attachment = '';	
-		    	//return Mail::to($emailData['EMAIL'])->send($emailData, $emailData['SUBJECT'],$content1,'mital.sharma@netfonia.us',$attachments);
-                return Mail::to($emailData['EMAIL'])->send(new sendMail($emailData,$emailData['SUBJECT'],'emails.email_template','mital.sharma@netfonia.us',$attachments));	
-		    }
+                 //return back();
+            } catch (Exception $ex) {
+                 //Debug via $ex->getMessage();
+                return 0;
+            }
+
+           
                	
     }	
 	

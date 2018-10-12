@@ -93,10 +93,8 @@ class ForgotPasswordController extends Controller
                     'SUBJECT' => 'Reset Password Link',    
                     'WITH-ATTECHMENT'  => 'no' 
                 ];
-                MailNotification::mailSendDetail($type,$emailData);
+                $mailstatus = MailNotification::mailSendDetail($type,$emailData);
 
-
-                 
 
            //  if($userObj->is_mobile_user == 1) {
          //    $email_templates = 'emails.email_template';
@@ -104,19 +102,24 @@ class ForgotPasswordController extends Controller
            //    $email_details['is_mobile_user'] = 1;
            //  }
             // Common::sendMail($emailData, $reseEmail, $email_msg, $email_templates);
-               $data = [
-                    'status' => 200 ,
-                    'token' => $token , 
-                    'email' =>  $user->email ,
-                    'link' => $resetLink,
-                    'msg'   => 'Reset password link send to your mail id'
-                  ];
 
 
 
                 //Common::sendMail($email_details, $recipient, $email_msg, $email_templates);
+            if($mailstatus == 1){
+                        $data = [
+                         'status' => 200 ,
+                         'token' => $token , 
+                         'email' =>  $user->email ,
+                         'link' => $resetLink,
+                         'msg'   => 'Reset password link send to your mail id'
+                  ];
+
                 
-              }else{
+              }
+
+
+          }else{
                 $data = ['status' =>404 ,  'email' =>  $request->input('email')];
               }
                return $data;
@@ -159,6 +162,6 @@ var_dump( Mail:: failures());*/
                 return $this->response->errorNotFound();
         }*/
         
-    	 
-    }
+    }	 
+    
 }

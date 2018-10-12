@@ -38,9 +38,9 @@ class SendMail extends Mailable
     * @return $this
     */
    public function build()
-   {
-       if (!empty($this->from_email)) {
-           return $this->from($this->from_email)->view($this->view_name);
+   {  
+       if (!empty($this->from_email)) { 
+           return $this->view($this->view_name)->from($this->from_email)->with('data', $this->email_details);
        }
        return $this->view($this->view_name);
    }

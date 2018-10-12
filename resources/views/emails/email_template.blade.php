@@ -91,7 +91,7 @@
         				</div>	
         			</td>	
         			<td width="600" style="padding-right:10px; font-family:Trebuchet MS, Verdana, Arial; font-size:12px;" valign="top">	
-        				{{['content']}}	
+        				{{$data['content']}}	
         			</td>	
         		</tr>	
         		</table>	
