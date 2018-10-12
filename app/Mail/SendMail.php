@@ -24,6 +24,7 @@ class SendMail extends Mailable
     */
    public function __construct($email_details, $subject, $view_name, $from_email = null, $attachment = null)
    {
+    
        $this->subject = $subject;
        $this->view_name = $view_name;
        $this->email_details = $email_details;

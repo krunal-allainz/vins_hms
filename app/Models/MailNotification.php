@@ -40,15 +40,15 @@ use Illuminate\Contracts\Queue\ShouldQueue;
     	    foreach ($emailData as $key=>$value){	
     	    	//echo $key.'=='.$value;	
 	
-				str_replace('{{'.$key.'}}',$value, $content1); 	
+			$content1 = str_replace('{{'.$key.'}}',$value, $content1); 	
     	    }	
     	    	
     	   $emailData['content'] = $content1;
+           $emailDetail['data'] = $emailData;
            
     	    if($emailData['WITH-ATTECHMENT'] == 'no'){	
 		    		// Mail::to($emailData['EMAIL'])->send($emailData, $emailData['SUBJECT'],$content1,'mital.sharma@netfonia.us','');
-               return  Mail::to($emailData['EMAIL'])->send(new sendMail($emailData,$emailData['SUBJECT'],'emails.email_template','mital.sharma@netfonia.us',''));
-
+               return  Mail::to($emailData['EMAIL'])->send(new sendMail($emailDetail,$emailData['SUBJECT'],'emails.email_template','mital.sharma@netfonia.us',''));
 
 		    }else{	
 		    	$attachment = '';	
