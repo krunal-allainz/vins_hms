@@ -2,11 +2,11 @@
 	<div class="col-lg-12 mb-3">
    
 		<div class="card bg-success-card">
-			<h4 class="card-header">
-                <div>Laboratory List </div>
-                <div class="text-right"><button type="button" class="btn btn-primary" @click="setAddLaboratory()">Add</button></div>
-                <form id="app" action="laboratory/importLaboratoryFile" method="post" enctype="multipart/form-data" v-on:submit="verifyImportFile">
-
+      <div class="card-header">
+        <div class="row">
+          <div class="col-md-4"><h4>Laboratory List</h4></div>
+          <div class="col-md-6"> 
+              <form id="app" action="laboratory/importLaboratoryFile" method="post" enctype="multipart/form-data" v-on:submit="verifyImportFile">
                  <div class="large-12 medium-12 small-12 cell">
                     <label>File
                       <input type="file" id="file" ref="file" name="file"/>
@@ -14,7 +14,9 @@
                       <button type="submit" name="import" class="btn btn-warning">Import</button>
                   </div>
                 </form>
-            </h4>
+          </div>
+          <div class="col-md-2 text-right"><button type="button" class="btn btn-primary" @click="setAddLaboratory()">Add</button></div></div>
+        </div>
             <div class="card-body">
             	<div data-v-744e717e="" class="card p-3"  v-if="(laboratoryPagination.total > 0)">
               		<div data-v-744e717e="" class="table-header">

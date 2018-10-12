@@ -117,6 +117,18 @@ import prescriptionAdd from './views/admin/vins/prescriptionAdd.vue'
 import laboratoryList from './views/admin/vins/laboratoryList.vue'
 import laboratoryAdd from './views/admin/vins/laboratoryAdd.vue'
 
+//for bodyparts
+import bodypartsList from './views/admin/vins/bodypartsList.vue'
+import bodypartsAdd from './views/admin/vins/bodypartsAdd.vue'
+
+//for qualifiers
+import qualifiersList from './views/admin/vins/qualifiersList.vue'
+import qualifiersAdd from './views/admin/vins/qualifiersAdd.vue'
+
+//for bodyparts
+import specialRequestList from './views/admin/vins/specialRequestList.vue'
+import specialRequestAdd from './views/admin/vins/specialRequestAdd.vue'
+
 //for opd recipt list
 import opdreceiptlist from './views/admin/vins/opd_receipt_list.vue'
 
@@ -215,6 +227,42 @@ const routes = [
                 component: laboratoryAdd,
                 meta: { requiresAuth: true },
                 name: 'laboratory_add'
+            },
+            {
+                path: 'bodyparts_list',
+                component: bodypartsList,
+                meta: { requiresAuth: true },
+                name: 'bodyparts_list'
+            },
+            {
+                path: 'bodyparts_add',
+                component: bodypartsAdd,
+                meta: { requiresAuth: true },
+                name: 'bodyparts_add'
+            },
+            {
+                path: 'specialRequest_list',
+                component: specialRequestList,
+                meta: { requiresAuth: true },
+                name: 'specialRequest_list'
+            },
+            {
+                path: 'specialRequest_add',
+                component: specialRequestAdd,
+                meta: { requiresAuth: true },
+                name: 'specialRequest_add'
+            },
+            {
+                path: 'qualifiers_list',
+                component: qualifiersList,
+                meta: { requiresAuth: true },
+                name: 'qualifiers_list'
+            },
+            {
+                path: 'qualifiers_add',
+                component: qualifiersAdd,
+                meta: { requiresAuth: true },
+                name: 'qualifiers_add'
             },
             {
                 path: '/opd_form',

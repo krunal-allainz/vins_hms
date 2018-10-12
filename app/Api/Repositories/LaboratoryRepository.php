@@ -5,13 +5,12 @@ use DB;
 use euro_hms\Models\Laboratory;
 use Excel;
 use File;
-use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 
  class LaboratoryRepository 
  {
-    use SoftDeletes;
-    protected $dates = ['deleted_at'];
+   
  	/**
  	 * [getLaboratoryList description]
  	 * @param  [type] $userType [description]

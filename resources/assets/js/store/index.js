@@ -9,6 +9,9 @@ import Patient from './modules/patient'
 import Users from './modules/users'
 import Prescription from './modules/prescription'
 import Laboratory from './modules/laboratory'
+import Bodyparts from './modules/bodyparts'
+import Qualifiers from './modules/qualifiers'
+import SpecialRequest from './modules/specialRequest'
 
 import createPersistedState from 'vuex-persistedstate'
 // import VuexPersist from 'vuex-persist';
@@ -45,6 +48,9 @@ export default new Vuex.Store({
     Users,
     Prescription,
     Laboratory,
+    Bodyparts,
+    Qualifiers,
+    SpecialRequest,
     // Pitch,
     // Users
   },

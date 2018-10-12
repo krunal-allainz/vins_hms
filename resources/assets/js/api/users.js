@@ -503,5 +503,64 @@ export default {
   deleteLaboratory(id) {
       return api.post('laboratory/delete',{'id':id})
   },
-  
+  getBodypartsList(page_url,userType,noofRecord,userId){
+     return api.post(page_url,{'userType':userType,'noofRecord':noofRecord,'userId':userId});
+  },
+ createBodyparts(bodypartsData) {
+      return api.post('bodyparts/create',{'bodypartsData':bodypartsData})
+  },
+  getBodypartsDetailsById(id) {
+      return api.post('bodyparts/getBodypartsDetailsById',{'id':id})
+  },
+  editBodyparts(bodypartsData) {
+      return api.post('bodyparts/edit',{'bodypartsData':bodypartsData})
+  },
+  deleteBodyparts(id) {
+      return api.post('bodyparts/delete',{'id':id})
+  },
+  getRadiologyList(id) {
+      return api.post('radiology/getRadiologyList')
+  },
+  getQualifiersList(page_url,userType,noofRecord,userId){
+     return api.post(page_url,{'userType':userType,'noofRecord':noofRecord,'userId':userId});
+  },
+ createQualifiers(qualifiersData) {
+      return api.post('qualifiers/create',{'qualifiersData':qualifiersData})
+  },
+  getQualifiersDetailsById(id) {
+      return api.post('qualifiers/getQualifiersDetailsById',{'id':id})
+  },
+  editQualifiers(qualifiersData) {
+      return api.post('qualifiers/edit',{'qualifiersData':qualifiersData})
+  },
+  deleteQualifiers(id) {
+      return api.post('qualifiers/delete',{'id':id})
+  },
+  getBodypartsByRadiologyId(r_id)
+  {
+       return api.post('bodyparts/getBodypartsByRadiologyId',{'r_id':r_id})
+  },
+  getSpecialRequestList(page_url,userType,noofRecord,userId){
+     return api.post(page_url,{'userType':userType,'noofRecord':noofRecord,'userId':userId});
+  },
+ createSpecialRequest(specialRequestData) {
+      return api.post('specialRequest/create',{'specialRequestData':specialRequestData})
+  },
+  getSpecialRequestDetailsById(id) {
+      return api.post('specialRequest/getSpecialRequestDetailsById',{'id':id})
+  },
+  editSpecialRequest(specialRequestData) {
+      return api.post('specialRequest/edit',{'specialRequestData':specialRequestData})
+  },
+  deleteSpecialRequest(id) {
+      return api.post('specialRequest/delete',{'id':id})
+  },
+  getBodypartSideList()
+  {
+      return api.post('bodyPartSide/getBodypartSideList')
+  },
+  getQualifierByBodypartsId(b_id)
+  {
+       return api.post('qualifiers/getQualifierByBodypartsId',{'b_id':b_id})
+  },
 }
