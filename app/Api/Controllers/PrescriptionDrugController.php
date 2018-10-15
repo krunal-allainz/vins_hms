@@ -214,7 +214,6 @@ class PrescriptionDrugController extends Controller
         }
     }
 
-    /**
      * [importPrescriptionFile description]
      * @param  Request $request [description]
      * @return [type]           [description]
