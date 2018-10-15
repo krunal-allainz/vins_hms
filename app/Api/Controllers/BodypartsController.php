@@ -8,17 +8,17 @@ use euro_hms\Models\User;
 use euro_hms\Models\Bodyparts;
 use euro_hms\Api\Repositories\BodypartsRepository;
 
-
 use DB;
 use Carbon\Carbon;
 
 class BodypartsController extends Controller
+
 {
     public function __construct(){
         $this->bodypObj = new BodypartsRepository();
     }
 
-    /**
+     /**
      * [getBodypartsList description]
      * @param  Request $request [description]
      * @return [type]           [description]
@@ -41,7 +41,7 @@ class BodypartsController extends Controller
        
     }
 
-    /**
+     /**
      * [createBodyparts description]
      * @param  Request $request [description]
      * @return [type]           [description]
@@ -59,7 +59,7 @@ class BodypartsController extends Controller
         }
     }
 
-    /**
+     /**
      * [getBodypartsDetailsById description]
      * @param  Request $request [description]
      * @return [type]           [description]
@@ -78,7 +78,7 @@ class BodypartsController extends Controller
         }
     }
 
-    /**
+     /**
      * [editBodyparts description]
      * @param  Request $request [description]
      * @return [type]           [description]
@@ -96,7 +96,7 @@ class BodypartsController extends Controller
         }
     }
 
-    /**
+     /**
      * [deleteBodyparts description]
      * @param  Request $request [description]
      * @return [type]           [description]
@@ -115,7 +115,7 @@ class BodypartsController extends Controller
         }
     }
 
-    /**
+     /**
      * [getBodypartsByRadiologyId description]
      * @param  Request $request [description]
      * @return [type]           [description]
@@ -133,5 +133,4 @@ class BodypartsController extends Controller
             return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
         }
     }
-    
 }
