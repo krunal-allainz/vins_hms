@@ -2,26 +2,25 @@
 namespace euro_hms\Api\Repositories;
 use Carbon\Carbon;
 use DB;
-use euro_hms\Models\PrescriptionDrugs;
+use euro_hms\Models\Laboratory;
 use Excel;
 use File;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 
- class PrescriptionRepository 
+
+ class LaboratoryRepository 
  {
-    use SoftDeletes;
-    protected $dates = ['deleted_at'];
+   
  	/**
- 	 * [getPrescriptionList description]
+ 	 * [getLaboratoryList description]
  	 * @param  [type] $userType [description]
  	 * @param  [type] $noOfPage [description]
  	 * @param  [type] $userId   [description]
  	 * @return [type]           [description]
  	 */
-    public function getPrescriptionList($userType,$noOfPage,$userId)
+    public function getLaboratoryList($userType,$noOfPage,$userId)
     {
-        $list= PrescriptionDrugs::where('status',1)->where('remove','false')->orderBy('prescription_drugs.created_at','desc')->paginate($noOfPage);
+        $list= Laboratory::orderBy('laboratory.created_at','desc')->paginate($noOfPage);
         return $list;
     }
 
@@ -32,24 +31,22 @@ use Illuminate\Database\Eloquent\SoftDeletes;
      */
     public function create($request)
     {
-    	$form_data=$request->prescriptionData;
-    	$presp= new PrescriptionDrugs;
+    	$form_data=$request->laboratoryData;
+    	$presp= new Laboratory;
     	$presp->name=$form_data['name'];
-        $presp->doctor=$form_data['doctor'];
-    	$presp->type=$form_data['department'];
-        $presp->status=1;
+    	$presp->type=$form_data['type'];
     	$presp->save();
     	return $presp->id;
     }
 
     /**
-     * [getPrescriptionDetailsById description]
+     * [getLaboratoryDetailsById description]
      * @param  [type] $id [description]
      * @return [type]     [description]
      */
-    public function getPrescriptionDetailsById($id)
+    public function getLaboratoryDetailsById($id)
     {
-        return PrescriptionDrugs::where('id',$id)->first();
+        return Laboratory::where('id',$id)->first();
     }
 
     /**
@@ -59,12 +56,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
      */
     public function edit($request)
     {
-        $form_data=$request->prescriptionData;
-        $id=$form_data['prescriptionId'];
-        $presp= PrescriptionDrugs::findOrFail($id);
+        $form_data=$request->laboratoryData;
+        $id=$form_data['laboratoryId'];
+        $presp= Laboratory::findOrFail($id);
         $presp->name=$form_data['name'];
-        $presp->doctor=$form_data['doctor'];
-        $presp->type=$form_data['department'];
+        $presp->type=$form_data['type'];
         $presp->save();
         return $presp->id;
     }
@@ -76,21 +72,21 @@ use Illuminate\Database\Eloquent\SoftDeletes;
      */
     public function delete($id)
     {
-        $presp_id = PrescriptionDrugs::find( $id );
+        $presp_id = Laboratory::find( $id );
         $presp_id ->delete();
         return $id;
     }
 
     /**
-     * [importPrescriptionFile description]
+     * [importLaboratoryFile description]
      * @param  [type] $request [description]
      * @return [type]          [description]
      */
-    public function importPrescriptionFile($request)
+    public function importLaboratoryFile($request)
     {
 
        $file=$request->file('file');
-
+       
         if($request->hasFile('file')){
             $extension = File::extension($request->file->getClientOriginalName());
             if($extension == "xlsx" || $extension == "xls" || $extension == "csv") {
@@ -101,18 +97,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
                 if(!empty($data) && $data->count()){
  
                     foreach ($data as $key => $value) {
-                        if(isset($value->name) && isset($value->doctor) && isset($value->department))
+                        if(isset($value->name) &&  isset($value->type))
                         {
-                            $new_dept=strtolower($value->department);
-                            $dept=trim(ucfirst($new_dept));
+                            $new_type=strtolower($value->type);
+                            $type=trim(ucfirst($new_type));
                              $insert[] = [
                                 'name' => $value->name,
-                                'doctor' => $value->doctor,
-                                'type' => $dept,
-                                'status'=>1,
+                                'type' => $type,
                                 'created_at'=>Carbon::now(),
                                 'updated_at'=>Carbon::now(),
-
                                 ];
                         }
                        
@@ -120,7 +113,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
                     
                     if(!empty($insert)){
  
-                        $insertData = DB::table('prescription_drugs')->insert($insert);
+                        $insertData = DB::table('laboratory')->insert($insert);
                         if ($insertData) {
                             return true;
                         }else {                        

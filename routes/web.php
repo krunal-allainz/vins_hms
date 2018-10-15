@@ -29,3 +29,6 @@ Route::get('/{vue?}', function () {
 Route::post('/passwordactivate', [
     'as' => 'password', 'uses' => '\Laraspace\Api\Controllers\UserController@passwordActivate'
 ]);
+
+Route::post('prescription/importPrescriptionFile', '\euro_hms\Api\Controllers\PrescriptionDrugController@importPrescriptionFile');
+Route::post('laboratory/importLaboratoryFile', '\euro_hms\Api\Controllers\LaboratoryController@importLaboratoryFile');

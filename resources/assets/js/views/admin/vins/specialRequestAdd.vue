@@ -3,7 +3,7 @@
 		<div class="page-header">
 			<div class="row">
 				<div class="col-md-6">
-				<h2>Prescription Add</h2>
+				<h2>SpecialRequest Add</h2>
 				</div>
 			</div>
 		</div>
@@ -13,24 +13,15 @@
                         <div class="card-body">
                                 <div class="row form-group"  >
                                     <div class="col-md-3">
-                                        <label for="department " class="control-label float-right txt_media1">Type :</label>
+                                        <label for="radiology_id " class="control-label float-right txt_media1">Radiology :</label>
                                     </div>
                                     <div class="col-md-9">
-                                         <select class="form-control ls-select2" id="department" name="department" v-model="prescriptionData.department" v-validate="'required'">
-                                            <option :value="dept.text" v-for="dept in prescriptionData.departmentOption">{{dept.text}}</option>
+                                         <select class="form-control ls-select2" id="radiology_id" name="radiology_id" v-model="specialRequestData.radiology_id" v-validate="'required'">
+                                            <option value="">Select</option>
+                                            <option :value="radio.id" v-for="radio in specialRequestData.radiologyOption">{{radio.text}}</option>
                                         </select> 
-                                        <i v-show="errors.has('department')" class="fa fa-warning"></i>
-                                        <span class="help is-danger" v-show="errors.has('department')">Please select Department.</span>
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                    <div class="col-md-3">
-                                    <label for="doctor" class="control-label float-right txt_media1">Doctor Name :</label>
-                                    </div>
-                                    <div class="col-md-9">
-                                        <input type="text" class="form-control" id="doctor"
-                                               placeholder="Doctor Name" v-model="prescriptionData.doctor" name="doctor">
-                                       
+                                        <i v-show="errors.has('radiology_id')" class="fa fa-warning"></i>
+                                        <span class="help is-danger" v-show="errors.has('radiology_id')">Please select Radiology.</span>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -39,7 +30,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <input type="text" class="form-control" id="name"
-                                               placeholder="Name" v-validate="'required'" v-model="prescriptionData.name" name="name">
+                                               placeholder="Name" v-validate="'required'" v-model="specialRequestData.name" name="name">
                                         <i v-show="errors.has('name')" class="fa fa-warning"></i>
                                         <span class="help is-danger" v-show="errors.has('name')">Please enter valid Name.</span>
                                     </div>
@@ -48,7 +39,7 @@
                                     <div class="col-md-3">
                                     </div>
                                     <div class="col-md-9">
-                                        <span v-if="prescriptionData.pageName=='EDIT'">
+                                        <span v-if="specialRequestData.pageName=='EDIT'">
                                             <button class="btn btn-success" type="button" @click="editValidateBeforeSubmit()">Edit</button>
                                         </span>
                                         <span v-else>
@@ -71,21 +62,12 @@
     export default {
         data() {
             return {
-                    'prescriptionData' : {
+                    'specialRequestData' : {
                     	'name':'',
-                        'departmentOption':[{text:'Neurology'},
-                                      {text:'Neurosurgery'},
-                                      {text:'Cardiology'},
-                                      {text:'Vascular'},
-                                      {text:'ONCO'},
-                                      {text:'Ortho'},
-                                      {text:'Others'}
-                                    ],
-                        'department':'',
-                        'prescriptionId':'',
+                        'radiologyOption':[],
+                        'radiology_id':'',
+                        'specialRequestId':'',
                         'pageName':'',
-                        'doctor':'',
-                          
                     },
                    
                 }
@@ -96,48 +78,72 @@
             $('.ls-select2').select2({
                 placeholder: "Select"
             });
-             $('#department').on('select2:selecting', function(e) {
-                vm.prescriptionData.department =  e.params.args.data.text;
+            vm.getRadiology();
+            $('#radiology_id').on('select2:selecting', function(e) {
+                   vm.specialRequestData.radiology_id =  e.params.args.data.id;
             });
         },
         methods: {
+            getRadiology()
+            {
+                let vm=this;
+                var radiology_list_new=[];
+                User.getRadiologyList().then(
+                   (response) => {
+                        let radio_data=response.data.data;
+
+                        $.each(radio_data, function(key, value) {
+                            let id_radio=value.id;
+                            let name=value.name;
+                            radiology_list_new.push({
+                                text:name,
+                                id:id_radio
+                            });
+                        });
+                        vm.specialRequestData.radiologyOption=_.cloneDeep(radiology_list_new);
+
+                    },
+                    (error) => {
+                    },
+                );
+            },
             initData()
             {
                 let vm=this;
-                let prescription_page=vm.$store.state.Prescription.prescriptionPage;
+                let specialRequest_page=vm.$store.state.SpecialRequest.specialRequestPage;
                 
-                if(prescription_page=='EDIT')
+                if(specialRequest_page=='EDIT')
                 {
-                    vm.prescriptionData.pageName=prescription_page;
-                    let pID=vm.$store.state.Prescription.prescriptionId;
+                    vm.specialRequestData.pageName=specialRequest_page;
+                    let pID=vm.$store.state.SpecialRequest.specialRequestId;
                     if(pID!=0 || pID!=null)
                     {
-                        vm.prescriptionData.prescriptionId=pID;
-                        vm.setPrescriptionData(pID);
+                        vm.specialRequestData.specialRequestId=pID;
+                        vm.setSpecialRequestData(pID);
 
                     }
                 }
             },
-            setPrescriptionData(id)
+            setSpecialRequestData(id)
             {
                 let vm=this;
-                User.getPrescriptionDetailsById(id).then(
+                User.getSpecialRequestDetailsById(id).then(
                   (response)=> {
                    
                     if(response.data.code == 200){
-                        let presp_data=response.data.data;
-                        vm.prescriptionData.department =presp_data.type;
-                        vm.prescriptionData.name =presp_data.name;
-                        vm.prescriptionData.doctor =presp_data.doctor;
-                        console.log(presp_data.type);
-                        $('#department').val(presp_data.type).trigger('change');
+                        let bodypart_data=response.data.data;
+                        vm.specialRequestData.radiology_id =bodypart_data.radiology_id;
+                        vm.specialRequestData.name =bodypart_data.name;
+                        setTimeout(function(){
+                            $('#radiology_id').val(bodypart_data.radiology_id).trigger('change');
+                        },300);
                     } else if (response.data.code == 300) {
-                        toastr.error('No Prescription Found.', 'Add Prescription', {timeOut: 5000});
+                        toastr.error('No Special Request Found.', 'Add Special Request', {timeOut: 5000});
                         //this.initialState(); 
                     }
                     else
                     {
-                        toastr.error('Something Went wrong.', 'Add Prescription', {timeOut: 5000});
+                        toastr.error('Something Went wrong.', 'Add Special Request', {timeOut: 5000});
                     }
                     
                   },
@@ -148,30 +154,31 @@
 
             },
              initialState() {
-                this.$data.prescriptionData.name = '',
-                this.$data.prescriptionData.department ='',
-                this.$data.prescriptionData.doctor =''
+                this.$data.specialRequestData.name = '',
+                this.$data.specialRequestData.radiology_id =''
+                
             },
             validateBeforeSubmit() {
                let vm=this;
                 vm.$validator.validateAll().then(() => {
                     
                     if (!this.errors.any()) {
-                        User.createPrescription(vm.prescriptionData).then(
+
+                        User.createSpecialRequest(vm.specialRequestData).then(
                           (response)=> {
                            
                             if(response.data.code == 200){
-                                toastr.success('Prescription added successfully', 'Add Prescription', {timeOut: 5000});
-                                vm.$router.push('prescription_list');
+                                toastr.success('SpecialRequest added successfully', 'Add Special Request', {timeOut: 5000});
+                                vm.$router.push('specialRequest_list');
                                 //this.initialState();
                                 
                             } else if (response.data.code == 300) {
-                                toastr.error('Something Went wrong.', 'Add Prescription', {timeOut: 5000});
+                                toastr.error('Something Went wrong.', 'Add Special Request', {timeOut: 5000});
                                 //this.initialState(); 
                             }
                             else
                             {
-                                toastr.error('Something Went wrong.', 'Add Prescription', {timeOut: 5000});
+                                toastr.error('Something Went wrong.', 'Add Special Request', {timeOut: 5000});
                             }
                             
                           },
@@ -188,21 +195,21 @@
                 vm.$validator.validateAll().then(() => {
                     
                     if (!this.errors.any()) {
-                        User.editPrescription(vm.prescriptionData).then(
+                        User.editSpecialRequest(vm.specialRequestData).then(
                           (response)=> {
                            
                             if(response.data.code == 200){
-                                toastr.success('Prescription edited successfully', 'Add Prescription', {timeOut: 5000});
-                                vm.$router.push('prescription_list');
+                                toastr.success('Special Request edited successfully', 'Add Special Request', {timeOut: 5000});
+                                vm.$router.push('specialRequest_list');
                                 //this.initialState();
                                 
                             } else if (response.data.code == 300) {
-                                toastr.error('Something Went wrong.', 'Add Prescription', {timeOut: 5000});
+                                toastr.error('Something Went wrong.', 'Add Special Request', {timeOut: 5000});
                                 //this.initialState(); 
                             }
                             else
                             {
-                                toastr.error('Something Went wrong.', 'Add Prescription', {timeOut: 5000});
+                                toastr.error('Something Went wrong.', 'Add Special Request', {timeOut: 5000});
                             }
                             
                           },
