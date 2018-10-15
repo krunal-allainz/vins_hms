@@ -7,10 +7,8 @@ use euro_hms\Models\RadiologyTable;
 use Excel;
 use File;
 
-
-
- class SpecialRequestRepository 
- {
+class SpecialRequestRepository 
+{
    
  	/**
  	 * [getSpecialRequestList description]
@@ -27,7 +25,7 @@ use File;
         return $list;
     }
 
-    /**
+     /**
      * [create description]
      * @param  [type] $request [description]
      * @return [type]          [description]
@@ -41,8 +39,7 @@ use File;
     	$presp->save();
     	return $presp->id;
     }
-
-    /**
+     /**
      * [getSpecialRequestDetailsById description]
      * @param  [type] $id [description]
      * @return [type]     [description]
@@ -51,8 +48,7 @@ use File;
     {
         return SpecialRequest::where('id',$id)->first();
     }
-
-    /**
+     /**
      * [edit description]
      * @param  [type] $request [description]
      * @return [type]          [description]
@@ -67,8 +63,7 @@ use File;
         $presp->save();
         return $presp->id;
     }
-
-    /**
+     /**
      * [delete description]
      * @param  [type] $id [description]
      * @return [type]     [description]
@@ -79,7 +74,6 @@ use File;
         $presp_id ->delete();
         return $id;
     }
-
     /**
      * [getSpecialRequestListOptions description]
      * @return [type] [description]
@@ -88,8 +82,5 @@ use File;
     {
         return SpecialRequest::where('radiology_id',$r_id)->get();
     }
-
-   
-    
  }
 ?>

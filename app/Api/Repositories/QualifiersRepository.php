@@ -7,11 +7,8 @@ use euro_hms\Models\Bodyparts;
 use euro_hms\Models\RadiologyTable;
 use Excel;
 use File;
-
-
-
  class QualifiersRepository 
- {
+
    
  	/**
  	 * [getQualifiersList description]
@@ -29,8 +26,7 @@ use File;
         })->select('qualifiers.id as qualifier_id','qualifiers.name as qualifier_name','radiology.name as radio_name','bodyparts.name as bodypart_name')->orderBy('qualifiers.created_at','desc')->paginate($noOfPage);
         return $list;
     }
-
-    /**
+   /**
      * [create description]
      * @param  [type] $request [description]
      * @return [type]          [description]
@@ -45,7 +41,6 @@ use File;
     	$presp->save();
     	return $presp->id;
     }
-
     /**
      * [getQualifiersDetailsById description]
      * @param  [type] $id [description]
@@ -55,8 +50,7 @@ use File;
     {
         return Qualifiers::where('id',$id)->first();
     }
-
-    /**
+   /**
      * [edit description]
      * @param  [type] $request [description]
      * @return [type]          [description]
@@ -72,8 +66,7 @@ use File;
         $presp->save();
         return $presp->id;
     }
-
-    /**
+   /**
      * [delete description]
      * @param  [type] $id [description]
      * @return [type]     [description]
@@ -84,7 +77,6 @@ use File;
         $presp_id ->delete();
         return $id;
     }
-
     /**
      * [getQualifierByBodypartsId description]
      * @param  [type] $b_id [description]
