@@ -5,8 +5,9 @@ use DB;
 use euro_hms\Models\RadiologyTable;
 use Excel;
 use File;
-  class RadiologyRepository 
- {
+
+class RadiologyRepository 
+{
    
  	/**
  	 * [getRadiologyList description]
@@ -20,7 +21,6 @@ use File;
         $list= RadiologyTable::orderBy('radiology.created_at','asc')->get();
         return $list;
     }
-    
      /**
      * [getRadiologyDetailsById description]
      * @param  [type] $id [description]
@@ -30,6 +30,7 @@ use File;
     {
         return RadiologyTable::where('id',$id)->first();
     }
+
      /**
      * [getRadiologyNameById description]
      * @param  [type] $id [description]

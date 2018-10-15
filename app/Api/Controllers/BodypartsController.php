@@ -1,17 +1,23 @@
 <?php
- namespace euro_hms\Api\Controllers;
- use Illuminate\Routing\Controller;
+
+namespace euro_hms\Api\Controllers;
+
+use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use euro_hms\Models\User;
 use euro_hms\Models\Bodyparts;
 use euro_hms\Api\Repositories\BodypartsRepository;
- use DB;
+
+use DB;
 use Carbon\Carbon;
- class BodypartsController extends Controller
+
+class BodypartsController extends Controller
+
 {
     public function __construct(){
         $this->bodypObj = new BodypartsRepository();
     }
+
      /**
      * [getBodypartsList description]
      * @param  Request $request [description]
@@ -34,6 +40,7 @@ use Carbon\Carbon;
         }
        
     }
+
      /**
      * [createBodyparts description]
      * @param  Request $request [description]
@@ -51,6 +58,7 @@ use Carbon\Carbon;
             return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
         }
     }
+
      /**
      * [getBodypartsDetailsById description]
      * @param  Request $request [description]
@@ -69,6 +77,7 @@ use Carbon\Carbon;
             return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
         }
     }
+
      /**
      * [editBodyparts description]
      * @param  Request $request [description]
@@ -86,6 +95,7 @@ use Carbon\Carbon;
             return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
         }
     }
+
      /**
      * [deleteBodyparts description]
      * @param  Request $request [description]
@@ -104,6 +114,7 @@ use Carbon\Carbon;
             return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
         }
     }
+
      /**
      * [getBodypartsByRadiologyId description]
      * @param  Request $request [description]
@@ -122,5 +133,4 @@ use Carbon\Carbon;
             return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
         }
     }
-    
 }

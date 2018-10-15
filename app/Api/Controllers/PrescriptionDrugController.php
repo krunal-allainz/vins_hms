@@ -213,7 +213,7 @@ class PrescriptionDrugController extends Controller
             return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
         }
     }
-     /**
+
      * [importPrescriptionFile description]
      * @param  Request $request [description]
      * @return [type]           [description]

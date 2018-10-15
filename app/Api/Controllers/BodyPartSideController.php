@@ -12,11 +12,12 @@ use euro_hms\Api\Repositories\BodyPartSideRepository;
 use DB;
 use Carbon\Carbon;
 
- class BodyPartSideController extends Controller
+class BodyPartSideController extends Controller
 {
     public function __construct(){
         $this->bpsObj = new BodyPartSideRepository();
     }
+
      /**
      * [getBodyPartSideList description]
      * @param  Request $request [description]
@@ -36,4 +37,5 @@ use Carbon\Carbon;
         }
        
     }
+
  }

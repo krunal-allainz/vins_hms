@@ -6,7 +6,9 @@ use euro_hms\Models\Bodyparts;
 use euro_hms\Models\RadiologyTable;
 use Excel;
 use File;
-  class BodypartsRepository 
+
+class BodypartsRepository 
+
  {
    
  	/**
@@ -23,7 +25,7 @@ use File;
         })->select('bodyparts.id as bodypart_id','bodyparts.name as bodypart_name','radiology.name as radio_name')->orderBy('bodyparts.created_at','desc')->paginate($noOfPage);
         return $list;
     }
-     /**
+   /**
      * [create description]
      * @param  [type] $request [description]
      * @return [type]          [description]
@@ -37,6 +39,7 @@ use File;
     	$presp->save();
     	return $presp->id;
     }
+
      /**
      * [getBodypartsDetailsById description]
      * @param  [type] $id [description]
@@ -61,6 +64,7 @@ use File;
         $presp->save();
         return $presp->id;
     }
+
      /**
      * [delete description]
      * @param  [type] $id [description]
@@ -72,6 +76,7 @@ use File;
         $presp_id ->delete();
         return $id;
     }
+
      /**
      * [getBodypartsListOptions description]
      * @return [type] [description]
@@ -80,7 +85,7 @@ use File;
     {
         return Bodyparts::where('radiology_id',$r_id)->get();
     }
-    
+ 
     
  }
 ?>

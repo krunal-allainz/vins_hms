@@ -1,18 +1,21 @@
 <?php
+
  namespace euro_hms\Api\Controllers;
  use Illuminate\Routing\Controller;
+
 use Illuminate\Http\Request;
 use euro_hms\Models\User;
 use euro_hms\Models\SpecialRequest;
 use euro_hms\Api\Repositories\SpecialRequestRepository;
+
  use DB;
 use Carbon\Carbon;
  class SpecialRequestController extends Controller
+
 {
     public function __construct(){
         $this->bodypObj = new SpecialRequestRepository();
     }
-     /**
      * [getSpecialRequestList description]
      * @param  Request $request [description]
      * @return [type]           [description]
@@ -34,7 +37,7 @@ use Carbon\Carbon;
         }
        
     }
-     /**
+
      * [createSpecialRequest description]
      * @param  Request $request [description]
      * @return [type]           [description]
@@ -51,7 +54,7 @@ use Carbon\Carbon;
             return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
         }
     }
-     /**
+
      * [getSpecialRequestDetailsById description]
      * @param  Request $request [description]
      * @return [type]           [description]
@@ -69,7 +72,7 @@ use Carbon\Carbon;
             return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
         }
     }
-     /**
+
      * [editSpecialRequest description]
      * @param  Request $request [description]
      * @return [type]           [description]
@@ -86,7 +89,7 @@ use Carbon\Carbon;
             return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
         }
     }
-     /**
+
      * [deleteSpecialRequest description]
      * @param  Request $request [description]
      * @return [type]           [description]
@@ -104,7 +107,7 @@ use Carbon\Carbon;
             return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
         }
     }
-     /**
+
      * [getSpecialRequestByRadiologyId description]
      * @param  Request $request [description]
      * @return [type]           [description]
@@ -122,5 +125,4 @@ use Carbon\Carbon;
             return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
         }
     }
-    
-}
+

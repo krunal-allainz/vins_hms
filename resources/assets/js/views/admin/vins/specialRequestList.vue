@@ -4,21 +4,12 @@
 		<div class="card bg-success-card">
       <div class="card-header">
         <div class="row">
-          <div class="col-md-3"><h4>Prescription List</h4></div>
-          <div class="col-md-6"> 
-              <form id="app" action="prescription/importPrescriptionFile" method="post" enctype="multipart/form-data" v-on:submit="verifyImportFile">
-                 <div class="large-12 medium-12 small-12 cell">
-                    <label>File
-                      <input type="file" id="file" ref="file" name="file" />
-                    </label>
-                      <button type="submit" name="import" class="btn btn-warning">Import</button>
-                  </div>
-                </form>
-          </div>
-          <div class="col-md-3 text-right"><button type="button" class="btn btn-primary" @click="setAddPrescription()">Add</button></div></div>
+          <div class="col-md-6"><h4>Special Request List</h4></div>
+          <div  class="col-md-6 text-right"><button type="button" class="btn btn-primary" @click="setAddSpecialRequest()">Add</button></div></div>
         </div>
+		
             <div class="card-body">
-            	<div data-v-744e717e="" class="card p-3"  v-if="(prescriptionPagination.total > 0)">
+            	<div data-v-744e717e="" class="card p-3"  v-if="(specialRequestPagination.total > 0)">
               		<div data-v-744e717e="" class="table-header">
                   		<h4 data-v-744e717e="" class="table-title text-center mt-3"></h4>
               		</div>
@@ -27,36 +18,30 @@
                   			<thead data-v-744e717e="">
                     			<tr data-v-744e717e="">
                     				 <th data-v-744e717e="" class="sortable sorting-asc " style="">
-                                		Name
+                                		Radiology
                         			 </th>
                         			 <th style="width: auto;">
-                            			Type
+                            			Name
                              			<i data-v-744e717e="" class="fa float-right"></i> 
                              		</th>
-                                <th data-v-744e717e="" class="sortable" style="width: auto;">
-                            			Doctor Name
-                                  <i data-v-744e717e="" class="fa float-right"></i>
-                        			 </th>
+                               
                         			 <th data-v-744e717e="" class="sortable" style="width: auto;">
                            				 Action
                             			<i data-v-744e717e="" class="fa float-right"></i>
                         			 </th>
                         		</tr>
                   			</thead>
-                  			<tbody data-v-744e717e=""  v-for="prescriptData in getPrescriptionData">
-                  				 <tr data-v-744e717e="" :id="'presp_'+prescriptData.id" v-if="prescriptData.remove=='false'">
+                  			<tbody data-v-744e717e=""  v-for="specialRequestData in getSpecialRequestData">
+                  				 <tr data-v-744e717e="" :id="'presp_'+specialRequestData.special_id">
                   				 	<td data-v-744e717e="" class="text-uppercase">
-                       					{{ prescriptData.name}}
+                       					{{ specialRequestData.radio_name}}
                       				</td>
                       				<td data-v-744e717e="" class="text-uppercase">
-                       					{{ prescriptData.type}}
-                      				</td>
-                      				<td data-v-744e717e="" class="text-uppercase">
-                        				{{ prescriptData.doctor}}
+                                {{ specialRequestData.special_name}}
                       				</td>
                       				<td data-v-744e717e="" class="">
-                      					<a> <i class="fa fa-remove text-danger mr-3 text-info mr-3" @click="removePrescription(prescriptData.id)" title="Prescription Delete"></i></a>
-                                <a  @click="setPrescriptionId(prescriptData.id)" title="Prescription Edit"> <i class="fa fa-pencil text-info mr-3 text-info mr-3" ></i></a>
+                      					<a> <i class="fa fa-remove text-danger mr-3 text-info mr-3" @click="removeSpecialRequest(specialRequestData.special_id)" title="Special Request Delete"></i></a>
+                                <a  @click="setSpecialRequestId(specialRequestData.special_id)" title="Special Request Edit"> <i class="fa fa-pencil text-info mr-3 text-info mr-3" ></i></a>
                       				</td>
                   				 </tr>
                   			</tbody>
@@ -65,7 +50,7 @@
               		<div data-v-744e717e="" class="table-footer">
                 		<div data-v-744e717e="" class="datatable-length float-left pl-3">
                   			<span data-v-744e717e="">Rows per page:</span>
-                    			<select data-v-744e717e="" class="custom-select" id="perPageNoPrescription"  @change="setPerPagePrescription" v-model="perPagePrescription">
+                    			<select data-v-744e717e="" class="custom-select" id="perPageNoSpecialRequest"  @change="setPerPageSpecialRequest" v-model="perPageSpecialRequest">
                     				<option data-v-744e717e="" value="2">2</option>
                      				<option data-v-744e717e="" value="5">5</option>
                       				<option data-v-744e717e="" value="10">10</option>
@@ -74,8 +59,8 @@
                    					<!--     <option data-v-744e717e="" value="-1">All</option> -->
                     			</select>
 
-                     		<div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(prescriptionPagination.total > 0)">
-                        		<span data-v-744e717e="">Showing </span> {{prescriptionPagination.current_page}} - {{prescriptionPagination.to}} of {{prescriptionPagination.total}}
+                     		<div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(specialRequestPagination.total > 0)">
+                        		<span data-v-744e717e="">Showing </span> {{specialRequestPagination.current_page}} - {{specialRequestPagination.to}} of {{specialRequestPagination.total}}
                         		<span data-v-744e717e="">records</span>
                    			</div>
                			</div>
@@ -100,21 +85,16 @@
 		 	  'user':this.$store.state.Users.userDetails.first_name + " "+ this.$store.state.Users.userDetails.last_name ,
         'user_id':0,
         'user_type':this.$store.state.Users.userDetails.user_type,
-        'getPrescriptionData' : '',
+        'getSpecialRequestData' : '',
         'pagination': {},
         'perPage' : 5,
-        'perPagePrescription' : 5,
-        'patientId' :'',
-        'open_opd_modal':false,
-        'getPatientOPDInfo ' : '',
-        'prescriptionPagination': {},
+        'perPageSpecialRequest' : 5,
+        'specialRequestPagination': {},
         'import_file':''
 		 	}
 		 },
        created: function() {
-             this.$root.$on('close_modal', this.close_modal);
-             this.$root.$on('searchPatientData', this.searchPatientData);
-             this.$root.$on('patientEmpty', this.setSearchData);
+            
         },
 		  mounted(){
 		 	let vm = this;
@@ -122,7 +102,7 @@
           vm.$root.$emit('logout','You are not authorise to access this page'); 
         }
 		
-       vm.getPrescriptionList('/prescription/getPrescriptionList');
+       vm.getSpecialRequestList('/specialRequest/getSpecialRequestList');
       
 		 },
      components: {
@@ -138,29 +118,29 @@
           }
           else
           {
-            toastr.error('Please Add Files.', 'Add Prescription', {timeOut: 5000});
+            toastr.error('Please Add Files.', 'Add Special Request', {timeOut: 5000});
             event.preventDefault();
           }
            
       },
-      removePrescription(id)
+      removeSpecialRequest(id)
       {
           let vm=this;
-            User.deletePrescription(id).then(
+            User.deleteSpecialRequest(id).then(
                 (response)=> {
                  
                   if(response.data.code == 200){
                     $('#presp_'+id).remove();
-                    toastr.success('Prescription deleted successfully', 'Add Prescription', {timeOut: 5000});
+                    toastr.success('Special Request deleted successfully', 'Add Special Request', {timeOut: 5000});
                       //this.initialState();
                       
                   } else if (response.data.code == 300) {
-                      toastr.error('Something Went wrong.', 'Add Prescription', {timeOut: 5000});
+                      toastr.error('Something Went wrong.', 'Add Special Request', {timeOut: 5000});
                       //this.initialState(); 
                   }
                   else
                   {
-                      toastr.error('Something Went wrong.', 'Add Prescription', {timeOut: 5000});
+                      toastr.error('Something Went wrong.', 'Add Special Request', {timeOut: 5000});
                   }
                   
                 },
@@ -169,31 +149,31 @@
 
               )
       },
-      setPrescriptionId(id)
+      setSpecialRequestId(id)
       {
         let vm=this;
-          vm.$store.dispatch('SetPrescriptionId', id); 
-          vm.$store.dispatch('SetPrescriptionPage','EDIT');
-          vm.$router.push({'name':'prescription_add'});
+          vm.$store.dispatch('SetSpecialRequestId', id); 
+          vm.$store.dispatch('SetSpecialRequestPage','EDIT');
+          vm.$router.push({'name':'specialRequest_add'});
       },
-      setAddPrescription()
+      setAddSpecialRequest()
       {
           let vm=this;
-          vm.$store.dispatch('SetPrescriptionId', ''); 
-          vm.$store.dispatch('SetPrescriptionPage','ADD');
-          vm.$router.push({'name':'prescription_add'});
+          vm.$store.dispatch('SetSpecialRequestId', ''); 
+          vm.$store.dispatch('SetSpecialRequestPage','ADD');
+          vm.$router.push({'name':'specialRequest_add'});
       },
-		 	getPrescriptionList(page_url){
+		 	getSpecialRequestList(page_url){
 		 		let vm = this;
 		 		let userId = vm.user_id;
 		 		let userType = vm.user_type;
 		 	
         let no_of_page = '';
-        no_of_page = vm.perPagePrescription;
+        no_of_page = vm.perPageSpecialRequest;
 
-		 		User.getPrescriptionList(page_url,userType,no_of_page,userId).then(
+		 		User.getSpecialRequestList(page_url,userType,no_of_page,userId).then(
 		 			 (response) => {
-              vm.getPrescriptionData = response.data.data.data;
+              vm.getSpecialRequestData = response.data.data.data;
 		 			 	  vm.makePagination( response.data.data);
 		 			 },
 		 			 (error) => {
@@ -210,16 +190,16 @@
               from : data.from,
               to : data.to
           }
-          this.prescriptionPagination = pagination;
+          this.specialRequestPagination = pagination;
       },
           
     setPerPage(e){
       let vm =this;
-      vm.getPrescriptionList('/prescription/getPrescriptionList');
+      vm.getSpecialRequestList('/specialRequest/getSpecialRequestList');
     },
-    setPerPagePrescription(e){
+    setPerPageSpecialRequest(e){
       let vm =this;
-      vm.getPrescriptionList('/prescription/getPrescriptionList');
+      vm.getSpecialRequestList('/specialRequest/getSpecialRequestList');
     },
 	},
 		
