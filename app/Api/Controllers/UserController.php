@@ -6,6 +6,8 @@ use Brotzka\DotenvEditor\DotenvEditor;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Validator;
 
 // Need to Define Only Contracts
 // use euro_hms\Api\Contracts\UserContract;
@@ -26,6 +28,8 @@ use Hash;
  */
 class UserController extends BaseController
 {
+
+    public $successStatus = 200;
     public function __construct()
     {
         $this->userRepoObj = new UserRepository();

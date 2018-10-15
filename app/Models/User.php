@@ -16,7 +16,7 @@ use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable implements HasRoleAndPermissionContract, CanResetPassword
 {
-    use Notifiable, HasRoleAndPermission, SoftDeletes;
+    use Notifiable, HasRoleAndPermission, SoftDeletes,HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
