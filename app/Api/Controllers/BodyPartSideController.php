@@ -1,12 +1,17 @@
 <?php
- namespace euro_hms\Api\Controllers;
- use Illuminate\Routing\Controller;
+
+namespace euro_hms\Api\Controllers;
+
+use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use euro_hms\Models\User;
 use euro_hms\Models\BodyPartSide;
 use euro_hms\Api\Repositories\BodyPartSideRepository;
- use DB;
+
+
+use DB;
 use Carbon\Carbon;
+
  class BodyPartSideController extends Controller
 {
     public function __construct(){
