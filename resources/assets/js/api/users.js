@@ -563,4 +563,7 @@ export default {
   {
        return api.post('qualifiers/getQualifierByBodypartsId',{'b_id':b_id})
   },
+  addroles(data){
+      return api.post('role/addroles',{'data':data})
+  }
 }

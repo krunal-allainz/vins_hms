@@ -14,9 +14,9 @@ use euro_hms\Notifications\MyOwnResetPassword as ResetPasswordNotification;
 use euro_hms\Models\UserOtp;
 use Laravel\Passport\HasApiTokens;
 
-class User extends Authenticatable implements HasRoleAndPermissionContract, CanResetPassword
+class User extends Authenticatable implements AuthenticatableContract, CanResetPasswordContract, HasRoleAndPermissionContract
 {
-    use Notifiable, HasRoleAndPermission, SoftDeletes,HasApiTokens;
+    use Notifiable, HasRoleAndPermission, SoftDeletes,HasApiTokens,Authenticatable, HasRoleAndPermission;;
 
     /**
      * The attributes that are mass assignable.

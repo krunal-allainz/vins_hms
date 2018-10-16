@@ -109,6 +109,7 @@ import patientDetailEdit from './views/admin/vins/patientDetailEditForm.vue'
 import allPatientList from './views/admin/vins/allPatientList.vue'
 import patientOpdViewPage from './views/admin/vins/patientOpdViewPage.vue'
 import userDetailEdit from './views/admin/vins/userDetailEdit.vue'
+import addRole from './views/admin/vins/addRoles.vue'
 //for prescriptiom
 import prescriptionList from './views/admin/vins/prescriptionList.vue'
 import prescriptionAdd from './views/admin/vins/prescriptionAdd.vue'
@@ -173,6 +174,12 @@ const routes = [
                 meta: { requiresAuth: true },
                 name: 'home'
 
+            },
+            {
+                path: '/addrole',
+                component: Addroles,
+                meta: { requiresAuth: true },
+                name: 'addrole'
             },
             {
                 path: '/dashboard',

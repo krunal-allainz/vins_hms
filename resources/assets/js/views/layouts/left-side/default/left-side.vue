@@ -44,6 +44,9 @@
                         <vmenu-item link="/specialRequest_list" icon="ti-layout">
                             &nbsp; Radiology Special Request
                         </vmenu-item> 
+                         <vmenu-item link="/addrole" icon="ti-layout">
+                            &nbsp; Add Roles
+                        </vmenu-item> 
                     </vmenu> 
                 </div>
                 <div v-if="userRole == 3">

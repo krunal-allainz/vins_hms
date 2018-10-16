@@ -403,6 +403,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
        //for qualifier list
         $api->post('qualifiers/getQualifierByBodypartsId', '\euro_hms\Api\Controllers\QualifiersController@getQualifierByBodypartsId');
 
+        $api->post('role/addroles', '\euro_hms\Api\Controllers\RoleController@createRole');
+
 });
 
 
