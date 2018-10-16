@@ -26,9 +26,8 @@
 			                    <td>{{res.bodyparts}}</td>
 			                    <td>{{res.qualifiers}}</td>
 			                    <td>{{res.special_request}}</td>
-			                    <td>{{res.details}}</td>
-			                    <!-- <td>{{res.details | strLimit}}</td> -->
-			                    <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
+			                    <td>{{res.details | strLimit}}</td>
+			                   
 			                </tr>
 	                    </tbody>
 						</table>
@@ -64,9 +63,7 @@
 				                    <td>{{res.bodyparts}}</td>
 				                    <td>{{res.qualifiers}}</td>
 				                    <td>{{res.special_request}}</td>
-				                    <td>{{res.details}}</td>
-				                    <!-- <td>{{res.details | strLimit}}</td> -->
-				                    <!-- <td><img :src="res.imgData" height="100" width="100" /></td> -->
+				                    <td>{{res.details | strLimit}}</td>
 				                </tr>
 		                    </tbody>
 						</table>
@@ -82,5 +79,16 @@
 <script>
 	export default {
 		props:['radiologyReferalReportData','radiologyReportData','printType','checkedreportList'],
+		filters: {
+          strLimit: function (value) {
+            if(value.length > 50){
+                var str50 = value.substr(0,50);
+                return str50+'...'; 
+            } else {
+                return value; 
+
+            }
+          }
+        },
 	}
 </script>

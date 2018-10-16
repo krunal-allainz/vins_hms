@@ -12,16 +12,17 @@ class Radiology extends Model
         protected $fillable=[
               'opd_id',
               'user_id',
-              'type',
-              'subtype',
-              'bodyparts',
-              'qualifiers',
-              'special_request',
+              'radiology_id',
+              'spine_id',
+              'bodyparts_id',
+              'qualifiers_id',
+              'special_request_id',
               'details',
               'attachments',
               'referance',
-              'body_part_side',
+              'body_part_side_id',
               'radiology_other',
-              'type_name'
+              'type_name',
+              'bodyparts_other'
         ];
 }

@@ -94,6 +94,17 @@ use File;
     {
         return Qualifiers::where('bodyparts_id',$b_id)->get();
     }
+
+    /**
+     * [getQualifiersNameById description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+    public function getQualifiersNameById($id)
+    {
+        $qualifier= Qualifiers::where('id',$id)->first();
+        return $qualifier->name;
+    }
    
     
  }
