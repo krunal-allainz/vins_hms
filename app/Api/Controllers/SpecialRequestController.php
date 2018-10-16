@@ -1,24 +1,21 @@
 <?php
 
-namespace euro_hms\Api\Controllers;
+ namespace euro_hms\Api\Controllers;
+ use Illuminate\Routing\Controller;
 
-use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use euro_hms\Models\User;
 use euro_hms\Models\SpecialRequest;
 use euro_hms\Api\Repositories\SpecialRequestRepository;
 
-
-use DB;
+ use DB;
 use Carbon\Carbon;
+ class SpecialRequestController extends Controller
 
-class SpecialRequestController extends Controller
 {
     public function __construct(){
         $this->bodypObj = new SpecialRequestRepository();
     }
-
-    /**
      * [getSpecialRequestList description]
      * @param  Request $request [description]
      * @return [type]           [description]
@@ -41,7 +38,6 @@ class SpecialRequestController extends Controller
        
     }
 
-    /**
      * [createSpecialRequest description]
      * @param  Request $request [description]
      * @return [type]           [description]
@@ -59,7 +55,6 @@ class SpecialRequestController extends Controller
         }
     }
 
-    /**
      * [getSpecialRequestDetailsById description]
      * @param  Request $request [description]
      * @return [type]           [description]
@@ -78,7 +73,6 @@ class SpecialRequestController extends Controller
         }
     }
 
-    /**
      * [editSpecialRequest description]
      * @param  Request $request [description]
      * @return [type]           [description]
@@ -96,7 +90,6 @@ class SpecialRequestController extends Controller
         }
     }
 
-    /**
      * [deleteSpecialRequest description]
      * @param  Request $request [description]
      * @return [type]           [description]
@@ -115,7 +108,6 @@ class SpecialRequestController extends Controller
         }
     }
 
-    /**
      * [getSpecialRequestByRadiologyId description]
      * @param  Request $request [description]
      * @return [type]           [description]
@@ -133,5 +125,4 @@ class SpecialRequestController extends Controller
             return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
         }
     }
-    
-}
+

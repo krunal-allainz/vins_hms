@@ -5,10 +5,8 @@ use DB;
 use euro_hms\Models\BodyPartSide;
 use Excel;
 use File;
-
-
-
  class BodyPartSideRepository 
+
  {
    
  	/**
@@ -23,10 +21,8 @@ use File;
         $list= BodyPartSide::orderBy('bodypart_side.created_at','asc')->get();
         return $list;
     }
-
-   
-
-    /**
+  
+     /**
      * [getBodyPartSideDetailsById description]
      * @param  [type] $id [description]
      * @return [type]     [description]
@@ -36,7 +32,7 @@ use File;
         return BodyPartSide::where('id',$id)->first();
     }
 
-    /**
+     /**
      * [getBodyPartSideNameById description]
      * @param  [type] $id [description]
      * @return [type]     [description]
@@ -49,3 +45,4 @@ use File;
     
  }
 ?>
+

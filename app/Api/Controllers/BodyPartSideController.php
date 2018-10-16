@@ -18,7 +18,7 @@ class BodyPartSideController extends Controller
         $this->bpsObj = new BodyPartSideRepository();
     }
 
-    /**
+     /**
      * [getBodyPartSideList description]
      * @param  Request $request [description]
      * @return [type]           [description]
@@ -38,5 +38,4 @@ class BodyPartSideController extends Controller
        
     }
 
-
-}
+ }
