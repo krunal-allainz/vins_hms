@@ -7,8 +7,6 @@ use Illuminate\Http\Request;
 use euro_hms\Models\User;
 use euro_hms\Models\BodyPartSide;
 use euro_hms\Api\Repositories\BodyPartSideRepository;
-
-
 use DB;
 use Carbon\Carbon;
 
