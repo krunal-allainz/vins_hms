@@ -177,7 +177,7 @@ const routes = [
             },
             {
                 path: '/addrole',
-                component: Addroles,
+                component: addRole,
                 meta: { requiresAuth: true },
                 name: 'addrole'
             },

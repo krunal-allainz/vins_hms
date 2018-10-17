@@ -55,12 +55,7 @@
 </template>
 
 <script>
-/*if(localStorage.getItem("user_add"))
-    {
-        toastr.success('User has been added successfully', 'Add User', {timeOut: 5000});
-        localStorage.removeItem("user_add");
-        //localStorage.clear();
-    }*/
+
 	import User from '../../../api/users.js';
 
     export default {
@@ -75,9 +70,6 @@
         },
         mounted() {
             var vm = this;
-             
-          		
-              
         },
         methods: {
         	addRoles(){
@@ -90,19 +82,17 @@
           			 	 } else if (response.data.code == 301) {
                                         //this.initialState();
                                         toastr.error('Role already exist.', 'Add Role', {timeOut: 5000});
+                                    }
           			 },
           			  (error) => {
-                  },
+                		  },
           			);
         	},
-           
              initialState() {
-             	  var vm = this;
-                this.vm.Data.rolename = '',
-                this.vm.Data.slug =  '',
-                this.vm.Data.description ='',
+                this.$data.Data.rolename = '',
+                this.$data.Data.slug =  '',
+                this.$data.Data.description =''
             },
-           
             validateBeforeSubmit() {
                
                 this.$validator.validateAll().then(() => {
@@ -129,10 +119,10 @@
                                   (error)=>{
                                   }
 
-                                )
+                                );
                         // }
                     }
-                })
+                });
             }
         }
     }
