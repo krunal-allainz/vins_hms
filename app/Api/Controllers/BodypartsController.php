@@ -1,11 +1,11 @@
 <?php
- namespace euro_hms\Api\Controllers;
- use Illuminate\Routing\Controller;
+namespace euro_hms\Api\Controllers;
+use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use euro_hms\Models\User;
 use euro_hms\Models\Bodyparts;
 use euro_hms\Api\Repositories\BodypartsRepository;
- use DB;
+use DB;
 use Carbon\Carbon;
  class BodypartsController extends Controller
 {
@@ -104,11 +104,11 @@ use Carbon\Carbon;
             return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
         }
     }
-     /**
-     * [getBodypartsByRadiologyId description]
-     * @param  Request $request [description]
-     * @return [type]           [description]
-     */
+    /**
+    * [getBodypartsByRadiologyId description]
+    * @param  Request $request [description]
+    * @return [type]           [description]
+    */
     public function getBodypartsByRadiologyId(Request $request)
     {
         $r_id = $request->r_id;
@@ -121,6 +121,5 @@ use Carbon\Carbon;
         {
             return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
         }
-    }
-    
+    }    
 }
