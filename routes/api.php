@@ -400,10 +400,16 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         //for bodypart side list
         $api->post('bodyPartSide/getBodypartSideList', '\euro_hms\Api\Controllers\BodyPartSideController@getBodypartSideList');
        
-       //for qualifier list
+       //for qualifier list by body part id
         $api->post('qualifiers/getQualifierByBodypartsId', '\euro_hms\Api\Controllers\QualifiersController@getQualifierByBodypartsId');
 
-});
+        //for special request list by radiology id
+        $api->post('specialRequest/getSpecialRequestByRadiologyId', '\euro_hms\Api\Controllers\SpecialRequestController@getSpecialRequestByRadiologyId');
+
+          //for spinelist
+        $api->post('spine/getSpineList', '\euro_hms\Api\Controllers\SpineController@getSpineList');
+
+}); 
 
 
         

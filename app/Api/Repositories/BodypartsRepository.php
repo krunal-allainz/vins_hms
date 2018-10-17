@@ -80,6 +80,7 @@ use File;
     {
         return Bodyparts::where('radiology_id',$r_id)->get();
     }
+
     /**
      * [getBodypartsNameById description]
      * @param  [type] $id [description]
@@ -90,7 +91,6 @@ use File;
         $bodyparts= Bodyparts::where('id',$id)->first();
         return $bodyparts->name;
     }
-   
     
  }
 ?>

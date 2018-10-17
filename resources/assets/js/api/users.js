@@ -563,4 +563,12 @@ export default {
   {
        return api.post('qualifiers/getQualifierByBodypartsId',{'b_id':b_id})
   },
+  getSpecialRequestByRadiologyId(r_id)
+  {
+      return api.post('specialRequest/getSpecialRequestByRadiologyId',{'r_id':r_id})
+  },
+  getSpineList()
+  {
+      return api.post('spine/getSpineList')
+  },
 }

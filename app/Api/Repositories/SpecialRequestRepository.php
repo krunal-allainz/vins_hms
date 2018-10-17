@@ -82,5 +82,17 @@ class SpecialRequestRepository
     {
         return SpecialRequest::where('radiology_id',$r_id)->get();
     }
+
+
+    /**
+     * [getSpecialRequestNameById description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+    public function getSpecialRequestNameById($id)
+    {
+        $special_req= SpecialRequest::where('id',$id)->first();
+        return $special_req->name;
+    }
  }
 ?>

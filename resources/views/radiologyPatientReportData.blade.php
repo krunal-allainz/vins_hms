@@ -26,7 +26,7 @@
                                         <td>{{$res['bodyparts']}}</td>
                                         <td>{{$res['qualifiers']}}</td>
                                         <td>{{$res['special_request']}}</td>
-                                        <td>{{$res['details']}}</td>
+                                        <td>{{str_limit($res['details'],50)}}</td>
                                     </tr>
                                 @endforeach
                            

@@ -7,8 +7,8 @@ use euro_hms\Models\Bodyparts;
 use euro_hms\Models\RadiologyTable;
 use Excel;
 use File;
- class QualifiersRepository 
-
+class QualifiersRepository 
+{
    
  	/**
  	 * [getQualifiersList description]
@@ -85,6 +85,17 @@ use File;
     public function getQualifierByBodypartsId($b_id)
     {
         return Qualifiers::where('bodyparts_id',$b_id)->get();
+    }
+
+    /**
+     * [getQualifiersNameById description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+    public function getQualifiersNameById($id)
+    {
+        $qualifier= Qualifiers::where('id',$id)->first();
+        return $qualifier->name;
     }
    
     

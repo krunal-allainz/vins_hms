@@ -16,6 +16,9 @@
  use euro_hms\Models\PatientCaseManagment;
  use euro_hms\Api\Repositories\PatientRepository;
  use euro_hms\Api\Repositories\UserRepository;
+ use euro_hms\Api\Repositories\BodypartsRepository;
+ use euro_hms\Api\Repositories\QualifiersRepository;
+ use euro_hms\Api\Repositories\SpecialRequestRepository;
  use euro_hms\Models\PatientDetailsForm;
  use euro_hms\Models\OpdDetailsOption;
  use euro_hms\Models\TokenManagment;
@@ -32,6 +35,9 @@
  	public function __construct(){
         $this->objPatient = new PatientRepository();
         $this->objUser = new UserRepository();
+        $this->objBodyparts=new BodypartsRepository();
+        $this->objQualifiers=new QualifiersRepository();
+        $this->objSpecialRequest=new SpecialRequestRepository();
     }
 
     /**
@@ -249,50 +255,77 @@
         { 
           foreach($radio_opd_data as $radio)
           {
-            $radiology_obj=new Radiology();
-            $radiology_obj->patient_case_management_id=$case_id;
-            //$radiology_obj->opd_id=$opd_id_org;
-            $radiology_obj->user_id=$user_id;
-            $radiology_obj->type=$radio['type'];
-            $radiology_obj->type_name=$radio['type_name'];
-            $radiology_obj->bodyparts=$radio['bodyPart'];
-            $radiology_obj->qualifiers=$radio['qualifier'];
-            $radiology_obj->special_request=$radio['special_request'];
-            $radiology_obj->referance=0;
-            $radiology_obj->details=$radio['textData'];
-            if(isset($radio['body_part_side']))
-            {
-              $radiology_obj->body_part_side=$radio['body_part_side'];
-              if($radiology_obj->body_part_side=='Others')
+           
+           $radiology_obj=new Radiology();
+              $radiology_obj->patient_case_management_id=$case_id;
+              //$radiology_obj->opd_id=$opd_id_org;
+              $radiology_obj->user_id=$user_id;
+              $radiology_obj->radiology_id=$radio['type'];
+              $radiology_obj->type_name=$radio['type_name'];
+              if($radio['bodyPart']!="" && $radio['bodyPart']!=null)
               {
-                $body_part_others=array();
-                if($radio['body_part_others_type']=='text')
-                {
-                  $body_part_others=array('type'=>$radio['body_part_others_type'],'value'=>$radio['body_part_others']);
-                }
-                else
-                {
-                  $body_part_others=array('type'=>$radio['body_part_others_type'],'value'=>$radio['signaturePad3_src']);
-                }
-                $radiology_obj->body_part_others=json_encode($body_part_others);
+                  $radiology_obj->bodyparts_id=$radio['bodyPart'];
               }
-            }
-            if($radio['type']=='other')
-            {
-              $radiology_obj->radiology_other = $radio['radiologyOther'];
-            }
-            if($radio['type']=='X-Rays')
-            {
-              $radiology_obj->subtype = '';
-            }
-            else if($radio['type']=='MRI')
-            {
-              if($radiology_obj->bodyparts=='Spine')
+              else
               {
-                $radiology_obj->subtype=$radio['spine_option_value'];
+                  $radiology_obj->bodyparts_text=$radio['bodyPart_text'];
               }
-            }
-            $radiology_obj->save();
+              if($radio['qualifier']!="" && $radio['qualifier']!=null)
+              {
+                   $radiology_obj->qualifiers_id=$radio['qualifier'];
+              }
+              else
+              {
+                  $radiology_obj->qualifiers_text=$radio['qualifier_text'];
+              }
+              if($radio['special_request']!="" && $radio['special_request']!=null)
+              {
+                  $radiology_obj->special_request_id=$radio['special_request'];
+              }
+              else
+              {
+                  $radiology_obj->special_request_text=$radio['special_request_text'];
+              }
+             
+              
+              $radiology_obj->referance=0;
+              $radiology_obj->details=$radio['textData'];
+              $image_data=$radio['imgData'];
+              if(isset($radio['body_part_side']))
+              {
+                $radiology_obj->body_part_side_id=$radio['body_part_side'];
+                if(isset($radio['body_part_side_text']) && $radio['body_part_side_text']=='Others')
+                {
+                  $body_part_others=array();
+                  if($radio['body_part_others_type']=='text')
+                  {
+                    $body_part_others=array('type'=>$radio['body_part_others_type'],'value'=>$radio['body_part_others']);
+                  }
+                  else
+                  {
+                    $body_part_others=array('type'=>$radio['body_part_others_type'],'value'=>$radio['signaturePad3_src']);
+                  }
+                  $radiology_obj->body_part_others=json_encode($body_part_others);
+                }
+              }
+              
+              if($radio['type_name']=='Other')
+              {
+                $radiology_obj->radiology_other = $radio['radiologyOther'];
+              }
+              if($radio['type_name']=='MRI')
+              {
+                if($radio['bodyPart_text']=='Spine')
+                {
+                  $radiology_obj->spine_id=$radio['spine_option_value'];
+                }
+              }
+              else if($radio['bodyPart_text']=='Other')
+              {
+                  $radiology_obj->bodyparts_other=$radio['bodyPart_others'];
+              }
+              $radiology_obj->save();
+           
           }
         }
         /*for form -2 library*/
@@ -324,53 +357,75 @@
           
           foreach($radiology_data as $r_data)
           {
-            $radiology_obj_2=new Radiology();
-            $radiology_obj_2->patient_case_management_id=$case_id;
-            //$radiology_obj_2->opd_id=$opd_id_org;
-            $radiology_obj_2->user_id=$user_id;
-            $radiology_obj_2->type=$r_data['type'];
-            $radiology_obj_2->type_name=$r_data['type_name'];
-            $radiology_obj_2->bodyparts=$r_data['bodyPart'];
-            $radiology_obj_2->qualifiers=$r_data['qualifier'];
-            $radiology_obj_2->special_request=$r_data['special_request'];
-            $radiology_obj_2->referance=1;
-            $radiology_obj_2->details=$r_data['textData'];
-            $image_data=$r_data['imgData'];
-            if(isset($r_data['body_part_side']))
-            {
-              $radiology_obj_2->body_part_side=$r_data['body_part_side'];
-              if($radiology_obj_2->body_part_side=='Others')
+           $radiology_obj_2=new Radiology();
+              $radiology_obj_2->patient_case_management_id=$case_id;
+              //$radiology_obj_2->opd_id=$opd_id_org;
+              $radiology_obj_2->user_id=$user_id;
+              $radiology_obj_2->radiology_id=$r_data['type'];
+              $radiology_obj_2->type_name=$r_data['type_name'];
+              if($r_data['bodyPart']!="" && $r_data['bodyPart']!=null)
               {
-                $body_part_others=array();
-                if($r_data['body_part_others_type']=='text')
-                {
-                  $body_part_others=array('type'=>$r_data['body_part_others_type'],'value'=>$r_data['body_part_others']);
-                }
-                else
-                {
-                  $body_part_others=array('type'=>$r_data['body_part_others_type'],'value'=>$r_data['signaturePad3_src']);
-                }
-                $radiology_obj_2->body_part_others=json_encode($body_part_others);
+                  $radiology_obj_2->bodyparts_id=$r_data['bodyPart'];
               }
-            }
-            
-            if($r_data['type']=='other')
-            {
-              $radiology_obj_2->radiology_other = $r_data['radiologyOther'];
-            }
-            if($r_data['type']=='X-Rays')
-            {
-              // $radiology_obj_2->subtype=$r_data['x_ray_type'];
-              $radiology_obj_2->subtype = '';
-            }
-            else if($r_data['type']=='MRI')
-            {
-              if($radiology_obj_2->bodyparts=='Spine')
+              else
               {
-                $radiology_obj_2->subtype=$r_data['spine_option_value'];
+                  $radiology_obj_2->bodyparts_text=$r_data['bodyPart_text'];
               }
-            }
-            $radiology_obj_2->save();
+              if($r_data['qualifier']!="" && $r_data['qualifier']!=null)
+              {
+                   $radiology_obj_2->qualifiers_id=$r_data['qualifier'];
+              }
+              else
+              {
+                  $radiology_obj_2->qualifiers_text=$r_data['qualifier_text'];
+              }
+              if($r_data['special_request']!="" && $r_data['special_request']!=null)
+              {
+                  $radiology_obj_2->special_request_id=$r_data['special_request'];
+              }
+              else
+              {
+                  $radiology_obj_2->special_request_text=$r_data['special_request_text'];
+              }
+             
+              
+              $radiology_obj_2->referance=1;
+              $radiology_obj_2->details=$r_data['textData'];
+              $image_data=$r_data['imgData'];
+              if(isset($r_data['body_part_side']))
+              {
+                $radiology_obj_2->body_part_side_id=$r_data['body_part_side'];
+                if(isset($r_data['body_part_side_text']) && $r_data['body_part_side_text']=='Others')
+                {
+                  $body_part_others=array();
+                  if($r_data['body_part_others_type']=='text')
+                  {
+                    $body_part_others=array('type'=>$r_data['body_part_others_type'],'value'=>$r_data['body_part_others']);
+                  }
+                  else
+                  {
+                    $body_part_others=array('type'=>$r_data['body_part_others_type'],'value'=>$r_data['signaturePad3_src']);
+                  }
+                  $radiology_obj_2->body_part_others=json_encode($body_part_others);
+                }
+              }
+              
+              if($r_data['type_name']=='Other')
+              {
+                $radiology_obj_2->radiology_other = $r_data['radiologyOther'];
+              }
+              if($r_data['type_name']=='MRI')
+              {
+                if($r_data['bodyPart_text']=='Spine')
+                {
+                  $radiology_obj_2->spine_id=$r_data['spine_option_value'];
+                }
+              }
+              else if($r_data['bodyPart_text']=='Other')
+              {
+                  $radiology_obj_2->bodyparts_other=$r_data['bodyPart_others'];
+              }
+              $radiology_obj_2->save();
             $radiology_id=$radiology_obj_2->id;
             if(!empty($image_data))
             {
@@ -688,19 +743,44 @@
           $rest_radio=array();
           $rest_radio['id']=$index_radio;
           $rest_radio['uploadType']='image';
-          $rest_radio['bodyPart']=$radio->bodyparts;
+          $rest_radio['bodyPart']=$radio->bodyparts_id;
           $rest_radio['qualifierPart']='';
+          if($radio->bodyparts_id!=null && $radio->bodyparts_id!='' && $radio->bodyparts_id!=0)
+          {
+              $rest_radio['bodyPart_text']=$this->objBodyparts->getBodypartsNameById($radio->bodyparts_id);          
+          }
+          else
+          {
+              $rest_radio['bodyPart_text']=$radio->bodyparts_text;
+          }
+          
           $rest_radio['type']=$radio->type;
-          $rest_radio['spine_option_value']=$radio->subtype;
-          $rest_radio['subType']=$radio->bodyparts;
-          $rest_radio['qualifier']=$radio->qualifiers;
+          $rest_radio['spine_option_value']=$radio->spine_id;
+          $rest_radio['subType']=$radio->bodyparts_id;
+          $rest_radio['qualifier']=$radio->qualifiers_id;
+          if($radio->qualifiers_id!=null && $radio->qualifiers_id!='' && $radio->qualifiers_id!=0)
+          {
+              $rest_radio['qualifier_text']=$this->objQualifiers->getQualifiersNameById($radio->qualifiers_id);   
+          }
+          else
+          {
+              $rest_radio['qualifier_text']=$radio->qualifiers_text;
+          }
           $rest_radio['imgData']='';
           $rest_radio['textData']=$radio->details;
           $rest_radio['subtype_text_enable']=false;
           $rest_radio['qualifier_text_enable']=false;
-          $rest_radio['special_request']=$radio->special_request;
+          $rest_radio['special_request']=$radio->special_request_id;
+          if($radio->special_request_id!=null && $radio->special_request_id!='' && $radio->special_request_id!=0)
+          {
+              $rest_radio['special_request_text']=$this->objSpecialRequest->getSpecialRequestNameById($radio->special_request_id);   
+          }
+          else
+          {
+              $rest_radio['special_request_text']=$radio->special_request_text;
+          }
           $rest_radio['removed']=$radio->removed;
-          $rest_radio['body_part_side']=$radio->body_part_side;
+          $rest_radio['body_part_side']=$radio->body_part_side_id;
           $rest_radio['radiologyOther']=$radio->radiology_other;
           $rest_radio['body_part_text']=false;
           $rest_radio['type_name']=$radio->type_name;
@@ -761,20 +841,46 @@
           $rest_radio_2=array();
           $rest_radio_2['id']=$radio_index;
           $rest_radio_2['uploadType']='image';
-          $rest_radio_2['bodyPart']=$radio_2->bodyparts;
-          $rest_radio_2['bodyPart_others']='';
-          $rest_radio_2['type']=$radio_2->type;
-          $rest_radio_2['spine_option_value']=$radio_2->subtype;
-          $rest_radio_2['subType']=$radio_2->bodyparts;
-          $rest_radio_2['qualifier']=$radio_2->qualifiers;
+          $rest_radio_2['bodyPart']=$radio_2->bodyparts_id;
+          if($radio_2->bodyparts_id!=null && $radio_2->bodyparts_id!='' && $radio_2->bodyparts_id!=0)
+          {
+              $rest_radio_2['bodyPart_text']=$this->objBodyparts->getBodypartsNameById($radio_2->bodyparts_id);          
+          }
+          else
+          {
+              $rest_radio_2['bodyPart_text']=$radio_2->bodyparts_text;
+          }
+          
+          $rest_radio_2['bodyPart_others']=$radio_2->bodyPart_others;
+          $rest_radio_2['type']=$radio_2->radiology_id;
+          $rest_radio_2['spine_option_value']=$radio_2->spine_id;
+          $rest_radio_2['subType']=$radio_2->bodyparts_id;
+          $rest_radio_2['qualifier']=$radio_2->qualifiers_id;
+          if($radio_2->qualifiers_id!=null && $radio_2->qualifiers_id!='' && $radio_2->qualifiers_id!=0)
+          {
+              $rest_radio_2['qualifier_text']=$this->objQualifiers->getQualifiersNameById($radio_2->qualifiers_id);   
+          }
+          else
+          {
+              $rest_radio_2['qualifier_text']=$radio_2->qualifiers_text;
+          }
+          
           $rest_radio_2['imgData']='';
           $rest_radio_2['textData']=$radio_2->details;
           $rest_radio_2['subtype_text_enable']=false;
           $rest_radio_2['qualifier_radio_text_enable']=false;
-          $rest_radio_2['special_request']=$radio_2->special_request;
+          $rest_radio_2['special_request']=$radio_2->special_request_id;
+          if($radio_2->special_request_id!=null && $radio_2->special_request_id!='' && $radio_2->special_request_id!=0)
+          {
+              $rest_radio_2['special_request_text']=$this->objSpecialRequest->getSpecialRequestNameById($radio_2->special_request_id);   
+          }
+          else
+          {
+              $rest_radio_2['special_request_text']=$radio_2->special_request_text;
+          }
           $rest_radio_2['removed']=$radio_2->removed;
           $rest_radio_2['qualifierOtherPart']='';
-          $rest_radio_2['body_part_side']=$radio_2->body_part_side;
+          $rest_radio_2['body_part_side']=$radio_2->body_part_side_id;
           $rest_radio_2['radiologyOther']=$radio_2->radiology_other;
           $rest_radio_2['body_part_text']=false;
           $rest_radio_2['type_name']=$radio_2->type_name;
@@ -1057,50 +1163,75 @@
         {
           foreach($radio_opd_data as $radio)
           {
-            $radiology_obj=new Radiology();
-            $radiology_obj->patient_case_management_id=$case_id;
-            $radiology_obj->user_id=$user_id;
-            $radiology_obj->type=$radio['type'];
-            $radiology_obj->type_name=$radio['type_name'];
-            $radiology_obj->bodyparts=$radio['bodyPart'];
-            $radiology_obj->qualifiers=$radio['qualifier'];
-            $radiology_obj->special_request=$radio['special_request'];
-            $radiology_obj->referance=0;
-            $radiology_obj->details=$radio['textData'];
-            if(isset($radio['body_part_side']))
-            {
-              $radiology_obj->body_part_side=$radio['body_part_side'];
-              if($radiology_obj->body_part_side=='Others')
+              $radiology_obj=new Radiology();
+              $radiology_obj->patient_case_management_id=$case_id;
+              //$radiology_obj->opd_id=$opd_id_org;
+              $radiology_obj->user_id=$user_id;
+              $radiology_obj->radiology_id=$radio['type'];
+              $radiology_obj->type_name=$radio['type_name'];
+              if($radio['bodyPart']!="" && $radio['bodyPart']!=null)
               {
-                $body_part_others=array();
-                if($radio['body_part_others_type']=='text')
-                {
-                  $body_part_others=array('type'=>$radio['body_part_others_type'],'value'=>$radio['body_part_others']);
-                }
-                else
-                {
-                  $body_part_others=array('type'=>$radio['body_part_others_type'],'value'=>$radio['signaturePad3_src']);
-                }
-
-                $radiology_obj->body_part_others=json_encode($body_part_others);
+                  $radiology_obj->bodyparts_id=$radio['bodyPart'];
               }
-            }
-            if($radio['type']=='other')
-            {
-              $radiology_obj->radiology_other = $radio['radiologyOther'];
-            }
-            if($radio['type']=='X-Rays')
-            {
-              $radiology_obj->subtype = '';
-            }
-            else if($radio['type']=='MRI')
-            {
-              if($radiology_obj->bodyparts=='Spine')
+              else
               {
-                $radiology_obj->subtype=$radio['spine_option_value'];
+                  $radiology_obj->bodyparts_text=$radio['bodyPart_text'];
               }
-            }
-            $radiology_obj->save();
+              if($radio['qualifier']!="" && $radio['qualifier']!=null)
+              {
+                   $radiology_obj->qualifiers_id=$radio['qualifier'];
+              }
+              else
+              {
+                  $radiology_obj->qualifiers_text=$radio['qualifier_text'];
+              }
+              if($radio['special_request']!="" && $radio['special_request']!=null)
+              {
+                  $radiology_obj->special_request_id=$radio['special_request'];
+              }
+              else
+              {
+                  $radiology_obj->special_request_text=$radio['special_request_text'];
+              }
+             
+              
+              $radiology_obj->referance=0;
+              $radiology_obj->details=$radio['textData'];
+              $image_data=$radio['imgData'];
+              if(isset($radio['body_part_side']))
+              {
+                $radiology_obj->body_part_side_id=$radio['body_part_side'];
+                if(isset($radio['body_part_side_text']) && $radio['body_part_side_text']=='Others')
+                {
+                  $body_part_others=array();
+                  if($radio['body_part_others_type']=='text')
+                  {
+                    $body_part_others=array('type'=>$radio['body_part_others_type'],'value'=>$radio['body_part_others']);
+                  }
+                  else
+                  {
+                    $body_part_others=array('type'=>$radio['body_part_others_type'],'value'=>$radio['signaturePad3_src']);
+                  }
+                  $radiology_obj->body_part_others=json_encode($body_part_others);
+                }
+              }
+              
+              if($radio['type_name']=='Other')
+              {
+                $radiology_obj->radiology_other = $radio['radiologyOther'];
+              }
+              if($radio['type_name']=='MRI')
+              {
+                if($radio['bodyPart_text']=='Spine')
+                {
+                  $radiology_obj->spine_id=$radio['spine_option_value'];
+                }
+              }
+              else if($radio['bodyPart_text']=='Other')
+              {
+                  $radiology_obj->bodyparts_other=$radio['bodyPart_others'];
+              }
+              $radiology_obj->save();
           }
         }
         /*for form -2 library*/
@@ -1129,55 +1260,78 @@
         $del=Radiology::where('patient_case_management_id',$case_id)->where('referance',1)->delete();
         if(!empty($radiology_data))
         {
+
           foreach($radiology_data as $r_data)
           {
-            $radiology_obj_2=new Radiology();
-            $radiology_obj_2->patient_case_management_id=$case_id;
-            $radiology_obj_2->user_id=$user_id;
-            $radiology_obj_2->type=$r_data['type'];
-            $radiology_obj_2->type_name=$r_data['type_name'];
-            $radiology_obj_2->bodyparts=$r_data['bodyPart'];
-            $radiology_obj_2->qualifiers=$r_data['qualifier'];
-            $radiology_obj_2->special_request=$r_data['special_request'];
-            $radiology_obj_2->referance=1;
-            $radiology_obj_2->details=$r_data['textData'];
-            $image_data=$r_data['imgData'];
-            if(isset($r_data['body_part_side']))
-            {
-              $radiology_obj_2->body_part_side=$r_data['body_part_side'];
-              if($radiology_obj_2->body_part_side=='Others')
+              $radiology_obj_2=new Radiology();
+              $radiology_obj_2->patient_case_management_id=$case_id;
+              //$radiology_obj_2->opd_id=$opd_id_org;
+              $radiology_obj_2->user_id=$user_id;
+              $radiology_obj_2->radiology_id=$r_data['type'];
+              $radiology_obj_2->type_name=$r_data['type_name'];
+              if($r_data['bodyPart']!="" && $r_data['bodyPart']!=null)
               {
-                $body_part_others=array();
-                if($r_data['body_part_others_type']=='text')
-                {
-                  $body_part_others=array('type'=>$r_data['body_part_others_type'],'value'=>$r_data['body_part_others']);
-                }
-                else
-                {
-                  $body_part_others=array('type'=>$r_data['body_part_others_type'],'value'=>$r_data['signaturePad3_src']);
-                }
-                
-                $radiology_obj_2->body_part_others=json_encode($body_part_others);     
+                  $radiology_obj_2->bodyparts_id=$r_data['bodyPart'];
               }
-            }
-            
-            if($r_data['type']=='other')
-            {
-              $radiology_obj_2->radiology_other = $r_data['radiologyOther'];
-            }
-            if($r_data['type']=='X-Rays')
-            {
-              // $radiology_obj_2->subtype=$r_data['x_ray_type'];
-              $radiology_obj_2->subtype = '';
-            }
-            else if($r_data['type']=='MRI')
-            {
-              if($radiology_obj_2->bodyparts=='Spine')
+              else
               {
-                $radiology_obj_2->subtype=$r_data['spine_option_value'];
+                  $radiology_obj_2->bodyparts_text=$r_data['bodyPart_text'];
               }
-            }
-            $radiology_obj_2->save();
+              if($r_data['qualifier']!="" && $r_data['qualifier']!=null)
+              {
+                   $radiology_obj_2->qualifiers_id=$r_data['qualifier'];
+              }
+              else
+              {
+                  $radiology_obj_2->qualifiers_text=$r_data['qualifier_text'];
+              }
+              if($r_data['special_request']!="" && $r_data['special_request']!=null)
+              {
+                  $radiology_obj_2->special_request_id=$r_data['special_request'];
+              }
+              else
+              {
+                  $radiology_obj_2->special_request_text=$r_data['special_request_text'];
+              }
+             
+              
+              $radiology_obj_2->referance=1;
+              $radiology_obj_2->details=$r_data['textData'];
+              $image_data=$r_data['imgData'];
+              if(isset($r_data['body_part_side']))
+              {
+                $radiology_obj_2->body_part_side_id=$r_data['body_part_side'];
+                if(isset($r_data['body_part_side_text']) && $r_data['body_part_side_text']=='Others')
+                {
+                  $body_part_others=array();
+                  if($r_data['body_part_others_type']=='text')
+                  {
+                    $body_part_others=array('type'=>$r_data['body_part_others_type'],'value'=>$r_data['body_part_others']);
+                  }
+                  else
+                  {
+                    $body_part_others=array('type'=>$r_data['body_part_others_type'],'value'=>$r_data['signaturePad3_src']);
+                  }
+                  $radiology_obj_2->body_part_others=json_encode($body_part_others);
+                }
+              }
+              
+              if($r_data['type_name']=='Other')
+              {
+                $radiology_obj_2->radiology_other = $r_data['radiologyOther'];
+              }
+              if($r_data['type_name']=='MRI')
+              {
+                if($r_data['bodyPart_text']=='Spine')
+                {
+                  $radiology_obj_2->spine_id=$r_data['spine_option_value'];
+                }
+              }
+              else if($r_data['bodyPart_text']=='Other')
+              {
+                  $radiology_obj_2->bodyparts_other=$r_data['bodyPart_others'];
+              }
+              $radiology_obj_2->save();
             $radiology_id=$radiology_obj_2->id;
             if(!empty($image_data))
             {
@@ -1316,9 +1470,9 @@
        $result['opdReferalphysioData'] = OPDPhysioDetails::where('patient_case_management_id',$caseId)->first();
        $result['opdReferalCrossData'] = CrossDetails::where('patient_case_management_id',$caseId)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
        $result['opdReferalLaboraryData'] =LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.patient_case_management_id',$caseId)->where('laboratory_details.referance',0)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
-        $result['opdReferalRadiologyData'] = Radiology::where('patient_case_management_id',$caseId)->where('referance',0)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
+        $result['opdReferalRadiologyData'] =$this->getRadiologyReportData(0,$caseId);
         $result['opdLabData'] = LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.patient_case_management_id',$caseId)->where('laboratory_details.referance',1)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
-        $result['opdRadiologyData'] = Radiology::where('patient_case_management_id',$caseId)->where('referance',1)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
+        $result['opdRadiologyData'] = $this->getRadiologyReportData(1,$caseId);
 
       //for prescriptiondata
         $prescript_array=$this->getPrescriptionDataForPrint($caseId);
@@ -1335,6 +1489,48 @@
 
        return $result;
   }
+
+  public function getRadiologyReportData($reff,$caseId)
+  {
+      $radio_data=Radiology::where('patient_case_management_id',$caseId)->where('referance',$reff)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
+      $radio_array=array();
+      foreach($radio_data as $radio)
+      {
+          $rad=array();
+          $rad['type']=$radio->type_name;
+          if($radio->bodyparts_id!=null && $radio->bodyparts_id!='' && $radio->bodyparts_id!=0)
+          {
+              $rad['bodyparts']=$this->objBodyparts->getBodypartsNameById($radio->bodyparts_id);          
+          }
+          else
+          {
+              $rad['bodyparts']=$radio->bodyparts_text;
+          }
+          if($radio->qualifiers_id!=null && $radio->qualifiers_id!='' && $radio->qualifiers_id!=0)
+          {
+              $rad['qualifiers']=$this->objQualifiers->getQualifiersNameById($radio->qualifiers_id);   
+          }
+          else
+          {
+              $rad['qualifiers']=$radio->qualifiers_text;
+          }
+          if($radio->special_request_id!=null && $radio->special_request_id!='' && $radio->special_request_id!=0)
+          {
+              $rad['special_request']=$this->objSpecialRequest->getSpecialRequestNameById($radio->special_request_id);   
+          }
+          else
+          {
+              $rad['special_request']=$radio->special_request_text;
+          }
+          $rad['details']=$radio->details;
+          $radio_array[]=$rad;
+      }
+
+      return $radio_array;
+
+  }
+
+
 
   /**
    * [getPrescriptionDataForPrint description]
@@ -1434,9 +1630,9 @@
       $result[''] = OPDPhysioDetails::where('patient_case_management_id',$caseId)->first();
       $result['opdReferalCrossData'] = CrossDetails::where('patient_case_management_id',$caseId)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
       $result['opdReferalLaboraryData'] =LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.patient_case_management_id',$caseId)->where('laboratory_details.referance',0)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
-      $result['opdReferalRadiologyData'] = Radiology::where('patient_case_management_id',$caseId)->where('referance',0)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
+      $result['opdReferalRadiologyData'] = $this->getRadiologyReportData(0,$caseId);
       $result['opdLabData'] = LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.patient_case_management_id',$caseId)->where('laboratory_details.referance',1)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
-      $result['opdRadiologyData'] = Radiology::where('patient_case_management_id',$caseId)->where('referance',1)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
+      $result['opdRadiologyData'] = $this->getRadiologyReportData(1,$caseId);
       //for prescriptiondata
       $prescript_array=$this->getPrescriptionDataForPrint($caseId);
       $result['opdprescriptionData']=$prescript_array;

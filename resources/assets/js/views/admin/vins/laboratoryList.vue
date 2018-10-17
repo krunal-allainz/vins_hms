@@ -4,8 +4,9 @@
 		<div class="card bg-success-card">
       <div class="card-header">
         <div class="row">
-          <div class="col-md-4"><h4>Laboratory List</h4></div>
-          <div class="col-md-6"> 
+          <div class="col-md-2"><h4>Laboratory List</h4></div>
+          <div class="col-md-2"><a href="assets/files/LABORATORY.xlsx" class="btn btn-info">Sample File</a></div>
+          <div class="col-md-5"> 
               <form id="app" action="laboratory/importLaboratoryFile" method="post" enctype="multipart/form-data" v-on:submit="verifyImportFile">
                  <div class="large-12 medium-12 small-12 cell">
                     <label>File
@@ -154,7 +155,8 @@
                 (response)=> {
                  
                   if(response.data.code == 200){
-                    $('#presp_'+id).remove();
+                    //$('#presp_'+id).remove();
+                     vm.getLaboratoryList('/laboratory/getLaboratoryList');
                     toastr.success('Laboratory deleted successfully', 'Add Laboratory', {timeOut: 5000});
                       //this.initialState();
                       

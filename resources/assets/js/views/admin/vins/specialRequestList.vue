@@ -130,7 +130,8 @@
                 (response)=> {
                  
                   if(response.data.code == 200){
-                    $('#presp_'+id).remove();
+                    //$('#presp_'+id).remove();
+                    vm.getSpecialRequestList('/specialRequest/getSpecialRequestList');
                     toastr.success('Special Request deleted successfully', 'Add Special Request', {timeOut: 5000});
                       //this.initialState();
                       

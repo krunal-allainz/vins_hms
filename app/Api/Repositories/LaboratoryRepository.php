@@ -100,13 +100,34 @@ use File;
                         if(isset($value->name) &&  isset($value->type))
                         {
                             $new_type=strtolower($value->type);
-                            $type=trim(ucfirst($new_type));
-                             $insert[] = [
+                            $type=trim($new_type);
+                            $n_type=0;
+                            if($type=='blood')
+                            {
+                                $n_type=1;
+                            }
+                            else if($type=='urine')
+                            {
+                                $n_type=2;
+                            }
+                            else if($type=='csf')
+                            {
+                                $n_type=3;
+                            }
+                            else if($type=='bfa')
+                            {
+                                $n_type=4;
+                            }
+                            if($n_type!=0)
+                            {
+                                $insert[] = [
                                 'name' => $value->name,
-                                'type' => $type,
+                                'type' => $n_type,
                                 'created_at'=>Carbon::now(),
                                 'updated_at'=>Carbon::now(),
                                 ];
+                            }
+                             
                         }
                        
                     }
