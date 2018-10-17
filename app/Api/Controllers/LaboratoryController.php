@@ -123,14 +123,14 @@ class LaboratoryController extends Controller
     public function importLaboratoryFile(Request $request)
     {
         $import_file=$this->prescObj->importLaboratoryFile($request);
-        if($import_file)
+        if($import_file==1)
         {
-            return back()->with('success', 'Thanks for registering!');
+            return back()->with('success', 'You have successfully imported.');
             //return ['code' => 200 ,'data'=>$import_file,'message'=>'Laboratory successfully edited.'];
         }
         else
         {
-            return back()->with('error', 'Thanks for registering!');
+            return back()->with('error', 'Something wrong with file!');
             //return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
         }
     }
