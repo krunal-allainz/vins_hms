@@ -253,6 +253,9 @@ return [
         // 'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'ReceiptService' =>  euro_hms\Api\Providers\ReceiptServiceProvider::class,
+        'role' => \Duro85\Roles\Middleware\VerifyRole::class,
+        'permission' => \Duro85\Roles\Middleware\VerifyPermission::class,
+        'level' => \Duro85\Roles\Middleware\VerifyLevel::class,
        
    ],
 
