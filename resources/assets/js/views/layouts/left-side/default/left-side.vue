@@ -31,6 +31,18 @@
                         </vmenu-item>
                         <vmenu-item link="/prescription_list" icon="ti-layout">
                             &nbsp; Prescriptions
+                        </vmenu-item>
+                         <vmenu-item link="/laboratory_list" icon="ti-layout">
+                            &nbsp; Laboratory
+                        </vmenu-item> 
+                        <vmenu-item link="/bodyparts_list" icon="ti-layout">
+                            &nbsp; Radiology Bodyparts
+                        </vmenu-item> 
+                        <vmenu-item link="/qualifiers_list" icon="ti-layout">
+                            &nbsp; Radiology Qualifier
+                        </vmenu-item> 
+                        <vmenu-item link="/specialRequest_list" icon="ti-layout">
+                            &nbsp; Radiology Special Request
                         </vmenu-item> 
                     </vmenu> 
                 </div>

@@ -325,6 +325,84 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
          //for prescription delete
         $api->post('prescription/delete', '\euro_hms\Api\Controllers\PrescriptionDrugController@deletePrescription');
 
+         //for importing prescription
+        $api->post('prescription/importPrescriptionFile', '\euro_hms\Api\Controllers\PrescriptionDrugController@importPrescriptionFile');
+
+          //for getting laboratory List
+        $api->post('laboratory/getLaboratoryList', '\euro_hms\Api\Controllers\LaboratoryController@getLaboratoryList');
+
+         //for laboratory add
+        $api->post('laboratory/create', '\euro_hms\Api\Controllers\LaboratoryController@createLaboratory');
+
+        //for laboratory details by id
+        $api->post('laboratory/getLaboratoryDetailsById', '\euro_hms\Api\Controllers\LaboratoryController@getLaboratoryDetailsById');
+
+         //for laboratory edit
+        $api->post('laboratory/edit', '\euro_hms\Api\Controllers\LaboratoryController@editLaboratory');
+
+         //for laboratory delete
+        $api->post('laboratory/delete', '\euro_hms\Api\Controllers\LaboratoryController@deleteLaboratory');
+
+         //for importing laboratory
+        $api->post('laboratory/importLaboratoryFile', '\euro_hms\Api\Controllers\LaboratoryController@importLaboratoryFile');
+
+         //for getting bodyparts List
+        $api->post('bodyparts/getBodypartsList', '\euro_hms\Api\Controllers\BodypartsController@getBodypartsList');
+
+         //for bodyparts add
+        $api->post('bodyparts/create', '\euro_hms\Api\Controllers\BodypartsController@createBodyparts');
+
+        //for bodyparts details by id
+        $api->post('bodyparts/getBodypartsDetailsById', '\euro_hms\Api\Controllers\BodypartsController@getBodypartsDetailsById');
+
+         //for bodyparts edit
+        $api->post('bodyparts/edit', '\euro_hms\Api\Controllers\BodypartsController@editBodyparts');
+
+         //for bodyparts delete
+        $api->post('bodyparts/delete', '\euro_hms\Api\Controllers\BodypartsController@deleteBodyparts');
+
+         //for radiologylist
+        $api->post('radiology/getRadiologyList', '\euro_hms\Api\Controllers\RadiologyController@getRadiologyList');
+
+         //for getting bodyparts List
+        $api->post('qualifiers/getQualifiersList', '\euro_hms\Api\Controllers\QualifiersController@getQualifiersList');
+
+         //for qualifiers add
+        $api->post('qualifiers/create', '\euro_hms\Api\Controllers\QualifiersController@createQualifiers');
+
+        //for qualifiers details by id
+        $api->post('qualifiers/getQualifiersDetailsById', '\euro_hms\Api\Controllers\QualifiersController@getQualifiersDetailsById');
+
+         //for qualifiers edit
+        $api->post('qualifiers/edit', '\euro_hms\Api\Controllers\QualifiersController@editQualifiers');
+
+         //for qualifiers delete
+        $api->post('qualifiers/delete', '\euro_hms\Api\Controllers\QualifiersController@deleteQualifiers');
+
+        //for getting bodyparts
+        $api->post('bodyparts/getBodypartsByRadiologyId', '\euro_hms\Api\Controllers\BodypartsController@getBodypartsByRadiologyId');
+
+         //for getting bodyparts List
+        $api->post('specialRequest/getSpecialRequestList', '\euro_hms\Api\Controllers\SpecialRequestController@getSpecialRequestList');
+
+         //for specialRequest add
+        $api->post('specialRequest/create', '\euro_hms\Api\Controllers\SpecialRequestController@createSpecialRequest');
+
+        //for specialRequest details by id
+        $api->post('specialRequest/getSpecialRequestDetailsById', '\euro_hms\Api\Controllers\SpecialRequestController@getSpecialRequestDetailsById');
+
+         //for specialRequest edit
+        $api->post('specialRequest/edit', '\euro_hms\Api\Controllers\SpecialRequestController@editSpecialRequest');
+
+         //for specialRequest delete
+        $api->post('specialRequest/delete', '\euro_hms\Api\Controllers\SpecialRequestController@deleteSpecialRequest');
+
+        //for bodypart side list
+        $api->post('bodyPartSide/getBodypartSideList', '\euro_hms\Api\Controllers\BodyPartSideController@getBodypartSideList');
+       
+       //for qualifier list
+        $api->post('qualifiers/getQualifierByBodypartsId', '\euro_hms\Api\Controllers\QualifiersController@getQualifierByBodypartsId');
+
 });
 
 

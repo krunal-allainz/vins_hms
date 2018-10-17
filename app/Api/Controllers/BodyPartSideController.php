@@ -15,6 +15,7 @@ class BodyPartSideController extends Controller
     public function __construct(){
         $this->bpsObj = new BodyPartSideRepository();
     }
+
      /**
      * [getBodyPartSideList description]
      * @param  Request $request [description]
@@ -34,4 +35,5 @@ class BodyPartSideController extends Controller
         }
        
     }
+
  }

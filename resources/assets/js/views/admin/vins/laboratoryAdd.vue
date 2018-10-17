@@ -3,7 +3,7 @@
 		<div class="page-header">
 			<div class="row">
 				<div class="col-md-6">
-				<h2>Prescription Add</h2>
+				<h2>Laboratory Add</h2>
 				</div>
 			</div>
 		</div>
@@ -13,24 +13,14 @@
                         <div class="card-body">
                                 <div class="row form-group"  >
                                     <div class="col-md-3">
-                                        <label for="department " class="control-label float-right txt_media1">Type :</label>
+                                        <label for="type " class="control-label float-right txt_media1">Type :</label>
                                     </div>
                                     <div class="col-md-9">
-                                         <select class="form-control ls-select2" id="department" name="department" v-model="prescriptionData.department" v-validate="'required'">
-                                            <option :value="dept.text" v-for="dept in prescriptionData.departmentOption">{{dept.text}}</option>
+                                         <select class="form-control ls-select2" id="type" name="type" v-model="laboratoryData.type" v-validate="'required'">
+                                            <option :value="typ.id" v-for="typ in laboratoryData.typeOption">{{typ.text}}</option>
                                         </select> 
-                                        <i v-show="errors.has('department')" class="fa fa-warning"></i>
-                                        <span class="help is-danger" v-show="errors.has('department')">Please select Department.</span>
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                    <div class="col-md-3">
-                                    <label for="doctor" class="control-label float-right txt_media1">Doctor Name :</label>
-                                    </div>
-                                    <div class="col-md-9">
-                                        <input type="text" class="form-control" id="doctor"
-                                               placeholder="Doctor Name" v-model="prescriptionData.doctor" name="doctor">
-                                       
+                                        <i v-show="errors.has('type')" class="fa fa-warning"></i>
+                                        <span class="help is-danger" v-show="errors.has('type')">Please select Type.</span>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -39,7 +29,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <input type="text" class="form-control" id="name"
-                                               placeholder="Name" v-validate="'required'" v-model="prescriptionData.name" name="name">
+                                               placeholder="Name" v-validate="'required'" v-model="laboratoryData.name" name="name">
                                         <i v-show="errors.has('name')" class="fa fa-warning"></i>
                                         <span class="help is-danger" v-show="errors.has('name')">Please enter valid Name.</span>
                                     </div>
@@ -48,7 +38,7 @@
                                     <div class="col-md-3">
                                     </div>
                                     <div class="col-md-9">
-                                        <span v-if="prescriptionData.pageName=='EDIT'">
+                                        <span v-if="laboratoryData.pageName=='EDIT'">
                                             <button class="btn btn-success" type="button" @click="editValidateBeforeSubmit()">Edit</button>
                                         </span>
                                         <span v-else>
@@ -71,21 +61,16 @@
     export default {
         data() {
             return {
-                    'prescriptionData' : {
+                    'laboratoryData' : {
                     	'name':'',
-                        'departmentOption':[{text:'Neurology'},
-                                      {text:'Neurosurgery'},
-                                      {text:'Cardiology'},
-                                      {text:'Vascular'},
-                                      {text:'ONCO'},
-                                      {text:'Ortho'},
-                                      {text:'Others'}
+                        'typeOption':[{id: 1 ,text:'Blood'},
+                                      {id: 2 ,text:'Urine'},
+                                      {id: 3 ,text:'CSF'},
+                                      {id: 4 ,text:'BFA'},
                                     ],
-                        'department':'',
-                        'prescriptionId':'',
+                        'type':'',
+                        'laboratoryId':'',
                         'pageName':'',
-                        'doctor':'',
-                          
                     },
                    
                 }
@@ -96,48 +81,48 @@
             $('.ls-select2').select2({
                 placeholder: "Select"
             });
-             $('#department').on('select2:selecting', function(e) {
-                vm.prescriptionData.department =  e.params.args.data.text;
+             $('#type').on('select2:selecting', function(e) {
+                
+                vm.laboratoryData.type =  e.params.args.data.id;
             });
         },
         methods: {
             initData()
             {
                 let vm=this;
-                let prescription_page=vm.$store.state.Prescription.prescriptionPage;
+                let laboratory_page=vm.$store.state.Laboratory.laboratoryPage;
                 
-                if(prescription_page=='EDIT')
+                if(laboratory_page=='EDIT')
                 {
-                    vm.prescriptionData.pageName=prescription_page;
-                    let pID=vm.$store.state.Prescription.prescriptionId;
+                    vm.laboratoryData.pageName=laboratory_page;
+                    let pID=vm.$store.state.Laboratory.laboratoryId;
                     if(pID!=0 || pID!=null)
                     {
-                        vm.prescriptionData.prescriptionId=pID;
-                        vm.setPrescriptionData(pID);
+                        vm.laboratoryData.laboratoryId=pID;
+                        vm.setLaboratoryData(pID);
 
                     }
                 }
             },
-            setPrescriptionData(id)
+            setLaboratoryData(id)
             {
                 let vm=this;
-                User.getPrescriptionDetailsById(id).then(
+                User.getLaboratoryDetailsById(id).then(
                   (response)=> {
                    
                     if(response.data.code == 200){
                         let presp_data=response.data.data;
-                        vm.prescriptionData.department =presp_data.type;
-                        vm.prescriptionData.name =presp_data.name;
-                        vm.prescriptionData.doctor =presp_data.doctor;
+                        vm.laboratoryData.type =presp_data.type;
+                        vm.laboratoryData.name =presp_data.name;
                         console.log(presp_data.type);
-                        $('#department').val(presp_data.type).trigger('change');
+                        $('#type').val(presp_data.type).trigger('change');
                     } else if (response.data.code == 300) {
-                        toastr.error('No Prescription Found.', 'Add Prescription', {timeOut: 5000});
+                        toastr.error('No Laboratory Found.', 'Add Laboratory', {timeOut: 5000});
                         //this.initialState(); 
                     }
                     else
                     {
-                        toastr.error('Something Went wrong.', 'Add Prescription', {timeOut: 5000});
+                        toastr.error('Something Went wrong.', 'Add Laboratory', {timeOut: 5000});
                     }
                     
                   },
@@ -148,30 +133,31 @@
 
             },
              initialState() {
-                this.$data.prescriptionData.name = '',
-                this.$data.prescriptionData.department ='',
-                this.$data.prescriptionData.doctor =''
+                this.$data.laboratoryData.name = '',
+                this.$data.laboratoryData.type =''
+                
             },
             validateBeforeSubmit() {
                let vm=this;
                 vm.$validator.validateAll().then(() => {
                     
                     if (!this.errors.any()) {
-                        User.createPrescription(vm.prescriptionData).then(
+
+                        User.createLaboratory(vm.laboratoryData).then(
                           (response)=> {
                            
                             if(response.data.code == 200){
-                                toastr.success('Prescription added successfully', 'Add Prescription', {timeOut: 5000});
-                                vm.$router.push('prescription_list');
+                                toastr.success('Laboratory added successfully', 'Add Laboratory', {timeOut: 5000});
+                                vm.$router.push('laboratory_list');
                                 //this.initialState();
                                 
                             } else if (response.data.code == 300) {
-                                toastr.error('Something Went wrong.', 'Add Prescription', {timeOut: 5000});
+                                toastr.error('Something Went wrong.', 'Add Laboratory', {timeOut: 5000});
                                 //this.initialState(); 
                             }
                             else
                             {
-                                toastr.error('Something Went wrong.', 'Add Prescription', {timeOut: 5000});
+                                toastr.error('Something Went wrong.', 'Add Laboratory', {timeOut: 5000});
                             }
                             
                           },
@@ -188,21 +174,21 @@
                 vm.$validator.validateAll().then(() => {
                     
                     if (!this.errors.any()) {
-                        User.editPrescription(vm.prescriptionData).then(
+                        User.editLaboratory(vm.laboratoryData).then(
                           (response)=> {
                            
                             if(response.data.code == 200){
-                                toastr.success('Prescription edited successfully', 'Add Prescription', {timeOut: 5000});
-                                vm.$router.push('prescription_list');
+                                toastr.success('Laboratory edited successfully', 'Add Laboratory', {timeOut: 5000});
+                                vm.$router.push('laboratory_list');
                                 //this.initialState();
                                 
                             } else if (response.data.code == 300) {
-                                toastr.error('Something Went wrong.', 'Add Prescription', {timeOut: 5000});
+                                toastr.error('Something Went wrong.', 'Add Laboratory', {timeOut: 5000});
                                 //this.initialState(); 
                             }
                             else
                             {
-                                toastr.error('Something Went wrong.', 'Add Prescription', {timeOut: 5000});
+                                toastr.error('Something Went wrong.', 'Add Laboratory', {timeOut: 5000});
                             }
                             
                           },

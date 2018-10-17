@@ -3,11 +3,15 @@ namespace euro_hms\Api\Repositories;
 use Carbon\Carbon;
 use DB;
 use euro_hms\Models\PrescriptionDrugs;
+use Excel;
+use File;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 
  class PrescriptionRepository 
  {
-
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
  	/**
  	 * [getPrescriptionList description]
  	 * @param  [type] $userType [description]
@@ -72,10 +76,61 @@ use euro_hms\Models\PrescriptionDrugs;
      */
     public function delete($id)
     {
-        $presp= PrescriptionDrugs::findOrFail($id);
-        $presp->remove='true';
-        $presp->save();
-        return $presp->id;
+        $presp_id = PrescriptionDrugs::find( $id );
+        $presp_id ->delete();
+        return $id;
+    }
+
+    /**
+     * [importPrescriptionFile description]
+     * @param  [type] $request [description]
+     * @return [type]          [description]
+     */
+    public function importPrescriptionFile($request)
+    {
+
+       $file=$request->file('file');
+
+        if($request->hasFile('file')){
+            $extension = File::extension($request->file->getClientOriginalName());
+            if($extension == "xlsx" || $extension == "xls" || $extension == "csv") {
+                $path = $request->file->getRealPath();
+                $data = Excel::load($path, function($reader) {
+                })->get();
+
+                if(!empty($data) && $data->count()){
+ 
+                    foreach ($data as $key => $value) {
+                        if(isset($value->name) && isset($value->doctor) && isset($value->department))
+                        {
+                            $new_dept=strtolower($value->department);
+                            $dept=trim(ucfirst($new_dept));
+                             $insert[] = [
+                                'name' => $value->name,
+                                'doctor' => $value->doctor,
+                                'type' => $dept,
+                                'status'=>1,
+                                'created_at'=>Carbon::now(),
+                                'updated_at'=>Carbon::now(),
+
+                                ];
+                        }
+                       
+                    }
+                    
+                    if(!empty($insert)){
+ 
+                        $insertData = DB::table('prescription_drugs')->insert($insert);
+                        if ($insertData) {
+                            return true;
+                        }else {                        
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
     }
     
  }
