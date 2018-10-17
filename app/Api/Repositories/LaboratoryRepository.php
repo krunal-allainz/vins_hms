@@ -133,17 +133,22 @@ use File;
                     }
                     
                     if(!empty($insert)){
- 
+
                         $insertData = DB::table('laboratory')->insert($insert);
                         if ($insertData) {
-                            return true;
-                        }else {                        
-                            return false;
+                            return 1;
                         }
+                        else {                        
+                            return 0;
+                        }
+                    }
+                    else
+                    {
+                         return 0;
                     }
                 }
             }
-            return true;
+            return 0;
         }
     }
     

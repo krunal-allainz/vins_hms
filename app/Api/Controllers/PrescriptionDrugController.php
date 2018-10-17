@@ -221,14 +221,14 @@ class PrescriptionDrugController extends Controller
     public function importPrescriptionFile(Request $request)
     {
         $import_file=$this->prescObj->importPrescriptionFile($request);
-        if($import_file)
+        if($import_file==1)
         {
-            return back()->with('success', 'Thanks for registering!');
+            return back()->with('success', 'Prescription are successfully added!');
             //return ['code' => 200 ,'data'=>$import_file,'message'=>'Prescription successfully edited.'];
         }
         else
         {
-            return back()->with('error', 'Thanks for registering!');
+            return back()->with('error', 'Something wrong with file!');
             //return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
         }
     }

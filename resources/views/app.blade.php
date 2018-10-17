@@ -47,6 +47,7 @@
     </div>
 <div id="app" class="template-container">
     <div class="mobile-menu-overlay" v-on:click.prevent="onOverlayClick"></div>
+
     <transition name="fade" mode="out-in">
         <router-view></router-view>
     </transition>
@@ -54,7 +55,12 @@
 
 <script type="text/javascript" src="{{mix('/assets/js/core/plugins.js')}}"></script>
 <script type="text/javascript" src="{{mix("/assets/js/app.js")}}"></script>
-
+@if(Session::has('error'))
+    <script type="text/javascript">toastr.error("{{ Session::get('error') }}",'Error');</script>
+@endif
+@if(Session::has('success'))
+     <script type="text/javascript">toastr.success("{{ Session::get('success') }}",'Success');;</script>
+@endif
 </body>
 
 </html>
