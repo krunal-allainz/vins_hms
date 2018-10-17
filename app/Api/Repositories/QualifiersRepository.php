@@ -7,8 +7,8 @@ use euro_hms\Models\Bodyparts;
 use euro_hms\Models\RadiologyTable;
 use Excel;
 use File;
- class QualifiersRepository 
-
+class QualifiersRepository 
+{
    
  	/**
  	 * [getQualifiersList description]
