@@ -298,21 +298,22 @@
                 			 vm.userData.password='';
                 			 vm.userData.confirmPassword='';
                 			 vm.userData.mobileNo =responce.data.data.mobile_no;
-                       vm.userData.address =responce.data.data.address;
-                       vm.userData.department =responce.data.data.department;
+                        vm.userData.address =responce.data.data.address;
+                        vm.userData.department =responce.data.data.department;
                         $('#department').val(responce.data.data.department).trigger('change.select2');
-                       vm.userData.userType = responce.data.data.user_type;
-                       vm.$data.userData.dagree =responce.data.data.dagree;
-                       vm.$data.userData.regNo =responce.data.data.RegNo;
+                        vm.userData.userType = responce.data.data.user_type;
+                        vm.$data.userData.dagree =responce.data.data.dagree;
+                        vm.$data.userData.regNo =responce.data.data.RegNo;
                         vm.$data.userData.signaturefile =responce.data.data.signature_path;
-                     
-                      $('#userType').val(responce.data.data.user_type).trigger('change:updated');
+                         setTimeout(function(){
+                            $('#userType').val(responce.data.data.user_type).trigger('change');
+                         },500);
                              
            			 	}
            			 },
            			 (error) => {
 
-           			 }
+           			 }    
 
            			);
            },

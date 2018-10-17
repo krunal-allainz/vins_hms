@@ -565,5 +565,13 @@ export default {
   },
   addroles(data){
       return api.post('role/addroles',{'data':data})
-  }
+  },
+  getSpecialRequestByRadiologyId(r_id)
+  {
+      return api.post('specialRequest/getSpecialRequestByRadiologyId',{'r_id':r_id})
+  },
+  getSpineList()
+  {
+      return api.post('spine/getSpineList')
+  },
 }

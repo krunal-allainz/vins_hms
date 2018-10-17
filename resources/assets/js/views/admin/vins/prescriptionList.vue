@@ -4,7 +4,8 @@
 		<div class="card bg-success-card">
       <div class="card-header">
         <div class="row">
-          <div class="col-md-3"><h4>Prescription List</h4></div>
+          <div class="col-md-2"><h4>Prescription List</h4></div>
+          <div class="col-md-2"><a href="assets/files/PRESCRIPTION.xlsx" class="btn btn-info">Sample File</a></div>
           <div class="col-md-6"> 
               <form id="app" action="prescription/importPrescriptionFile" method="post" enctype="multipart/form-data" v-on:submit="verifyImportFile">
                  <div class="large-12 medium-12 small-12 cell">
@@ -15,7 +16,7 @@
                   </div>
                 </form>
           </div>
-          <div class="col-md-3 text-right"><button type="button" class="btn btn-primary" @click="setAddPrescription()">Add</button></div></div>
+          <div class="col-md-2 text-right"><button type="button" class="btn btn-primary" @click="setAddPrescription()">Add</button></div></div>
         </div>
             <div class="card-body">
             	<div data-v-744e717e="" class="card p-3"  v-if="(prescriptionPagination.total > 0)">
@@ -150,7 +151,8 @@
                 (response)=> {
                  
                   if(response.data.code == 200){
-                    $('#presp_'+id).remove();
+                    //$('#presp_'+id).remove();
+                    vm.getPrescriptionList('/prescription/getPrescriptionList');
                     toastr.success('Prescription deleted successfully', 'Add Prescription', {timeOut: 5000});
                       //this.initialState();
                       
