@@ -136,7 +136,8 @@
                 (response)=> {
                  
                   if(response.data.code == 200){
-                    $('#presp_'+id).remove();
+                    //$('#presp_'+id).remove();
+                    vm.getQualifiersList('/qualifiers/getQualifiersList');
                     toastr.success('Qualifiers deleted successfully', 'Add Qualifiers', {timeOut: 5000});
                       //this.initialState();
                       

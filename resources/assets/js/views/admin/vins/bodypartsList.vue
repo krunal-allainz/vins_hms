@@ -130,7 +130,8 @@
                 (response)=> {
                  
                   if(response.data.code == 200){
-                    $('#presp_'+id).remove();
+                    //$('#presp_'+id).remove();
+                    vm.getBodypartsList('/bodyparts/getBodypartsList');
                     toastr.success('Bodyparts deleted successfully', 'Add Bodyparts', {timeOut: 5000});
                       //this.initialState();
                       
