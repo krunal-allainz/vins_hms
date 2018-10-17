@@ -4,6 +4,7 @@ namespace euro_hms\Api\Controllers;
 
 use Illuminate\Http\Request;
 use euro_hms\Http\Controllers\Controller;
+use euro_hms\Api\Repositories\RoleRepository;
 
 class RoleController extends Controller
 {
@@ -20,9 +21,10 @@ class RoleController extends Controller
     *
     **/
     public function createRole(Request $request){
-    	$roleName = $request->data->roleName;
-    	$slug =  $request->data->slug;
-    	$desc = $request->data->slug;
+         $data = $request->all()['data'];
+    	$roleName = $data['rolename'];
+    	$slug =  $data['slug'];
+    	$desc = $data['description'];
     	$result = $this->roleObj->create($roleName,$slug,$desc);
     	 if($result)
         {
@@ -34,6 +36,23 @@ class RoleController extends Controller
         }
 
 
+    }
+
+    /**
+    *
+    *
+    **/
+
+    public function getRole(){
+        $result = $this->roleObj->getRole();
+         if($result)
+        {
+            return ['code' => 200 ,'data'=>$result,'message'=>'Role succeesfully Created.'];
+        }
+        else
+        {
+            return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
+        }
     }
 }
 ?>

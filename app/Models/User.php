@@ -4,6 +4,7 @@ namespace euro_hms\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Duro85\Roles\Traits\HasRoleAndPermission;
 use Duro85\Roles\Contracts\HasRoleAndPermission as HasRoleAndPermissionContract;
 use Illuminate\Database\Eloquent\Model;
@@ -14,9 +15,11 @@ use euro_hms\Notifications\MyOwnResetPassword as ResetPasswordNotification;
 use euro_hms\Models\UserOtp;
 use Laravel\Passport\HasApiTokens;
 
-class User extends Authenticatable implements AuthenticatableContract, CanResetPasswordContract, HasRoleAndPermissionContract
+class User extends Authenticatable 
+//implements AuthenticatableContract, CanResetPasswordContract, HasRoleAndPermissionContract
 {
-    use Notifiable, HasRoleAndPermission, SoftDeletes,HasApiTokens,Authenticatable, HasRoleAndPermission;;
+    use Notifiable, HasRoleAndPermission, SoftDeletes;
+    //,HasApiTokens,Authenticatable, HasRoleAndPermission,AuthenticatableContract;
 
     /**
      * The attributes that are mass assignable.

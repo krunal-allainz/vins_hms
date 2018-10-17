@@ -410,6 +410,12 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
           //for spinelist
         $api->post('spine/getSpineList', '\euro_hms\Api\Controllers\SpineController@getSpineList');
+        
+        $api->post('role/getroles', '\euro_hms\Api\Controllers\RoleController@getRole');
+        
+        $api->post('permission/getPermissionList', '\euro_hms\Api\Controllers\PermissionController@getPermissionList');
+
+         $api->post('permission/addRolePermission', '\euro_hms\Api\Controllers\PermissionController@addRolePermission');
 
 }); 
 

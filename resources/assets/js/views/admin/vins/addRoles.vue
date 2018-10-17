@@ -39,7 +39,7 @@
                                     <div class="col-md-9">
                                         <textarea class="form-control" id="description" name="description" placeholder="Description" v-model="Data.description"></textarea>
                                     </div>
-                                </div>S
+                                </div>
                                 <div class="row form-group">
                                     <div class="col-md-3">
                                     </div>
@@ -98,29 +98,9 @@
                 this.$validator.validateAll().then(() => {
                     
                     if (!this.errors.any()) {
-                    // if(this.$data.userData.id=="") {
-                                // here we add code for Mobile user for create user
+                   
+                                var vm = this;
                                 vm.addRoles();
-                                User.createUser(this.userData).then(
-                                  (response)=> {
-                                    //console.log(response);
-                                    if(response.data.status_code == 200){
-                                        toastr.success('User added successfully', 'Create User', {timeOut: 5000});
-                                        this.initialState();
-                                        //localStorage.setItem("user_add",1)
-                                       // window.location.reload();
-                                    } else if (response.data.status_code == 301) {
-                                        //this.initialState();
-                                        toastr.error('User already exist.', 'Add User', {timeOut: 5000});
-
-                                    }
-                                    // this.$router.push('dashboard');
-                                  },
-                                  (error)=>{
-                                  }
-
-                                );
-                        // }
                     }
                 });
             }

@@ -574,4 +574,14 @@ export default {
   {
       return api.post('spine/getSpineList')
   },
+  getRolesList(){
+     return api.post('role/getroles')
+  },
+  getPermissionList(){
+     return api.post('permission/getPermissionList')
+  },
+  addRolesPermission(roleId,seletedPermisionList)
+  {
+     return api.post('permission/addRolePermission',{'roleId' :roleId , 'seletedPermisionList' : seletedPermisionList })
+  }
 }

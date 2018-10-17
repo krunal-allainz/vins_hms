@@ -16,6 +16,10 @@ use euro_hms\Models\Role;
     		'level' => 1, // optional, set to 1 by default
 		]);
     }
+
+    public function getRole(){
+    	 return Role::all();
+    }
  	
  }
 ?>
