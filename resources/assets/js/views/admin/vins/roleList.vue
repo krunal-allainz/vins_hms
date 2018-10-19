@@ -5,10 +5,10 @@
             <div class="col-lg-12">
                  <div class="card bg-success-card">
             <h4 class="card-header">
-               <div> User list </div>
+               <div> Role List</div>
             </h4>
           <div class="card-body">
-            <div data-v-744e717e="" class="card p-3" v-if="getUserData.length>0">
+            <div data-v-744e717e="" class="card p-3" v-if="getRoleData.length>0">
               <div data-v-744e717e="" class="table-header">
                   <h4 data-v-744e717e="" class="table-title text-center mt-3"></h4>
               </div>
@@ -21,28 +21,17 @@
                             #
                         </th>
                         <th data-v-744e717e="" class="sortable sorting-asc" style="width: 200px;">
-                                First Name 
+                                Role Name 
                         </th>
                         <th style="width: auto;">
-                            Last Name
+                            Slug 
                              <i data-v-744e717e="" class="fa float-right"></i>
                          </th>
                          <th data-v-744e717e="" class="sortable" style="width: auto;">
-                           Department
+                           Description
                             <i data-v-744e717e="" class="fa float-right"></i>
                         </th>
-                        <th data-v-744e717e="" class="sortable" style="width: auto;">
-                           Email Id
-                            <i data-v-744e717e="" class="fa float-right"></i>
-                        </th>
-                        <th data-v-744e717e="" class="sortable" style="width: auto;">
-                            Address
-                            <i data-v-744e717e="" class="fa float-right"></i>
-                        </th>
-                        
-                        <th data-v-744e717e="" class="sortable" style="width: auto;" >
-                           Mobile No
-                        </th>
+                       
                         <th data-v-744e717e="" class="sortable" style="width: auto;" >
                             Action
                             <i data-v-744e717e="" class="fa float-right"></i>
@@ -50,32 +39,22 @@
                     </tr>
                   </thead>
                   <tbody data-v-744e717e="">
-                    <tr data-v-744e717e="" v-for="user in getUserData">
+                    <tr data-v-744e717e="" v-for="role in getRoleData">
                       <td data-v-744e717e="" class="">
-                        {{user.id}}
+                        {{role.id}}
                       </td>
                       <td data-v-744e717e="" class="">
-                        {{user.first_name }}
+                        {{role.name }}
                       </td> <!---->
                       <td data-v-744e717e="" class="">
-                       {{user.last_name }}
+                       {{role.slug }}
                       </td>
                       <td data-v-744e717e="" class="numeric">
-                       {{user.department }}
+                       {{role.description }}
                       </td> 
                       <td data-v-744e717e="" class="">
-                        {{ user.email }}
-                      </td>
-                      <td data-v-744e717e="" class="text-uppercase">
-                        {{ user.address}}
-                      </td>
-                      
-                      <td data-v-744e717e="" class="" >
-                       {{user.mobile_no}}
-                      </td>
-                      <td data-v-744e717e="" class="">
-                        <a  :href="'/user/edit/'+user.id"> <i class="fa fa-pencil"  title="User edit"></i></a>
-                                      <a > <i class="fa fa-trash"  title="User delete" @click="deleteUser(user.id)"  ></i></a>                    
+                        <a  :href="'/role/edit/'+role.id"> <i class="fa fa-pencil"  title="role edit"></i></a>
+                                      <a > <i class="fa fa-trash"  title="Role delete" @click="deleteRole(role.id)"  ></i></a>                    
                       </td>
                     </tr>
                   </tbody>
@@ -112,49 +91,49 @@
      </template>
 <script>
     import User from '../../../api/users.js';
-    import userDetailEdit from './userDetailEdit.vue'
+    import RoleDetailEdit from './roleDetailEdit.vue'
 
     export default {
         data() {
             return {
-                  'deleteConfirmMsg':'Are you sure you want to delete this user?',
-                  'getUserData':{},
+                  'deleteConfirmMsg':'Are you sure you want to delete this role?',
+                  'getRoleData':{},
                   'pagination': {},
                    'perPage' : 5,
             }
         },
         mounted() {
             var vm = this;
-            let pageUrl = 'user/getUserDetails/';
+            let pageUrl = 'role/getRoleList/';
             let noOfPage = vm.perPage;
-            vm.getAllUsers(pageUrl,noOfPage);
+            vm.getRolesListWithPaggination(pageUrl,noOfPage);
         },
         methods: {
-            getAllUsers(pageUrl,noOfPage){
+            getRolesListWithPaggination(pageUrl,noOfPage){
                 var vm = this;
-                var userData;
-                  User.getAllUsersDetails(pageUrl,noOfPage).then(
+                var roleData;
+                  User.getRolesListWithPaggination(pageUrl,noOfPage).then(
                      (response)=>{
-                            userData=response.data.data.data;
-                            vm.getUserData = userData;
+                            roleData=response.data.data.data;
+                            vm.getRoleData = roleData;
                             vm.makePagination(response.data.data);
                         },
                     (error)=>{
                      }
                 );
             },
-            deleteUser(userId){
+            deleteRole(roleId){
                 let vm = this;
                 if(confirm(vm.deleteConfirmMsg))
                 {
-                    User.deleteUserById(userId).then(
+                    User.deleteRoleById(roleId).then(
                      (response) => {
                         if(response.data.code == 200){
-                              toastr.success('User Delete successfully', 'Delete User', {timeOut: 5000});
+                              toastr.success('Role Delete successfully', 'Delete Role', {timeOut: 5000});
                                let vm =this;
-                               let pageUrl = 'user/getUserDetails/';
+                               let pageUrl = 'role/getRoleList/';
                                let noOfPage = vm.perPage;
-                               vm.getAllUsers(pageUrl,noOfPage);
+                               vm.getRolesListWithPaggination(pageUrl,noOfPage);
                         }
                      },
                      (error) => {
@@ -177,9 +156,9 @@
                  },
             setPerPage(e){
             let vm =this;
-            let pageUrl = 'user/getUserDetails/';
+            let pageUrl = 'role/getRoleList/';
             let noOfPage = vm.perPage;
-            vm.getAllUsers(pageUrl,noOfPage);
+            vm.getRolesListWithPaggination(pageUrl,noOfPage);
             }
         }
     }

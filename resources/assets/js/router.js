@@ -111,6 +111,7 @@ import patientOpdViewPage from './views/admin/vins/patientOpdViewPage.vue'
 import userDetailEdit from './views/admin/vins/userDetailEdit.vue'
 import addRole from './views/admin/vins/addRoles.vue'
 import selectPermission from './views/admin/vins/selectPermission.vue'
+import roleList from './views/admin/vins/roleList.vue'
 //for prescriptiom
 import prescriptionList from './views/admin/vins/prescriptionList.vue'
 import prescriptionAdd from './views/admin/vins/prescriptionAdd.vue'
@@ -181,6 +182,12 @@ const routes = [
                 component: addRole,
                 meta: { requiresAuth: true },
                 name: 'addrole'
+            },
+            {
+                path: '/rolelist',
+                component:roleList,
+                meta: { requiresAuth: true },
+                name: 'rolelist'
             },
              {
                 path: '/selectpermission',

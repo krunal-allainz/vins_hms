@@ -54,5 +54,46 @@ class RoleController extends Controller
             return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
         }
     }
-}
+
+    /**
+    *
+    *
+    *
+    **/
+    public function roleListWithPaggination(Request $request){
+        $noOfRecord = $request->noOfRecord;
+        $result = $this->roleObj->roleListWithPaggination($noOfRecord);
+         if($result)
+        {
+            return ['code' => 200 ,'data'=>$result,'message'=>'Role succeesfully Created.'];
+        }
+        else
+        {
+            return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];;
+
+        }
+
+    }
+
+    /**
+    *
+    *
+    **/
+
+    public function deleteRole(Request $request){
+        $roleId = $request->roleId;
+        
+        $result = $this->roleObj->deleteRoleById($roleId);
+         if($result)
+        {
+            return ['code' => 200 ,'data'=>$result,'message'=>'Role succeesfully Deleted.'];
+        }
+        else
+        {
+            return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];;
+
+        }        
+
+    }
+}                                                                                                                           
 ?>

@@ -583,5 +583,16 @@ export default {
   addRolesPermission(roleId,seletedPermisionList)
   {
      return api.post('permission/addRolePermission',{'roleId' :roleId , 'seletedPermisionList' : seletedPermisionList })
+  },
+  checkRolesPermission(roleId)
+  {
+     return api.post('permission/checkrolepermission',{'roleId' :roleId})
+  },
+  getRolesListWithPaggination(url,noofRecord){
+     return api.post(url,{'noOfRecord':noofRecord})
+  },
+  deleteRoleById(roleId){
+     return api.post('role/delete',{'roleId' : roleId})   
   }
+
 }

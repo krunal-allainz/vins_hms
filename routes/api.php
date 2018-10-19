@@ -415,8 +415,13 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         
         $api->post('permission/getPermissionList', '\euro_hms\Api\Controllers\PermissionController@getPermissionList');
 
-         $api->post('permission/addRolePermission', '\euro_hms\Api\Controllers\PermissionController@addRolePermission');
+        $api->post('permission/addRolePermission', '\euro_hms\Api\Controllers\PermissionController@addRolePermission');
 
+        $api->post('permission/checkrolepermission', '\euro_hms\Api\Controllers\PermissionController@checkPermissionForRole');
+
+        $api->post('role/getRoleList', '\euro_hms\Api\Controllers\RoleController@roleListWithPaggination');
+
+         $api->post('role/delete', '\euro_hms\Api\Controllers\RoleController@deleteRole');
 }); 
 
 

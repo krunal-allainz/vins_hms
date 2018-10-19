@@ -14,9 +14,9 @@
              			 <label for="role">Select Role:</label>
             		</div>
            		 	<div class="col-md-6">
-              			<select  class="form-control ls-select2"  id="role" name="role" value="" > 
+              			<select  class="form-control ls-select2"  id="role" name="role" value="" v-model="Data.roleId"> 
                    			 <option value="">Select </option>
-                  			 <option :value="role.id" v-for="role in roleOptions">{{role.name}}</option>
+                  			 <option :value="role.rid" v-for="role in roleOptions">{{role.name}}</option>
                			</select> 
            			 </div>
          		 </div>
@@ -51,13 +51,14 @@
 	  export default {
         data() {
             return {
+                    'page' : 'Add',   
                     'Data' : {
                          'roleId':'',
                          'permission_id': '',
                     },
                     'roleOptions' : '',
                     'permissionList' : '',
-                    'checkedPermisiontList' : [],
+                    'checkedPermisiontList' : '',
                     'permissionListSelect' : 1
                 }	
         },
@@ -65,13 +66,35 @@
             var vm = this;
             vm.getRoles();
             vm.getPermissionList();	
-             $(document).on("select2:select",'#role', function (e) { 
-             	alert($(this).val());
-            	vm.Data.roleId=$(this).val();
-          });
+
+            $('#role').change("select2:select", function (e) {
+            let selectedRoleId = $(this).val();
+              vm.Data.roleId=selectedRoleId;
+              vm.checkRolesPermission(selectedRoleId);
+          }); 
         },
         methods: {
+          checkRolesPermission($roleId){
+              User.checkRolesPermission($roleId).then(
+                (response) => {
+                  if(response.data.code == 200){
+                    if(response.data.data != ''){
+                      vm.page = 'Edit';
+                      
+
+                    }else{
+                      vm.page = 'Add';
+                    }  
+                  }
+                  
+                },
+                (error) => {
+                }
+                );
+          },
         	getRoles(){
+          (response) => {
+          }
         		 var vm =this;
            		 var role_list_new=[];
         		User.getRolesList().then(

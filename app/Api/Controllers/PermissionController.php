@@ -48,5 +48,22 @@ class PermissionController extends Controller
 
     }
 
+    /**
+    *
+    **/
 
+
+    public function checkPermissionForRole(Request $request){
+        $roleId = $request->roleId;
+         $result = $this->premissionObj->checkPermissionForRole($roleId);
+            if($result)
+            {
+                return ['code' => 200 ,'data'=>$result,'message'=>'Role permission succeesfully get.'];
+            }
+            else
+            {
+                return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
+            }
+
+    }
 }

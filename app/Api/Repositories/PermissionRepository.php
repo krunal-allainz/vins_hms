@@ -3,6 +3,7 @@ namespace euro_hms\Api\Repositories;
 use Carbon\Carbon;
 use DB;
 use euro_hms\Models\Permission;
+use euro_hms\Models\PermissionRole;
 
  class PermissionRepository 
  {
@@ -12,8 +13,20 @@ use euro_hms\Models\Permission;
     }
 
     public function addRolePermission($roleId,$permissionCheckList){
-        dd($roleId);
-        dd($permissionCheckList);
+        foreach($permissionCheckList as $permissionList){
+        	foreach($permissionList as $permission){
+        		PermissionRole::create([
+                   	'role_id' => $roleId,
+    				'permission_id' => $permission,
+        		]);
+        	}
+        }
+       return true;
+    }
+
+    public function checkPermissionForRole($roleId){
+    	$result=PermissionRole::select('permission_id as permissionId','role_id as roleId')->where('role_id',$roleId)->get();
+    	return $result;
     }
  	
  }
