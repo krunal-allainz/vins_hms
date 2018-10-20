@@ -421,7 +421,20 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
         $api->post('role/getRoleList', '\euro_hms\Api\Controllers\RoleController@roleListWithPaggination');
 
-         $api->post('role/delete', '\euro_hms\Api\Controllers\RoleController@deleteRole');
+        $api->post('role/delete', '\euro_hms\Api\Controllers\RoleController@deleteRole');
+        
+        
+        $api->post('role/getroledetail', '\euro_hms\Api\Controllers\RoleController@getRoleDetail');
+        
+        $api->post('role/edit', '\euro_hms\Api\Controllers\RoleController@editRole');
+        
+        $api->post('user/getusers','\euro_hms\Api\Controllers\UserController@getUsers');
+         
+        $api->post('role/adduserrole', '\euro_hms\Api\Controllers\RoleController@addUserRole');
+          
+        $api->post('role/checkexistuserrole', '\euro_hms\Api\Controllers\RoleController@checkExistUserRole');
+        
+         $api->post('role/updateuserrole', '\euro_hms\Api\Controllers\RoleController@updateUserRole');
 }); 
 
 

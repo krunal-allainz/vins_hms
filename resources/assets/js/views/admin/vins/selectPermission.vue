@@ -14,10 +14,13 @@
              			 <label for="role">Select Role:</label>
             		</div>
            		 	<div class="col-md-6">
-              			<select  class="form-control ls-select2"  id="role" name="role" value="" v-model="Data.roleId"> 
+              			<select  class="form-control ls-select2"  id="role" name="role" value="" v-model="Data.roleId" v-validate="'required'"> 
                    			 <option value="">Select </option>
                   			 <option :value="role.rid" v-for="role in roleOptions">{{role.name}}</option>
-               			</select> 
+               			</select>
+                    
+                    <i v-show="errors.has('role')" class="fa fa-warning"></i>
+                     <span class="help is-danger" v-show="errors.has('role')">Please select Role.</span>
            			 </div>
          		 </div>
          	</div>
@@ -93,8 +96,7 @@
                 );
           },
         	getRoles(){
-          (response) => {
-          }
+         
         		 var vm =this;
            		 var role_list_new=[];
         		User.getRolesList().then(

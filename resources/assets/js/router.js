@@ -112,6 +112,8 @@ import userDetailEdit from './views/admin/vins/userDetailEdit.vue'
 import addRole from './views/admin/vins/addRoles.vue'
 import selectPermission from './views/admin/vins/selectPermission.vue'
 import roleList from './views/admin/vins/roleList.vue'
+import roleDetailEdit from './views/admin/vins/roleDetailEdit.vue'
+import addUserRole from './views/admin/vins/addUserRole.vue'
 //for prescriptiom
 import prescriptionList from './views/admin/vins/prescriptionList.vue'
 import prescriptionAdd from './views/admin/vins/prescriptionAdd.vue'
@@ -176,6 +178,12 @@ const routes = [
                 meta: { requiresAuth: true },
                 name: 'home'
 
+            },
+            {
+                path: '/adduserrole',
+                component: addUserRole,
+                meta: { requiresAuth: true },
+                name: 'adduserrole'
             },
             {
                 path: '/addrole',
@@ -715,6 +723,12 @@ const routes = [
                 component: userDetailEdit,
                 meta: { requiresAuth: true },
                 name: 'user/edit'
+            },
+            {
+                path: '/role/edit/:id',
+                component: roleDetailEdit,
+                meta: { requiresAuth: true },
+                name: 'role/edit'
             },
             {
                 path: '/receipt',

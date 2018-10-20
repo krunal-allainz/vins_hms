@@ -593,6 +593,24 @@ export default {
   },
   deleteRoleById(roleId){
      return api.post('role/delete',{'roleId' : roleId})   
+  },
+  getRoleDetailById(roleId){
+     return api.post('role/getroledetail',{'roleId':roleId})
+  },
+  updateRoleDetail(Data,roleId){
+    return api.post('role/edit',{'data':Data,'roleId':roleId})
+  },
+  getUserList(){
+    return api.post('user/getusers')
+  },
+  addUserRole(roleId,userId){
+     return api.post('role/adduserrole',{'roleId':roleId,'userId':userId})
+  },
+  checkExistUserRole(userId){
+      return api.post('role/checkexistuserrole',{'userId':userId})
+  },
+  updateUserRole(roleId,userId){
+     return api.post('role/updateuserrole',{'roleId':roleId,'userId':userId})
   }
 
 }

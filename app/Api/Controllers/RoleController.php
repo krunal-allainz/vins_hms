@@ -95,5 +95,108 @@ class RoleController extends Controller
         }        
 
     }
+    
+    /**
+     **
+     **/
+    
+    public function getRoleDetail(Request $request){
+        
+         $roleId = $request->roleId;
+        $result = $this->roleObj->getRoleById($roleId);
+         if($result)
+        {
+            return ['code' => 200 ,'data'=>$result,'message'=>'Role detail succeesfully get.'];
+        }
+        else
+        {
+            return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];;
+
+        }  
+        
+    }
+    
+    /**
+     **
+     **/
+    
+    public function editRole(Request $request){
+          $data = $request->all()['data'];
+    	$roleName = $data['rolename'];
+    	$slug =  $data['slug'];
+    	$desc = $data['description'];
+        $roleId = $request->roleId;
+        
+        $result = $this->roleObj->editRoleById($roleId,$roleName,$slug,$desc);
+         if($result)
+        {
+            return ['code' => 200 ,'data'=>$result,'message'=>'Role succeesfully Update.'];
+        }
+        else
+        {
+            return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];;
+
+        }  
+    }
+    
+
+    /**
+     *
+     *
+     **/
+    
+    public function addUserRole(Request $request){
+           $roleId = $request->roleId;
+           $userId = $request->userId;
+        $result = $this->roleObj->addUserRole($roleId,$userId);
+         if($result)
+        {
+            return ['code' => 200 ,'data'=>$result,'message'=>'User Role detail succeesfully add.'];
+        }
+        else
+        {
+            return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];;
+
+        } 
+    }
+    
+    /**
+     *
+     *
+     **/
+    
+    public function checkExistUserRole(Request $request){
+         $userId = $request->userId;
+         $result = $this->roleObj->checkExistUserRole($userId);
+         if($result)
+        {
+            return ['code' => 200 ,'data'=>$result,'message'=>'User Role exist'];
+        }
+        else
+        {
+            return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];;
+
+        } 
+    }
+    
+    /**
+     *
+     *
+     **/
+    
+    public function updateUserRole(Request $request){
+         $roleId = $request->roleId;
+           $userId = $request->userId;
+        $result = $this->roleObj->updateUserRole($roleId,$userId);
+         if($result)
+        {
+            return ['code' => 200 ,'data'=>$result,'message'=>'User Role detail succeesfully update.'];
+        }
+        else
+        {
+            return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];;
+
+        } 
+    }
 }                                                                                                                           
 ?>

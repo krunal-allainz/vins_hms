@@ -345,4 +345,24 @@ class UserController extends BaseController
         }
 
     }
+    
+    /**
+     *
+     *
+     *
+     **/
+    
+    public function getUsers(){
+         $result = $this->userRepoObj->getAllUsers();
+      
+         if ($result) {
+            return ['code' => '200','data'=>$result, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+    }
+    
+    
+    
+    
 }

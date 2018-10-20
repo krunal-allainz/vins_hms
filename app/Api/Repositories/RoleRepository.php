@@ -3,6 +3,7 @@ namespace euro_hms\Api\Repositories;
 use Carbon\Carbon;
 use DB;
 use euro_hms\Models\Role;
+use euro_hms\Models\RoleUser;
 
  class RoleRepository 
  {
@@ -30,6 +31,44 @@ use euro_hms\Models\Role;
     public function deleteRoleById($roleId){
         return Role::find($roleId)->delete();
     }
+    
+    public function getRoleById($roleId){
+       return Role::where('id', $roleId)->first();
+
+    }
+    
+    public function editRoleById($roleId,$roleName,$slug,$desc)
+    {
+      return Role::where('id',$roleId)->update(
+          array(
+                'name' => $roleName,
+                'slug' => $slug,
+               'description' => $desc
+               ));
+    }
+    
+    public function addUserRole($roleId,$userId)
+    {
+     
+     return RoleUser::create([
+      'role_id' => $roleId,
+      'user_id' => $userId
+                               ]);
+    }
+    
+    public function checkExistUserRole($userId){
+        $reult = RoleUser::where('user_id',$userId)->get();
+    }
+    
+     public function updateUserRole($roleId,$userId)
+    {
+     
+     return RoleUser::where('user_id',$userId)->update([
+      'role_id' => $roleId,
+                               ]);
+    }
+    
+    
  	
  }
 ?>
