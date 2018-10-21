@@ -52,6 +52,9 @@
                         </vmenu-item> 
                         <vmenu-item link="/selectpermission" icon="ti-layout">
                             &nbsp; Select Permission 
+                        </vmenu-item>
+                        <vmenu-item link="/adduserrole" icon="ti-layout">
+                            &nbsp; Add User Role
                         </vmenu-item> 
                     </vmenu> 
                 </div>

@@ -32,7 +32,7 @@
 					<ul>
 						<li><input type="checkbox" id="ckbCheckAll"  @click="checkAll(this)"/><b> Select All</b></li>		
 						<li v-for="permission in permissionList" class="col-md-6">
-							<input type="checkbox" class="checkBoxClass" :value="permission.id" id="permission.id" v-model="checkedPermisiontList" @click="check($event)"> {{permission.name}}
+							<input type="checkbox" class="checkBoxClass" :value="permission.id" id="permission.id" v-model="checkedPermisiontList" @click="check($event)" :checked="selectedPerlissionList != '' && selectedPerlissionList.includes(permission.id)"> {{permission.name}}
 						</li>
 					</ul>
 					<span class="help is-danger" v-if="(permissionListSelect == 0)">
@@ -62,7 +62,8 @@
                     'roleOptions' : '',
                     'permissionList' : '',
                     'checkedPermisiontList' : '',
-                    'permissionListSelect' : 1
+                    'permissionListSelect' : 1,
+                    'selectedPerlissionList' : ''
                 }	
         },
         mounted() {
@@ -78,15 +79,30 @@
         },
         methods: {
           checkRolesPermission($roleId){
+          var vm= this;
+          var permissionSelectedList = [];
               User.checkRolesPermission($roleId).then(
                 (response) => {
                   if(response.data.code == 200){
                     if(response.data.data != ''){
                       vm.page = 'Edit';
+                      var getPermissionList = response.data.data;
                       
+                       $.each(getPermissionList, function(key, value) {
+                          let getPermissionId = getPermissionList.permissionId;
+                          let getRoleId = getPermissionList.roleId;
+                          permissionSelectedList.push(
+                            {
+                                'permissionId' : getPermissionId,
+                                'roleId' : getRoleId,
+                            }
+                          );
+                          vm.selectedPerlissionList = _.cloneDeep(permissionSelectedList);
+                        });                      
 
                     }else{
                       vm.page = 'Add';
+                      vm.selectedPerlissionList = '';
                     }  
                   }
                   

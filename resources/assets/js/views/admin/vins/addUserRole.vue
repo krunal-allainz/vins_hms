@@ -72,7 +72,7 @@
           $('#user').change("select2:select", function (e) {
             let selectUserId = $(this).val();
               vm.Data.userId=selectUserId;
-             // vm.checkExistUserRole(selectUserId);
+              vm.checkExistUserRole(selectUserId);
           }); 
         },
         methods: {
@@ -158,14 +158,16 @@
               vm.page = 'ADD';
           },
           checkExistUserRole(userId){
-          
+           var vm= this;
             User.checkExistUserRole(userId).then(
                (response) => {
                     if(response.data.code == 200){
                         vm.page = 'EDIT';
                          vm.Data.roleId = response.data.role_id;
-                         vm.Data.userId = response.data.user_id;
-                         return false;
+                         
+                         //return false;
+                    }else{
+                    vm.Data.userId = userId;
                     }
                     
                },
