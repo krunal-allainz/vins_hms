@@ -298,8 +298,14 @@
                 			 vm.userData.password='';
                 			 vm.userData.confirmPassword='';
                 			 vm.userData.mobileNo =responce.data.data.mobile_no;
-                        vm.userData.address =responce.data.data.address;
-                        vm.userData.department =responce.data.data.department;
+                            vm.userData.address =responce.data.data.address;
+                            vm.userData.department =responce.data.data.department;
+                            setTimeout(function(){
+                                $('#department').select2({
+                                  placeholder: "Select",
+                                  tags:false 
+                                });
+                            },200);
                         $('#department').val(responce.data.data.department).trigger('change.select2');
                         vm.userData.userType = responce.data.data.user_type;
                         vm.$data.userData.dagree =responce.data.data.dagree;
