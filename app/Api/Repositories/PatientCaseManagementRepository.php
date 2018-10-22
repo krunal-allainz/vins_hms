@@ -163,7 +163,7 @@
             $prescription_obj->patient_case_management_id=$case_id;
             //$prescription_obj->opd_id=$opd_id_org;
             $prescription_obj->user_id=$user_id;
-            if(strpos($prescription['pid'],'other_') !== false)
+            if($prescription['pid']=='other')
             {
               $prescription_obj->other_prescription=$prescription['name'];
             }
@@ -620,15 +620,15 @@
       //for prescription data
       $prescription_details=PrescriptionDetails::where('patient_case_management_id',$case_id)->orderBy('id','asc')->get();
       $prescript_array=array();
-      $other_pid=0;
+      $p_index=1;
       foreach($prescription_details as $presp)
       {
+        
         $rest_presp=array();
+        $rest_presp['id']=$p_index;
         if(($presp->prescription_drug_id==null || $presp->prescription_drug_id=="") && ($presp->other_prescription!=''))
         {
-          $other_pid=$other_pid+1;
-          $rest_presp['pid']='other_'.$other_pid;
-
+          $rest_presp['pid']='other';
           $rest_presp['name']=$presp->other_prescription;
         }
         else
@@ -671,8 +671,9 @@
         }
         
         $prescript_array[]=$rest_presp;
+        $p_index=$p_index+1;
       }
-      $result['other_pid']=$other_pid;
+     
       $result['prescriptionData']=$prescript_array;
       /*print_r($result['prescriptionData']);
       exit;*/
@@ -1067,7 +1068,7 @@
             $prescription_obj=new PrescriptionDetails();
             $prescription_obj->patient_case_management_id=$case_id;
             $prescription_obj->user_id=$user_id;
-            if(strpos($prescription['pid'],'other_') !== false)
+            if($prescription['pid']=='other')
             {
               $prescription_obj->other_prescription=$prescription['name'];
             }

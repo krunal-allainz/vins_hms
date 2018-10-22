@@ -871,6 +871,7 @@
                   qhrs=vm.prescriptFinalData.qhrs;
                   tot_qhrs=vm.prescriptFinalData.total_qhrs;
               }
+
               clocktimedata.push({'id':array.id,'pid':array.pid,'type':array.type,'name':array.name,'timing':array.clock_time,'quantity':array.clock_quantity,'remove':'false'});
               var obj = {};
               
@@ -1246,7 +1247,7 @@
                      let get_type=vm.prescriptFinalData.prescription_report[0].clock_type;
                      //for prescription clock time list 
                     let objIndex_clock = clocktimedata.findIndex((obj => obj.id == vm.prescriptFinalData.prescription_report[0].id && obj.timing == vm.prescriptFinalData.prescription_report[0].old_clock_value));
-                    
+
                     var c_time=vm.prescriptFinalData.prescription_report[0].clock_time;
                     var indexes=[];
                       _.find(clocktimedata, function(res, index) {
