@@ -700,6 +700,16 @@
         $rest_cross['type']='Cross';
         $rest_cross['subtype']=$cross->cross_type;
         $rest_cross['value']=$cross->cross_value;
+        if($cross->cross_type=='Internal')
+        {
+            $name=$this->objUser->getUserNameById($cross->cross_value);
+            $rest_cross['text']=ucwords($name);
+        }
+        else
+        {
+           $rest_cross['text']=$cross->cross_value;
+        }
+        
         $cross_array[]=$rest_cross;
         $index_cross++;
       }
@@ -1469,7 +1479,7 @@
        }
        $result['opdExaminationData'] =$exam_data;
        $result['opdReferalphysioData'] = OPDPhysioDetails::where('patient_case_management_id',$caseId)->first();
-       $result['opdReferalCrossData'] = CrossDetails::where('patient_case_management_id',$caseId)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
+       $result['opdReferalCrossData'] = $this->getCrossDetailsByCaseId($caseId);
        $result['opdReferalLaboraryData'] =LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.patient_case_management_id',$caseId)->where('laboratory_details.referance',0)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
         $result['opdReferalRadiologyData'] =$this->getRadiologyReportData(0,$caseId);
         $result['opdLabData'] = LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.patient_case_management_id',$caseId)->where('laboratory_details.referance',1)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
@@ -1531,7 +1541,28 @@
 
   }
 
-
+  public function getCrossDetailsByCaseId($caseId)
+  {
+      $cross_details=CrossDetails::where('patient_case_management_id',$caseId)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
+      $index_cross=1;
+      $cross_array=array();
+      foreach($cross_details as $cross)
+      {
+        $rest_cross=array();
+        $rest_cross['cross_type']=$cross->cross_type;
+        if($cross->cross_type=='Internal')
+        {
+            $name=$this->objUser->getUserNameById($cross->cross_value);
+            $rest_cross['cross_value']=ucwords($name);
+        }
+        else
+        {
+           $rest_cross['cross_value']=$cross->cross_value;
+        }
+        $cross_array[]=$rest_cross;
+      }
+      return $cross_array;
+  }
 
   /**
    * [getPrescriptionDataForPrint description]
@@ -1629,7 +1660,7 @@
       }
       $result['opdExaminationData'] =$exam_data;
       $result[''] = OPDPhysioDetails::where('patient_case_management_id',$caseId)->first();
-      $result['opdReferalCrossData'] = CrossDetails::where('patient_case_management_id',$caseId)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
+      $result['opdReferalCrossData'] = $this->getCrossDetailsByCaseId($caseId);
       $result['opdReferalLaboraryData'] =LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.patient_case_management_id',$caseId)->where('laboratory_details.referance',0)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
       $result['opdReferalRadiologyData'] = $this->getRadiologyReportData(0,$caseId);
       $result['opdLabData'] = LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.patient_case_management_id',$caseId)->where('laboratory_details.referance',1)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();

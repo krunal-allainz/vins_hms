@@ -311,6 +311,9 @@
                 if(pId)
                 {
                     vm.patientData.patient_id=pId;
+                    setTimeout(function(){
+                      $('#patient').val(pId).trigger('change.select2');
+                    },10);
                     vm.patientEmpty();
                     vm.enable_vitals();
                     vm.getAgeOfPatient(pId);
