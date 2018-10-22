@@ -156,7 +156,7 @@
                  
                   if(response.data.code == 200){
                     //$('#presp_'+id).remove();
-                     vm.getLaboratoryList('/laboratory/getLaboratoryList');
+                    vm.getLaboratoryList('/laboratory/getLaboratoryList');
                     toastr.success('Laboratory deleted successfully', 'Add Laboratory', {timeOut: 5000});
                       //this.initialState();
                       

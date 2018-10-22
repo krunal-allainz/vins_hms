@@ -122,14 +122,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  
                         $insertData = DB::table('prescription_drugs')->insert($insert);
                         if ($insertData) {
-                            return true;
+                            return 1;
                         }else {                        
-                            return false;
+                            return 0;
                         }
+                    }
+                    else
+                    {
+                         return 0;
                     }
                 }
             }
-            return true;
+            return 0;
         }
     }
     
