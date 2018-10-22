@@ -71,7 +71,7 @@
             vm.getRoles();
             vm.getPermissionList();	
 
-            $('#role').change("select2:select", function (e) {
+            $('#role').on("select2:select", function (e) {
             let selectedRoleId = $(this).val();
               vm.Data.roleId=selectedRoleId;
               vm.checkRolesPermission(selectedRoleId);

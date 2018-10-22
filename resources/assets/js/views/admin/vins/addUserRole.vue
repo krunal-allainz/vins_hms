@@ -29,9 +29,9 @@
              			 <label for="user">Select User:</label>
             		</div>
            		 	<div class="col-md-6">
-              			<select  class="form-control ls-select2"  id="user" name="user"  v-model="Data.userId" v-validate="'required'"> 
+              			<select  class="form-control ls-select2"  id="user" name="user"  v-model="Data.userId" v-validate="'required'" @change="checkExistUserRole"> 
                    			 <option value="">Select </option>
-                  			 <option :value="user.rid" v-for="user in userOptions">{{user.name}}</option>
+                  			 <option :value="user.uid" v-for="user in userOptions">{{user.name}}</option>
                			</select>
                       <i v-show="errors.has('role')" class="fa fa-warning"></i>
                      <span class="help is-danger" v-show="errors.has('role')">Please select User.</span>
@@ -62,18 +62,19 @@
             }
         },
           mounted() {
+            
             var vm = this;
             vm.getRoles();
             vm.getUser();
-            $('#role').change("select2:select", function (e) {
+            $('#role').on("select2:select", function (e) {
             let selectedRoleId = $(this).val();
               vm.Data.roleId=selectedRoleId;
           });
-          $('#user').change("select2:select", function (e) {
+          $('#user').on("select2:select", function (e) {
             let selectUserId = $(this).val();
               vm.Data.userId=selectUserId;
-              vm.checkExistUserRole(selectUserId);
           }); 
+
         },
         methods: {
          getRoles(){
@@ -155,19 +156,16 @@
               var vm= this;
               vm.Data.roleId = '';
               vm.Data.userId = '';
-              vm.page = 'ADD';
+              vm.Page = 'ADD';
           },
           checkExistUserRole(userId){
            var vm= this;
-            User.checkExistUserRole(userId).then(
+            User.checkExistUserRole(vm.Data.userId).then(
                (response) => {
-                    if(response.data.code == 200){
-                        vm.page = 'EDIT';
-                         vm.Data.roleId = response.data.role_id;
-                         
-                         //return false;
+                    if(response.data.code == 200 && response.data.data != ''){
+                        vm.Page = 'EDIT';
                     }else{
-                    vm.Data.userId = userId;
+                         vm.Page = 'ADD';
                     }
                     
                },
@@ -177,8 +175,11 @@
             );
           
           },
-          updateUserRole(roleId,UserId){
-              User.updateUserRole(roleId,userId).then(
+          updateUserRole(){
+            var vm= this;
+            var getRoleId = vm.Data.roleId;
+            var getUserId = vm.Data.userId;
+              User.updateUserRole(getRoleId,getUserId).then(
                 (response) => {
                     if(response.data.code == 200){
                         toastr.success('User Role update successfully', 'Update User Role', {timeOut: 5000});
@@ -196,16 +197,17 @@
           },
           validateBeforeSubmit() {
                 this.$validator.validateAll().then(() => {
-                    
                     if (!this.errors.any()) {
                                 var vm = this;
-                               console.log('if');
-                                if(vm.Page == 'Add')
+                                
+                                if(vm.Page == 'ADD')
                                 {
                                 	vm.addUserRole();
                                 }else{
-                                  vm.updateUserRole(vm.Data.roleId,vm.Data.userId);
+                                  vm.updateUserRole();
                                 }
+                    }else{
+                     return false;
                     }
                 });
             }

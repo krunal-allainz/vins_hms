@@ -361,6 +361,24 @@ class UserController extends BaseController
             return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
         }
     }
+
+    /**
+    *
+    *
+    *
+    **/
+
+    public function getUsersRole(request $request){
+ 
+        $userId = $request->userId;
+        $result = $this->userRepoObj->getUsersRole($userId);
+      
+         if ($result) {
+            return ['code' => '200','data'=>$result, 'message' => 'Record Sucessfully created'];
+        } else {
+            return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
+        }
+    }
     
     
     

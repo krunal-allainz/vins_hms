@@ -57,7 +57,8 @@ use euro_hms\Models\RoleUser;
     }
     
     public function checkExistUserRole($userId){
-        $reult = RoleUser::where('user_id',$userId)->get();
+        return RoleUser::where('user_id',$userId)->get();
+
     }
     
      public function updateUserRole($roleId,$userId)

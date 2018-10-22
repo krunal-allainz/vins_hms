@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Http\Middleware\checkPermission;
 
 /*
 |--------------------------------------------------------------------------
@@ -264,7 +265,12 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
           $api->post('user/getUserDetailByUserId','\euro_hms\Api\Controllers\UserController@getUserDetailByUserId');
 
-        $api->post('user/edit','\euro_hms\Api\Controllers\UserController@editUserById');
+       // $api->post('user/edit','\euro_hms\Api\Controllers\UserController@editUserById');
+        
+         $api->post('user/edit', ['as' => 'user edit', 'middleware' => 'checkPermission:edit.users', 'uses' => '\euro_hms\Api\Controllers\UserController@editUserById'
+        ]);
+
+      
 
         //for receipt details by receipt id
         $api->post('receipt/getReceiptDetailsById','\euro_hms\Api\Controllers\ReceiptController@getReceiptDetailsById');
@@ -435,6 +441,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         $api->post('role/checkexistuserrole', '\euro_hms\Api\Controllers\RoleController@checkExistUserRole');
         
          $api->post('role/updateuserrole', '\euro_hms\Api\Controllers\RoleController@updateUserRole');
+
+        $api->post('user/getuserrole','\euro_hms\Api\Controllers\UserController@getUsersRole');
 }); 
 
 

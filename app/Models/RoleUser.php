@@ -13,6 +13,11 @@ class RoleUser extends Model
         'user_id',
         
         ];
+
+    public function hasRole()
+    {
+        return $this->belongsTo('euro_hms\Models\Role','role_id');
+    }
 	
 
 	

@@ -15,7 +15,8 @@ use euro_hms\Notifications\MyOwnResetPassword as ResetPasswordNotification;
 use euro_hms\Models\UserOtp;
 use Laravel\Passport\HasApiTokens;
 
-class User extends Authenticatable 
+class User extends Authenticatable implements AuthenticatableContract, HasRoleAndPermissionContract
+
 //implements AuthenticatableContract, CanResetPasswordContract, HasRoleAndPermissionContract
 {
     use Notifiable, HasRoleAndPermission, SoftDeletes;
@@ -156,6 +157,11 @@ class User extends Authenticatable
             // request()->session()->put('otp_value', $encoded_otp);
         }
         $this->notify(new ResetPasswordNotification($token, $name,$this->email,$send_otp, $subject));
+    }
+
+     public function userRole()
+    {
+        return $this->belongsTo('euro_hms\Models\RoleUser','user_id');
     }
 
     

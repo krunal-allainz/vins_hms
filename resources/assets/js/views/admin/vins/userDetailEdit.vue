@@ -223,6 +223,7 @@
                     placeholder: "Select"
                 });
                 vm.getUserDetail(vm.edituserId);
+                 vm.getUserRole();
                 User.getUserTypesList().then(
                      (response) => {
                     $.each(response.data.data, function(key,value) {
@@ -259,6 +260,16 @@
 
         },
         methods: {
+            getUserRole(){
+                User.getUserRole(this.edituserId).then(
+                    (responce) => {
+                        console.log(responce.data);
+                    },
+                    (error) =>{
+
+                    }
+                    );
+            },
            previewFile(e){
                  let vm =this;
                 var imgData = [];

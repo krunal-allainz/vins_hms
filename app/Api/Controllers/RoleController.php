@@ -168,6 +168,7 @@ class RoleController extends Controller
     public function checkExistUserRole(Request $request){
          $userId = $request->userId;
          $result = $this->roleObj->checkExistUserRole($userId);
+         
          if($result)
         {
             return ['code' => 200 ,'data'=>$result,'message'=>'User Role exist'];

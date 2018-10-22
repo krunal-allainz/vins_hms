@@ -250,4 +250,9 @@ class UserRepository {
 
     }
 
+    public function getUsersRole($userId){
+        return User::findOrFail($userId);
+        
+    }
+
 }
