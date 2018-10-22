@@ -297,7 +297,6 @@
     var prespRes = [];
     export default {
       computed:{
-
       },
       components: {
         'date-picker': myDatepicker,
@@ -377,7 +376,6 @@
                     'details':'',
                     'other_prescription':'',
                     
-
                 }
                 
             }
@@ -418,13 +416,11 @@
                           placeholder: 'Select' 
                         });
                         $('#qhrs').on("select2:select", function (e) {
-
                             vm.prescriptFinalData.qhrs=$(this).val();
                             vm.multipleClockResult('Q-Hrs');
                         });
                     },500);
                   }
-
               });
             /*for lab data end*/
             setTimeout(function(){
@@ -511,7 +507,6 @@
           },
           multipleClockResult(how_val)
           { 
-
               let vm=this;
               vm.prescription_index();
               let p_id=this.prescriptFinalData.prescription_id;
@@ -698,7 +693,6 @@
                  toastr.error('Select How many times.', 'Prescription error', {timeOut: 500});
                   return false;
             }
-
             if(vm.prescriptFinalData.how_many_times=='Q-Hrs' && vm.prescriptFinalData.qhrs=='')
             {
                 toastr.error('Please select Q-Hrs.', 'Prescription error', {timeOut: 5000});
@@ -768,14 +762,12 @@
                     
                     vm.addMedicinOntime(value);
                 }
-
             });
             return false;
           },
           editMedicinOntime(array)
           {
               let vm =this;
-
               var qhrs="";
               var tot_qhrs="";
               if(array.type=='Q-Hrs')
@@ -892,12 +884,10 @@
                     {
                         var clock_val='--:--';
                         var clock_qty=0;
-
                         if(i==1)
                         {
                             clock_val=array.clock_time;
                             clock_qty=array.clock_quantity;
-
                         }
                         
                         var clock_name='clock_time_'+i;
@@ -919,7 +909,6 @@
               }
              
                 return vm.prescriptFinalData.prescriptionNameList;
-
           },
           check_duplicate(id,type,array,check)
           {
@@ -1017,7 +1006,6 @@
             vm.$store.dispatch('setPrescriptionData',finalData);
           },
           savePrescription() {
-
              let vm =this;
              vm.priscription_add_disabled=false;
              vm.show_prescription_result_data_enable=true;
@@ -1047,11 +1035,9 @@
                 
           },
            getPrescriptionList() {
-
             let vm =this;
             let userDepartment = vm.department;
             jQuery('.js-loader').removeClass('d-none');
-
             User.getPrescription(userDepartment).then( 
               (response)=> {
                   if(response.status == 200){
@@ -1062,13 +1048,11 @@
                       $('#prescription').select2({placeholder: 'Select'});
                        jQuery('.js-loader').addClass('d-none');
                      },1000)
-
                   }
                 },
                 (error)=>{
                     jQuery('.js-loader').addClass('d-none');
                 }
-
               )
            
           },
@@ -1200,7 +1184,6 @@
                     vm.prescriptFinalData.prescription_report=vm.prespFinalRes;
                 }
             });
-
            
             return false;
         },
@@ -1228,16 +1211,13 @@
                     toastr.error('Please enter valid total prescription days.', 'Prescription error', {timeOut: 5000});
                     return false;
                 }
-
                  let q_val=_.toNumber(vm.prescriptFinalData.prescription_report[0].clock_quantity);
                 if(!(_.isInteger(q_val)))
                 {
                     toastr.error('Please enter valid quantity.', 'Prescription error', {timeOut: 5000});
                     return false;
                 }
-
                 let clock_suggest='--';
-
                 if(vm.prescriptFinalData.prescription_report[0].clock_suggest!="")
                 {
                   clock_suggest=vm.prescriptFinalData.prescription_report[0].clock_suggest;
@@ -1267,8 +1247,6 @@
                      let get_type=vm.prescriptFinalData.prescription_report[0].clock_type;
                      //for prescription clock time list 
                     let objIndex_clock = clocktimedata.findIndex((obj => obj.id == vm.prescriptFinalData.prescription_report[0].id && obj.timing == vm.prescriptFinalData.prescription_report[0].old_clock_value));
-
-                    
 
                     var c_time=vm.prescriptFinalData.prescription_report[0].clock_time;
                     var indexes=[];
@@ -1422,7 +1400,6 @@
                                       vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_4 = res.quantity;
                                   }
                                   i++;
-
                                   f_quantity=parseInt(vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_1)+parseInt(vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_2)+parseInt(vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_3)+parseInt(vm.prescriptFinalData.prescriptionNameList[objIndex].clock_quantity_4);
                               }
                                 
@@ -1438,7 +1415,6 @@
                     return false;   
                 }
             }
-
            
             return false;
         },
@@ -1446,5 +1422,3 @@
       }
     }
 </script>
-
-
