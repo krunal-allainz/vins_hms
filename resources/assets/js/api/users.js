@@ -612,8 +612,8 @@ export default {
   updateUserRole(roleId,userId){
      return api.post('role/updateuserrole',{'roleId':roleId,'userId':userId})
   },
-  getUserRole(userId){
-    return api.post('user/getuserrole',{'userId':userId})
+  getUserRole(userId,permission){
+    return api.post('user/getuserrole',{'userId':userId,'permission':permission})
   }
 
 }

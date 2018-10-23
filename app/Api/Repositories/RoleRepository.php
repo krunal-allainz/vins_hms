@@ -5,6 +5,7 @@ use DB;
 use euro_hms\Models\Role;
 use euro_hms\Models\RoleUser;
 
+
  class RoleRepository 
  {
    
@@ -67,6 +68,10 @@ use euro_hms\Models\RoleUser;
      return RoleUser::where('user_id',$userId)->update([
       'role_id' => $roleId,
                                ]);
+    }
+
+    public function getRoleUserId($userId){
+       return RoleUser::where('user_id',$userId)->first();
     }
     
     

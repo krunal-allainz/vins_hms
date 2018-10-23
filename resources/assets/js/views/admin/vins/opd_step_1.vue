@@ -456,9 +456,10 @@
         
         mounted(){
          var vm =this;
-          if(vm.$store.state.Users.userDetails.user_type != '1'){
-              vm.$root.$emit('logout','You are not authorise to access this page'); 
-          }
+            vm.getUserRole('create.opd');
+          // if(vm.$store.state.Users.userDetails.user_type != '1'){
+          //     vm.$root.$emit('logout','You are not authorise to access this page'); 
+          // }
           $('.ls-select2').select2({
             placeholder: "Select",
             tags:false 
@@ -538,6 +539,19 @@
 
         },
         methods: {
+           getUserRole(permission = ''){
+                 var vm = this;
+                User.getUserRole(vm.doctor_id,permission).then(
+                    (responce) => {
+                       if(responce.data.data == ''){
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
+                    },
+                    (error) =>{
+
+                    }
+                    );
+            },
           initData()
           {
             let vm=this;

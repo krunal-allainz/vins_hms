@@ -32,7 +32,7 @@
 					<ul>
 						<li><input type="checkbox" id="ckbCheckAll"  @click="checkAll(this)"/><b> Select All</b></li>		
 						<li v-for="permission in permissionList" class="col-md-6">
-							<input type="checkbox" class="checkBoxClass" :value="permission.id" id="permission.id" v-model="checkedPermisiontList" @click="check($event)" :checked="selectedPerlissionList != '' && selectedPerlissionList.includes(permission.id)"> {{permission.name}}
+							<input type="checkbox" class="checkBoxClass" :value="permission.id" id="permission.id" v-model="checkedPermisiontList" @click="check($event)" :checked="onEditPage($event,permission.id)"> {{permission.name}}
 						</li>
 					</ul>
 					<span class="help is-danger" v-if="(permissionListSelect == 0)">
@@ -54,6 +54,7 @@
 	  export default {
         data() {
             return {
+                    'login_user_id' :this.$store.state.Users.userDetails.id,
                     'page' : 'Add',   
                     'Data' : {
                          'roleId':'',
@@ -68,16 +69,43 @@
         },
         mounted() {
             var vm = this;
+            vm.getUserRole('addeditrole.permission');
             vm.getRoles();
             vm.getPermissionList();	
 
-            $('#role').on("select2:select", function (e) {
+            $('#role').change("select2:select", function (e) {
             let selectedRoleId = $(this).val();
               vm.Data.roleId=selectedRoleId;
               vm.checkRolesPermission(selectedRoleId);
           }); 
         },
         methods: {
+          getUserRole(permission){
+                 var vm = this;
+                User.getUserRole(vm.login_user_id,permission).then(
+                    (responce) => {
+                       if(responce.data.data == ''){
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
+                    },
+                    (error) =>{
+
+                    }
+                    );
+            },
+            onEditPage(event,permissionId){
+                var vm= this;
+              if( vm.page == 'Edit'){
+                 selectedPerlissionList != '' && selectedPerlissionList.includes(permission.id)
+                 $.each(vm.selectedPerlissionList,function(key, value) {
+                      if(permissionId == value.permissionId){
+
+                      }else{
+
+                      }
+                 });
+               }
+            }
           checkRolesPermission($roleId){
           var vm= this;
           var permissionSelectedList = [];
@@ -87,10 +115,10 @@
                     if(response.data.data != ''){
                       vm.page = 'Edit';
                       var getPermissionList = response.data.data;
-                      
+
                        $.each(getPermissionList, function(key, value) {
-                          let getPermissionId = getPermissionList.permissionId;
-                          let getRoleId = getPermissionList.roleId;
+                          let getPermissionId = value.permissionId;
+                          let getRoleId = value.roleId;
                           permissionSelectedList.push(
                             {
                                 'permissionId' : getPermissionId,

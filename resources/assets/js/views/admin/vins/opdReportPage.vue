@@ -82,7 +82,8 @@
 	var formattedDate = date + '/' + month + '/' + year ;
 	export default {
 		data() {
-			return{
+			return{			
+				'login_user_id' :this.$store.state.Users.userDetails.id,
 				'printType' : '',
 				'todayDate' : formattedDate,
 				'caseId' : this.$store.state.Patient.caseId,
@@ -154,6 +155,7 @@
        },
        mounted(){
        	let vm =this;
+       	 vm.getUserRole('generate.Report');
        	if(vm.$store.state.Users.userDetails.user_type != '1'){
               vm.$root.$emit('logout','You are not authorise to access this page'); 
           }
@@ -166,6 +168,19 @@
        	vm.getPatientData(vm.patinetId);
        },
        methods: {
+       	 	getUserRole(permission){
+                 var vm = this;
+                User.getUserRole(vm.login_user_id,permission).then(
+                    (responce) => {
+                       if(responce.data.data == ''){
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
+                    },
+                    (error) =>{
+
+                    }
+                    );
+            },
        		close_modal()
        		{
        			let vm=this;

@@ -7,11 +7,13 @@ use Dingo\Api\Routing\Helpers;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use euro_hms\Http\Controllers\AuthController;
 use Validator;
 
 // Need to Define Only Contracts
 // use euro_hms\Api\Contracts\UserContract;
 use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 use euro_hms\Models\User;
 use euro_hms\Models\UserTypes;
 use euro_hms\Models\Role;
@@ -371,10 +373,12 @@ class UserController extends BaseController
     public function getUsersRole(request $request){
  
         $userId = $request->userId;
-        $result = $this->userRepoObj->getUsersRole($userId);
+        $permission = $request->permission;
+        $result = $this->userRepoObj->getUsersRole($userId,$permission);
       
+
          if ($result) {
-            return ['code' => '200','data'=>$result, 'message' => 'Record Sucessfully created'];
+            return ['code' => '200','data'=>1, 'message' => 'Record Sucessfully created'];
         } else {
             return ['code' => '300','data'=>'', 'message' => 'Something goes wrong'];
         }

@@ -61,6 +61,7 @@
     export default {
         data() {
             return {
+                    'login_user_id' :this.$store.state.Users.userDetails.id,
                     'editRoleId' :  this.$route.params.id,
                     'Data' : {
                             'rolename':'',
@@ -71,9 +72,23 @@
         },
         mounted() {
             var vm = this;
+            vm.getUserRole('edit.role');
             vm.getRoleDetail(vm.editRoleId);
         },
         methods: {
+             getUserRole(permission){
+                 var vm = this;
+                User.getUserRole(vm.login_user_id,permission).then(
+                    (responce) => {
+                       if(responce.data.data == ''){
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
+                    },
+                    (error) =>{
+
+                    }
+                    );
+            },
           getRoleDetail(roleId){
               var vm = this;  
               User.getRoleDetailById(roleId).then(

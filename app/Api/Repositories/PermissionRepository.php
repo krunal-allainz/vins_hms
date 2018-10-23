@@ -28,6 +28,10 @@ use euro_hms\Models\PermissionRole;
     	$result=PermissionRole::select('permission_id as permissionId','role_id as roleId')->where('role_id',$roleId)->get();
     	return $result;
     }
+
+    public function getRolePermissionList($permissionId){
+        return Permission::where('id',$permissionId)->first();
+    }
  	
  }
 ?>
