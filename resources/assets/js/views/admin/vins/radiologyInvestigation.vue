@@ -151,7 +151,7 @@
                 <div class="row form-group">
                     <div class="col-md-6"  v-if="(resultData.type != '' && resultData.bodyPart_text != '')"  >
                         <label>Select upload type:</label><br>
-                        <select class = "ls-select2 form-control" id = "upload_type" name = "upload_type" v-model="resultData.uploadType"  >
+                        <select class="form-control ls-select2" id = "upload_type" name = "upload_type" v-model="resultData.uploadType"  >
                             <option value="image_web">Image From Web</option>
                             <option value="image">Image</option>
                             <option value="video">Video</option>
@@ -367,6 +367,7 @@
             $('#radio_div').on("select2:select", '.ls-select2',function (e) {
                 if(this.id == 'radiology_type') 
                 {
+                    vm.imgGallery = '';
                     vm.resultData.type =$('#radiology_type').select2('data')[0].id;
                     vm.resultData.type_name = $('#radiology_type').select2('data')[0].text;
                     let r_name=vm.resultData.type_name;
@@ -410,6 +411,10 @@
                 if(this.id == 'radiology_spine') 
                 {
                     vm.resultData.spine_option_value=$('#radiology_spine').select2('data')[0].id;
+                }
+                if(this.id == 'upload_type') 
+                {
+                    vm.resultData.uploadType=$('#upload_type').select2('data')[0].id;
                 }
 
             });
@@ -553,6 +558,12 @@
                 vm.resultData.subtype_text_enable = false;
                 let radiologySubType_val=b_text;
                 vm.resultData.bodyPart = b_id;  
+                setTimeout(function(){
+                    $('#upload_type').select2({
+                        placeholder: "Select",
+                        tags:false 
+                    }); 
+                },300);
                 if(vm.resultData.type_name=='MRI')
                 {
                     setTimeout(function(){
@@ -876,25 +887,39 @@
                 let vm =this;
                 
                 vm.resultData = {
-                     'id':'',
+                    'id':'',
                     'uploadType':'image',
                     'bodyPart':'',
+                    'bodyPart_text':'',
                     'bodyPart_others':'',
                     'type': '',
-                    // 'x_ray_type':'fixed',
+                    'type_text':'',
                     'spine_option_value':'',
                     'subType': '',
                     'qualifier':'',
+                    'qualifier_text':'',
                     'imgData': '',
                     'textData': '',
                     'subtype_text_enable':false,
                     'qualifier_radio_text_enable':false,
                     'special_request':'',
+                    'special_request_text':'',
                     'removed':false,
                     'qualifierOtherPart':'',
-                    'errorUrl' : ''
+                    'body_part_side':'',
+                    'body_part_side_text':'',
+                    'radiologyOther':'',
+                    'body_part_text':false,
+                    'type_name':'',
+                    'body_part_others_type':'scribble',
+                    'body_part_others':'',
+                    'signaturePad':{},
+                    'signaturePad3_src':'',
+                    'radiology_qualifier_text_enable':true,
+                    'radiology_special_request_text_enable':true,
                 };
                 vm.imgGallery = '';
+
                 $('#radio_div .ls-select2').val(null).trigger('change');
                 // $('.ls-select2').select2().val('');
 

@@ -20,7 +20,7 @@
 				<diagnosisReportData :data="ReportPageData.opdData.diagnosis"></diagnosisReportData>
 		</div>
 
-		<!-- <div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Prescription')" >
+		 <div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Prescription')" >
 			 	print Perceptions Report start
 			 	<prescriptionPrint :prescriptData="ReportPageData.prescriptionReportData" :removeBtn="0" :checkedreportList="checkedreportList" :printType="printType"> </prescriptionPrint>
 			 	print Perceptions Report end
@@ -57,7 +57,7 @@
 		<div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Referrals')" >
 			 	<!-- cross referal report data start  -->
 			 	<crossReportData :CrossReferalData="ReportPageData.CrossReferalData" :checkedreportList="checkedreportList" :printType="printType"></crossReportData>
-			 	<!-- cross referal  report data end-->
+			 	
 		</div>
 
 		

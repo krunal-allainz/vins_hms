@@ -253,7 +253,7 @@
                         <td>{{cross_arr.id}}</td>
                         <td>{{cross_arr.type}}</td>
                         <td>{{cross_arr.subtype}}</td>
-                        <td>{{cross_arr.value}}</td>
+                        <td>{{cross_arr.text}}</td>
                         <td><i class="fa fa-remove" @click="removeCrossRef(cross_arr.id)"></i></td>
                     </tr>
                   </tbody>
@@ -347,6 +347,7 @@
               'cross':{},
               'id':this._uid,
               'internal_array':{},
+              'internal_text_array':{},
               'laboratory_array':{},
               'ref_cross_array':[],
               'ref_lab_array':[],
@@ -462,7 +463,7 @@
             if(this.id == 'referral'){
                vm.setRadioReferral();
                let ref=$(this).val();
-              vm.reffData.referral=ref;
+              vm.reffData.referral=_.cloneDeep(ref);
               //vm.finalResultData = '';
               if($(this).val() != 'physiotherapy') {
                 vm.reffData.physio_details = "";
@@ -508,8 +509,10 @@
 
             }
             else if(this.id == 'internal'){
-              var val_cross_array=$(this).val();
+              var val_cross_array=$('#internal').select2('data')[0].id;
+              var text_cross_array=$('#internal').select2('data')[0].text;
               vm.internal_array=val_cross_array;
+              vm.internal_text_array=text_cross_array;
             }
             else if(this.id == 'laboratory_report_opd'){
               var val_lab_array=$(this).val();
@@ -1056,14 +1059,21 @@
           },
            setRadioReferral()
           {
-               let vm =this;
-               vm.cross_internal='false';
-                vm.cross_external='false';
-              $('#radiology_qualifier_opd').select2("destroy");
-              $('#radiology_special_request_opd').select2("destroy");
+              let vm =this;
+              vm.cross_internal='false';
+              vm.cross_external='false';
+              if($('#radiology_qualifier_opd').hasClass("select2-hidden-accessible")){
+                $('#radiology_qualifier_opd').select2("destroy");
+              }
+              if($('#radiology_special_request_opd').hasClass("select2-hidden-accessible")){
+                $('#radiology_special_request_opd').select2("destroy");
+              }
+              if($('#radiology_spine_opd').hasClass("select2-hidden-accessible")){
+                $('#radiology_spine_opd').select2("destroy");
+              }
               $('#radiology_type_opd').val('').trigger('change.select2');
               $('#radiology_subtype_opd').val('').trigger('change.select2');
-              $('#radiology_spine_opd').select2("destroy");
+              
               vm.resultData = {
                    'id':'',
                     'uploadType':'image',
@@ -1183,13 +1193,13 @@
                 }
                 if(vm.internal_array.length>0)
                 {
-                  vm.ref_cross_array.push({'id':vm.ref_cross_array.length+1,'type':vm.reffData.referral,'subtype':'Internal','value':vm.internal_array});
+                  vm.ref_cross_array.push({'id':vm.ref_cross_array.length+1,'type':vm.reffData.referral,'subtype':'Internal','value':vm.internal_array,'text':vm.internal_text_array});
                 }
                 if(vm.reffData.cross_type_ext)
                 {
-                    vm.ref_cross_array.push({'id':vm.ref_cross_array.length+1,'type':vm.reffData.referral,'subtype':'External','value':vm.reffData.cross_type_ext});
+                    vm.ref_cross_array.push({'id':vm.ref_cross_array.length+1,'type':vm.reffData.referral,'subtype':'External','value':vm.reffData.cross_type_ext,'text':vm.reffData.cross_type_ext});
                 }
-                vm.reffData.reffreal_cross_array=vm.ref_cross_array;
+                vm.reffData.reffreal_cross_array= _.cloneDeep(vm.ref_cross_array);
                 vm.setCrossReferral();
                 return false;
 
