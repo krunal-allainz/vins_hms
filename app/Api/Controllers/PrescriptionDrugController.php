@@ -148,9 +148,13 @@ class PrescriptionDrugController extends Controller
     public function createPrescription(Request $request)
     {
         $add_Prescription=$this->prescObj->create($request);
-        if($add_Prescription)
+        if($add_Prescription['code']==200)
         {
             return ['code' => 200 ,'data'=>$add_Prescription,'message'=>'Prescription successfully added.'];
+        }
+        else if($add_Prescription['code']==301)
+        {
+             return ['code'=> 301 ,'data'=>'','message'=>'Prescription already exist.'];
         }
         else
         {
@@ -185,14 +189,19 @@ class PrescriptionDrugController extends Controller
     public function editPrescription(Request $request)
     {
         $edit_Prescription=$this->prescObj->edit($request);
-        if($edit_Prescription)
+        if($edit_Prescription['code']==200)
         {
             return ['code' => 200 ,'data'=>$edit_Prescription,'message'=>'Prescription successfully edited.'];
+        }
+        else if($edit_Prescription['code']==301)
+        {
+             return ['code'=> 301 ,'data'=>'','message'=>'Prescription already exist.'];
         }
         else
         {
             return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
         }
+       
     }
 
     /**
@@ -206,7 +215,7 @@ class PrescriptionDrugController extends Controller
         $delete_prescription=$this->prescObj->delete($id);
         if($delete_prescription)
         {
-            return ['code' => 200 ,'data'=>$delete_prescription,'message'=>'Prescription successfully edited.'];
+            return ['code' => 200 ,'data'=>$delete_prescription,'message'=>'Prescription successfully deleted.'];
         }
         else
         {
@@ -221,9 +230,9 @@ class PrescriptionDrugController extends Controller
     public function importPrescriptionFile(Request $request)
     {
         $import_file=$this->prescObj->importPrescriptionFile($request);
-        if($import_file==1)
+        if($import_file!=0 && $import_file['inserted']>0)
         {
-            return back()->with('success', 'Prescription are successfully added!');
+            return back()->with('success', 'Prescription '.$import_file['inserted'].' out of '.$import_file['total'].' records have been imported successfully!');
             //return ['code' => 200 ,'data'=>$import_file,'message'=>'Prescription successfully edited.'];
         }
         else

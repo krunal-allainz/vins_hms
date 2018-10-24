@@ -44,9 +44,13 @@ use Carbon\Carbon;
     public function createSpecialRequest(Request $request)
     {
         $add_SpecialRequest=$this->bodypObj->create($request);
-        if($add_SpecialRequest)
+        if($add_SpecialRequest['code']==200)
         {
             return ['code' => 200 ,'data'=>$add_SpecialRequest,'message'=>'Special Request successfully added.'];
+        }
+        else if($add_SpecialRequest['code']==301)
+        {
+             return ['code'=> 301 ,'data'=>'','message'=>'Special Request already exist.'];
         }
         else
         {
@@ -80,9 +84,13 @@ use Carbon\Carbon;
     public function editSpecialRequest(Request $request)
     {
         $edit_SpecialRequest=$this->bodypObj->edit($request);
-        if($edit_SpecialRequest)
+         if($edit_SpecialRequest['code']==200)
         {
             return ['code' => 200 ,'data'=>$edit_SpecialRequest,'message'=>'Special Request successfully edited.'];
+        }
+        else if($edit_SpecialRequest['code']==301)
+        {
+             return ['code'=> 301 ,'data'=>'','message'=>'Special Request already exist.'];
         }
         else
         {

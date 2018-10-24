@@ -168,11 +168,15 @@
                           (response)=> {
                            
                             if(response.data.code == 200){
-                                toastr.success('SpecialRequest added successfully', 'Add Special Request', {timeOut: 5000});
+                                toastr.success('Special Request added successfully', 'Add Special Request', {timeOut: 5000});
                                 vm.$router.push('specialRequest_list');
                                 //this.initialState();
                                 
-                            } else if (response.data.code == 300) {
+                            } 
+                            else if (response.data.code == 301) {
+                                toastr.error('Special Request already exist.', 'Add Special Request', {timeOut: 5000});
+                            }
+                            else if (response.data.code == 300) {
                                 toastr.error('Something Went wrong.', 'Add Special Request', {timeOut: 5000});
                                 //this.initialState(); 
                             }
@@ -199,17 +203,21 @@
                           (response)=> {
                            
                             if(response.data.code == 200){
-                                toastr.success('Special Request edited successfully', 'Add Special Request', {timeOut: 5000});
+                                toastr.success('Special Request edited successfully', 'Edit Special Request', {timeOut: 5000});
                                 vm.$router.push('specialRequest_list');
                                 //this.initialState();
                                 
-                            } else if (response.data.code == 300) {
-                                toastr.error('Something Went wrong.', 'Add Special Request', {timeOut: 5000});
+                            }
+                            else if (response.data.code == 301) {
+                                toastr.error('Special Request already exist.', 'Edit Special Request', {timeOut: 5000});
+                            }
+                            else if (response.data.code == 300) {
+                                toastr.error('Something Went wrong.', 'Edit Special Request', {timeOut: 5000});
                                 //this.initialState(); 
                             }
                             else
                             {
-                                toastr.error('Something Went wrong.', 'Add Special Request', {timeOut: 5000});
+                                toastr.error('Something Went wrong.', 'Edit Special Request', {timeOut: 5000});
                             }
                             
                           },
