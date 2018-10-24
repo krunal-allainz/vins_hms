@@ -199,5 +199,26 @@ class RoleController extends Controller
 
         } 
     }
+
+
+    /**
+    *
+    *
+    *
+    **/
+
+    public function getRoleName(Request $request){
+         $roleId = $request->roleId;
+          $result = $this->roleObj->getRoleName($roleId);
+         if($result)
+        {
+            return ['code' => 200 ,'data'=>$result,'message'=>'User Role name succeesfully.'];
+        }
+        else
+        {
+            return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];;
+
+        }
+    }
 }                                                                                                                           
 ?>

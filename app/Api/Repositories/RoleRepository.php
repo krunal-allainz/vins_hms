@@ -23,6 +23,10 @@ use euro_hms\Models\RoleUser;
     	 return Role::all();
     }
 
+    public function getRoleName($roleId){
+      return Role::select('name')->where('id',$roleId)->first();
+    }
+
     public function roleListWithPaggination($noOfRecord){
 
         $data = Role::paginate($noOfRecord);

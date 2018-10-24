@@ -425,7 +425,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
         $api->post('permission/addRolePermission', ['as' => 'add role permission', 'middleware' => 'checkPermission:addeditrole.permission', 'uses' => '\euro_hms\Api\Controllers\PermissionController@addRolePermission']);
             
-
+         $api->post('permission/updateRolePermission',['as' => 'add role permission', 'middleware' => 'checkPermission:addeditrole.permission', 'uses' => '\euro_hms\Api\Controllers\PermissionController@updateRolePermission']);
          
 
         $api->post('permission/checkrolepermission', '\euro_hms\Api\Controllers\PermissionController@checkPermissionForRole');
@@ -448,6 +448,10 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
          $api->post('role/updateuserrole', ['as' => 'add edit role', 'middleware' => 'checkPermission:addedituser.role', 'uses' => '\euro_hms\Api\Controllers\RoleController@updateUserRole']);
 
         $api->post('user/getuserrole','\euro_hms\Api\Controllers\UserController@getUsersRole');
+
+         $api->post('role/getuserromename', '\euro_hms\Api\Controllers\RoleController@getRoleName');
+
+
 }); 
 
 

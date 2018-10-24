@@ -614,6 +614,13 @@ export default {
   },
   getUserRole(userId,permission){
     return api.post('user/getuserrole',{'userId':userId,'permission':permission})
+  },
+  updateRolesPermission(roleId,seletedPermisionList){
+     return api.post('permission/updateRolePermission',{'roleId' :roleId , 'seletedPermisionList' : seletedPermisionList })
+
+  },
+  getRoleName(roleId){
+      return api.post('role/getuserromename',{'roleId':roleId})
   }
 
 }

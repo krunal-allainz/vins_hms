@@ -66,4 +66,25 @@ class PermissionController extends Controller
             }
 
     }
+
+    /**
+    *
+    *
+    *
+    **/
+
+    public function updateRolePermission(request $request){
+        
+          $roleId = $request->roleId;
+        $permissionCheckList[]  = $request->seletedPermisionList;
+         $result = $this->premissionObj->updateRolePermission($roleId,$permissionCheckList);
+            if($result)
+            {
+                return ['code' => 200 ,'data'=>$result,'message'=>'Role permission succeesfully update.'];
+            }
+            else
+            {
+                return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
+            }
+    }
 }
