@@ -22,9 +22,12 @@
 						<tbody v-if="radiologyReferalReportData.length>0">
 							<tr v-for="(res,index) in radiologyReferalReportData" >
 			                    <td>{{++index}}</td>
-			                    <td>{{res.type}}</td>
-			                    <td>{{res.bodyparts}}</td>
-			                    <td>{{res.qualifiers}}</td>
+			                    <td v-if="res.type=='Other'">{{res.radiology_other}}</td>
+                                <td v-else>{{res.type}}</td>
+			                    <td v-if="res.bodyparts=='Other'">{{res.bodyparts_other}}</td>
+                                <td v-else>{{res.bodyparts}}</td>
+                                <td v-if="res.qualifiers=='Other'">{{res.qualifiers_other}}</td>
+                                <td v-else>{{res.qualifiers}}</td>
 			                    <td>{{res.special_request}}</td>
 			                    <td>{{res.details | strLimit}}</td>
 			                </tr>
@@ -60,9 +63,12 @@
 						<tbody v-if="radiologyReportData.length>0">
 						<tr  v-for="(res,index) in radiologyReportData">
 		                    <td>{{++index}}</td>
-		                    <td>{{res.type}}</td>
-		                    <td>{{res.bodyparts}}</td>
-		                    <td>{{res.qualifiers}}</td>
+		                    <td v-if="res.type=='Other'">{{res.radiology_other}}</td>
+                            <td v-else>{{res.type}}</td>
+		                    <td v-if="res.bodyparts=='Other'">{{res.bodyparts_other}}</td>
+                            <td v-else>{{res.bodyparts}}</td>
+                            <td v-if="res.qualifiers=='Other'">{{res.qualifiers_other}}</td>
+                            <td v-else>{{res.qualifiers}}</td>
 		                    <td>{{res.special_request}}</td>
 		                    <td>{{res.details | strLimit}}</td>
 		                </tr>

@@ -20,10 +20,21 @@
                      <tbody>
                         @foreach($data['ReportPageData']['radiologyReferalReportData'] as $index=>$res)
                             <tr class="">
-                                <!-- <td>{{++$index}}</td> -->
-                                <td>{{$res['type']}}</td>
-                                <td>{{$res['bodyparts']}}</td>
-                                <td>{{$res['qualifiers']}}</td>
+                                @if($res['type']=='Other')
+                                    <td>{{$res['radiology_other']}}</td>
+                                @else
+                                    <td>{{$res['type']}}</td>
+                                @endif
+                                @if($res['bodyparts']=='Other')
+                                    <td>{{$res['bodyparts_other']}}</td>
+                                @else
+                                    <td>{{$res['bodyparts']}}</td>
+                                @endif
+                                @if($res['qualifiers']=='Other')
+                                    <td>{{$res['qualifiers_other']}}</td>
+                                @else
+                                    <td>{{$res['qualifiers']}}</td>
+                                @endif
                                 <td>{{$res['special_request']}}</td>
                                 <td>{{str_limit($res['details'],50)}}</td>
                             </tr>

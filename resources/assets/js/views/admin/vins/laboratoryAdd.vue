@@ -149,9 +149,11 @@
                             if(response.data.code == 200){
                                 toastr.success('Laboratory added successfully', 'Add Laboratory', {timeOut: 5000});
                                 vm.$router.push('laboratory_list');
-                                //this.initialState();
-                                
-                            } else if (response.data.code == 300) {
+                            } 
+                            else if (response.data.code == 301) {
+                                toastr.error('Laboratory already exist.', 'Add Laboratory', {timeOut: 5000});
+                            }
+                            else if (response.data.code == 300) {
                                 toastr.error('Something Went wrong.', 'Add Laboratory', {timeOut: 5000});
                                 //this.initialState(); 
                             }
@@ -178,17 +180,18 @@
                           (response)=> {
                            
                             if(response.data.code == 200){
-                                toastr.success('Laboratory edited successfully', 'Add Laboratory', {timeOut: 5000});
+                                toastr.success('Laboratory edited successfully', 'Edit Laboratory', {timeOut: 5000});
                                 vm.$router.push('laboratory_list');
-                                //this.initialState();
-                                
-                            } else if (response.data.code == 300) {
-                                toastr.error('Something Went wrong.', 'Add Laboratory', {timeOut: 5000});
-                                //this.initialState(); 
+                            } 
+                            else if (response.data.code == 301) {
+                                toastr.error('Laboratory already exist.', 'Edit Laboratory', {timeOut: 5000});
+                            }
+                            else if (response.data.code == 300) {
+                                toastr.error('Something Went wrong.', 'Edit Laboratory', {timeOut: 5000});
                             }
                             else
                             {
-                                toastr.error('Something Went wrong.', 'Add Laboratory', {timeOut: 5000});
+                                toastr.error('Something Went wrong.', 'Edit Laboratory', {timeOut: 5000});
                             }
                             
                           },

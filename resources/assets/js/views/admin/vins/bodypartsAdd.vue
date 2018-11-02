@@ -172,7 +172,11 @@
                                 vm.$router.push('bodyparts_list');
                                 //this.initialState();
                                 
-                            } else if (response.data.code == 300) {
+                            } 
+                            else if (response.data.code == 301) {
+                                toastr.error('Bodyparts already exist.', 'Add Bodyparts', {timeOut: 5000});
+                            }
+                            else if (response.data.code == 300) {
                                 toastr.error('Something Went wrong.', 'Add Bodyparts', {timeOut: 5000});
                                 //this.initialState(); 
                             }
@@ -199,17 +203,17 @@
                           (response)=> {
                            
                             if(response.data.code == 200){
-                                toastr.success('Bodyparts edited successfully', 'Add Bodyparts', {timeOut: 5000});
+                                toastr.success('Bodyparts edited successfully', 'Edit Bodyparts', {timeOut: 5000});
                                 vm.$router.push('bodyparts_list');
-                                //this.initialState();
-                                
-                            } else if (response.data.code == 300) {
-                                toastr.error('Something Went wrong.', 'Add Bodyparts', {timeOut: 5000});
-                                //this.initialState(); 
+                            } 
+                            else if (response.data.code == 301) {
+                                toastr.error('Bodyparts already exist.', 'Edit Bodyparts', {timeOut: 5000});
                             }
-                            else
-                            {
-                                toastr.error('Something Went wrong.', 'Add Bodyparts', {timeOut: 5000});
+                            else if (response.data.code == 300) {
+                                toastr.error('Something Went wrong.', 'Edit Bodyparts', {timeOut: 5000});
+                            }
+                            else {
+                                toastr.error('Something Went wrong.', 'Edit Bodyparts', {timeOut: 5000}); 
                             }
                             
                           },

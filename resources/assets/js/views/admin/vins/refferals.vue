@@ -136,7 +136,7 @@
                 </div>
                 <div class="col-md-12" v-if="(resultData.body_part_text)">
                     <label>Body Parts:</label><br>
-                    <input type="text" name="radiology_subtype_opd" id="radiology_subtype_opd" class="form-control" v-model="resultData.bodyPart" >
+                    <input type="text" name="radiology_subtype_opd" id="radiology_subtype_opd" class="form-control" v-model="resultData.bodyPart_text" >
                     <span class="help is-danger" v-show="errors.has('radiology_subtype_opd')">
                         Field is required
                     </span>     
@@ -281,9 +281,12 @@
                   <tbody>
                   <tr v-for="(radio_arr, index) in reffData.reffreal_radiology_array">
                       <td>{{radio_arr.id}}</td>
-                      <td>{{radio_arr.type_name}}</td>
-                      <td>{{radio_arr.bodyPart_text}}</td>
-                      <td>{{radio_arr.qualifier_text}}</td>
+                      <td v-if="radio_arr.type_name=='Other'">{{radio_arr.radiologyOther}}</td>
+                      <td v-else>{{radio_arr.type_name}}</td>
+                      <td v-if="radio_arr.bodyPart_text=='Other'">{{radio_arr.bodyPart_others}}</td>
+                      <td v-else>{{radio_arr.bodyPart_text}}</td>
+                      <td v-if="radio_arr.qualifier_text=='Other'">{{radio_arr.qualifierOtherPart}}</td>
+                      <td v-else>{{radio_arr.qualifier_text}}</td>
                       <td>{{radio_arr.special_request_text}}</td>
                       <td>{{radio_arr.textData | strLimit}}</td>
                       <td><i class="fa fa-remove" @click="removeRadioRef(radio_arr.id)"></i></td>
@@ -1037,7 +1040,7 @@
            saveRadiologyReport()
           {
               let vm =this;
-              if(vm.resultData.type == '' ){
+              if(vm.resultData.type == '' || (vm.resultData.type_name=='Other' && vm.resultData.radiologyOther=='') ){
                   toastr.error('Please select report data.', 'Report error', {timeOut: 5000});
                   return false;
               }
@@ -1104,6 +1107,12 @@
                     'signaturePad':{},
                     'signaturePad3_src':'',
                 };
+                setTimeout(function(){
+                  $('#radiology_subtype_opd').select2({
+                    placeholder: "Select",
+                    tags:false 
+                  });
+                },50);
                 $('#radio_div1 .ls-select2').val(null).trigger('change');
                 vm.reffData.referral="";
           },
