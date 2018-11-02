@@ -198,6 +198,7 @@
       props:['doctor'],
         data() {
             return {
+                'login_user_id' :this.$store.state.Users.userDetails.id,
                 'footer' : 'footer',
                 'currentDatetime': moment().format('DD-MM-YYYY hh:mm A'),
                 'deleteConfirmMsg':'Are you sure you want to exit from receipt form?',
@@ -245,6 +246,7 @@
         },
 			 mounted() {
         let vm =this;
+        vm.getUserRole('create.opd');
 				 $('.ls-select2').select2({
 						placeholder: "Select",
 				 });
@@ -260,6 +262,19 @@
          
 			 },
 				methods: {
+           getUserRole(permission){
+                 var vm = this;
+                User.getUserRole(vm.login_user_id,permission).then(
+                    (responce) => {
+                       if(responce.data.data == ''){
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
+                    },
+                    (error) =>{
+
+                    }
+                    );
+            },
           initData(){
             let vm =this;
             vm.neuroExaminationData = _.cloneDeep(this.$store.state.Patient.neuroExaminationData);

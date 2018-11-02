@@ -69,10 +69,12 @@
 		props: ['opdId','patinetId','todayDate','patientDetail','patientCheckupDetail','department','regNo','doctoreName','signatureName','consultntId','reference','ReportPageData','printType','checkedreportList','reportListSelect','adviceData','historyData','past_history'],
 		data() {
 			return{
+				'login_user_id' :this.$store.state.Users.userDetails.id,
 		      }
 		},
 		 mounted(){
        	let vm =this;
+       	 vm.getUserRole('generate.Report');
        },
 		components: {
          vinsletterheadheaderpart,
@@ -88,6 +90,19 @@
          signatureReportData
        },
         methods: {
+        	getUserRole(permission){
+                 var vm = this;
+                User.getUserRole(vm.login_user_id,permission).then(
+                    (responce) => {
+                       if(responce.data.data == ''){
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
+                    },
+                    (error) =>{
+
+                    }
+                    );
+            },
 			GetSelectComponent(componentName) {
 		       this.$router.push({name: componentName})
 		   	},
