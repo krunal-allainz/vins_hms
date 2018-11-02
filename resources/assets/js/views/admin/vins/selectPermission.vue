@@ -29,11 +29,11 @@
          			 <div class="col-md-6 ">
 						<label>Select Permission:</label>
 					 </div>
-					<ul>
+					<ul class="list">
 						<li><input type="checkbox" id="ckbCheckAll"  @click="checkAll(this)" :disabled="(roleName == 'Admin' || roleName == 'admin')"/><b> Select All</b></li>		
 						<li v-for="permission,index in permissionList" class="col-md-6">
-							<input type="checkbox" class="checkBoxClass" :value="permission.id" 
-              :id="permission.id" v-model="checkedPermisiontList" @click="check($event)" :disabled="(roleName == 'Admin' || roleName == 'admin')"> {{permission.name}}
+							<input type="checkbox" name="checkboxPermission" class="checkBoxClass" :value="permission.id" 
+              :id="permission.id" v-model="checkedPermisiontList" @click="check($event)" :disabled="(roleName == 'Admin' || roleName == 'admin')"  > {{permission.name}}
 						</li>
 					</ul>
 					<span class="help is-danger" v-if="(permissionListSelect == 0)">
@@ -63,7 +63,7 @@
                     },
                     'roleOptions' : '',
                     'permissionList' : '',
-                    'checkedPermisiontList' : '',
+                    'checkedPermisiontList' : {},
                     'permissionListSelect' : 1,
                     'selectedPerlissionList' : '',
                     'roleName' : ''
@@ -74,14 +74,18 @@
             vm.getUserRole('addeditrole.permission');
             vm.getRoles();
             vm.getPermissionList();	
+           $(".checkBoxClass").prop('checked', false);
+           vm.checkedPermisiontList = [];
+           vm.Data.roleId = '';
             $('#role').change("select2:select", function (e) {
             let selectedRoleId = $(this).val();
-             $(".checkBoxClass").prop('checked', false);
               vm.Data.roleId=selectedRoleId;
               vm.checkRolesPermission(selectedRoleId);
               vm.checkRoleName(selectedRoleId);
 
           }); 
+          
+           
         },
         methods: {
           getUserRole(permission){
@@ -99,6 +103,7 @@
             },
             checkRoleName(selectedRoleId){
                var vm = this;
+               $(".checkBoxClass").prop('checked', false);
                 User.getRoleName(selectedRoleId).then(
                     (responce) => {
                        if(responce.data.code == 200){
@@ -113,42 +118,39 @@
           checkRolesPermission($roleId){
           var vm= this;
           var permissionSelectedList = [];
+          var check_list=[];
               User.checkRolesPermission($roleId).then(
                 (response) => {
                   if(response.data.code == 200){
                     if(response.data.data != ''){
                      vm.page = 'EDIT';
                       var getPermissionList = response.data.data;
-
+                      $(".checkBoxClass").prop('checked', false);    
                        $.each(getPermissionList, function(key, value) {
+
                           let getPermissionId = value.permissionId;
                           let getRoleId = value.roleId;
-                          $('input[type=checkbox][value="'+getPermissionId+'"]').prop('checked', true);
-                           
-                          //$('input[type=checkbox]').
-                          // permissionSelectedList.push(
-                          //   {
-                          //       'permissionId' : getPermissionId,
-                          //       'roleId' : getRoleId,
-                          //   }
-                          // );
-                          // vm.selectedPerlissionList = _.cloneDeep(permissionSelectedList);
+                          check_list.push(value.permissionId);
+                        
                         });                      
 
                     }else{
                       vm.page = 'ADD';
-                       $(".checkBoxClass").prop('checked', false);
                       vm.selectedPerlissionList = '';
+                       vm.checkedPermisiontList = [];
+                      check_list = [];
                     }  
                   }
-                  return false;
+                  
                 },
                 (error) => {
+                   check_list = [];
                 }
                 );
+                vm.checkedPermisiontList=check_list;
+
           },
         	getRoles(){
-         
         		 var vm =this;
            		 var role_list_new=[];
         		User.getRolesList().then(
@@ -253,7 +255,7 @@
                 this.$validator.validateAll().then(() => {
                     
                     if (!this.errors.any()) {
-                   				console.log('test');
+                   				
                                 var vm = this;
                                
                                 if( vm.page == 'ADD')
