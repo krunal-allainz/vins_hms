@@ -38,19 +38,6 @@
 			              	</span>
 		                </div>
 		            </div>
-
-				<!-- <div class="col-md-6">
-			    	<div class="col-md-6">
-					 	<label for="date">Section:</label>
-					</div>
-					<div class="col-md-6">
-				    	<select class="form-control ls-select2"  id = "type" name="type" value="" v-model="patientData.type" v-validate="'required'">
-				    		<option :value="patient_type.id" v-for="patient_type in patient_type_option">{{patient_type.text}}</option>
-				    	</select>
-				    <i v-show="errors.has('type')" class="fa fa-warning"></i>
-				   <span class="help is-danger" v-show="errors.has('type')"> Please Select Patient Type. </span>
-				    </div>
-			    </div> -->
       		</div>
       		
       		<patientSearch v-if="patientData.case == 'old'" :user_id="0" ref="patientDetailForm"></patientSearch>
@@ -185,12 +172,13 @@
                      </label>
                     </div>
                     <div class="col-md-6">
-                    	<div class="radio">
-						  <label><input type="radio" id="appointment_date_select" name="appointment_date_select" value="walk_in" v-model="patientData.appointment_date_select" @change="setAppointment()" checked="checked">Walk-In</label>
+                    	<div class="">
+                    	<label class="radio-inline">
+						  <input type="radio" id="appointment_date_select" name="appointment_date_select" value="walk_in" v-model="patientData.appointment_date_select" @change="setAppointment()" checked="checked">  Walk-In </label>
+						  <label class="radio-inline">
+						  <input type="radio" id="appointment_date_select" name="appointment_date_select" value="appointment" v-model="patientData.appointment_date_select" @change="setAppointment()">   Appointment </label>
 						</div>
-						<div class="radio">
-						  <label><input type="radio" id="appointment_date_select" name="appointment_date_select" value="appointment" v-model="patientData.appointment_date_select" @change="setAppointment()">Appointment</label>
-						</div>
+						
 						<date-picker v-if="patientData.appointment_date_select=='appointment'" :date.sync="patientData.appointment_datetime" :option="timeoption" id = "appointment_datetime" class="" type="datetime" name="appointment_datetime"   v-model="patientData.appointment_datetime.time" v-validate="'required'" :disabled="patientData.case == 'old'" :limit="limit2"   :disabledDates="disabledDates" @change="checkAppomentData()" ></date-picker> 
 						<i v-show="errors.has('appointment_datetime')" class="fa fa-warning"></i>
 						<span class="help is-danger" v-show="errors.has('appointment_datetime')">
@@ -199,6 +187,7 @@
                     </div>
                 </div>
            	</div>
+           
             <div class="row form-group">
             <div class="col-md-6">
                     <div class="col-md-6">
@@ -209,7 +198,7 @@
                 </div>
                 <div class="col-md-6">
 					<div class="col-md-6">
-			      		<label class="control-label" >Consulting Dr..: </label>
+			      		<label class="control-label" >Consulting Dr.: </label>
 					</div>
 					<div class="col-md-6">
 			      		<select class="form-control ls-select2"  id="consulting_dr" name="consulting_dr" v-validate="'required'" >
@@ -282,6 +271,7 @@
 
 </template>
 <script >
+
 //$(document).ready(function(){
     //get it if Status key found
     if(localStorage.getItem("Status"))
@@ -414,7 +404,7 @@
         mounted() {
 
         	let vm =this;
-    
+        	vm.initializeICheck();
 		       if(vm.$store.state.Users.userDetails.user_type != '3' && vm.$store.state.Users.userDetails.user_type != '4' ){
 		       		vm.$root.$emit('logout','You are not authorise to access this page');	
 		       }
@@ -494,6 +484,23 @@
         	this.$root.$on('patientEmpty',this.patientEmpty);
         },
         methods: {
+        	initializeICheck(){
+        		let vm=this;
+        		$('.radio-inline input').iCheck({
+	              radioClass: 'iradio_square-blue',
+	              //increaseArea: '20%'
+	            });
+
+	        	$(".radio-inline input").on('ifChecked', function(e) {
+	        		let val_radio=$(this).val();
+	        		vm.patientData.appointment_date_select=val_radio;
+	        		vm.setAppointment();
+	        		/*if(val_radio=='appointment')
+	        		{
+	        			
+	        		}*/
+				});
+        	},
         	setAppointment()
         	{
         		let vm=this;
@@ -563,26 +570,26 @@
 		      		
 		      	 return true;
 		      	
-		      },
-		      checkExistingToken(){
-		      	let vm =this;
-		      	vm.patientData.token_validation = 0;
-		      	User.getExistingToken(vm.patientData.token_no).then(
-	  				(response) => {
-	  					vm.patientData.token_validation = response.data;
-	  					if(vm.patientData.token_validation > 0){
-	  					 	vm.patientData.token_no = '';
-	  					}
-	  				},
-	  				(error)=>{
+	      },
+	      checkExistingToken(){
+	      	let vm =this;
+	      	vm.patientData.token_validation = 0;
+	      	User.getExistingToken(vm.patientData.token_no).then(
+  				(response) => {
+  					vm.patientData.token_validation = response.data;
+  					if(vm.patientData.token_validation > 0){
+  					 	vm.patientData.token_no = '';
+  					}
+  				},
+  				(error)=>{
 
-	  				}
-  				);
-  				if(vm.patientData.token_validation > 0){
-	  					 	vm.patientData.token_no = '';
-	  			}
-	  			return vm.patientData.token_no;
-		      },
+  				}
+				);
+				if(vm.patientData.token_validation > 0){
+  					 	vm.patientData.token_no = '';
+  			}
+  			return vm.patientData.token_no;
+	      },
 		      getAgeFromYear(year){
 		      	let getYear = 0;
 		      	this.patientData.display_age = 1;
@@ -777,7 +784,9 @@
 			      }
 			    },
 		    initPatientData(){
-		    	var vm = this;   
+		    	var vm = this;
+		    	jQuery(".radio-inline input").iCheck('uncheck');
+		    	jQuery(".radio-inline input[value='walk_in']").iCheck('check');
 		    	vm.patientData.patient_id = '';
 		    	vm.patientData.uhid_no = '';
 		    	vm.patientData.fname = '';

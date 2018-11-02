@@ -34,12 +34,21 @@ class QualifiersRepository
     public function create($request)
     {
     	$form_data=$request->qualifiersData;
-    	$presp= new Qualifiers;
-    	$presp->radiology_id=$form_data['radiology_id'];
-        $presp->bodyparts_id=$form_data['bodyparts_id'];
-        $presp->name=$form_data['name'];
-    	$presp->save();
-    	return $presp->id;
+        $check_duplicate=$this->check_duplicate('ADD',0,$form_data['name'],$form_data['radiology_id'],$form_data['bodyparts_id']);
+        if($check_duplicate=='yes')
+        {
+            $qualify_id=array('qualifiers_id'=>0,'code'=>301);
+        }
+        else
+        {
+            $qualify= new Qualifiers;
+            $qualify->radiology_id=$form_data['radiology_id'];
+            $qualify->bodyparts_id=$form_data['bodyparts_id'];
+            $qualify->name=$form_data['name'];
+            $qualify->save();
+            $qualify_id=array('qualifiers_id'=>$qualify->id,'code'=>200);
+        }
+        return $qualify_id;
     }
     /**
      * [getQualifiersDetailsById description]
@@ -59,13 +68,64 @@ class QualifiersRepository
     {
         $form_data=$request->qualifiersData;
         $id=$form_data['qualifiersId'];
-        $presp= Qualifiers::findOrFail($id);
-        $presp->radiology_id=$form_data['radiology_id'];
-        $presp->bodyparts_id=$form_data['bodyparts_id'];
-        $presp->name=$form_data['name'];
-        $presp->save();
-        return $presp->id;
+        $check_duplicate=$this->check_duplicate('EDIT',$id,$form_data['name'],$form_data['radiology_id'],$form_data['bodyparts_id']);
+        if($check_duplicate=='yes')
+        {
+            $qualify_id=array('qualifiers_id'=>0,'code'=>301);
+        }
+        else
+        {
+            $qualify= Qualifiers::findOrFail($id);
+            $qualify->name=$form_data['name'];
+            $qualify->radiology_id=$form_data['radiology_id'];
+            $qualify->bodyparts_id=$form_data['bodyparts_id'];
+            $qualify->save();
+            $qualify_id=array('qualifiers_id'=>$qualify->id,'code'=>200);
+        }
+       
+        return  $qualify_id;
     }
+
+    /**
+     * [check_duplicate description]
+     * @param  [type] $page_name    [description]
+     * @param  [type] $id           [description]
+     * @param  [type] $name         [description]
+     * @param  [type] $radiology_id [description]
+     * @param  [type] $bodyparts_id [description]
+     * @return [type]               [description]
+     */
+    public function check_duplicate($page_name,$id,$name,$radiology_id,$bodyparts_id)
+    {
+        if($page_name=='ADD')
+        {
+            $get_qualifiers=Qualifiers::whereRaw('LOWER(name)  = ?', $name)->where('radiology_id', $radiology_id)->where('bodyparts_id', $bodyparts_id)->get();
+            if(count($get_qualifiers)>0)
+            {
+                return 'yes';
+            }
+            else
+            {
+                 return 'no';
+            }
+        }
+        else if($page_name=='EDIT')
+        {
+            $get_qualifiers=Qualifiers::whereRaw('LOWER(name) = ?', $name)->where('radiology_id', $radiology_id)->where('bodyparts_id', $bodyparts_id)->whereRaw('id != ?',$id)->get();
+            if(count($get_qualifiers)>0)
+            {
+                return 'yes';
+            }
+            else
+            {
+                 return 'no';
+            }
+        }
+        return 'no';
+    }
+
+
+
    /**
      * [delete description]
      * @param  [type] $id [description]

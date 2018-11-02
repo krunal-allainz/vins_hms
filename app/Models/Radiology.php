@@ -23,6 +23,7 @@ class Radiology extends Model
               'body_part_side_id',
               'radiology_other',
               'type_name',
-              'bodyparts_other'
+              'bodyparts_other',
+              'qualifiers_other',
         ];
 }
