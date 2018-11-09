@@ -61,6 +61,7 @@
     export default {
         data() {
             return {
+                    'login_user_id' :this.$store.state.Users.userDetails.id,
                     'Data' : {
                             'rolename':'',
                             'slug': '',
@@ -70,8 +71,22 @@
         },
         mounted() {
             var vm = this;
+            vm.getUserRole('create.role');
         },
         methods: {
+             getUserRole(permission = ''){
+                 var vm = this;
+                User.getUserRole(vm.login_user_id,permission).then(
+                    (responce) => {
+                       if(responce.data.data == ''){
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
+                    },
+                    (error) =>{
+
+                    }
+                    );
+            },
         	addRoles(){
         		  var vm = this;
         		User.addroles(vm.Data).then(

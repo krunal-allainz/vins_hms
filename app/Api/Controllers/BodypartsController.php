@@ -42,9 +42,13 @@ use Carbon\Carbon;
     public function createBodyparts(Request $request)
     {
         $add_Bodyparts=$this->bodypObj->create($request);
-        if($add_Bodyparts)
+        if($add_Bodyparts['code']==200)
         {
             return ['code' => 200 ,'data'=>$add_Bodyparts,'message'=>'Bodyparts successfully added.'];
+        }
+        else if($add_Bodyparts['code']==301)
+        {
+             return ['code'=> 301 ,'data'=>'','message'=>'Bodyparts already exist.'];
         }
         else
         {
@@ -77,9 +81,13 @@ use Carbon\Carbon;
     public function editBodyparts(Request $request)
     {
         $edit_Bodyparts=$this->bodypObj->edit($request);
-        if($edit_Bodyparts)
+        if($edit_Bodyparts['code']==200)
         {
             return ['code' => 200 ,'data'=>$edit_Bodyparts,'message'=>'Bodyparts successfully edited.'];
+        }
+        else if($edit_Bodyparts['code']==301)
+        {
+             return ['code'=> 301 ,'data'=>'','message'=>'Bodyparts already exist.'];
         }
         else
         {

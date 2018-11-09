@@ -32,11 +32,20 @@ use File;
     public function create($request)
     {
     	$form_data=$request->laboratoryData;
-    	$presp= new Laboratory;
-    	$presp->name=$form_data['name'];
-    	$presp->type=$form_data['type'];
-    	$presp->save();
-    	return $presp->id;
+        $check_duplicate=$this->check_duplicate('ADD',0,$form_data['name'],$form_data['type']);
+        if($check_duplicate=='yes')
+        {
+            $lab_id=array('laboratory_id'=>0,'code'=>301);
+        }
+        else
+        {
+            $lab= new Laboratory;
+            $lab->name=$form_data['name'];
+            $lab->type=$form_data['type'];
+            $lab->save();
+            $lab_id=array('laboratory_id'=>$lab->id,'code'=>200);
+        }
+        return $lab_id;
     }
 
     /**
@@ -58,11 +67,58 @@ use File;
     {
         $form_data=$request->laboratoryData;
         $id=$form_data['laboratoryId'];
-        $presp= Laboratory::findOrFail($id);
-        $presp->name=$form_data['name'];
-        $presp->type=$form_data['type'];
-        $presp->save();
-        return $presp->id;
+        $check_duplicate=$this->check_duplicate('EDIT',$id,$form_data['name'],$form_data['type']);
+        if($check_duplicate=='yes')
+        {
+            $lab_id=array('laboratory_id'=>0,'code'=>301);
+        }
+        else
+        {
+            $lab= Laboratory::findOrFail($id);
+            $lab->name=$form_data['name'];
+            $lab->type=$form_data['type'];
+            $lab->save();
+            $lab_id=array('laboratory_id'=>$lab->id,'code'=>200);
+        }
+       
+        return  $lab_id;
+    }
+
+    /**
+     * [check_duplicate description]
+     * @param  [type] $page_name [description]
+     * @param  [type] $id        [description]
+     * @param  [type] $name      [description]
+     * @param  [type] $type      [description]
+     * @return [type]            [description]
+     */
+    public function check_duplicate($page_name,$id,$name,$type)
+    {
+        if($page_name=='ADD')
+        {
+            $get_laboratory=Laboratory::whereRaw('LOWER(name)  = ?', $name)->whereRaw('LOWER(type)  = ?', $type)->get();
+            if(count($get_laboratory)>0)
+            {
+                return 'yes';
+            }
+            else
+            {
+                 return 'no';
+            }
+        }
+        else if($page_name=='EDIT')
+        {
+            $get_laboratory=Laboratory::whereRaw('LOWER(name) = ?', $name)->whereRaw('LOWER(type)  = ?', $type)->whereRaw('id != ?',$id)->get();
+            if(count($get_laboratory)>0)
+            {
+                return 'yes';
+            }
+            else
+            {
+                 return 'no';
+            }
+        }
+        return 'no';
     }
 
     /**
@@ -84,7 +140,6 @@ use File;
      */
     public function importLaboratoryFile($request)
     {
-
        $file=$request->file('file');
        
         if($request->hasFile('file')){
@@ -93,7 +148,7 @@ use File;
                 $path = $request->file->getRealPath();
                 $data = Excel::load($path, function($reader) {
                 })->get();
-
+                $total_insert=$data->count();
                 if(!empty($data) && $data->count()){
  
                     foreach ($data as $key => $value) {
@@ -120,12 +175,17 @@ use File;
                             }
                             if($n_type!=0)
                             {
-                                $insert[] = [
-                                'name' => $value->name,
-                                'type' => $n_type,
-                                'created_at'=>Carbon::now(),
-                                'updated_at'=>Carbon::now(),
-                                ];
+                                $check_duplicate=$this->check_duplicate('ADD',0,$value->name,$n_type);
+                                if($check_duplicate=='no')
+                                {
+                                    $insert[] = [
+                                        'name' => $value->name,
+                                        'type' => $n_type,
+                                        'created_at'=>Carbon::now(),
+                                        'updated_at'=>Carbon::now(),
+                                    ];
+                                }
+                                
                             }
                              
                         }
@@ -136,7 +196,7 @@ use File;
 
                         $insertData = DB::table('laboratory')->insert($insert);
                         if ($insertData) {
-                            return 1;
+                             return array('total'=>$total_insert,'inserted'=>count($insert));
                         }
                         else {                        
                             return 0;

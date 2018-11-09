@@ -110,6 +110,7 @@
 			data() {
 				return {
 					post: null,
+					'login_user_id' :this.$store.state.Users.userDetails.id,
 					'footer' : 'footer',
 					 'currentYear': new Date().getFullYear(),
 					 /*date code*/
@@ -181,7 +182,7 @@
 		          	
 		         
 	          	   let vm =this;
-	          	   
+	          	   vm.getUserRole('create.receipt');
 	          	   vm.patientReceiptData.patient_name=vm.patientOPDDetails.p_name;
 	          	   vm.patientReceiptData.patient_id=vm.patientOPDDetails.patient_id;
 	          	   vm.patientReceiptData.case_no=vm.patientOPDDetails.case_pr_id;
@@ -302,6 +303,19 @@
   					
 	         },
 	         methods: {
+	         	getUserRole(permission){
+                 var vm = this;
+                User.getUserRole(vm.login_user_id,permission).then(
+                    (responce) => {
+                       if(responce.data.data == ''){
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
+                    },
+                    (error) =>{
+
+                    }
+                    );
+            },
 	         receiptPrintView: function (e) {
 	         	let vm=this;
 		    	this.$validator.validateAll().then(  	

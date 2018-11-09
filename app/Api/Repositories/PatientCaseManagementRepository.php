@@ -320,9 +320,13 @@
                   $radiology_obj->spine_id=$radio['spine_option_value'];
                 }
               }
-              else if($radio['bodyPart_text']=='Other')
+              if($radio['bodyPart_text']=='Other')
               {
                   $radiology_obj->bodyparts_other=$radio['bodyPart_others'];
+              }
+              if($radio['qualifier_text']=='Other')
+              {
+                  $radiology_obj->qualifiers_other=$radio['qualifierOtherPart'];
               }
               $radiology_obj->save();
            
@@ -421,11 +425,15 @@
                   $radiology_obj_2->spine_id=$r_data['spine_option_value'];
                 }
               }
-              else if($r_data['bodyPart_text']=='Other')
+              if($r_data['bodyPart_text']=='Other')
               {
                   $radiology_obj_2->bodyparts_other=$r_data['bodyPart_others'];
               }
-              $radiology_obj_2->save();
+              if($r_data['qualifier_text']=='Other')
+              {
+                  $radiology_obj_2->qualifiers_other=$r_data['qualifierOtherPart'];
+              }
+            $radiology_obj_2->save();
             $radiology_id=$radiology_obj_2->id;
             if(!empty($image_data))
             {
@@ -700,6 +708,16 @@
         $rest_cross['type']='Cross';
         $rest_cross['subtype']=$cross->cross_type;
         $rest_cross['value']=$cross->cross_value;
+        if($cross->cross_type=='Internal')
+        {
+            $name=$this->objUser->getUserNameById($cross->cross_value);
+            $rest_cross['text']=ucwords($name);
+        }
+        else
+        {
+           $rest_cross['text']=$cross->cross_value;
+        }
+        
         $cross_array[]=$rest_cross;
         $index_cross++;
       }
@@ -754,7 +772,7 @@
           {
               $rest_radio['bodyPart_text']=$radio->bodyparts_text;
           }
-          
+          $rest_radio['bodyPart_others']=$radio->bodyparts_other;
           $rest_radio['type']=$radio->type;
           $rest_radio['spine_option_value']=$radio->spine_id;
           $rest_radio['subType']=$radio->bodyparts_id;
@@ -767,6 +785,7 @@
           {
               $rest_radio['qualifier_text']=$radio->qualifiers_text;
           }
+          $rest_radio['qualifierOtherPart']=$radio->qualifiers_other;
           $rest_radio['imgData']='';
           $rest_radio['textData']=$radio->details;
           $rest_radio['subtype_text_enable']=false;
@@ -852,7 +871,7 @@
               $rest_radio_2['bodyPart_text']=$radio_2->bodyparts_text;
           }
           
-          $rest_radio_2['bodyPart_others']=$radio_2->bodyPart_others;
+          $rest_radio_2['bodyPart_others']=$radio_2->bodyparts_other;
           $rest_radio_2['type']=$radio_2->radiology_id;
           $rest_radio_2['spine_option_value']=$radio_2->spine_id;
           $rest_radio_2['subType']=$radio_2->bodyparts_id;
@@ -865,7 +884,7 @@
           {
               $rest_radio_2['qualifier_text']=$radio_2->qualifiers_text;
           }
-          
+          $rest_radio_2['qualifierOtherPart']=$radio_2->qualifiers_other;
           $rest_radio_2['imgData']='';
           $rest_radio_2['textData']=$radio_2->details;
           $rest_radio_2['subtype_text_enable']=false;
@@ -880,7 +899,6 @@
               $rest_radio_2['special_request_text']=$radio_2->special_request_text;
           }
           $rest_radio_2['removed']=$radio_2->removed;
-          $rest_radio_2['qualifierOtherPart']='';
           $rest_radio_2['body_part_side']=$radio_2->body_part_side_id;
           $rest_radio_2['radiologyOther']=$radio_2->radiology_other;
           $rest_radio_2['body_part_text']=false;
@@ -1228,9 +1246,13 @@
                   $radiology_obj->spine_id=$radio['spine_option_value'];
                 }
               }
-              else if($radio['bodyPart_text']=='Other')
+              if($radio['bodyPart_text']=='Other')
               {
                   $radiology_obj->bodyparts_other=$radio['bodyPart_others'];
+              }
+              if($radio['qualifier_text']=='Other')
+              {
+                  $radiology_obj->qualifiers_other=$radio['qualifierOtherPart'];
               }
               $radiology_obj->save();
           }
@@ -1328,9 +1350,13 @@
                   $radiology_obj_2->spine_id=$r_data['spine_option_value'];
                 }
               }
-              else if($r_data['bodyPart_text']=='Other')
+              if($r_data['bodyPart_text']=='Other')
               {
                   $radiology_obj_2->bodyparts_other=$r_data['bodyPart_others'];
+              }
+              if($r_data['qualifier_text']=='Other')
+              {
+                  $radiology_obj_2->qualifiers_other=$r_data['qualifierOtherPart'];
               }
               $radiology_obj_2->save();
             $radiology_id=$radiology_obj_2->id;
@@ -1469,7 +1495,7 @@
        }
        $result['opdExaminationData'] =$exam_data;
        $result['opdReferalphysioData'] = OPDPhysioDetails::where('patient_case_management_id',$caseId)->first();
-       $result['opdReferalCrossData'] = CrossDetails::where('patient_case_management_id',$caseId)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
+       $result['opdReferalCrossData'] = $this->getCrossDetailsByCaseId($caseId);
        $result['opdReferalLaboraryData'] =LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.patient_case_management_id',$caseId)->where('laboratory_details.referance',0)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
         $result['opdReferalRadiologyData'] =$this->getRadiologyReportData(0,$caseId);
         $result['opdLabData'] = LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.patient_case_management_id',$caseId)->where('laboratory_details.referance',1)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
@@ -1523,6 +1549,9 @@
           {
               $rad['special_request']=$radio->special_request_text;
           }
+          $rad['radiology_other']=$radio->radiology_other;
+          $rad['bodyparts_other']=$radio->bodyparts_other;
+          $rad['qualifiers_other']=$radio->qualifiers_other;
           $rad['details']=$radio->details;
           $radio_array[]=$rad;
       }
@@ -1531,7 +1560,28 @@
 
   }
 
-
+  public function getCrossDetailsByCaseId($caseId)
+  {
+      $cross_details=CrossDetails::where('patient_case_management_id',$caseId)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
+      $index_cross=1;
+      $cross_array=array();
+      foreach($cross_details as $cross)
+      {
+        $rest_cross=array();
+        $rest_cross['cross_type']=$cross->cross_type;
+        if($cross->cross_type=='Internal')
+        {
+            $name=$this->objUser->getUserNameById($cross->cross_value);
+            $rest_cross['cross_value']=ucwords($name);
+        }
+        else
+        {
+           $rest_cross['cross_value']=$cross->cross_value;
+        }
+        $cross_array[]=$rest_cross;
+      }
+      return $cross_array;
+  }
 
   /**
    * [getPrescriptionDataForPrint description]
@@ -1629,7 +1679,7 @@
       }
       $result['opdExaminationData'] =$exam_data;
       $result[''] = OPDPhysioDetails::where('patient_case_management_id',$caseId)->first();
-      $result['opdReferalCrossData'] = CrossDetails::where('patient_case_management_id',$caseId)->whereDate('created_at',Carbon::today()->format('Y-m-d'))->get();
+      $result['opdReferalCrossData'] = $this->getCrossDetailsByCaseId($caseId);
       $result['opdReferalLaboraryData'] =LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.patient_case_management_id',$caseId)->where('laboratory_details.referance',0)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
       $result['opdReferalRadiologyData'] = $this->getRadiologyReportData(0,$caseId);
       $result['opdLabData'] = LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.patient_case_management_id',$caseId)->where('laboratory_details.referance',1)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();

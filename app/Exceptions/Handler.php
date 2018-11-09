@@ -45,12 +45,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($e instanceof euro_hms\Duro85\Roles\Exceptions\PermissionDeniedException) {
-
-        // you can for example flash message, redirect...
-        //return redirect()->back();
-            return redirect('\logout');
-    }
+        
         return parent::render($request, $e);
     }
 

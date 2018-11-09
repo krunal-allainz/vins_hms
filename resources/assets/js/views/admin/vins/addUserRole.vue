@@ -52,6 +52,7 @@
    export default {
         data() {
             return {
+              'login_user_id' :this.$store.state.Users.userDetails.id,
               'Page' : 'ADD',
               'Data' : {
                          'roleId':'',
@@ -66,6 +67,7 @@
             var vm = this;
             vm.getRoles();
             vm.getUser();
+             vm.getUserRole('addedituser.role');
             $('#role').on("select2:select", function (e) {
             let selectedRoleId = $(this).val();
               vm.Data.roleId=selectedRoleId;
@@ -77,6 +79,19 @@
 
         },
         methods: {
+          getUserRole(permission = ''){
+                 var vm = this;
+                User.getUserRole(vm.login_user_id,permission).then(
+                    (responce) => {
+                       if(responce.data.data == ''){
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
+                    },
+                    (error) =>{
+
+                    }
+                    );
+            },
          getRoles(){
          
         		 var vm =this;

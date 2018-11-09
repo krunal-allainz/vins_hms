@@ -117,6 +117,7 @@
     export default {
         data() {
             return {
+                  'login_user_id' :this.$store.state.Users.userDetails.id,
                   'deleteConfirmMsg':'Are you sure you want to delete this user?',
                   'getUserData':{},
                   'pagination': {},
@@ -125,11 +126,25 @@
         },
         mounted() {
             var vm = this;
+            vm.getUserRole('view.users');
             let pageUrl = 'user/getUserDetails/';
             let noOfPage = vm.perPage;
             vm.getAllUsers(pageUrl,noOfPage);
         },
         methods: {
+          getUserRole(permission){
+                 var vm = this;
+                User.getUserRole(vm.login_user_id,permission).then(
+                    (responce) => {
+                       if(responce.data.data == ''){
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
+                    },
+                    (error) =>{
+
+                    }
+                    );
+            },
             getAllUsers(pageUrl,noOfPage){
                 var vm = this;
                 var userData;

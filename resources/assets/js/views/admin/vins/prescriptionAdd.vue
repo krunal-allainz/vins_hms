@@ -131,7 +131,8 @@
                         vm.prescriptionData.doctor =presp_data.doctor;
                         console.log(presp_data.type);
                         $('#department').val(presp_data.type).trigger('change');
-                    } else if (response.data.code == 300) {
+                    }
+                    else if (response.data.code == 300) {
                         toastr.error('No Prescription Found.', 'Add Prescription', {timeOut: 5000});
                         //this.initialState(); 
                     }
@@ -165,7 +166,11 @@
                                 vm.$router.push('prescription_list');
                                 //this.initialState();
                                 
-                            } else if (response.data.code == 300) {
+                            } 
+                            else if (response.data.code == 301) {
+                                toastr.error('Prescription already exist.', 'Add Prescription', {timeOut: 5000});
+                            }
+                            else if (response.data.code == 300) {
                                 toastr.error('Something Went wrong.', 'Add Prescription', {timeOut: 5000});
                                 //this.initialState(); 
                             }
@@ -192,17 +197,19 @@
                           (response)=> {
                            
                             if(response.data.code == 200){
-                                toastr.success('Prescription edited successfully', 'Add Prescription', {timeOut: 5000});
+                                toastr.success('Prescription edited successfully', 'Edit Prescription', {timeOut: 5000});
                                 vm.$router.push('prescription_list');
-                                //this.initialState();
-                                
-                            } else if (response.data.code == 300) {
-                                toastr.error('Something Went wrong.', 'Add Prescription', {timeOut: 5000});
+                            } 
+                            else if (response.data.code == 301) {
+                                toastr.error('Prescription already exist.', 'Edit Prescription', {timeOut: 5000});
+                            }
+                            else if (response.data.code == 300) {
+                                toastr.error('Something Went wrong.', 'Edit Prescription', {timeOut: 5000});
                                 //this.initialState(); 
                             }
                             else
                             {
-                                toastr.error('Something Went wrong.', 'Add Prescription', {timeOut: 5000});
+                                toastr.error('Something Went wrong.', 'Edit Prescription', {timeOut: 5000});
                             }
                             
                           },

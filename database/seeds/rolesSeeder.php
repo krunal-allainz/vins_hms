@@ -10,6 +10,7 @@ class rolesSeeder extends Seeder
      *
      * @return void
      */    
+
     public function run()
     {
         //

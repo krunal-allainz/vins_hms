@@ -68,12 +68,10 @@
                     <label for="prescription">Suggetion:</label>
                   </div>
                   <div class="col-md-12">
-                      <label class="col-md-6">
-                        <input type="radio" class="form-check-input clock_suggest" id="clock_suggest" name="clock_suggest" v-model="prescriptFinalData.clock_suggest" value="ES">Empty Stomach
-                      </label>
-                      <label class="col-md-5">
-                        <input type="radio" class="form-check-input clock_suggest" id="clock_suggest"  name="clock_suggest" v-model="prescriptFinalData.clock_suggest" value="FS">Full Stomach
-                      </label> 
+                      <label class="radio-inline">
+                       <input type="radio" class="form-check-input clock_suggest" id="clock_suggest" name="clock_suggest" v-model="prescriptFinalData.clock_suggest" value="ES">  Empty Stomach </label>
+                      <label class="radio-inline">
+                      <input type="radio" class="form-check-input clock_suggest" id="clock_suggest"  name="clock_suggest" v-model="prescriptFinalData.clock_suggest" value="FS">   Full Stomach </label>
                   </div>
                 </div>
           </div>
@@ -385,6 +383,7 @@
         },
         mounted() {
             let vm=this;
+            vm.initializeICheck();
             $('#prescription').on("select2:select", function (e) {
                 let presId = $('#prescription').select2('data')[0].id;
                 if(presId=='other')
@@ -432,6 +431,19 @@
           
         },
         methods: {
+          initializeICheck()
+          {
+              let vm=this;
+              $('.radio-inline input').iCheck({
+                  radioClass: 'iradio_square-blue',
+                  //increaseArea: '20%'
+                });
+
+              $(".radio-inline input").on('ifChecked', function(e) {
+                let val_radio=$(this).val();
+                vm.prescriptFinalData.clock_suggest=val_radio;
+              });
+          },
           prescription_index()
           {
             let vm=this;
@@ -451,6 +463,8 @@
           {
               let vm=this;
               vm.prespFinalRes=[];
+              jQuery(".radio-inline input").iCheck('uncheck');
+              jQuery(".radio-inline input[value='ES']").iCheck('check');
               $('#how_many_times').val(null).trigger('change');
               vm.prescriptFinalData.how_many_times="";
               $('#qhrs').val(null).trigger('change');
@@ -488,6 +502,7 @@
           {
               let vm=this;
               vm.prespFinalRes=[];
+              jQuery(".radio-inline input").iCheck('uncheck');
               vm.prescriptFinalData.prescription="";
               vm.prescriptFinalData.other_prescription="";
               vm.prescriptFinalData.prescription_id="";

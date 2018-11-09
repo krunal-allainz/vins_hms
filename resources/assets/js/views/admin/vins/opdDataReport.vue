@@ -20,10 +20,10 @@
 				<diagnosisReportData :data="ReportPageData.opdData.diagnosis"></diagnosisReportData>
 		</div>
 
-		<!-- <div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Prescription')" >
-			 	print Perceptions Report start
+		 <div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Prescription')" >
+			 	<!-- print Perceptions Report start -->
 			 	<prescriptionPrint :prescriptData="ReportPageData.prescriptionReportData" :removeBtn="0" :checkedreportList="checkedreportList" :printType="printType"> </prescriptionPrint>
-			 	print Perceptions Report end
+			 	<!-- print Perceptions Report end -->
 		</div>
 		
 		<div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'History')" >
@@ -35,15 +35,15 @@
 		</div>
 		
 		<div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Investigation Lab')" >
-		lab report data start
+		<!-- lab report data start -->
 			<labDataReport :labReportData="ReportPageData.labReportData"  :checkedreportList="checkedreportList"   :printType="printType" :refferance="1"></labDataReport>
-		lab report data end
+		<!-- lab report data end -->
 		</div>
 		
 		<div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Investigation Radiology')" >
-		Radiology report data start
+		<!-- Radiology report data start -->
 			<radiologyDataReport :radiologyReportData="ReportPageData.radiologyReportData" :checkedreportList="checkedreportList"  :printType="printType"></radiologyDataReport>
-		Radiology report data end
+		<!-- Radiology report data end -->
 		</div>
 		
 		<div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Examination')" >
@@ -57,7 +57,7 @@
 		<div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Referrals')" >
 			 	<!-- cross referal report data start  -->
 			 	<crossReportData :CrossReferalData="ReportPageData.CrossReferalData" :checkedreportList="checkedreportList" :printType="printType"></crossReportData>
-			 	<!-- cross referal  report data end-->
+			 	
 		</div>
 
 		

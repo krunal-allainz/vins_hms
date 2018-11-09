@@ -96,6 +96,7 @@
     export default {
         data() {
             return {
+                  'login_user_id' :this.$store.state.Users.userDetails.id,
                   'deleteConfirmMsg':'Are you sure you want to delete this role?',
                   'getRoleData':{},
                   'pagination': {},
@@ -104,11 +105,25 @@
         },
         mounted() {
             var vm = this;
+            vm.getUserRole('view.role');
             let pageUrl = 'role/getRoleList/';
             let noOfPage = vm.perPage;
             vm.getRolesListWithPaggination(pageUrl,noOfPage);
         },
         methods: {
+           getUserRole(permission){
+                 var vm = this;
+                User.getUserRole(vm.login_user_id,permission).then(
+                    (responce) => {
+                       if(responce.data.data == ''){
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
+                    },
+                    (error) =>{
+
+                    }
+                    );
+            },
             getRolesListWithPaggination(pageUrl,noOfPage){
                 var vm = this;
                 var roleData;

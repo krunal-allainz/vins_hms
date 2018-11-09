@@ -48,9 +48,13 @@ class QualifiersController extends Controller
     public function createQualifiers(Request $request)
     {
         $add_Qualifiers=$this->qualObj->create($request);
-        if($add_Qualifiers)
+        if($add_Qualifiers['code']==200)
         {
             return ['code' => 200 ,'data'=>$add_Qualifiers,'message'=>'Qualifiers successfully added.'];
+        }
+        else if($add_Qualifiers['code']==301)
+        {
+             return ['code'=> 301 ,'data'=>'','message'=>'Qualifiers already exist.'];
         }
         else
         {
@@ -85,9 +89,13 @@ class QualifiersController extends Controller
     public function editQualifiers(Request $request)
     {
         $edit_Qualifiers=$this->qualObj->edit($request);
-        if($edit_Qualifiers)
+        if($edit_Qualifiers['code']==200)
         {
             return ['code' => 200 ,'data'=>$edit_Qualifiers,'message'=>'Qualifiers successfully edited.'];
+        }
+        else if($edit_Qualifiers['code']==301)
+        {
+             return ['code'=> 301 ,'data'=>'','message'=>'Qualifiers already exist.'];
         }
         else
         {
@@ -106,7 +114,7 @@ class QualifiersController extends Controller
         $delete_qualifiers=$this->qualObj->delete($id);
         if($delete_qualifiers)
         {
-            return ['code' => 200 ,'data'=>$delete_qualifiers,'message'=>'Qualifiers successfully edited.'];
+            return ['code' => 200 ,'data'=>$delete_qualifiers,'message'=>'Qualifiers successfully deleted.'];
         }
         else
         {

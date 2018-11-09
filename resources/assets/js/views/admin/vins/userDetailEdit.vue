@@ -211,19 +211,20 @@
         },
         mounted() {
             var vm = this;
+            vm.getUserRole('edit.users');
             let user_type = [] ;
-             if(vm.$store.state.Users.userDetails.user_type != '4'){
-                if(vm.edituserId != vm.login_user_id)
-                {
-                    vm.$root.$emit('logout','You are not authorise to access this page'); 
-                }
-             }
+             // if(vm.$store.state.Users.userDetails.user_type != '4'){
+             //    if(vm.edituserId != vm.login_user_id)
+             //    {
+             //        vm.$root.$emit('logout','You are not authorise to access this page'); 
+             //    }
+             // }
             //setTimeout(function(){
                 $('.ls-select2').select2({
                     placeholder: "Select"
                 });
                 vm.getUserDetail(vm.edituserId);
-                 vm.getUserRole();
+                 
                 User.getUserTypesList().then(
                      (response) => {
                     $.each(response.data.data, function(key,value) {
@@ -260,10 +261,13 @@
 
         },
         methods: {
-            getUserRole(){
-                User.getUserRole(this.edituserId).then(
+            getUserRole(permission){
+                 var vm = this;
+                User.getUserRole(vm.login_user_id,permission).then(
                     (responce) => {
-                        console.log(responce.data);
+                       if(responce.data.data == ''){
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
                     },
                     (error) =>{
 
@@ -309,8 +313,14 @@
                 			 vm.userData.password='';
                 			 vm.userData.confirmPassword='';
                 			 vm.userData.mobileNo =responce.data.data.mobile_no;
-                        vm.userData.address =responce.data.data.address;
-                        vm.userData.department =responce.data.data.department;
+                            vm.userData.address =responce.data.data.address;
+                            vm.userData.department =responce.data.data.department;
+                            setTimeout(function(){
+                                $('#department').select2({
+                                  placeholder: "Select",
+                                  tags:false 
+                                });
+                            },200);
                         $('#department').val(responce.data.data.department).trigger('change.select2');
                         vm.userData.userType = responce.data.data.user_type;
                         vm.$data.userData.dagree =responce.data.data.dagree;

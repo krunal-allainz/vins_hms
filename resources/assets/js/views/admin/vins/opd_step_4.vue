@@ -198,6 +198,7 @@
         },
         mounted() {
             let vm =this;
+             vm.getUserRole('create.opd');
             $('.ls-select2').select2({
               placeholder: "Select",
             });
@@ -215,6 +216,19 @@
             
         },
         methods: {
+           getUserRole(permission = ''){
+                 var vm = this;
+                User.getUserRole(vm.doctor_id,permission).then(
+                    (responce) => {
+                       if(responce.data.data == ''){
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
+                    },
+                    (error) =>{
+
+                    }
+                    );
+            },
           editConfirmed()
           {
               this.editOPDData();

@@ -31,11 +31,20 @@ use File;
     public function create($request)
     {
         $form_data=$request->bodypartsData;
-        $presp= new Bodyparts;
-        $presp->radiology_id=$form_data['radiology_id'];
-        $presp->name=$form_data['name'];
-        $presp->save();
-        return $presp->id;
+        $check_duplicate=$this->check_duplicate('ADD',0,$form_data['name'],$form_data['radiology_id']);
+        if($check_duplicate=='yes')
+        {
+            $bodyp_id=array('bodyparts_id'=>0,'code'=>301);
+        }
+        else
+        {
+            $bodyp= new Bodyparts;
+            $bodyp->name=$form_data['name'];
+            $bodyp->radiology_id=$form_data['radiology_id'];
+            $bodyp->save();
+            $bodyp_id=array('bodyparts_id'=>$bodyp->id,'code'=>200);
+        }
+        return $bodyp_id;
     }
     /**
      * [getBodypartsDetailsById description]
@@ -55,12 +64,62 @@ use File;
     {
         $form_data=$request->bodypartsData;
         $id=$form_data['bodypartsId'];
-        $presp= Bodyparts::findOrFail($id);
-        $presp->radiology_id=$form_data['radiology_id'];
-        $presp->name=$form_data['name'];
-        $presp->save();
-        return $presp->id;
+        $check_duplicate=$this->check_duplicate('EDIT',$id,$form_data['name'],$form_data['radiology_id']);
+        if($check_duplicate=='yes')
+        {
+            $bodyp_id=array('bodyparts_id'=>0,'code'=>301);
+        }
+        else
+        {
+            $bodyp= Bodyparts::findOrFail($id);
+            $bodyp->name=$form_data['name'];
+            $bodyp->radiology_id=$form_data['radiology_id'];
+            $bodyp->save();
+            $bodyp_id=array('bodyparts_id'=>$bodyp->id,'code'=>200);
+        }
+       
+        return  $bodyp_id;
     }
+
+    /**
+     * [check_duplicate description]
+     * @param  [type] $page_name    [description]
+     * @param  [type] $id           [description]
+     * @param  [type] $name         [description]
+     * @param  [type] $radiology_id [description]
+     * @return [type]               [description]
+     */
+    public function check_duplicate($page_name,$id,$name,$radiology_id)
+    {
+        if($page_name=='ADD')
+        {
+            $get_bodyparts=Bodyparts::whereRaw('LOWER(name)  = ?', $name)->where('radiology_id', $radiology_id)->get();
+            if(count($get_bodyparts)>0)
+            {
+                return 'yes';
+            }
+            else
+            {
+                 return 'no';
+            }
+        }
+        else if($page_name=='EDIT')
+        {
+            $get_bodyparts=Bodyparts::whereRaw('LOWER(name) = ?', $name)->where('radiology_id', $radiology_id)->whereRaw('id != ?',$id)->get();
+            if(count($get_bodyparts)>0)
+            {
+                return 'yes';
+            }
+            else
+            {
+                 return 'no';
+            }
+        }
+        return 'no';
+    }
+
+
+
     /**
      * [delete description]
      * @param  [type] $id [description]

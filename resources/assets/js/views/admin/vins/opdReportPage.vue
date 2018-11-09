@@ -19,16 +19,16 @@
     	 	 		</div>
     	 	 	</div>
     		</form>
-    	<div id="generateModal" class="modal fade">
+    	 <div id="generateModal" class="modal fade">  
     		<div class="modal-dialog" >
     		<div class="modal-content" >
     			<div class="modal-body">
-					<div id="demo">
+					<div id="demo" class="demo-list">
 					<label><b>Select Report:</b></label>
 					<ul>
-						<li><input type="checkbox" id="ckbCheckAll"  @click="checkAll(this)"/><b> Select All</b></li>		
+						<li><input type="checkbox" id="ckbCheckAll" name="select_all" value="select_all" @click="checkAll(this)"/>   <label><b>Select All</b></label></li>		
 						<li v-for="mainCat in reportList">
-							<input type="checkbox" class="checkBoxClass" :value="mainCat.reportListId" id="mainCat.reportListId" v-model="checkedreportList" @click="check($event)"> {{mainCat.reportListId}}
+							<input type="checkbox" class="checkBoxClass" :value="mainCat.reportListId" :id="mainCat.reportListId" v-model="checkedreportList" name="report_check" @click="check($event)">    <label>{{mainCat.reportListId}}</label> 
 						</li>
 					</ul>
 					<span class="help is-danger" v-if="(checkedreportList.length == 0)">
@@ -82,7 +82,8 @@
 	var formattedDate = date + '/' + month + '/' + year ;
 	export default {
 		data() {
-			return{
+			return{			
+				'login_user_id' :this.$store.state.Users.userDetails.id,
 				'printType' : '',
 				'todayDate' : formattedDate,
 				'caseId' : this.$store.state.Patient.caseId,
@@ -154,6 +155,11 @@
        },
        mounted(){
        	let vm =this;
+
+       	 vm.getUserRole('generate.Report');
+
+       	vm.initializeICheck();
+
        	if(vm.$store.state.Users.userDetails.user_type != '1'){
               vm.$root.$emit('logout','You are not authorise to access this page'); 
           }
@@ -166,11 +172,45 @@
        	vm.getPatientData(vm.patinetId);
        },
        methods: {
+       	 	getUserRole(permission){
+                 var vm = this;
+                User.getUserRole(vm.login_user_id,permission).then(
+                    (responce) => {
+                       if(responce.data.data == ''){
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
+                    },
+                    (error) =>{
+
+                    }
+                    );
+            },
+       		initializeICheck(){
+       			let vm=this;
+        		$('.demo-list input').iCheck({
+	              checkboxClass: 'icheckbox_square-blue',
+	               increaseArea: '20%'
+	            });
+
+	        	$(".demo-list input").on('ifChanged', function(e) {
+	        		let val_checkbox=$(this).val();
+	        		if(val_checkbox=='select_all')
+	        		{
+	        			vm.checkAll(val_checkbox);
+	        		}
+	        		else
+	        		{
+
+	        			vm.check(e,val_checkbox);
+	        		}
+				});
+       		},
        		close_modal()
        		{
        			let vm=this;
        			vm.checkedreportList=[];
 				vm.reportListSelect = 0;
+				jQuery(".demo-list input").iCheck('uncheck');
 				$('#generateModal').modal('hide');
        		},
        		print_multiple_report()
@@ -187,30 +227,31 @@
 			checkAll(test)
 			{	
 				let vm=this;
-				if($('#ckbCheckAll').is(':checked'))
-				{
+				 if($('#ckbCheckAll').filter(':checked').length == $('#ckbCheckAll').length) {
 					vm.reportListSelect = 1;
 					var check_list_data=[];
 					_.forEach(vm.reportList,function(value){
 						check_list_data.push(value.reportListId);
 					});
 					vm.checkedreportList=check_list_data;
-					$(".checkBoxClass").prop('checked', true);
+					$('.demo-list input').iCheck('check');
 				}
 				else
 				{
 					vm.checkedreportList=[];
 					vm.reportListSelect = 0;
-					$(".checkBoxClass").prop('checked', false);
+					$('.demo-list input').iCheck('uncheck');
 				}
-				
+				 
 			},
-       	 	check: function(e) {
+       	 	check: function(e,val_check) {
 			 	let vm=this;
 	     		 if (e.target.checked) {
+	     		 	vm.checkedreportList.push(val_check);
 	      		  //vm.reportListSelect = 0;
 	     		 }else{
 	     		 	 vm.reportListSelect = 1;
+	     		 	 _.pull(vm.checkedreportList,val_check );
 	     		 }
 	   		 },
        		printReport(type){

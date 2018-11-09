@@ -66,15 +66,40 @@ class PermissionsTableSeeder extends Seeder
           ],
           
           ['name' => 'Edit Patient',
+<<<<<<< HEAD
           'slug' => 'Edit.patient',
+=======
+          'slug' => 'edit.patient',
+>>>>>>> 0f43d9e4458e73dd836da798663b1e3398c32551
+          'description'=>'',
+          'model'=> 'euro_hms\Models\PatientDetailsForm',
+          'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+          'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+          ],
+<<<<<<< HEAD
+          
+=======
+
+>>>>>>> 0f43d9e4458e73dd836da798663b1e3398c32551
+          ['name' => 'View Patient',
+          'slug' => 'view.patient',
           'description'=>'',
           'model'=> 'euro_hms\Models\PatientDetailsForm',
           'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
           'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
           ],
           
-          ['name' => 'View Patient',
-          'slug' => 'view.patient',
+          
+          ['name' => 'List Patient',
+          'slug' => 'list.patient',
+          'description'=>'',
+          'model'=> 'euro_hms\Models\PatientDetailsForm',
+          'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+          'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+          ],
+
+          ['name' => 'Patient Status Change',
+          'slug' => 'statuschnage.patient',
           'description'=>'',
           'model'=> 'euro_hms\Models\PatientDetailsForm',
           'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -152,6 +177,30 @@ class PermissionsTableSeeder extends Seeder
           'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
           'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
           ],
+
+           ['name' => 'Print Receipt',
+          'slug' => 'print.receipt',
+          'description'=>'',
+          'model'=> 'euro_hms\Models\Receipt',
+          'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+          'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+          ], 
+
+          ['name' => 'Print Report',
+          'slug' => 'print.Report',
+          'description'=>'',
+          'model'=> '',
+          'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+          'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+          ],
+
+           ['name' => 'Generate Report',
+          'slug' => 'generate.Report',
+          'description'=>'',
+          'model'=> '',
+          'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+          'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+          ], 
            
          ['name' => 'Create Role',
           'slug' => 'create.role',
@@ -200,6 +249,7 @@ class PermissionsTableSeeder extends Seeder
           'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
           'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
           ],           
+                   
         ]);
     }
 }
