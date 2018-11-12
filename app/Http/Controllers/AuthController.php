@@ -11,19 +11,19 @@ class AuthController extends Controller
 {
     public function authenticate(Request $request)
     {
-        // dd($request->all());
         // grab credentials from the request
         $credentials = $request->only('email', 'password');
         try {
+
             // attempt to verify the credentials and create a token for the user
             if (! $token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'The login details entered are invalid. If you have forgotten your password please follow the forgot password process.'], 401);
+                 return response()->json(['error' => 'The login details entered are invalid. If you have forgotten your password please follow the forgot password process.'], 401);
             }
         } catch (JWTException $e) {
             // something went wrong whilst attempting to encode the token
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
-
+       
         // all good so return the token
         //return response()->json(compact('token'));
         //$token = response()->json(compact('token'));
@@ -68,7 +68,6 @@ class AuthController extends Controller
 
     public function logout()
     {
-
         try {
             $token = JWTAuth::getToken();
 

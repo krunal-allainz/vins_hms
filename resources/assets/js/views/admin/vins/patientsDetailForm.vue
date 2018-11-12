@@ -294,6 +294,7 @@
     export default {
         data() {
             return {
+            	'login_user_id' :this.$store.state.Users.userDetails.id,
                 'footer' : 'footer',
                 'currentYear': new Date().getFullYear(),
 				'patient_type_option': [{id:'opd',text:'OPD'}, {id:'ipd',text:'IPD'}] ,
@@ -404,10 +405,17 @@
         mounted() {
 
         	let vm =this;
+
+    		vm.getUserRole('create.patient');
+		       // if(vm.$store.state.Users.userDetails.user_type != '3' && vm.$store.state.Users.userDetails.user_type != '4' ){
+		       // 		vm.$root.$emit('logout','You are not authorise to access this page');	
+		       // }
+
         	vm.initializeICheck();
 		       if(vm.$store.state.Users.userDetails.user_type != '3' && vm.$store.state.Users.userDetails.user_type != '4' ){
 		       		vm.$root.$emit('logout','You are not authorise to access this page');	
 		       }
+
 				$('.ls-select2').select2({
 					placeholder: "Select",
 					tags: false,
@@ -484,6 +492,19 @@
         	this.$root.$on('patientEmpty',this.patientEmpty);
         },
         methods: {
+        	getUserRole(permission){
+                 var vm = this;
+                User.getUserRole(vm.login_user_id,permission).then(
+                    (responce) => {
+                       if(responce.data.data == ''){
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
+                    },
+                    (error) =>{
+
+                    }
+                    );
+            },
         	initializeICheck(){
         		let vm=this;
         		$('.radio-inline input').iCheck({

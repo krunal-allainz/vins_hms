@@ -41,13 +41,14 @@ class Common {
 
     static function sendMail($email_details, $email_recipients, $email_subject, $email_view, $email_from = null,$attachment=null)
        {        
-           $contact_details = $email_details;        
+        
+           $contact_details = $email_details;         
            $recipient = $email_recipients;
            if ($email_from != null && !empty($email_from)) {
-              Mail::to($recipient)->send(new SendMail($contact_details, $email_subject,  $email_view, $email_from,$attachment));
+             $result =  Mail::to($recipient)->send(new SendMail($contact_details, $email_subject,  $email_view, $email_from,$attachment));
            }
            else{
-               Mail::to($recipient)->send(new SendMail($contact_details, $email_subject,  $email_view,'',$attachment));
+              $result =   Mail::to($recipient)->send(new SendMail($contact_details, $email_subject,  $email_view,'',$attachment));
            }
            return response()->json([
                'status' => 'suceess',
@@ -95,8 +96,6 @@ class Common {
           'msg' => $msg,
           'status' =>  $status
         ];
-
-
 
         return  $data;
     }

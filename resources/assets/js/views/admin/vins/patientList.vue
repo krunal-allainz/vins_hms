@@ -530,6 +530,7 @@
           },
          data() {
             return {
+                'login_user_id' :this.$store.state.Users.userDetails.id,
                 'patientData' :{
                     'patient_list' : {}
                 },
@@ -567,6 +568,7 @@
         },
          mounted(){
             let vm =this;
+             vm.getUserRole('list.patient');
             if(vm.user_type == 3){
              vm.getPatientsResult('/patient/getpatientlist','waiting');
               vm.getPatientsResult('/patient/getpatientlist','vital');
@@ -587,6 +589,19 @@
              this.$root.$on('close_modal', this.close_modal);
         },
          methods: {
+           getUserRole(permission){
+                 var vm = this;
+                User.getUserRole(vm.login_user_id,permission).then(
+                    (responce) => {
+                       if(responce.data.data == ''){
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
+                    },
+                    (error) =>{
+
+                    }
+                    );
+            },
           statusChange (status,patientId){
               //alert( $(this).val());
               User.patientCaseStatusChage(patientId,status).then(

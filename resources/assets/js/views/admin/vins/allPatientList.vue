@@ -307,6 +307,7 @@
 	export default {
 		 data() {
 		 	return {
+        'login_user_id' :this.$store.state.Users.userDetails.id,
 		 	  'currentYear': (new Date()).getFullYear(),
 		 	  'user':this.$store.state.Users.userDetails.first_name + " "+ this.$store.state.Users.userDetails.last_name ,
               'user_id':0,
@@ -340,9 +341,10 @@
         },
 		  mounted(){
 		 	let vm = this;
-		 	 if(vm.$store.state.Users.userDetails.user_type != '4'){
-              vm.$root.$emit('logout','You are not authorise to access this page'); 
-          	}
+      vm.getUserRole('list.patient');
+		 	 // if(vm.$store.state.Users.userDetails.user_type != '4'){
+     //          vm.$root.$emit('logout','You are not authorise to access this page'); 
+     //      	}
 		 //	let page_url = '/patient/getallpatientlist';
        vm.getPatientList('/patient/getallpatientlist','waiting');
        vm.getPatientList('/patient/getallpatientlist','examine');
@@ -354,6 +356,19 @@
         patientSearch
     },
 		 methods:{
+       getUserRole(permission){
+                 var vm = this;
+                User.getUserRole(vm.login_user_id,permission).then(
+                    (responce) => {
+                       if(responce.data.data == ''){
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
+                    },
+                    (error) =>{
+
+                    }
+                    );
+            },
       setSearchType(stype)
       {
           let vm=this;
