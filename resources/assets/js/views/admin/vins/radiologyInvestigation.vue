@@ -188,10 +188,13 @@
 
                 <card title="Gallery Preview" v-if="imgGallery">
                     <div class="row form-group">
+                        
                         <div class="col-6 col-lg-3 col-sm-6" v-if="img.remove==false" v-for="(img,index) in imgGallery.data" >
+
                             <div v-if="img.type =='image'">
                                 <a class="mag img-fluid">
                                     <br/>
+
                                     <img data-toggle="magnify" class="mag-style img-fluid" :src="img.data" alt="image">
                                 </a>
                                 <br>
@@ -821,7 +824,6 @@
                 _.find(vm.finalResultData, function(res) {
                     if(res.id == gid) {
                         vm.imgGallery = {'view':true,'data':res.imgData};
-                       
                         setTimeout(function(){
                             jQuery('[data-toggle="magnify"]').magnify();    
                         },1000)
