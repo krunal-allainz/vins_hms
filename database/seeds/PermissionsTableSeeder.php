@@ -66,13 +66,21 @@ class PermissionsTableSeeder extends Seeder
           ],
           
           ['name' => 'Edit Patient',
+<<<<<<< HEAD
+          'slug' => 'Edit.patient',
+=======
           'slug' => 'edit.patient',
+>>>>>>> 0f43d9e4458e73dd836da798663b1e3398c32551
           'description'=>'',
           'model'=> 'euro_hms\Models\PatientDetailsForm',
           'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
           'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
           ],
+<<<<<<< HEAD
+          
+=======
 
+>>>>>>> 0f43d9e4458e73dd836da798663b1e3398c32551
           ['name' => 'View Patient',
           'slug' => 'view.patient',
           'description'=>'',
@@ -235,12 +243,12 @@ class PermissionsTableSeeder extends Seeder
           ],
          
          ['name' => 'Add Edit Role Permission',
-          'slug' => 'addeditrole.permission',
+          'slug' => 'addedituserrole.permission',
           'description'=>'',
           'model'=> 'euro_hms\Models\PermissionRole',
           'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
           'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-          ],
+          ],           
                    
         ]);
     }
