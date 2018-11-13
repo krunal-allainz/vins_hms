@@ -19,9 +19,9 @@
          mounted(){
             let vm = this;
             //vm.getUserRole();
-            //  if(vm.$store.state.Users.userDetails.user_type != '4'){
-            //   vm.$root.$emit('logout','You are not authorise to access this page'); 
-            // }
+             if(vm.$store.state.Users.userDetails.user_type != '4'){
+              vm.$root.$emit('logout','You are not authorise to access this page'); 
+            }
          
          },
          components: {
