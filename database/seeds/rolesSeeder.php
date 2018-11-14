@@ -14,10 +14,10 @@ class rolesSeeder extends Seeder
     public function run()
     {
         //
-        //DB::table('roles')->truncate();
+        DB::table('roles')->truncate();
 
         DB::table('roles')->insert([
-          ['name' => 'doctor',
+          ['name' => 'Doctor',
           'slug' => 'doctor',
           'description'=>'doctor',
           'level'=>'2',

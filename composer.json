@@ -12,6 +12,7 @@
         "google/cloud-speech": "^0.12.3",
         "guzzlehttp/guzzle": "~5.3|~6.0",
         "laravel/framework": "5.5.*",
+        "laravel/passport": "~4.0",
         "maatwebsite/excel": "^2.1",
         "riskihajar/terbilang": "^1.2",
         "tymon/jwt-auth": "0.5.*"

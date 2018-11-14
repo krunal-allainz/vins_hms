@@ -24,17 +24,17 @@
     		<div class="modal-content" >
     			<div class="modal-body">
 					<div id="demo" class="demo-list">
-					<label><b>Select Report:</b></label>
-					<ul>
-						<li><input type="checkbox" id="ckbCheckAll" name="select_all" value="select_all" @click="checkAll(this)"/>   <label><b>Select All</b></label></li>		
-						<li v-for="mainCat in reportList">
-							<input type="checkbox" class="checkBoxClass" :value="mainCat.reportListId" :id="mainCat.reportListId" v-model="checkedreportList" name="report_check" @click="check($event)">    <label>{{mainCat.reportListId}}</label> 
-						</li>
-					</ul>
-					<span class="help is-danger" v-if="(checkedreportList.length == 0)">
-                  			Please select any report Type .
-                	</span> 
-				</div>
+						<label><b>Select Report:</b></label>
+						<ul>
+							<li><input type="checkbox" id="ckbCheckAll" name="select_all" value="select_all" @click="checkAll(this)"/>   <label><b>Select All</b></label></li>		
+							<li v-for="mainCat in reportList">
+								<input type="checkbox" class="checkBoxClass" :value="mainCat.reportListId" :id="mainCat.reportListId" v-model="checkedreportList" name="report_check" @click="check($event)">    <label>{{mainCat.reportListId}}</label> 
+							</li>
+						</ul>
+						<span class="help is-danger" v-if="(checkedreportList.length == 0)">
+	                  			Please select any report Type .
+	                	</span> 
+					</div>
 
 					<!-- <button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button> -->
 					<button type="button" class="btn btn-primary btn-submit text-right" @click="print_multiple_report()">Print</button>

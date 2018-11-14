@@ -374,6 +374,7 @@ class UserController extends BaseController
  
         $userId = $request->userId;
         $permission = $request->permission;
+       
         $result = $this->userRepoObj->getUsersRole($userId,$permission);
       
 

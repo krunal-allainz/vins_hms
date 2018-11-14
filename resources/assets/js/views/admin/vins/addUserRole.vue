@@ -65,6 +65,11 @@
           mounted() {
             
             var vm = this;
+            $('.ls-select2').select2({
+              placeholder: "Select",
+              tags:false 
+            });
+
             vm.getRoles();
             vm.getUser();
              vm.getUserRole('addedituser.role');
@@ -128,7 +133,7 @@
         			 	 vm.userOptions=[];
                       let user_data=response.data.data;
                       $.each(user_data, function(key, value) {
-                      let name = value.first_name+''+value.last_name;
+                      let name = value.first_name+' '+value.last_name;
                       let uid  = value.id ;
                       user_list_new.push({
                           name:name,
@@ -151,12 +156,10 @@
                  (response) => {
                     if(response.data.code == 200){
                        toastr.success('User Role added successfully', 'Create User Role', {timeOut: 5000});
-                                        this.initialState();
-                                        //localStorage.setItem("user_add",1)
-                                       // window.location.reload();
+                          this.initialState();
+                                        
                       }else if (response.data.status_code == 301) {
-                                        //this.initialState();
-                                        toastr.error('something wrong.', 'Add User Role', {timeOut: 5000});
+                          toastr.error('something wrong.', 'Add User Role', {timeOut: 5000});
 
                       }
                  
@@ -172,6 +175,8 @@
               vm.Data.roleId = '';
               vm.Data.userId = '';
               vm.Page = 'ADD';
+              $('#role').val('').trigger('change');
+              $('#user').val('').trigger('change');
           },
           checkExistUserRole(userId){
            var vm= this;

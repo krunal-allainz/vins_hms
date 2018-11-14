@@ -42,7 +42,7 @@ class checkPermission
      */
     public function handle($request, Closure $next, $permission)
     {
-      
+        
         if ($this->auth->check() && $this->auth->user()->isRole('admin')) {
             return $next($request);
         }else if ($this->auth->check() && $this->auth->user()->can($permission)) {
