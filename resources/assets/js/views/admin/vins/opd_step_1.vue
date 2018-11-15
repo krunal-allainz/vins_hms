@@ -456,10 +456,8 @@
         
         mounted(){
          var vm =this;
-            vm.getUserRole('create.opd');
-          // if(vm.$store.state.Users.userDetails.user_type != '1'){
-          //     vm.$root.$emit('logout','You are not authorise to access this page'); 
-          // }
+            
+        
           $('.ls-select2').select2({
             placeholder: "Select",
             tags:false 
@@ -555,14 +553,18 @@
           initData()
           {
             let vm=this;
+              
+             
               if(vm.$store.state.Patient.setPage=='EDIT')
               {
+                  vm.getUserRole('edit.opd');
                   vm.pageName='EDIT';
                   $('#patient').select2('destroy');
                   vm.setUpdateData();
               }
               else if(vm.$store.state.Patient.setPage=='PLIST')
               {
+                  vm.getUserRole('create.opd');
                   vm.patient_id= parseInt(this.$store.state.Patient.patientId);
                   vm.opdData.patientlist=vm.patient_id;
                   $('#patient').val(vm.opdData.patientlist).trigger('change');
@@ -571,7 +573,10 @@
                       vm.getAgeOfPatient(vm.patient_id);
                       vm.get_vitals();
                   }
-                  
+              }
+              else
+              {
+                  vm.getUserRole('create.opd');
               }
           },
           setUpdateData()

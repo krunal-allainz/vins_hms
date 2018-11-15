@@ -267,12 +267,12 @@
                vm.getResults();
               vm.newPatient(); 
              
-         	 	 setTimeout(function(){
+         	 	/* setTimeout(function(){
                 $('#patient').select2({
                   placeholder: "Select",
                   tags:false 
                 });
-              },500);
+              },500);*/
 
 	        $(document).on("select2:select",'#patient', function (e) {
               let patientId = $(this).val();
@@ -325,7 +325,7 @@
                     vm.patientData.patient_id=pId;
                     setTimeout(function(){
                       $('#patient').val(pId).trigger('change.select2');
-                    },10);
+                    },500);
                     vm.patientEmpty();
                     vm.enable_vitals();
                     vm.getAgeOfPatient(pId);

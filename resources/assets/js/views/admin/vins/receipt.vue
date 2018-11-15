@@ -32,11 +32,12 @@
                <td>{{res.patient_details.user_details.first_name}} {{res.patient_details.user_details.last_name}}</td>
                <td>{{res.date}}</td>
                <td>
-              <!--  	<button type="button" class="btn btn-success" >Print</button> -->
+             
 
-	               	<button type="button" class="btn btn-success" data-toggle="modal" href="#receiptModal" id="modellink" @click="receiptPrintView(res.id,1)">Print</button>
+	               	<button type="button" class="btn btn-success" id="modellink" @click="receiptPrintView(res.id,1)">Print</button>
 	               	
-	               	<button v-if="res.print_counter>0 || print_counter>0" type="button" class="btn btn-info" data-toggle="modal" href="#receiptModal" id="modellink" @click="receiptPrintView(res.id,2)">Print Duplicate</button>
+	              	<button v-if="res.print_counter>0" type="button" class="btn btn-info"  id="modellink" @click="receiptPrintView(res.id,2)">Print Duplicate</button>
+	               	
 
 	               	<button type="button" class="btn btn-primary" data-toggle="modal" href="#receiptEditModel" id="modellinkEdit" @click="receiptEdit(res.id)">Edit</button>
 	               
@@ -99,6 +100,7 @@
 	export default{
 		data (){
 			return {
+				'login_user_id' :this.$store.state.Users.userDetails.id,
 				'receiptData' :receptDataArrays,
 				'next_page_url' :'',
 				'prev_page_url' : '',
@@ -118,14 +120,39 @@
         },
 		mounted(){
 			 let vm =this;
+			 vm.getUserRole('view.receipt','view','','');
 			if(vm.$store.state.Users.userDetails.user_type != '3'){
               vm.$root.$emit('logout','You are not authorise to access this page'); 
             }
-            
-			 vm.getResults();
+			vm.getResults();
 			 //this.fetchStories()/
 		},
 		methods: {
+			getUserRole(permission,type,id,rec_type){
+                 var vm = this;
+                User.getUserRole(vm.login_user_id,permission).then(
+                    (responce) => {
+                       if(responce.data.data == ''){
+                       	 if(type=='print')
+                       	 {
+                       	 	$('#receiptModal').modal('hide');
+                       	 }
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
+                       else
+                       {
+                       		if(type=='print')
+                       		{
+                       			$('#receiptModal').modal('show');
+                       			vm.printReceiptAllow(id,rec_type);
+                       		}
+                       }
+                    },
+                    (error) =>{
+
+                    }
+                    );
+            },
 			close_popup()
 	        {
 	        	let vm=this;
@@ -195,7 +222,11 @@
 			receiptPrintView(id,rec_type) {   	
 	            	
 	            let vm=this;
-        		let content = [];	
+	            vm.getUserRole('print.receipt','print',id,rec_type);
+			},
+			printReceiptAllow(id,rec_type){
+				let vm=this;
+				let content = [];	
         		let type = 'opd';
         		
         		User.generateReceiptDataById(id,type,rec_type).then(	
@@ -206,8 +237,15 @@
 		                	}else{	
 		                		$('#printContent').append(response.data.html)	
 		                	}
-		                
-	                	//$('#receiptModal').modal({show:true}); 	
+		                	 User.generatePrintCounter(id).then(
+			        			(response) => {
+			        				//vm.print_counter=response.data;
+			        				vm.getResults();
+				            	},	
+				                (error) => {
+
+				                }	
+			        		);	
 
 	            	},	
 	                (error) => {	
@@ -215,17 +253,8 @@
 
 	                }	
                 );
-                User.generatePrintCounter(id).then(
-        			(response) => {
-        				vm.print_counter=response.data;
-	            	},	
-	                (error) => {
-
-	                }	
-        		);
-	
-				    	
-			},	
+               
+			},
 			makePagination: function(data){
                 let pagination = {
                     current_page: data.current_page,
