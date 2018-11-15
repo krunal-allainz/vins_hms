@@ -49,9 +49,13 @@ class LaboratoryController extends Controller
     public function createLaboratory(Request $request)
     {
         $add_Laboratory=$this->prescObj->create($request);
-        if($add_Laboratory)
+        if($add_Laboratory['code']==200)
         {
             return ['code' => 200 ,'data'=>$add_Laboratory,'message'=>'Laboratory successfully added.'];
+        }
+        else if($add_Laboratory['code']==301)
+        {
+             return ['code'=> 301 ,'data'=>'','message'=>'Laboratory already exist.'];
         }
         else
         {
@@ -86,9 +90,13 @@ class LaboratoryController extends Controller
     public function editLaboratory(Request $request)
     {
         $edit_Laboratory=$this->prescObj->edit($request);
-        if($edit_Laboratory)
+        if($edit_Laboratory['code']==200)
         {
             return ['code' => 200 ,'data'=>$edit_Laboratory,'message'=>'Laboratory successfully edited.'];
+        }
+        else if($edit_Laboratory['code']==301)
+        {
+             return ['code'=> 301 ,'data'=>'','message'=>'Laboratory already exist.'];
         }
         else
         {
@@ -107,7 +115,7 @@ class LaboratoryController extends Controller
         $delete_laboratory=$this->prescObj->delete($id);
         if($delete_laboratory)
         {
-            return ['code' => 200 ,'data'=>$delete_laboratory,'message'=>'Laboratory successfully edited.'];
+            return ['code' => 200 ,'data'=>$delete_laboratory,'message'=>'Laboratory successfully deleted.'];
         }
         else
         {
@@ -123,15 +131,13 @@ class LaboratoryController extends Controller
     public function importLaboratoryFile(Request $request)
     {
         $import_file=$this->prescObj->importLaboratoryFile($request);
-        if($import_file==1)
+        if($import_file!=0 && $import_file['inserted']>0)
         {
-            return back()->with('success', 'You have successfully imported.');
-            //return ['code' => 200 ,'data'=>$import_file,'message'=>'Laboratory successfully edited.'];
+            return back()->with('success', 'Laboratory '.$import_file['inserted'].' out of '.$import_file['total'].' records have been imported successfully!');
         }
         else
         {
             return back()->with('error', 'Something wrong with file!');
-            //return ['code'=> 300 ,'data'=>'','message'=>'Something went wrong'];
         }
     }
 }

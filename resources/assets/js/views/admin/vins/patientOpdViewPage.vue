@@ -127,6 +127,7 @@
        // props: ['patientId','opdId','showPatientDetail'],
         data() {
             return {
+              'doctor_id':this.$store.state.Users.userDetails.id,
                 'patientId' : this.$store.state.Patient.patientId,
                 'caseId' :this.$store.state.Patient.caseId, 
                 'page' :this.$store.state.Patient.setPage,
@@ -170,13 +171,26 @@
           },
          mounted(){
             var vm = this;
+            vm.getUserRole('View.opd');
             if(vm.page == 'VIEW'){
                  $("div").removeClass("modal-backdrop fade show");
                 vm.getPatientInfo(vm.patientId,vm.caseId);
             }
          },
          methods: {
+            getUserRole(permission = ''){
+                 var vm = this;
+                User.getUserRole(vm.doctor_id,permission).then(
+                    (responce) => {
+                       if(responce.data.data == ''){
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
+                    },
+                    (error) =>{
 
+                    }
+                    );
+            },
              getPatientInfo(patientInfo,caseId)   {
                 var vm =this;
                 

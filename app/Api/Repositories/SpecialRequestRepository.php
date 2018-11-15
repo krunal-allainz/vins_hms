@@ -33,11 +33,20 @@ class SpecialRequestRepository
     public function create($request)
     {
     	$form_data=$request->specialRequestData;
-    	$presp= new SpecialRequest;
-    	$presp->radiology_id=$form_data['radiology_id'];
-        $presp->name=$form_data['name'];
-    	$presp->save();
-    	return $presp->id;
+        $check_duplicate=$this->check_duplicate('ADD',0,$form_data['name'],$form_data['radiology_id']);
+        if($check_duplicate=='yes')
+        {
+            $sp_id=array('specialRequest_id'=>0,'code'=>301);
+        }
+        else
+        {
+            $sp= new SpecialRequest;
+            $sp->name=$form_data['name'];
+            $sp->radiology_id=$form_data['radiology_id'];
+            $sp->save();
+            $sp_id=array('specialRequest_id'=>$sp->id,'code'=>200);
+        }
+        return $sp_id;
     }
      /**
      * [getSpecialRequestDetailsById description]
@@ -57,12 +66,60 @@ class SpecialRequestRepository
     {
         $form_data=$request->specialRequestData;
         $id=$form_data['specialRequestId'];
-        $presp= SpecialRequest::findOrFail($id);
-        $presp->radiology_id=$form_data['radiology_id'];
-        $presp->name=$form_data['name'];
-        $presp->save();
-        return $presp->id;
+        $check_duplicate=$this->check_duplicate('EDIT',$id,$form_data['name'],$form_data['radiology_id']);
+        if($check_duplicate=='yes')
+        {
+            $sp_id=array('specialRequest_id'=>0,'code'=>301);
+        }
+        else
+        {
+            $sp= SpecialRequest::findOrFail($id);
+            $sp->name=$form_data['name'];
+            $sp->radiology_id=$form_data['radiology_id'];
+            $sp->save();
+            $sp_id=array('specialRequest_id'=>$sp->id,'code'=>200);
+        }
+       
+        return  $sp_id;
+    }   
+
+    /**
+     * [check_duplicate description]
+     * @param  [type] $page_name    [description]
+     * @param  [type] $id           [description]
+     * @param  [type] $name         [description]
+     * @param  [type] $radiology_id [description]
+     * @return [type]               [description]
+     */
+    public function check_duplicate($page_name,$id,$name,$radiology_id)
+    {
+        if($page_name=='ADD')
+        {
+            $get_specialRequest=SpecialRequest::whereRaw('LOWER(name)  = ?', $name)->where('radiology_id', $radiology_id)->get();
+            if(count($get_specialRequest)>0)
+            {
+                return 'yes';
+            }
+            else
+            {
+                 return 'no';
+            }
+        }
+        else if($page_name=='EDIT')
+        {
+            $get_specialRequest=SpecialRequest::whereRaw('LOWER(name) = ?', $name)->where('radiology_id', $radiology_id)->whereRaw('id != ?',$id)->get();
+            if(count($get_specialRequest)>0)
+            {
+                return 'yes';
+            }
+            else
+            {
+                 return 'no';
+            }
+        }
+        return 'no';
     }
+
      /**
      * [delete description]
      * @param  [type] $id [description]

@@ -51,6 +51,7 @@
     export default {
         data() {
             return {
+                'login_user_id' :this.$store.state.Users.userDetails.id,
                 'setErrorData':{'error':false,'steps':''},
                 'modal_val':0,
                 'footer' : 'footer',
@@ -74,12 +75,25 @@
         },
        mounted() {
         var vm =this;
+         vm.getUserRole('create.opd');
         $("body .js-loader").removeClass('d-none');
         vm.initData();
         $("body .js-loader").addClass('d-none');
        },
         methods: {
-         
+          getUserRole(permission = ''){
+                 var vm = this;
+                User.getUserRole(vm.login_user_id,permission).then(
+                    (responce) => {
+                       if(responce.data.data == ''){
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
+                    },
+                    (error) =>{
+
+                    }
+                    );
+            },
           initData(){
             let vm =this;
             vm.examinationData = _.cloneDeep(this.$store.state.Patient.examinationData);

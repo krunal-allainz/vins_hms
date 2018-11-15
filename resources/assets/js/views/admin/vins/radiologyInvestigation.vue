@@ -188,10 +188,13 @@
 
                 <card title="Gallery Preview" v-if="imgGallery">
                     <div class="row form-group">
+                        
                         <div class="col-6 col-lg-3 col-sm-6" v-if="img.remove==false" v-for="(img,index) in imgGallery.data" >
+
                             <div v-if="img.type =='image'">
                                 <a class="mag img-fluid">
                                     <br/>
+
                                     <img data-toggle="magnify" class="mag-style img-fluid" :src="img.data" alt="image">
                                 </a>
                                 <br>
@@ -211,7 +214,7 @@
                 </card>
                 <div class="row form-group">
                     <div class="col-md-12">
-                         <button type="button" class="btn btn-primary btn-lg " :disabled="(resultData.type == '')" @click="saveReport()">Add</button>
+                         <button type="button" class="btn btn-primary btn-lg " :disabled="(resultData.type == '' || (resultData.type_name=='Other' && resultData.radiologyOther==''))" @click="saveReport()">Add</button>
                     </div>
                 </div>    
 
@@ -240,9 +243,12 @@
                         <tbody>
                             <tr v-for="(res,index) in finalResultData">
                                 <td>{{++index}}</td>
-                                <td>{{res.type_name}}</td>
-                                <td>{{res.bodyPart_text}}</td>
-                                <td>{{res.qualifier_text}}</td>
+                                <td v-if="res.type_name=='Other'">{{res.radiologyOther}}</td>
+                                <td v-else>{{res.type_name}}</td>
+                                <td v-if="res.bodyPart_text=='Other'">{{res.bodyPart_others}}</td>
+                                <td v-else>{{res.bodyPart_text}}</td>
+                                <td v-if="res.qualifier_text=='Other'">{{res.qualifierOtherPart}}</td>
+                                <td v-else>{{res.qualifier_text}}</td>
                                 <td>{{res.special_request_text}}</td>
                                 <td>{{res.textData | strLimit}}</td>
                                 <td><a href="javascript:void(0)" @click="viewGallery(res.id)" class="red">View</a></td>
@@ -818,7 +824,6 @@
                 _.find(vm.finalResultData, function(res) {
                     if(res.id == gid) {
                         vm.imgGallery = {'view':true,'data':res.imgData};
-                       
                         setTimeout(function(){
                             jQuery('[data-toggle="magnify"]').magnify();    
                         },1000)
@@ -919,7 +924,12 @@
                     'radiology_special_request_text_enable':true,
                 };
                 vm.imgGallery = '';
-
+                setTimeout(function(){
+                  $('#radiology_subtype').select2({
+                    placeholder: "Select",
+                    tags:false 
+                  });
+                },50);
                 $('#radio_div .ls-select2').val(null).trigger('change');
                 // $('.ls-select2').select2().val('');
 

@@ -563,6 +563,9 @@ export default {
   {
        return api.post('qualifiers/getQualifierByBodypartsId',{'b_id':b_id})
   },
+  addroles(data){
+      return api.post('role/addroles',{'data':data})
+  },
   getSpecialRequestByRadiologyId(r_id)
   {
       return api.post('specialRequest/getSpecialRequestByRadiologyId',{'r_id':r_id})
@@ -571,4 +574,52 @@ export default {
   {
       return api.post('spine/getSpineList')
   },
+  getRolesList(){
+     return api.post('role/getroles')
+  },
+  getPermissionList(){
+     return api.post('permission/getPermissionList')
+  },
+  addRolesPermission(roleId,seletedPermisionList)
+  {
+     return api.post('permission/addRolePermission',{'roleId' :roleId , 'seletedPermisionList' : seletedPermisionList })
+  },
+  checkRolesPermission(roleId)
+  {
+     return api.post('permission/checkrolepermission',{'roleId' :roleId})
+  },
+  getRolesListWithPaggination(url,noofRecord){
+     return api.post(url,{'noOfRecord':noofRecord})
+  },
+  deleteRoleById(roleId){
+     return api.post('role/delete',{'roleId' : roleId})   
+  },
+  getRoleDetailById(roleId){
+     return api.post('role/getroledetail',{'roleId':roleId})
+  },
+  updateRoleDetail(Data,roleId){
+    return api.post('role/edit',{'data':Data,'roleId':roleId})
+  },
+  getUserList(){
+    return api.post('user/getusers')
+  },
+  addUserRole(roleId,userId){
+     return api.post('role/adduserrole',{'roleId':roleId,'userId':userId})
+  },
+  checkExistUserRole(userId){
+      return api.post('role/checkexistuserrole',{'userId':userId})
+  },
+  updateUserRole(roleId,userId){
+     return api.post('role/updateuserrole',{'roleId':roleId,'userId':userId})
+  },
+  getUserRole(userId,permission){
+    return api.post('user/getuserrole',{'userId':userId,'permission':permission})
+  },
+  updateRolesPermission(roleId,seletedPermisionList){
+     return api.post('permission/updateRolePermission',{'roleId' :roleId , 'seletedPermisionList' : seletedPermisionList })
+  },
+  getRoleName(roleId){
+      return api.post('role/getuserromename',{'roleId':roleId})
+  }
+
 }

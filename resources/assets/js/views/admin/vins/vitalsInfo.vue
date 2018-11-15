@@ -254,9 +254,10 @@
        },
          mounted(){
             let vm =this;
-              if(vm.$store.state.Users.userDetails.user_type != '2'){
-                vm.$root.$emit('logout','You are not authorise to access this page'); 
-              }
+            vm.getUserRole('create.vital');
+              // if(vm.$store.state.Users.userDetails.user_type != '2'){
+              //   vm.$root.$emit('logout','You are not authorise to access this page'); 
+              // }
          	  	 let opd_list_new=[];
          	  	 $('.ls-select2').select2({
 		            placeholder: "Select",
@@ -266,12 +267,12 @@
                vm.getResults();
               vm.newPatient(); 
              
-         	 	 setTimeout(function(){
+         	 	/* setTimeout(function(){
                 $('#patient').select2({
                   placeholder: "Select",
                   tags:false 
                 });
-              },500);
+              },500);*/
 
 	        $(document).on("select2:select",'#patient', function (e) {
               let patientId = $(this).val();
@@ -280,8 +281,6 @@
               vm.enable_vitals();
                vm.getAgeOfPatient(patientId);
           });
-	         
-	          
          	},
          computed: {
           bmi_mod() {
@@ -302,6 +301,19 @@
             this.$root.$on('patientEmpty',this.patientEmpty);
         },
        methods: {
+         getUserRole(permission){
+                 var vm = this;
+                User.getUserRole(vm.user_id,permission).then(
+                    (responce) => {
+                       if(responce.data.data == ''){
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
+                    },
+                    (error) =>{
+
+                    }
+                    );
+            },
         initData()
         {
             let vm=this;
@@ -313,7 +325,7 @@
                     vm.patientData.patient_id=pId;
                     setTimeout(function(){
                       $('#patient').val(pId).trigger('change.select2');
-                    },10);
+                    },500);
                     vm.patientEmpty();
                     vm.enable_vitals();
                     vm.getAgeOfPatient(pId);

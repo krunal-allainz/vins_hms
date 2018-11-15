@@ -21,7 +21,9 @@
 		</div>
 
 		 <div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Prescription')" >
+			 	<!-- print Perceptions Report start -->
 			 	<prescriptionPrint :prescriptData="ReportPageData.prescriptionReportData" :removeBtn="0" :checkedreportList="checkedreportList" :printType="printType"> </prescriptionPrint>
+			 	<!-- print Perceptions Report end -->
 		</div>
 		
 		<div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'History')" >
@@ -33,11 +35,15 @@
 		</div>
 		
 		<div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Investigation Lab')" >
+		<!-- lab report data start -->
 			<labDataReport :labReportData="ReportPageData.labReportData"  :checkedreportList="checkedreportList"   :printType="printType" :refferance="1"></labDataReport>
+		<!-- lab report data end -->
 		</div>
 		
 		<div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Investigation Radiology')" >
+		<!-- Radiology report data start -->
 			<radiologyDataReport :radiologyReportData="ReportPageData.radiologyReportData" :checkedreportList="checkedreportList"  :printType="printType"></radiologyDataReport>
+		<!-- Radiology report data end -->
 		</div>
 		
 		<div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Examination')" >

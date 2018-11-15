@@ -4,6 +4,7 @@ namespace euro_hms\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Duro85\Roles\Traits\HasRoleAndPermission;
 use Duro85\Roles\Contracts\HasRoleAndPermission as HasRoleAndPermissionContract;
 use Illuminate\Database\Eloquent\Model;
@@ -14,9 +15,12 @@ use euro_hms\Notifications\MyOwnResetPassword as ResetPasswordNotification;
 use euro_hms\Models\UserOtp;
 use Laravel\Passport\HasApiTokens;
 
-class User extends Authenticatable implements HasRoleAndPermissionContract, CanResetPassword
+class User extends Authenticatable implements AuthenticatableContract, HasRoleAndPermissionContract
+
+//implements AuthenticatableContract, CanResetPasswordContract, HasRoleAndPermissionContract
 {
     use Notifiable, HasRoleAndPermission, SoftDeletes;
+    //,HasApiTokens,Authenticatable, HasRoleAndPermission,AuthenticatableContract;
 
     /**
      * The attributes that are mass assignable.
@@ -153,6 +157,11 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
             // request()->session()->put('otp_value', $encoded_otp);
         }
         $this->notify(new ResetPasswordNotification($token, $name,$this->email,$send_otp, $subject));
+    }
+
+     public function userRole()
+    {
+        return $this->belongsTo('euro_hms\Models\RoleUser','user_id');
     }
 
     

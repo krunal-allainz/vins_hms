@@ -54,7 +54,7 @@
 </div>
 
 <script type="text/javascript" src="{{mix('/assets/js/core/plugins.js')}}"></script>
-<script type="text/javascript" src="{{mix("/assets/js/app.js")}}"></script>
+<script type="text/javascript" src="{{mix('/assets/js/app.js')}}"></script>
 @if(Session::has('error'))
     <script type="text/javascript">toastr.error("{{ Session::get('error') }}",'Error');</script>
 @endif

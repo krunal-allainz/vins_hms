@@ -214,6 +214,7 @@
 			data() {
 				return {
 					post: null,
+					'login_user_id' :this.$store.state.Users.userDetails.id,
 					'footer' : 'footer',
 					 'currentYear': new Date().getFullYear(),
 					 /*date code*/
@@ -324,7 +325,7 @@
 		          	
 		         
 	          	   let vm =this;
-	          	   
+	          	   vm.getUserRole('edit.receipt');
 	          	 	
 	          	   
 				    User.getChargesTypes().then(
@@ -671,6 +672,20 @@
   					
 	         },
 	         methods: {
+	         	getUserRole(permission){
+                 var vm = this;
+                User.getUserRole(vm.login_user_id,permission).then(
+                    (responce) => {
+                       if(responce.data.data == ''){
+                       	this.$root.$emit('close_modal',1);
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
+                    },
+                    (error) =>{
+
+                    }
+                    );
+            	},
 	         	getReceiptData()
 	         	{
 	         		let vm=this;

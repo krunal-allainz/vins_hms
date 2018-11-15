@@ -50,8 +50,32 @@
 		props: ['patientinfo'],
 		data() {
 			return{
+                'login_user_id' :this.$store.state.Users.userDetails.id,
 				'currentYear': (new Date()).getFullYear(),
 			}
-		}
+		},
+        mounted(){
+            let vm = this;
+            vm.getUserRole('view.patient');
+            //  if(vm.$store.state.Users.userDetails.user_type != '4'){
+            //   vm.$root.$emit('logout','You are not authorise to access this page'); 
+            // }
+         
+         },
+        methods: {
+             getUserRole(permission = ''){
+                 var vm = this;
+                User.getUserRole(vm.login_user_id,permission).then(
+                    (responce) => {
+                       if(responce.data.data == ''){
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
+                    },
+                    (error) =>{
+
+                    }
+                    );
+            },
+        }
 	}
 </script>

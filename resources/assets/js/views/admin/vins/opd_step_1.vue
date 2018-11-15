@@ -456,9 +456,8 @@
         
         mounted(){
          var vm =this;
-          if(vm.$store.state.Users.userDetails.user_type != '1'){
-              vm.$root.$emit('logout','You are not authorise to access this page'); 
-          }
+            
+        
           $('.ls-select2').select2({
             placeholder: "Select",
             tags:false 
@@ -538,17 +537,34 @@
 
         },
         methods: {
+           getUserRole(permission = ''){
+                 var vm = this;
+                User.getUserRole(vm.doctor_id,permission).then(
+                    (responce) => {
+                       if(responce.data.data == ''){
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
+                    },
+                    (error) =>{
+
+                    }
+                    );
+            },
           initData()
           {
             let vm=this;
+              
+             
               if(vm.$store.state.Patient.setPage=='EDIT')
               {
+                  vm.getUserRole('edit.opd');
                   vm.pageName='EDIT';
                   $('#patient').select2('destroy');
                   vm.setUpdateData();
               }
               else if(vm.$store.state.Patient.setPage=='PLIST')
               {
+                  vm.getUserRole('create.opd');
                   vm.patient_id= parseInt(this.$store.state.Patient.patientId);
                   vm.opdData.patientlist=vm.patient_id;
                   setTimeout(function(){
@@ -559,7 +575,10 @@
                       vm.getAgeOfPatient(vm.patient_id);
                       vm.get_vitals();
                   }
-                  
+              }
+              else
+              {
+                  vm.getUserRole('create.opd');
               }
           },
           setUpdateData()

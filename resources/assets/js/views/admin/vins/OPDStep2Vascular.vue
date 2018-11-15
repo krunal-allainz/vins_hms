@@ -198,6 +198,7 @@
     export default {
         data() {
             return {
+                'login_user_id' :this.$store.state.Users.userDetails.id,
                 'modal_val':0,
                 'footer' : 'footer',
                 'deleteConfirmMsg':'Are you sure you want to exit from receipt form?',
@@ -256,12 +257,26 @@
         },
        mounted() {
         var vm =this;
+        vm.getUserRole('create.opd');
         setTimeout(function(){
           vm.initData();
         },2000);
         
        },
         methods: {
+          getUserRole(permission){
+                 var vm = this;
+                User.getUserRole(vm.login_user_id,permission).then(
+                    (responce) => {
+                       if(responce.data.data == ''){
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
+                    },
+                    (error) =>{
+
+                    }
+                    );
+            },
           initData(){
             let vm =this;
             vm.vascularExaminationData = _.cloneDeep(this.$store.state.Patient.vascExaminationData);

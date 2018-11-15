@@ -176,6 +176,7 @@
     export default {
         data() {
             return {
+            	'login_user_id' :this.$store.state.Users.userDetails.id,
             	'action' : 'add',
             	'getPatientData' : {},
                 'footer' : 'footer',
@@ -257,6 +258,7 @@
         mounted() {
 
         	let vm =this
+        	vm.getUserRole('edit.patient');
         	let patientId =  vm.patientData.patient_id;
         		if(vm.$store.state.Users.userDetails.user_type != '4' ){
 		       		vm.$root.$emit('logout','You are not authorise to access this page');	
@@ -280,6 +282,19 @@
         	this.$root.$on('patientEmpty',this.patientEmpty);
         },
         methods: {
+        	 getUserRole(permission){
+                 var vm = this;
+                User.getUserRole(vm.login_user_id,permission).then(
+                    (responce) => {
+                       if(responce.data.data == ''){
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
+                    },
+                    (error) =>{
+
+                    }
+                    );
+            },
         	setPatientDetail(patientId){
         		let vm =this;
         		User.getPatientDetailInfo(patientId).then(

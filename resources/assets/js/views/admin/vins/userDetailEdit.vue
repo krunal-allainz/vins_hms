@@ -211,18 +211,20 @@
         },
         mounted() {
             var vm = this;
+            vm.getUserRole('edit.users');
             let user_type = [] ;
-             if(vm.$store.state.Users.userDetails.user_type != '4'){
-                if(vm.edituserId != vm.login_user_id)
-                {
-                    vm.$root.$emit('logout','You are not authorise to access this page'); 
-                }
-             }
+             // if(vm.$store.state.Users.userDetails.user_type != '4'){
+             //    if(vm.edituserId != vm.login_user_id)
+             //    {
+             //        vm.$root.$emit('logout','You are not authorise to access this page'); 
+             //    }
+             // }
             //setTimeout(function(){
                 $('.ls-select2').select2({
                     placeholder: "Select"
                 });
                 vm.getUserDetail(vm.edituserId);
+                 
                 User.getUserTypesList().then(
                      (response) => {
                     $.each(response.data.data, function(key,value) {
@@ -259,6 +261,19 @@
 
         },
         methods: {
+            getUserRole(permission){
+                 var vm = this;
+                User.getUserRole(vm.login_user_id,permission).then(
+                    (responce) => {
+                       if(responce.data.data == ''){
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
+                    },
+                    (error) =>{
+
+                    }
+                    );
+            },
            previewFile(e){
                  let vm =this;
                 var imgData = [];

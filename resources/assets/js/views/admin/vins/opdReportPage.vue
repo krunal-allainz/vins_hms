@@ -19,22 +19,22 @@
     	 	 		</div>
     	 	 	</div>
     		</form>
-    	<div id="generateModal" class="modal fade">
+    	 <div id="generateModal" class="modal fade">  
     		<div class="modal-dialog" >
     		<div class="modal-content" >
     			<div class="modal-body">
-					<div id="demo">
-					<label><b>Select Report:</b></label>
-					<ul>
-						<li><input type="checkbox" id="ckbCheckAll"  @click="checkAll(this)"/><b> Select All</b></li>		
-						<li v-for="mainCat in reportList">
-							<input type="checkbox" class="checkBoxClass" :value="mainCat.reportListId" id="mainCat.reportListId" v-model="checkedreportList" @click="check($event)"> {{mainCat.reportListId}}
-						</li>
-					</ul>
-					<span class="help is-danger" v-if="(checkedreportList.length == 0)">
-                  			Please select any report Type .
-                	</span> 
-				</div>
+					<div id="demo" class="demo-list">
+						<label><b>Select Report:</b></label>
+						<ul>
+							<li><input type="checkbox" id="ckbCheckAll" name="select_all" value="select_all" @click="checkAll(this)"/>   <label><b>Select All</b></label></li>		
+							<li v-for="mainCat in reportList">
+								<input type="checkbox" class="checkBoxClass" :value="mainCat.reportListId" :id="mainCat.reportListId" v-model="checkedreportList" name="report_check" @click="check($event)">    <label>{{mainCat.reportListId}}</label> 
+							</li>
+						</ul>
+						<span class="help is-danger" v-if="(checkedreportList.length == 0)">
+	                  			Please select any report Type .
+	                	</span> 
+					</div>
 
 					<!-- <button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button> -->
 					<button type="button" class="btn btn-primary btn-submit text-right" @click="print_multiple_report()">Print</button>
@@ -82,7 +82,8 @@
 	var formattedDate = date + '/' + month + '/' + year ;
 	export default {
 		data() {
-			return{
+			return{			
+				'login_user_id' :this.$store.state.Users.userDetails.id,
 				'printType' : '',
 				'todayDate' : formattedDate,
 				'caseId' : this.$store.state.Patient.caseId,
@@ -154,6 +155,11 @@
        },
        mounted(){
        	let vm =this;
+
+       	 vm.getUserRole('generate.Report','generate_report');
+
+       	vm.initializeICheck();
+
        	if(vm.$store.state.Users.userDetails.user_type != '1'){
               vm.$root.$emit('logout','You are not authorise to access this page'); 
           }
@@ -166,11 +172,67 @@
        	vm.getPatientData(vm.patinetId);
        },
        methods: {
+       	 	getUserRole(permission,type){
+                 var vm = this;
+                User.getUserRole(vm.login_user_id,permission).then(
+                    (responce) => {
+                       if(responce.data.data == ''){
+                       	 if(type=='print')
+                       	 {
+                       	 	$('#generateModal').modal('hide');
+                       	 	$('#printModal').modal('hide');
+                       	 }
+                       	 else if(type=='print_multiple')
+                       	 {
+                       	 	$('#generateModal').modal('hide');
+                       	 }
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
+                       else
+                       {
+                       		if(type=='print')
+                       		{
+                       			vm.printReportAllow();
+                       		}
+                       		else if(type=='print_multiple')
+                       		{
+                       			vm.ClickHereToPrintMultiple('opd_case');
+                       		}
+
+                       }
+                    },
+                    (error) =>{
+
+                    }
+                    );
+            },
+            
+       		initializeICheck(){
+       			let vm=this;
+        		$('.demo-list input').iCheck({
+	              checkboxClass: 'icheckbox_square-blue',
+	               increaseArea: '20%'
+	            });
+
+	        	$(".demo-list input").on('ifChanged', function(e) {
+	        		let val_checkbox=$(this).val();
+	        		if(val_checkbox=='select_all')
+	        		{
+	        			vm.checkAll(val_checkbox);
+	        		}
+	        		else
+	        		{
+
+	        			vm.check(e,val_checkbox);
+	        		}
+				});
+       		},
        		close_modal()
        		{
        			let vm=this;
        			vm.checkedreportList=[];
 				vm.reportListSelect = 0;
+				jQuery(".demo-list input").iCheck('uncheck');
 				$('#generateModal').modal('hide');
        		},
        		print_multiple_report()
@@ -182,35 +244,37 @@
 					vm.reportListSelect = 1;
 					return false;
 				}
-				this.ClickHereToPrintMultiple('opd_case');
+				vm.getUserRole('print.Report','print_multiple');
+				
 			},
 			checkAll(test)
 			{	
 				let vm=this;
-				if($('#ckbCheckAll').is(':checked'))
-				{
+				 if($('#ckbCheckAll').filter(':checked').length == $('#ckbCheckAll').length) {
 					vm.reportListSelect = 1;
 					var check_list_data=[];
 					_.forEach(vm.reportList,function(value){
 						check_list_data.push(value.reportListId);
 					});
 					vm.checkedreportList=check_list_data;
-					$(".checkBoxClass").prop('checked', true);
+					$('.demo-list input').iCheck('check');
 				}
 				else
 				{
 					vm.checkedreportList=[];
 					vm.reportListSelect = 0;
-					$(".checkBoxClass").prop('checked', false);
+					$('.demo-list input').iCheck('uncheck');
 				}
-				
+				 
 			},
-       	 	check: function(e) {
+       	 	check: function(e,val_check) {
 			 	let vm=this;
 	     		 if (e.target.checked) {
+	     		 	vm.checkedreportList.push(val_check);
 	      		  //vm.reportListSelect = 0;
 	     		 }else{
 	     		 	 vm.reportListSelect = 1;
+	     		 	 _.pull(vm.checkedreportList,val_check );
 	     		 }
 	   		 },
        		printReport(type){
@@ -223,6 +287,7 @@
 			},
 			ClickHereToPrintMultiple()
 			{
+
 				let vm = this;
 				const style = '@page { margin: 0 } @media print { .page-break {page-break-after: always; page-break-inside: avoid; page-break-before: avoid; break-after: always; break-inside: avoid; break-before: avoid; } }'
 				var  OPDCaseData = {
@@ -394,79 +459,75 @@
 			GetSelectComponent(componentName) {
 		       this.$router.push({name: componentName})
 		   	},
-		   	  ClickHereToPrint() {
-				
+		   	printReportAllow()
+		   	{
+		   		var  OPDCaseData = {
+					'priscriptionData': this.prescriptiData,
+					'todayDate': this.todayDate,
+					'printType' : this.printType,
+					'signatureName' : this.signatureName,
+					'timeStamp' : this.timeStamp,
+					'regNo' : this.regNo,
+					'ReportPageData' : this.ReportPageData,
+					'checkedreportList' : this.checkedreportList,
+					'patientDetail' : this.patientDetail,
+					'patientCheckupDetail' : this.patientCheckupDetail,
+					'department' : this.department,
+					'doctoreName' : this.doctoreName,
+					'reference' : this.reference
+				};
+
+		      	User.printOPDCaseData(OPDCaseData).then(	
+                (response) => {
+
+
+                	var printContent = "";
+                	printContent = response.data;
+                	 //$('#receiptModal').modal({show:true}); 
+                	// try {
+                    var windowUrl = '';	
+			       // var uniqueName = new Date();	
+			        //var windowName = 'Print' + uniqueName.getTime();	
+			        var uniqueName = '';/*new Date();	*/
+			        var windowName = '';/*'Print' + uniqueName.getTime();	*/
+			        var printWindow = window.open('','','left=0,top=0,width=950,height=700,toolbar=0,scrollbars=0,status=0,addressbar=0');
+			        
+			        var is_chrome = Boolean(printWindow.chrome);
+					printWindow.document.write(printContent);
+					printWindow.document.close(); 
+					 if (is_chrome) {
+				        setTimeout(function () { // wait until all resources loaded 
+				            printWindow.focus(); // necessary for IE >= 10
+				            printWindow.print();  // change window to printWindow
+				            return false;
+				            printWindow.close();// change window to printWindow
+				        }, 250);
+				    }
+				    else {
+				         // necessary for IE >= 10
+				        printWindow.focus(); // necessary for IE >= 10
+				        printWindow.print();
+				        printWindow.close();
+				    }
+
+
+				    // 	}	
+				    // catch (e) {	
+				    //     self.print();	
+				    // }	
+		        	
+
+            	},	
+                (error) => {	
+                	 $("body .js-loader").addClass('d-none');	
+
+                }	
+                )	
+		   	},
+		   	ClickHereToPrint() {
 				let vm = this;
-
-				var  OPDCaseData = {
-							
-							'priscriptionData': this.prescriptiData,
-							
-							'todayDate': this.todayDate,
-							
-							'printType' : this.printType,
-							
-							'signatureName' : this.signatureName,
-							'timeStamp' : this.timeStamp,
-							'regNo' : this.regNo,
-							'ReportPageData' : this.ReportPageData,
-							'checkedreportList' : this.checkedreportList,
-							'patientDetail' : this.patientDetail,
-							'patientCheckupDetail' : this.patientCheckupDetail,
-							'department' : this.department,
-							'doctoreName' : this.doctoreName,
-							'reference' : this.reference
-						};
-
-				      	User.printOPDCaseData(OPDCaseData).then(	
-		                (response) => {
-
-
-		                	var printContent = "";
-		                	printContent = response.data;
-		                	 //$('#receiptModal').modal({show:true}); 
-		                	// try {
-		                    var windowUrl = '';	
-					       // var uniqueName = new Date();	
-					        //var windowName = 'Print' + uniqueName.getTime();	
-					        var uniqueName = '';/*new Date();	*/
-					        var windowName = '';/*'Print' + uniqueName.getTime();	*/
-					        var printWindow = window.open('','','left=0,top=0,width=950,height=700,toolbar=0,scrollbars=0,status=0,addressbar=0');
-					        
-					        var is_chrome = Boolean(printWindow.chrome);
-    						printWindow.document.write(printContent);
-    						printWindow.document.close(); 
-    						 if (is_chrome) {
-						        setTimeout(function () { // wait until all resources loaded 
-						            printWindow.focus(); // necessary for IE >= 10
-						            printWindow.print();  // change window to printWindow
-						            return false;
-						            printWindow.close();// change window to printWindow
-						        }, 250);
-						    }
-						    else {
-						         // necessary for IE >= 10
-						        printWindow.focus(); // necessary for IE >= 10
-						        printWindow.print();
-						        printWindow.close();
-						    }
-	
-
-						    // 	}	
-						    // catch (e) {	
-						    //     self.print();	
-						    // }	
-				        	
-	
-		            	},	
-		                (error) => {	
-		                	 $("body .js-loader").addClass('d-none');	
-	
-		                }	
-		                )	
-	
-				    	
-				},
+				vm.getUserRole('print.Report','print');
+			},
        }
 	}
 </script>

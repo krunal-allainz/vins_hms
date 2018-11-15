@@ -235,7 +235,11 @@
                                 vm.$router.push('qualifiers_list');
                                 //this.initialState();
                                 
-                            } else if (response.data.code == 300) {
+                            }
+                            else if (response.data.code == 301) {
+                                toastr.error('Qualifiers already exist.', 'Add Qualifiers', {timeOut: 5000});
+                            }
+                             else if (response.data.code == 300) {
                                 toastr.error('Something Went wrong.', 'Add Qualifiers', {timeOut: 5000});
                                 //this.initialState(); 
                             }
@@ -262,17 +266,21 @@
                           (response)=> {
                            
                             if(response.data.code == 200){
-                                toastr.success('Qualifiers edited successfully', 'Add Qualifiers', {timeOut: 5000});
+                                toastr.success('Qualifiers edited successfully', 'Edit Qualifiers', {timeOut: 5000});
                                 vm.$router.push('qualifiers_list');
                                 //this.initialState();
                                 
-                            } else if (response.data.code == 300) {
-                                toastr.error('Something Went wrong.', 'Add Qualifiers', {timeOut: 5000});
+                            } 
+                            else if (response.data.code == 301) {
+                                toastr.error('Qualifiers already exist.', 'Edit Qualifiers', {timeOut: 5000});
+                            }
+                            else if (response.data.code == 300) {
+                                toastr.error('Something Went wrong.', 'Edit Qualifiers', {timeOut: 5000});
                                 //this.initialState(); 
                             }
                             else
                             {
-                                toastr.error('Something Went wrong.', 'Add Qualifiers', {timeOut: 5000});
+                                toastr.error('Something Went wrong.', 'Edit Qualifiers', {timeOut: 5000});
                             }
                             
                           },

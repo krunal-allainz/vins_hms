@@ -4,6 +4,9 @@ namespace euro_hms\Api\Repositories;
 
 use euro_hms\Models\User;
 use euro_hms\Models\Role;
+use euro_hms\Models\RoleUser;
+use euro_hms\Api\Repositories\RoleRepository;
+use euro_hms\Api\Repositories\PermissionRepository;
 use DB;
 use Hash;
 
@@ -13,6 +16,8 @@ class UserRepository {
     public function __construct()
     {
       $this->userImagePath = getenv('S3_URL').'/assets/img/users/';
+      $this->roleRepoObj = new RoleRepository();
+      $this->permissionRepoObj = new PermissionRepository();
     }
     public function getAllUsers()
     {
@@ -245,9 +250,33 @@ class UserRepository {
           $result = User::where('id',$userId)->update(array('first_name' => $fname, 'last_name' => $lname , 'mobile_no' => $mno , 'address' => $address ,'user_type' => $userType, 'department' => $dept,'dagree' =>  $dagree,'RegNo' => $regNo , 'signature_path' => $signature_path));
        }
 
-      
       return $result ;
 
+    }
+
+    public function getUsersRole($userId,$permission){
+        $user =  User::findOrFail($userId);
+        $role = $this->roleRepoObj->getRoleUserId($userId);
+
+          $permissionList = array() ;
+        if($role != null){
+            $rolePermission=$this->permissionRepoObj->checkPermissionForRole($role->role_id);
+
+            foreach($rolePermission as $perm){
+                $permissionSlug = $this->permissionRepoObj->getRolePermissionList($perm->permissionId);
+                $permissionList[$perm->permissionId] = $permissionSlug->slug;
+           }
+        }
+        /*print_r($permissionList);
+        exit;*/
+        if ($user->hasRole('admin')){ // you can pass an id or slug
+            return true;
+        }else if(in_array($permission, $permissionList)){
+            return true;
+        }else{
+            return false;
+        }
+        
     }
 
 }
