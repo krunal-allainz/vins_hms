@@ -8,10 +8,11 @@
 	#header {visibility: hidden;}
 	#footer{visibility: hidden;}
 	@media all {
-		.page-break	{ display: none; }
+		/*.page-break	{ display: none; }*/
 	}
-	@media print {
-		
+	  @page{orphans:4; widows:2;}
+   	@media print {
+ 		
 		#header, #footer {visibility: visible;}
 		html {
 		    -ms-overflow-style: scrollbar;
@@ -19,15 +20,17 @@
 		}
 		body {
 			-webkit-print-color-adjust: exact; 
-	   /* background-color: #eeeeee;*/
-	    font-family: "Lato", sans-serif;
-	    color: #595959;
-	    font-size: 15px;
-	     background-color: #fff;
-	    background-clip: padding-box;
-	   /* position: relative;
-	    display: -ms-flexbox;
-	    display: flex;
+	   		/* background-color: #eeeeee;*/
+	    	font-family: "Lato", sans-serif;
+	    	color: #595959;
+	    	font-size: 15px;
+	     	background-color: #fff;
+	    	background-clip: padding-box;
+	    	margin-top: 50mm; margin-bottom: 50mm; 
+           	margin-left: 0mm; margin-right: 0mm
+	   		/* position: relative;
+	    	display: -ms-flexbox;
+	    	display: flex;
 	    -ms-flex-direction: column;
 	    flex-direction: column;
 	    background-color: #fff;
@@ -36,11 +39,12 @@
 	    border-radius: 0.3rem;
 	    outline: 0;*/
 	}
+
 	.page-break { display: block; page-break-after: always; }
 	.text-uppercase{
     	text-transform : uppercase;
 	}
-	.report_header{margin-top:150px;}
+	/*.report_header{margin-top:150px;}*/
 	.report_space
 	{
 	    margin-bottom:15px;

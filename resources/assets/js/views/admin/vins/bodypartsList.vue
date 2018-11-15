@@ -58,10 +58,15 @@
                       				<option data-v-744e717e="" value="50">50</option>
                    					<!--     <option data-v-744e717e="" value="-1">All</option> -->
                     			</select>
-
+                          <a href="javascript:void(0)"  @click="getBodypartsList(bodypartsPagination.prev_page_url)" class="previous" v-if="bodypartsPagination.current_page!=1">&laquo; Prev</a>
+                          <span>{{bodypartsPagination.current_page}}</span>
+                          <a href="javascript:void(0)"  v-if="bodypartsPagination.current_page!=bodypartsPagination.last_page" @click="getBodypartsList(bodypartsPagination.next_page_url)" class="next">Next &raquo;</a>
                      		<div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(bodypartsPagination.total > 0)">
-                        		<span data-v-744e717e="">Showing </span> {{bodypartsPagination.current_page}} - {{bodypartsPagination.to}} of {{bodypartsPagination.total}}
+                        		<span data-v-744e717e="">Showing </span> {{bodypartsPagination.from}} - {{bodypartsPagination.to}} of {{bodypartsPagination.total}}
                         		<span data-v-744e717e="">records</span>
+                           
+
+
                    			</div>
                			</div>
               		 </div>
@@ -171,7 +176,7 @@
 		 	
         let no_of_page = '';
         no_of_page = vm.perPageBodyparts;
-
+        console.log(page_url);
 		 		User.getBodypartsList(page_url,userType,no_of_page,userId).then(
 		 			 (response) => {
               vm.getBodypartsData = response.data.data.data;

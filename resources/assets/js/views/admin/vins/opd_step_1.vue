@@ -551,7 +551,9 @@
               {
                   vm.patient_id= parseInt(this.$store.state.Patient.patientId);
                   vm.opdData.patientlist=vm.patient_id;
-                  $('#patient').val(vm.opdData.patientlist).trigger('change');
+                  setTimeout(function(){
+                    $('#patient').val(vm.opdData.patientlist).trigger('change');
+                  },1000)
                   if(vm.opdData.patientlist)
                   {
                       vm.getAgeOfPatient(vm.patient_id);
