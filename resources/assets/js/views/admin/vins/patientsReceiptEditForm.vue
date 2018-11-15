@@ -677,6 +677,7 @@
                 User.getUserRole(vm.login_user_id,permission).then(
                     (responce) => {
                        if(responce.data.data == ''){
+                       	this.$root.$emit('close_modal',1);
                          vm.$root.$emit('logout','You are not authorise to access this page');
                        }
                     },

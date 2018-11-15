@@ -477,7 +477,7 @@
                         vm.$store.dispatch('saveDiagnosis',vm.diagnosis);
                         vm.patient_opd_details=response.data.data;
                         $('#edit_confirm_modal').modal('hide');
-                        toastr.success('OPD Successfully Edited.', 'Error', {timeOut: 300});
+                        toastr.success('OPD Successfully Edited.', 'Success', {timeOut: 300});
                         vm.$router.push({'name':'opdreport'});
                       } else if(response.data.code == 300) {
                             $('#edit_confirm_modal').modal('hide');

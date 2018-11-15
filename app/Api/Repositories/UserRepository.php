@@ -257,18 +257,18 @@ class UserRepository {
     public function getUsersRole($userId,$permission){
         $user =  User::findOrFail($userId);
         $role = $this->roleRepoObj->getRoleUserId($userId);
+
           $permissionList = array() ;
         if($role != null){
             $rolePermission=$this->permissionRepoObj->checkPermissionForRole($role->role_id);
-         
-          
 
-            foreach($rolePermission as $permission){
-             $permissionSlug = $this->permissionRepoObj->getRolePermissionList($permission->permissionId);
-             $permissionList[$permission->permissionId] = $permissionSlug->slug;
+            foreach($rolePermission as $perm){
+                $permissionSlug = $this->permissionRepoObj->getRolePermissionList($perm->permissionId);
+                $permissionList[$perm->permissionId] = $permissionSlug->slug;
            }
         }
-        
+        /*print_r($permissionList);
+        exit;*/
         if ($user->hasRole('admin')){ // you can pass an id or slug
             return true;
         }else if(in_array($permission, $permissionList)){

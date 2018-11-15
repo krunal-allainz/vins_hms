@@ -192,8 +192,8 @@ return [
         Dingo\Api\Provider\LaravelServiceProvider::class,
         Duro85\Roles\RolesServiceProvider::class,
         euro_hms\Api\Providers\ReceiptServiceProvider::class,
-      
-
+        //for import
+        Maatwebsite\Excel\ExcelServiceProvider::class,
        
 
  
@@ -250,7 +250,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         //'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
-        // 'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'ReceiptService' =>  euro_hms\Api\Providers\ReceiptServiceProvider::class,
         'role' => \Duro85\Roles\Middleware\VerifyRole::class,

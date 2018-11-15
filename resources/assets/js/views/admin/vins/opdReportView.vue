@@ -64,6 +64,7 @@
 	import signatureReportData from './signatureReportData.vue';
 	import print from 'print-js'
 	import _ from 'lodash';
+	import User from '../../../api/users.js';
 	
 	export default {
 		props: ['opdId','patinetId','todayDate','patientDetail','patientCheckupDetail','department','regNo','doctoreName','signatureName','consultntId','reference','ReportPageData','printType','checkedreportList','reportListSelect','adviceData','historyData','past_history'],

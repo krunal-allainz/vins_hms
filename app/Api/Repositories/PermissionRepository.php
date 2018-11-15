@@ -27,6 +27,7 @@ use euro_hms\Models\PermissionRole;
     public function updateRolePermission($roleId,$permissionCheckList){
 
          $deleteOldPermission = PermissionRole::where('role_id',$roleId)->delete();
+         //print_r($permissionCheckList);exit;
          foreach($permissionCheckList as $permissionList){
             foreach($permissionList as $permission){
                 PermissionRole::create([

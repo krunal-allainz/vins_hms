@@ -440,14 +440,16 @@
               foreach($image_data as $image)
               {
                 $attachment=array();
-                if($image['remove']!='true' && $image['type']=='image')
+                if($image['remove']!='true')
                 {
                   $r_attach_obj=new RadiologyAttachments();
                   $r_attach_obj->patient_case_management_id=$case_id;
-                  //$r_attach_obj->opd_id=$opd_id_org;
                   $r_attach_obj->radiology_id=$radiology_id;
-                  //$attachment['image']=$image['data'];
-                  //$r_attach_obj->image=$image['data'];
+                  $r_attach_obj->image=json_encode($image['data']);
+                  $r_attach_obj->image_id=$image['id'];
+                  $r_attach_obj->remove=$image['remove'];
+                  $r_attach_obj->type=$image['type'];
+                  $r_attach_obj->view=$image['view'];
                   $r_attach_obj->save();
                   
                 }
@@ -456,6 +458,7 @@
             }
           }
         }
+      
         /*for radiology */
         /*for examination*/
 
@@ -854,6 +857,7 @@
       //for step2 radiology 
       $radio_array_2=array();
       $radio_index=1;
+      $j=1;
       foreach($radio_details as $radio_2)
       {
         if($radio_2->referance==1)
@@ -923,11 +927,34 @@
               }
             }
           }
+          //for image data
+          $get_attachments=RadiologyAttachments::where('radiology_id',$radio_2->id)->get();
+
+          if(!empty($get_attachments))
+          { 
+              $img_data=array();
+              foreach($get_attachments as $attach)
+              {
+                  $attach_data=array();
+                  $attach_data['id']=$j;
+                  $image="";
+                  $image=json_decode($attach->image, true);
+                  //echo $image."<br/>";
+                  $attach_data['data']=$image;
+                  $attach_data['remove']=$attach->remove;
+                  $attach_data['view']=$attach->view;
+                  $attach_data['type']=$attach->type;
+                  $img_data[]=$attach_data;
+                  $j++;
+              }
+              $rest_radio_2['imgData']=$img_data;
+          }
           $radio_array_2[]=$rest_radio_2;
           $radio_index++;
         }
       }
-
+      //print_r($radio_array_2);
+     // exit;
       $result['radioData']=$radio_array_2;
 
       //for examination data
@@ -1281,6 +1308,7 @@
         /*for form -2 library*/
         /*for radiology */
         $del=Radiology::where('patient_case_management_id',$case_id)->where('referance',1)->delete();
+        $del=RadiologyAttachments::where('patient_case_management_id',$case_id)->delete();
         if(!empty($radiology_data))
         {
 
@@ -1358,20 +1386,25 @@
               {
                   $radiology_obj_2->qualifiers_other=$r_data['qualifierOtherPart'];
               }
-              $radiology_obj_2->save();
+            $radiology_obj_2->save();
             $radiology_id=$radiology_obj_2->id;
+            
             if(!empty($image_data))
             {
+
               foreach($image_data as $image)
               {
                 $attachment=array();
-                if($image['remove']!='true' && $image['type']=='image')
+                if($image['remove']!='true')
                 {
                   $r_attach_obj=new RadiologyAttachments();
                   $r_attach_obj->patient_case_management_id=$case_id;
                   $r_attach_obj->radiology_id=$radiology_id;
-                  //$attachment['image']=$image['data'];
-                  //$r_attach_obj->image=$image['data'];
+                  $r_attach_obj->image=json_encode($image['data']);
+                  $r_attach_obj->image_id=$image['id'];
+                  $r_attach_obj->remove=$image['remove'];
+                  $r_attach_obj->type=$image['type'];
+                  $r_attach_obj->view=$image['view'];
                   $r_attach_obj->save();
                   
                 }

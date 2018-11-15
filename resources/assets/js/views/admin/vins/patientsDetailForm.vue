@@ -276,7 +276,7 @@
     //get it if Status key found
     if(localStorage.getItem("Status"))
     {
-        toastr.success('Patient details have been saved', 'patient detail', {timeOut: 5000});
+        toastr.success('Patient details have been saved', 'Patient Detail', {timeOut: 5000});
         localStorage.removeItem("Status");
         //localStorage.clear();
     }

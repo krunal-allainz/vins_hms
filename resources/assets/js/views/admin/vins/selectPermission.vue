@@ -29,16 +29,22 @@
          			 <div class="col-md-6 ">
 						<label>Select Permission:</label>
 					 </div>
-					<ul class="list">
-						<li><input type="checkbox" id="ckbCheckAll"  @click="checkAll(this)" :disabled="(roleName == 'Admin' || roleName == 'admin')"/><b> Select All</b></li>		
-						<li v-for="permission,index in permissionList" class="col-md-6">
-							<input type="checkbox" name="checkboxPermission" class="checkBoxClass" :value="permission.id" 
-              :id="permission.id" v-model="checkedPermisiontList" @click="check($event)" :disabled="(roleName == 'Admin' || roleName == 'admin')"  > {{permission.name}}
-						</li>
-					</ul>
-					<span class="help is-danger" v-if="(permissionListSelect == 0)">
-                  			Please select any permission .
-                	</span> 
+          
+           <div class="demo-list">
+              <ul class="list" >
+                 <li>
+                 <input type="checkbox" id="ckbCheckAll" name="select_all" value="select_all" /> <label><b> Select All</b></label>
+               </li> 
+               <li v-for="permission,index in permissionList" class="">
+                 <input type="checkbox" name="checkboxPermission" class="test2" :value="permission.id" 
+                 :id="permission.id" v-model="checkedPermisiontList"/> <label>{{permission.name}}</label>
+               </li> 
+              </ul>
+              <span class="help is-danger" v-if="(permissionListSelect == 0)">
+                Please select any permission .
+              </span>
+           </div>
+					 
 				</div>
          	</div>
          	 <div class="row form-group">
@@ -51,7 +57,7 @@
 </template>
 <script>
 	import User from '../../../api/users.js';
-
+  import _ from 'lodash';
 	  export default {
         data() {
             return {
@@ -71,6 +77,11 @@
         },
         mounted() {
             var vm = this;
+            $('.ls-select2').select2({
+              placeholder: "Select",
+              tags:false 
+            });
+            vm.initializeICheck(); 
             vm.getUserRole('addeditrole.permission');
             vm.getRoles();
             vm.getPermissionList();	
@@ -78,7 +89,7 @@
            vm.checkedPermisiontList = [];
            vm.Data.roleId = '';
             $('#role').change("select2:select", function (e) {
-            let selectedRoleId = $(this).val();
+              let selectedRoleId = $(this).val();
               vm.Data.roleId=selectedRoleId;
               vm.checkRolesPermission(selectedRoleId);
               vm.checkRoleName(selectedRoleId);
@@ -88,6 +99,29 @@
            
         },
         methods: {
+          initializeICheck(){
+              let vm=this;
+              setTimeout(function(){
+                $('.demo-list input').iCheck({
+                  checkboxClass: 'icheckbox_square-blue',
+                  increaseArea: '20%'
+                });
+                $(".demo-list input").on('ifChanged', function(e) {
+                  let val_checkbox=$(this).val();
+                  if(val_checkbox=='select_all')
+                  {
+                    vm.checkAll(val_checkbox);
+                  }
+                  else
+                  {
+
+                    vm.check(e,val_checkbox);
+                  }
+              });
+              },1500);
+
+              
+          },
           getUserRole(permission){
                  var vm = this;
                 User.getUserRole(vm.login_user_id,permission).then(
@@ -103,11 +137,20 @@
             },
             checkRoleName(selectedRoleId){
                var vm = this;
-               $(".checkBoxClass").prop('checked', false);
+               $('.demo-list input').iCheck('uncheck');
                 User.getRoleName(selectedRoleId).then(
                     (responce) => {
                        if(responce.data.code == 200){
-                        vm.roleName = responce.data.data.name;
+                          vm.roleName = responce.data.data.name;
+                          if(vm.roleName == 'Admin' || vm.roleName == 'admin')
+                          {
+                              $('.demo-list input').iCheck('disable');
+                          }
+                          else
+                          {
+                              $('.demo-list input').iCheck('enable');
+                          }
+
                        }
                     },
                     (error) =>{
@@ -119,19 +162,21 @@
           var vm= this;
           var permissionSelectedList = [];
           var check_list=[];
+           vm.checkedPermisiontList=[];
               User.checkRolesPermission($roleId).then(
                 (response) => {
                   if(response.data.code == 200){
                     if(response.data.data != ''){
                      vm.page = 'EDIT';
                       var getPermissionList = response.data.data;
-                      $(".checkBoxClass").prop('checked', false);    
+                      $('.demo-list input').iCheck('uncheck'); 
+                         
                        $.each(getPermissionList, function(key, value) {
 
                           let getPermissionId = value.permissionId;
                           let getRoleId = value.roleId;
-                          check_list.push(value.permissionId);
-                        
+                          check_list.push(getPermissionId);
+                           $('.demo-list input[value="'+value.permissionId+'"]').iCheck('check');
                         });                      
 
                     }else{
@@ -190,33 +235,39 @@
         				);
         		},
         		checkAll(test)
-			{	
-				let vm=this;
-				if($('#ckbCheckAll').is(':checked'))
-				{
-					vm.permissionListSelect = 1;
-					var check_list_data=[];
-					_.forEach(vm.permissionList,function(value){
-						check_list_data.push(value.id);
-					});
-					vm.checkedPermisiontList=check_list_data;
-					$(".checkBoxClass").prop('checked', true);
-				}
-				else
-				{
-					vm.checkedPermisiontList=[];
-					vm.permissionListSelect = 0;
-					$(".checkBoxClass").prop('checked', false);
-				}
-				
-			},
-       	 	check: function(e) {
-			 	let vm=this;
-	     		 if (e.target.checked) {
-	      		  //vm.reportListSelect = 0;
-	     		 }else{
-	     		 	 vm.permissionListSelect = 1;
-	     		 }
+      			{	
+        				
+                let vm=this;
+               if($('#ckbCheckAll').filter(':checked').length == $('#ckbCheckAll').length) {
+                  vm.permissionListSelect = 1;
+                  var check_list_data=[];
+                  _.forEach(vm.reportList,function(value){
+                    check_list_data.push(value.reportListId);
+                  });
+                  vm.checkedPermisiontList=check_list_data;
+                  $('.demo-list input').iCheck('check');
+              }
+              else
+              {
+                  vm.checkedPermisiontList=[];
+                  vm.permissionListSelect = 0;
+                  $('.demo-list input').iCheck('uncheck');
+              }
+      			},
+       	 	check: function(e,val_check) {
+    			 	
+            let vm=this;
+            if (e.target.checked) {
+              vm.checkedPermisiontList.push(val_check);
+           }else{
+             vm.permissionListSelect = 1;
+            
+             var get_array = _.remove(vm.checkedPermisiontList, function(n) {
+                return n == val_check;
+              });
+             
+
+           }
 	   		 },
 	   		 addRolesPermission(){
 	   		 	var vm = this;
