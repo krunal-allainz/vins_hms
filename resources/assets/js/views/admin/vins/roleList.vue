@@ -137,8 +137,8 @@
                 var roleData;
                   User.getRolesListWithPaggination(pageUrl,noOfPage).then(
                      (response)=>{
-                            roleData=response.data.data.data;
-                            vm.getRoleData = roleData;
+                            //roleData=response.data.data.data;
+                            vm.getRoleData = response.data.data.data;
                             vm.makePagination(response.data.data);
                         },
                     (error)=>{

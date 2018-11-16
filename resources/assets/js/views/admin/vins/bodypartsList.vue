@@ -179,7 +179,7 @@
 		 	
         let no_of_page = '';
         no_of_page = vm.perPageBodyparts;
-        console.log(page_url);
+        //console.log(page_url);
 		 		User.getBodypartsList(page_url,userType,no_of_page,userId).then(
 		 			 (response) => {
               vm.getBodypartsData = response.data.data.data;
