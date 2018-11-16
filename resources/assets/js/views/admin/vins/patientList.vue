@@ -84,7 +84,7 @@
               <div data-v-744e717e="" class="table-footer">
                 <div data-v-744e717e="" class="datatable-length float-left pl-3">
                   <span data-v-744e717e="">Rows per page:</span>
-                    <select data-v-744e717e="" class="custom-select" id="perPageNo"  @change="setPerPage" v-model="perPage">
+                    <select data-v-744e717e="" class="custom-select" id="perPageNo"  @change="setPerPageWaiting" v-model="perPage">
                     <option data-v-744e717e="" value="2">2</option>
                       <option data-v-744e717e="" value="5">5</option>
                       <option data-v-744e717e="" value="10">10</option>
@@ -92,6 +92,13 @@
                       <option data-v-744e717e="" value="50">50</option>
                    <!--     <option data-v-744e717e="" value="-1">All</option> -->
                     </select> 
+                    <div data-v-744e717e="" class="datatable-info  pb-2 mt-6">
+                      <ul class="pagination">
+                        <li> <a href="javascript:void(0)"  @click="getPatientsResult(pagination.prev_page_url,'waiting')" class="previous" v-if="pagination.current_page!=1">&laquo; Prev</a></li>
+                        <li  v-for="record_pagination,index in pagination.last_page" v-if="index<=2"><a v-bind:class="[pagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getPatientsResult('/patient/getpatientlist?page='+index,'waiting')">{{index}}</a></li>
+                        <li><a href="javascript:void(0)"  v-if="pagination.current_page!=pagination.last_page" @click="getPatientsResult(pagination.next_page_url,'waiting')" class="next">Next &raquo;</a></li>
+                      </ul>
+                    </div>
                      <div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(pagination.total>0)">
                         <span data-v-744e717e="">Showing </span> {{pagination.current_page}} - {{pagination.to}} of {{pagination.total}}
                         <span data-v-744e717e="">records</span>
@@ -186,9 +193,9 @@
                 </table>
               </div>
               <div data-v-744e717e="" class="table-footer">
-                <div data-v-744e717e="" class="datatable-length float-left pl-3" v-show="(pagination.total>0)">
+                <div data-v-744e717e="" class="datatable-length float-left pl-3" v-show="(pendingPagination.total>0)">
                   <span data-v-744e717e="">Rows per page:</span>
-                    <select data-v-744e717e="" class="custom-select" id="perPagePendingNo"  @change="setPerPage" v-model="perPagePending">
+                    <select data-v-744e717e="" class="custom-select" id="perPagePendingNo"  @change="setPerPagePending" v-model="perPagePending">
                     <option data-v-744e717e="" value="2">2</option>
                       <option data-v-744e717e="" value="5">5</option>
                       <option data-v-744e717e="" value="10">10</option>
@@ -196,6 +203,13 @@
                       <option data-v-744e717e="" value="50">50</option>
                    <!--     <option data-v-744e717e="" value="-1">All</option> -->
                     </select> 
+                    <div data-v-744e717e="" class="datatable-info  pb-2 mt-6">
+                      <ul class="pagination">
+                        <li> <a href="javascript:void(0)"  @click="getPatientsResult(pendingPagination.prev_page_url,'pending')" class="previous" v-if="pendingPagination.current_page!=1">&laquo; Prev</a></li>
+                        <li  v-for="record_pagination,index in pendingPagination.last_page" v-if="index<=2"><a v-bind:class="[pendingPagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getPatientsResult('/patient/getpatientlist?page='+index,'pending')">{{index}}</a></li>
+                        <li><a href="javascript:void(0)"  v-if="pendingPagination.current_page!=pendingPagination.last_page" @click="getPatientsResult(pendingPagination.next_page_url,'pending')" class="next">Next &raquo;</a></li>
+                      </ul>
+                    </div>
                      <div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(pendingPagination.total>0)">
                         <span data-v-744e717e="">Showing </span> {{pendingPagination.current_page}}  - {{pendingPagination.to}} of {{pendingPagination.total}}
                         <span data-v-744e717e="">records</span>
@@ -288,7 +302,7 @@
               <div data-v-744e717e="" class="table-footer">
                 <div data-v-744e717e="" class="datatable-length float-left pl-3">
                   <span data-v-744e717e="">Rows per page:</span>
-                    <select data-v-744e717e="" class="custom-select" id="perPageVitalNo"  @change="setPerPage" v-model="perPageVital">
+                    <select data-v-744e717e="" class="custom-select" id="perPageVitalNo"  @change="setPerPageVitals" v-model="perPageVital">
                     <option data-v-744e717e="" value="2">2</option>
                       <option data-v-744e717e="" value="5">5</option>
                       <option data-v-744e717e="" value="10">10</option>
@@ -296,6 +310,13 @@
                       <option data-v-744e717e="" value="50">50</option>
                    <!--     <option data-v-744e717e="" value="-1">All</option> -->
                     </select> 
+                    <div data-v-744e717e="" class="datatable-info  pb-2 mt-6">
+                      <ul class="pagination">
+                        <li> <a href="javascript:void(0)"  @click="getPatientsResult(vitalPagination.prev_page_url,'vital')" class="previous" v-if="vitalPagination.current_page!=1">&laquo; Prev</a></li>
+                        <li  v-for="record_pagination,index in vitalPagination.last_page" v-if="index<=2"><a v-bind:class="[vitalPagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getPatientsResult('/patient/getpatientlist?page='+index,'vital')">{{index}}</a></li>
+                        <li><a href="javascript:void(0)"  v-if="vitalPagination.current_page!=vitalPagination.last_page" @click="getPatientsResult(vitalPagination.next_page_url,'vital')" class="next">Next &raquo;</a></li>
+                      </ul>
+                    </div>
                      <div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(vitalPagination.total>0)">
                         <span data-v-744e717e="">Showing </span> {{vitalPagination.current_page}} - {{vitalPagination.to}} of {{vitalPagination.total}}
                         <span data-v-744e717e="">records</span>
@@ -389,7 +410,7 @@
               <div data-v-744e717e="" class="table-footer">
                 <div data-v-744e717e="" class="datatable-length float-left pl-3">
                   <span data-v-744e717e="">Rows per page:</span>
-                    <select data-v-744e717e="" class="custom-select" id="perPageExamineNo"  @change="setPerPage" v-model="perPageExamine">
+                    <select data-v-744e717e="" class="custom-select" id="perPageExamineNo"  @change="setPerPageExamine" v-model="perPageExamine">
                     <option data-v-744e717e="" value="2">2</option>
                       <option data-v-744e717e="" value="5">5</option>
                       <option data-v-744e717e="" value="10">10</option>
@@ -397,6 +418,13 @@
                       <option data-v-744e717e="" value="50">50</option>
                    <!--     <option data-v-744e717e="" value="-1">All</option> -->
                     </select> 
+                    <div data-v-744e717e="" class="datatable-info  pb-2 mt-6">
+                      <ul class="pagination">
+                        <li> <a href="javascript:void(0)"  @click="getPatientsResult(examinePagination.prev_page_url,'examine')" class="previous" v-if="examinePagination.current_page!=1">&laquo; Prev</a></li>
+                        <li  v-for="record_pagination,index in examinePagination.last_page" v-if="index<=2"><a v-bind:class="[examinePagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getPatientsResult('/patient/getpatientlist?page='+index,'examine')">{{index}}</a></li>
+                        <li><a href="javascript:void(0)"  v-if="examinePagination.current_page!=examinePagination.last_page" @click="getPatientsResult(examinePagination.next_page_url,'examine')" class="next">Next &raquo;</a></li>
+                      </ul>
+                    </div>
                      <div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(examinePagination.total>0)">
                         <span data-v-744e717e="">Showing </span> {{examinePagination.current_page}} - {{examinePagination.to}} of {{examinePagination.total}}
                         <span data-v-744e717e="">records</span>
@@ -491,14 +519,21 @@
               <div data-v-744e717e="" class="table-footer">
                 <div data-v-744e717e="" class="datatable-length float-left pl-3">
                   <span data-v-744e717e="">Rows per page:</span>
-                    <select data-v-744e717e="" class="custom-select" id="perPageReportNo"  @change="setPerPage" v-model="perPageReport">
+                    <select data-v-744e717e="" class="custom-select" id="perPageReportNo"  @change="setPerPageReport" v-model="perPageReport">
                     <option data-v-744e717e="" value="2">2</option>
                       <option data-v-744e717e="" value="5">5</option>
                       <option data-v-744e717e="" value="10">10</option>
                       <option data-v-744e717e="" value="20">20</option>
                       <option data-v-744e717e="" value="50">50</option>
                    <!--     <option data-v-744e717e="" value="-1">All</option> -->
-                    </select> 
+                    </select>
+                     <div data-v-744e717e="" class="datatable-info  pb-2 mt-6">
+                      <ul class="pagination">
+                        <li> <a href="javascript:void(0)"  @click="getPatientsResult(reportPagination.prev_page_url,'reports')" class="previous" v-if="reportPagination.current_page!=1">&laquo; Prev</a></li>
+                        <li  v-for="record_pagination,index in reportPagination.last_page" v-if="index<=2"><a v-bind:class="[reportPagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getPatientsResult('/patient/getpatientlist?page='+index,'reports')">{{index}}</a></li>
+                        <li><a href="javascript:void(0)"  v-if="reportPagination.current_page!=reportPagination.last_page" @click="getPatientsResult(reportPagination.next_page_url,'reports')" class="next">Next &raquo;</a></li>
+                      </ul>
+                    </div> 
                      <div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(reportPagination.total>0)">
                         <span data-v-744e717e="">Showing </span> {{reportPagination.current_page}} - {{reportPagination.to}} of {{reportPagination.total}}
                         <span data-v-744e717e="">records</span>
@@ -695,26 +730,27 @@
                   }
                 }, 8000);
             },
-            getPatientsResult(page_url="/patient/getpatientlist",$status){
+            getPatientsResult(page_url,$status){
                 var vm =this;
                  page_url = page_url ;
             let type = this.user_type;
+            let noofRecordperpage = this.perPage;
              if($status == 'vital'){
-                 let noofRecordperpage = this.perPageVital;
+                 noofRecordperpage = this.perPageVital;
              }
              if($status == 'waiting'){
-                 let noofRecordperpage = this.perPage;
+                 noofRecordperpage = this.perPage;
              }
              if($status == 'examine'){
-                 let noofRecordperpage = this.perPageExamine;
+                 noofRecordperpage = this.perPageExamine;
              }
               if($status == 'reports'){
-                 let noofRecordperpage = this.perPageReport;
+                 noofRecordperpage = this.perPageReport;
              }
              if($status == 'pending'){
-                 let noofRecordperpage = this.perPagePending;
+                 noofRecordperpage = this.perPagePending;
              }
-            let noofRecordperpage = this.perPage;
+            
             User.getAllPatientListByDoctoreIdAndPaggination(page_url,type,noofRecordperpage,vm.doctore_Id,$status).then(
                      (response) => {
                         if($status == 'vital'){
@@ -726,7 +762,7 @@
                           vm.patientDataExamine.patient_list = response.data.data.data;
                         } if($status == 'reports'){
                           vm.patientDataReport.patient_list = response.data.data.data;
-                        }else {
+                        }else if($status == 'pending'){
                             vm.patientDataPending.patient_list = response.data.data.data;
                         }
                           vm.makePagination(response.data.data,$status);
@@ -762,7 +798,7 @@
 
                   this.reportPagination = pagination;
                 }
-                else {
+                else if(status == 'pending') {
                   this.pendingPagination = pagination;
 
                 }
@@ -782,22 +818,26 @@
               }
                           
           },
-          setPerPage(e){
+          setPerPageWaiting(e){
             let vm =this;
-                if(vm.user_type == 3){
-                   vm.getPatientsResult('/patient/getpatientlist','waiting');
-                   vm.getPatientsResult('/patient/getpatientlist','vital');
-                   vm.getPatientsResult('/patient/getpatientlist','pending');
-                  } 
-                  if(vm.user_type == 1){
-                    vm.getPatientsResult('/patient/getpatientlist','waiting');
-                    vm.getPatientsResult('/patient/getpatientlist','examine');
-                    vm.getPatientsResult('/patient/getpatientlist','examine');
-                  }
-                   else if(vm.user_type == 2) {
-                   vm.getPatientsResult('/patient/getpatientlist','waiting');
-                  }
-          }
+            vm.getPatientsResult('/patient/getpatientlist','waiting');
+          },
+          setPerPagePending(e){
+            let vm =this;
+            vm.getPatientsResult('/patient/getpatientlist','pending');
+          },
+          setPerPageVitals(e){
+            let vm =this;
+            vm.getPatientsResult('/patient/getpatientlist','vital');
+          },
+           setPerPageExamine(e){
+            let vm =this;
+            vm.getPatientsResult('/patient/getpatientlist','examine');
+          },
+          setPerPageReport(e){
+            let vm =this;
+           vm.getPatientsResult('/patient/getpatientlist','reports');
+          },
 
          }
      }

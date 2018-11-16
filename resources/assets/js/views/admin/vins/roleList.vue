@@ -70,7 +70,15 @@
                       <option data-v-744e717e="" value="20">20</option>
                       <option data-v-744e717e="" value="50">50</option>
                    <!--     <option data-v-744e717e="" value="-1">All</option> -->
-                    </select> 
+                    </select>
+                     <div data-v-744e717e="" class="datatable-info  pb-2 mt-6">
+                        <ul class="pagination">
+                          <li> <a href="javascript:void(0)"  @click="getRolesListWithPaggination(pagination.prev_page_url,perPage)" class="previous" v-if="pagination.current_page!=1">&laquo; Prev</a></li>
+                          <li  v-for="record_pagination,index in pagination.last_page" v-if="index<=2"><a v-bind:class="[pagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getRolesListWithPaggination('role/getRoleList/?page='+index,perPage)">{{index}}</a></li>
+                          <li><a href="javascript:void(0)"  v-if="pagination.current_page!=pagination.last_page" @click="getRolesListWithPaggination(pagination.next_page_url,perPage)" class="next">Next &raquo;</a></li>
+                        </ul>
+                      </div>
+                   
                      <div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(pagination.total>0)">
                         <span data-v-744e717e="">Showing </span> {{pagination.current_page}} - {{pagination.to}} of {{pagination.total}}
                         <span data-v-744e717e="">records</span>
@@ -129,8 +137,8 @@
                 var roleData;
                   User.getRolesListWithPaggination(pageUrl,noOfPage).then(
                      (response)=>{
-                            roleData=response.data.data.data;
-                            vm.getRoleData = roleData;
+                            //roleData=response.data.data.data;
+                            vm.getRoleData = response.data.data.data;
                             vm.makePagination(response.data.data);
                         },
                     (error)=>{
