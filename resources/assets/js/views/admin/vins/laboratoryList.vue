@@ -83,7 +83,15 @@
                       				<option data-v-744e717e="" value="50">50</option>
                    					<!--     <option data-v-744e717e="" value="-1">All</option> -->
                     			</select>
-
+                          
+                        <div data-v-744e717e="" class="datatable-info  pb-2 mt-6">
+                            <ul class="pagination">
+                              <li> <a href="javascript:void(0)"  @click="getLaboratoryList(laboratoryPagination.prev_page_url)" class="previous" v-if="laboratoryPagination.current_page!=1">&laquo; Prev</a></li>
+                              <li  v-for="record_pagination,index in laboratoryPagination.last_page" v-if="index<=2"><a v-bind:class="[laboratoryPagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getLaboratoryList('/laboratory/getLaboratoryList?page='+index)">{{index}}</a></li>
+                              <li><a href="javascript:void(0)"  v-if="laboratoryPagination.current_page!=laboratoryPagination.last_page" @click="getLaboratoryList(laboratoryPagination.next_page_url)" class="next">Next &raquo;</a></li>
+                            </ul>
+                        </div>
+                           
                      		<div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(laboratoryPagination.total > 0)">
                         		<span data-v-744e717e="">Showing </span> {{laboratoryPagination.current_page}} - {{laboratoryPagination.to}} of {{laboratoryPagination.total}}
                         		<span data-v-744e717e="">records</span>
@@ -231,3 +239,29 @@
 		
 }
 </script>
+<style>
+.pagination  {
+  margin-top: 20px;
+}
+
+.pagination a
+{
+  display: inline-block;
+    padding: 8px 20px;
+    margin-right: 4px;
+    border-radius: 3px;
+    border: solid 1px #c0c0c0;
+    background: #e9e9e9;
+    box-shadow: inset 0px 1px 0px rgba(255,255,255, .8), 0px 1px 3px rgba(0,0,0, .1);
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #717171;
+    text-shadow: 0px 1px 0px rgba(255,255,255, 1);
+}
+.pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+.pagination a:hover:not(.active) {background-color: #ddd;}
+</style>

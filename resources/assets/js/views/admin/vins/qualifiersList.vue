@@ -64,7 +64,13 @@
                       				<option data-v-744e717e="" value="50">50</option>
                    					<!--     <option data-v-744e717e="" value="-1">All</option> -->
                     			</select>
-
+                           <div data-v-744e717e="" class="datatable-info  pb-2 mt-6">
+                            <ul class="pagination">
+                              <li> <a href="javascript:void(0)"  @click="getQualifiersList(qualifiersPagination.prev_page_url)" class="previous" v-if="qualifiersPagination.current_page!=1">&laquo; Prev</a></li>
+                              <li  v-for="record_pagination,index in qualifiersPagination.last_page" v-if="index<=2"><a v-bind:class="[qualifiersPagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getQualifiersList('/qualifiers/getQualifiersList?page='+index)">{{index}}</a></li>
+                              <li><a href="javascript:void(0)"  v-if="qualifiersPagination.current_page!=qualifiersPagination.last_page" @click="getQualifiersList(qualifiersPagination.next_page_url)" class="next">Next &raquo;</a></li>
+                            </ul>
+                          </div>
                      		<div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(qualifiersPagination.total > 0)">
                         		<span data-v-744e717e="">Showing </span> {{qualifiersPagination.current_page}} - {{qualifiersPagination.to}} of {{qualifiersPagination.total}}
                         		<span data-v-744e717e="">records</span>

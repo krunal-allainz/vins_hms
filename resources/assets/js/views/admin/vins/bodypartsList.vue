@@ -1,6 +1,5 @@
 <template>
 	<div class="col-lg-12 mb-3">
-   
 		<div class="card bg-success-card">
       <div class="card-header">
         <div class="row">
@@ -58,10 +57,14 @@
                       				<option data-v-744e717e="" value="50">50</option>
                    					<!--     <option data-v-744e717e="" value="-1">All</option> -->
                     			</select>
-                          <a href="javascript:void(0)"  @click="getBodypartsList(bodypartsPagination.prev_page_url)" class="previous" v-if="bodypartsPagination.current_page!=1">&laquo; Prev</a>
-                          <span>{{bodypartsPagination.current_page}}</span>
-                          <a href="javascript:void(0)"  v-if="bodypartsPagination.current_page!=bodypartsPagination.last_page" @click="getBodypartsList(bodypartsPagination.next_page_url)" class="next">Next &raquo;</a>
-                     		<div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(bodypartsPagination.total > 0)">
+                          <div data-v-744e717e="" class="datatable-info  pb-2 mt-6">
+                            <ul class="pagination">
+                              <li> <a href="javascript:void(0)"  @click="getBodypartsList(bodypartsPagination.prev_page_url)" class="previous" v-if="bodypartsPagination.current_page!=1">&laquo; Prev</a></li>
+                              <li  v-for="record_pagination,index in bodypartsPagination.last_page" v-if="index<=2"><a v-bind:class="[bodypartsPagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getBodypartsList('/bodyparts/getBodypartsList?page='+index)">{{index}}</a></li>
+                              <li><a href="javascript:void(0)"  v-if="bodypartsPagination.current_page!=bodypartsPagination.last_page" @click="getBodypartsList(bodypartsPagination.next_page_url)" class="next">Next &raquo;</a></li>
+                            </ul>
+                          </div>
+                     		   <div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(bodypartsPagination.total > 0)">
                         		<span data-v-744e717e="">Showing </span> {{bodypartsPagination.from}} - {{bodypartsPagination.to}} of {{bodypartsPagination.total}}
                         		<span data-v-744e717e="">records</span>
                            
