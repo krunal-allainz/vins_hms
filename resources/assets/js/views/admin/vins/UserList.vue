@@ -157,8 +157,9 @@
                 var userData;
                   User.getAllUsersDetails(pageUrl,noOfPage).then(
                      (response)=>{
-                            userData=response.data.data.data;
-                            vm.getUserData = userData;
+                      console.log(response);
+                            //userData=response.data.data.data;
+                            vm.getUserData =  response.data.data.data;
                             vm.makePagination(response.data.data);
                         },
                     (error)=>{
