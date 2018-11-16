@@ -199,7 +199,7 @@
                                 'department':'',
                                 'dagree':'',
                                 'regNo':'',
-                                'signaturefile' : {},
+                                'signaturefile' :'',
                            // 	'userIamge': ''
                     },
                     'userEmailExist' : '',
