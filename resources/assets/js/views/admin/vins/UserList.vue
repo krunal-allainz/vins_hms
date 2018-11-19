@@ -128,7 +128,7 @@
                   'deleteConfirmMsg':'Are you sure you want to delete this user?',
                   'getUserData':{},
                   'pagination': {},
-                   'perPage' : 5,
+                  'perPage' : 5,
             }
         },
         mounted() {
@@ -136,7 +136,6 @@
             vm.getUserRole('view.users');
             let pageUrl = 'user/getUserDetails/';
             let noOfPage = vm.perPage;
-            console.log(noOfPage);
             vm.getAllUsers(pageUrl,noOfPage);
         },
         methods: {
@@ -158,9 +157,8 @@
                 var userData;
                   User.getAllUsersDetails(pageUrl,noOfPage).then(
                      (response)=>{
-                      console.log(response);
-                            //userData=response.data.data.data;
-                            vm.getUserData =  response.data.data.data;
+                            userData=response.data.data.data;
+                            vm.getUserData = userData;
                             vm.makePagination(response.data.data);
                         },
                     (error)=>{
