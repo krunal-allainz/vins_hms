@@ -538,11 +538,29 @@
 
         },
         methods: {
+           getUserRole(permission = ''){
+                 var vm = this;
+                User.getUserRole(vm.doctor_id,permission).then(
+                    (responce) => {
+                       if(responce.data.data == ''){
+                         vm.$root.$emit('logout','You are not authorise to access this page');
+                       }
+                    },
+                    (error) =>{
+
+                    }
+                    );
+            },
           initData()
           {
             let vm=this;
-              if(vm.$store.state.Patient.setPage=='EDIT')
+              if(vm.$store.state.Patient.setPage=='ADD')
               {
+                  vm.getUserRole('create.opd');
+              }
+              else if(vm.$store.state.Patient.setPage=='EDIT')
+              {
+                  vm.getUserRole('edit.opd');
                   vm.pageName='EDIT';
                   $('#patient').select2('destroy');
                   vm.setUpdateData();
@@ -551,9 +569,7 @@
               {
                   vm.patient_id= parseInt(this.$store.state.Patient.patientId);
                   vm.opdData.patientlist=vm.patient_id;
-                  setTimeout(function(){
-                    $('#patient').val(vm.opdData.patientlist).trigger('change');
-                  },1000)
+                  $('#patient').val(vm.opdData.patientlist).trigger('change');
                   if(vm.opdData.patientlist)
                   {
                       vm.getAgeOfPatient(vm.patient_id);
