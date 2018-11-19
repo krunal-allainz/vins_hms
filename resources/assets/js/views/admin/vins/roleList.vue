@@ -116,7 +116,6 @@
             vm.getUserRole('view.role');
             let pageUrl = 'role/getRoleList/';
             let noOfPage = vm.perPage;
-            alert(vm.perPage);
             vm.getRolesListWithPaggination(pageUrl,noOfPage);
         },
         methods: {
@@ -134,13 +133,12 @@
                     );
             },
             getRolesListWithPaggination(pageUrl,noOfPage){
-              alert(noOfPage);
                 var vm = this;
                 var roleData;
                   User.getRolesListWithPaggination(pageUrl,noOfPage).then(
                      (response)=>{
-                            //roleData=response.data.data.data;
-                            vm.getRoleData = response.data.data.data;
+                            roleData=response.data.data.data;
+                            vm.getRoleData = roleData;
                             vm.makePagination(response.data.data);
                         },
                     (error)=>{
