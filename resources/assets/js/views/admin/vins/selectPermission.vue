@@ -49,7 +49,7 @@
          	</div>
          	 <div class="row form-group">
                 <div class="col-md-9">
-                    <button class="btn btn-success" type="button" @click="validateBeforeSubmit()" :disabled="(roleName == 'Admin' || roleName == 'admin')">{{page}}</button>
+                    <button class="btn btn-success" type="button" @click="validateBeforeSubmit()" >{{page}}</button>
 				</div>
 			</div>
 		</form>
@@ -144,11 +144,14 @@
                           vm.roleName = responce.data.data.name;
                           if(vm.roleName == 'Admin' || vm.roleName == 'admin')
                           {
-                              $('.demo-list input').iCheck('disable');
+                               //$('#ckbCheckAll').iCheck('check');
+                              //$('.demo-list input').iCheck('disable');
                           }
                           else
                           {
-                              $('.demo-list input').iCheck('enable');
+                              //$('#ckbCheckAll').iCheck('uncheck');
+                             //$('.demo-list input[value="select_all"]').iCheck('uncheck');
+                              //$('.demo-list input').iCheck('enable');
                           }
 
                        }
@@ -172,11 +175,15 @@
                       $('.demo-list input').iCheck('uncheck'); 
                          
                        $.each(getPermissionList, function(key, value) {
-
                           let getPermissionId = value.permissionId;
                           let getRoleId = value.roleId;
                           check_list.push(getPermissionId);
-                           $('.demo-list input[value="'+value.permissionId+'"]').iCheck('check');
+                          if(key==27)
+                          {
+                              $('.demo-list input[value="select_all"]').iCheck('check');
+                          }
+                          
+                          $('.demo-list input[value="'+getPermissionId+'"]').iCheck('check');
                         });                      
 
                     }else{
@@ -184,20 +191,22 @@
                       vm.selectedPerlissionList = '';
                        vm.checkedPermisiontList = [];
                       check_list = [];
+                      $('.demo-list input').iCheck('uncheck'); 
                     }  
                   }
                   
                 },
                 (error) => {
                    check_list = [];
+                   $('.demo-list input').iCheck('uncheck'); 
                 }
                 );
                 vm.checkedPermisiontList=check_list;
 
           },
         	getRoles(){
-        		 var vm =this;
-           		 var role_list_new=[];
+        	  var vm =this;
+           	var role_list_new=[];
         		User.getRolesList().then(
         			 (response) => {
         			 	 vm.roleOptions=[];
@@ -241,8 +250,8 @@
                if($('#ckbCheckAll').filter(':checked').length == $('#ckbCheckAll').length) {
                   vm.permissionListSelect = 1;
                   var check_list_data=[];
-                  _.forEach(vm.reportList,function(value){
-                    check_list_data.push(value.reportListId);
+                  _.forEach(vm.permissionList,function(value){
+                    check_list_data.push(value.id);
                   });
                   vm.checkedPermisiontList=check_list_data;
                   $('.demo-list input').iCheck('check');
@@ -269,17 +278,26 @@
 
            }
 	   		 },
+         initialData()
+         {
+            let vm=this;
+            vm.checkedPermisiontList=[];
+            vm.permissionListSelect = 0;
+            vm.Data.roleId="";
+            $('#role').val('').trigger('change');
+            $('.demo-list input').iCheck('uncheck');
+         },
 	   		 addRolesPermission(){
 	   		 	var vm = this;
 	   		 	User.addRolesPermission(vm.Data.roleId,vm.checkedPermisiontList).then(
 	   		 		 (response) => {
           			 	 if(response.data.code == 200){
           			 	 	 toastr.success('Role permission added successfully', 'Create Role Permission', {timeOut: 5000});
-                                     //   this.initialState();
+                     this.initialData();
           			 	 } else if (response.data.code == 301) {
-                                        //this.initialState();
-                                        toastr.error('something wrong.', 'Add Role Permission', {timeOut: 5000});
-                                    }
+                    this.initialData();
+                    toastr.error('something wrong.', 'Add Role Permission', {timeOut: 5000});
+                  }
           			 },
           			  (error) => {
                 		  },
@@ -290,12 +308,12 @@
           User.updateRolesPermission(vm.Data.roleId,vm.checkedPermisiontList).then(
              (response) => {
                    if(response.data.code == 200){
-                     toastr.success('Role permission update successfully', 'Update Role Permission', {timeOut: 5000});
-                                     //   this.initialState();
+                    toastr.success('Role permission update successfully', 'Update Role Permission', {timeOut: 5000});
+                    this.initialData();
                    } else if (response.data.code == 301) {
-                                        //this.initialState();
-                                        toastr.error('something wrong.', 'update Role Permission', {timeOut: 5000});
-                                    }
+                      this.initialData();
+                      toastr.error('something wrong.', 'update Role Permission', {timeOut: 5000});
+                  }
                  },
                   (error) => {
                       },
