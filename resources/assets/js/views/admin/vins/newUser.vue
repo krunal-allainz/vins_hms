@@ -82,12 +82,12 @@
                                     </div>
                                     <div class="col-md-9"  v-if="!userData.signaturefile">
                                        
-                                    <input id="signature" name="signature" type="file" multiple class="btn btn-info  "  @change="previewFile" accept="image/*" > 
+                                    <input id="signature" name="signature" type="file" multiple class="btn btn-info"  @change="previewFile" accept="image/*" > 
                                         <i v-show="errors.has('signature')" class="fa fa-warning"></i>
                                         <span class="help is-danger" v-show="errors.has('signature')">Please enter valid Signature.</span>
                                     </div>
                                     <div v-else>
-                                          <img :src="userData.signaturefile" />
+                                          <img :src="userData.signaturefile" width="200" height="200"/><br/>
                                             <i class="fa fa-trash" @click="removeImage">Remove image</i>
                                     </div>
                                 </div>

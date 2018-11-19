@@ -136,6 +136,7 @@
             vm.getUserRole('view.users');
             let pageUrl = 'user/getUserDetails/';
             let noOfPage = vm.perPage;
+            console.log(noOfPage);
             vm.getAllUsers(pageUrl,noOfPage);
         },
         methods: {
