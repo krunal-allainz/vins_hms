@@ -40,6 +40,7 @@ class DatabaseSeeder extends Seeder
             $this->call(SpineTableSeeder::class);
             $this->call(BodypartSideTableSeeder::class);
             $this->call(PermissionsTableSeeder::class);
+            $this->call(PermissionRoleTableSeeder::class);
          DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
     }
