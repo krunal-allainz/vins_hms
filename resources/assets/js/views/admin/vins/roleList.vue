@@ -114,7 +114,7 @@
         mounted() {
             var vm = this;
             vm.getUserRole('view.role');
-            let pageUrl = 'role/getRoleList/';
+            let pageUrl = 'role/getRoleList';
             let noOfPage = vm.perPage;
             vm.getRolesListWithPaggination(pageUrl,noOfPage);
         },
@@ -154,7 +154,7 @@
                         if(response.data.code == 200){
                               toastr.success('Role Delete successfully', 'Delete Role', {timeOut: 5000});
                                let vm =this;
-                               let pageUrl = 'role/getRoleList/';
+                               let pageUrl = 'role/getRoleList';
                                let noOfPage = vm.perPage;
                                vm.getRolesListWithPaggination(pageUrl,noOfPage);
                         }
@@ -179,7 +179,7 @@
                  },
             setPerPage(e){
             let vm =this;
-            let pageUrl = 'role/getRoleList/';
+            let pageUrl = 'role/getRoleList';
             let noOfPage = vm.perPage;
             vm.getRolesListWithPaggination(pageUrl,noOfPage);
             }

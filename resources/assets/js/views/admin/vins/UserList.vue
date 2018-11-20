@@ -134,7 +134,7 @@
         mounted() {
             var vm = this;
             vm.getUserRole('view.users');
-            let pageUrl = 'user/getUserDetails/';
+            let pageUrl = 'user/getUserDetails';
             let noOfPage = vm.perPage;
             vm.getAllUsers(pageUrl,noOfPage);
         },
@@ -174,7 +174,7 @@
                         if(response.data.code == 200){
                               toastr.success('User Delete successfully', 'Delete User', {timeOut: 5000});
                                let vm =this;
-                               let pageUrl = 'user/getUserDetails/';
+                               let pageUrl = 'user/getUserDetails';
                                let noOfPage = vm.perPage;
                                vm.getAllUsers(pageUrl,noOfPage);
                         }
@@ -199,7 +199,7 @@
                  },
             setPerPage(e){
             let vm =this;
-            let pageUrl = 'user/getUserDetails/';
+            let pageUrl = 'user/getUserDetails';
             let noOfPage = vm.perPage;
             vm.getAllUsers(pageUrl,noOfPage);
             }
