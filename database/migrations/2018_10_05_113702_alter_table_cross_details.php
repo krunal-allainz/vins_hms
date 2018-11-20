@@ -26,8 +26,9 @@ class AlterTableCrossDetails extends Migration
      */
     public function down()
     {
-        Schema::table('cross_details', function (Blueprint $table) {
+            Schema::table('cross_details', function (Blueprint $table) {
             //
         });
+
     }
 }

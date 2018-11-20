@@ -18,11 +18,11 @@ class CreateTokenManagmentTable extends Migration
             $table->string('token')->nullable();
             $table->dateTime('date')->nullable();  
             $table->string('opd_id')->nullable()->references('opd_id')
-            ->on('opd_details');
+            ->on('opd_details')->onDelete('cascade');;
             $table->integer('patient_id')->nullable()->references('id')
-            ->on('patient_details');
+            ->on('patient_details')->onDelete('cascade');;
             $table->integer('patient_case_id')->nullable()->references('id')
-            ->on('patient_case_managment');
+            ->on('patient_case_managment')->onDelete('cascade');;
             $table->string('status')->nullable();
             $table->timestamps();
         });
@@ -35,6 +35,8 @@ class CreateTokenManagmentTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('token_managment');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

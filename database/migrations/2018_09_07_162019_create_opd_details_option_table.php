@@ -34,6 +34,8 @@ class CreateOpdDetailsOptionTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('opd_details_option');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }
