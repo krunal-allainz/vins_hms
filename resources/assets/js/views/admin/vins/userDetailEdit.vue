@@ -324,7 +324,7 @@
                         $('#department').val(responce.data.data.department).trigger('change.select2');
                         vm.userData.userType = responce.data.data.user_type;
                         vm.$data.userData.dagree =responce.data.data.dagree;
-                        vm.$data.userData.regNo =responce.data.data.RegNo;
+                        vm.$data.userData.regNo =responce.data.data.regno;
                         vm.$data.userData.signaturefile =responce.data.data.signature_path;
                          setTimeout(function(){
                             $('#userType').val(responce.data.data.user_type).trigger('change');
