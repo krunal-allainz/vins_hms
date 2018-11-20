@@ -48,6 +48,8 @@ class CreateReceiptTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('receipt');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

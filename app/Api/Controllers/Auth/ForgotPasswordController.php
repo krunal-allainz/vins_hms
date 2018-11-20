@@ -44,7 +44,7 @@ class ForgotPasswordController extends Controller
 
      public function resetLink(Request $request )
     {   
-      
+              
     	$this->validate($request, ['email' => 'required|email']);
     	/*$valodator = Validator::make($request->all(), 
 			array(
@@ -57,10 +57,12 @@ class ForgotPasswordController extends Controller
 
     	  /*if( ! $validator->fails() )
 		    {*/
+
                 $reseEmail =  $request->input('email');
                 
 		        if( $user = User::where('email',$reseEmail)->first() )
 		        {
+
 		            $token = str_random(64);
                     
                     $password_reset = \DB::table('password_resets')->where('email',  $user->email)->first();
@@ -73,7 +75,7 @@ class ForgotPasswordController extends Controller
               				 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
     		           ]);
 
-                    }else{  
+                    }else{ 
                           DB::table(config('auth.passwords.users.table'))->where('email',$user->email)->
                               update([
                                 'token'=>$token,
@@ -86,6 +88,7 @@ class ForgotPasswordController extends Controller
                 $resetLink = '';
                 $resetLink  = $url.'/password/reset/'.$token.'?email='. $user->email;
                 $type = 'password_reset_link';
+
                $emailData  = [ 
                    'NAME'  => $user->first_name.' '.$user->last_name, 
                     'EMAIL' => $user->email,   
@@ -93,6 +96,7 @@ class ForgotPasswordController extends Controller
                     'SUBJECT' => 'Reset Password Link',    
                     'WITH-ATTECHMENT'  => 'no' 
                 ];
+
                 $mailstatus = MailNotification::mailSendDetail($type,$emailData);
 
 
