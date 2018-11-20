@@ -30,6 +30,8 @@ class CreateConsultationCategoryDetailsAddTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('consultation_category_details');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

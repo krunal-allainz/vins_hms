@@ -26,8 +26,10 @@ class AlterTablePrescriptionClockDetails extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::table('prescription_clock_details', function (Blueprint $table) {
             //
         });
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

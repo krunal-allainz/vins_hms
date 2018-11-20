@@ -18,9 +18,9 @@ class CreatePatientCaseManagmentTable extends Migration
              $table->string('case_type')->nullable();
              $table->string('section_type')->nullable();
              $table->string('section_id')->nullable()->references('opd_id')
-            ->on('opd_details');
+            ->on('opd_details')->onDelete('cascade');;
             $table->integer('patient_id')->nullable()->references('id')
-            ->on('patient_details');
+            ->on('patient_details')->onDelete('cascade');;
             $table->text('references')->nullable();
             $table->integer('consultant_id')->nullable();
             $table->dateTime('appointment_datetime')->nullable();
@@ -39,6 +39,8 @@ class CreatePatientCaseManagmentTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('patient_case_managment');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }
