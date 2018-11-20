@@ -74,7 +74,7 @@
                      <div data-v-744e717e="" class="datatable-info  pb-2 mt-6">
                         <ul class="pagination">
                           <li> <a href="javascript:void(0)"  @click="getRolesListWithPaggination(pagination.prev_page_url,perPage)" class="previous" v-if="pagination.current_page!=1">&laquo; Prev</a></li>
-                          <li  v-for="record_pagination,index in pagination.last_page" v-if="index<=2"><a v-bind:class="[pagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getRolesListWithPaggination('role/getRoleList/?page='+index,perPage)">{{index}}</a></li>
+                          <li  v-for="record_pagination,index in pagination.last_page" v-if="index<=2"><a v-bind:class="[pagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getRolesListWithPaggination('role/getRoleList?page='+index,perPage)">{{index}}</a></li>
                           <li><a href="javascript:void(0)"  v-if="pagination.current_page!=pagination.last_page" @click="getRolesListWithPaggination(pagination.next_page_url,perPage)" class="next">Next &raquo;</a></li>
                         </ul>
                       </div>
@@ -108,13 +108,13 @@
                   'deleteConfirmMsg':'Are you sure you want to delete this role?',
                   'getRoleData':{},
                   'pagination': {},
-                   'perPage' : 5,
+                  'perPage' : 5,
             }
         },
         mounted() {
             var vm = this;
             vm.getUserRole('view.role');
-            let pageUrl = 'role/getRoleList/';
+            let pageUrl = 'role/getRoleList';
             let noOfPage = vm.perPage;
             vm.getRolesListWithPaggination(pageUrl,noOfPage);
         },
@@ -137,8 +137,8 @@
                 var roleData;
                   User.getRolesListWithPaggination(pageUrl,noOfPage).then(
                      (response)=>{
-                            //roleData=response.data.data.data;
-                            vm.getRoleData = response.data.data.data;
+                            roleData=response.data.data.data;
+                            vm.getRoleData = roleData;
                             vm.makePagination(response.data.data);
                         },
                     (error)=>{
@@ -154,7 +154,7 @@
                         if(response.data.code == 200){
                               toastr.success('Role Delete successfully', 'Delete Role', {timeOut: 5000});
                                let vm =this;
-                               let pageUrl = 'role/getRoleList/';
+                               let pageUrl = 'role/getRoleList';
                                let noOfPage = vm.perPage;
                                vm.getRolesListWithPaggination(pageUrl,noOfPage);
                         }
@@ -179,7 +179,7 @@
                  },
             setPerPage(e){
             let vm =this;
-            let pageUrl = 'role/getRoleList/';
+            let pageUrl = 'role/getRoleList';
             let noOfPage = vm.perPage;
             vm.getRolesListWithPaggination(pageUrl,noOfPage);
             }

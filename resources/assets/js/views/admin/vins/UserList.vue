@@ -95,7 +95,7 @@
                      <div data-v-744e717e="" class="datatable-info  pb-2 mt-6">
                         <ul class="pagination">
                           <li> <a href="javascript:void(0)"  @click="getAllUsers(pagination.prev_page_url,perPage)" class="previous" v-if="pagination.current_page!=1">&laquo; Prev</a></li>
-                          <li  v-for="record_pagination,index in pagination.last_page" v-if="index<=2"><a v-bind:class="[pagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getAllUsers('/user/getUserDetails?page='+index,perPage)">{{index}}</a></li>
+                          <li  v-for="record_pagination,index in pagination.last_page" v-if="index<=2"><a v-bind:class="[pagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getAllUsers('user/getUserDetails?page='+index,perPage)">{{index}}</a></li>
                           <li><a href="javascript:void(0)"  v-if="pagination.current_page!=pagination.last_page" @click="getAllUsers(pagination.next_page_url,perPage)" class="next">Next &raquo;</a></li>
                         </ul>
                     </div>
@@ -128,15 +128,14 @@
                   'deleteConfirmMsg':'Are you sure you want to delete this user?',
                   'getUserData':{},
                   'pagination': {},
-                   'perPage' : 5,
+                  'perPage' : 5,
             }
         },
         mounted() {
             var vm = this;
             vm.getUserRole('view.users');
-            let pageUrl = '/user/getUserDetails';
+            let pageUrl = 'user/getUserDetails';
             let noOfPage = vm.perPage;
-            //console.log(noOfPage);
             vm.getAllUsers(pageUrl,noOfPage);
         },
         methods: {
@@ -158,9 +157,8 @@
                 var userData;
                   User.getAllUsersDetails(pageUrl,noOfPage).then(
                      (response)=>{
-                      //console.log(response);
-                            //userData=response.data.data.data;
-                            vm.getUserData =  response.data.data.data;
+                            userData=response.data.data.data;
+                            vm.getUserData = userData;
                             vm.makePagination(response.data.data);
                         },
                     (error)=>{
@@ -176,7 +174,7 @@
                         if(response.data.code == 200){
                               toastr.success('User Delete successfully', 'Delete User', {timeOut: 5000});
                                let vm =this;
-                               let pageUrl = '/user/getUserDetails';
+                               let pageUrl = 'user/getUserDetails';
                                let noOfPage = vm.perPage;
                                vm.getAllUsers(pageUrl,noOfPage);
                         }
@@ -201,7 +199,7 @@
                  },
             setPerPage(e){
             let vm =this;
-            let pageUrl = '/user/getUserDetails';
+            let pageUrl = 'user/getUserDetails';
             let noOfPage = vm.perPage;
             vm.getAllUsers(pageUrl,noOfPage);
             }
