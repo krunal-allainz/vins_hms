@@ -2,7 +2,10 @@
 	<div>
 		<div class='text-right'>
 		 <!-- 	<img  :src="'/assets/img/signature/'+signatureName+'.png'" height="66" width="182"/> -->
-		 	<img  :src="signatureName" height="66" width="182"/>
+		 	<span v-if="signatureName!=null && signatureName!=''">
+		 		<img  :src="signatureName" height="66" width="182"/>
+		 	</span>
+		 	
 		 </div>	
 		<div class='text-right'>
 		 	<!-- <img  :src="'/assets/img/timestamp/'+timeStamp+'.png'" height="66" width="182"/> -->
