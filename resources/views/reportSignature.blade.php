@@ -2,7 +2,7 @@
 	<div style="height: 70px;background-color: white" class="text-right">
 		
 		<!-- <img src="{{$url.'/assets/img/signature/'.$data['signatureName'].'.png'}}" height="66" width="182"/> -->
-		   <img  src="{{$data['signatureName']}}" title="signature"  height="66" width="182">
+		   <img  src="{{$data['signatureName']}}" title="signature"  height="100" width="350">
 	</div>	
 	<div style="height: 70px;" class="text-right">
 	 	

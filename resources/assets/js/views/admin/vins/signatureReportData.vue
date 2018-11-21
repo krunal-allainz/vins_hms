@@ -3,7 +3,7 @@
 		<div class='text-right'>
 		 <!-- 	<img  :src="'/assets/img/signature/'+signatureName+'.png'" height="66" width="182"/> -->
 		 	<span v-if="signatureName!=null && signatureName!=''">
-		 		<img  :src="signatureName" height="66" width="182"/>
+		 		<img  :src="signatureName" height="100" width="350"/>
 		 	</span>
 		 	
 		 </div>	
