@@ -87,7 +87,7 @@
                                         <span class="help is-danger" v-show="errors.has('signature')">Please enter valid Signature.</span>
                                     </div>
                                     <div v-else>
-                                          <img :src="userData.signaturefile" />
+                                          <img :src="userData.signaturefile" width="350" height="100" /><br>
                                             <i class="fa fa-trash" @click="removeImage">Remove image</i>
                                     </div>
                                 </div>
