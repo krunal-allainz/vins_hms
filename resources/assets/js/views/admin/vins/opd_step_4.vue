@@ -6,11 +6,11 @@
                 <label for="diagnosis">Diagnosis:</label>
               </div>
               <div class="col-md-12">
-                <textarea class="form-control" name="diagnosis" id="diagnosis" v-model="diagnosis" v-validate="'required'"></textarea>
-                <i v-show="errors.has('diagnosis')" class="fa fa-warning"></i>
+                <textarea class="form-control" name="diagnosis" id="diagnosis" v-model="diagnosis" ></textarea>
+               <!--  <i v-show="errors.has('diagnosis')" class="fa fa-warning"></i>
                   <span class="help is-danger" v-show="errors.has('diagnosis')">
                       Please fill diagnosis.
-                  </span>
+                  </span> -->
               </div>
             </div>
         </div>
