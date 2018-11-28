@@ -5,7 +5,7 @@
 
 		@if($data['signatureName']!=null && $data['signatureName']!="")
 		   <img  src="{{$data['signatureName']}}" title="signature"  height="100" width="350">
-
+		@endif
 	</div>	
 	<div style="height: 70px;" class="text-right">
 	 	
