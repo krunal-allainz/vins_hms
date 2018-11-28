@@ -211,7 +211,7 @@
        			let vm=this;
         		$('.demo-list input').iCheck({
 	              checkboxClass: 'icheckbox_square-blue',
-	               increaseArea: '20%'
+	              increaseArea: '0%'
 	            });
 
 	        	$(".demo-list input").on('ifChanged', function(e) {
@@ -250,21 +250,25 @@
 			checkAll(test)
 			{	
 				let vm=this;
+				var check_list_data=[];
 				 if($('#ckbCheckAll').filter(':checked').length == $('#ckbCheckAll').length) {
 					vm.reportListSelect = 1;
-					var check_list_data=[];
+					
+
 					_.forEach(vm.reportList,function(value){
 						check_list_data.push(value.reportListId);
 					});
-					vm.checkedreportList=check_list_data;
 					$('.demo-list input').iCheck('check');
 				}
 				else
 				{
-					vm.checkedreportList=[];
+					check_list_data=[];
 					vm.reportListSelect = 0;
 					$('.demo-list input').iCheck('uncheck');
 				}
+				//vm.checkedreportList=[];
+				vm.checkedreportList=check_list_data;
+				//console(vm.checkedreportList);
 				 
 			},
        	 	check: function(e,val_check) {
@@ -274,7 +278,10 @@
 	      		  //vm.reportListSelect = 0;
 	     		 }else{
 	     		 	 vm.reportListSelect = 1;
-	     		 	 _.pull(vm.checkedreportList,val_check );
+	     		 	 //_.pull(vm.checkedreportList,val_check );
+	     		 	 var get_array = _.remove(vm.checkedreportList, function(n) {
+                		return n == val_check;
+              		});
 	     		 }
 	   		 },
        		printReport(type){
