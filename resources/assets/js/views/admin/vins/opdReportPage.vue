@@ -102,20 +102,15 @@
 		      	'reference' : '',
 		      	'checkedreportList': [],
 		      	'reportListSelect' : 0,
-	    		'reportList': [{
-		       		 'reportListId': 'Advice + follow ups'
-		      		}, {
-		      		  'reportListId': 'Radiology'
-		      		}, {
-		      		  'reportListId': 'Laboratory'
-		      		}, {
-		      		  'reportListId': 'Prescription'
-		      		},
-		      		{
-		      		  'reportListId': 'History'	
-		      		},
-		      		{
-		      		  'reportListId': 'Past History'	
+	    		'reportList': [
+	    			{
+	                   'reportListId': 'History'
+                    },
+		            {
+	                    'reportListId': 'Past History'
+	                },
+	                {
+		      			'reportListId': 'Examination'
 		      		},
 		      		{
 		      		  'reportListId': 'Investigation Lab'
@@ -124,13 +119,22 @@
 		      		  'reportListId': 'Investigation Radiology'
 		      		},
 		      		{
-		      			'reportListId': 'Examination'
-		      		},
-		      		{
 		      			'reportListId': 'Diagnosis'
+		      		},
+	    			{
+		       		 'reportListId': 'Advice + follow ups'
+		      		}, 
+		      		 {
+		      		  'reportListId': 'Prescription'
 		      		},
 		      		{
 		      			'reportListId': 'Referrals'
+		      		},
+		      		 {
+		      		  'reportListId': 'Laboratory'
+		      		},
+		      		{
+		      		  'reportListId': 'Radiology'
 		      		}] ,
 		      		'ReportPageData' : {
 				      	'labReferalReportData' : {},
@@ -146,7 +150,6 @@
 				      	'historyData' : {},
 				      	'adviceData' : {},
 				      	'examinationData':'',
-				      	
 		      		}
 			}
 		},
@@ -198,7 +201,6 @@
                        		{
                        			vm.ClickHereToPrintMultiple('opd_case');
                        		}
-
                        }
                     },
                     (error) =>{
@@ -222,7 +224,6 @@
 	        		}
 	        		else
 	        		{
-
 	        			vm.check(e,val_checkbox);
 	        		}
 				});
@@ -253,8 +254,6 @@
 				var check_list_data=[];
 				 if($('#ckbCheckAll').filter(':checked').length == $('#ckbCheckAll').length) {
 					vm.reportListSelect = 1;
-					
-
 					_.forEach(vm.reportList,function(value){
 						check_list_data.push(value.reportListId);
 					});
@@ -285,11 +284,102 @@
 	     		 }
 	   		 },
        		printReport(type){
-				let vm = this;
+					let vm = this;
 					vm.printType = type;
+					let showReportModel = 0;
 				if(type == 'opd_case'){
+
 						$('#generateModal').modal({ show: false})
 						
+				}
+				else if(type == 'radiology'){
+ alert(vm.ReportPageData.radiologyReferalReportData.length );
+					if(vm.ReportPageData.radiologyReferalReportData.length == 0){
+						
+						  toastr.error('Radiology Report not available.', 'Error', {timeOut: 5000});
+						 showReportModel = 0;
+					}else{
+						 showReportModel = 1;
+					}
+
+					
+
+				}else if (type == 'lab')
+				{
+					alert(vm.ReportPageData.labReferalReportData.length );
+					if(vm.ReportPageData.labReferalReportData.length == 0){
+						
+						  toastr.error('Lab Report not available.', 'Error', {timeOut: 5000});
+						   showReportModel = 0;
+					}else{
+						 showReportModel = 1;
+					}
+
+				}
+				else if (type == 'print_perceptions'){
+
+					if(vm.ReportPageData.opdData.provisional_diagnosis == ''){
+	  					toastr.error('Provisional diagnosis data not available.', 'Error', {timeOut: 5000});
+	  					      showReportModel = 0;
+					}
+
+					if(vm.ReportPageData.CrossReferalData == 0){
+	  					toastr.error('Cross referal data not available.', 'Error', {timeOut: 5000});
+	  					   showReportModel = 0;
+					}
+
+					if(vm.ReportPageData.adviceData == ''){
+	  					toastr.error('Advise data not available.', 'Error', {timeOut: 5000});
+	  					   showReportModel = 0;
+					}
+
+					if(vm.ReportPageData.opdData.follow_up == ''){
+	  					toastr.error('Follow up data not available.', 'Error', {timeOut: 5000});
+	  					   showReportModel = 0;
+					}
+
+					if(vm.ReportPageData.prescriptData == 0){
+	  					toastr.error('PrescriptionPrint data not available.', 'Error', {timeOut: 5000});
+	  					   showReportModel = 0;
+					}
+
+					if(vm.ReportPageData.opdData.provisional_diagnosis == '' && vm.ReportPageData.CrossReferalData == 0 && vm.ReportPageData.adviceData == '' && vm.ReportPageData.opdData.follow_up == '' && vm.ReportPageData.prescriptData == 0){
+						 showReportModel = 0;
+					}else{
+							showReportModel = 1;
+					}
+
+					// alert(vm.ReportPageData.radiologyReferalReportData.length );
+					// if(vm.ReportPageData.radiologyReferalReportData.length == 0 || vm.ReportPageData.radiologyReferalReportData.length == 'undefined'){
+						
+					// 	  toastr.error('Radiology Report not available.', 'Error', {timeOut: 5000});
+					// 	  $('#printModal').modal('hide');
+					// 	  return false;
+					// }else{
+					// 	 $('#printModal').modal('show');
+					// }
+
+				}
+				else if (type == 'prescription'){
+
+					alert(vm.ReportPageData.opdData.provisional_diagnosis );
+
+					if(vm.ReportPageData.prescriptData == 0){
+	  					toastr.error('PrescriptionPrint data not available.', 'Error', {timeOut: 5000});
+	  					   showReportModel = 0;
+					}
+					// if(vm.ReportPageData.radiologyReferalReportData.length == 0 || vm.ReportPageData.radiologyReferalReportData.length == 'undefined'){
+						
+					// 	  toastr.error('Radiology Report not available.', 'Error', {timeOut: 5000});
+					// 	  $('#printModal').modal('hide');
+					// 	  return false;
+					// }else{
+					// 	 $('#printModal').modal('show');
+					// }
+
+				}
+				else{
+					return true;
 				}
 			},
 			ClickHereToPrintMultiple()

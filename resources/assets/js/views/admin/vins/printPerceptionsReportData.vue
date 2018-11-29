@@ -36,7 +36,6 @@
           crossReportData,
           adviseReportdata,
           followupReportData
-
        },
        methods: {
        	presp_count(array)

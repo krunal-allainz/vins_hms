@@ -404,40 +404,46 @@
 				  	@if($data['printType'] == 'opd_case')
 				  		<div>
 				  			<div class="report_left_pad">
-								@if($checkout=='Advice + follow ups')
+				  				@if($checkout=='History')
+									@include('historyReportData')
+								 
+								@elseif($checkout=='Past History')
+										@include('pastHistoryReportdata')
 
+								@elseif($checkout=='Examination')
+									@include('examinationReportData')
+
+								@elseif($checkout == 'Investigation Lab')
+									@include('labPatientReportData')
+
+								@elseif($checkout == 'Investigation Radiology')
+									@include('radiologyPatientReportData')
+
+								@elseif($checkout=='Diagnosis')
+									@include('diagnosisReportData')
+
+								@elseif($checkout=='Advice + follow ups')
 									@include('adviceReportData')
-									@include('followupReportData')
+									
+								@elseif($checkout=='Prescription')
 								
+									@if(isset($data['priscriptionData']))
+										@include('prescriptionReportData')
+									@endif
+
+								@elseif($checkout== 'Referrals')
+									@include('crossReportData')
+
 								@elseif($checkout=='Radiology')
 									@include('radiologyReportData')
 								
 								@elseif($checkout=='Laboratory')
 									@include('labReportData')
+
+								@elseif($checkout=='Advice + follow ups')
 								
-								@elseif($checkout == 'Investigation Radiology')
-									@include('radiologyPatientReportData')
+								@include('followupReportData')
 								
-								@elseif($checkout == 'Investigation Lab')
-									@include('labPatientReportData')
-								
-								@elseif($checkout=='Prescription')
-									@if(isset($data['priscriptionData']))
-										@include('prescriptionReportData')
-									@endif
-								
-								@elseif($checkout== 'Referrals')
-									@include('crossReportData')
-								
-								@elseif($checkout=='History')
-									@include('historyReportData')
-								 
-								@elseif($checkout=='Past History')
-										@include('pastHistoryReportdata')
-								@elseif($checkout=='Examination')
-									@include('examinationReportData')
-								@elseif($checkout=='Diagnosis')
-									@include('diagnosisReportData')
 								@endif	
 							
 						</div>
