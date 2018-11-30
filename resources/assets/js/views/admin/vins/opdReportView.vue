@@ -18,19 +18,19 @@
 			 	<!-- patient checkup detail end -->
 
 			 	<!-- lab referal data start -->
-			 	<labDataReport :labReferalData="ReportPageData.labReferalReportData"  :printType="printType" v-if="(printType == 'lab')"></labDataReport>
+			 	<labDataReport :labReferalData="ReportPageData.labReferalReportData"  :printType="printType" v-show="(printType == 'lab' && ReportPageData.labReferalReportData.length > 0)"></labDataReport>
 			 	<!-- lab referal data end -->
 
 			 	<!-- Radiology referal start -->
-			 	<radiologyDataReport :radiologyReferalReportData="ReportPageData.radiologyReferalReportData"  v-show="(printType == 'radiology')"></radiologyDataReport>
+			 	<radiologyDataReport :radiologyReferalReportData="ReportPageData.radiologyReferalReportData"  v-show="(printType == 'radiology' && ReportPageData.radiologyReferalReportData.length > 0)"></radiologyDataReport>
 			 	<!-- Radiology referal end -->
 
 			 	<!-- print Perceptions Report start  -->
-			 	<prescriptionPrint :prescriptData="ReportPageData.prescriptionReportData" :removeBtn="0" :checkedreportList="checkedreportList" :printType="printType" v-show="(printType == 'prescription')"> </prescriptionPrint>
+			 	<prescriptionPrint :prescriptData="ReportPageData.prescriptionReportData" :removeBtn="0" :checkedreportList="checkedreportList" :printType="printType" v-show="(printType == 'prescription' && ReportPageData.prescriptionReportData.length > 0)"> </prescriptionPrint>
 			 	<!-- print Perceptions Report end -->
 
 			 	<!-- cross referal report data start  -->
-			 	<crossReportData :CrossReferalData="ReportPageData.CrossReferalData" :checkedreportList="checkedreportList" :printType="printType" v-show="(printType == 'prescription')"></crossReportData>
+			 	<crossReportData :CrossReferalData="ReportPageData.CrossReferalData" :checkedreportList="checkedreportList" :printType="printType" v-show="(printType == 'prescription' && ReportPageData.CrossReferalData.length > 0)" ></crossReportData>
 			 	<!-- cross referal  report data end-->
 
 			 	<!-- print Perceptions Report start -->

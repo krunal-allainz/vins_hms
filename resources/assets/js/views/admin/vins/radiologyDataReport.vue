@@ -39,8 +39,7 @@
 				</div>
 			
 		</div>	
-		<div v-for="reportName in checkedreportList" v-show="(reportName == 'Investigation Radiology' && printType == 'opd_case'  && refferance=='1')" >
-			
+		<div v-for="reportName in checkedreportList" v-show="(reportName == 'Investigation Radiology' && printType == 'opd_case' && refferance=='1')" >
 		 	<div class='col-md-12'>
 		 		<span class="report_title">Investigation Radiology Report:-</span>
 		 	</div>
@@ -82,7 +81,7 @@
 </template>
 <script>
 	export default {
-		props:['radiologyReferalReportData','radiologyReportData','printType','checkedreportList'],
+		props:['radiologyReferalReportData','radiologyReportData','printType','checkedreportList','refferance'],
 		filters: {
           strLimit: function (value) {
             if(value.length > 50){

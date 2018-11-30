@@ -2,20 +2,20 @@
 	<div>
 		<div v-if="(printType == 'print_perceptions')" 	>
 			<div class="report_space">
-				<provisionalDiagnosticReportData :data="ReportPageData.opdData.provisional_diagnosis"></provisionalDiagnosticReportData>
+				<provisionalDiagnosticReportData :data="ReportPageData.opdData.provisional_diagnosis" v-show="(ReportPageData.opdData.provisional_diagnosis != '')"></provisionalDiagnosticReportData>
 			</div>
-			
+				
 			<div class="report_space">
-				<prescriptionPrint :prescriptData="prescriptData" :removeBtn="0"> </prescriptionPrint>
-			</div>
-			<div class="report_space">
-				<adviseReportdata :adviceData="adviceData"></adviseReportdata>
+				<prescriptionPrint :prescriptData="prescriptData" :removeBtn="0" v-show="(prescriptData.length > 0)"> </prescriptionPrint>
 			</div>
 			<div class="report_space">
-				<crossReportData :CrossReferalData="ReportPageData.CrossReferalData" ></crossReportData>
+				<adviseReportdata :adviceData="adviceData" v-show="(adviceData != '')"></adviseReportdata>
+			</div>
+			<div class="report_space">
+				<crossReportData :CrossReferalData="ReportPageData.CrossReferalData" v-show="(ReportPageData.CrossReferalData.length > 0)"></crossReportData>
 			</div>		
 			<div class="report_space">
-				<followupReportData :followupData="ReportPageData.opdData.follow_up"></followupReportData>
+				<followupReportData :followupData="ReportPageData.opdData.follow_up" v-show="(ReportPageData.opdData.follow_up != '')"></followupReportData>
 			</div>
 
 		</div>

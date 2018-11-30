@@ -1,4 +1,4 @@
-@if(isset($data['ReportPageData']['radiologyReportData']))
+@if(isset($data['ReportPageData']['radiologyReportData']) && count($data['ReportPageData']['radiologyReportData']) > 0)
 	<div class=''>
 		<div class='col-md-12'>
 			<span class="report_title">Investigation Radiology Report:-</span>
