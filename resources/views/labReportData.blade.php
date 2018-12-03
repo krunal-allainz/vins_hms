@@ -1,5 +1,5 @@
 
-  @if(isset($data['ReportPageData']['labReferalReportData']))
+  @if(isset($data['ReportPageData']['labReferalReportData']) && count($data['ReportPageData']['labReferalReportData'])>0)
 		<div class='col-md-12'>
 			<span class="report_title">Lab Report:-</span>
 		</div>

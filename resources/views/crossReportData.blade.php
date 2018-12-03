@@ -1,4 +1,4 @@
-@if(isset($data['ReportPageData']['CrossReferalData']))
+@if(isset($data['ReportPageData']['CrossReferalData']) && count($data['ReportPageData']['CrossReferalData'])>0)
 	<div class=''>
 		<div class='col-md-12'>
 			<span class="report_title">Cross Referrals:-</span>

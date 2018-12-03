@@ -21,7 +21,6 @@
                   <button type="button" class="btn btn-submit" @click="setHistoryType('advice','text')">Text</button>
                   <button type="button" class="btn btn-warning" @click="setHistoryType('advice','scribble')">Scribble</button>
                 </div>
-
             </div>
         </div>
         <div class="row form-group">

@@ -1,5 +1,6 @@
 
 <div>
+	@if($data['ReportPageData']['opdData']['diagnosis'] != '')
 	<div class='col-md-6 '>
 		<span class='report_title'>Diagnosis:-</span>
 	</div>
@@ -12,6 +13,7 @@
 		</div>
 	@else
 		<span class="report_details">No record found.</span> 
+	@endif
 	@endif
 </div>
  

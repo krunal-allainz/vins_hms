@@ -1,6 +1,6 @@
 <div style="">	
 
-  	@if(isset($data['ReportPageData']['prescriptionReportData']))
+  	@if(isset($data['ReportPageData']['prescriptionReportData']) && count($data['ReportPageData']['prescriptionReportData'])>0)
 	  	
 		<div class='col-md-12'>
 			<span class='report_title'>Prescription:-</span>

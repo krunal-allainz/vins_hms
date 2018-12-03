@@ -1,4 +1,4 @@
-@if(isset($data['ReportPageData']['past_history']) )
+@if(isset($data['ReportPageData']['past_history'])  && $data['ReportPageData']['past_history']['value']!= null || $data['ReportPageData']['past_history']['value']!='')
 	@if($data['ReportPageData']['past_history']['type'] == 'text' )	
 		<div>
 			<div class='col-md-6'>

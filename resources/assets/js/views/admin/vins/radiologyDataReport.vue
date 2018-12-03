@@ -1,7 +1,6 @@
 <template>
 	<div>
 		<div v-if="(radiologyReferalReportData)" >
-			 
 		 	<div class='col-md-12'>
 		 		<span class="report_title">Radiology Report:-</span>
 		 	</div>
@@ -30,7 +29,6 @@
                                 <td v-else>{{res.qualifiers}}</td>
 			                    <td>{{res.special_request}}</td>
 			                    <td>{{res.details | strLimit}}</td>
-			                   
 			                </tr>
 	                    </tbody>
 						</table>
@@ -41,8 +39,7 @@
 				</div>
 			
 		</div>	
-		<div v-for="reportName in checkedreportList" v-show="(reportName == 'Investigation Radiology' && printType == 'opd_case')" v-if="(radiologyReportData)">
-			
+		<div v-for="reportName in checkedreportList" v-show="(reportName == 'Investigation Radiology' && printType == 'opd_case' && refferance=='1')" >
 		 	<div class='col-md-12'>
 		 		<span class="report_title">Investigation Radiology Report:-</span>
 		 	</div>
@@ -62,7 +59,7 @@
 							<tbody>
 								<tr  v-for="(res,index) in radiologyReportData">
 				                    <td>{{++index}}</td>
-					                <td v-if="res.type=='Other'">{{res.radiology_other}}</td>
+					               <td v-if="res.type=='Other'">{{res.radiology_other}}</td>
 	                                <td v-else>{{res.type}}</td>
 				                    <td v-if="res.bodyparts=='Other'">{{res.bodyparts_other}}</td>
 	                                <td v-else>{{res.bodyparts}}</td>
@@ -84,7 +81,7 @@
 </template>
 <script>
 	export default {
-		props:['radiologyReferalReportData','radiologyReportData','printType','checkedreportList'],
+		props:['radiologyReferalReportData','radiologyReportData','printType','checkedreportList','refferance'],
 		filters: {
           strLimit: function (value) {
             if(value.length > 50){

@@ -395,54 +395,173 @@
 					@if($i>0)
 						<div class="page-break"></div>
 					@endif
-					<div class="container">
-				 	@include('reportHeader') 
-				      
-					@include('patientDetailReport')
-					@include('patientCheckupReport')
+					
 
 				  	@if($data['printType'] == 'opd_case')
 				  		<div>
-				  			<div class="report_left_pad">
-								@if($checkout=='Advice + follow ups')
+				  			
 
-									@include('adviceReportData')
-									@include('followupReportData')
-								
-								@elseif($checkout=='Radiology')
-									@include('radiologyReportData')
-								
-								@elseif($checkout=='Laboratory')
-									@include('labReportData')
-								
-								@elseif($checkout == 'Investigation Radiology')
-									@include('radiologyPatientReportData')
-								
+				  				@if($checkout=='History')
+				  					@if($data['ReportPageData']['historyData']['value']!= null)
+				  					<div class="container">
+									 	@include('reportHeader') 
+										@include('patientDetailReport')
+										@include('patientCheckupReport')
+										<div class="report_left_pad">
+											@include('historyReportData')
+											@include('reportSignature')
+										</div>
+									</div>
+									@endif
+								@elseif($checkout=='Past History')
+									@if($data['ReportPageData']['past_history']['value']!= null || $data['ReportPageData']['past_history']['value']!='')
+										<div class="container">
+									 	@include('reportHeader') 
+										@include('patientDetailReport')
+										@include('patientCheckupReport')
+										<div class="report_left_pad">
+											@include('pastHistoryReportdata')
+											@include('reportSignature')
+										</div>
+									</div>
+									@endif
+
+								@elseif($checkout=='Examination')
+									@if($data['ReportPageData']['examinationData']!='')
+									<div class="container">
+									 	@include('reportHeader') 
+										@include('patientDetailReport')
+										@include('patientCheckupReport')
+										<div class="report_left_pad">
+											@include('examinationReportData')
+											@include('reportSignature')
+										</div>
+									</div>
+									@endif
+
 								@elseif($checkout == 'Investigation Lab')
-									@include('labPatientReportData')
-								
+									@if( count($data['ReportPageData']['labReportData'])>0)
+									<div class="container">
+									 	@include('reportHeader') 
+										@include('patientDetailReport')
+										@include('patientCheckupReport')
+										<div class="report_left_pad">
+											@include('labPatientReportData')
+											@include('reportSignature')
+										</div>
+									</div>
+									@endif
+
+								@elseif($checkout == 'Investigation Radiology')
+									@if(count($data['ReportPageData']['radiologyReportData']) > 0)
+									<div class="container">
+									 	@include('reportHeader') 
+										@include('patientDetailReport')
+										@include('patientCheckupReport')
+										<div class="report_left_pad">
+											@include('radiologyPatientReportData')
+											@include('reportSignature')
+										</div>
+									</div>
+									@endif
+
+								@elseif($checkout=='Diagnosis')
+									@if($data['ReportPageData']['opdData']['diagnosis'] != '')
+									<div class="container">
+									 	@include('reportHeader') 
+										@include('patientDetailReport')
+										@include('patientCheckupReport')
+										<div class="report_left_pad">
+											@include('diagnosisReportData')
+											@include('reportSignature')
+										</div>
+									</div>
+									@endif
+
+								@elseif($checkout=='Advice + follow ups')
+									@if( $data['ReportPageData']['adviceData']['value']!= null || $data['ReportPageData']['adviceData']['value']!='')
+										<div class="container">
+									 	@include('reportHeader') 
+										@include('patientDetailReport')
+										@include('patientCheckupReport')
+										<div class="report_left_pad">
+											@include('adviceReportData')
+											@include('reportSignature')
+										</div>
+									</div>
+									@endif
+									
 								@elseif($checkout=='Prescription')
-									@if(isset($data['priscriptionData']))
-										@include('prescriptionReportData')
+								
+									@if(isset($data['priscriptionData']) && count($data['ReportPageData']['prescriptionReportData'])>0)
+									<div class="container">
+									 	@include('reportHeader') 
+										@include('patientDetailReport')
+										@include('patientCheckupReport')
+										<div class="report_left_pad">
+											@include('prescriptionReportData')
+											@include('reportSignature')
+										</div>
+									</div>
+									@endif
+
+								@elseif($checkout== 'Referrals')
+									@if(isset($data['ReportPageData']['CrossReferalData']) && count($data['ReportPageData']['CrossReferalData'])>0)
+									<div class="container">
+									 	@include('reportHeader') 
+										@include('patientDetailReport')
+										@include('patientCheckupReport')
+										<div class="report_left_pad">
+											@include('crossReportData')
+											@include('reportSignature')
+										</div>
+									</div>
+									@endif
+
+								@elseif($checkout=='Radiology')
+									@if(isset($data['ReportPageData']['radiologyReferalReportData']) && count($data['ReportPageData']['radiologyReferalReportData'])>0)
+									<div class="container">
+									 	@include('reportHeader') 
+										@include('patientDetailReport')
+										@include('patientCheckupReport')
+										<div class="report_left_pad">
+											@include('radiologyReportData')
+											@include('reportSignature')
+										</div>
+									</div>
 									@endif
 								
-								@elseif($checkout== 'Referrals')
-									@include('crossReportData')
+								@elseif($checkout=='Laboratory')
+									@if(isset($data['ReportPageData']['labReferalReportData']) && count($data['ReportPageData']['labReferalReportData'])>0)
+									<div class="container">
+									 	@include('reportHeader') 
+										@include('patientDetailReport')
+										@include('patientCheckupReport')
+										<div class="report_left_pad">
+											@include('labReportData')
+											@include('reportSignature')
+										</div>
+									</div>
+										@endif
+
+								@elseif($checkout=='Advice + follow ups')
+									@if(isset($data['ReportPageData']['opdData']['follow_up']) && $data['ReportPageData']['opdData']['follow_up'] != '')
+									<div class="container">
+									 	@include('reportHeader') 
+										@include('patientDetailReport')
+										@include('patientCheckupReport')
+										<div class="report_left_pad">
+											@include('followupReportData')
+											@include('reportSignature')
+										</div>
+									</div>
+									@endif
 								
-								@elseif($checkout=='History')
-									@include('historyReportData')
-								 
-								@elseif($checkout=='Past History')
-										@include('pastHistoryReportdata')
-								@elseif($checkout=='Examination')
-									@include('examinationReportData')
-								@elseif($checkout=='Diagnosis')
-									@include('diagnosisReportData')
 								@endif	
 							
-						</div>
-					</div>
-					@include('reportSignature')
+					{{-- 	</div>
+					</div> --}}
+					
 					@endif
 					
 		 			@include('reportFooter')
