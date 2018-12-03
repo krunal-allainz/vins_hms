@@ -390,19 +390,17 @@
 <body>
 	<div class="report_style">
 		@php $i=0; @endphp
-			@if(count($data['checkedreportList'])>0)
-				@foreach($data['checkedreportList'] as $checkout)
-					@if($i>0)
-						<div class="page-break"></div>
-					@endif
-					
 
+			@if(count($data['checkedreportList'])>0)
+
+				@foreach($data['checkedreportList'] as $checkout)
+					
 				  	@if($data['printType'] == 'opd_case')
 				  		<div>
-				  			
-
-				  				@if($checkout=='History')
-				  					@if($data['ReportPageData']['historyData']['value']!= null)
+				  			@if($i>0)
+							<div class="page-break"></div>
+							@endif
+				  				@if($checkout=='History' && $data['ReportPageData']['historyData']['value']!= null)
 				  					<div class="container">
 									 	@include('reportHeader') 
 										@include('patientDetailReport')
@@ -412,9 +410,7 @@
 											@include('reportSignature')
 										</div>
 									</div>
-									@endif
-								@elseif($checkout=='Past History')
-									@if($data['ReportPageData']['past_history']['value']!= null || $data['ReportPageData']['past_history']['value']!='')
+								@elseif($checkout=='Past History' && $data['ReportPageData']['past_history']['value']!= null || $data['ReportPageData']['past_history']['value']!='')
 										<div class="container">
 									 	@include('reportHeader') 
 										@include('patientDetailReport')
@@ -424,10 +420,7 @@
 											@include('reportSignature')
 										</div>
 									</div>
-									@endif
-
-								@elseif($checkout=='Examination')
-									@if($data['ReportPageData']['examinationData']!='')
+								@elseif($checkout=='Examination' && $data['ReportPageData']['examinationData']!='')
 									<div class="container">
 									 	@include('reportHeader') 
 										@include('patientDetailReport')
@@ -437,10 +430,7 @@
 											@include('reportSignature')
 										</div>
 									</div>
-									@endif
-
-								@elseif($checkout == 'Investigation Lab')
-									@if( count($data['ReportPageData']['labReportData'])>0)
+								@elseif($checkout == 'Investigation Lab' && count($data['ReportPageData']['labReportData'])>0)
 									<div class="container">
 									 	@include('reportHeader') 
 										@include('patientDetailReport')
@@ -450,10 +440,7 @@
 											@include('reportSignature')
 										</div>
 									</div>
-									@endif
-
-								@elseif($checkout == 'Investigation Radiology')
-									@if(count($data['ReportPageData']['radiologyReportData']) > 0)
+								@elseif($checkout == 'Investigation Radiology'&& count($data['ReportPageData']['radiologyReportData']) > 0)
 									<div class="container">
 									 	@include('reportHeader') 
 										@include('patientDetailReport')
@@ -463,10 +450,7 @@
 											@include('reportSignature')
 										</div>
 									</div>
-									@endif
-
-								@elseif($checkout=='Diagnosis')
-									@if($data['ReportPageData']['opdData']['diagnosis'] != '')
+								@elseif($checkout=='Diagnosis' && $data['ReportPageData']['opdData']['diagnosis'] != '')
 									<div class="container">
 									 	@include('reportHeader') 
 										@include('patientDetailReport')
@@ -476,10 +460,7 @@
 											@include('reportSignature')
 										</div>
 									</div>
-									@endif
-
-								@elseif($checkout=='Advice + follow ups')
-									@if( $data['ReportPageData']['adviceData']['value']!= null || $data['ReportPageData']['adviceData']['value']!='')
+								@elseif($checkout=='Advice + follow ups' &&  $data['ReportPageData']['adviceData']['value']!= null || $data['ReportPageData']['adviceData']['value']!='')
 										<div class="container">
 									 	@include('reportHeader') 
 										@include('patientDetailReport')
@@ -489,11 +470,7 @@
 											@include('reportSignature')
 										</div>
 									</div>
-									@endif
-									
-								@elseif($checkout=='Prescription')
-								
-									@if(isset($data['priscriptionData']) && count($data['ReportPageData']['prescriptionReportData'])>0)
+								@elseif($checkout=='Prescription' && isset($data['priscriptionData']) && count($data['ReportPageData']['prescriptionReportData'])>0)
 									<div class="container">
 									 	@include('reportHeader') 
 										@include('patientDetailReport')
@@ -503,10 +480,7 @@
 											@include('reportSignature')
 										</div>
 									</div>
-									@endif
-
-								@elseif($checkout== 'Referrals')
-									@if(isset($data['ReportPageData']['CrossReferalData']) && count($data['ReportPageData']['CrossReferalData'])>0)
+								@elseif($checkout== 'Referrals' && isset($data['ReportPageData']['CrossReferalData']) && count($data['ReportPageData']['CrossReferalData'])>0)
 									<div class="container">
 									 	@include('reportHeader') 
 										@include('patientDetailReport')
@@ -516,10 +490,7 @@
 											@include('reportSignature')
 										</div>
 									</div>
-									@endif
-
-								@elseif($checkout=='Radiology')
-									@if(isset($data['ReportPageData']['radiologyReferalReportData']) && count($data['ReportPageData']['radiologyReferalReportData'])>0)
+								@elseif($checkout=='Radiology' && isset($data['ReportPageData']['radiologyReferalReportData']) && count($data['ReportPageData']['radiologyReferalReportData'])>0)
 									<div class="container">
 									 	@include('reportHeader') 
 										@include('patientDetailReport')
@@ -529,10 +500,7 @@
 											@include('reportSignature')
 										</div>
 									</div>
-									@endif
-								
-								@elseif($checkout=='Laboratory')
-									@if(isset($data['ReportPageData']['labReferalReportData']) && count($data['ReportPageData']['labReferalReportData'])>0)
+								@elseif($checkout=='Laboratory' && isset($data['ReportPageData']['labReferalReportData']) && count($data['ReportPageData']['labReferalReportData'])>0)
 									<div class="container">
 									 	@include('reportHeader') 
 										@include('patientDetailReport')
@@ -542,10 +510,8 @@
 											@include('reportSignature')
 										</div>
 									</div>
-										@endif
 
-								@elseif($checkout=='Advice + follow ups')
-									@if(isset($data['ReportPageData']['opdData']['follow_up']) && $data['ReportPageData']['opdData']['follow_up'] != '')
+								@elseif($checkout=='Advice + follow ups' && isset($data['ReportPageData']['opdData']['follow_up']) && $data['ReportPageData']['opdData']['follow_up'] != '')
 									<div class="container">
 									 	@include('reportHeader') 
 										@include('patientDetailReport')
@@ -555,14 +521,9 @@
 											@include('reportSignature')
 										</div>
 									</div>
-									@endif
-								
 								@endif	
-							
-					{{-- 	</div>
-					</div> --}}
-					
 					@endif
+
 					
 		 			@include('reportFooter')
 				</div>

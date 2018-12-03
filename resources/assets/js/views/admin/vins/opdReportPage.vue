@@ -12,37 +12,37 @@
     			<div class="row form-group text-center">
     	 	 		<div class="col-md-12">
     	 	 			<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#generateModal"  @click="printReport('generate_case')" v-if="(opdReport == false)"> Print Report</button>
-    	 	 			<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  @click = "printReport('print_perceptions')"  id="opd_case_btn">Print Perceptions</button>
-    	 	 			<button   type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('lab')" >Lab Report</button>
-    	 	 			<button   type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('radiology')" >Radiology Report</button>
-    	 	 			<button  type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal" @click = "printReport('prescription')">Print Prescription</button>
+    	 	 			<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static"  @click = "printReport('print_perceptions')"  id="opd_case_btn">Print Perceptions</button>
+    	 	 			<button   type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static"   @click = "printReport('lab')" >Lab Report</button>
+    	 	 			<button   type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static"  @click = "printReport('radiology')" >Radiology Report</button>
+    	 	 			<button  type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static"  @click = "printReport('prescription')">Print Prescription</button>
     	 	 		</div>
     	 	 	</div>
     		</form>
     	 <div id="generateModal" class="modal fade">  
     		<div class="modal-dialog" >
-    		<div class="modal-content" >
-    			<div class="modal-body">
-					<div id="demo" class="demo-list">
-						<label><b>Select Report:</b></label>
-						<ul>
-							<li><input type="checkbox" id="ckbCheckAll" name="select_all" value="select_all" @click="checkAll(this)"/>   <label><b>Select All</b></label></li>		
-							<li v-for="mainCat in reportList">
+    			<div class="modal-content" >
+    				<div class="modal-body">
+						<div id="demo" class="demo-list">
+							<label><b>Select Report:</b></label>
+							<ul>
+								<li><input type="checkbox" id="ckbCheckAll" name="select_all" value="select_all" @click="checkAll(this)"/>   <label><b>Select All</b></label></li>		
+								<li v-for="mainCat in reportList">
 								<input type="checkbox" class="checkBoxClass" :value="mainCat.reportListId" :id="mainCat.reportListId" v-model="checkedreportList" name="report_check" @click="check($event)">    <label>{{mainCat.reportListId}}</label> 
-							</li>
-						</ul>
-						<span class="help is-danger" v-if="(checkedreportList.length == 0)">
+								</li>
+							</ul>
+							<span class="help is-danger" v-if="(checkedreportList.length == 0)">
 	                  			Please select any report Type .
-	                	</span> 
-					</div>
+	                		</span> 
+						</div>
 
-					<!-- <button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button> -->
-					<button type="button" class="btn btn-primary btn-submit text-right" @click="print_multiple_report()">Print</button>
+							<!-- <button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button> -->
+							<button type="button" class="btn btn-primary btn-submit text-right" @click="print_multiple_report()">Print</button>
 
-				 <button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button>
-					<!-- <button ty pe="button" lass="btn btn-primary btn-submit text-right" >Print</button> -->
+				 			<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button>
+						<!-- <button ty pe="button" lass="btn btn-primary btn-submit text-right" >Print</button> -->
 
-					<button type="button" class="btn btn-default close_btn" @click="close_modal()">Close</button>
+							<button type="button" class="btn btn-default close_btn" @click="close_modal()">Close</button>
 					</div>
 				</div>
 			</div>
@@ -50,21 +50,21 @@
     	<div id="printModal" class="modal fade">
      		<div class="modal-dialog" >
 		 		<div class="modal-content" >
-		 		<!--<div class="modal-header"></div>-->
-		 		<div class="modal-body">
-			 		<opdReportView :caseId="caseId" patinetId="patinetId" :todayDate="todayDate" :patientCheckupDetail="patientCheckupDetail" :signatureName="signatureName" :doctoreName="doctoreName" :regNo="regNo" :patientDetail="patientDetail" :department="department" :timeStamp="timeStamp" :reference="reference" :ReportPageData="ReportPageData" :printType="printType" :checkedreportList="checkedreportList" :prescriptiData="prescriptiData" :past_history="ReportPageData.past_history"
-		      	:historyData="ReportPageData.historyData"
-		      	:adviceData="ReportPageData.adviceData"></opdReportView>
+		 		<!--<div class="modal-header">:timeStamp="timeStamp"</div>-->
+		 			<div class="modal-body">
+				 		<opdReportView :caseId="caseId" :patinetId="patinetId" :todayDate="todayDate" :patientCheckupDetail="patientCheckupDetail" :signatureName="signatureName" :doctoreName="doctoreName" :regNo="regNo" :patientDetail="patientDetail" :department="department"  :reference="reference" :ReportPageData="ReportPageData" :printType="printType" :checkedreportList="checkedreportList" :prescriptiData="prescriptiData" :past_history="ReportPageData.past_history"
+			      	:historyData="ReportPageData.historyData"
+			      	:adviceData="ReportPageData.adviceData"></opdReportView>
 			 		</div>
 			 		<div class="modal-footer">	
 						<button  type="button" class="btn btn-primary"  @click="ClickHereToPrint()">Print</button>	
-               			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+               			<button type="button" class="btn btn-default" data-dismiss="modal" id="close-printPage">Close</button>
              			<!--  <button type="button" class="btn btn-primary">Save</button>-->
              		</div>	
-					</div>
 				</div>
 			</div>
-    	</div>
+		</div>
+   		 </div>
 	</div>
 </template>
 <script>
@@ -173,6 +173,17 @@
 		   }
        	vm.getOpdCaseData(vm.caseId);
        	vm.getPatientData(vm.patinetId);
+  //      	$('#printModal').on('show.bs.modal', function (e) {
+  //      		alert('shown');
+  // 				$('#printModal').css('display','block !important');
+		// 		$('#printModal').attr('aria-hidden','false');
+		// });
+		// $('#printModal').on('hidden.bs.modal', function (e) {
+		// 	alert('hide');
+		// 	   e.preventDefault();
+  // 				$('#printModal').css('display','none !important');
+		// 		$('#printModal').attr('aria-hidden','true');
+		// });
        },
        methods: {
        	 	getUserRole(permission,type){
@@ -369,15 +380,13 @@
                 		return n == val_check;
               		});
 	     		 }
-
-
 	   		 },
        		printReport(type){
 					let vm = this;
 					vm.printType = type;
 					let showReportModel = 0;
 				if(type == 'opd_case'){
-						
+						//showReportModel = 0;
 						$('#generateModal').modal({ show: false})
 						
 				}
@@ -385,7 +394,10 @@
 					if(vm.ReportPageData.radiologyReferalReportData.length == 0){
 						
 						  toastr.error('Radiology Report not available.', 'Error', {timeOut: 5000});
-						 $('#printModal').modal('hide');
+						//  showReportModel = 0 ;
+						
+					}else{
+						showReportModel = 1;
 					}
 
 
@@ -394,7 +406,10 @@
 					if(vm.ReportPageData.labReferalReportData.length == 0){
 						
 						  toastr.error('Lab Report not available.', 'Error', {timeOut: 5000});
-						   $('#printModal').modal('hide');
+						//  showReportModel = 0 ;
+					}else{
+						
+						showReportModel = 1;
 					}
 
 				}
@@ -408,7 +423,7 @@
 	  					toastr.error('Cross referal data not available.', 'Error', {timeOut: 5000});
 					}
 
-					if(vm.ReportPageData.adviceData.value == ''){
+					if(vm.ReportPageData.adviceData.value == '' || vm.ReportPageData.adviceData.value == null){
 	  					toastr.error('Advise data not available.', 'Error', {timeOut: 5000});
 					}
 
@@ -422,32 +437,38 @@
 					}
 
 					if(vm.ReportPageData.opdData.provisional_diagnosis == '' && vm.ReportPageData.CrossReferalData.length == 0 && vm.ReportPageData.adviceData.value == null || vm.ReportPageData.adviceData.value == '' && vm.ReportPageData.opdData.follow_up == '' && vm.ReportPageData.prescriptData.length == 0){
-						 $('#printModal').modal('hide');
+						 
+						showReportModel = 0;
+					}else{
+						showReportModel = 1;
 					}
-
-
 
 				}
 				else if (type == 'prescription'){
 
 					if(vm.ReportPageData.prescriptionReportData.length == 0){
 	  					toastr.error('PrescriptionPrint data not available.', 'Error', {timeOut: 5000});
-	  					  
 					}
-
 					if(vm.ReportPageData.CrossReferalData.length == 0){
 	  					toastr.error('Cross referal data not available.', 'Error', {timeOut: 5000});
-	  					  
 					}
-
 					if(vm.ReportPageData.prescriptionReportData.length == 0 && vm.ReportPageData.CrossReferalData.length == 0)
 					{
-						 $('#printModal').modal('hide');
+						
+						showReportModel = 0;
+					}else{
+						showReportModel = 1;
 					}
-				}else{
-				
-
 				}
+				
+				if(showReportModel == 1){
+				
+				$('#printModal').modal('show');
+				
+					
+				}
+
+				
 			},
 			ClickHereToPrintMultiple()
 			{

@@ -8,8 +8,8 @@
 			<div class="report_space">
 				<prescriptionPrint :prescriptData="prescriptData" :removeBtn="0" v-show="(prescriptData.length > 0)"> </prescriptionPrint>
 			</div>
-			<div class="report_space">
-				<adviseReportdata :adviceData="adviceData" v-show="(adviceData != '')"></adviseReportdata>
+			<div class="report_space" v-show="(adviceData.value != '' || adviceData.value != null)">
+				<adviseReportdata :adviceData="adviceData" v-show="(adviceData.value != '' || adviceData.value != null)"></adviseReportdata>
 			</div>
 			<div class="report_space">
 				<crossReportData :CrossReferalData="ReportPageData.CrossReferalData" v-show="(ReportPageData.CrossReferalData.length > 0)"></crossReportData>
