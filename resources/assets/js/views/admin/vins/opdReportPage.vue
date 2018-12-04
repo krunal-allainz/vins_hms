@@ -41,7 +41,6 @@
 
 				 			<button type="button" class="btn btn-primary btn-submit text-right" data-toggle="modal" data-backdrop="static" href="#printModal"  v-show="(checkedreportList.length != 0)" @click = "printReport('opd_case')" >OPD Case</button>
 						<!-- <button ty pe="button" lass="btn btn-primary btn-submit text-right" >Print</button> -->
-
 						<button type="button" class="btn btn-default close_btn" @click="close_modal()">Close</button>
 					</div>
 				</div>
@@ -303,7 +302,7 @@
 
 	     		 }else if(val_check == 'Examination'){
 
-	     		 	if(vm.ReportPageData.ExaminationData  == ''){
+	     		 	if(vm.ReportPageData.examinationData  == ''){
 	  					toastr.error('Examination data not available.', 'Error', {timeOut: 5000});
 	  					  // showReportModel = 0;
 					}

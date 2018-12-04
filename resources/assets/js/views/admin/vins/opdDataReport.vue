@@ -50,7 +50,8 @@
 
 		<div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Radiology' && ReportPageData.radiologyReferalReportData.length > 0)" >	 
 			<!-- Radiology referal start -->
-			 	<radiologyDataReport :radiologyReferalReportData="ReportPageData.radiologyReferalReportData" :printType="printType" ></radiologyDataReport>
+			 	<radiologyDataReport :radiologyReferalReportData="ReportPageData.radiologyReferalReportData"
+			 	:printType="printType" :checkedreportList="checkedreportList" :refferance="0"></radiologyDataReport>
 			 	<!-- Radiology referal end -->
 		</div>
 
