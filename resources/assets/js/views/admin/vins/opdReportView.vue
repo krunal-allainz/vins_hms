@@ -22,7 +22,8 @@
 
 			 	<!-- Radiology referal start -->
 			 	<radiologyDataReport 
-			 	:radiologyReferalReportData="ReportPageData.radiologyReferalReportData" :printType="printType" v-show="(printType == 'radiology' && ReportPageData.radiologyReferalReportData.length > 0)"></radiologyDataReport>
+			 	:radiologyReferalReportData="ReportPageData.radiologyReferalReportData" 
+			 	:printType="printType" v-show="(printType == 'radiology' && ReportPageData.radiologyReferalReportData.length > 0)"></radiologyDataReport>
 			 	<!-- Radiology referal end -->
 
 			 	<!-- print Perceptions Report start  -->

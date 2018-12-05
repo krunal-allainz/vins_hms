@@ -103,9 +103,8 @@
                           <span class="help is-danger" v-show="errors.has('radiology_spine')">
                   Field is required
                 </span>    
-                      </div>
-                    
-                </div>
+            </div>
+        </div>
                 <div class="row form-group">
     				<div class="col-md-6">
     					<label>Select Qualifires:</label><br>

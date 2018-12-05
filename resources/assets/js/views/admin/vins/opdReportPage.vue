@@ -236,6 +236,8 @@
 	        		{
 	        			vm.check(e,val_checkbox);
 	        		}
+	        		// vm.check.iCheck('update');
+	        		// $('.demo-list input').iCheck('update');
 				});
        		},
        		close_modal()
@@ -373,11 +375,14 @@
 	     		 	 return true;
 	     		 }
 	     		 }else{
+	     		 	
 	     		 	 vm.reportListSelect = 1;
+
 	     		 	 //_.pull(vm.checkedreportList,val_check );
 	     		 	 var get_array = _.remove(vm.checkedreportList, function(n) {
                 		return n == val_check;
               		});
+	     		 	  vm.checkedreportList.splice(val_check,1)
 	     		 }
 	   		 },
        		printReport(type){

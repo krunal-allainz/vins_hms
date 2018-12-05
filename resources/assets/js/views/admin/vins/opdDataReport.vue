@@ -22,7 +22,9 @@
 		<div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Investigation Radiology' && ReportPageData.radiologyReportData.length > 0)" >
 		<!-- Radiology report data start -->
 		
-			<radiologyDataReport :radiologyReportData="ReportPageData.radiologyReportData" :checkedreportList="checkedreportList"  :printType="printType" :refferance="1"></radiologyDataReport>
+		<radiologyDataReport :radiologyReportData="ReportPageData.radiologyReportData" 
+		:checkedreportList="checkedreportList" 
+		 :printType="opd_case" :refferance="1"></radiologyDataReport>
 		
 		
 		<!-- Radiology report data end -->
@@ -51,7 +53,7 @@
 		<div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Radiology' && ReportPageData.radiologyReferalReportData.length > 0)" >	 
 			<!-- Radiology referal start -->
 			 	<radiologyDataReport :radiologyReferalReportData="ReportPageData.radiologyReferalReportData"
-			 	:printType="printType" :checkedreportList="checkedreportList" :refferance="0"></radiologyDataReport>
+			 	:printType="opd_case" :checkedreportList="checkedreportList" :refferance="0"></radiologyDataReport>
 			 	<!-- Radiology referal end -->
 		</div>
 
