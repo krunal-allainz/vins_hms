@@ -204,10 +204,11 @@ class UserRepository {
     public function getDoctoreInfoById($id,$type){
         $result = array();
         $record=User::where('id', $id)->where('user_type',$type)->first();
+        
         $result['name'] = $record->first_name.' '.$record->last_name  ;
         $result['dagree'] = $record->dagree;
         $result['department'] = $record->department;
-        $result['regNo'] = $record->RegNo;
+        $result['regNo'] = $record->regno;
         return $result;
     }
 
