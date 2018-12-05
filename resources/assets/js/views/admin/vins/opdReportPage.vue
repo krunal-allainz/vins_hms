@@ -376,13 +376,19 @@
 	     		 }
 	     		 }else{
 	     		 	
-	     		 	 vm.reportListSelect = 1;
+	     		 	 
 
 	     		 	 //_.pull(vm.checkedreportList,val_check );
 	     		 	 var get_array = _.remove(vm.checkedreportList, function(n) {
                 		return n == val_check;
               		});
-	     		 	  vm.checkedreportList.splice(val_check,1)
+	     		 	  vm.checkedreportList.splice(val_check,1);
+	     		 	  if(vm.checkedreportList.length>0){
+							vm.reportListSelect = 0;
+				       }else{
+							vm.reportListSelect = 1;
+							return false;
+						}
 	     		 }
 	   		 },
        		printReport(type){

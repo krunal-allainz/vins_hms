@@ -90,12 +90,15 @@
 		props:['radiologyReferalReportData','radiologyReportData','printType','checkedreportList'],
 		filters: {
           strLimit: function (value) {
+            if(value!=null && value!='')
+            {
             if(value.length > 50){
                 var str50 = value.substr(0,50);
                 return str50+'...'; 
             } else {
                 return value; 
 
+            }
             }
           }
         },
