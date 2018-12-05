@@ -554,20 +554,11 @@
 									</div>
 								@endif
 								@if($checkout=='Advice + follow ups' && $data['ReportPageData']['opdData']['follow_up'] != '') 
-								@if( $data['ReportPageData']['adviceData']['value'] 
-								== null  )
-									@if($i > 1)
-										<div class="page-break"></div>
-									@endif
+								@if($data['ReportPageData']['adviceData']['value'] 
+								== null &&  $data['ReportPageData']['historyData']['value'] == null &&  $data['ReportPageData']['past_history']['value']== null && $data['ReportPageData']['examinationData'] =='' && count($data['ReportPageData']['labReferalReportData']) == 0 && count($data['ReportPageData']['radiologyReferalReportData']) == 0 && count($data['ReportPageData']['CrossReferalData']) == 0 &&  count($data['ReportPageData']['prescriptionReportData']) == 0 && $data['ReportPageData']['opdData']['diagnosis'] == '' && count($data['ReportPageData']['radiologyReportData']) == 0 && count($data['ReportPageData']['labReportData']) == 0) 
+
 								@else 
-								
-									@if(count($data['checkedreportList']) > 1)
-									
 										<div class="page-break"></div>
-									@else
-										<div class="page-break"></div>
-									@endif
-							
 								@endif
 									<div class="container">
 									 	@include('reportHeader') 
