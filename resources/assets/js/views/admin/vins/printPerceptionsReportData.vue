@@ -8,7 +8,7 @@
 			<div class="report_space">
 				<prescriptionPrint :prescriptData="prescriptData" :removeBtn="0" v-show="(prescriptData.length > 0)"> </prescriptionPrint>
 			</div>
-			<div class="report_space" v-show="(adviceData.value != '' || adviceData.value != null)">
+			<div class="report_space" v-show="(adviceData.value != '' && adviceData.value != null)">
 				<adviseReportdata :adviceData="adviceData" v-show="(adviceData.value != '' || adviceData.value != null)"></adviseReportdata>
 			</div>
 			<div class="report_space">

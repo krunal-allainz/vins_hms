@@ -465,7 +465,7 @@
 										</div>
 									</div>
 								@endif
-								@if($checkout=='Diagnosis' && $data['ReportPageData']['opdData']['diagnosis'] != '')
+								@if($checkout=='Diagnosis' && $data['ReportPageData']['opdData']['diagnosis'] != '')  
 									@if($i>0)
 										<div class="page-break"></div>
 									@endif
@@ -479,10 +479,11 @@
 										</div>
 									</div>
 								@endif
-								@if($checkout=='Advice + follow ups' &&  $data['ReportPageData']['adviceData']['value']!= null && $data['ReportPageData']['adviceData']['value']!='')
+								@if($checkout=='Advice + follow ups' &&  $data['ReportPageData']['adviceData']['value']!= null &&  $data['ReportPageData']['adviceData']['value']!= '')
 									@if($i>0)
 										<div class="page-break"></div>
 									@endif
+
 										<div class="container">
 									 	@include('reportHeader') 
 										@include('patientDetailReport')
@@ -536,7 +537,7 @@
 									</div>
 								@endif
 								@if($checkout=='Laboratory' && isset($data['ReportPageData']['labReferalReportData']) && count($data['ReportPageData']['labReferalReportData'])>0)
-								@if($i>0)
+									@if($i>0)
 										<div class="page-break"></div>
 									@endif
 									<div class="container">
@@ -550,9 +551,17 @@
 									</div>
 								@endif
 								@if($checkout=='Advice + follow ups' && $data['ReportPageData']['opdData']['follow_up'] != '') 
-									@if($i>0)
+								@if( $data['ReportPageData']['adviceData']['value'] 
+								== null  )
+									@if($i > 1)
 										<div class="page-break"></div>
 									@endif
+								@else
+									@if($i > 0)
+										<div class="page-break"></div>
+									@endif
+
+								@endif
 									<div class="container">
 									 	@include('reportHeader') 
 										@include('patientDetailReport')
