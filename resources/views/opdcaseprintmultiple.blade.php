@@ -399,6 +399,9 @@
 				  		<div>
 				  		
 				  				@if($checkout=='History' && $data['ReportPageData']['historyData']['value']!= '' && $data['ReportPageData']['historyData']['value']!= null)
+				  				@if($i > 1)
+										<div class="page-break"></div>
+									@endif
 				  					<div class="container">
 									 	@include('reportHeader') 
 										@include('patientDetailReport')
@@ -556,11 +559,15 @@
 									@if($i > 1)
 										<div class="page-break"></div>
 									@endif
-								@else
-									@if($i > 0)
+								@else 
+								
+									@if(count($data['checkedreportList']) > 1)
+									
+										<div class="page-break"></div>
+									@else
 										<div class="page-break"></div>
 									@endif
-
+							
 								@endif
 									<div class="container">
 									 	@include('reportHeader') 
