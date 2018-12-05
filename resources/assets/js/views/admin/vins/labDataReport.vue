@@ -1,15 +1,15 @@
 <template>
 	<div>	
 	
-	<div v-show="(printType == 'lab')">
+	<div v-if="(printType == 'lab')">
 		
-		<div class='col-md-12'>
+		<div class='col-md-12' >
 			<span class="report_title">Lab Report:-</span>
 		</div>
 		
 		 <div class="form-group" >
 			<div class="col-md-12">
-				<div class="" v-if="orgLabReffData.length>0">
+				<div class="" v-if="labReferalData.length>0">
 					<table class="table table-striped table-bordered report_table" id="laboratory_table_list">
 						<thead>
 							<tr>
@@ -18,7 +18,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr :id="res.id" v-for="(res,index) in orgLabReffData">
+							<tr :id="res.id" v-for="(res,index) in labReferalData">
 								<td>{{++index}}</td> 
 								<td>{{res.name}}</td>		
 							</tr>

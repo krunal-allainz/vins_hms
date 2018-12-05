@@ -1,6 +1,5 @@
 <template>
 	<div>
-		
 		<div id="printData" style="height: 1500px;min-height: 700px;" class="report_start">
 			<div  id="printContent"></div>
 			<div>
@@ -22,7 +21,9 @@
 			 	<!-- lab referal data end -->
 
 			 	<!-- Radiology referal start -->
-			 	<radiologyDataReport :radiologyReferalReportData="ReportPageData.radiologyReferalReportData"  v-show="(printType == 'radiology' && ReportPageData.radiologyReferalReportData.length > 0)"></radiologyDataReport>
+			 	<radiologyDataReport 
+			 	:radiologyReferalReportData="ReportPageData.radiologyReferalReportData" 
+			 	:printType="printType" v-show="(printType == 'radiology' && ReportPageData.radiologyReferalReportData.length > 0)"></radiologyDataReport>
 			 	<!-- Radiology referal end -->
 
 			 	<!-- print Perceptions Report start  -->

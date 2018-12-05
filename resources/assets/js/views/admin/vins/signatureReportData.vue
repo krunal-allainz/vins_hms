@@ -13,13 +13,13 @@
 		 		<span><b>{{department}}</b></span><br>
 		 		<span><b>{{regNo}}</b></span>
 		</div>	
-	 	<div >	
-	 	<!-- <div class="row" >
+	 	
+	 	<!-- <div >	<div class="row" >
         	<div class='col-md-12 text-right'>
 				<span class='text-right'><b>Consultant's Signature</b></span>
 	 		</div>
-		</div>	 -->
-		</div>
+		</div>	</div> -->
+		
 	</div>
 </template>
 <script>

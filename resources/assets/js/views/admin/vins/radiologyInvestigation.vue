@@ -103,9 +103,8 @@
                           <span class="help is-danger" v-show="errors.has('radiology_spine')">
                   Field is required
                 </span>    
-                      </div>
-                    
-                </div>
+            </div>
+        </div>
                 <div class="row form-group">
     				<div class="col-md-6">
     					<label>Select Qualifires:</label><br>
@@ -283,13 +282,18 @@
         },
         filters: {
           strLimit: function (value) {
-            if(value.length > 50){
+            if(value!=null && value!='')
+            {
+                if(value.length > 50){
                 var str50 = value.substr(0,50);
                 return str50+'...'; 
-            } else {
-                return value; 
-
+                } 
             }
+            else {
+                    return value; 
+
+                }
+            
           }
         },
         data() {
