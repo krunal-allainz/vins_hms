@@ -384,7 +384,7 @@
 			{	
 				let vm=this;
 				var check_list_data=[];
-				 if($('#ckbCheckAll').filter(':checked').length == $('#ckbCheckAll').length) { alert('yes');
+				 if($('#ckbCheckAll').filter(':checked').length == $('#ckbCheckAll').length) { 
 					vm.reportListSelect = 1;
 					vm.showModel = 1;
 					_.forEach(vm.reportList,function(value){

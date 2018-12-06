@@ -413,7 +413,7 @@
 									</div>
 								@endif
 								@if($checkout=='Past History' && $data['ReportPageData']['past_history']['value']!= null && $data['ReportPageData']['past_history']['value']!='')
-									@if($i>1)
+									@if($i>0)
 										<div class="page-break"></div>
 									@endif
 										<div class="container">
