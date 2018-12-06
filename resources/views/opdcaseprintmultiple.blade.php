@@ -399,7 +399,7 @@
 				  		<div>
 				  		
 				  				@if($checkout=='History' && $data['ReportPageData']['historyData']['value']!= '' && $data['ReportPageData']['historyData']['value']!= null)
-				  				@if($i > 1)
+				  					@if($i > 1)
 										<div class="page-break"></div>
 									@endif
 				  					<div class="container">
@@ -413,7 +413,7 @@
 									</div>
 								@endif
 								@if($checkout=='Past History' && $data['ReportPageData']['past_history']['value']!= null && $data['ReportPageData']['past_history']['value']!='')
-									@if($i>0)
+									@if($i>1)
 										<div class="page-break"></div>
 									@endif
 										<div class="container">
@@ -427,7 +427,7 @@
 									</div>
 								@endif
 								@if($checkout=='Examination' && $data['ReportPageData']['examinationData']!='')
-									@if($i>0)
+									@if($i>1)
 										<div class="page-break"></div>
 									@endif
 									<div class="container">
@@ -441,7 +441,7 @@
 									</div>
 								@endif
 								@if($checkout == 'Investigation Lab' && count($data['ReportPageData']['labReportData'])>0)
-									@if($i>0)
+									@if($i>1)
 										<div class="page-break"></div>
 									@endif
 									<div class="container">
@@ -455,7 +455,7 @@
 									</div>
 								@endif
 								@if($checkout == 'Investigation Radiology'&& count($data['ReportPageData']['radiologyReportData']) > 0)
-									@if($i>0)
+									@if($i>1)
 										<div class="page-break"></div>
 									@endif
 									<div class="container">
@@ -469,7 +469,7 @@
 									</div>
 								@endif
 								@if($checkout=='Diagnosis' && $data['ReportPageData']['opdData']['diagnosis'] != '')  
-									@if($i>0)
+									@if($i>1)
 										<div class="page-break"></div>
 									@endif
 									<div class="container">
@@ -483,7 +483,7 @@
 									</div>
 								@endif
 								@if($checkout=='Advice + follow ups' &&  $data['ReportPageData']['adviceData']['value']!= null &&  $data['ReportPageData']['adviceData']['value']!= '')
-									@if($i>0)
+									@if($i>1)
 										<div class="page-break"></div>
 									@endif
 
@@ -498,7 +498,7 @@
 									</div>
 								@endif
 								@if($checkout=='Prescription' && isset($data['priscriptionData']) && count($data['ReportPageData']['prescriptionReportData'])>0)
-									@if($i>0)
+									@if($i>1)
 										<div class="page-break"></div>
 									@endif
 									<div class="container">
@@ -512,7 +512,7 @@
 									</div>
 								@endif	
 								@if($checkout== 'Referrals' && isset($data['ReportPageData']['CrossReferalData']) && count($data['ReportPageData']['CrossReferalData'])>0)
-									@if($i>0)
+									@if($i>1)
 										<div class="page-break"></div>
 									@endif
 									<div class="container">
@@ -526,7 +526,7 @@
 									</div>
 								@endif	
 								@if($checkout=='Radiology' && isset($data['ReportPageData']['radiologyReferalReportData']) && count($data['ReportPageData']['radiologyReferalReportData'])>0)
-									@if($i>0)
+									@if($i>1)
 										<div class="page-break"></div>
 									@endif
 									<div class="container">
@@ -540,7 +540,7 @@
 									</div>
 								@endif
 								@if($checkout=='Laboratory' && isset($data['ReportPageData']['labReferalReportData']) && count($data['ReportPageData']['labReferalReportData'])>0)
-									@if($i>0)
+									@if($i>1)
 										<div class="page-break"></div>
 									@endif
 									<div class="container">
@@ -558,7 +558,9 @@
 								== null &&  $data['ReportPageData']['historyData']['value'] == null &&  $data['ReportPageData']['past_history']['value']== null && $data['ReportPageData']['examinationData'] =='' && count($data['ReportPageData']['labReferalReportData']) == 0 && count($data['ReportPageData']['radiologyReferalReportData']) == 0 && count($data['ReportPageData']['CrossReferalData']) == 0 &&  count($data['ReportPageData']['prescriptionReportData']) == 0 && $data['ReportPageData']['opdData']['diagnosis'] == '' && count($data['ReportPageData']['radiologyReportData']) == 0 && count($data['ReportPageData']['labReportData']) == 0) 
 
 								@else 
+								
 										<div class="page-break"></div>
+									
 								@endif
 									<div class="container">
 									 	@include('reportHeader') 
