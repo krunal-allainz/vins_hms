@@ -390,168 +390,198 @@
 <body>
 	<div class="report_style">
 		@php $i=0; @endphp
-		
+			
 			@if(count($data['checkedreportList'])>0)
 
 				@foreach($data['checkedreportList'] as $checkout)
-						
 				  	@if($data['printType'] == 'opd_case')
-				  		<div>
-				  		
 				  				@if($checkout=='History' && $data['ReportPageData']['historyData']['value']!= '' && $data['ReportPageData']['historyData']['value']!= null)
-				  					@if($i > 1)
+				  					<div>
+				  					@if($i > 0)
 										<div class="page-break"></div>
 									@endif
-				  					<div class="container">
-									 	@include('reportHeader') 
-										@include('patientDetailReport')
-										@include('patientCheckupReport')
-										<div class="report_left_pad">
-											@include('historyReportData')
-											@include('reportSignature')
+					  					<div class="container">
+										 	@include('reportHeader') 
+											@include('patientDetailReport')
+											@include('patientCheckupReport')
+											<div class="report_left_pad">
+												@include('historyReportData')
+												@include('reportSignature')
+											</div>
 										</div>
 									</div>
+										@php $i++; @endphp
 								@endif
 								@if($checkout=='Past History' && $data['ReportPageData']['past_history']['value']!= null && $data['ReportPageData']['past_history']['value']!='')
-									@if($i>0)
-										<div class="page-break"></div>
-									@endif
-										<div class="container">
-									 	@include('reportHeader') 
-										@include('patientDetailReport')
-										@include('patientCheckupReport')
-										<div class="report_left_pad">
-											@include('pastHistoryReportdata')
-											@include('reportSignature')
+									<div>
+										@if($i>0)
+											<div class="page-break"></div>
+										@endif
+											<div class="container">
+										 	@include('reportHeader') 
+											@include('patientDetailReport')
+											@include('patientCheckupReport')
+											<div class="report_left_pad">
+												@include('pastHistoryReportdata')
+												@include('reportSignature')
+											</div>
 										</div>
 									</div>
+										@php $i++; @endphp
 								@endif
 								@if($checkout=='Examination' && $data['ReportPageData']['examinationData']!='')
-									@if($i>1)
-										<div class="page-break"></div>
-									@endif
-									<div class="container">
-									 	@include('reportHeader') 
-										@include('patientDetailReport')
-										@include('patientCheckupReport')
-										<div class="report_left_pad">
-											@include('examinationReportData')
-											@include('reportSignature')
+									<div>
+										@if($i>0)
+											<div class="page-break"></div>
+										@endif
+										<div class="container">
+										 	@include('reportHeader') 
+											@include('patientDetailReport')
+											@include('patientCheckupReport')
+											<div class="report_left_pad">
+												@include('examinationReportData')
+												@include('reportSignature')
+											</div>
 										</div>
 									</div>
+										@php $i++; @endphp
 								@endif
 								@if($checkout == 'Investigation Lab' && count($data['ReportPageData']['labReportData'])>0)
-									@if($i>1)
-										<div class="page-break"></div>
-									@endif
-									<div class="container">
-									 	@include('reportHeader') 
-										@include('patientDetailReport')
-										@include('patientCheckupReport')
-										<div class="report_left_pad">
-											@include('labPatientReportData')
-											@include('reportSignature')
+									<div>
+										@if($i>0)
+											<div class="page-break"></div>
+										@endif
+										<div class="container">
+										 	@include('reportHeader') 
+											@include('patientDetailReport')
+											@include('patientCheckupReport')
+											<div class="report_left_pad">
+												@include('labPatientReportData')
+												@include('reportSignature')
+											</div>
 										</div>
 									</div>
+										@php $i++; @endphp
 								@endif
 								@if($checkout == 'Investigation Radiology'&& count($data['ReportPageData']['radiologyReportData']) > 0)
-									@if($i>1)
-										<div class="page-break"></div>
-									@endif
-									<div class="container">
-									 	@include('reportHeader') 
-										@include('patientDetailReport')
-										@include('patientCheckupReport')
-										<div class="report_left_pad">
-											@include('radiologyPatientReportData')
-											@include('reportSignature')
+									<div>
+										@if($i>0)
+											<div class="page-break"></div>
+										@endif
+										<div class="container">
+										 	@include('reportHeader') 
+											@include('patientDetailReport')
+											@include('patientCheckupReport')
+											<div class="report_left_pad">
+												@include('radiologyPatientReportData')
+												@include('reportSignature')
+											</div>
 										</div>
 									</div>
+										@php $i++; @endphp
 								@endif
 								@if($checkout=='Diagnosis' && $data['ReportPageData']['opdData']['diagnosis'] != '')  
-									@if($i>1)
-										<div class="page-break"></div>
-									@endif
-									<div class="container">
-									 	@include('reportHeader') 
-										@include('patientDetailReport')
-										@include('patientCheckupReport')
-										<div class="report_left_pad">
-											@include('diagnosisReportData')
-											@include('reportSignature')
+									<div>
+										@if($i>0)
+											<div class="page-break"></div>
+										@endif
+										<div class="container">
+										 	@include('reportHeader') 
+											@include('patientDetailReport')
+											@include('patientCheckupReport')
+											<div class="report_left_pad">
+												@include('diagnosisReportData')
+												@include('reportSignature')
+											</div>
 										</div>
 									</div>
+										@php $i++; @endphp
 								@endif
 								@if($checkout=='Advice + follow ups' &&  $data['ReportPageData']['adviceData']['value']!= null &&  $data['ReportPageData']['adviceData']['value']!= '')
-									@if($i>1)
-										<div class="page-break"></div>
-									@endif
+									<div>
+										@if($i>0)
+											<div class="page-break"></div>
+										@endif
 
-										<div class="container">
-									 	@include('reportHeader') 
-										@include('patientDetailReport')
-										@include('patientCheckupReport')
-										<div class="report_left_pad">
-											@include('adviceReportData')
-											@include('reportSignature')
+											<div class="container">
+										 	@include('reportHeader') 
+											@include('patientDetailReport')
+											@include('patientCheckupReport')
+											<div class="report_left_pad">
+												@include('adviceReportData')
+												@include('reportSignature')
+											</div>
 										</div>
 									</div>
+										@php $i++; @endphp
 								@endif
 								@if($checkout=='Prescription' && isset($data['priscriptionData']) && count($data['ReportPageData']['prescriptionReportData'])>0)
-									@if($i>1)
-										<div class="page-break"></div>
-									@endif
-									<div class="container">
-									 	@include('reportHeader') 
-										@include('patientDetailReport')
-										@include('patientCheckupReport')
-										<div class="report_left_pad">
-											@include('prescriptionReportData')
-											@include('reportSignature')
+									<div>
+										@if($i>0)
+											<div class="page-break"></div>
+										@endif
+										<div class="container">
+										 	@include('reportHeader') 
+											@include('patientDetailReport')
+											@include('patientCheckupReport')
+											<div class="report_left_pad">
+												@include('prescriptionReportData')
+												@include('reportSignature')
+											</div>
 										</div>
 									</div>
+										@php $i++; @endphp
 								@endif	
 								@if($checkout== 'Referrals' && isset($data['ReportPageData']['CrossReferalData']) && count($data['ReportPageData']['CrossReferalData'])>0)
-									@if($i>1)
-										<div class="page-break"></div>
-									@endif
-									<div class="container">
-									 	@include('reportHeader') 
-										@include('patientDetailReport')
-										@include('patientCheckupReport')
-										<div class="report_left_pad">
-											@include('crossReportData')
-											@include('reportSignature')
+									<div>
+										@if($i>0)
+											<div class="page-break"></div>
+										@endif
+										<div class="container">
+										 	@include('reportHeader') 
+											@include('patientDetailReport')
+											@include('patientCheckupReport')
+											<div class="report_left_pad">
+												@include('crossReportData')
+												@include('reportSignature')
+											</div>
 										</div>
 									</div>
+										@php $i++; @endphp
 								@endif	
 								@if($checkout=='Radiology' && isset($data['ReportPageData']['radiologyReferalReportData']) && count($data['ReportPageData']['radiologyReferalReportData'])>0)
-									@if($i>1)
-										<div class="page-break"></div>
-									@endif
-									<div class="container">
-									 	@include('reportHeader') 
-										@include('patientDetailReport')
-										@include('patientCheckupReport')
-										<div class="report_left_pad">
-											@include('radiologyReportData')
-											@include('reportSignature')
+									<div>
+										@if($i>0)
+											<div class="page-break"></div>
+										@endif
+										<div class="container">
+										 	@include('reportHeader') 
+											@include('patientDetailReport')
+											@include('patientCheckupReport')
+											<div class="report_left_pad">
+												@include('radiologyReportData')
+												@include('reportSignature')
+											</div>
 										</div>
 									</div>
+										@php $i++; @endphp
 								@endif
 								@if($checkout=='Laboratory' && isset($data['ReportPageData']['labReferalReportData']) && count($data['ReportPageData']['labReferalReportData'])>0)
-									@if($i>1)
-										<div class="page-break"></div>
-									@endif
-									<div class="container">
-									 	@include('reportHeader') 
-										@include('patientDetailReport')
-										@include('patientCheckupReport')
-										<div class="report_left_pad">
-											@include('labReportData')
-											@include('reportSignature')
+									<div>
+										@if($i>0)
+											<div class="page-break"></div>
+										@endif
+										<div class="container">
+										 	@include('reportHeader') 
+											@include('patientDetailReport')
+											@include('patientCheckupReport')
+											<div class="report_left_pad">
+												@include('labReportData')
+												@include('reportSignature')
+											</div>
 										</div>
 									</div>
+										@php $i++; @endphp
 								@endif
 								@if($checkout=='Advice + follow ups' && $data['ReportPageData']['opdData']['follow_up'] != '') 
 								@if($data['ReportPageData']['adviceData']['value'] 
@@ -562,6 +592,7 @@
 										<div class="page-break"></div>
 									
 								@endif
+									<div>
 									<div class="container">
 									 	@include('reportHeader') 
 										@include('patientDetailReport')
@@ -571,11 +602,13 @@
 											@include('reportSignature')
 										</div>
 									</div>
+								</div>
+									@php $i++; @endphp
 								@endif	
 					@endif
 		 			@include('reportFooter')
-				</div>
-				@php $i++; @endphp
+			
+			
 
 			@endforeach
 		@endif

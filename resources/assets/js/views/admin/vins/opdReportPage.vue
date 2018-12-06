@@ -239,9 +239,9 @@
 	        			vm.check(e,val_checkbox);
 	        		}
 
-	        		  _.forEach(vm.checkedreportList,function(value){
+	        	  _.forEach(vm.checkedreportList,function(value){
 					
-					
+
 	      		  if(value == 'History'){
 
 	     		 	if(vm.ReportPageData.historyData.value == null || vm.ReportPageData.historyData.value == ''){
@@ -298,7 +298,7 @@
 					}
 
 	     		 } else if(value == 'Advice + follow ups'){
-
+	     		 	vm.showModel = 1;
 	     		 	if(vm.ReportPageData.adviceData.value  == null || vm.ReportPageData.adviceData.value  == ''){
 	  					toastr.error('Advice data not available.', 'Error', {timeOut: 5000});
 	  					  // showReportModel = 0;
@@ -472,7 +472,7 @@
 					}
 
 	     		 } else if(value == 'Advice + follow ups'){
-
+	     		 	vm.showModel = 1;
 	     		 	if(vm.ReportPageData.adviceData.value  == null || vm.ReportPageData.adviceData.value  == ''){
 	  					toastr.error('Advice data not available.', 'Error', {timeOut: 5000});
 	  					  // showReportModel = 0;
@@ -543,7 +543,7 @@
 						vm.reportListSelect = 0;
 				 _.forEach(vm.checkedreportList,function(value){
 					
-					vm.showModel = 0;
+					//vm.showModel = 0;
 	      		  if(value == 'History'){
 
 	     		 	if(vm.ReportPageData.historyData.value == null || vm.ReportPageData.historyData.value == ''){
@@ -776,6 +776,7 @@
 		      	User.printOPDCaseMultipleData(OPDCaseData).then(	
                 (response) => {
                 	var printContent = "";
+                console.log( response.data);
                 	printContent = response.data;
 	    	 		var windowUrl = '';
 			        var uniqueName = '';/*new Date();	*/
