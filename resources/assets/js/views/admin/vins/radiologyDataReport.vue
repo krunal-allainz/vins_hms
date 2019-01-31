@@ -20,7 +20,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr :id="res.id" v-for="(res,index) in radiologyReferalReportData">
+							<tr :id="res.id" v-for="(res,index) in radiologyReferalReportData" v-if="res.removed==false">
 								<td>{{++index}}</td>
 				                    <td v-if="res.type=='Other'">{{res.radiology_other}}</td>
 	                                <td v-else>{{res.type}}</td>
@@ -62,7 +62,7 @@
 				            </tr>
 						</thead>
 						<tbody>
-							<tr v-for="(res,index) in orgRadiologyReffData" >
+							<tr v-for="(res,index) in orgRadiologyReffData" v-if="res.removed==false">
 				                    <td>{{++index}}</td>
 				                    <td v-if="res.type=='Other'">{{res.radiology_other}}</td>
 	                                <td v-else>{{res.type}}</td>
@@ -92,24 +92,24 @@
             		<table class="table table-striped table-bordered report_table" id="radio_list">
 	                    <thead>
 	                        <tr>
-	                            <th>#</th>
-	                            <th>Type</th>
+	                            <th width="4%">#</th>
+	                           <!--  <th>Type</th>
 	                            <th>Body parts</th>
 				                <th>Qualifier</th>
-				                <th>Special request</th>
+				                <th>Special request</th> -->
 				                <th>Details</th>
 				            </tr>
 						</thead>
 						<tbody>
-							<tr  v-for="(res,index) in orgRadiologyReportData">
-				                <td>{{++index}}</td>
-					            <td v-if="res.type=='Other'">{{res.radiology_other}}</td>
+							<tr  v-for="(res,index) in orgRadiologyReportData" v-if="res.removed==false">
+				                <td width="4%">{{++index}}</td>
+					           <!--  <td v-if="res.type=='Other'">{{res.radiology_other}}</td>
 	                            <td v-else>{{res.type}}</td>
 				                <td v-if="res.bodyparts=='Other'">{{res.bodyparts_other}}</td>
 	                            <td v-else>{{res.bodyparts}}</td>
 	                            <td v-if="res.qualifiers=='Other'">{{res.qualifiers_other}}</td>
 	                            <td v-else>{{res.qualifiers}}</td>
-				                <td>{{res.special_request}}</td>
+				                <td>{{res.special_request}}</td> -->
 
 				                <td>{{res.details |strLimit }}</td>
 				            </tr>
@@ -142,8 +142,8 @@
           strLimit: function (value) {
           	   if(value!=null && value!='')
             {
-	            if(value.length > 50){
-	                var str50 = value.substr(0,50);
+	            if(value.length > 1500){
+	                var str50 = value.substr(0,1500);
 	                return str50+'...'; 
 	            } else {
 	                return value; 

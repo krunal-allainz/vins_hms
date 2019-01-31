@@ -151,7 +151,7 @@
 		                	'patient_id':'',
 		                	'patient_name':'',
 		                	'date_receipt': {
-                				time:''
+                				time:moment().format('DD-MM-YYYY'),	
                 			},
                  			'patient_option':list,
                  			'case_detail':{},

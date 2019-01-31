@@ -52,25 +52,25 @@
                 		<table class="table table-striped table-bordered report_table" id="radio_list">
                         <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Type</th>
+                            <th width="2%">#</th>
+                            <!-- <th>Type</th>
                             <th>Body parts</th>
 			                <th>Qualifier</th>
-			                <th>Special request</th>
+			                <th>Special request</th> -->
 			                <th>Details</th>
 			            </tr>
 						</thead>
 						<tbody v-if="radiologyReportData.length>0">
 						<tr  v-for="(res,index) in radiologyReportData">
-		                    <td>{{++index}}</td>
-		                    <td v-if="res.type=='Other'">{{res.radiology_other}}</td>
+		                    <td width="2%">{{++index}}</td>
+		                   <!--  <td v-if="res.type=='Other'">{{res.radiology_other}}</td>
                             <td v-else>{{res.type}}</td>
 		                    <td v-if="res.bodyparts=='Other'">{{res.bodyparts_other}}</td>
                             <td v-else>{{res.bodyparts}}</td>
                             <td v-if="res.qualifiers=='Other'">{{res.qualifiers_other}}</td>
                             <td v-else>{{res.qualifiers}}</td>
-		                    <td>{{res.special_request}}</td>
-		                    <td>{{res.details | strLimit}}</td>
+		                    <td>{{res.special_request}}</td> -->
+		                    <td>{{res.details }}</td>
 		                </tr>
 	                    </tbody>
 	                     <tbody v-else>
@@ -92,8 +92,8 @@
           strLimit: function (value) {
             if(value!=null && value!='')
             {
-            if(value.length > 50){
-                var str50 = value.substr(0,50);
+            if(value.length > 1500){
+                var str50 = value.substr(0,1500);
                 return str50+'...'; 
             } else {
                 return value; 

@@ -2,10 +2,10 @@
     <div class="container">
        <div class="row form-group">
       <div class="col-md-6">
-        <div class="col-md-12">
+        
           <label for="referral">Referral:</label>
-        </div>
-        <div class="col-md-12">
+        
+        <div>
           <select class="form-control ls-select2" name="referral" id="referral" v-model="reffData.referral">
             <option value="" selected>Select </option>
             <option value="cross">Cross</option>
@@ -18,10 +18,10 @@
     </div>
     <div class="row form-group">
       <div class="col-md-6" v-if="reffData.referral == 'cross'">
-        <div class="col-md-12">
+        
           <label for="internal">Cross Reference:</label>
-        </div>
-        <div class="col-md-12">
+        
+        <div>
           <select class="form-control ls-select2" name="cross" id="cross">
             <option value="">Select</option>
             <option value="internal">Internal</option>
@@ -32,10 +32,10 @@
     </div>
       <div class="row form-group">
         <div class="col-md-6" v-show="cross_internal=='true'">
-          <div class="col-md-12">
+          
             <label for="internal">Internal Reference:</label>
-          </div>
-          <div class="col-md-12">
+          
+          <div>
             <select class="form-control ls-select2" name="internal" id="internal" >
               <option value="">Select</option>
               <option :value="doctor.id" v-for="doctor in doctorOption">{{doctor.text}}</option>
@@ -43,39 +43,80 @@
           </div>
         </div>
         <div class="col-md-6" v-show="cross_external=='true'">
-          <div class="col-md-12">
+          
             <label for="external">External Reference:</label>
-          </div>
-          <div class="col-md-12">
+          
+          <div>
             <input type="text" name="external" id="external" class="form-control" v-model="reffData.cross_type_ext">
             </div>
           </div>
         </div>
     <div >
       <div class=" form-group" id="radio_div1" v-show="reffData.referral == 'radiology'">
-        <div class="">
+        
             <div class="row form-group">
                <div class="col-md-6"> 
-                <div class="col-md-12">
+                
                   <label>Select Radiology:</label>
-                  <br>
-                  <select class="form-control ls-select2" id="radiology_type_opd" name="radiology_type_opd">
-                     <option value="">Select</option>
-                    <option v-for="type in investigationData.radiologyType" :value="type.id">{{type.text}}</option>
-                  </select>
+                  <div>
+                    <select class="form-control ls-select2" id="radiology_type_opd" name="radiology_type_opd">
+                       <option value="">Select</option>
+                      <option v-for="type in investigationData.radiologyType" :value="type.id">{{type.text}}</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
+              
               <div class="col-md-6" v-if="resultData.type_name=='Other'">
-                <div class="col-md-12">
                   <label> Other Parts</label>
-                  <input type="text" name="radiology_other_text" id="radiology_other_text" class="form-control" v-model="resultData.radiologyOther">
-                </div>
+                  <div>
+                    <input type="text" name="radiology_other_text" id="radiology_other_text" class="form-control" v-model="resultData.radiologyOther">
+                  </div>
               </div>
             </div>
 
-             <div class="row form-group">
+             
+            <div class="row form-group">
+              <div class="col-md-6">
+                <div v-if="resultData.body_part_text==false">
+                  <label>Body Parts:</label>
+                  <div>
+                    <select class="form-control ls-select2" id="radiology_subtype_opd" name="radiology_subtype_opd" v-model="resultData.subType">
+                       <option value="">Select</option>
+                      <option v-for="obj in investigationData.radiologySubType" :value="obj.id">{{obj.text}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <div v-if="(resultData.body_part_text)">
+                      <label>Body Parts:</label>
+                      <div>
+                        <input type="text" name="radiology_subtype_opd" id="radiology_subtype_opd" class="form-control" v-model="resultData.bodyPart_text" >
+                          <span class="help is-danger" v-show="errors.has('radiology_subtype_opd')">
+                            Field is required
+                        </span>     
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div  v-if="resultData.subtype_text_enable">
+                  <label> Other Parts</label>
+                  <input type="text" name="subType_text_opd" id="subType_text_opd" class="form-control"  v-model="resultData.bodyPart_others">
+                </div>
+                <div  v-if="resultData.bodyPart_text === 'Spine'">
+                  <label> Spine option:</label>
+                  <select class="form-control ls-select2" id="radiology_spine_opd" name="radiology_spine_opd"  v-model="resultData.spine_option_value">
+                     <option value="">Select</option>
+                    <option :value="obj.id" v-for="obj in investigationData.Spine_option" >{{obj.text}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+              
+            
+            <div class="row form-group">
                 <div class="col-md-6">
-                  <div class="col-md-12">
+                  <div>
                       <label>Body Part Side:</label><br>
                       <select class = "form-control ls-select2" id = "body_part_side" name = "body_part_side">
                          <option value="">Select</option>
@@ -85,9 +126,9 @@
                 </div>
             </div>
               
-             <div class="row form-group" v-if="resultData.body_part_side_text=='Others'">
-                <div class="col-md-6">
-                    <div class="col-md-12">
+             <div class="form-group" v-if="resultData.body_part_side_text=='Others'">
+                <div>
+                    <div >
                       <label for="history">Others type:</label>
                       <button type="button" class="btn btn-submit" @click="setHistoryType('advice','text')">Text</button>
                       <button type="button" class="btn btn-warning" @click="setHistoryType('advice','scribble')">Scribble</button>
@@ -97,13 +138,13 @@
             </div>
            <div class="row form-group" v-if="resultData.body_part_side_text=='Others'">
               <div class="col-md-6">
-                  <div class="col-md-6">
+                  <div >
                       <label for="others">Others:</label>
                   </div>
-                  <div class="col-md-12" v-show="resultData.body_part_others_type == 'text'">
+                  <div v-show="resultData.body_part_others_type == 'text'">
                       <textarea class="form-control" type="text" name="body_part_others" id="body_part_others" v-model="resultData.body_part_others"></textarea>         
                   </div>
-                  <div class="col-md-12" v-show="resultData.body_part_others_type == 'scribble'">
+                  <div v-show="resultData.body_part_others_type == 'scribble'">
                       <div id="signature-pad3" class="signature-pad">
                           <div class="signature-pad--body">
                               <canvas class="can-img" id="body_part_scribble" height="200px" width="500px" ></canvas> 
@@ -115,7 +156,7 @@
                       </div>
                   </div>
               </div>
-              <div class="col-md-6" v-if="resultData.signaturePad3_src!='' && resultData.body_part_others_type != 'text' && resultData.signaturePad3_src!== null">
+              <div v-if="resultData.signaturePad3_src!='' && resultData.body_part_others_type != 'text' && resultData.signaturePad3_src!== null">
                 <div class="col-md-12">
                     <label for="history">Others Preview:  <i class="fa fa-download fa-lg red" @click="download(resultData.signaturePad3_src,'Others')" aria-hidden="true"></i></label>
                   </div>
@@ -126,40 +167,7 @@
           </div>
             <div class="row form-group">
               <div class="col-md-6">
-                <div class="col-md-12" v-if="resultData.body_part_text==false">
-                  <label>Body Parts:</label>
-                  <br>
-                  <select class="form-control ls-select2" id="radiology_subtype_opd" name="radiology_subtype_opd" v-model="resultData.subType">
-                     <option value="">Select</option>
-                    <option v-for="obj in investigationData.radiologySubType" :value="obj.id">{{obj.text}}</option>
-                  </select>
-                </div>
-                <div class="col-md-12" v-if="(resultData.body_part_text)">
-                    <label>Body Parts:</label><br>
-                    <input type="text" name="radiology_subtype_opd" id="radiology_subtype_opd" class="form-control" v-model="resultData.bodyPart_text" >
-                    <span class="help is-danger" v-show="errors.has('radiology_subtype_opd')">
-                        Field is required
-                    </span>     
-                  </div>
-              </div>
-              <div class="col-md-6">
-                <div class="col-md-12" v-if="resultData.subtype_text_enable">
-                  <label> Other Parts</label>
-                  <input type="text" name="subType_text_opd" id="subType_text_opd" class="form-control"  v-model="resultData.bodyPart_others">
-                </div>
-                <div class="col-md-12" v-if="resultData.bodyPart_text === 'Spine'">
-                  <label> Spine option:</label>
-                  <select class="form-control ls-select2" id="radiology_spine_opd" name="radiology_spine_opd"  v-model="resultData.spine_option_value">
-                     <option value="">Select</option>
-                    <option :value="obj.id" v-for="obj in investigationData.Spine_option" >{{obj.text}}</option>
-                  </select>
-                </div>
-              </div>
-                
-            </div>
-            <div class="row form-group">
-              <div class="col-md-6">
-                 <div class="col-md-12">
+                 <div>
                     <label>Select Qualifires:</label>
                     <br>
                       <span v-if="resultData.radiology_qualifier_text_enable==false">
@@ -173,7 +181,7 @@
                      </span>
                      
                 </div>
-                <div class="col-md-12" v-if="!(resultData.radiology_special_request_text_enable)">
+                <div v-if="!(resultData.radiology_special_request_text_enable)">
                     <label>Select Special request:</label>
                     <br>
                       <select class="form-control ls-select2" id="radiology_special_request_opd" name="radiology_special_request_opd" v-model="resultData.special_request">
@@ -181,14 +189,14 @@
                         <option v-for="obj in investigationData.radiologySpecialRequest" :value="obj.id">{{obj.text}}</option>
                       </select>
               </div>
-              <div class="col-md-12" v-else>
+              <div v-else>
                 <label>Select Special request:</label>
                 <br>
                   <input type="text" name="special_request_opd" id="special_request_opd" class="form-control" v-model="resultData.special_request_text">
               </div>
               </div>
               <div class="col-md-6">
-                <div class="col-md-12" v-if="resultData.qualifier_radio_text_enable">
+                <div v-if="resultData.qualifier_radio_text_enable">
                   <label> Other Parts</label>
                   <input type="text" name="qualifier_text_opd" id="qualifier_text_opd" class="form-control" v-model="resultData.qualifierOtherPart">
                 </div>
@@ -196,13 +204,13 @@
             </div>
             <div class="row form-group">
                 <div class="col-md-6" >
-                   <div class="col-md-12">
+                   <div >
                       <label>Report details:</label><br>
                       <textarea class="form-control" cols="50" rows="5" v-model="resultData.textData"></textarea>
                     </div>
                 </div>
             </div>
-          </div>
+          
         </div>
       </div>
     
@@ -210,10 +218,10 @@
         <!-- for laboratory -->
         <div class="row form-group" v-show="reffData.referral == 'laboratory' ">
           <div class="col-md-6">
-          <div class="col-md-12">
+          <div >
             <label class="control-label" for="label_1">Laboratory </label>
           </div>
-          <div class="col-md-12">
+          <div >
              <select class="form-control ls-select2"  id="laboratory_report_opd" name="laboratory_report_opd[]" multiple="multiple">
               </select>
           </div>
@@ -224,23 +232,23 @@
         <!-- for physiotherapy -->
         <div class="row form-group" v-show="reffData.referral == 'physiotherapy' || reffData.physio_details!=''">
           <div class="col-md-6">
-          <div class="col-md-12">
+          <div>
             <label class="control-label" for="label_1">Details </label>
           </div>
-          <div class="col-md-12">
+          <div>
             <textarea class="form-control" name="physio_details" id="physio_details" v-model="reffData.physio_details"></textarea>
           </div>
         </div>
       </div>
       <!-- for physiotherapy -->
        
-         <div class="row form-group">
-          <div class="col-md-12">
+         <div class="form-group">
+          <div>
                <button type="button" class="btn btn-primary btn-lg " v-if="reffData.referral!='physiotherapy'" @click="saveReport()">Add</button>
           </div>
        </div> 
       <!-- for cross table -->  
-      <div class="col-md-12" v-if="reffData.reffreal_cross_array.length>0">
+      <div v-if="reffData.reffreal_cross_array.length>0">
          <card title="<i class='ti-layout-cta-left'></i> Cross"  class="filterable">
            <div class="table-responsive">
               <table class="table table-striped table-bordered" id="">
@@ -268,7 +276,7 @@
       </div>
       <!-- for cross table -->
       <!-- for radiology table -->  
-      <div class="col-md-12" v-if="reffData.reffreal_radiology_array.length>0">
+      <div v-if="reffData.reffreal_radiology_array.length>0">
           <card title="<i class='ti-layout-cta-left'></i> Radiology"  class="filterable">
            <div class="table-responsive">
               <table class="table table-striped table-bordered" id="radio_list">
@@ -304,7 +312,7 @@
           </div>
       <!-- for radiology table -->
        <!-- for laboratory table -->  
-      <div class="col-md-12" v-if="reffData.reffreal_laboratory_array.length>0">
+      <div  v-if="reffData.reffreal_laboratory_array.length>0">
         <card title="<i class='ti-layout-cta-left'></i> Laboratory"  class="filterable">
            <div class="table-responsive">
               <table class="table table-striped table-bordered" id="">
