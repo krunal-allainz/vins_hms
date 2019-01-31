@@ -54,11 +54,28 @@ use euro_hms\Models\RoleUser;
     
     public function addUserRole($roleId,$userId)
     {
-     
-     return RoleUser::create([
-      'role_id' => $roleId,
-      'user_id' => $userId
-                               ]);
+        $oldRoles = 0;
+        $oldRoles = RoleUser::where('user_id',$userId)->count();
+        if( $oldRoles == 0){
+            $addRole = RoleUser::create([
+               'role_id' => $roleId,
+               'user_id' => $userId
+               ]);    
+           }
+        elseif($oldRoles == 1){
+            $addRole =  RoleUser::where('user_id',$userId)
+                ->update([
+                'role_id' => $roleId,
+                ]);
+        }else{
+            $removeOld = RoleUser::where('user_id',$userId)->delete();
+            $addRole = RoleUser::create([
+                'role_id' => $roleId,
+                'user_id' => $userId
+                ]);
+        }
+       
+        return $addRole;
     }
     
     public function checkExistUserRole($userId){
