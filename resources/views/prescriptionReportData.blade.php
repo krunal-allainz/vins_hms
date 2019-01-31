@@ -91,9 +91,10 @@
 								</span>
 								@endif
 			                                &#9747;
-								@if($res['total_prescription_days']!='')
-			                        {{$res['total_prescription_days']}}
-			                         <span> DAYS </span>
+								@if($res['total_prescription_days']!='' && $res['duration']!='')
+			                        {{$res['total_prescription_days']}} 
+			                       	{{$res['duration']}}
+			                         
 			                    @else
 			                        <span> TO BE CONTINUE </span>
 			                    @endif

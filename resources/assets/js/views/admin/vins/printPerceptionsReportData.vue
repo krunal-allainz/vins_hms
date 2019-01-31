@@ -24,7 +24,7 @@
 <script>
 	import provisionalDiagnosticReportData from './provisionalDiagnosticReportData.vue';
 	import prescriptionData from './prescriptionData.vue';
-	import prescriptionPrint from './prescriptionPrint.vue';
+	import prescriptionPrint from './prescriptionReportData.vue';
 	import crossReportData from './crossReportData.vue';
 	import adviseReportdata from './adviseReportdata.vue';
 	import followupReportData from './followupReportData.vue';

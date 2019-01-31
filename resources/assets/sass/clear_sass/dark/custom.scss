@@ -545,3 +545,43 @@ body.boxed {
 .form-control:active, .input-group .form-control:hover{
     z-index: 0;
 }
+
+.table{
+    thead{
+        tr{
+            th{
+                padding: 10px !important;
+                border-bottom: solid 1px #eceeef !important;
+                label{
+                 font-weight: bold;
+                }
+            }
+        }
+    }
+    tbody{
+        tr{
+            td{
+                padding: 10px !important;
+            }
+        }
+    }
+}
+.prescriptionclass .input-group-text{
+    margin-right:3px;
+    margin-bottom: 3px;
+}
+.border-bottom{
+    border-bottom: solid 1px #eceeef !important;
+}
+.border-gray{
+    border: solid 1px #eceeef !important;
+}
+.mt-20{
+    margin-top: 20px;
+}
+.p-10{
+    padding: 10px;
+}
+.btn-padding{
+    padding: 16px;
+}

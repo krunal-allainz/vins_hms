@@ -2,10 +2,10 @@
   <div class="container">
      <div class="row form-group">
               <div class="col-md-3">
-                <div class="col-md-12">
+                
                   <label for="prescription">Prescription:</label>
-                </div>
-                <div class="col-md-12">
+                
+                <div>
                   <select class="form-control ls-select2"  name="prescription" id="prescription" v-validate="'required'"  v-model="prescriptFinalData.prescription">
                     <option value="">Select</option>
                     <option v-for="pres in prescriptionOption"  :value="pres.id">{{pres.name}}</option>
@@ -16,33 +16,19 @@
               </div>
               <input type="hidden" name="prescription_quantity" id="prescription_quantity" class="form-control" v-model="prescriptFinalData.prescription_quantity" v-validate="'required|numeric'" readonly="">
               <div class="col-md-3" v-if="prescriptFinalData.prescription_id=='other'">
-                <div class="col-md-12">
+                
                   <label for="other_prescription">Other Prescription:</label>
-                </div>
-                <div class="col-md-12">
+                
+                <div>
                     <input type="text" name="other_prescription" id="other_prescription_text" class="form-control" v-model="prescriptFinalData.other_prescription">
                 </div>
               </div>
-              <div class="col-md-3">
-                <div class="col-md-12">
-                  <label for="quantity">Total Prescription Days:</label>
-                </div>
-                <div class="col-md-12">
-                  <div class=" input-group">
-                    <input type="text" name="total_prescription_days" id="total_prescription_days" class="form-control" v-model="prescriptFinalData.total_prescription_days" v-validate="'required|numeric'">
-                      <div class="input-group-append">
-                          <span class="input-group-text ">Day</span>
-                      </div>
-                    
-                    </div>
-                   
-                </div>
-              </div>
+              
                <div class="col-md-3">
-                <div class="col-md-12">
+                
                   <label for="how_many_times">How many times:</label>
-                </div>
-                <div class="col-md-12">
+                
+                <div>
                   <select class="form-control ls-select2"  name="how_many_times" id="how_many_times" v-validate="'required'"  v-model="prescriptFinalData.how_many_times">
                     <option value="">Select</option>
                     <option v-for="hmt in HMTOption"  :value="hmt.id">{{hmt.text}}</option>
@@ -50,69 +36,95 @@
                   
                 </div>
               </div>
-          </div>
-          <div class="row form-group">
-              <div class="col-md-3" v-if="prescriptFinalData.how_many_times=='Q-Hrs'">
-                <div class="col-md-12">
+               <div class="col-md-3" v-if="prescriptFinalData.how_many_times=='Q-Hrs'">
+                
                   <label for="qhrs">Q-Hrs:</label>
-                </div>
-                <div class="col-md-12">
+                
+                <div>
                   <select class="form-control ls-select2"  name="qhrs" id="qhrs" v-validate="'required'"  v-model="prescriptFinalData.qhrs">
                     <option value="">Select</option>
                     <option v-for="qhrsop in qhrsOption"  :value="qhrsop.id">{{qhrsop.text}}</option>
                   </select>
                 </div> 
               </div>
-               <div class="col-md-6">
-                  <div class="col-md-12">
+          </div>
+          <div class="row form-group">
+               <div class="col-md-3">
+                  
                     <label for="prescription">Suggetion:</label>
-                  </div>
-                  <div class="col-md-12">
+                  
+                  <div>
                       <label class="radio-inline">
                        <input type="radio" class="form-check-input clock_suggest" id="clock_suggest" name="clock_suggest" v-model="prescriptFinalData.clock_suggest" value="ES">  Empty Stomach </label>
                       <label class="radio-inline">
                       <input type="radio" class="form-check-input clock_suggest" id="clock_suggest"  name="clock_suggest" v-model="prescriptFinalData.clock_suggest" value="FS">   Full Stomach </label>
                   </div>
                 </div>
-          </div>
-
-          <div v-if="prespFinalRes.length>0" :id="'presp_div_'+index" v-for="(presp, index) in prespFinalRes">
-           <div class="row form-group" >
                 <div class="col-md-3">
-                  <div class="col-md-12">
-                    <label for="prescription">Clock:</label>
-                  </div>
-                  <div class="col-md-12">
-                   <div class="input-group clockpicker">
-                      <input type="text" class="form-control clock_time" :name="'presp_clock_time'+index" :id="'presp_clock_'+index" v-model="presp.clock_time">
-                      <span class="input-group-addon">
-                          <span class="fa fa-clock-o"></span>
-                      </span>
+                  
+                    <label for="duration">Duration:</label>
+                  
+                  <div>
+                    <select class="form-control ls-select2"  name="duration" id="duration" v-validate="'required'"  v-model="prescriptFinalData.duration">
+                      <option value="">Select</option>
+                      <option v-for="duro in durationOption"  :value="duro.id">{{duro.text}}</option>
+                    </select>
+                  </div> 
+              </div>
+              <div class="col-md-3" v-if="prescriptFinalData.duration!='' && prescriptFinalData.duration!=null">
+               
+                  <label for="quantity">Total Prescription {{prescriptFinalData.duration}}:</label>
+                
+                <div>
+                  <div class=" input-group">
+                    <input type="text" name="total_prescription_days" id="total_prescription_days" class="form-control" v-model="prescriptFinalData.total_prescription_days" v-validate="'required|numeric'">
+                      <div class="input-group-append">
+                          <span class="input-group-text ">{{prescriptFinalData.duration}}</span>
+                      </div>
+                    
                     </div>
-                  </div>
+                   
                 </div>
-                <div class="col-md-3">
-                  <div class="col-md-12">
-                    <label for="prescription">Quantity:</label>
-                  </div>
-                  <div class="col-md-12">
-                    <input type="text"  v-validate="'required|numeric'" v-model="presp.clock_quantity" :name="'presp_clock_quantity'+index" id="presp_clock_quantity_id" class="form-control clock_quantity">
-                  </div>
+              </div>
+          </div>
+          <div class="row form-group">
+            <div v-if="prespFinalRes.length>0" :id="'presp_div_'+index" v-for="(presp, index) in prespFinalRes" class="col-md-6">
+                <div class="row form-group">
+                    <div class="col-md-5 col-sm-6">
+                      <div>
+                        <label for="prescription">Clock:</label>
+                      </div>
+                      <div>
+                       <div class="input-group clockpicker">
+                          <input type="text" class="form-control clock_time" :name="'presp_clock_time'+index" :id="'presp_clock_'+index" v-model="presp.clock_time">
+                          <span class="input-group-addon">
+                              <span class="fa fa-clock-o"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-5 col-sm-6">
+                      <div>
+                        <label for="prescription">Quantity:</label>
+                      </div>
+                      <div>
+                        <input type="text"  v-validate="'required|numeric'" v-model="presp.clock_quantity" :name="'presp_clock_quantity'+index" id="presp_clock_quantity_id" class="form-control clock_quantity">
+                      </div>
+                    </div>
                 </div>
-
             </div>
           </div>
          <div class="row form-group">
-           <div class="col-md-9">
-                 <div class="col-md-12">
+           <div class="col-md-12">
+                 
                    <label for="prescription">Notes:</label>
-                 </div>
-                 <div class="col-md-12">
+                
+                 <div>
                    <textarea v-model="prescriptFinalData.details" name="details" id="details" class="form-control"></textarea>
                  </div>
                </div>
          </div> 
-            <div class="row">
+            <div class="row form-group">
                   <div class="col-md-1">
                       <button type="button" v-if="class_type=='ADD'" class="btn btn-primary"  @click="saveClockResult()">Add</button>
                       <button type="button" v-if="class_type=='EDIT'" class="btn btn-primary"  @click="editClockResult('edit')">Edit</button>
@@ -121,161 +133,119 @@
                      <button type="button" class="btn btn-danger"  @click="editClockResult('cancel')">Cancel</button>
                   </div>
             </div>
-            <br/>
-            <div class="row form-group" v-if="presp_length>0">
-              <div class="col-md-3">
-                  <div class="col-md-12">
-                     <label for="prescription">Prescription Name</label>
-                  </div>
-              </div>
-              <div class="col-md-2">
-                  <div class="col-md-12">
-                     <label for="prescription">Quantity</label>
-                  </div>
-              </div>
-              <div class="col-md-3">
-                  <div class="col-md-12">
-                     <label for="prescription">Clock Time</label>
-                  </div>
-              </div>
-              <div class="col-md-2">
-                  <div class="col-md-12">
-                     <label for="prescription">Suggetion</label>
-                  </div>
-              </div>
-              <div class="col-md-1">
-                  <div class="col-md-12">
-                     <label for="prescription">HMT</label>
-                  </div>
-              </div>
-              <div class="col-md-1">
-                  <div class="col-md-12">
-                     <label for="prescription">TD</label>
-                  </div>
-              </div>
-
+            
+            <div class="form-group table-responsive" v-if="presp_length>0">
+              <table class="table table-bordered prescriptionclass">
+                <thead>
+                  <tr>
+                    <th>
+                      <label for="prescription">Prescription Name</label>
+                    </th>
+                    <th class="text-center">
+                      <label for="prescription">Quantity</label>
+                    </th>
+                    <th class="text-center">
+                      <label for="prescription">Clock Time</label>
+                    </th>
+                    <th class="text-center">
+                      <label for="prescription">Suggetion</label>
+                    </th>
+                    <th class="text-center">
+                      <label for="prescription">HMT</label>
+                    </th>
+                    <th class="text-center">
+                       <label for="prescription">TD</label>
+                    </th>
+                    <th class="text-center">
+                      <label for="prescription">Duration</label>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody v-for="pres_clock in prescriptFinalData.prescriptionNameList">
+                    <tr :id="'presct_table_'+pres_clock.id" v-if="pres_clock.remove=='false'" class="clock_result" v-bind:class="(pres_clock.details!='' && pres_clock.details!=null)?'':'border-bottom'">
+                              <td>
+                                  
+                                        <span class="input-group-text d-inline-block text-uppercase">{{(pres_clock.name==''?'Prescription Name':pres_clock.name)}}</span>
+                                    
+                              </td>
+                              <td>
+                               <div v-if="pres_clock.type=='Q-Hrs'">
+                                  
+                                    
+                                        <span class="input-group-text d-inline-block" v-for="(item,index) in parseInt(pres_clock.total_qhrs)">{{pres_clock['clock_quantity_'+(index+1)]}}</span>
+                                    
+                                  
+                                </div>
+                                <div v-else>
+                                  
+                                        <span class="input-group-text d-inline-block">{{pres_clock.clock_quantity_1}}</span>
+                                   
+                                    
+                                        <span class="input-group-text d-inline-block">{{pres_clock.clock_quantity_2}}</span>
+                                    
+                                        <span class="input-group-text d-inline-block">{{pres_clock.clock_quantity_3}}</span>
+                                   
+                                        <span class="input-group-text d-inline-block">{{pres_clock.clock_quantity_4}}</span>
+                                    
+                                    
+                                </div>
+                              </td>
+                              <td> 
+                                <div v-if="pres_clock.type=='Q-Hrs'">
+                                 
+                                          <span class="input-group-text point d-inline-block" @click="editPrescriptionResult(pres_clock.id,pres_clock['clock_time_'+(index2+1)],pres_clock['clock_quantity_'+(index2+1)],(index2+1))" v-if="" v-for="(item2,index2) in parseInt(pres_clock.total_qhrs)">{{pres_clock['clock_time_'+(index2+1)]}}</span>
+                                     
+                                </div>
+                                <div v-else>
+                                  
+                                        <span class="input-group-text point d-inline-block" @click="editPrescriptionResult(pres_clock.id,pres_clock.clock_time_1,pres_clock.clock_quantity_1,1)" v-if="">{{pres_clock.clock_time_1}}</span>
+                                   
+                                        <span class="input-group-text point d-inline-block" @click="editPrescriptionResult(pres_clock.id,pres_clock.clock_time_2,pres_clock.clock_quantity_2,2)" v-if="">{{pres_clock.clock_time_2}}</span>
+                                    
+                                        <span class="input-group-text point d-inline-block" @click="editPrescriptionResult(pres_clock.id,pres_clock.clock_time_3,pres_clock.clock_quantity_3,3)" v-if="">{{pres_clock.clock_time_3}}</span>
+                                   
+                                        <span class="input-group-text point d-inline-block" @click="editPrescriptionResult(pres_clock.id,pres_clock.clock_time_4,pres_clock.clock_quantity_4,4)" v-if="">{{pres_clock.clock_time_4}}</span>
+                                     
+                                </div>
+                              </td>
+                              <td class="text-center">
+                                  
+                                        <span class="input-group-text d-inline-block">{{(pres_clock.clock_suggest==''?'--':pres_clock.clock_suggest)}}</span>
+                                   
+                              </td>
+                              <td class="text-center">
+                                   
+                                        <span class="input-group-text d-inline-block">{{pres_clock.type}}<span v-if="pres_clock.qhrs!=''">[{{pres_clock.qhrs}}]</span></span>
+                                   
+                              </td>
+                              <td class="text-center">
+                                    
+                                          <span class="input-group-text d-inline-block">{{pres_clock.total_prescription_days}}</span>
+                                      
+                              </td>
+                              <td class="text-center">
+                                   
+                                          <span class="input-group-text d-inline-block">{{pres_clock.duration}}</span>
+                                      
+                              </td>
+                            </tr>
+                            <tr v-if="(pres_clock.details!='') && (pres_clock.details!=null) && pres_clock.remove=='false' " class="border-bottom"> 
+                              <td colspan="7">
+                                <label><b>Notes:-</b></label>
+                                <div>
+                                    <span>{{pres_clock.details}}</span>
+                                </div>
+                              </td>
+                            </tr>
+                </tbody>
+              </table>
             </div>
-            <div v-for="pres_clock in prescriptFinalData.prescriptionNameList">
-              <div :id="'presct_table_'+pres_clock.id" v-if="pres_clock.remove=='false'" class="clock_result">
-                 <div class="row form-group">
-                    <div class="col-md-3">
-                        <div class="col-md-12">
-                          <div class=" input-group">
-                          <div class="input-group-append">
-                              <span class="input-group-text text-uppercase">{{(pres_clock.name==''?'Prescription Name':pres_clock.name)}}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <span v-if="pres_clock.type=='Q-Hrs'">
-                      <div class="col-md-2">
-                        <div class="col-md-12" >
-                          <div class=" input-group">
-                            <div class="input-group-append" v-for="(item,index) in parseInt(pres_clock.total_qhrs)">
-                                <span class="input-group-text" >{{pres_clock['clock_quantity_'+(index+1)]}}</span>
-                            </div>
-                          </div>  
-                        </div>
-                      </div>
-                    </span>
-                    <span v-else>
-                        <div class="col-md-2">
-                          <div class="col-md-12" >
-                            <div class=" input-group">
-                              <div class="input-group-append" >
-                                  <span class="input-group-text" >{{pres_clock.clock_quantity_1}}</span>
-                              </div>
-                              <div class="input-group-append" >
-                                  <span class="input-group-text" >{{pres_clock.clock_quantity_2}}</span>
-                              </div>
-                              <div class="input-group-append" >
-                                  <span class="input-group-text" >{{pres_clock.clock_quantity_3}}</span>
-                              </div>
-                                <div class="input-group-append" >
-                                  <span class="input-group-text" >{{pres_clock.clock_quantity_4}}</span>
-                              </div>
-                            </div>  
-                          </div>
-                        </div>
-                    </span>
-                     <span v-if="pres_clock.type=='Q-Hrs'">
-                      <div class="col-md-3">
-                        <div class="col-md-12" >
-                          <div class=" input-group">
-                              <div class="input-group-append" v-for="(item2,index2) in parseInt(pres_clock.total_qhrs)">
-                                  <span class="input-group-text point" @click="editPrescriptionResult(pres_clock.id,pres_clock['clock_time_'+(index2+1)],pres_clock['clock_quantity_'+(index2+1)],(index2+1))" v-if="">{{pres_clock['clock_time_'+(index2+1)]}}</span>
-                              </div>
-                          </div>  
-                        </div>
-                      </div>
-                    </span>
-                    <span v-else>
-                        <div class="col-md-3">
-                          <div class="col-md-12">
-                            <div class=" input-group">
-                              <div class="input-group-append">
-                                  <span class="input-group-text point" @click="editPrescriptionResult(pres_clock.id,pres_clock.clock_time_1,pres_clock.clock_quantity_1,1)" v-if="">{{pres_clock.clock_time_1}}</span>
-                              </div>
-                              <div class="input-group-append">
-                                  <span class="input-group-text point" @click="editPrescriptionResult(pres_clock.id,pres_clock.clock_time_2,pres_clock.clock_quantity_2,2)" v-if="">{{pres_clock.clock_time_2}}</span>
-                              </div>
-                              <div class="input-group-append">
-                                  <span class="input-group-text point" @click="editPrescriptionResult(pres_clock.id,pres_clock.clock_time_3,pres_clock.clock_quantity_3,3)" v-if="">{{pres_clock.clock_time_3}}</span>
-                              </div>
-                              <div class="input-group-append">
-                                  <span class="input-group-text point" @click="editPrescriptionResult(pres_clock.id,pres_clock.clock_time_4,pres_clock.clock_quantity_4,4)" v-if="">{{pres_clock.clock_time_4}}</span>
-                              </div>
-                              </div>  
-                          </div>
-                        </div>
-                    </span>
-                  <div class="col-md-2">
-                    <div class="col-md-12">
-                       <div class=" input-group">
-                          <div class="input-group-append">
-                              <span class="input-group-text ">{{(pres_clock.clock_suggest==''?'--':pres_clock.clock_suggest)}}</span>
-                          </div>
-                        </div>
-                    </div>
-                  </div>
-                  <div class="col-md-1">
-                    <div class="col-md-12">
-                       <div class=" input-group">
-                          <div class="input-group-append">
-                              <span class="input-group-text ">{{pres_clock.type}}<span v-if="pres_clock.qhrs!=''">[{{pres_clock.qhrs}}]</span></span>
-                          </div>
-                      </div>
-                  </div>
-                  </div>
-                  <div class="col-md-1">
-                    <div class="col-md-12">
-                       <div class=" input-group">
-                          <div class="input-group-append">
-                              <span class="input-group-text ">{{pres_clock.total_prescription_days}}</span>
-                          </div>
-                      </div>
-                  </div>
-                  </div>
-                </div>
-                  <div class="row" v-if="pres_clock.details!='' && pres_clock.details!=null">
-                     <div class="col-md-12">
-                        <div class="col-md-12">
-                              <label><b>Notes:-</b></label>
-                              <div class="form-group prescription_details" >
-                                  <span>{{pres_clock.details}}</span>
-                              </div>
-                         
-                        </div>
-                    </div>
-                  </div>
-              </div>
-          </div>
+         
 
             <div class="row form-group">
                 <div class="col-md-3">
-                    <div class="col-md-12"><br></div>
-                     <div class="col-md-12">
+                    
+                     <div>
                            <button type="button" class="btn btn-primary btn-lg " :disabled="(priscription_add_disabled==false)" @click="savePrescription()">Add</button>
                     </div>
             </div>
@@ -319,6 +289,7 @@
                 'clock_all_timing':[],
                 'presp_length':0,
                 'other_pid':0,
+
                 
                 'HMTOption':[
                     {'id':'OD','text':'OD'},
@@ -327,6 +298,12 @@
                     {'id':'QDS','text':'QDS'},
                     {'id':'HS','text':'HS'},
                     {'id':'Q-Hrs','text':'Q-Hrs'},
+                ],
+                'durationOption':[
+                    {'id':'Day','text':'Day'},
+                    {'id':'Week','text':'Week'},
+                    {'id':'Month','text':'Month'},
+                    {'id':'Year','text':'Year'},
                 ],
                 'qhrsOption':[
                     {'id':'1','text':'1'},
@@ -373,6 +350,7 @@
                     'total_qhrs':0,
                     'details':'',
                     'other_prescription':'',
+                    'duration':''
                     
                 }
                 
@@ -421,6 +399,9 @@
                     },500);
                   }
               });
+            $('#duration').on("select2:select", function (e) {
+                vm.prescriptFinalData.duration=$(this).val();
+            });
             /*for lab data end*/
             setTimeout(function(){
                 vm.initData();
@@ -464,16 +445,18 @@
               let vm=this;
               vm.prespFinalRes=[];
               jQuery(".radio-inline input").iCheck('uncheck');
-              jQuery(".radio-inline input[value='ES']").iCheck('check');
+              //jQuery(".radio-inline input[value='ES']").iCheck('check');
               $('#how_many_times').val(null).trigger('change');
+              $('#duration').val(null).trigger('change');
               vm.prescriptFinalData.how_many_times="";
+              vm.prescriptFinalData.duration="";
               $('#qhrs').val(null).trigger('change');
               vm.prescriptFinalData.qhrs="";
               vm.prescriptFinalData.prescription_unit = 'TAB.';
               vm.prescriptFinalData.prescription_time = '1';
               vm.prescriptFinalData.total_prescription_days = '1';
                vm.prescriptFinalData.details = '';
-              vm.prescriptFinalData.clock_suggest = 'ES';
+              vm.prescriptFinalData.clock_suggest = '';
               _.find(vm.prescriptionOption, function(res) {
                 if(res.id == vm.prescriptFinalData.prescription_id) {
                      vm.prescriptFinalData.prescription_unit=res.formulation; 
@@ -514,10 +497,12 @@
               vm.prescriptFinalData.clock_quantity="";
               vm.prescriptFinalData.clock_suggest="";
               vm.prescriptFinalData.how_many_times="";
+              vm.prescriptFinalData.duration="";
               vm.prescriptFinalData.qhrs="";
               vm.priscription_add_disabled=true;
               $('#prescription').val(null).trigger('change'); 
               $('#how_many_times').val(null).trigger('change');
+              $('#duration').val(null).trigger('change');
               $('#qhrs').val(null).trigger('change');
           },
           multipleClockResult(how_val)
@@ -649,23 +634,23 @@
               
               if(how_val=='OD')
               {
-                  vm.prespFinalRes.push({'id':vm.prescriptFinalData.presp_index,'name':p_name,'type':how_val,'pid':p_id,'clock_time':'','clock_quantity':'','clock_suggest':vm.prescriptFinalData.clock_suggest,'remove':'false','t_quantity':0,'t_days':vm.prescriptFinalData.total_prescription_days,'details':vm.prescriptFinalData.details});
+                  vm.prespFinalRes.push({'id':vm.prescriptFinalData.presp_index,'name':p_name,'type':how_val,'pid':p_id,'clock_time':'','clock_quantity':'','clock_suggest':vm.prescriptFinalData.clock_suggest,'remove':'false','t_quantity':0,'t_days':vm.prescriptFinalData.total_prescription_days,'details':vm.prescriptFinalData.details,'duration':vm.prescriptFinalData.duration});
               }
               if(how_val=='BD')
               {
-                  vm.prespFinalRes.push({'id':vm.prescriptFinalData.presp_index,'name':p_name,'type':how_val,'pid':p_id,'clock_time':'08:00','clock_quantity':'1','clock_suggest':vm.prescriptFinalData.clock_suggest,'remove':'false','t_quantity':0,'t_days':vm.prescriptFinalData.total_prescription_days,'details':vm.prescriptFinalData.details},{'id':vm.prescriptFinalData.presp_index,'name':p_name,'type':how_val,'pid':p_id,'clock_time':'20:00','clock_quantity':'1','clock_suggest':vm.prescriptFinalData.clock_suggest,'remove':'false','t_quantity':0,'t_days':vm.prescriptFinalData.total_prescription_days,'details':vm.prescriptFinalData.details});
+                  vm.prespFinalRes.push({'id':vm.prescriptFinalData.presp_index,'name':p_name,'type':how_val,'pid':p_id,'clock_time':'08:00','clock_quantity':'1','clock_suggest':vm.prescriptFinalData.clock_suggest,'remove':'false','t_quantity':0,'t_days':vm.prescriptFinalData.total_prescription_days,'details':vm.prescriptFinalData.details,'duration':vm.prescriptFinalData.duration},{'id':vm.prescriptFinalData.presp_index,'name':p_name,'type':how_val,'pid':p_id,'clock_time':'20:00','clock_quantity':'1','clock_suggest':vm.prescriptFinalData.clock_suggest,'remove':'false','t_quantity':0,'t_days':vm.prescriptFinalData.total_prescription_days,'details':vm.prescriptFinalData.details,'duration':vm.prescriptFinalData.duration});
               }
               if(how_val=='TDS')
               {
-                  vm.prespFinalRes.push({'id':vm.prescriptFinalData.presp_index,'name':p_name,'type':how_val,'pid':p_id,'clock_time':'06:00','clock_quantity':'1','clock_suggest':vm.prescriptFinalData.clock_suggest,'remove':'false','t_quantity':0,'t_days':vm.prescriptFinalData.total_prescription_days,'details':vm.prescriptFinalData.details},{'id':vm.prescriptFinalData.presp_index,'name':p_name,'type':how_val,'pid':p_id,'clock_time':'14:00','clock_quantity':'1','clock_suggest':vm.prescriptFinalData.clock_suggest,'remove':'false','t_quantity':0,'t_days':vm.prescriptFinalData.total_prescription_days,'details':vm.prescriptFinalData.details},{'id':vm.prescriptFinalData.presp_index,'name':p_name,'type':how_val,'pid':p_id,'clock_time':'22:00','clock_quantity':'1','clock_suggest':vm.prescriptFinalData.clock_suggest,'remove':'false','t_quantity':0,'t_days':vm.prescriptFinalData.total_prescription_days,'details':vm.prescriptFinalData.details});
+                  vm.prespFinalRes.push({'id':vm.prescriptFinalData.presp_index,'name':p_name,'type':how_val,'pid':p_id,'clock_time':'06:00','clock_quantity':'1','clock_suggest':vm.prescriptFinalData.clock_suggest,'remove':'false','t_quantity':0,'t_days':vm.prescriptFinalData.total_prescription_days,'details':vm.prescriptFinalData.details,'duration':vm.prescriptFinalData.duration},{'id':vm.prescriptFinalData.presp_index,'name':p_name,'type':how_val,'pid':p_id,'clock_time':'14:00','clock_quantity':'1','clock_suggest':vm.prescriptFinalData.clock_suggest,'remove':'false','t_quantity':0,'t_days':vm.prescriptFinalData.total_prescription_days,'details':vm.prescriptFinalData.details,'duration':vm.prescriptFinalData.duration},{'id':vm.prescriptFinalData.presp_index,'name':p_name,'type':how_val,'pid':p_id,'clock_time':'22:00','clock_quantity':'1','clock_suggest':vm.prescriptFinalData.clock_suggest,'remove':'false','t_quantity':0,'t_days':vm.prescriptFinalData.total_prescription_days,'details':vm.prescriptFinalData.details,'duration':vm.prescriptFinalData.duration});
               }
               if(how_val=='QDS')
               {
-                  vm.prespFinalRes.push({'id':vm.prescriptFinalData.presp_index,'name':p_name,'type':how_val,'pid':p_id,'clock_time':'06:00','clock_quantity':'1','clock_suggest':vm.prescriptFinalData.clock_suggest,'remove':'false','t_quantity':0,'t_days':vm.prescriptFinalData.total_prescription_days,'details':vm.prescriptFinalData.details},{'id':vm.prescriptFinalData.presp_index,'name':p_name,'type':how_val,'pid':p_id,'clock_time':'12:00','clock_quantity':'1','clock_suggest':vm.prescriptFinalData.clock_suggest,'remove':'false','t_quantity':0,'t_days':vm.prescriptFinalData.total_prescription_days,'details':vm.prescriptFinalData.details},{'id':vm.prescriptFinalData.presp_index,'name':p_name,'type':how_val,'pid':p_id,'clock_time':'18:00','clock_quantity':'1','clock_suggest':vm.prescriptFinalData.clock_suggest,'remove':'false','t_quantity':0,'t_days':vm.prescriptFinalData.total_prescription_days,'details':vm.prescriptFinalData.details},{'id':vm.prescriptFinalData.presp_index,'name':p_name,'type':how_val,'pid':p_id,'clock_time':'00:00','clock_quantity':'1','clock_suggest':vm.prescriptFinalData.clock_suggest,'remove':'false','t_quantity':0,'t_days':vm.prescriptFinalData.total_prescription_days,'details':vm.prescriptFinalData.details});
+                  vm.prespFinalRes.push({'id':vm.prescriptFinalData.presp_index,'name':p_name,'type':how_val,'pid':p_id,'clock_time':'06:00','clock_quantity':'1','clock_suggest':vm.prescriptFinalData.clock_suggest,'remove':'false','t_quantity':0,'t_days':vm.prescriptFinalData.total_prescription_days,'details':vm.prescriptFinalData.details,'duration':vm.prescriptFinalData.duration},{'id':vm.prescriptFinalData.presp_index,'name':p_name,'type':how_val,'pid':p_id,'clock_time':'12:00','clock_quantity':'1','clock_suggest':vm.prescriptFinalData.clock_suggest,'remove':'false','t_quantity':0,'t_days':vm.prescriptFinalData.total_prescription_days,'details':vm.prescriptFinalData.details,'duration':vm.prescriptFinalData.duration},{'id':vm.prescriptFinalData.presp_index,'name':p_name,'type':how_val,'pid':p_id,'clock_time':'18:00','clock_quantity':'1','clock_suggest':vm.prescriptFinalData.clock_suggest,'remove':'false','t_quantity':0,'t_days':vm.prescriptFinalData.total_prescription_days,'details':vm.prescriptFinalData.details,'duration':vm.prescriptFinalData.duration},{'id':vm.prescriptFinalData.presp_index,'name':p_name,'type':how_val,'pid':p_id,'clock_time':'00:00','clock_quantity':'1','clock_suggest':vm.prescriptFinalData.clock_suggest,'remove':'false','t_quantity':0,'t_days':vm.prescriptFinalData.total_prescription_days,'details':vm.prescriptFinalData.details,'duration':vm.prescriptFinalData.duration});
               }
               if(how_val=='HS')
               {
-                  vm.prespFinalRes.push({'id':vm.prescriptFinalData.presp_index,'name':p_name,'type':how_val,'pid':p_id,'clock_time':'22:00','clock_quantity':'1','clock_suggest':vm.prescriptFinalData.clock_suggest,'remove':'false','t_quantity':0,'t_days':vm.prescriptFinalData.total_prescription_days,'details':vm.prescriptFinalData.details});
+                  vm.prespFinalRes.push({'id':vm.prescriptFinalData.presp_index,'name':p_name,'type':how_val,'pid':p_id,'clock_time':'22:00','clock_quantity':'1','clock_suggest':vm.prescriptFinalData.clock_suggest,'remove':'false','t_quantity':0,'t_days':vm.prescriptFinalData.total_prescription_days,'details':vm.prescriptFinalData.details,'duration':vm.prescriptFinalData.duration});
               }
                if(how_val=='Q-Hrs')
               {
@@ -677,7 +662,7 @@
                   let org_val="00:00";
                   for(i=0;i<vm.prescriptFinalData.total_qhrs;i++)
                   {
-                      qhrs_data.push({'id':vm.prescriptFinalData.presp_index,'name':p_name,'type':how_val,'pid':p_id,'clock_time':org_val,'clock_quantity':'1','clock_suggest':vm.prescriptFinalData.clock_suggest,'remove':'false','t_quantity':0,'t_days':vm.prescriptFinalData.total_prescription_days,'details':vm.prescriptFinalData.details});
+                      qhrs_data.push({'id':vm.prescriptFinalData.presp_index,'name':p_name,'type':how_val,'pid':p_id,'clock_time':org_val,'clock_quantity':'1','clock_suggest':vm.prescriptFinalData.clock_suggest,'remove':'false','t_quantity':0,'t_days':vm.prescriptFinalData.total_prescription_days,'details':vm.prescriptFinalData.details,'duration':vm.prescriptFinalData.duration});
                       org_val=moment.utc(org_val,'HH:mm').add(vm.prescriptFinalData.qhrs,'hour').format('HH:mm');
                   }
                   vm.prespFinalRes=qhrs_data;
@@ -713,10 +698,21 @@
                 toastr.error('Please select Q-Hrs.', 'Prescription error', {timeOut: 5000});
                 return false;
             }
+            if((vm.prescriptFinalData.duration=="" || vm.prescriptFinalData.duration==null))
+            {
+               toastr.error('Please select duration.', 'Prescription error', {timeOut: 500});
+                return false;
+            }
+            if((vm.prescriptFinalData.total_prescription_days=="" || vm.prescriptFinalData.total_prescription_days==null || vm.prescriptFinalData.total_prescription_days==0))
+            {
+               toastr.error('Please enter total prescription '+vm.prescriptFinalData.duration+'.', 'Prescription error', {timeOut: 500});
+                return false;
+            }
+
             let total_days_val=_.toNumber(vm.prescriptFinalData.total_prescription_days);
             if(!(_.isInteger(total_days_val)))
             {
-                toastr.error('Please enter valid total prescription days.', 'Prescription error', {timeOut: 5000});
+                toastr.error('Please enter valid total prescription '+vm.prescriptFinalData.duration+'.', 'Prescription error', {timeOut: 5000});
                 return false;
             }
             let q_length=0;
@@ -800,9 +796,15 @@
               vm.prescriptFinalData.prescriptionNameList[objIndex].total_quantity=vm.t_qt;
               vm.prescriptFinalData.prescriptionNameList[objIndex].total_prescription_days=vm.prescriptFinalData.total_prescription_days;
               vm.prescriptFinalData.prescriptionNameList[objIndex].details=vm.prescriptFinalData.details;
-              vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest=vm.prescriptFinalData.clock_suggest;
+              var clockSuggest='--';
+              if(vm.prescriptFinalData.clock_suggest!='' && vm.prescriptFinalData.clock_suggest!=null)
+              {
+                clockSuggest=vm.prescriptFinalData.clock_suggest;
+              }
+              vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest=clockSuggest;
               vm.prescriptFinalData.prescriptionNameList[objIndex].qhrs=qhrs;
               vm.prescriptFinalData.prescriptionNameList[objIndex].total_qhrs=tot_qhrs;
+               vm.prescriptFinalData.prescriptionNameList[objIndex].duration=vm.prescriptFinalData.duration;
               if(array.type=='Q-Hrs')
               {
                      let i=1;
@@ -890,6 +892,12 @@
               clocktimedata.push({'id':array.id,'pid':array.pid,'type':array.type,'name':array.name,'timing':array.clock_time,'quantity':array.clock_quantity,'remove':'false'});
               var obj = {};
               
+              var clockSuggest='--';
+              if(vm.prescriptFinalData.clock_suggest!='' && vm.prescriptFinalData.clock_suggest!=null)
+              {
+                clockSuggest=vm.prescriptFinalData.clock_suggest;
+              }
+
                if(array.type=='Q-Hrs')
               {
                     let i=1;
@@ -911,7 +919,7 @@
                         obj[clock_quantity_name]=clock_qty;
                     }
                     
-                      new_prescript_array.push({'id':array.id,'pid': array.pid,'name':array.name,'type':array.type,'total_quantity':array.clock_quantity,'clock_suggest':vm.prescriptFinalData.clock_suggest,'total_prescription_days':vm.prescriptFinalData.total_prescription_days,'details':vm.prescriptFinalData.details,'qhrs':qhrs,'total_qhrs':tot_qhrs,'remove':'false'});
+                      new_prescript_array.push({'id':array.id,'pid': array.pid,'name':array.name,'type':array.type,'total_quantity':array.clock_quantity,'clock_suggest':clockSuggest,'total_prescription_days':vm.prescriptFinalData.total_prescription_days,'details':vm.prescriptFinalData.details,'qhrs':qhrs,'total_qhrs':tot_qhrs,'remove':'false','duration':vm.prescriptFinalData.duration});
                      new_qhrs_arr= _.merge(new_prescript_array[0],obj);
                      vm.prescriptFinalData.prescriptionNameList.push(new_qhrs_arr);
                    
@@ -920,7 +928,7 @@
               else
               {
                  
-                vm.prescriptFinalData.prescriptionNameList.push({'id':array.id,'pid': array.pid,'name':array.name,'type':array.type,'total_quantity':array.clock_quantity,'clock_time_1':array.clock_time,'clock_quantity_1':array.clock_quantity,'clock_time_2':clock_time_2,'clock_quantity_2':clock_quantity_2,'clock_time_3':clock_time_3,'clock_time_4':clock_time_4,'clock_quantity_3':clock_quantity_3,'clock_quantity_4':clock_quantity_4,'clock_suggest':vm.prescriptFinalData.clock_suggest,'total_prescription_days':vm.prescriptFinalData.total_prescription_days,'details':vm.prescriptFinalData.details,'qhrs':qhrs,'total_qhrs':tot_qhrs,'remove':'false'});
+                vm.prescriptFinalData.prescriptionNameList.push({'id':array.id,'pid': array.pid,'name':array.name,'type':array.type,'total_quantity':array.clock_quantity,'clock_time_1':array.clock_time,'clock_quantity_1':array.clock_quantity,'clock_time_2':clock_time_2,'clock_quantity_2':clock_quantity_2,'clock_time_3':clock_time_3,'clock_time_4':clock_time_4,'clock_quantity_3':clock_quantity_3,'clock_quantity_4':clock_quantity_4,'clock_suggest':clockSuggest,'total_prescription_days':vm.prescriptFinalData.total_prescription_days,'details':vm.prescriptFinalData.details,'qhrs':qhrs,'total_qhrs':tot_qhrs,'remove':'false','duration':vm.prescriptFinalData.duration});
               }
              
                 return vm.prescriptFinalData.prescriptionNameList;
@@ -1033,13 +1041,13 @@
                 let prescpt_array=_.cloneDeep(vm.prescriptFinalData.prescriptionNameList);
                 let clock_data_array=clocktimedata;
                 _.find(prescpt_array, function(res) {
-                    if(res.pid == did) {
+                    if(res.id == did) {
                       res.remove = true;
                       return false;
                     }
                 });
                 _.remove(clock_data_array, function (e) {
-                   return e.pid ==did ;
+                   return e.id ==did ;
                 });
                vm.prescriptFinalData.prescriptionNameList=prescpt_array;
                clocktimedata=clock_data_array;
@@ -1110,7 +1118,8 @@
                   $("#qhrs").val(final_result.qhrs).trigger('change');
                   $("#prescription").prop("disabled", true);
                   $("#how_many_times").prop("disabled", true);
-                 
+                 vm.prescriptFinalData.duration=final_result.duration;
+                  $("#duration").val(final_result.duration).trigger('change');
                   vm.prescriptFinalData.prescription_quantity=final_result.total_quantity;
                   vm.prescriptFinalData.total_prescription_days=final_result.total_prescription_days;
                   vm.prescriptFinalData.details=final_result.details;
@@ -1186,7 +1195,7 @@
                       }
                   }
                     
-                    vm.prespFinalRes.push({'id':final_result.id,'name':final_result.name,'type':final_result.type,'pid':final_result.pid,'clock_time':final_clock_time,'clock_quantity':final_clock_quantity,'clock_suggest':final_result.clock_suggest,'remove':'false','t_quantity':final_result.total_quantity,'t_days':final_result.total_prescription_days,'old_clock_value':final_clock_time,'clock_type':type,'details':final_result.details});
+                    vm.prespFinalRes.push({'id':final_result.id,'name':final_result.name,'type':final_result.type,'pid':final_result.pid,'clock_time':final_clock_time,'clock_quantity':final_clock_quantity,'clock_suggest':final_result.clock_suggest,'remove':'false','t_quantity':final_result.total_quantity,'t_days':final_result.total_prescription_days,'old_clock_value':final_clock_time,'clock_type':type,'details':final_result.details,'duration':final_result.duration});
                     setTimeout(function(){
                       $('.clockpicker').clockpicker({donetext: 'Done',autoclose: true});
                       $('.clockpicker').clockpicker().find('input').change(function(){
@@ -1258,8 +1267,14 @@
                      vm.prescriptFinalData.prescriptionNameList[objIndex].details=vm.prescriptFinalData.details;
                      vm.prescriptFinalData.prescriptionNameList[objIndex].qhrs=vm.prescriptFinalData.qhrs;
                      vm.prescriptFinalData.prescriptionNameList[objIndex].total_qhrs=vm.prescriptFinalData.total_qhrs;
-                      vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest=vm.prescriptFinalData.clock_suggest;
+                     var clockSuggest='--';
+                     if(vm.prescriptFinalData.clock_suggest!='' && vm.prescriptFinalData.clock_suggest!=null)
+                      {
+                        clockSuggest=vm.prescriptFinalData.clock_suggest;
+                      }
+                      vm.prescriptFinalData.prescriptionNameList[objIndex].clock_suggest=clockSuggest;
                      let get_type=vm.prescriptFinalData.prescription_report[0].clock_type;
+                      vm.prescriptFinalData.prescriptionNameList[objIndex].duration=vm.prescriptFinalData.duration;
                      //for prescription clock time list 
                     let objIndex_clock = clocktimedata.findIndex((obj => obj.id == vm.prescriptFinalData.prescription_report[0].id && obj.timing == vm.prescriptFinalData.prescription_report[0].old_clock_value));
 

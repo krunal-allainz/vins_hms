@@ -25,5 +25,6 @@ class Radiology extends Model
               'type_name',
               'bodyparts_other',
               'qualifiers_other',
+              'remove'
         ];
 }

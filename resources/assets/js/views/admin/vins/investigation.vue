@@ -27,27 +27,27 @@
                     <div v-if="laboratoryData.laboratory_report.length>0" :id="'lab_div_'+index" v-for="(lab, index) in laboratoryData.laboratory_report">
                          <div class="row form-group">
                             <div class="col-md-5"> 
-                                <div class="col-md-12"> 
+                                
                                     <label class="control-label" for="label_1" >Name </label> 
-                                </div> 
-                                <div class="col-md-12"> 
+                              
+                                <div class=""> 
                                     <input type="text"  :name="'lab_name'+index" :id="'lab_name_id'+index" :value="lab.text" class="form-control lab_name" readonly="readonly"> 
                                 </div> 
                             </div> 
                             <div class="col-md-3"> 
-                                <div class="col-md-12"> 
+                                
                                     <label class="control-label" for="label_1">Date </label> 
-                                </div> 
-                                <div class="col-md-12"> 
+                               
+                                <div class=""> 
                                      <date-picker :date.sync="lab.lab_date"  :option="option" id = "lab_date_id" class="lab_date" type="text" :name="'lab_date'+index"  :limit="limit" v-model="lab.lab_date.time" :value="lab.lab_date.time"   ></date-picker>
                                        
                                 </div>  
                             </div>  
                             <div class="col-md-4"> 
-                                <div class="col-md-12"> 
+                                
                                     <label class="control-label" for="label_1">Result </label> 
-                                </div> 
-                                <div class="col-md-12"> 
+                                
+                                <div class=""> 
                                     <input type="text"   :name="'lab_result'+index" id="lab_result_id" v-model="lab.result" class="form-control lab_result"  v-validate="'required'" > 
                                     <span class="help is-danger" v-show="errors.has('lab_result'+index)">
                                         Field is required
@@ -61,14 +61,14 @@
             </div>
             <div >
                 <div class="row form-group">
-                    <div class="col-md-12">
-                        <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="">
                             <input type="button" name="add_lab" class="btn btn-primary" value="Add" @click="saveLaboratoryTable()">
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="form-group" v-if="finalLaboratoryData.length>0">
+            <div class="row form-group" v-if="finalLaboratoryData.length>0">
                 <div class="col-md-12">
                   <div class="table-responsive">
                     <table class="table table-striped table-bordered" id="laboratory_table_list">
@@ -111,7 +111,7 @@
 </template>
 <script >
     import User from '../../../api/users.js';
-    import Radiology from './radiologyInvestigation.vue';
+    import Radiology from './investigationRadiology.vue';
     import myDatepicker from 'vue-datepicker';
     import _ from 'lodash';
     export default {

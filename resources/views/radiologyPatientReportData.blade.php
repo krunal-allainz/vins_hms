@@ -10,19 +10,19 @@
                         <table class="table table-striped table-bordered report_table" id="radio_list">
                             <thead>
                                 <tr>
-                                <!--  <th>#</th> -->
-                                 <th>Type</th>
+                                <th width="4%">#</th> 
+                                <!--  <th>Type</th>
                                  <th>Body parts</th>
                                  <th>Qualifier</th>
-                                 <th>Special request</th>
+                                 <th>Special request</th> -->
                                  <th>Details</th>
                                 </tr>
                              </thead>
                              <tbody>
                                 @foreach($data['ReportPageData']['radiologyReportData'] as $index=>$res)
                                      <tr class="text-center">
-                                        <!-- <td>{{++$index}}</td> -->
-                                        @if($res['type']=='Other')
+                                       <td width="4%">{{++$index}}</td> 
+                                       <!--  @if($res['type']=='Other')
                                             <td>{{$res['radiology_other']}}</td>
                                         @else
                                             <td>{{$res['type']}}</td>
@@ -37,8 +37,8 @@
                                         @else
                                             <td>{{$res['qualifiers']}}</td>
                                         @endif
-                                        <td>{{$res['special_request']}}</td>
-                                        <td>{{str_limit($res['details'],50)}}</td>
+                                        <td>{{$res['special_request']}}</td> -->
+                                        <td>{{str_limit($res['details'],1500)}}</td>
                                     </tr>
                                 @endforeach
                            
