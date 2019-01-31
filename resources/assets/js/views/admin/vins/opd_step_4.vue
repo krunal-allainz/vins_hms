@@ -89,7 +89,7 @@
               </div>
             </div>
           </div>
-         <div class="row form-group">
+         <div class="mt-20 form-group btn-padding">
               <button type="button" class="btn btn-primary btn-submit text-right " @click="prev()" >Previous</button>
               <span v-if="pageName=='EDIT'">
                   <button class="btn btn-primary btn-submit text-right ml-10" type="button" @click="EditOPDForm()">Edit Data</button>

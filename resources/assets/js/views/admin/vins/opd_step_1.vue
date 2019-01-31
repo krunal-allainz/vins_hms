@@ -224,18 +224,46 @@
                 </div>
 
 
-    <div class="row">
+    <div class="row form-group">
       <div class="col-md-6">
-        <h3>Pain Assessment</h3>
+        <div class="col-md-6">
+          <h3>Pain Assessment</h3>
+        </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-2" @click="pain_value(0)"><img src="/assets/img/pain/P1.png" class="test"  v-bind:class="[opdData.pain_value==0 ? 'pain_select': '', 'pain_img'  ]"></div>
-      <div class="col-md-2" @click="pain_value(2)"><img src="/assets/img/pain/P2.png"  v-bind:class="[opdData.pain_value==2 ? 'pain_select': '' , 'pain_img' ]"> </div>
-      <div class="col-md-2" @click="pain_value(4)"><img src="/assets/img/pain/P3.png"   v-bind:class="[opdData.pain_value==4 ? 'pain_select': '', 'pain_img'  ]"></div>
-      <div class="col-md-2" @click="pain_value(6)"><img src="/assets/img/pain/P4.png"   v-bind:class="[opdData.pain_value==6 ? 'pain_select': '', 'pain_img'  ]"></div>
-      <div class="col-md-2" @click="pain_value(8)"><img src="/assets/img/pain/P5.png"   v-bind:class="[opdData.pain_value==8 ? 'pain_select': '', 'pain_img'  ]"></div>
-      <div class="col-md-2" @click="pain_value(10)"><img src="/assets/img/pain/P6.png"   v-bind:class="[opdData.pain_value==10 ? 'pain_select': '', 'pain_img'  ]"></div>
+    <div class="row form-group">
+       
+        <div class="col-md-2" @click="pain_value(0)">
+          <div class="col-md-12"> 
+            <img src="/assets/img/pain/P1.png" class="test"  v-bind:class="[opdData.pain_value==0 ? 'pain_select': '', 'pain_img'  ]">
+          </div>
+        </div> 
+        <div class="col-md-2" @click="pain_value(2)">
+          <div class="col-md-12"> 
+            <img src="/assets/img/pain/P2.png"  v-bind:class="[opdData.pain_value==2 ? 'pain_select': '' , 'pain_img' ]"> 
+          </div>
+        </div>
+        <div class="col-md-2" @click="pain_value(4)">
+          <div class="col-md-12"> 
+            <img src="/assets/img/pain/P3.png"   v-bind:class="[opdData.pain_value==4 ? 'pain_select': '', 'pain_img'  ]">
+          </div>
+        </div>
+        <div class="col-md-2" @click="pain_value(6)">
+          <div class="col-md-12"> 
+            <img src="/assets/img/pain/P4.png"   v-bind:class="[opdData.pain_value==6 ? 'pain_select': '', 'pain_img'  ]">
+          </div>
+        </div>
+        <div class="col-md-2" @click="pain_value(8)">
+          <div class="col-md-12"> 
+            <img src="/assets/img/pain/P5.png"   v-bind:class="[opdData.pain_value==8 ? 'pain_select': '', 'pain_img'  ]">
+          </div>
+        </div>
+        <div class="col-md-2" @click="pain_value(10)">
+          <div class="col-md-12"> 
+            <img src="/assets/img/pain/P6.png"   v-bind:class="[opdData.pain_value==10 ? 'pain_select': '', 'pain_img'  ]">
+          </div>
+        </div>
+       
     </div>
 
       <div class="row form-group">
@@ -328,7 +356,9 @@
     </div>
     <div class="row form-group">
       <div class="col-md-6">
-        <button type="button" class="btn btn-primary btn-submit text-right " @click="next()" v-if="curStep==1">Next</button>
+        <div class="col-md-6">
+          <button type="button" class="btn btn-primary btn-submit text-right " @click="next()" v-if="curStep==1">Next</button>
+        </div>
       </div>
     </div>
     </form>

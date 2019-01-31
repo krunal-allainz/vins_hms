@@ -46,7 +46,7 @@
                                     </span>
                                     <span v-if="res.qhrs!=''">[{{res.qhrs}}]</span>
                                      <i class="fa fa-close"></i>
-                                    <span v-if="res.total_prescription_days!=''">{{res.total_prescription_days}} DAYS </span>
+                                    <span v-if="res.total_prescription_days!='' && res.duration!=''">{{res.total_prescription_days}} {{res.duration}} </span>
                                     <span v-else>TO BE CONTINUE</span>
                             </td>
                             <td v-if="removeBtn==1"><i class="fa fa-remove point" @click="removePrescript(res.pid)"></i></td>

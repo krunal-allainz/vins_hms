@@ -1,8 +1,9 @@
 <template>
     <div class="container">
+      <div class="border-gray p-10 form-group">
         <span class="report_title">Prescription Print:-</span>
             <div class="form-group">
-                <div class="col-md-12">
+                <div>
                   <div class="table-responsive">
                     <table class="table report_table" v-if="setPresPrint" id="">
                       
@@ -48,10 +49,11 @@
                                     </span>
                                     <span v-if="res.qhrs!=''">[{{res.qhrs}}]</span>
                                      <i class="fa fa-close"></i>
-                                    <span v-if="res.total_prescription_days!=''">{{res.total_prescription_days}} DAYS </span>
+
+                                    <span v-if="res.total_prescription_days!='' && res.duration!=''">{{res.total_prescription_days}} {{res.duration}}</span>
                                     <span v-else>TO BE CONTINUE</span>
                             </td>
-                            <td v-if="removeBtn==1"><i class="fa fa-remove point" @click="removePrescript(res.pid)"></i></td> 
+                            <td v-if="removeBtn==1"><i class="fa fa-remove point" @click="removePrescript(res.id)"></i></td> 
                             
                           </tr>
                         </tbody>
@@ -94,6 +96,7 @@
                 </div> -->
                 </div>
               </div>
+      </div>
     </div>
 </template>
 <script >
@@ -144,7 +147,7 @@
                 presp_array=vm.prescriptData;
                 vm.$root.$emit('removePrescriptionByName',pid);
                  _.find(presp_array, function(res) {
-                    if(res.pid == pid) {
+                    if(res.id == pid) {
                         res.remove = true;
                     }
                 });

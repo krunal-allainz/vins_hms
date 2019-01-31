@@ -34,10 +34,12 @@
         </div>
      
           <div class="text-left row form-group">
-         <div class="col-md-12">
-           <button type="button" class="btn btn-primary btn-submit text-right " @click="prev()" >Previous</button>
-           <button type="button" class="btn btn-primary btn-submit text-right ml-10" @click="next()" >Next</button>
-        </div>
+           <div class="col-md-6">
+              <div class="col-md-6">
+                 <button type="button" class="btn btn-primary btn-submit text-right " @click="prev()" >Previous</button>
+                 <button type="button" class="btn btn-primary btn-submit text-right ml-10" @click="next()" >Next</button>
+              </div>
+          </div>
       </div>
     </form>
   </div>
