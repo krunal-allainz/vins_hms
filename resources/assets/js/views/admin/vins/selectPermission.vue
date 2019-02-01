@@ -44,7 +44,6 @@
                 Please select any permission .
               </span>
            </div>
-					 
 				</div>
          	</div>
          	 <div class="row form-group">
@@ -169,6 +168,7 @@
               User.checkRolesPermission($roleId).then(
                 (response) => {
                   if(response.data.code == 200){
+                     vm.checkedPermisiontList=[];
                     if(response.data.data != ''){
                      vm.page = 'EDIT';
                       var getPermissionList = response.data.data;
@@ -184,8 +184,8 @@
                           }
                           
                           $('.demo-list input[value="'+getPermissionId+'"]').iCheck('check');
-                        });                      
-
+                        });  
+                         vm.checkedPermisiontList = check_list;                    
                     }else{
                       vm.page = 'ADD';
                       vm.selectedPerlissionList = '';
@@ -233,10 +233,11 @@
         		},
         
         		getPermissionList(){
-        		 	var vm =this;
+               var vm =this;
         			User.getPermissionList().then(
         			 	(response) => {
-        			 		vm.permissionList = response.data.data;
+                  
+                   vm.permissionList = response.data.data;
         			 	},
         				 (error) => {
 

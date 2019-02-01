@@ -370,35 +370,36 @@
              
             },
             validateBeforeSubmit() {
-               
+               let vm = this;
                 this.$validator.validateAll().then(() => {
-                    
-                    if (!this.errors.any()) {
-                    // if(this.$data.userData.id=="") {
-                                // here we add code for Mobile user for create user
-                                User.editUser(this.userData,this.edituserId).then(
-                                  (response)=> {
-                                    //console.log(response);
-                                    if(response.data.code == 200){
-                                      
-                                       //  window.location.href = 'userList';
-                                           toastr.success('User update successfully', 'Update User', {timeOut: 5000});
-                                       //  router.push('userList');
-                                      //  this.initialState();
-                                        //localStorage.setItem("user_add",1)
-                                       // window.location.reload();
-                                    } else if (response.data.code == 301) {
-                                        //this.initialState();
-                                        toastr.error('User already exist.', 'edit User', {timeOut: 5000});
+                    if(vm.userEmailExist == '' && vm.userMobileExist == ''){
+                        if (!this.errors.any()) {
+                        // if(this.$data.userData.id=="") {
+                                    // here we add code for Mobile user for create user
+                                    User.editUser(this.userData,this.edituserId).then(
+                                    (response)=> {
+                                        //console.log(response);
+                                        if(response.data.code == 200){
+                                        
+                                        //  window.location.href = 'userList';
+                                            toastr.success('User update successfully', 'Update User', {timeOut: 5000});
+                                        //  router.push('userList');
+                                        //  this.initialState();
+                                            //localStorage.setItem("user_add",1)
+                                        // window.location.reload();
+                                        } else if (response.data.code == 301) {
+                                            //this.initialState();
+                                            toastr.error('User already exist.', 'edit User', {timeOut: 5000});
 
+                                        }
+                                        // this.$router.push('dashboard');
+                                    },
+                                    (error)=>{
                                     }
-                                    // this.$router.push('dashboard');
-                                  },
-                                  (error)=>{
-                                  }
 
-                                )
-                        // }
+                                    )
+                            // }
+                        }
                     }
                 })
             }

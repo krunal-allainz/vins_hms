@@ -93,9 +93,6 @@ use euro_hms\Models\RoleUser;
 
     public function getRoleUserId($userId){
        return RoleUser::where('user_id',$userId)->first();
-    }
-    
-    
- 	
+    } 	
  }
 ?>

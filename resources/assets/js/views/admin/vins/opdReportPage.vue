@@ -1,4 +1,4 @@
-\<template>
+<template>
 	<div class="container">
 		<div class="page-header">
       		<div class="row text-center">
@@ -232,16 +232,52 @@
 	        		if(val_checkbox=='select_all')
 	        		{
 	        			vm.checkAll(val_checkbox);
-
 	        		}
 	        		else
 	        		{
 	        			vm.check(e,val_checkbox);
 	        		}
-
-	        	  _.forEach(vm.checkedreportList,function(value){
+	        	 
+	        		// vm.check.iCheck('update');
+	        		// $('.demo-list input').iCheck('update');
+				});
+       		},
+       		close_modal()
+       		{
+       			let vm=this;
+       			vm.checkedreportList=[];
+				vm.reportListSelect = 0;
+				jQuery(".demo-list input").iCheck('uncheck');
+				$('#generateModal').modal('hide');
+       		},
+       		print_multiple_report()
+			{
+				let vm=this;
+				if(vm.checkedreportList.length>0){
+					vm.reportListSelect = 0;
+		       }else{
+					vm.reportListSelect = 1;
+					return false;
+				}
+				vm.getUserRole('print.Report','print_multiple');
+				
+			},
+			checkAll(test)
+			{	
+				
+				console.log('checkAll');
+				let vm=this;
+				var check_list_data=[];
+				 if($('#ckbCheckAll').filter(':checked').length == $('#ckbCheckAll').length) { 
+					vm.reportListSelect = 1;
+					vm.showModel = 1;
+					// _.forEach(vm.reportList,function(value){
 					
-
+					// });
+					$('.demo-list input').iCheck('check');
+					
+					 _.forEach(vm.checkedreportList,function(value){
+						 	check_list_data.push(value);
 	      		  if(value == 'History'){
 
 	     		 	if(vm.ReportPageData.historyData.value == null || vm.ReportPageData.historyData.value == ''){
@@ -250,7 +286,6 @@
 					}else{
 						vm.showModel = 1;
 					}
-
 	     		 }else if(value == 'Past History'){
 
 	     		 	if(vm.ReportPageData.past_history.value  == null || vm.ReportPageData.past_history.value  == ''){
@@ -259,7 +294,6 @@
 					}else{
 						vm.showModel = 1;
 					}
-
 	     		 }else if(value == 'Examination'){
 
 	     		 	if(vm.ReportPageData.examinationData  == ''){
@@ -268,7 +302,6 @@
 					}else{
 						vm.showModel = 1;
 					}
-
 	     		 }
 	     		 else if(value == 'Investigation Lab'){
 
@@ -334,7 +367,7 @@
 					}
 
 	     		 } else if(value == 'Laboratory'){
-
+					  
 	     		 	if(vm.ReportPageData.labReferalReportData.length == 0){
 	  					toastr.error('Lab referal data not available.', 'Error', {timeOut: 5000});
 	  					
@@ -356,42 +389,6 @@
 	     		 	vm.showModel = 1;
 	     		 }
 	     		 });
-	        		// vm.check.iCheck('update');
-	        		// $('.demo-list input').iCheck('update');
-				});
-       		},
-       		close_modal()
-       		{
-       			let vm=this;
-       			vm.checkedreportList=[];
-				vm.reportListSelect = 0;
-				jQuery(".demo-list input").iCheck('uncheck');
-				$('#generateModal').modal('hide');
-       		},
-       		print_multiple_report()
-			{
-				let vm=this;
-				if(vm.checkedreportList.length>0){
-					vm.reportListSelect = 0;
-		       }else{
-					vm.reportListSelect = 1;
-					return false;
-				}
-				vm.getUserRole('print.Report','print_multiple');
-				
-			},
-			checkAll(test)
-			{	
-				let vm=this;
-				var check_list_data=[];
-				 if($('#ckbCheckAll').filter(':checked').length == $('#ckbCheckAll').length) { 
-					vm.reportListSelect = 1;
-					vm.showModel = 1;
-					_.forEach(vm.reportList,function(value){
-						check_list_data.push(value.reportListId);
-					});
-					$('.demo-list input').iCheck('check');
-					vm.showModel = 1;
 				}
 				else
 				{
@@ -407,7 +404,7 @@
 			},
        	 	check: function(e,val_check) {
 			 	let vm=this;
-
+				
 	     		 if (e.target.checked) {
 	     		 	vm.checkedreportList.push(val_check);
 	      		  //vm.reportListSelect = 0;
@@ -415,12 +412,10 @@
 	      		 
 	      		  _.forEach(vm.checkedreportList,function(value){
 					vm.showModel = 0;
-					
 	      		  if(value == 'History'){
 
 	     		 	if(vm.ReportPageData.historyData.value == null || vm.ReportPageData.historyData.value == ''){
 	  					toastr.error('History data not available.', 'Error', {timeOut: 5000});
-	  					 
 					}else{
 						vm.showModel = 1;
 					}
@@ -453,7 +448,7 @@
 						vm.showModel = 1;
 					}
 
-	     		 } else if(value == 'Investigation Radiology'){
+	     		 }else if(value == 'Investigation Radiology'){
 
 	     		 	if(vm.ReportPageData.radiologyReportData.length  == 0){
 	  					toastr.error('Investigation Radiology data not available.', 'Error', {timeOut: 5000});
@@ -531,28 +526,21 @@
 	     		 }
 	     		 });
 	     		 }else{
-	     		 	
-	     		 	 
-
 	     		 	 //_.pull(vm.checkedreportList,val_check );
 	     		 	 var get_array = _.remove(vm.checkedreportList, function(n) {
                 		return n == val_check;
               		});
-	     		 	  vm.checkedreportList.splice(val_check,1);
+					  vm.checkedreportList.splice(val_check,0);
 	     		 	  if(vm.checkedreportList.length>0){
 						vm.reportListSelect = 0;
 				 _.forEach(vm.checkedreportList,function(value){
-					
 					//vm.showModel = 0;
 	      		  if(value == 'History'){
 
-	     		 	if(vm.ReportPageData.historyData.value == null || vm.ReportPageData.historyData.value == ''){
-	  					
-	  					 
+	     		 	if(vm.ReportPageData.historyData.value == null || vm.ReportPageData.historyData.value == ''){	 
 					}else{
 						vm.showModel = 1;
 					}
-
 	     		 }else if(value == 'Past History'){
 
 	     		 	if(vm.ReportPageData.past_history.value  == null || vm.ReportPageData.past_history.value  == ''){
@@ -671,7 +659,6 @@
 				if(type == 'opd_case'){
 						//showReportModel = 0;
 						$('#generateModal').modal({ show: false})
-						
 				}
 				else if(type == 'radiology'){
 					if(vm.ReportPageData.radiologyReferalReportData.length == 0){

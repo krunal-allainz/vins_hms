@@ -483,9 +483,7 @@
 					{
 						
 						vm.patientData.appointment_datetime.time=moment().format('DD-MM-YYYY HH:mm:ss');
-					}
-					
-			
+					}		
         },
         created: function(){
         	this.$root.$on('patientData',this.setPatientData);
