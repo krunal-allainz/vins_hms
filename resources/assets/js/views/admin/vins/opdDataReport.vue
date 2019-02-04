@@ -1,6 +1,5 @@
 <template>
 	<div>
-
 		<div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'History' && ReportPageData.historyData.value != null)" >
 		<historyReportData :historyData="ReportPageData.historyData"></historyReportData>
 		</div>	
@@ -100,7 +99,13 @@
           pastHistoryReportData,
           examinationReportData,
           diagnosisReportData
+		},
+		data() {
+			return{	
+				'opd_case' : 'opd_case',
+			}
 		}
+		
 
 	}
 </script>
