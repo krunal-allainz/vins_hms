@@ -12,9 +12,9 @@
  class ReceiptRepository 
  {
 
- 	public function getReceiptList()
+ 	public function getReceiptList($no_of_page)
  	{
- 			return Receipt::with('patientDetails.userDetails')->paginate(10);
+ 			return Receipt::with('patientDetails.userDetails')->paginate($no_of_page);
  	}
 
  	public function deleteReceipt($id){

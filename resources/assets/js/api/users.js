@@ -237,8 +237,8 @@ export default {
   getAllPatientNameByConsultDoctor(doctor,section) {
       return api.post('doctor/patientlist',{'doctor' :doctor,'section':section});
   },
-  getReceiptList(page_url){
-     return api.post(page_url);
+  getReceiptList(page_url,perPage){
+     return api.post(page_url,{'no_of_page':perPage});
   },
    getChargesTypes(){
      return api.post('receipt/getchargestypes');
