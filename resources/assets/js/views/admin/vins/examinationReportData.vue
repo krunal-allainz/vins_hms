@@ -1,6 +1,6 @@
 <template>
-	<div>
-		<div class='col-md-6 text-left'>
+	<div class="row">
+		<div class='col-md-12 text-left'>
 				<span class='text-left'><b>Examination :-</b></span>
 		</div>
 		

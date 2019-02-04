@@ -1,13 +1,13 @@
 <template>
 	<div>
-		<div>
+		<div class="row">
 			 
 		 	<div class='col-md-12'>
 		 		<span class="report_title">Cross Referrals:-</span>
 		 	</div>
     		<div class="col-md-12">
     			<div class="" v-if="CrossReferalData.length>0">
-            		<table class="table table-striped table-bordered report_table" id="radio_list">
+            		<table class="mt-10 table table-striped table-bordered report_table" id="radio_list">
 	                    <thead>
 		                    <tr>
 		                        <th>#</th>

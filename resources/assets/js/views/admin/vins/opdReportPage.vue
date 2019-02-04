@@ -46,8 +46,8 @@
 				</div>
 			</div>
    		</div>
-    	<div id="printModal" class="modal fade">
-     		<div class="modal-dialog" >
+    	<div id="printModal" class="modal fade newreportPopup">
+     		<div class="modal-dialog modal-lg" >
 		 		<div class="modal-content" >
 		 		<!--<div class="modal-header">:timeStamp="timeStamp"</div>-->
 		 			<div class="modal-body">

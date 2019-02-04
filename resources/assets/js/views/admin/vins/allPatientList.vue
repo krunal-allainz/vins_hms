@@ -310,16 +310,16 @@
                           </select>
                           <div data-v-744e717e="" class="datatable-info  pb-2 mt-6">
                             <ul class="pagination">
-                              <li> <a href="javascript:void(0)"  @click="getPatientList('//patient/getallpatientlist?page=1','reports')" class="previous" v-if="reportPagination.current_page!=1">&laquo; First</a></li>
+                              <li> <a href="javascript:void(0)"  @click="getPatientList('/patient/getallpatientlist?page=1','reports')" class="previous" v-if="reportPagination.current_page!=1">&laquo; First</a></li>
                               <li> <a href="javascript:void(0)"  @click="getPatientList(reportPagination.prev_page_url,'reports')" class="previous" v-if="reportPagination.current_page!=1">&laquo; Prev</a></li>
                             <!--   <li  v-for="record_pagination,index in reportPagination.last_page" v-if="index<=2"><a v-bind:class="[reportPagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getPatientList('/patient/getallpatientlist?page='+index,'reports')">{{index}}</a></li> -->
                              <li v-for="record_pagination,index in reportPagination.last_page" >
                                 <span v-if="Math.abs(record_pagination - reportPagination.current_page)<3">
-                                    <a v-bind:class="[reportPagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getPatientList('//patient/getallpatientlist?page='+index,'reports')">{{index}}</a>
+                                    <a v-bind:class="[reportPagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getPatientList('/patient/getallpatientlist?page='+index,'reports')">{{index}}</a>
                                 </span>
                               </li> 
                               <li><a href="javascript:void(0)"  v-if="reportPagination.current_page!=reportPagination.last_page" @click="getPatientList(reportPagination.next_page_url,'reports')" class="next">Next &raquo;</a></li>
-                               <li><a href="javascript:void(0)"  v-if="reportPagination.current_page!=reportPagination.last_page" @click="getPatientList('//patient/getallpatientlist?page='+reportPagination.last_page,'reports')" class="next">Last &raquo;</a></li>
+                               <li><a href="javascript:void(0)"  v-if="reportPagination.current_page!=reportPagination.last_page" @click="getPatientList('/patient/getallpatientlist?page='+reportPagination.last_page,'reports')" class="next">Last &raquo;</a></li>
                             </ul>
                           </div>
                         <div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(reportPagination.total > 0)">

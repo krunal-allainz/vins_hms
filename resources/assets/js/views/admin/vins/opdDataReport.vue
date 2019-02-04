@@ -1,5 +1,6 @@
 <template>
-	<div>
+	<div class="">
+
 		<div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'History' && ReportPageData.historyData.value != null)" >
 		<historyReportData :historyData="ReportPageData.historyData"></historyReportData>
 		</div>	
@@ -37,6 +38,10 @@
 				<adviseReportdata :adviceData="ReportPageData.adviceData"></adviseReportdata>
 		</div>
 
+		<div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Advice + follow ups' && ReportPageData.opdData.follow_up != '')" >
+				<followupReportData :followupData="ReportPageData.opdData.follow_up"></followupReportData>
+		</div>
+
 		 <div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Prescription' && ReportPageData.prescriptionReportData.length > 0)" >
 			 	<!-- print Perceptions Report start -->
 			 	<prescriptionPrint :prescriptData="ReportPageData.prescriptionReportData" :removeBtn="0" :checkedreportList="checkedreportList" :printType="printType"> </prescriptionPrint>
@@ -49,6 +54,12 @@
 			
 		</div>
 
+		<div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Laboratory' && ReportPageData.labReferalReportData.length > 0)" >
+				<!-- lab referal data start -->
+			 	<labDataReport :labReferalData="ReportPageData.labReferalReportData"  :printType="printType" :checkedreportList="checkedreportList" :refferance="0"></labDataReport>
+			 	<!-- lab referal data end -->
+		</div>
+
 		<div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Radiology' && ReportPageData.radiologyReferalReportData.length > 0)" >	 
 			<!-- Radiology referal start -->
 			 	<radiologyDataReport :radiologyReferalReportData="ReportPageData.radiologyReferalReportData"
@@ -56,17 +67,10 @@
 			 	<!-- Radiology referal end -->
 		</div>
 
-		<div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Laboratory' && ReportPageData.labReferalReportData.length > 0)" >
-				<!-- lab referal data start -->
-			 	<labDataReport :labReferalData="ReportPageData.labReferalReportData"  :printType="printType" :checkedreportList="checkedreportList" :refferance="0"></labDataReport>
-			 	<!-- lab referal data end -->
-		</div>
+		
 
 
 		
-		<div class="report_space" v-for="reportName in checkedreportList" v-show="(reportName == 'Advice + follow ups' && ReportPageData.opdData.follow_up != '')" >
-				<followupReportData :followupData="ReportPageData.opdData.follow_up"></followupReportData>
-		</div>
 
 		
 

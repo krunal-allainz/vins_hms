@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div>
       <div class="border-gray p-10 form-group">
         <span class="report_title">Prescription Print:-</span>
             <div class="form-group">

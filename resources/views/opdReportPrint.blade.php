@@ -56,6 +56,11 @@
               @include('adviceReportData')
           </div>
         @endif
+         @if(in_array('Advice + follow ups',$data['checkedreportList'] ))
+          <div class="report_space report_left_pad">
+              @include('followupReportData')
+          </div>
+        @endif
 
         @if(in_array('Prescription',$data['checkedreportList'] ))
           @if(isset($data['priscriptionData']))
@@ -71,23 +76,21 @@
           </div>
         @endif
 
+        @if(in_array('Laboratory',$data['checkedreportList'] ))
+          <div class="report_space report_left_pad">
+            @include('labReportData')
+          </div>
+        @endif
+        
         @if(in_array('Radiology',$data['checkedreportList'] ))
           <div class="report_space report_left_pad">
             @include('radiologyReportData')
           </div>
         @endif  
 
-        @if(in_array('Laboratory',$data['checkedreportList'] ))
-          <div class="report_space report_left_pad">
-            @include('labReportData')
-          </div>
-        @endif
+        
 
-         @if(in_array('Advice + follow ups',$data['checkedreportList'] ))
-          <div class="report_space report_left_pad">
-              @include('followupReportData')
-          </div>
-        @endif
+        
        
     </div>
    @include('reportSignature')

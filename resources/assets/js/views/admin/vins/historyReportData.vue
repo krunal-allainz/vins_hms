@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="row">
 		
 		<div v-if="(historyData.type == 'text')">
 			<div class='col-md-6 '>
