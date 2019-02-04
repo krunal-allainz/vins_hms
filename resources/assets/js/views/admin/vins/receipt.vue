@@ -8,7 +8,7 @@
       </div>
     </div>
     <!-- jnmbnmb -->
-      <div class="row">
+      <div class="row table-responsive">
         <table class="table table-striped">
           <thead>
             <tr>
@@ -25,7 +25,7 @@
           </thead>
           <tbody>
             <tr v-for="(res,index) in receiptData" :id="'receipt_'+res.id">
-               <td>{{++index}}</td>
+               <td>{{res.id}}</td>
                <td>{{res.receipt_number}}</td>
                <td>{{res.case_no}}</td>
                <td>{{res.patient_details.first_name}} {{res.patient_details.last_name}}</td>
@@ -47,7 +47,37 @@
           </tbody>
         </table>
       </div>
-      <div class="pagination">
+      <div data-v-744e717e="" class="table-footer">
+	<div data-v-744e717e="" class="datatable-length float-left pl-3">
+			<span data-v-744e717e="">Rows per page:</span>
+			<select data-v-744e717e="" class="custom-select" id="perPageNo"  @change="setPerPage" v-model="perPage">
+				<option data-v-744e717e="" value="2">2</option>
+ 				<option data-v-744e717e="" value="5">5</option>
+  				<option data-v-744e717e="" value="10">10</option>
+  				<option data-v-744e717e="" value="20">20</option>
+  				<option data-v-744e717e="" value="50">50</option>
+					<!--     <option data-v-744e717e="" value="-1">All</option> -->
+			</select>
+      <div data-v-744e717e="" class="datatable-info  pb-2 mt-6">
+        <ul class="pagination">
+          <li> <a href="javascript:void(0)"  @click="getResults('/patient/receiptlist?page=1',perPage)" class="previous" v-if="pagination.current_page!=1">&laquo; First</a></li>
+          <li> <a href="javascript:void(0)"  @click="getResults(pagination.prev_page_url)" class="previous" v-if="pagination.current_page!=1">&laquo; Prev</a></li>
+           <li v-for="record_pagination,index in pagination.last_page" >
+            <span v-if="Math.abs(record_pagination - pagination.current_page)<3">
+                <a v-bind:class="[pagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getResults('/patient/receiptlist?page='+index,perPage)">{{index}}</a>
+            </span>
+          </li> 
+          <li><a href="javascript:void(0)"  v-if="pagination.current_page!=pagination.last_page" @click="getResults(pagination.next_page_url)" class="next">Next &raquo;</a></li>
+          <li><a href="javascript:void(0)"  v-if="pagination.current_page!=pagination.last_page" @click="getResults('/patient/receiptlist?page='+pagination.last_page,perPage)" class="next">Last &raquo;</a></li>
+        </ul>
+      </div>
+ 		   <div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(pagination.total > 0)">
+    		<span data-v-744e717e="">Showing </span> {{pagination.from}} - {{pagination.to}} of {{pagination.total}}
+    		<span data-v-744e717e="">records</span>
+			  </div>
+		</div>
+	 </div>
+   <!--    <div class="pagination">
     <button class="btn btn-default" @click="getResults(pagination.prev_page_url)"
             :disabled="!pagination.prev_page_url">
         Previous
@@ -56,7 +86,9 @@
     <button class="btn btn-default" @click="getResults(pagination.next_page_url)"
             :disabled="!pagination.next_page_url">Next
     </button>
-       <div id="receiptModal" class="modal fade">
+      
+  </div> -->
+ <div id="receiptModal" class="modal fade">
 		 	<div class="modal-dialog">
 		 		<div class="modal-content">
 		 			<div class="modal-header">
@@ -70,8 +102,6 @@
             </div>	
           </div>	
        </div>
-  </div>
-
    <div id="receiptEditModel" class="modal hide" role="dialog">
         <div class="modal-dialog modal-lg">
 
@@ -108,7 +138,8 @@
 				'pagination': {},
 				'print_counter':0,
 				'receipt_id':'',
-				'modal_enabled':false
+				'modal_enabled':false,
+				'perPage':5,
 			}
 		},
 		components: {
@@ -128,6 +159,10 @@
 			 //this.fetchStories()/
 		},
 		methods: {
+			setPerPage(e){
+		      let vm =this;
+		      vm.getResults('/patient/receiptlist');
+		    },
 			getUserRole(permission,type,id,rec_type){
                  var vm = this;
                 User.getUserRole(vm.login_user_id,permission).then(
@@ -178,8 +213,9 @@
 			// Our method to GET results from a Laravel endpoint
 			getResults(page_url) {
 				var vm =this;
+				var noperPage=vm.perPage;
 				page_url = page_url || '/patient/receiptlist';
-				User.getReceiptList(page_url).then(
+				User.getReceiptList(page_url,noperPage).then(
 			 		(response) => {
 			 			 vm.receiptData = response.data.data;
 			 			 vm.makePagination(response.data);
@@ -260,7 +296,10 @@
                     current_page: data.current_page,
                     last_page: data.last_page,
                     next_page_url: data.next_page_url,
-                    prev_page_url: data.prev_page_url
+                    prev_page_url: data.prev_page_url,
+                    total : data.total,
+					from : data.from,
+					to : data.to
                 }
                 this.pagination = pagination;
                 //this.$set('pagination', pagination)

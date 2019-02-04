@@ -86,9 +86,16 @@
                           
                         <div data-v-744e717e="" class="datatable-info  pb-2 mt-6">
                             <ul class="pagination">
+                              <li> <a href="javascript:void(0)"  @click="getLaboratoryList('/laboratory/getLaboratoryList?page=1',perPage)" class="previous" v-if="laboratoryPagination.current_page!=1">&laquo; First</a></li>
                               <li> <a href="javascript:void(0)"  @click="getLaboratoryList(laboratoryPagination.prev_page_url)" class="previous" v-if="laboratoryPagination.current_page!=1">&laquo; Prev</a></li>
-                              <li  v-for="record_pagination,index in laboratoryPagination.last_page" v-if="index<=2"><a v-bind:class="[laboratoryPagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getLaboratoryList('/laboratory/getLaboratoryList?page='+index)">{{index}}</a></li>
+                             <!--  <li  v-for="record_pagination,index in laboratoryPagination.last_page" v-if="index<=2"><a v-bind:class="[laboratoryPagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getLaboratoryList('/laboratory/getLaboratoryList?page='+index)">{{index}}</a></li> -->
+                             <li v-for="record_pagination,index in laboratoryPagination.last_page" >
+                                <span v-if="Math.abs(record_pagination - laboratoryPagination.current_page)<3">
+                                    <a v-bind:class="[laboratoryPagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getLaboratoryList('/laboratory/getLaboratoryList?page='+index,perPage)">{{index}}</a>
+                                </span>
+                              </li> 
                               <li><a href="javascript:void(0)"  v-if="laboratoryPagination.current_page!=laboratoryPagination.last_page" @click="getLaboratoryList(laboratoryPagination.next_page_url)" class="next">Next &raquo;</a></li>
+                               <li><a href="javascript:void(0)"  v-if="laboratoryPagination.current_page!=laboratoryPagination.last_page" @click="getLaboratoryList('/laboratory/getLaboratoryList?page='+laboratoryPagination.last_page,perPage)" class="next">Last &raquo;</a></li>
                             </ul>
                         </div>
                            

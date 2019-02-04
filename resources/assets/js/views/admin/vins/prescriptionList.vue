@@ -76,14 +76,21 @@
                     			</select>
                            <div data-v-744e717e="" class="datatable-info  pb-2 mt-6">
                               <ul class="pagination">
+                                 <li> <a href="javascript:void(0)"  @click="getPrescriptionList('/prescription/getPrescriptionList?page=1',perPage)" class="previous" v-if="prescriptionPagination.current_page!=1">&laquo; First</a></li>
                                 <li> <a href="javascript:void(0)"  @click="getPrescriptionList(prescriptionPagination.prev_page_url)" class="previous" v-if="prescriptionPagination.current_page!=1">&laquo; Prev</a></li>
-                                <li  v-for="record_pagination,index in prescriptionPagination.last_page" v-if="index<=2"><a v-bind:class="[prescriptionPagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getPrescriptionList('/prescription/getPrescriptionList?page='+index)">{{index}}</a></li>
+                               <!--  <li  v-for="record_pagination,index in prescriptionPagination.last_page" v-if="index<=2"><a v-bind:class="[prescriptionPagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getPrescriptionList('/prescription/getPrescriptionList?page='+index)">{{index}}</a></li> -->
+                                <li v-for="record_pagination,index in prescriptionPagination.last_page" >
+                                <span v-if="Math.abs(record_pagination - prescriptionPagination.current_page)<3">
+                                    <a v-bind:class="[prescriptionPagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getPrescriptionList('/prescription/getPrescriptionList?page='+index,perPage)">{{index}}</a>
+                                </span>
+                              </li> 
                                 <li><a href="javascript:void(0)"  v-if="prescriptionPagination.current_page!=prescriptionPagination.last_page" @click="getPrescriptionList(prescriptionPagination.next_page_url)" class="next">Next &raquo;</a></li>
+                                <li><a href="javascript:void(0)"  v-if="prescriptionPagination.current_page!=prescriptionPagination.last_page" @click="getPrescriptionList('/prescription/getPrescriptionList?page='+prescriptionPagination.last_page,perPage)" class="next">Last &raquo;</a></li>
                               </ul>
                           </div>
                       
                      		<div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(prescriptionPagination.total > 0)">
-                        		<span data-v-744e717e="">Showing </span> {{prescriptionPagination.current_page}} - {{prescriptionPagination.to}} of {{prescriptionPagination.total}}
+                        		<span data-v-744e717e="">Showing </span> {{prescriptionPagination.from}} - {{prescriptionPagination.to}} of {{prescriptionPagination.total}}
                         		<span data-v-744e717e="">records</span>
                    			</div>
                			</div>

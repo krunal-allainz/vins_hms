@@ -1,16 +1,16 @@
 <template>
 	<div>	
 	
-	<div v-if="(printType == 'lab')">
+	<div v-if="(printType == 'lab')" class="row">
 		
 		<div class='col-md-12' >
 			<span class="report_title">Lab Report:-</span>
 		</div>
 		
-		 <div class="form-group" >
-			<div class="col-md-12">
+		 <div class="form-group col-md-12" >
+			<div class="">
 				<div class="" v-if="labReferalData.length>0">
-					<table class="table table-striped table-bordered report_table" id="laboratory_table_list">
+					<table class="table table-striped table-bordered report_table mt-10" id="laboratory_table_list">
 						<thead>
 							<tr>
 								<th>#</th>
@@ -32,16 +32,16 @@
 		</div>
 	</div>
 	
-	<div v-for="reportName in checkedreportList" v-show="(reportName == 'Laboratory' && refferance=='0')">
+	<div v-for="reportName in checkedreportList" v-show="(reportName == 'Laboratory' && refferance=='0')" class="row">
 		
 		<div class='col-md-12'>
 			<span class="report_title">Lab Report:-</span>
 		</div>
 		
-		 <div class="form-group" >
-			<div class="col-md-12">
+		 <div class="form-group col-md-12" >
+			<div class="">
 				<div class="" v-if="orgLabReffData.length>0">
-					<table class="table table-striped table-bordered report_table" id="laboratory_table_list">
+					<table class="table table-striped table-bordered report_table mt-10" id="laboratory_table_list">
 						<thead>
 							<tr>
 								<th>#</th>
@@ -63,17 +63,17 @@
 		</div>
 	</div>
 	
-	<div v-for="reportName in checkedreportList" v-show="(reportName == 'Investigation Lab' && printType == 'opd_case' && refferance=='1')">
+	<div v-for="reportName in checkedreportList" v-show="(reportName == 'Investigation Lab' && printType == 'opd_case' && refferance=='1')" class="row">
 		
 		<div class='col-md-12'>
 			<span class="report_title">Investigation Lab Report:-</span>
 		</div>
 		
-		<div class="form-group"  >
-			<div class="col-md-12">
+		<div class="form-group col-md-12">
+			<div class="">
 				<div class="" v-if="orgLabReportData.length>0">
 					
-					<table class="table table-striped table-bordered report_table" id="laboratory_table_list">
+					<table class="table table-striped table-bordered report_table mt-10" id="laboratory_table_list">
 					<thead>
 					<tr>
 						<th>#</th>

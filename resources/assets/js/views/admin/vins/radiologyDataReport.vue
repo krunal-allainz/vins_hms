@@ -1,14 +1,14 @@
 <template>
 	<div>
-		<div v-if="(printType == 'radiology')">
+		<div v-if="(printType == 'radiology')" class="row">
 			<div class='col-md-12' >
 			<span class="report_title">Radiology Report:-</span>
 		</div>
 		
-		 <div class="form-group" >
-			<div class="col-md-12">
+		 <div class="form-group col-md-12" >
+			<div class="">
 				<div class="" v-if="radiologyReferalReportData.length>0">
-					<table class="table table-striped table-bordered report_table" id="radio_list">
+					<table class="mt-10 table table-striped table-bordered report_table" id="radio_list">
 						<thead>
 							<tr>
 								  <th>#</th>
@@ -42,15 +42,15 @@
 		</div>
 		</div>
 		
-		<div v-for="reportName in checkedreportList" v-if="(reportName == 'Radiology' && refferance=='0')" > 
+		<div v-for="reportName in checkedreportList" v-if="(reportName == 'Radiology' && refferance=='0')" class="row"> 
 			
 			<div class='col-md-12'>
 		 		<span class="report_title"> Radiology Report:-</span>
 		 	</div>
-		 	<div class="form-group" >
-        	<div class="col-md-12">
+		 	<div class="form-group col-md-12">
+        	<div class="">
         		<div class="" v-if="orgRadiologyReffData.length>0">
-            		<table class="table table-striped table-bordered report_table" id="radio_list" >
+            		<table class="mt-10 table table-striped table-bordered report_table" id="radio_list" >
 	                    <thead>
 	                        <tr>
 	                            <th>#</th>
@@ -82,14 +82,14 @@
 			</div>
 			</div>
 		</div> 	
-		<div v-for="reportName in checkedreportList" v-if="(reportName == 'Investigation Radiology'  && refferance=='1')" >  
+		<div v-for="reportName in checkedreportList" v-if="(reportName == 'Investigation Radiology'  && refferance=='1')" class="row">  
 		 	<div class='col-md-12'>
 		 		<span class="report_title">Investigation Radiology Report:-</span>
 		 	</div>
-		 	 <div class="form-group" >
-        	<div class="col-md-12">
+		 	 <div class="form-group col-md-12">
+        	<div class="">
         		<div class="" v-if="orgRadiologyReportData.length>0">
-            		<table class="table table-striped table-bordered report_table" id="radio_list">
+            		<table class="mt-10 table table-striped table-bordered report_table" id="radio_list">
 	                    <thead>
 	                        <tr>
 	                            <th width="4%">#</th>

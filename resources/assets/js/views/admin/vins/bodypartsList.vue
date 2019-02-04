@@ -59,18 +59,22 @@
                     			</select>
                           <div data-v-744e717e="" class="datatable-info  pb-2 mt-6">
                             <ul class="pagination">
+                              <li> <a href="javascript:void(0)"  @click="getBodypartsList('/bodyparts/getBodypartsList?page=1',perPage)" class="previous" v-if="bodypartsPagination.current_page!=1">&laquo; First</a></li>
                               <li> <a href="javascript:void(0)"  @click="getBodypartsList(bodypartsPagination.prev_page_url)" class="previous" v-if="bodypartsPagination.current_page!=1">&laquo; Prev</a></li>
-                              <li  v-for="record_pagination,index in bodypartsPagination.last_page" v-if="index<=2"><a v-bind:class="[bodypartsPagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getBodypartsList('/bodyparts/getBodypartsList?page='+index)">{{index}}</a></li>
+                             <!--  <li  v-for="record_pagination,index in bodypartsPagination.last_page" v-if="index<=2"><a v-bind:class="[bodypartsPagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getBodypartsList('/bodyparts/getBodypartsList?page='+index)">{{index}}</a></li> -->
+                               <li v-for="record_pagination,index in bodypartsPagination.last_page" >
+                                <span v-if="Math.abs(record_pagination - bodypartsPagination.current_page)<3">
+                                    <a v-bind:class="[bodypartsPagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getBodypartsList('/bodyparts/getBodypartsList?page='+index,perPage)">{{index}}</a>
+                                </span>
+                              </li> 
                               <li><a href="javascript:void(0)"  v-if="bodypartsPagination.current_page!=bodypartsPagination.last_page" @click="getBodypartsList(bodypartsPagination.next_page_url)" class="next">Next &raquo;</a></li>
+                              <li><a href="javascript:void(0)"  v-if="bodypartsPagination.current_page!=bodypartsPagination.last_page" @click="getBodypartsList('/bodyparts/getBodypartsList?page='+bodypartsPagination.last_page,perPage)" class="next">Last &raquo;</a></li>
                             </ul>
                           </div>
                      		   <div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(bodypartsPagination.total > 0)">
                         		<span data-v-744e717e="">Showing </span> {{bodypartsPagination.from}} - {{bodypartsPagination.to}} of {{bodypartsPagination.total}}
                         		<span data-v-744e717e="">records</span>
-                           
-
-
-                   			</div>
+                   			  </div>
                			</div>
               		 </div>
               	</div>

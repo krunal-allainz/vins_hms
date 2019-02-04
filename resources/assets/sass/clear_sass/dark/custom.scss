@@ -579,9 +579,18 @@ body.boxed {
 .mt-20{
     margin-top: 20px;
 }
+.mt-10{
+    margin-top: 6px;
+}
 .p-10{
     padding: 10px;
 }
 .btn-padding{
     padding: 16px;
+}
+
+#printModal.newreportPopup{
+    .modal-dialog{
+        margin: 30px auto !important;
+    }
 }

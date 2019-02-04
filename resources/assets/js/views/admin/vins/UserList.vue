@@ -94,13 +94,21 @@
                     </select> 
                      <div data-v-744e717e="" class="datatable-info  pb-2 mt-6">
                         <ul class="pagination">
+                          <li> <a href="javascript:void(0)"  @click="getAllUsers('user/getUserDetails?page=1',perPage)" class="previous" v-if="pagination.current_page!=1">&laquo; First</a></li>
                           <li> <a href="javascript:void(0)"  @click="getAllUsers(pagination.prev_page_url,perPage)" class="previous" v-if="pagination.current_page!=1">&laquo; Prev</a></li>
-                          <li  v-for="record_pagination,index in pagination.last_page" v-if="index<=2"><a v-bind:class="[pagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getAllUsers('user/getUserDetails?page='+index,perPage)">{{index}}</a></li>
+                          <!-- <li  v-for="record_pagination,index in pagination.last_page" v-if="index<=2"><a v-bind:class="[pagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getAllUsers('user/getUserDetails?page='+index,perPage)">{{index}}</a></li> -->
+                           <li v-for="record_pagination,index in pagination.last_page" >
+
+                            <span v-if="Math.abs(record_pagination - pagination.current_page)<3">
+                                <a v-bind:class="[pagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getAllUsers('user/getUserDetails?page='+index,perPage)">{{index}}</a>
+                            </span>
+                          </li> 
                           <li><a href="javascript:void(0)"  v-if="pagination.current_page!=pagination.last_page" @click="getAllUsers(pagination.next_page_url,perPage)" class="next">Next &raquo;</a></li>
+                          <li><a href="javascript:void(0)"  v-if="pagination.current_page!=pagination.last_page" @click="getAllUsers('user/getUserDetails?page='+pagination.last_page,perPage)" class="next">Last &raquo;</a></li>
                         </ul>
                     </div>
                      <div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(pagination.total>0)">
-                        <span data-v-744e717e="">Showing </span> {{pagination.current_page}} - {{pagination.to}} of {{pagination.total}}
+                        <span data-v-744e717e="">Showing </span> {{pagination.from}} - {{pagination.to}} of {{pagination.total}}
                         <span data-v-744e717e="">records</span>
                     </div>
                 </div>

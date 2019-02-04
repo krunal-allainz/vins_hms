@@ -60,13 +60,20 @@
                     			</select>
                            <div data-v-744e717e="" class="datatable-info  pb-2 mt-6">
                             <ul class="pagination">
+                              <li> <a href="javascript:void(0)"  @click="getSpecialRequestList('/specialRequest/getSpecialRequestList?page=1',perPage)" class="previous" v-if="specialRequestPagination.current_page!=1">&laquo; First</a></li>
                               <li> <a href="javascript:void(0)"  @click="getSpecialRequestList(specialRequestPagination.prev_page_url)" class="previous" v-if="specialRequestPagination.current_page!=1">&laquo; Prev</a></li>
-                              <li  v-for="record_pagination,index in specialRequestPagination.last_page" v-if="index<=2"><a v-bind:class="[specialRequestPagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getSpecialRequestList('/specialRequest/getSpecialRequestList?page='+index)">{{index}}</a></li>
+                             <!--  <li  v-for="record_pagination,index in specialRequestPagination.last_page" v-if="index<=2"><a v-bind:class="[specialRequestPagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getSpecialRequestList('/specialRequest/getSpecialRequestList?page='+index)">{{index}}</a></li> -->
+                             <li v-for="record_pagination,index in specialRequestPagination.last_page" >
+                              <span v-if="Math.abs(record_pagination - specialRequestPagination.current_page)<3">
+                                  <a v-bind:class="[specialRequestPagination.current_page==++index ? 'active' : '']" href="javascript:void(0)" @click="getSpecialRequestList('/specialRequest/getSpecialRequestList?page='+index,perPage)">{{index}}</a>
+                              </span>
+                            </li> 
                               <li><a href="javascript:void(0)"  v-if="specialRequestPagination.current_page!=specialRequestPagination.last_page" @click="getSpecialRequestList(specialRequestPagination.next_page_url)" class="next">Next &raquo;</a></li>
+                               <li><a href="javascript:void(0)"  v-if="specialRequestPagination.current_page!=specialRequestPagination.last_page" @click="getSpecialRequestList('/specialRequest/getSpecialRequestList?page='+specialRequestPagination.last_page,perPage)" class="next">Last &raquo;</a></li>
                             </ul>
                           </div>
                      		<div data-v-744e717e="" class="datatable-info  pb-2 mt-3" v-show="(specialRequestPagination.total > 0)">
-                        		<span data-v-744e717e="">Showing </span> {{specialRequestPagination.current_page}} - {{specialRequestPagination.to}} of {{specialRequestPagination.total}}
+                        		<span data-v-744e717e="">Showing </span> {{specialRequestPagination.from}} - {{specialRequestPagination.to}} of {{specialRequestPagination.total}}
                         		<span data-v-744e717e="">records</span>
                    			</div>
                			</div>

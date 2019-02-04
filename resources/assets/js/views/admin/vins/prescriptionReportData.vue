@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="">
         <span class="report_title">Prescription Print:-</span>
             <div class="form-group">
                 <div class="" v-if="presp_count(prescriptData)>0">

@@ -28,9 +28,9 @@ class ReceiptController extends Controller
     * Get List Of Receipt
     * return array
     */
-    public function getPatientReceiptList(){
-
-        $receiptData = $this->receiptObj->getReceiptList();
+    public function getPatientReceiptList(Request $request){
+        $no_of_page = $request->no_of_page;
+        $receiptData = $this->receiptObj->getReceiptList($no_of_page);
         return $receiptData;
 
     }

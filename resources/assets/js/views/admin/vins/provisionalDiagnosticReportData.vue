@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="row">
 		<div class='col-md-12'>
 			<span class='report_title'>Provisional Diagnosis:-</span>
 		</div>
