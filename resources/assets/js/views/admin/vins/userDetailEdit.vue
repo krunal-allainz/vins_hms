@@ -32,7 +32,7 @@
                                         <span class="help is-danger" v-show="errors.has('lastName')">Please enter valid last name.</span>
                                     </div>
                                 </div>
-                                <div class="row form-group">
+                                <div class="row form-group" v-if="(userData.userType != '4')">
                                     <div class="col-md-3">
                                     <label for="userType" class="control-label float-right txt_media1">User Type :</label>
                                     </div>
@@ -266,7 +266,13 @@
                 User.getUserRole(vm.login_user_id,permission).then(
                     (responce) => {
                        if(responce.data.data == ''){
-                         vm.$root.$emit('logout','You are not authorise to access this page');
+                         if(vm.$store.state.Users.userDetails.user_type != '4'){
+                            if(vm.edituserId != vm.login_user_id)
+                            {
+                                   vm.$root.$emit('logout','You are not authorise to access this page'); 
+                            }
+                         }
+                 //        vm.$root.$emit('logout','You are not authorise to access this page');
                        }
                     },
                     (error) =>{
