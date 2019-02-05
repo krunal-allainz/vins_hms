@@ -265,7 +265,7 @@
 			checkAll(test)
 			{	
 				
-				console.log('checkAll');
+				
 				let vm=this;
 				var check_list_data=[];
 				 if($('#ckbCheckAll').filter(':checked').length == $('#ckbCheckAll').length) { 
@@ -404,29 +404,34 @@
 			},
        	 	check: function(e,val_check) {
 			 	let vm=this;
-				
+			 	let value=val_check;
+				//console.log(val_check)
 	     		 if (e.target.checked) {
 	     		 	vm.checkedreportList.push(val_check);
 	      		  //vm.reportListSelect = 0;
 	      		  
-	      		 
-	      		  _.forEach(vm.checkedreportList,function(value){
-					vm.showModel = 0;
+	      		 let val_data=0;
+	      		  //_.forEach(vm.checkedreportList,function(value){
+				  //vm.showModel = 0;
 	      		  if(value == 'History'){
 
 	     		 	if(vm.ReportPageData.historyData.value == null || vm.ReportPageData.historyData.value == ''){
 	  					toastr.error('History data not available.', 'Error', {timeOut: 5000});
+	  					val_data=0;
 					}else{
-						vm.showModel = 1;
+						val_data=1;
+						//vm.showModel = 1;
 					}
 
 	     		 }else if(value == 'Past History'){
 
 	     		 	if(vm.ReportPageData.past_history.value  == null || vm.ReportPageData.past_history.value  == ''){
 	  					toastr.error('Past history data not available.', 'Error', {timeOut: 5000});
+	  					val_data=0;
 	  					  // showReportModel = 0;
 					}else{
-						vm.showModel = 1;
+						val_data=1;
+						//vm.showModel = 1;
 					}
 
 	     		 }else if(value == 'Examination'){
@@ -434,8 +439,10 @@
 	     		 	if(vm.ReportPageData.examinationData  == ''){
 	  					toastr.error('Examination data not available.', 'Error', {timeOut: 5000});
 	  					  // showReportModel = 0;
+	  					  val_data=0;
 					}else{
-						vm.showModel = 1;
+						val_data=1;
+						//vm.showModel = 1;
 					}
 
 	     		 }
@@ -443,9 +450,11 @@
 
 	     		 	if(vm.ReportPageData.labReportData.length  == 0){
 	  					toastr.error('Investigation Lab data not available.', 'Error', {timeOut: 5000});
+	  					val_data=0;
 	  					  // showReportModel = 0;
 					}else{
-						vm.showModel = 1;
+						val_data=1;
+						//vm.showModel = 1;
 					}
 
 	     		 }else if(value == 'Investigation Radiology'){
@@ -453,35 +462,42 @@
 	     		 	if(vm.ReportPageData.radiologyReportData.length  == 0){
 	  					toastr.error('Investigation Radiology data not available.', 'Error', {timeOut: 5000});
 	  					  // showReportModel = 0;
+	  					 val_data=0;
 					}else{
-						vm.showModel = 1;
+						val_data=1;
+						//vm.showModel = 1;
 					}
 
 	     		 } else if(value == 'Diagnosis'){
 
 	     		 	if(vm.ReportPageData.opdData.diagnosis  == null || vm.ReportPageData.opdData.diagnosis  == ''){
 	  					toastr.error('Diagnosis data not available.', 'Error', {timeOut: 5000});
+	  					val_data=0;
 	  					  // showReportModel = 0;
 					}else{
-						vm.showModel = 1;
+						val_data=1;
+						//m.showModel = 1;
 					}
 
 	     		 } else if(value == 'Advice + follow ups'){
 	     		 	vm.showModel = 1;
 	     		 	if(vm.ReportPageData.adviceData.value  == null || vm.ReportPageData.adviceData.value  == ''){
 	  					toastr.error('Advice data not available.', 'Error', {timeOut: 5000});
+	  					val_data=1;
 	  					  // showReportModel = 0;
 					}else{
-						vm.showModel = 1;
+						val_data=0;
+						//vm.showModel = 1;
 					}
 
 					if(vm.ReportPageData.opdData.follow_up == ''){
 	  					toastr.error('Follow up data not available.', 'Error', {timeOut: 5000});
-	  					vm.showModel = 1;
+	  					//vm.showModel = 1;
+	  					val_data=0;
 	  					   
 					}else{
-						
-						vm.showModel = 1;
+						val_data=1;
+						//vm.showModel = 1;
 					}
 
 	     		 }else if(value == 'Prescription'){
@@ -489,42 +505,53 @@
 	     		 	if(vm.ReportPageData.prescriptionReportData  == 0){
 	  					toastr.error('Prescription data not available.', 'Error', {timeOut: 5000});
 	  					  // showReportModel = 0;
+	  					  val_data=0;
 					}else{
-						vm.showModel = 1;
+						val_data=1;
+						//vm.showModel = 1;
 					}
 
 	     		 }else if(value == 'Referrals'){
 
 	     		 	if(vm.ReportPageData.CrossReferalData == 0){
 	  					toastr.error('Cross referal data not available.', 'Error', {timeOut: 5000});
-	  					
+	  					val_data=0;
 					}else{
-						vm.showModel = 1;
+						val_data=1;
+						//vm.showModel = 1;
 					}
 
 	     		 } else if(value == 'Laboratory'){
 
 	     		 	if(vm.ReportPageData.labReferalReportData.length == 0){
 	  					toastr.error('Lab referal data not available.', 'Error', {timeOut: 5000});
-	  					
+	  					val_data=0;
 					}else{
-						vm.showModel = 1;
+						val_data=1;
+						//vm.showModel = 1;
 					}
 
 	     		 }else if(value == 'Radiology'){
 
 	     		 	if(vm.ReportPageData.radiologyReferalReportData.length == 0){
 	  					toastr.error('Radiology referal data not available.', 'Error', {timeOut: 5000});
-	  					
+	  					val_data=0;
 					}else{
-						vm.showModel = 1;
+						val_data=1;
+						//vm.showModel = 1;
 					}
 
 	     		 } else{
 	     		 	// return true;
-	     		 	vm.showModel = 1;
+	     		 	//val_data=1;
+	     		 	//vm.showModel = 1;
 	     		 }
-	     		 });
+	     		 
+	     		 if(val_data==1)
+	     		 {
+	     		 	vm.showModel = 1
+	     		 }
+	     		 	//});
 	     		 }else{
 	     		 	 //_.pull(vm.checkedreportList,val_check );
 	     		 	 var get_array = _.remove(vm.checkedreportList, function(n) {
@@ -533,13 +560,15 @@
 					  vm.checkedreportList.splice(val_check,0);
 	     		 	  if(vm.checkedreportList.length>0){
 						vm.reportListSelect = 0;
+						
 				 _.forEach(vm.checkedreportList,function(value){
-					//vm.showModel = 0;
+					vm.showModel = 0;
 	      		  if(value == 'History'){
 
 	     		 	if(vm.ReportPageData.historyData.value == null || vm.ReportPageData.historyData.value == ''){	 
 					}else{
 						vm.showModel = 1;
+						return false;
 					}
 	     		 }else if(value == 'Past History'){
 
@@ -548,6 +577,7 @@
 	  					  // showReportModel = 0;
 					}else{
 						vm.showModel = 1;
+						return false;
 					}
 
 	     		 }else if(value == 'Examination'){
@@ -557,6 +587,7 @@
 	  					  // showReportModel = 0;
 					}else{
 						vm.showModel = 1;
+						return false;
 					}
 
 	     		 }
@@ -567,6 +598,7 @@
 	  					  // showReportModel = 0;
 					}else{
 						vm.showModel = 1;
+						return false;
 					}
 
 	     		 } else if(value == 'Investigation Radiology'){
@@ -576,6 +608,7 @@
 	  					  // showReportModel = 0;
 					}else{
 						vm.showModel = 1;
+						return false;
 					}
 
 	     		 } else if(value == 'Diagnosis'){
@@ -585,6 +618,7 @@
 	  					  // showReportModel = 0;
 					}else{
 						vm.showModel = 1;
+						return false;
 					}
 
 	     		 } else if(value == 'Advice + follow ups'){
@@ -594,15 +628,18 @@
 	  					  // showReportModel = 0;
 					}else{
 						vm.showModel = 1;
+						return false;
 					}
 
 					if(vm.ReportPageData.opdData.follow_up == ''){
 	  					toastr.error('Follow up data not available.', 'Error', {timeOut: 5000});
 	  					vm.showModel = 1;
+	  					return false;
 	  					   
 					}else{
 						
 						vm.showModel = 1;
+						return false;
 					}
 
 	     		 }else if(value == 'Prescription'){
@@ -612,6 +649,7 @@
 	  					  // showReportModel = 0;
 					}else{
 						vm.showModel = 1;
+						return false;
 					}
 
 	     		 }else if(value == 'Referrals'){
@@ -621,6 +659,7 @@
 	  					
 					}else{
 						vm.showModel = 1;
+						return false;
 					}
 
 	     		 } else if(value == 'Laboratory'){
@@ -630,6 +669,7 @@
 	  					
 					}else{
 						vm.showModel = 1;
+						return false;
 					}
 
 	     		 }else if(value == 'Radiology'){
@@ -639,17 +679,21 @@
 	  					
 					}else{
 						vm.showModel = 1;
+						return false;
 					}
 
 	     		 } else{
 	     		 	// return true;
 	     		 	vm.showModel = 1;
+	     		 	return false;
 	     		 }
 	     		 });
-			       }else{
-						vm.reportListSelect = 1;
-						return false;
-					}
+			    }
+		       else{
+					vm.reportListSelect = 1;
+					return false;
+				}
+
 	     		 }
 	   		 },
        		printReport(type){
