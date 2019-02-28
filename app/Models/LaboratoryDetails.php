@@ -19,5 +19,6 @@ class LaboratoryDetails extends Model
               'remove',
               'referance',
               'patient_case_management_id',
+              'laboratory_type'
         ];
 }

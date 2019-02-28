@@ -19,6 +19,7 @@
  use euro_hms\Api\Repositories\BodypartsRepository;
  use euro_hms\Api\Repositories\QualifiersRepository;
  use euro_hms\Api\Repositories\SpecialRequestRepository;
+ use euro_hms\Api\Repositories\SpineRepository;
  use euro_hms\Models\PatientDetailsForm;
  use euro_hms\Models\OpdDetailsOption;
  use euro_hms\Models\TokenManagment;
@@ -38,6 +39,7 @@
         $this->objBodyparts=new BodypartsRepository();
         $this->objQualifiers=new QualifiersRepository();
         $this->objSpecialRequest=new SpecialRequestRepository();
+        $this->objSpine=new SpineRepository();
     }
 
     /**
@@ -247,6 +249,7 @@
             //$lab_obj->opd_id=$opd_id_org;
             $lab_obj->user_id=$user_id;
             $lab_obj->laboratory_id=$lab['lab_id'];
+            $lab_obj->laboratory_type=$lab['parent_id'];
             $lab_obj->remove='false';
             $lab_obj->save();
           }
@@ -345,7 +348,8 @@
             $lab_obj_2->patient_case_management_id=$case_id;
             //$lab_obj_2->opd_id=$opd_id_org;
             $lab_obj_2->user_id=$user_id;
-            $lab_obj_2->laboratory_id=$lab['id'];
+            $lab_obj_2->laboratory_id=$lab['real_id'];
+            $lab_obj_2->laboratory_type=$lab['parent_id'];
             $lab_obj_2->date=Carbon::createFromFormat('d-m-Y', $lab['lab_date']['time'])->format('Y-m-d');
             $lab_obj_2->result=$lab['result'];
             //$lab_obj_2->assign_dr=$lab['assign'];
@@ -678,9 +682,12 @@
           if(($lab->laboratory_id)!="")
           {
             $rest_lab['id']=$index_lab;
+            $type=$this->getLaboratoryType($lab->laboratory_type);
             $rest_lab['lab_id']=$lab->laboratory_id;
             $lab_det=$this->getLabpratoryNameById($lab->laboratory_id);
-            $rest_lab['name']=$lab_det->name;
+            $rest_lab['name']=$lab_det->name.' - '.$type;
+            $rest_lab['parent_id']=$lab->laboratory_type;
+            $rest_lab['objId']=$lab->laboratory_id;
             $rest_lab['remove']=$lab->remove;
             $lab_array[]=$rest_lab;
             $index_lab++;
@@ -689,6 +696,7 @@
         }
         
       }
+
       $result['reffData']['reffreal_laboratory_array']=$lab_array;
 
 
@@ -716,6 +724,14 @@
           $rest_radio['bodyPart_others']=$radio->bodyparts_other;
           $rest_radio['type']=$radio->type;
           $rest_radio['spine_option_value']=$radio->spine_id;
+          if($radio->spine_id!=0 && $radio->spine_id!='' && $radio->spine_id!=null)
+          {
+              $rest_radio['spine_option_text']=$this->objSpine->getSpineNameById($radio->spine_id);
+          }
+          else
+          {
+              $rest_radio['spine_option_text']='';
+          }
           $rest_radio['subType']=$radio->bodyparts_id;
           $rest_radio['qualifier']=$radio->qualifiers_id;
           if($radio->qualifiers_id!=null && $radio->qualifiers_id!='' && $radio->qualifiers_id!=0)
@@ -776,20 +792,27 @@
       $lab_array_2=array();
       foreach($lab_details as $lab_2)
       {
+        $indexVal=1;
         if($lab_2->referance==1)
         {
           $rest_lab_2=array();
+          $type=$this->getLaboratoryType($lab_2->laboratory_type);
           $lab_det=$this->getLabpratoryNameById($lab_2->laboratory_id);
-          $rest_lab_2['id']=$lab_2->laboratory_id;
-          $rest_lab_2['text']=$lab_det->name;
+          
+          $rest_lab_2['real_id']=$lab_2->laboratory_id;
+          $rest_lab_2['id']=$indexVal;
+          $rest_lab_2['text']=$lab_det->name.' - '.$type;
+          $rest_lab_2['parent_id']=$lab_2->laboratory_type;
           //$rest_lab_2['lab_id']=$lab_2->laboratory_id;
           $rest_lab_2['lab_date']['time']=Carbon::createFromFormat('Y-m-d H:i:s', $lab_2->date)->format('d-m-Y');
           $rest_lab_2['result']=$lab_2->result;
           $rest_lab_2['removed']=$lab_2->remove;
           $lab_array_2[]=$rest_lab_2;
+          $indexVal++;
         }
         
       }
+       
       $result['laboratoryData']=$lab_array_2;
       
       //for step2 radiology Investigation
@@ -847,7 +870,27 @@
       
       return $result; 
   }
-  
+  private function getLaboratoryType($type)
+  {
+      $lType='';
+      if($type==1)
+      {
+          $lType='Blood';
+      }
+      else if($type==2)
+      {
+          $lType='Urine';
+      }
+      else if($type==3)
+      {
+          $lType='CSF';
+      }
+      else if($type==4)
+      {
+          $lType='BFA';
+      }
+      return $lType;
+  }
   /**
    * [getPrescriptionNameById description]
    * @param  [type] $id [description]
@@ -1077,6 +1120,7 @@
             if(isset($lab['lab_id']))
             {
               $lab_obj->laboratory_id=$lab['lab_id'];
+              $lab_obj->laboratory_type=$lab['parent_id'];
             }
             
             $lab_obj->remove='false';
@@ -1175,7 +1219,8 @@
             $lab_obj_2->referance=1;
             $lab_obj_2->patient_case_management_id=$case_id;
             $lab_obj_2->user_id=$user_id;
-            $lab_obj_2->laboratory_id=$lab['id'];
+            $lab_obj_2->laboratory_id=$lab['real_id'];
+            $lab_obj_2->laboratory_type=$lab['parent_id'];
             $lab_obj_2->date=Carbon::createFromFormat('d-m-Y', $lab['lab_date']['time'])->format('Y-m-d');
             $lab_obj_2->result=$lab['result'];
             //$lab_obj_2->assign_dr=$lab['assign'];
@@ -1325,6 +1370,42 @@
         }
     
   }
+  /**
+   * [getLabRequestData description]
+   * @param  [type] $ref    [description]
+   * @param  [type] $caseId [description]
+   * @return [type]         [description]
+   */
+  private function getLabRequestData($ref,$caseId)
+  {
+      $lab_details=LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.patient_case_management_id',$caseId)->where('laboratory_details.referance',$ref)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
+      $lab_array=[];
+      $index=1;
+      foreach($lab_details as $lab)
+      {
+          $lab_res=array();
+          $lab_res['id']=$index;
+          $name=$this->getLabpratoryNameById($lab->laboratory_id);
+          $type=$this->getLaboratoryType($lab->laboratory_type);
+          $lab_res['name']=$name->name.' - '.$type;
+          $lab_res['result']=$lab->result;
+          $lab_res['remove']=$lab->remove;
+          $lab_res['referance']=$lab->referance;
+          $lab_res['patient_case_management_id']=$lab->patient_case_management_id;
+          $lab_res['date']='';
+          if($lab['date']!='' && $lab['date']!=null)
+          {
+            //echo $lab['date'];exit;
+            $lab_res['date']=Carbon::createFromFormat('Y-m-d H:i:s', $lab['date'])->format('d-m-Y');
+          }
+          
+          $lab_array[]=$lab_res;
+          $index++;
+      }
+      //print_r($lab_array);
+      return $lab_array;
+
+  }
 
   /**
    * [getPatientOpdCaseDataReport description]
@@ -1345,9 +1426,11 @@
        $result['opdExaminationData'] =$exam_data;
        $result['opdReferalphysioData'] = OPDPhysioDetails::where('patient_case_management_id',$caseId)->first();
        $result['opdReferalCrossData'] = $this->getCrossDetailsByCaseId($caseId);
-       $result['opdReferalLaboraryData'] =LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.patient_case_management_id',$caseId)->where('laboratory_details.referance',0)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
+       $result['opdReferalLaboraryData'] =$this->getLabRequestData(0,$caseId);
+      /* LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.patient_case_management_id',$caseId)->where('laboratory_details.referance',0)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();*/
         $result['opdReferalRadiologyData'] =$this->getRadiologyReportData(0,$caseId);
-        $result['opdLabData'] = LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.patient_case_management_id',$caseId)->where('laboratory_details.referance',1)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
+        $result['opdLabData'] = $this->getLabRequestData(1,$caseId);
+       /* LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.patient_case_management_id',$caseId)->where('laboratory_details.referance',1)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();*/
         $result['opdRadiologyData'] = $this->getRadiologyReportData(1,$caseId);
 
       //for prescriptiondata
@@ -1397,6 +1480,14 @@
           else
           {
               $rad['special_request']=$radio->special_request_text;
+          }
+          if($radio->spine_id!=0 && $radio->spine_id!='' && $radio->spine_id!=null)
+          {
+              $rad['spine_option_text']=$this->objSpine->getSpineNameById($radio->spine_id);
+          }
+          else
+          {
+              $rad['spine_option_text']='';
           }
           $rad['radiology_other']=$radio->radiology_other;
           $rad['bodyparts_other']=$radio->bodyparts_other;
@@ -1531,9 +1622,11 @@
       $result['opdExaminationData'] =$exam_data;
       $result[''] = OPDPhysioDetails::where('patient_case_management_id',$caseId)->first();
       $result['opdReferalCrossData'] = $this->getCrossDetailsByCaseId($caseId);
-      $result['opdReferalLaboraryData'] =LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.patient_case_management_id',$caseId)->where('laboratory_details.referance',0)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
+      $result['opdReferalLaboraryData'] =$this->getLabRequestData(0,$caseId);
+     /* LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.patient_case_management_id',$caseId)->where('laboratory_details.referance',0)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();*/
       $result['opdReferalRadiologyData'] = $this->getRadiologyReportData(0,$caseId);
-      $result['opdLabData'] = LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.patient_case_management_id',$caseId)->where('laboratory_details.referance',1)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();
+      $result['opdLabData'] = $this->getLabRequestData(1,$caseId);
+     /* LaboratoryDetails::join('laboratory','laboratory_details.laboratory_id','=','laboratory.id')->where('laboratory_details.patient_case_management_id',$caseId)->where('laboratory_details.referance',1)->whereDate('laboratory_details.created_at',Carbon::today()->format('Y-m-d'))->get();*/
       $result['opdRadiologyData'] = $this->getRadiologyReportData(1,$caseId);
       //for prescriptiondata
       $prescript_array=$this->getPrescriptionDataForPrint($caseId);

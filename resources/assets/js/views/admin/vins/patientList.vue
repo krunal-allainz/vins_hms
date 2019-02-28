@@ -715,6 +715,7 @@
           {
               this.pid='';
               this.open_opd_modal=false;
+              $('#patientOPDModal').modal('hide');
           },
           getPatientOPDInfo(p_id)
           {

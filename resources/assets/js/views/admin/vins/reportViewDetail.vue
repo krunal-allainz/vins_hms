@@ -3,7 +3,7 @@
 		<div  v-show="(printType == 'radio')" v-if="(radiologyReferalReportData)">
 			 
 		 	<div class='col-md-12'>
-		 		<span class="report_title">Radiology Report:-</span>
+		 		<span class="report_title">Radiology Request:-</span>
 		 	</div>
         		<div class="col-md-12">
         			<div class="">
@@ -13,6 +13,7 @@
                             <th>#</th>
                             <th>Type</th>
                             <th>Body parts</th>
+                            <th>Spine</th>
 			                <th>Qualifier</th>
 			                <th>Special request</th>
 			                <th>Details</th>
@@ -26,6 +27,7 @@
                                 <td v-else>{{res.type}}</td>
 			                    <td v-if="res.bodyparts=='Other'">{{res.bodyparts_other}}</td>
                                 <td v-else>{{res.bodyparts}}</td>
+                                <td>{{res.spine_option_text}}</td>
                                 <td v-if="res.qualifiers=='Other'">{{res.qualifiers_other}}</td>
                                 <td v-else>{{res.qualifiers}}</td>
 			                    <td>{{res.special_request}}</td>
@@ -45,7 +47,7 @@
 		<div  v-show="(printType == 'investigationRadio')" v-if="(radiologyReportData)">
 			
 		 	<div class='col-md-12'>
-		 		<span class="report_title">Investigation Radiology Report:-</span>
+		 		<span class="report_title">Investigation Radiology Request:-</span>
 		 	</div>
         		<div class="col-md-12">
         			<div class="">

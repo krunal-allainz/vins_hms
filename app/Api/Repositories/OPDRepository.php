@@ -58,29 +58,39 @@
  	 */
  	public function getLabListByChildren()
  	{
+ 		
  		$data_lab=Laboratory::get();
+ 		$lab_id=1;
  		foreach($data_lab as $lab)
  		{
  			
  			$types=explode(',', $lab['type']);
  			if(in_array(1,$types))
  			{
- 				$blood_array[]=array('id'=>$lab['id'],'text'=>$lab['name']);
+ 				$blood_array[]=array('id'=>$lab_id,'real_id'=>$lab['id'],'text'=>$lab['name'],'parent_name'=>'Blood','parent_id'=>1);
  			}
  			if(in_array(2,$types))
  			{
- 				$urine_array[]=array('id'=>$lab['id'],'text'=>$lab['name']);
+ 				if($lab_id==47)
+ 					$lab_id=48;
+ 				$urine_array[]=array('id'=>$lab_id,'real_id'=>$lab['id'],'text'=>$lab['name'],'parent_name'=>'Urine','parent_id'=>2);
  			}
  			if(in_array(3,$types))
  			{
- 				$csf_array[]=array('id'=>$lab['id'],'text'=>$lab['name']);
+ 				if($lab_id==48)
+ 					$lab_id=49;
+ 				$csf_array[]=array('id'=>$lab_id,'real_id'=>$lab['id'],'text'=>$lab['name'],'parent_name'=>'CSF','parent_id'=>3);
  			}
  			if(in_array(4,$types))
  			{
- 				$bfa_array[]=array('id'=>$lab['id'],'text'=>$lab['name']);
+ 				if($lab_id==49)
+ 					$lab_id=50;
+ 				$bfa_array[]=array('id'=>$lab_id,'real_id'=>$lab['id'],'text'=>$lab['name'],'parent_name'=>'BFA','parent_id'=>4);
  			}
+ 			$lab_id++;
  			
  		}
+
  		$lab_array[0]=array('id'=>'1','text'=>'Blood','children'=>$blood_array,'element'=>'HTMLOptGroupElement');
  		$lab_array[1]=array('id'=>'2','text'=>'Urine','children'=>$urine_array,'element'=>'HTMLOptGroupElement');
  		$lab_array[2]=array('id'=>'3','text'=>'CSF','children'=>$csf_array,'element'=>'HTMLOptGroupElement');

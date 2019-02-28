@@ -2,23 +2,24 @@
 	<div>
 		<div v-if="(printType == 'radiology')" class="row">
 			<div class='col-md-12' >
-			<span class="report_title">Radiology Report:-</span>
+			<span class="report_title">Radiology Request:-</span>
 		</div>
 		
 		 <div class="form-group col-md-12" >
 			<div class="">
 				<div class="" v-if="radiologyReferalReportData.length>0">
 					<table class="mt-10 table table-striped table-bordered report_table" id="radio_list">
-						<thead>
+						<!-- <thead>
 							<tr>
 								  <th>#</th>
 	                            <th>Type</th>
 	                            <th>Body parts</th>
+	                            <th>Spine</th>
 				                <th>Qualifier</th>
 				                <th>Special request</th>
 				                <th>Details</th>
 							</tr>
-						</thead>
+						</thead> -->
 						<tbody>
 							<tr :id="res.id" v-for="(res,index) in radiologyReferalReportData" v-if="res.removed==false">
 								<td>{{++index}}</td>
@@ -26,6 +27,7 @@
 	                                <td v-else>{{res.type}}</td>
 				                    <td v-if="res.bodyparts=='Other'">{{res.bodyparts_other}}</td>
 	                                <td v-else>{{res.bodyparts}}</td>
+	                                <td>{{res.spine_option_text}}</td>
 	                                <td v-if="res.qualifiers=='Other'">{{res.qualifiers_other}}</td>
 	                                <td v-else>{{res.qualifiers}}</td>
 				                    <td>{{res.special_request}}</td>
@@ -45,22 +47,23 @@
 		<div v-for="reportName in checkedreportList" v-if="(reportName == 'Radiology' && refferance=='0')" class="row"> 
 			
 			<div class='col-md-12'>
-		 		<span class="report_title"> Radiology Report:-</span>
+		 		<span class="report_title"> Radiology Request:-</span>
 		 	</div>
 		 	<div class="form-group col-md-12">
         	<div class="">
         		<div class="" v-if="orgRadiologyReffData.length>0">
             		<table class="mt-10 table table-striped table-bordered report_table" id="radio_list" >
-	                    <thead>
+	                    <!-- <thead>
 	                        <tr>
 	                            <th>#</th>
 	                            <th>Type</th>
 	                            <th>Body parts</th>
+	                            <th>Spine</th>
 				                <th>Qualifier</th>
 				                <th>Special request</th>
 				                <th>Details</th>
 				            </tr>
-						</thead>
+						</thead> -->
 						<tbody>
 							<tr v-for="(res,index) in orgRadiologyReffData" v-if="res.removed==false">
 				                    <td>{{++index}}</td>
@@ -68,6 +71,7 @@
 	                                <td v-else>{{res.type}}</td>
 				                    <td v-if="res.bodyparts=='Other'">{{res.bodyparts_other}}</td>
 	                                <td v-else>{{res.bodyparts}}</td>
+	                                <td>{{res.spine_option_text}}</td>
 	                                <td v-if="res.qualifiers=='Other'">{{res.qualifiers_other}}</td>
 	                                <td v-else>{{res.qualifiers}}</td>
 				                    <td>{{res.special_request}}</td>
@@ -84,22 +88,19 @@
 		</div> 	
 		<div v-for="reportName in checkedreportList" v-if="(reportName == 'Investigation Radiology'  && refferance=='1')" class="row">  
 		 	<div class='col-md-12'>
-		 		<span class="report_title">Investigation Radiology Report:-</span>
+		 		<span class="report_title">Investigation Radiology Request:-</span>
 		 	</div>
 		 	 <div class="form-group col-md-12">
         	<div class="">
         		<div class="" v-if="orgRadiologyReportData.length>0">
             		<table class="mt-10 table table-striped table-bordered report_table" id="radio_list">
-	                    <thead>
+	                    <!-- <thead>
 	                        <tr>
 	                            <th width="4%">#</th>
-	                           <!--  <th>Type</th>
-	                            <th>Body parts</th>
-				                <th>Qualifier</th>
-				                <th>Special request</th> -->
+	                          
 				                <th>Details</th>
 				            </tr>
-						</thead>
+						</thead> -->
 						<tbody>
 							<tr  v-for="(res,index) in orgRadiologyReportData" v-if="res.removed==false">
 				                <td width="4%">{{++index}}</td>
