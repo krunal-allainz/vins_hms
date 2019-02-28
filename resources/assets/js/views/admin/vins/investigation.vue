@@ -1,11 +1,9 @@
 <template>
     <div class="container">
         <div class="page-header">
-
             <div class=" row text-center">
-            <h3>Investigation</h3>
+                <h3>Investigation</h3>
             </div>
-
         </div>
         <h4>Lab Report</h4>
         <form method = "post" >
@@ -253,19 +251,25 @@
             /*for lab data start*/
             
             $('#laboratory_report').on("select2:select", function (e) {
-            var labDataRes = $('#laboratory_report').select2('data');
+                var labDataRes = $('#laboratory_report').select2('data');
+                
                 var labRes = [];
-                _.forEach( $('#laboratory_report').select2('data'), function(rep,index) {
+
+                _.forEach( labDataRes, function(rep,index) {
+
                     let labFind = false;
                     _.find(vm.laboratoryData.laboratory_report, function(res) {
-                        if(res.id == rep.id){
+                        
+                        if(res.real_id == rep.real_id){
+                            //console.log('dfdsf');
                             labRes.push(res);
                             labFind = true;
                             return false;
                         } 
                     });
                     if(labFind == false) {
-                        labRes.push({'id':rep.id,'lab_date':rep.lab_date,'result':'','text':rep.text});
+                        //console.log(rep);
+                        labRes.push({'id':rep.id,'real_id':rep.real_id,'lab_date':rep.lab_date,'result':'','text':rep.text+' - '+rep.parent_name,'parent_id':rep.parent_id});
                     }
                 });
                 vm.laboratoryData.laboratory_report= labRes;
@@ -277,14 +281,15 @@
                 _.forEach(lab_val_data, function(rep,index) {
                     let labFind = false;
                     _.find(vm.laboratoryData.laboratory_report, function(res) {
-                        if(res.id == rep.id){
+
+                        if(res.real_id == rep.real_id){
                             labRes.push(res);
                             labFind = true;
                             return false;
                         } 
                     });
                     if(labFind == false) {
-                        labRes.push({'id':rep.id,'lab_date':rep.lab_date,'result':'','text':rep.text});
+                        labRes.push({'id':rep.id,'real_id':rep.real_id,'lab_date':rep.lab_date,'result':'','text':rep.text+' - '+rep.parent_name,'parent_id':rep.parent_id});
                     }
                 });
                 vm.laboratoryData.laboratory_report= labRes;
@@ -372,7 +377,7 @@
             let all_lab=_.cloneDeep(vm.$store.state.Patient.laboratoryData.type);
             if(all_lab)
             {
-                let id_array=_.map(all_lab, 'id');
+                let id_array=_.map(all_lab, 'real_id');
                 //$('#laboratory_report').select2('val',id_array);
                 $('#laboratory_report').val(id_array).trigger('change')
                let lab_array=_.cloneDeep(vm.$store.state.Patient.laboratoryData.type);

@@ -4,7 +4,7 @@
 	<div v-show="(printType == 'lab')" v-if="(labReferalData)">
 		
 		<div class='col-md-12'>
-			<span class="report_title">Lab Report:-</span>
+			<span class="report_title">Lab Request:-</span>
 		</div>
 		
 		 <div class="form-group" >
@@ -38,7 +38,7 @@
 	<div v-if="(labReportData)" v-show="(printType == 'investigationLab')">
 		
 		<div class='col-md-12'>
-			<span class="report_title">Investigation Lab Report:-</span>
+			<span class="report_title">Investigation Lab Request:-</span>
 		</div>
 		
 		<div class="form-group"  >

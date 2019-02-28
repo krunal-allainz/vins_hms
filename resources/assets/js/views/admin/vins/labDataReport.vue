@@ -4,7 +4,7 @@
 	<div v-if="(printType == 'lab')" class="row">
 		
 		<div class='col-md-12' >
-			<span class="report_title">Lab Report:-</span>
+			<span class="report_title">Lab Request:-</span>
 		</div>
 		
 		 <div class="form-group col-md-12" >
@@ -35,7 +35,7 @@
 	<div v-for="reportName in checkedreportList" v-show="(reportName == 'Laboratory' && refferance=='0')" class="row">
 		
 		<div class='col-md-12'>
-			<span class="report_title">Lab Report:-</span>
+			<span class="report_title">Lab Request:-</span>
 		</div>
 		
 		 <div class="form-group col-md-12" >
@@ -66,7 +66,7 @@
 	<div v-for="reportName in checkedreportList" v-show="(reportName == 'Investigation Lab' && printType == 'opd_case' && refferance=='1')" class="row">
 		
 		<div class='col-md-12'>
-			<span class="report_title">Investigation Lab Report:-</span>
+			<span class="report_title">Investigation Lab Request:-</span>
 		</div>
 		
 		<div class="form-group col-md-12">

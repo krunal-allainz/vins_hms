@@ -20,6 +20,7 @@ html {
     overflow-x: hidden;
     transition: all 0.25s ease-out;
     font-size: small;
+    height: 100%;
 }
 
 body {
@@ -28,6 +29,8 @@ body {
     font-size: small;
     letter-spacing: 0.5px;
     overflow-x: hidden;
+    height: 100%;
+    padding-bottom: 60px;
 }
 .modal-open,.swal2-in{
     padding-right: 0 !important;
@@ -151,11 +154,13 @@ body > #app .header .navbar-nav .user-dropdown .dropdown-toggle{
 
 .wrapper {
     display: table;
-    overflow-x: hidden;
+    /*overflow-x: hidden;*/
     width: 100%;
     max-width: 100%;
     table-layout: fixed;
-    min-height: 100vh !important;
+    /*min-height: 100vh !important;*/
+    height: 100%;
+    padding-bottom: 60px;
 }
 /****** wrapper RIGHT SIDE  *******/
 .right-aside {
@@ -593,4 +598,14 @@ body.boxed {
     .modal-dialog{
         margin: 30px auto !important;
     }
+}
+
+.main-container{
+    height: 100%;
+}
+
+.site-footer {
+    position: absolute !important; 
+    bottom: 0;
+    width: 100%;
 }

@@ -104,7 +104,7 @@
                 vm.$store.dispatch('SetCaseId', caseId);
                 vm.$store.dispatch('SetPage', 'VIEW');
               }
-              
+              vm.$root.$emit('close_modal');
           },
             getOPDDetailsByPatientID(pid)
             {
@@ -128,6 +128,7 @@
                 vm.$store.dispatch('SetPatientId', patient_id);
                 vm.$store.dispatch('SetCaseId', case_id);
                 vm.$store.dispatch('SetPage', 'EDIT');
+                vm.$root.$emit('close_modal');
               },
         }
      }

@@ -1,6 +1,7 @@
 <template>
-  <body class="skin-default fixed-header">
-    <div class="template-container">
+  <!-- <body class="skin-default fixed-header"> -->
+    <div class="main-container">
+    <!-- <div class="template-container"> -->
         <header class="header">
 
               <nav class="navbar navbar-expand-lg navbar-light">
@@ -25,7 +26,7 @@
                 </ul>
 
         </header>
-    </div>
+    <!-- </div> -->
 
         <div class="dashboard">
           <div class="wrapper">
@@ -41,7 +42,8 @@
         </div>
         <site-footer></site-footer>
     </div>
-  </body>
+  </div>
+ <!--  </body> -->
 </template>
 
 <script >

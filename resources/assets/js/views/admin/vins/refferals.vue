@@ -285,6 +285,8 @@
                       <th>#</th>
                       <th>Type</th>
                       <th>Body parts</th>
+                      <th>Spine</th>
+                     <!--  <th>Body part side</th> -->
                       <th>Qualifier</th>
                       <th>Special request</th>
                       <th>Details</th>
@@ -298,6 +300,9 @@
                       <td v-else>{{radio_arr.type_name}}</td>
                       <td v-if="radio_arr.bodyPart_text=='Other'">{{radio_arr.bodyPart_others}}</td>
                       <td v-else>{{radio_arr.bodyPart_text}}</td>
+                      <td>{{radio_arr.spine_option_text}}</td>
+                      <!-- <td v-if="radio_arr.body_part_side_text=='Others'">{{radio_arr.body_part_others}}</td>
+                      <td v-else>{{radio_arr.body_part_side_text}}</td> -->
                       <td v-if="radio_arr.qualifier_text=='Other'">{{radio_arr.qualifierOtherPart}}</td>
                       <td v-else>{{radio_arr.qualifier_text}}</td>
                       <td>{{radio_arr.special_request_text}}</td>
@@ -391,6 +396,7 @@
                     'type': '',
                     'type_text':'',
                     'spine_option_value':'',
+                    'spine_option_text':'',
                     'subType': '',
                     'qualifier':'',
                     'qualifier_text':'',
@@ -529,8 +535,23 @@
               vm.internal_text_array=text_cross_array;
             }
             else if(this.id == 'laboratory_report_opd'){
-              var val_lab_array=$(this).val();
-              vm.laboratory_array=val_lab_array;
+              /*var val_lab_array=$(this).val();
+              vm.laboratory_array=val_lab_array;*/
+               var labRes = [];
+               _.forEach( $('#laboratory_report_opd').select2('data'), function(rep,index) {
+                   /* let labFind = false;
+                    _.find(vm.laboratory_array, function(res) {
+                        if(res.id == rep.id){
+                            labRes.push(res);
+                            labFind = true;
+                            return false;
+                        } 
+                    });
+                    if(labFind == false) {*/
+                        labRes.push({'id':rep.id,'real_id':rep.real_id,'lab_date':rep.lab_date,'result':'','text':rep.text+' - '+rep.parent_name,'parent_id':rep.parent_id});
+                    //}
+                });
+                vm.laboratory_array=labRes;
             }
             else if(this.id == 'case_type'){
               vm.reffData.case_type = $(this).val(); 
@@ -586,6 +607,7 @@
               if(this.id == 'radiology_spine_opd') 
               {
                   vm.resultData.spine_option_value=$('#radiology_spine_opd').select2('data')[0].id;
+                  vm.resultData.spine_option_text =$('#radiology_spine_opd').select2('data')[0].text;
               }
         
           });
@@ -600,6 +622,25 @@
                   {
                       vm.cross_internal='false';
                   }
+              }
+              if(this.id == 'laboratory_report_opd')
+              {
+                let lab_val_data=_.cloneDeep($('#laboratory_report_opd').select2('data'));
+                 var labRes = [];
+                _.forEach(lab_val_data, function(rep,index) {
+                    /*let labFind = false;
+                    _.find(vm.laboratoryData.laboratory_report, function(res) {
+                        if(res.id == rep.id){
+                            labRes.push(res);
+                            labFind = true;
+                            return false;
+                        } 
+                    });
+                    if(labFind == false) {*/
+                        labRes.push({'id':rep.id,'real_id':rep.real_id,'lab_date':rep.lab_date,'result':'','text':rep.text+' - '+rep.parent_name,'parent_id':rep.parent_id});
+                    //}
+                });
+                vm.laboratory_array= labRes;
               }
           });
 
@@ -1148,16 +1189,19 @@
           saveLabReport()
           {
               let vm =this;
+              let lab_res=[];
               if(vm.laboratory_array.length>0)
               {
-                
+                  
                  _.forEach(vm.laboratory_array, function(value, key) {
-                    
+                   
                     let objArray=vm.ref_lab_array;
                     let matches={};
                     if(vm.ref_lab_array)
                     {
-                        matches=objArray.find(function (obj) { return obj.lab_id == value; });
+                        matches=objArray.find(function (obj) { 
+                          
+                          return obj.objId == value.id; });
                     }
                     if(matches)
                     {
@@ -1167,12 +1211,16 @@
                     }
                     else
                     {
-                      var lab_name= $("#laboratory_report_opd option[value='"+value+"']").text();
-                      vm.ref_lab_array.push({'id':vm.ref_lab_array.length+1,'name':lab_name,'lab_id':value});
+
+                      //var lab_name= $("#laboratory_report_opd option[value='"+value+"']").text();
+                      //vm.ref_lab_array.push({'id':vm.ref_lab_array.length+1,'name':lab_name,'lab_id':value});
+                      vm.ref_lab_array.push({'id':vm.ref_lab_array.length+1,'name':value.text,'lab_id':value.real_id,'objId':value.id,'parent_id':value.parent_id});
+                      
                     }
                     
                   });
               }
+             
               vm.reffData.reffreal_laboratory_array= _.cloneDeep(vm.ref_lab_array);
               vm.setLabReferral();
               return false;

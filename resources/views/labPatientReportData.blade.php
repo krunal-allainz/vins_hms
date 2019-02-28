@@ -1,6 +1,6 @@
 @if(isset($data['ReportPageData']['labReportData']) && count($data['ReportPageData']['labReportData'])>0)
 	<div class='col-md-12'>
-		<span class="report_title">Investigation Lab Report:-</span>
+		<span class="report_title">Investigation Lab Request:-</span>
 	</div>
   		
   <div class="form-group">
@@ -12,6 +12,8 @@
               <tr>
                 <th>#</th>
                 <th>Name</th>
+                <th>Date</th>
+                <th>Result</th>
               </tr>
             </thead>
             <tbody>
@@ -20,6 +22,8 @@
                   <tr class="text-center">
                     <td>{{++$index}}</td> 
                     <td>{{$res['name']}}</td>
+                    <td>{{$res['date']}}</td>
+                    <td>{{$res['result']}}</td>
                   </tr>
               @endforeach
             </tbody>

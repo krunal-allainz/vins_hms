@@ -1,7 +1,7 @@
 
   @if(isset($data['ReportPageData']['labReferalReportData']) && count($data['ReportPageData']['labReferalReportData'])>0)
 		<div class='col-md-12'>
-			<span class="report_title">Lab Report:-</span>
+			<span class="report_title">Lab Request:-</span>
 		</div>
 		<div class="form-group">
       <div class="col-md-12">

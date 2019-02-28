@@ -1,23 +1,20 @@
 @if(isset($data['ReportPageData']['radiologyReportData']) && count($data['ReportPageData']['radiologyReportData']) > 0)
 	<div class=''>
 		<div class='col-md-12'>
-			<span class="report_title">Investigation Radiology Report:-</span>
+			<span class="report_title">Investigation Radiology Request:-</span>
 		</div>
 		<div class=""  >
         	<div class="col-md-12">
         	    <div class="">
                     @if(count($data['ReportPageData']['radiologyReportData']))
                         <table class="table table-striped table-bordered report_table" id="radio_list">
-                            <thead>
+                            <!-- <thead>
                                 <tr>
                                 <th width="4%">#</th> 
-                                <!--  <th>Type</th>
-                                 <th>Body parts</th>
-                                 <th>Qualifier</th>
-                                 <th>Special request</th> -->
+                               
                                  <th>Details</th>
                                 </tr>
-                             </thead>
+                             </thead> -->
                              <tbody>
                                 @foreach($data['ReportPageData']['radiologyReportData'] as $index=>$res)
                                      <tr class="text-center">
